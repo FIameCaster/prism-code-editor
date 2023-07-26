@@ -1,1 +1,129 @@
-
+{
+  "name": "prism-code-editor",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Lightweight, extensible code editor for the web using Prism",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./guides": {
+      "default": "./dist/extensions/guides.js",
+      "types": "./dist/extensions/guides.d.ts"
+    },
+    "./web-component": {
+      "default": "./dist/webComponent.js",
+      "types": "./dist/webComponent.d.ts"
+    },
+    "./copy-button": {
+      "default": "./dist/extensions/copyButton.js",
+      "types": "./dist/extensions/copyButton/index.d.ts"
+    },
+    "./copy-button.css": "./dist/copy.css",
+    "./scrollbar.css": "./dist/scrollbar.css",
+    "./setups": {
+      "default": "./dist/setups.js",
+      "types": "./dist/setups.d.ts"
+    },
+    "./layout.css": "./dist/layout.css",
+    "./themes/*.css": "./dist/themes/*.css",
+    "./themes": {
+      "default": "./dist/themes/index.js",
+      "types": "./dist/themes/index.d.ts"
+    },
+    "./languages": {
+      "default": "./dist/languages/index.js",
+      "types": "./dist/languages/index.d.ts"
+    },
+    "./languages/*": {
+      "default": "./dist/languages/*.js"
+    },
+    "./search": {
+      "default": "./dist/extensions/search/index.js",
+      "types": "./dist/extensions/search/index.d.ts"
+    },
+    "./match-brackets": {
+      "default": "./dist/extensions/matchBrackets.js",
+      "types": "./dist/extensions/matchBrackets.d.ts"
+    },
+    "./commands": {
+      "default": "./dist/extensions/commands.js",
+      "types": "./dist/extensions/commands.d.ts"
+    },
+    "./cursor": {
+      "default": "./dist/extensions/cursor.js",
+      "types": "./dist/extensions/cursor.d.ts"
+    },
+    "./prism-core": {
+      "default": "./dist/prismCore.js",
+      "types": "./dist/prismCore.d.ts"
+    },
+    "./prism-markdown": {
+      "default": "./dist/prismMarkdown.js"
+    },
+    "./search/api": {
+      "default": "./dist/extensions/search/api.js",
+      "types": "./dist/extensions/search/api.d.ts"
+    },
+    "./search.css": "./dist/search.css"
+  },
+  "files": [
+    "dist/*",
+    "web-component/*",
+    "setups/*",
+    "search/*",
+    "languages/*",
+    "guides/*",
+    "copy-button/*",
+    "match-brackets/*",
+    "themes/*",
+    "prism-core/*",
+    "prism-markdown/*",
+    "commands/*",
+    "cursor/*"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && node scripts/build.mjs",
+    "preview": "vite preview",
+    "prepublish": "tsc && vite build && node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^20.3.1",
+    "prismjs": "^1.29.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9",
+    "vite-plugin-dts": "^2.3.0"
+  },
+  "dependencies": {
+    "@types/prismjs": "^1.26.0"
+  },
+  "keywords": [
+    "editor",
+    "code editor",
+    "textarea",
+    "small",
+    "highlight",
+    "prismjs"
+  ],
+  "author": "FlameCaster",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FIameCaster/prism-code-editor.git"
+  },
+  "license": "MIT",
+  "sideEffects": [
+    "*.css",
+    "./dist/languages/*",
+    "./dist/prism-core.js",
+    "./dist/prism-markdown.js"
+  ],
+  "pnpm": {
+    "patchedDependencies": {
+      "prismjs@1.29.0": "patches/prismjs@1.29.0.patch"
+    }
+  }
+}
