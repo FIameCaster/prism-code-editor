@@ -109,13 +109,13 @@ import { minimalEditor, basicEditor, fullEditor, readonlyEditor } from "prism-co
 import Prism from "prism-code-editor/prism-core"
 
 const editor = fullEditor(
-	Prism,
-	"#editor",
-	{
-		language: "html",
-		theme: "github-dark",
-	},
-	() => console.log("ready"),
+  Prism,
+  "#editor",
+  {
+    language: "html",
+    theme: "github-dark",
+  },
+  () => console.log("ready"),
 )
 ```
 
@@ -159,14 +159,14 @@ import "prism-code-editor/themes/github-dark.css"
 const editor = createEditor(Prism, "#editor", { language: "html" }, indentGuides(), matchBrackets())
 
 import("./extensions").then(module => {
-	const cursor = module.cursorPosition()
-	editor.addExtensions(
-		module.highlightSelectionMatches(),
-		module.searchWidget(),
-		module.defaultCommands(cursor),
-		module.copyButton(),
-		cursor,
-	)
+  const cursor = module.cursorPosition()
+  editor.addExtensions(
+    module.highlightSelectionMatches(),
+    module.searchWidget(),
+    module.defaultCommands(cursor),
+    module.copyButton(),
+    cursor,
+  )
 })
 ```
 
@@ -176,10 +176,10 @@ Indent guides and bracket matching can also be dynamically imported, but this is
 
 ```typescript
 const createEditor = (
-	Prism: PrismType,
-	container?: ParentNode | string,
-	options?: Partial<EditorOptions>,
-	...extensions: Extension[]
+  Prism: PrismType,
+  container?: ParentNode | string,
+  options?: Partial<EditorOptions>,
+  ...extensions: Extension[]
 ) => PrismEditor
 ```
 
@@ -192,16 +192,16 @@ Below are all the properties you can add to `options` with their default values:
 
 ```javascript
 const options = {
-	language: "text",
-	tabSize: 2,
-	insertSpaces: true,
-	lineNumbers: true,
-	readOnly: false,
-	wordWrap: false,
-	value: "",
-	onUpdate: undefined,
-	onSelectionChange: undefined,
-	onTokenize: undefined,
+  language: "text",
+  tabSize: 2,
+  insertSpaces: true,
+  lineNumbers: true,
+  readOnly: false,
+  wordWrap: false,
+  value: "",
+  onUpdate: undefined,
+  onSelectionChange: undefined,
+  onTokenize: undefined,
 }
 ```
 
@@ -281,16 +281,16 @@ const search = searchWidget()
 const cursor = cursorPosition()
 
 const editor = createEditor(
-	Prism,
-	"#editor",
-	{ language: "html" },
-	brackets,
-	indents,
-	search,
-	defaultCommands(cursor),
-	highlightSelectionMatches(),
-	copyButton(),
-	cursor,
+  Prism,
+  "#editor",
+  { language: "html" },
+  brackets,
+  indents,
+  search,
+  defaultCommands(cursor),
+  highlightSelectionMatches(),
+  copyButton(),
+  cursor,
 )
 ```
 
@@ -313,14 +313,14 @@ import { Extension } from "prism-code-editor"
 interface MyExtension extends Extension {}
 
 const myExtension = (): MyExtension => {
-	// Add local variables and functions in the closure
+  // Add local variables and functions in the closure
 
-	return {
-		update(editor, options) {
-			// Called when the extension is added to an editor
-			// Or when the options change
-		},
-	}
+  return {
+    update(editor, options) {
+      // Called when the extension is added to an editor
+      // Or when the options change
+    },
+  }
 }
 ```
 
@@ -351,7 +351,7 @@ import { loadTheme } from "prism-code-editor/themes"
 const isDark = matchMedia("(prefers-color-scheme: dark)").matches
 
 loadTheme(isDark ? "github-dark" : "github-light").then(theme => {
-	console.log(theme)
+  console.log(theme)
 })
 ```
 
@@ -367,8 +367,8 @@ You can change the color of the scrollbar thumb using the custom property `--edi
 
 ```css
 .prism-editor {
-	/* Values are: Hue, saturation, lightness */
-	--editor__bg-scrollbar: 210, 10%, 40%;
+  /* Values are: Hue, saturation, lightness */
+  --editor__bg-scrollbar: 210, 10%, 40%;
 }
 ```
 
@@ -446,13 +446,13 @@ Editing key commands is as simple as mutating the `keyCommandMap` for the editor
 const oldEnterCallback = editor.keyCommandMap.Enter
 
 editor.keyCommandMap.Enter = (e, selection, value) => {
-	if (e.ctrlKey) {
-		// Shortcut code goes here
+  if (e.ctrlKey) {
+    // Shortcut code goes here
 
-		// returning true will automatically call e.preventDefault()
-		return true
-	}
-	return oldEnterCallback?.(e, selection, value)
+    // returning true will automatically call e.preventDefault()
+    return true
+  }
+  return oldEnterCallback?.(e, selection, value)
 }
 
 // Removing the default backspace command
@@ -485,14 +485,14 @@ Attributes include `language`, `theme`, `tab-size`, `line-numbers`, `word-wrap`,
 
 ```html
 <prism-editor
-	language="javascript"
-	theme="vs-code-dark"
-	tab-size="4"
-	line-numbers
-	insert-spaces
-	word-wrap
+  language="javascript"
+  theme="vs-code-dark"
+  tab-size="4"
+  line-numbers
+  insert-spaces
+  word-wrap
 >
-	The editors initial code goes here
+  The editors initial code goes here
 </prism-editor>
 ```
 
@@ -524,5 +524,5 @@ Feature requests, bug reports, optimizations and potentially new themes and exte
 
 To test your changes during development, start the dev server:
 
-	cd package
-	pnpm run dev
+    cd package
+    pnpm run dev
