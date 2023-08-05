@@ -1,6 +1,6 @@
 import { Extension, InputSelection, PrismEditor } from "../.."
-import { isChrome, isMac, getModifierCode, createTemplate } from "../../core"
-import { escapeRegExp, getLines } from "../../utils"
+import { isChrome, isMac, getModifierCode, createTemplate, preventDefault } from "../../core"
+import { regexEscape, getLines } from "../../utils"
 import { createReplaceAPI } from "./replace"
 
 const template = createTemplate(
@@ -9,10 +9,8 @@ const template = createTemplate(
 	"prism-search-container",
 )
 
-const toggleAttr = (
-	el: Element,
-	name: string, // @ts-ignore
-) => el.setAttribute(name, el.getAttribute(name) == "false")
+const toggleAttr = (el: Element, name: string) =>
+	el.setAttribute(name, <any>(el.getAttribute(name) == "false"))
 
 const getStyleValue = <T extends keyof CSSStyleDeclaration>(el: HTMLElement, prop: T) =>
 	parseFloat(<string>getComputedStyle(el)[prop])
@@ -87,11 +85,11 @@ export const searchWidget = (): SearchWidget => {
 						useRegExp,
 						searchSelection,
 					),
-					isError = typeof result == "string",
+					isError = !!result,
 					index = isError ? -1 : replaceAPI.closest()
-				// @ts-ignore
-				current.data = index + 1 // @ts-ignore
-				total.data = replaceAPI.matches.length
+
+				current.data = <any>index + 1
+				total.data = <any>replaceAPI.matches.length
 				findContainer.classList.toggle("has-error", isError)
 
 				if (isError) errorEl.textContent = result
@@ -101,12 +99,12 @@ export const searchWidget = (): SearchWidget => {
 			const keydown = (e: KeyboardEvent) => {
 				// F or G + Ctrl/Cmd
 				if (e.keyCode >> 1 == 35 && getModifierCode(e) == (isMac ? 0b0100 : 0b0010)) {
-					e.preventDefault()
+					preventDefault(e)
 					let word = getSelectedWord()
 					open(true)
 					if (/^$|\n/.test(word)) startSearch()
 					else {
-						if (useRegExp) word = escapeRegExp(word)
+						if (useRegExp) word = regexEscape(word)
 						document.execCommand("insertText", false, word) || (findInput.value = word)
 						findInput.select()
 					}
@@ -160,8 +158,8 @@ export const searchWidget = (): SearchWidget => {
 			const move = (next?: boolean) => {
 				if (replaceAPI.matches.length) {
 					const index = replaceAPI[next ? "next" : "prev"]()
-					replaceAPI.selectMatch(index, prevMargin) // @ts-ignore
-					current.data = index + 1
+					replaceAPI.selectMatch(index, prevMargin)
+					current.data = <any>index + 1
 				}
 			}
 
@@ -201,7 +199,7 @@ export const searchWidget = (): SearchWidget => {
 				[
 					replaceAllEl,
 					() => {
-						if (!textarea.readOnly) replaceAPI.replaceAll(replaceInput.value, searchSelection)
+						textarea.readOnly || replaceAPI.replaceAll(replaceInput.value, searchSelection)
 					},
 				],
 				[
@@ -232,6 +230,7 @@ export const searchWidget = (): SearchWidget => {
 
 			textarea.addEventListener("keydown", keydown)
 
+			// Patches a selection bug when moving focus from the textarea to the buttons on the widget
 			isChrome &&
 				container.addEventListener("focusin", e => {
 					if (e.relatedTarget == textarea) {
@@ -268,9 +267,9 @@ export const searchWidget = (): SearchWidget => {
 							? inSelectionEl
 							: null
 
-					if (input) e.preventDefault(), input.click()
+					if (input) preventDefault(e), input.click()
 				} else if (key == "Enter" && target.tagName == "INPUT") {
-					e.preventDefault()
+					preventDefault(e)
 					if (!shortcut) (isFind ? nextEl : replaceEl).click()
 					else if (shortcut == 8 && isFind) prevEl.click()
 					else if (shortcut == 3 && !isFind) replaceAllEl.click()

@@ -13,7 +13,7 @@ const entries = {
   'extensions/search/api': 'src/extensions/search/api.ts',
   search: 'src/extensions/search/search.css',
   copy: 'src/extensions/copyButton/copy.css',
-  'extensions/copyButton': 'src/extensions/copyButton/index.ts',
+  'extensions/copyButton/index': 'src/extensions/copyButton/index.ts',
   scollbar: 'src/scrollbar.css',
   layout: 'src/layout.css',
   'themes/index': 'src/themes/index.ts',

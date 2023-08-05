@@ -1,5 +1,5 @@
-import { languages } from "../index.js"
-import "./clike.js"
+import { languages } from "../core"
+import { isBracketPair } from "./patterns"
 
 languages.css =
 	languages.sass =
@@ -8,5 +8,8 @@ languages.css =
 			comments: {
 				block: ["/*", "*/"],
 			},
-			autoIndent: languages.clike.autoIndent,
+			autoIndent: [
+				([start], value) => /[([{][^\n)\]}]*$/.test(value.slice(0, start).slice(-999)),
+				([start, end], value) => isBracketPair.test(value[start - 1] + value[end]),
+			],
 		}

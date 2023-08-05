@@ -1,5 +1,6 @@
-import { Extension, InputSelection, PrismEditor, getLineBefore, isChrome } from ".."
+import { Extension, InputSelection, PrismEditor, getLineBefore } from ".."
 import { createTemplate } from "../core"
+import { scrollToEl } from "../utils"
 
 /** Postion of the cursor relative to the editors overlays. */
 export type CursorPosition = {
@@ -14,11 +15,7 @@ export interface Cursor extends Extension {
 	getPosition(): CursorPosition
 	/** Scrolls the cursor into view. */
 	scrollIntoView(): void
-	/** Schedules the cursor to be scrolled into view after the next selection change. */
-	scheduleScroll(): void
 }
-
-const scrollToEl = (el: Element) => el.scrollIntoView({ block: "nearest" })
 
 const cursorTemplate = createTemplate(" <span></span> ", "position:absolute;top:0;opacity:0;")
 
@@ -42,10 +39,7 @@ export const cursorPosition = (): Cursor => {
 			if (cursorContainer.parentNode != activeLine) activeLine.prepend(cursorContainer)
 			if (shouldScroll != (shouldScroll = false)) scrollIntoView()
 		},
-		scrollIntoView = () => {
-			scrollToEl(cursor)
-			isChrome && scrollToEl(cEditor.activeLine)
-		}
+		scrollIntoView = () => scrollToEl(cEditor, cursor)
 
 	return {
 		update(editor) {
@@ -53,7 +47,7 @@ export const cursorPosition = (): Cursor => {
 				;(cEditor = editor).addListener("selectionChange", selectionChange)
 
 				editor.textarea.addEventListener("beforeinput", e => {
-					if (/history/.test(e.inputType)) shouldScroll = true
+					shouldScroll = /history/.test(e.inputType)
 				})
 
 				if (editor.activeLine) selectionChange(editor.getSelection())
@@ -71,8 +65,5 @@ export const cursorPosition = (): Cursor => {
 			}
 		},
 		scrollIntoView,
-		scheduleScroll() {
-			shouldScroll = true
-		},
 	}
 }

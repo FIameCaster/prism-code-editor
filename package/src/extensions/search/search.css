@@ -7,7 +7,7 @@
 	border-radius: 0.3em;
 	margin: -99in 0 0 0;
 	line-height: 1.5;
-	font-family: Arial, Helvetica, sans-serif;
+	font: 400 1em/1.5 Arial, Helvetica, sans-serif;
 	color: var(--widget__color);
 	background: var(--widget__bg);
 	position: sticky;
@@ -25,7 +25,7 @@
 .prism-search button {
 	background: 0 0;
 	border: none;
-	color: currentColor;
+	color: inherit;
 	font: inherit;
 	text-align: center;
 	cursor: pointer;
@@ -50,7 +50,7 @@
 }
 
 .prism-search ::placeholder {
-	color: currentColor;
+	color: inherit;
 	opacity: 0.6;
 }
 

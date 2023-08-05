@@ -1,14 +1,14 @@
-import { languages } from "../index.js"
+import { languages } from "../core"
+import { isBracketPair } from "./patterns"
 
 const openBracketOrColon = /[([{][^\n)\]}]*$|:[ \t]*$/
-const isBracketGroup = /\[]|\(\)|{}/
 
 languages.py = languages.python = {
 	comments: {
 		line: "#",
 	},
 	autoIndent: [
-		([start], value) => openBracketOrColon.test(value.slice(0, start)),
-		([start, end], value) => isBracketGroup.test(value[start - 1] + value[end]),
+		([start], value) => openBracketOrColon.test(value.slice(0, start).slice(-999)),
+		([start, end], value) => isBracketPair.test(value[start - 1] + value[end]),
 	],
 }

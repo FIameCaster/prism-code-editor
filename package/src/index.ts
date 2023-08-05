@@ -10,4 +10,11 @@ export {
 	getModifierCode,
 	ignoreTab,
 } from "./core"
-export * from "./utils"
+export {
+	regexEscape,
+	getLineBefore,
+	getLines,
+	getClosestToken,
+	getLanguage,
+	insertText,
+} from "./utils"

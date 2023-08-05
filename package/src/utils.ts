@@ -1,8 +1,8 @@
 import { PrismEditor } from "."
-import { numLines, isChrome, isWebKit } from "./core"
+import { numLines, isChrome, isWebKit, setSelection } from "./core"
 
-/** Escapes all special Regex characters with a backslash and returns the escaped string */
-const escapeRegExp = (str: string) => str.replace(/[$+?|.^*(){}[\]\\]/g, "\\$&")
+/** Escapes all special regex characters with a backslash and returns the escaped string */
+const regexEscape = (str: string) => str.replace(/[$+?|.^*(){}[\]\\]/g, "\\$&")
 
 /** Returns the string between the position and the last \n */
 const getLineBefore = (text: string, position: number) =>
@@ -25,13 +25,15 @@ const getLines = (text: string, start: number, end: number) =>
 	] as const
 
 /**
- * Searches a full line for a token that matches a selector and includes selectionStart within the specified margins.
+ * Searches a full line for a token that matches a selector and includes selectionStart
+ * within the specified margins. Tokens are searched in reverse document order which means
+ * children are searched before their parents.
  * @param editor Editor you want to search in.
  * @param selector CSS selector for the tokens you want to search for.
- * @param marginLeft How far before the token the cursor can be. Defaults to 0.
- * @param marginRight How far after the token the cursor can be. Defaults to marginLeft.
+ * @param marginLeft How far ahead of the token the cursor can be. Defaults to 0.
+ * @param marginRight How far behind the token the cursor can be. Defaults to marginLeft.
  * @param position Position to search in. Defaults to `selectionStart`.
- * @returns A span element if one's found and null if not. If there are multiple matches, the most nested token is prioritized.
+ * @returns A span element if one's found and null if not.
  * ```javascript
  * // This will return a string token if the cursor
  * // is at least 1 character inside a string token
@@ -46,17 +48,16 @@ const getClosestToken = (
 	position = editor.getSelection()[0],
 ) => {
 	const value = editor.value,
-		lines = editor.wrapper.children,
 		length = value.slice(position).search(/\n|$/) + 1,
-		line = lines[numLines(value, position)],
-		langEls = <NodeListOf<HTMLSpanElement>>line.querySelectorAll(selector),
-		range = document.createRange()
+		line = editor.wrapper.children[numLines(value, position)],
+		tokens = <NodeListOf<HTMLSpanElement>>line.querySelectorAll(selector),
+		range = new Range()
 	range.setEndAfter(line)
-	for (let i = langEls.length, el: HTMLSpanElement, endBefore: boolean; (el = langEls[--i]); ) {
-		range.setStartAfter(el)
-		endBefore = range.toString().length <= length + marginRight
-		range.setStartBefore(el)
-		if (endBefore && range.toString().length >= length - marginLeft) return el
+	for (let i = tokens.length, token: HTMLSpanElement, len: number; i; ) {
+		range.setStartAfter((token = tokens[--i]))
+		len = range.toString().length
+		if (len <= length + marginRight && len + token.textContent!.length >= length - marginLeft)
+			return token
 	}
 	return null
 }
@@ -94,7 +95,10 @@ const insertText = (
 
 	if (textarea.readOnly) return
 	focused || textarea.focus()
-	let direction = getSelection()[2]
+	const selection =
+		newCursorStart != null
+			? setSelection([newCursorStart, newCursorEnd ?? newCursorStart, getSelection()[2]])
+			: 0
 	if (start != null) textarea.setSelectionRange(start, end ?? start)
 
 	// Only Safari dispatches a beforeinput event
@@ -120,9 +124,29 @@ const insertText = (
 		)
 		if (avoidBug) textarea.selectionStart++
 	} else document.execCommand(text ? "insertText" : "delete", false, text)
-
-	if (newCursorStart != null)
-		textarea.setSelectionRange(newCursorStart, newCursorEnd ?? newCursorStart, direction)
+	if (selection) {
+		textarea.setSelectionRange(...selection)
+		setSelection()
+	}
 }
 
-export { escapeRegExp, getLineBefore, getLines, getClosestToken, getLanguage, insertText }
+const scrollToEl = (editor: PrismEditor, el: Element, paddingTop = 0) => {
+	editor.scrollContainer.style.scrollPaddingBlock =
+		document.documentElement.style.scrollPaddingBlock = `${paddingTop}px ${
+			isChrome ? Math.round(el.getBoundingClientRect().height - el.scrollHeight) : 0
+		}px`
+
+	el.scrollIntoView({ block: "nearest" })
+	editor.scrollContainer.style.removeProperty("scroll-padding-block")
+	document.documentElement.style.removeProperty("scroll-padding-block")
+}
+
+export {
+	regexEscape,
+	getLineBefore,
+	getLines,
+	getClosestToken,
+	getLanguage,
+	insertText,
+	scrollToEl,
+}

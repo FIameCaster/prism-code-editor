@@ -1,17 +1,43 @@
-import { escapeRegExp } from "../../utils"
+import { regexEscape } from "../../utils"
 import { createTemplate } from "../../core"
 import { PrismEditor } from "../../types"
 
 const template = createTemplate(
 	"",
-	"color:#0000;display:none;contain:strict;margin:0 var(--padding-inline) 0 var(--padding-left);"
+	"color:#0000;display:none;contain:strict;margin:0 var(--padding-inline) 0 var(--padding-left);",
 )
-// @ts-ignore
-template.setAttribute("aria-hidden", true)
+template.setAttribute("aria-hidden", <any>true)
 
-export type SearchAPI = ReturnType<typeof createSearchAPI>
+export interface SearchAPI {
+	/**
+	 * Unhides the search container and highlights all matches of the specified string in the editor.
+	 * @param str String to search for.
+	 * @param caseSensitive Whether or not the search is case sensetive.
+	 * @param wholeWordSearch Whether or not matches must be surrounded by word boundries (\b).
+	 * @param useRegExp If false, special characters will be escaped when creating the RegExp.
+	 * @param selection boundries to search between. If excluded, all the code is searched.
+	 * @param excludedPosition A match containing this position in the string will be excluded.
+	 * @returns An error message if the RegExp was invalid.
+	 */
+	search(
+		str: string,
+		caseSensitive?: boolean,
+		wholeWordSearch?: boolean,
+		useRegExp?: boolean,
+		selection?: [number, number],
+		excludedPosition?: number,
+	): string | void
+	/** Container that all the match results are appended to. */
+	readonly container: HTMLDivElement
+	/** Current regex used for searching. */
+	readonly regex: RegExp
+	/** Array of the positions of all the matches. */
+	readonly matches: [number, number][]
+	/** Hides the search container and removes all the matches. */
+	stopSearch(): void
+}
 
-const createSearchAPI = (editor: PrismEditor) => {
+const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	const span = document.createElement("span"),
 		nodes: ChildNode[] = [new Text()],
 		nodeValues: string[] = [],
@@ -23,26 +49,9 @@ const createSearchAPI = (editor: PrismEditor) => {
 	editor.overlays.append(container)
 
 	return {
-		/**
-		 * Unhides the search container and highlights all matches of the specified string in the editor.
-		 * @param str String to search for.
-		 * @param caseSensitive Whether or not the search is case sensetive.
-		 * @param wholeWordSearch Whether or not matches must be surrounded by word boundries (\b).
-		 * @param useRegExp If false, special characters will be escaped when creating the RegExp.
-		 * @param selection boundries to search between. If excluded, all the code is searched.
-		 * @param excludedPosition A match containing this position in the string will be excluded.
-		 * @returns An error message if the RegExp was invalid.
-		 */
-		search(
-			str: string,
-			caseSensitive?: boolean,
-			wholeWordSearch?: boolean,
-			useRegExp?: boolean,
-			selection?: [number, number],
-			excludedPosition = -1
-		) {
+		search(str, caseSensitive, wholeWordSearch, useRegExp, selection, excludedPosition = -1) {
 			if (!str) return this.stopSearch()
-			if (!useRegExp) str = escapeRegExp(str)
+			if (!useRegExp) str = regexEscape(str)
 			if (wholeWordSearch) str = `\\b${str}\\b`
 			const value = editor.value,
 				searchStr = selection ? value.slice(...selection) : value,
@@ -89,17 +98,13 @@ const createSearchAPI = (editor: PrismEditor) => {
 				container.style.removeProperty("display")
 			}
 		},
-		/** Container that all the match results are appended to. */
 		container,
-		/** Current regex used for searching. */
 		get regex() {
 			return regex
 		},
-		/** Array of the positions of all the matches. */
 		get matches() {
 			return matchPositions
 		},
-		/** Hides the search container and removes all the matches. */
 		stopSearch() {
 			if (matchPositions[0]) {
 				matchPositions = []

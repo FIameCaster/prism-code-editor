@@ -1,11 +1,32 @@
 import { PrismEditor } from "../.."
-import { insertText } from "../../utils"
-import { createSearchAPI } from "./search"
+import { insertText, scrollToEl } from "../../utils"
+import { SearchAPI, createSearchAPI } from "./search"
 
-export type ReplaceAPI = ReturnType<typeof createReplaceAPI>
+export interface ReplaceAPI extends SearchAPI {
+	/** Index of the match ahead of the cursor. */
+	next(): number
+	/** Index of the match behind the cursor. */
+	prev(): number
+	/** Index of the closest match. */
+	closest(): number
+	/**
+	 * Selects the match with the passed index and scrolls
+	 * it into view with the specified scroll padding.
+	 */
+	selectMatch(index: number, scrollPadding?: number): void
+	/**
+	 * If a match is selected, it's replaced with the specified string.
+	 * If not, the closest match will be selected and the index is returned.
+	 */
+	replace(str: string): number | undefined
+	/** Replaces all matches with the specified string. */
+	replaceAll(str: string, selection?: [number, number]): void
+	/** Removes the highlight container from the DOM and all potential event listeners. */
+	destroy(): void
+}
 
-const createReplaceAPI = (editor: PrismEditor) => {
-	const { getSelection, textarea, scrollContainer } = editor,
+const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
+	const { getSelection, textarea } = editor,
 		search = createSearchAPI(editor)
 
 	let currentLine: HTMLDivElement,
@@ -13,7 +34,6 @@ const createReplaceAPI = (editor: PrismEditor) => {
 		removeHighlight: (() => void) | null
 
 	return Object.assign(search, {
-		/** Index of the match ahead of the cursor. */
 		next() {
 			const [start, end] = getSelection(),
 				matches = search.matches,
@@ -24,7 +44,6 @@ const createReplaceAPI = (editor: PrismEditor) => {
 			}
 			return l ? 0 : -1
 		},
-		/** Index of the match behind the cursor. */
 		prev() {
 			const caretPos = getSelection()[1],
 				matches = search.matches,
@@ -34,7 +53,6 @@ const createReplaceAPI = (editor: PrismEditor) => {
 			}
 			return l - 1
 		},
-		/** Index of the closest match. */
 		closest() {
 			const caretPos = getSelection()[0],
 				matches = search.matches,
@@ -44,12 +62,10 @@ const createReplaceAPI = (editor: PrismEditor) => {
 			}
 			return l ? 0 : -1
 		},
-		/** Selects the match with the passed index. */
 		selectMatch(index: number, scrollPadding?: number) {
 			removeHighlight?.()
 			const match = search.matches[index]
 			if (match) {
-				editor.setSelection(...match)
 				removeHighlight = () => {
 					currentLine?.classList.remove("match-highlight")
 					currentMatch?.classList.remove("match")
@@ -57,17 +73,16 @@ const createReplaceAPI = (editor: PrismEditor) => {
 					removeHighlight = null
 				}
 				textarea.addEventListener("focus", removeHighlight)
-				;(currentLine = editor.activeLine!).classList.add("match-highlight")
-				;(currentMatch = <HTMLSpanElement>search.container.children[index])?.classList.add("match")
-				if (scrollPadding) scrollContainer.style.scrollPaddingTop = scrollPadding + "px"
-				currentMatch?.scrollIntoView({ block: "nearest" })
-				scrollContainer.style.removeProperty("scroll-padding-top")
+				editor.setSelection(...match)
+				currentLine = editor.activeLine!
+				currentLine.classList.add("match-highlight")
+				currentMatch = <HTMLSpanElement>search.container.children[index]
+				if (currentMatch) {
+					currentMatch.classList.add("match")
+					scrollToEl(editor, currentMatch, scrollPadding)
+				}
 			}
 		},
-		/**
-		 * If a match is selected, it's replaced with the specified string.
-		 * If not, the closest match will be selected and the index is returned.
-		 */
 		replace(str: string) {
 			if (!search.matches[0]) return
 			const index = this.closest(),
@@ -80,7 +95,6 @@ const createReplaceAPI = (editor: PrismEditor) => {
 				return index
 			}
 		},
-		/** Replaces all matches with the specified string. */
 		replaceAll(str: string, selection?: [number, number]) {
 			const { matches, regex } = search
 			if (!matches[0]) return
@@ -119,7 +133,6 @@ const createReplaceAPI = (editor: PrismEditor) => {
 				newEnd,
 			)
 		},
-		/** Removes the highlight container from the DOM and all potential event listeners. */
 		destroy() {
 			removeHighlight?.()
 			search.container.remove()

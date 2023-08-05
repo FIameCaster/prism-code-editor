@@ -2,8 +2,8 @@ import { createTemplate } from "../core"
 import { Extension, PrismEditor } from "../types"
 
 const template = createTemplate(
-	'<style>.guide-indents div{width:1px;position:absolute;background:var(--bg-guide-indent)}:read-write~div .guide-indents .active,:focus~div .guide-indents .active{background:var(--bg-guide-indent-active)}</style><div class="guide-indents" style="position:relative;"> </div>',
-	"left:var(--padding-left)"
+	'<style>.guide-indents div{width:1px;position:absolute;background:var(--bg-guide-indent)}.guide-indents .active{background:var(--bg-guide-indent-active)}</style><div class="guide-indents" style="position:relative;"> </div>',
+	"left:var(--padding-left)",
 )
 
 export interface IndentGuides extends Extension {

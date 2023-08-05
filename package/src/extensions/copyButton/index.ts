@@ -23,7 +23,7 @@ export const copyButton = (): Extension => {
 		else {
 			cEditor.textarea.select()
 			document.execCommand("copy")
-			getSelection()!.removeAllRanges()
+			cEditor.setSelection(0)
 		}
 	})
 

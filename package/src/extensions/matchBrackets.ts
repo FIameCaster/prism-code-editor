@@ -1,7 +1,11 @@
-import { EventHandler, Extension, PrismEditor, TokenizeEnv } from ".."
-import { addEventHandler } from "../core"
+import { Extension, PrismEditor, TokenizeEnv } from ".."
 
-const pairBrackets = (tokens: (Prism.Token | string)[]) => {
+const pairBrackets = (
+	tokens: (Prism.Token | string)[],
+	openingRegex: RegExp,
+	closingRegex: RegExp,
+	pairRegex: RegExp,
+) => {
 	let position = 0
 	const stack: [number, Prism.Token][] = []
 	const positions: number[][] = []
@@ -24,15 +28,14 @@ const pairBrackets = (tokens: (Prism.Token | string)[]) => {
 					(type == "punctuation" || token.alias == "punctuation") &&
 					type != "regex"
 				) {
-					// Adding opening bracket to the stack
-					if (/[([{]/.test(content)) stack.push([position, token])
-					// Finding a matching closing bracket
-					else if (/[)\]}]/.test(content)) {
+					if (openingRegex.test(content)) stack.push([position, token])
+					else if (closingRegex.test(content)) {
 						let i = stack.length,
 							found: boolean
+
 						while (i) {
 							const [position1, token1] = stack[--i]
-							if (/\[]|\(\)|{}/.test(token1.content + content)) {
+							if (pairRegex.test(token1.content + content)) {
 								for (let arr = stack.splice(i), j = 1; j < arr.length; )
 									add(arr[j++][1], "bracket-error")
 								if (position - position1 == 1) {
@@ -58,32 +61,37 @@ const pairBrackets = (tokens: (Prism.Token | string)[]) => {
 	return positions
 }
 
-type BracketEventMap = {
-	activeChange: (this: BracketMatcher, activePair: number) => any
-}
-
-export interface BracketMatcher extends Extension, EventHandler<BracketEventMap> {
+export interface BracketMatcher extends Extension {
 	/** Array of the positions of all the brackets. */
 	readonly pairPositions: number[][]
 	/** Index of the highlighted pair of brackets or -1 if there's no highlight. */
 	readonly activePair: number
 	/** Gets the matching opening and closing brackets with the specified index if one exists. */
 	getPair(index: number): [HTMLSpanElement, HTMLSpanElement] | undefined
+	/** Gets the index of the closest pair that encloses the position. */
+	getClosest(position: number): number
 }
 
-/** Extension that matches brackets together and allows for rainbow brackets. */
-export const matchBrackets = (): BracketMatcher => {
+/**
+ * Extension that matches brackets together and allows for rainbow brackets.
+ * @param openingRegex Regex matching opening brackets. Defaults to `/[[({]/`.
+ * @param closingRegex Regex matching closing brackets. Defaults to `/[)\]}]/`.
+ * @param pairRegex Regex matching all bracket pairs. Defaults to `/\[]|\(\)|{}/`.
+ */
+export const matchBrackets = (
+	openingRegex = /[[({]/,
+	closingRegex = /[)\]}]/,
+	pairRegex = /\[]|\(\)|{}/,
+): BracketMatcher => {
 	let pairs: number[][] = [],
 		secondOrder: number[][],
 		activeID: number,
 		prevPair: number[],
 		currentEditor: PrismEditor,
-		textarea: HTMLTextAreaElement,
-		wrapper: HTMLDivElement,
 		openingBrackets: HTMLCollectionOf<HTMLSpanElement>,
 		closingBrackets: HTMLCollectionOf<HTMLSpanElement>
 
-	const getActiveID = (offset: number) => {
+	const getClosest = (offset: number) => {
 			for (let i = 0, l = pairs.length; i < l; i++) {
 				if (pairs[i][1] > offset - 2 && pairs[i][0] <= offset) return i
 			}
@@ -95,47 +103,47 @@ export const matchBrackets = (): BracketMatcher => {
 			getPair(id)?.forEach(el => el.classList.toggle("active-bracket", state)),
 		selectionChange = () => {
 			const [start, end] = currentEditor.getSelection()
-			const newID = start == end && currentEditor.focused ? getActiveID(start) : -1
-			if (prevPair == (prevPair = pairs[newID])) return
-			toggleBrackets(activeID, false)
-			toggleBrackets((activeID = newID), true)
-			dispatch("activeChange", newID)
-		},
-		tokenize = (env: TokenizeEnv) => {
-			if (env.language != "regex") {
-				pairs = pairBrackets(env.tokens)
-				secondOrder = pairs.slice().sort((a, b) => a[0] - b[0])
+			const newID = start == end && currentEditor.focused ? getClosest(start) : -1
+			if (prevPair != (prevPair = pairs[newID])) {
+				toggleBrackets(activeID, false)
+				toggleBrackets((activeID = newID), true)
+			}
+		}
+
+	return {
+		update(editor: PrismEditor) {
+			if (!currentEditor) {
+				const { textarea, wrapper, addListener } = (currentEditor = editor)
+				const add = addEventListener.bind(textarea)
+
+				openingBrackets = <HTMLCollectionOf<HTMLSpanElement>>(
+					wrapper.getElementsByClassName("bracket-open")
+				)
+
+				closingBrackets = <HTMLCollectionOf<HTMLSpanElement>>(
+					wrapper.getElementsByClassName("bracket-close")
+				)
+
+				add("blur", selectionChange)
+				add("focus", selectionChange)
+				addListener("selectionChange", selectionChange)
+				addListener("tokenize", (env: TokenizeEnv) => {
+					if (env.language != "regex") {
+						pairs = pairBrackets(env.tokens, openingRegex, closingRegex, pairRegex)
+						secondOrder = pairs.slice().sort((a, b) => a[0] - b[0])
+					}
+				})
+
+				if (editor.value) editor.update()
 			}
 		},
-		[dispatch, self] = addEventHandler<BracketMatcher, BracketEventMap>({
-			update(editor: PrismEditor) {
-				if (!currentEditor) {
-					;({ textarea, wrapper } = currentEditor = editor)
-
-					openingBrackets = <HTMLCollectionOf<HTMLSpanElement>>(
-						wrapper.getElementsByClassName("bracket-open")
-					)
-					closingBrackets = <HTMLCollectionOf<HTMLSpanElement>>(
-						wrapper.getElementsByClassName("bracket-close")
-					)
-
-					let add = currentEditor.addListener
-					textarea.addEventListener("blur", selectionChange)
-					textarea.addEventListener("focus", selectionChange)
-					add("selectionChange", selectionChange)
-					add("tokenize", tokenize)
-
-					if (editor.value) editor.update()
-				}
-			},
-			getPair,
-			get pairPositions() {
-				return pairs
-			},
-			get activePair() {
-				return activeID
-			},
-		})
-
-	return self
+		getPair,
+		getClosest,
+		get pairPositions() {
+			return pairs
+		},
+		get activePair() {
+			return activeID
+		},
+	}
 }

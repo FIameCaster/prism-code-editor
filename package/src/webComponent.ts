@@ -48,12 +48,12 @@ const addComponent = (Prism: PrismType, name: string, createEditor: typeof basic
 	customElements.define(
 		name,
 		class EditorComponent extends HTMLElement {
-			private _editor: PrismEditor
 			static observedAttributes = attributes
+			editor: PrismEditor
 
 			constructor() {
 				super()
-				this._editor = createEditor(Prism, this, getOptions(this), () =>
+				this.editor = createEditor(Prism, this, getOptions(this), () =>
 					this.dispatchEvent(new CustomEvent("ready")),
 				)
 
@@ -66,14 +66,12 @@ const addComponent = (Prism: PrismType, name: string, createEditor: typeof basic
 							: (val: boolean) => this.toggleAttribute(attr, val),
 					})
 			}
-			get editor() {
-				return this._editor
-			}
+
 			get value() {
-				return this._editor.value
+				return this.editor.value
 			}
 			set value(value: string) {
-				this._editor.setOptions({ value })
+				this.editor.setOptions({ value })
 			}
 
 			attributeChangedCallback(
@@ -83,9 +81,9 @@ const addComponent = (Prism: PrismType, name: string, createEditor: typeof basic
 			) {
 				const newVal = attributeMap[name](newValue)
 				if (attributeMap[name](oldValue) != newVal) {
-					if (name == "theme") updateTheme(this._editor, <string>newVal)
+					if (name == "theme") updateTheme(this.editor, <string>newVal)
 					else
-						this._editor.setOptions({
+						this.editor.setOptions({
 							[propMap[name]]: newVal,
 						})
 				}

@@ -15,7 +15,6 @@
 .show-line-numbers {
 	--padding-left: calc(var(--padding-inline) + var(--number-width) + var(--number-spacing));
 	grid: 1fr / 0 1fr;
-	counter-reset: line;
 }
 
 .prism-editor-wrapper {
@@ -47,34 +46,26 @@
 	z-index: 1;
 }
 
+.code-line {
+	padding: 0 var(--padding-inline) 0 0;
+	margin: 0 0 0 var(--padding-left);
+	position: relative;
+}
+
 .show-line-numbers .code-line::before {
 	content: attr(data-line);
 	display: inline-block;
-	text-align: right;
+	margin: 0 0 0 calc(-1 * var(--padding-left));
 	padding: 0 var(--number-spacing) 0 0;
 	box-sizing: border-box;
-}
-
-.use-counter .code-line::before {
-	content: counter(line);
-	counter-increment: line;
+	color: var(--editor__line-number);
+	text-align: right;
 }
 
 .show-line-numbers::before {
 	content: "";
 	background: inherit;
 	pointer-events: none;
-}
-
-.code-line::before {
-	margin: 0 0 0 calc(-1 * var(--padding-left));
-	color: var(--editor__line-number);
-}
-
-.code-line {
-	padding: 0 var(--padding-inline) 0 0;
-	margin: 0 0 0 var(--padding-left);
-	position: relative;
 }
 
 .show-line-numbers::before,
@@ -108,14 +99,9 @@
 	z-index: -2;
 }
 
-.readonly:not(:focus-within) ~ .active-line::after {
-	content: none;
-}
-
 .word-wrap > * {
 	white-space: pre-wrap;
 	word-break: break-word;
-	overflow-wrap: anywhere;
 }
 
 .editor-overlays:not(:focus-within) .selection-matches span {

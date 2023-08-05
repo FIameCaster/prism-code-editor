@@ -11,10 +11,10 @@ import "../extensions/search/search.css"
 import "../languages"
 import "../layout.css"
 import Prism from "../prismCore"
+import "./languages"
 import "../prismMarkdown"
 import "../scrollbar.css"
 import { addFullEditor, PrismEditorElement } from "../webComponent"
-import "./languages"
 import "./style.css"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
@@ -34,7 +34,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			copyButton(),
 			highlightSelectionMatches(),
 			searchWidget(),
-			defaultCommands(cursor)
+			defaultCommands(cursor),
 		)
 
 		return editor
@@ -72,7 +72,6 @@ const options = {
   wordWrap: false,
   value: code,
   onUpdate(code) {},
-  onActiveChange(oldLine, newLine) {},
   onSelectionChange([start, end, direction], code) {},
   onTokenize({ language, code, grammar, tokens }) {}
 }`,
@@ -88,8 +87,7 @@ const editor = createEditorWrapper(wrapper, {
 		language: "javascript",
 		value: currentOptions,
 		onUpdate(code) {
-			// @ts-ignore
-			runBtn.setAttribute("aria-hidden", currentOptions == code)
+			runBtn.setAttribute("aria-hidden", <any>(currentOptions == code))
 		},
 	}),
 	commands = editor.keyCommandMap,
@@ -114,9 +112,7 @@ const toggleActive = () => {
 	if (!activeEditor) {
 		runBtn.setAttribute("aria-hidden", "true")
 		errorEl.setAttribute("aria-hidden", "true")
-	}
-	// @ts-ignore
-	else runBtn.setAttribute("aria-hidden", currentOptions == editor.value)
+	} else runBtn.setAttribute("aria-hidden", <any>(currentOptions == editor.value))
 	activeEditor = +!activeEditor
 }
 

@@ -14,14 +14,12 @@ export type EditorOptions = {
 	/** Whether or not the editor should have word wrap. Defaults to `false`. */
 	wordWrap?: boolean | undefined
 	/** Initial code to display in the editor. */
-	value?: string | undefined
+	value: string
 	/** Function called when the code of the editor changes. */
 	onUpdate?: EditorEventMap["update"] | null
-	/** Function called when which line is highlighted changes. */
-	onActiveChange?: EditorEventMap["activeChange"] | null
 	/** Function called when the selection changes in the editor. */
 	onSelectionChange?: EditorEventMap["selectionChange"] | null
-	/** Function called after the `after-tokenize` Prism hook, but before the tokens are stringified. */
+	/** Function called after `after-tokenize` Prism hooks, but before the tokens are stringified. */
 	onTokenize?: EditorEventMap["tokenize"] | null
 }
 
@@ -33,7 +31,7 @@ export type Language = {
 	/**
 	 * Callbacks controlling the automatic indentation on new lines.
 	 * First function should return whether indentation should be increased.
-	 * Second function should return whether to add an extra line after the charet.
+	 * Second function should return whether to add an extra line after the cursor.
 	 */
 	autoIndent?: [
 		((this: PrismEditor, selection: InputSelection, value: string) => boolean)?,
@@ -47,11 +45,6 @@ export type Language = {
 }
 
 export type PrismType = typeof Prism
-export type ActiveChangeCallback = (
-	this: PrismEditor,
-	oldLine: HTMLDivElement,
-	newLine: HTMLDivElement,
-) => any
 /**
  * Function called when a certain key is pressed.
  * If true is returned, `e.preventDefault()` is called automatically.
@@ -85,7 +78,6 @@ export type TokenizeEnv = {
 
 export type EditorEventMap = {
 	update: (this: PrismEditor, value: string) => any
-	activeChange: ActiveChangeCallback
 	selectionChange: (this: PrismEditor, selection: InputSelection, value: string) => any
 	tokenize: (this: PrismEditor, env: TokenizeEnv) => any
 }
@@ -128,25 +120,23 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	/**
 	 * Set new options for the editor.
 	 * Ommitted properties will use their previous value.
-	 * Pass `undefined` to a property to return it to the default value.
+	 * Passing `undefined` to a property returns it to its default value.
 	 * @param options New options for the editor
 	 */
 	setOptions(options: Partial<EditorOptions>): void
-	/** Forces an update to the editor. Rarely necessary. */
+	/** Forces the editor to update. Might be necessary after adding a tokenize listener. */
 	update(): void
 	/** Gets `selectionStart`, `selectionEnd` and `selectionDirection` for the `textarea`. */
 	getSelection(): InputSelection
 	/**
-	 * Sets the selection for the `textarea`. This will synchronously run the selectionChange
-	 * handlers. If that's not wanted, use `textarea.setSelectionRange` instead. Keep in mind
-	 * that `textarea.setSelectionRange` will focus the textarea in Safari.
+	 * Sets the selection for the `textarea` and synchronously runs the selectionChange listeners. 
 	 * @param start New selectionStart
-	 * @param end New SelectionEnd
+	 * @param end New selectionEnd
 	 * @param direction New direction
 	 */
 	setSelection(start: number, end?: number, direction?: "backward" | "forward" | "none"): void
 	/** Adds extensions to the editor and calls their update methods. */
 	addExtensions(...extensions: Extension[]): void
-	/** Removes the editor from the DOM. */
+	/** Removes the editor from the DOM and marks the editor as removed. */
 	remove(): void
 }

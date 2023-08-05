@@ -8,7 +8,7 @@ import type {
 	TokenizeEnv,
 	EditorEventMap,
 	Extension,
-	EventHandler,
+	InputSelection,
 } from "./types"
 
 /**
@@ -34,38 +34,54 @@ const createEditor = (
 		activeLine: HTMLDivElement,
 		value = "",
 		activeLineNumber: number,
-		removed = false
+		removed = false,
+		handleSelecionChange = true
 
 	const scrollContainer = <HTMLDivElement>editorTemplate.cloneNode(true),
 		wrapper = <HTMLDivElement>scrollContainer.firstChild,
 		overlays = <HTMLDivElement>wrapper.firstChild,
 		textarea = <HTMLTextAreaElement>overlays.firstChild,
 		lines = <HTMLCollectionOf<HTMLDivElement>>wrapper.children,
-		currentOptions: EditorOptions = { language: "text" },
+		currentOptions = <EditorOptions>{ language: "text" },
 		currentExtensions = new Set(extensions),
-		addTextareaListener = addEventListener.bind(textarea)
+		addTextareaListener = addEventListener.bind(textarea),
+		closingTag = "</span>",
+		listeners: {
+			[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
+		} = {
+			selectionChange: new Set([
+				([start, end, direction]) => {
+					const newLine =
+						lines[(activeLineNumber = numLines(value, direction == "backward" ? start : end))]
+
+					if (newLine != activeLine) {
+						activeLine?.classList.remove("active-line")
+						newLine.classList.add("active-line")
+						activeLine = newLine
+					}
+					overlays.classList.toggle("no-selection", start == end)
+				},
+			]),
+		}
 
 	const setOptions = (options: Partial<EditorOptions>) => {
 		Object.assign(currentOptions, { value }, options)
 		currentExtensions.forEach(extension => extension.update(self, currentOptions))
-		;({ language, value } = <EditorOptions & { value: string }>currentOptions)
+		;({ language, value } = currentOptions)
 
 		const isNewGrammar = grammar != (grammar = Prism.languages[language])
 		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
 
 		scrollContainer.className = `prism-editor language-${language}${
-			currentOptions.lineNumbers == false
-				? ""
-				: ` show-line-numbers${isWebKit ? "" : " use-counter"}`
+			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
 		} ${currentOptions.wordWrap ? "" : "no-"}word-wrap`
-		// @ts-ignore
-		scrollContainer.style.tabSize = currentOptions.tabSize || 2
+
+		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
 		if (isNewGrammar || value != textarea.value) {
-			focusOld()
+			focusRelatedTarget()
 			textarea.value = value
-			update()
 			textarea.selectionEnd = 0
-			dispatchSelection()
+			update()
 		}
 		overlays.classList.toggle("readonly", (textarea.readOnly = !!currentOptions.readOnly))
 	}
@@ -74,8 +90,7 @@ const createEditor = (
 	const highlight = (code: string) => {
 		let openingTags = "",
 			closingTags = "",
-			closingTag = "</span>"
-		const env = <TokenizeEnv>{ language, code, grammar }
+			env = <TokenizeEnv>{ language, code, grammar }
 		Prism.hooks.run("before-tokenize", env)
 		const tokens = (env.tokens = Prism.tokenize(env.code, env.grammar))
 		Prism.hooks.run("after-tokenize", env)
@@ -88,32 +103,35 @@ const createEditor = (
 			return str
 		}
 
-		const stringify = (token: string | Prism.TokenStream | Prism.Token) => {
-			if (typeof token == "string") {
-				token = token.replace(/&/g, "&amp;").replace(/</g, "&lt;")
-				// Faster on average to only call replace when necessary
-				return token.includes("\n") ? token.replace(/\n/g, closingTags + "\n" + openingTags) : token
-			}
-			if (Array.isArray(token)) return stringifyAll(token)
+		const stringify = (token: string | Prism.TokenStream | Prism.Token): string => {
+			if (token instanceof Prism.Token) {
+				let { type, alias, content } = token,
+					className = ""
 
-			let { type, alias, content } = token,
-				className = ""
+				if (alias) {
+					if (Array.isArray(alias))
+						for (let i = 0; i < alias.length; ) className += " " + alias[i++]
+					else className += " " + alias
+				}
+				let prevOpening = openingTags,
+					prevClosing = closingTags,
+					opening = `<span class="token ${
+						type + className + (type == "keyword" ? " keyword-" + content : "")
+					}">`
 
-			if (alias) {
-				if (typeof alias == "string") className += " " + alias
-				else for (let i = 0; i < alias.length; ) className += " " + alias[i++]
+				closingTags += closingTag
+				openingTags += opening
+				let contentStr = stringify(content)
+				openingTags = prevOpening
+				closingTags = prevClosing
+				return opening + contentStr + closingTag
 			}
-			let prevOpening = openingTags,
-				prevClosing = closingTags
-			let opening = `<span class="token ${
-				type + className + (type == "keyword" ? " keyword-" + content : "")
-			}">`
-			closingTags += closingTag
-			openingTags += opening
-			let contentStr = <string>stringify(content)
-			openingTags = prevOpening
-			closingTags = prevClosing
-			return opening + contentStr + closingTag
+
+			return Array.isArray(token)
+				? stringifyAll(token)
+				: (token = token.replace(/&/g, "&amp;").replace(/</g, "&lt;")).includes("\n")
+				? token.replace(/\n/g, closingTags + "\n" + openingTags)
+				: token
 		}
 		return stringifyAll(tokens)
 	}
@@ -128,42 +146,28 @@ const createEditor = (
 		while (newLines[start] == prevLines[start] && start < end1) ++start
 		while (end1 && newLines[--end1] == prevLines[--end2]);
 
-		if (start <= end2) lines[++start].innerHTML = newLines[start - 1] + "\n"
+		// This is not needed, but significantly improves performance when only one line changed
+		start - end1 + start - end2 || (lines[++start].innerHTML = newLines[start - 1] + "\n")
 
-		for (let i = Math.min(start, end2 + 1); i <= end1; )
-			newHTML += `<div class="code-line" aria-hidden="true" data-line="${i + 1}">${
-				newLines[i++]
-			}\n</div>`
-		for (let i = Math.min(start, end1 + 1); i <= end2; i++) lines[start + 1].remove()
+		for (let i = end2 < start ? end2 : start - 1; i < end1; )
+			newHTML += `<div class="code-line" aria-hidden="true">${newLines[++i]}\n</div>`
+		for (let i = end1 < start ? end1 : start - 1; i < end2; i++) lines[start + 1].remove()
 		if (newHTML) lines[start].insertAdjacentHTML("afterend", newHTML)
-		if (end1 != end2) {
-			for (let i = Math.max(start, end1 + 1); i < l; ) lines[++i].setAttribute("data-line", i + "")
-			scrollContainer.style.setProperty(
-				"--number-width",
-				Math.ceil(Math.log10(l + 1)) + 0.001 + "ch",
-			)
-		}
+		for (let i = end1 < start ? end1 + 1 : start; i < l; )
+			lines[++i].setAttribute("data-line", <any>i)
+		scrollContainer.style.setProperty("--number-width", Math.ceil(Math.log10(l + 1)) + 0.001 + "ch")
 
-		// Old diffing algoritm
-
-		// for (let i = start, l = Math.min(end1, end2); i <= l; )
-		// 	if (prevLines[i] != newLines[i++]) lines[i].innerHTML = newLines[i - 1] + '\n'
-
-		// if (end1 != end2) {
-		// 	let newHTML = ''
-		// 	for (let i = end2; i < end1; ) newHTML += `<div class="code-line" aria-hidden="true">${newLines[++i]}\n</div>`
-		// 	for (let i = end1; i < end2; i++) lines[end1 + 2].remove()
-		// 	if (newHTML) lines[end2 + 1].insertAdjacentHTML('afterend', newHTML)
-		// 	for (let i = Math.min(end1, end2) + 1; i < l; ) lines[++i].setAttribute('data-line', i + '')
-		// 	scrollContainer.style.setProperty('--number-width', Math.ceil(Math.log10(l + 1)) + 0.001 + 'ch')
-		// }
+		handleSelecionChange = true
+		dispatchEvent("update", value)
+		dispatchSelection()
+		setTimeout(setTimeout, 0, () => (handleSelecionChange = true))
 
 		prevLines = newLines
-		dispatchEvent("update", value)
+		handleSelecionChange = false
 	}
 
 	const getInputSelection = () =>
-		[textarea.selectionStart, textarea.selectionEnd, textarea.selectionDirection] as const
+		selection || [textarea.selectionStart, textarea.selectionEnd, textarea.selectionDirection]
 
 	const focused = () => selectionChange == dispatchSelection
 
@@ -176,7 +180,7 @@ const createEditor = (
 	const inputCommandMap: Record<string, InputCommandCallback | null> = {}
 
 	// Safari focuses the textarea if you change its selection or value programmatically
-	const focusOld = () =>
+	const focusRelatedTarget = () =>
 		isWebKit &&
 		!focused() &&
 		addTextareaListener("focus", e => (<HTMLElement>e.relatedTarget)?.focus(), { once: true })
@@ -185,13 +189,16 @@ const createEditor = (
 		name: T,
 		...args: Parameters<EditorEventMap[T]>
 	) => {
-		dispatch(name, ...args) // @ts-ignore
+		// @ts-ignore
+		for (const handler of listeners[name] || []) handler.apply(self, args)
+		// @ts-ignore
 		currentOptions[`on${name[0].toUpperCase()}${name.slice(1)}`]?.apply(self, args)
 	}
 
-	const dispatchSelection = () => dispatchEvent("selectionChange", getInputSelection(), value)
+	const dispatchSelection = () =>
+		handleSelecionChange && dispatchEvent("selectionChange", getInputSelection(), value)
 
-	const [dispatch, self] = addEventHandler<PrismEditor, EditorEventMap>({
+	const self: PrismEditor = {
 		scrollContainer,
 		wrapper,
 		overlays,
@@ -218,7 +225,7 @@ const createEditor = (
 		update,
 		getSelection: getInputSelection,
 		setSelection(start, end, direction) {
-			focusOld()
+			focusRelatedTarget()
 			textarea.setSelectionRange(start, end ?? start, direction)
 			dispatchSelection()
 		},
@@ -230,39 +237,25 @@ const createEditor = (
 				}
 			})
 		},
+		addListener<T extends keyof EditorEventMap>(name: T, handler: EditorEventMap[T]) {
+			;(listeners[name] || (listeners[name] = <any>new Set())).add(handler)
+		},
+		removeListener<T extends keyof EditorEventMap>(name: T, handler: EditorEventMap[T]) {
+			listeners[name]?.delete(handler)
+		},
 		remove() {
 			scrollContainer.remove()
 			removed = true
 		},
-	})
-
-	self.addListener("selectionChange", ([start, end, direction]) => {
-		const newLine =
-			lines[(activeLineNumber = numLines(value, direction == "backward" ? start : end))]
-
-		if (newLine != activeLine) {
-			activeLine?.classList.remove("active-line")
-			newLine.classList.add("active-line")
-			dispatchEvent("activeChange", activeLine, (activeLine = newLine))
-		}
-		overlays.classList.toggle("no-selection", start == end)
-	})
+	}
 
 	addTextareaListener("keydown", e => {
-		keyCommandMap[e.key]?.(e, getInputSelection(), value) && e.preventDefault()
-		if (e.keyCode == 77 && getModifierCode(e) == (isMac ? 0b1010 : 0b0010)) {
-			;(ignoreTab = !ignoreTab), e.preventDefault()
-		}
+		keyCommandMap[e.key]?.(e, getInputSelection(), value) && preventDefault(e)
 	})
 
 	addTextareaListener("beforeinput", e => {
-		const type = e.inputType
-		if (type == "insertText")
-			inputCommandMap[e.data!]?.(e, getInputSelection(), value) && e.preventDefault()
-		// Chrome doesn't always dipatch a selectionchange event
-		// Also always dispatching one on Delete
-		if (/tForward/.test(type) || (isChrome && /tBackward|history|Break/.test(type)))
-			setTimeout(dispatchSelection)
+		if (e.inputType == "insertText")
+			inputCommandMap[e.data!]?.(e, getInputSelection(), value) && preventDefault(e)
 	})
 	addTextareaListener("input", () => {
 		if (value != textarea.value) {
@@ -283,8 +276,8 @@ const createEditor = (
 	})
 	// Hack to fix an obscure fontsize bug on iOS Safari when overflowing horizontally
 	if (isWebKit && /Mobile/.test(navigator.userAgent)) {
-		scrollContainer.contentEditable = "true"
-		wrapper.contentEditable = "false"
+		scrollContainer.contentEditable = <any>true
+		wrapper.contentEditable = <any>false
 		scrollContainer.tabIndex = -1
 	}
 
@@ -292,8 +285,6 @@ const createEditor = (
 	options && setOptions(options)
 	return self
 }
-
-let ignoreTab: boolean, selectionChange: null | (() => void)
 
 /** Returns a div with the specified HTML, class and inline style */
 const createTemplate = (innerHTML = "", style = "", className = ""): HTMLDivElement =>
@@ -304,7 +295,7 @@ const createTemplate = (innerHTML = "", style = "", className = ""): HTMLDivElem
  * each modifier is pressed in the order Shift, Meta, Ctrl, Alt
  * ```javascript
  * e.altKey && e.ctrlKey && e.shiftKey && !e.metaKey
- * // Is equivalent to
+ * // is equivalent to
  * getModifierCode(e) == 0b1011
  * ```
  */
@@ -318,35 +309,6 @@ const getElement = (el?: ParentNode | string | null) =>
 const isMac = /Mac|iPhone|iPod|iPad/i.test(navigator.platform)
 const isChrome = /Chrome\//.test(navigator.userAgent)
 const isWebKit = !isChrome && /AppleWebKit\//.test(navigator.userAgent)
-
-/**
- * Adds `addListener` and `removeListener` methods to the the specified object.
- * @returns A dispatch function and the mutated object
- */
-const addEventHandler = <
-	T extends EventHandler<EventMap>,
-	EventMap extends Record<string, (...args: any) => any>,
->(
-	obj: Omit<T, "addListener" | "removeListener">,
-): [<K extends keyof EventMap>(name: K, ...args: Parameters<EventMap[K]>) => void, T] => {
-	const listeners: {
-		[P in keyof EventMap]?: Set<EventMap[P]>
-	} = {}
-
-	return [
-		<T extends keyof EventMap>(name: T, ...args: Parameters<EventMap[T]>) => {
-			for (const handler of listeners[name] || []) handler.apply(obj, args)
-		},
-		<T>Object.assign(obj, {
-			addListener<T extends keyof EventMap>(name: T, handler: EventMap[T]) {
-				;(listeners[name] || (listeners[name] = new Set())).add(handler)
-			},
-			removeListener<T extends keyof EventMap>(name: T, handler: EventMap[T]) {
-				listeners[name]?.delete(handler)
-			},
-		}),
-	]
-}
 
 /**
  * Counts number of lines in the string up to the position.
@@ -371,6 +333,12 @@ const editorTemplate = createTemplate(
  */
 const setIgnoreTab = (newState: boolean) => (ignoreTab = newState)
 
+const preventDefault = (e: Event) => e.preventDefault()
+
+const setSelection = (s?: InputSelection) => (selection = s)
+
+let ignoreTab: boolean, selectionChange: null | (() => void), selection: InputSelection | undefined
+
 document.addEventListener("selectionchange", () => selectionChange?.())
 
 export {
@@ -384,6 +352,7 @@ export {
 	isChrome,
 	isWebKit,
 	getElement,
-	addEventHandler,
 	getModifierCode,
+	preventDefault,
+	setSelection,
 }

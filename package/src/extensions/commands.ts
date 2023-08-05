@@ -1,15 +1,6 @@
-import {
-	EditorOptions,
-	Extension,
-	InputSelection,
-	escapeRegExp,
-	getLineBefore,
-	getLines,
-	getModifierCode,
-	languages,
-} from ".."
-import { ignoreTab } from "../core"
-import { getLanguage, insertText } from "../utils"
+import { EditorOptions, Extension, InputSelection } from ".."
+import { ignoreTab, isMac, preventDefault, setIgnoreTab, getModifierCode, languages } from "../core"
+import { getLanguage, insertText, getLineBefore, getLines, regexEscape } from "../utils"
 import { Cursor } from "./cursor"
 
 const clipboard = navigator.clipboard
@@ -28,7 +19,7 @@ const clipboard = navigator.clipboard
 export const defaultCommands = (
 	cursor?: Cursor,
 	selfClosePairs = ['""', "''", "``", "()", "[]", "{}"],
-	selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[,.\])}>\s]|.[[({]`/s
+	selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[,.\])}>\s]|.[[({]`/s,
 ): Extension => {
 	let initialized: boolean, prevCopy: string
 
@@ -40,7 +31,7 @@ export const defaultCommands = (
 				const getIndent = ({ insertSpaces = true, tabSize }: EditorOptions) =>
 					[insertSpaces ? " " : "\t", insertSpaces ? tabSize || 2 : 1] as const
 
-				const scroll = (): true => !cursor?.scheduleScroll()
+				const scroll = (): true => !cursor?.scrollIntoView()
 
 				/**
 				 * Automatically closes quotes and brackets if text is selected,
@@ -51,7 +42,7 @@ export const defaultCommands = (
 					[start, end]: InputSelection,
 					[open, close]: string,
 					value: string,
-					wrapOnly?: boolean
+					wrapOnly?: boolean,
 				) =>
 					(start != end ||
 						(!wrapOnly &&
@@ -62,11 +53,11 @@ export const defaultCommands = (
 						null,
 						null,
 						start + 1,
-						end + 1
+						end + 1,
 					)!
 
 				const skipIfEqual = ([start, end]: InputSelection, char: string, value: string) =>
-					start == end && value[end] == char && !!++textarea.selectionStart
+					start == end && value[end] == char && !editor.setSelection(start + 1)!
 
 				/**
 				 * Inserts slightly altered lines while keeping the same selection.
@@ -80,11 +71,11 @@ export const defaultCommands = (
 					selectionStart: number,
 					selectionEnd: number,
 					firstInsersion?: number,
-					lastInsersion?: number
+					lastInsersion?: number,
 				) => {
 					const newLines = newL.join("\n"),
-						last = old.length - 1
-					const clamp = (num: number) => Math.max(start, Math.min(num, start + newLines.length))
+						last = old.length - 1,
+						clamp = (num: number) => Math.max(start, Math.min(num, start + newLines.length))
 					if (newLines != old.join("\n")) {
 						firstInsersion ??= old[0].search(/\S|$/)
 						lastInsersion ??= old[last].search(/\S|$/)
@@ -95,7 +86,7 @@ export const defaultCommands = (
 							end,
 							clamp(
 								selectionStart +
-									(selectionStart - start < firstInsersion ? 0 : newL[0].length - old[0].length)
+									(selectionStart - start < firstInsersion ? 0 : newL[0].length - old[0].length),
 							),
 							clamp(
 								selectionEnd +
@@ -104,8 +95,8 @@ export const defaultCommands = (
 									start -
 									(old[last].length - end + selectionEnd < lastInsersion
 										? newL[last].length - old[last].length
-										: 0)
-							)
+										: 0),
+							),
 						)
 					}
 				}
@@ -148,12 +139,12 @@ export const defaultCommands = (
 								e.shiftKey
 									? str =>
 											str.slice(str.search(/\S|$/) ? tabSize - (str.search(/\S|$/) % tabSize) : 0)
-									: str => str && indentChar.repeat(tabSize - (str.search(/\S|$/) % tabSize)) + str
+									: str => str && indentChar.repeat(tabSize - (str.search(/\S|$/) % tabSize)) + str,
 							),
 							start1,
 							end1,
 							start,
-							end
+							end,
 						)
 					return scroll()
 				}
@@ -177,7 +168,7 @@ export const defaultCommands = (
 							newText,
 							null,
 							null,
-							selection[0] + indenationCount + extraIndent + 1
+							selection[0] + indenationCount + extraIndent + 1,
 						)
 						return scroll()
 					}
@@ -217,7 +208,7 @@ export const defaultCommands = (
 										start1,
 										end1,
 										start + (i ? offset : -offset),
-										end + (i ? offset : -offset)
+										end + (i ? offset : -offset),
 									)
 								}
 							} else {
@@ -234,13 +225,16 @@ export const defaultCommands = (
 				editor.textarea.addEventListener("keydown", e => {
 					const code = getModifierCode(e)
 
-					if ((e.code == "Backslash" && code == 2) || (e.keyCode == 65 && code == 9)) {
+					if (code == (isMac ? 0b1010 : 0b0010) && e.keyCode == 77) {
+						setIgnoreTab(!ignoreTab)
+						preventDefault(e)
+					} else if ((e.code == "Backslash" && code == 2) || (e.keyCode == 65 && code == 9)) {
 						const value = editor.value,
 							isBlock = code == 9,
 							[start, end] = getSelection(),
 							{ line, block } =
 								languages[
-									getLanguage(editor, isBlock ? undefined : value.lastIndexOf("\n", start - 1) + 1)
+									getLanguage(editor, isBlock ? start : value.lastIndexOf("\n", start - 1) + 1)
 								]?.comments || {},
 							[lines, start1, end1] = getLines(value, start, end),
 							last = lines.length - 1
@@ -249,8 +243,8 @@ export const defaultCommands = (
 							if (block) {
 								const [open, close] = block,
 									text = value.slice(start, end),
-									pos = value.slice(0, start).search(escapeRegExp(open) + " ?$"),
-									matches = RegExp("^ ?" + escapeRegExp(close)).test(value.slice(end))
+									pos = value.slice(0, start).search(regexEscape(open) + " ?$"),
+									matches = RegExp("^ ?" + regexEscape(close)).test(value.slice(end))
 
 								if (pos + 1 && matches)
 									insertText(
@@ -259,7 +253,7 @@ export const defaultCommands = (
 										pos,
 										end + +(value[end] == " ") + close.length,
 										pos,
-										pos + end - start
+										pos + end - start,
 									)
 								else
 									insertText(
@@ -268,13 +262,13 @@ export const defaultCommands = (
 										start,
 										end,
 										start + open.length + 1,
-										end + open.length + 1
+										end + open.length + 1,
 									)
 								scroll()
 							}
 						} else {
 							if (line) {
-								const escaped = escapeRegExp(line),
+								const escaped = regexEscape(line),
 									regex = RegExp(`^\\s*(${escaped} ?|$)`),
 									regex2 = RegExp(escaped + " ?"),
 									allWhiteSpace = !/\S/.test(value.slice(start1, end1)),
@@ -282,7 +276,7 @@ export const defaultCommands = (
 										lines.every(line => regex.test(line)) && !allWhiteSpace
 											? str => str.replace(regex2, "")
 											: str =>
-													allWhiteSpace || /\S/.test(str) ? str.replace(/^\s*/, `$&${line} `) : str
+													allWhiteSpace || /\S/.test(str) ? str.replace(/^\s*/, `$&${line} `) : str,
 									)
 								insertLines(lines, newLines, start1, end1, start, end)
 								scroll()
@@ -294,14 +288,14 @@ export const defaultCommands = (
 									newLines = lines.slice()
 
 								newLines[0] = lines[0].replace(
-									hasComment ? RegExp(escapeRegExp(open) + " ?") : /(?=\S)|$/,
-									hasComment ? "" : open + " "
+									hasComment ? RegExp(regexEscape(open) + " ?") : /(?=\S)|$/,
+									hasComment ? "" : open + " ",
 								)
 								let diff =
 									insertionPoint > start - start1 ? 0 : newLines[0].length - lines[0].length
 								newLines[last] = newLines[last].replace(
-									RegExp(`( ?${escapeRegExp(close)})?$`),
-									hasComment ? "" : " " + close
+									RegExp(`( ?${regexEscape(close)})?$`),
+									hasComment ? "" : " " + close,
 								)
 
 								if (last)
@@ -313,31 +307,34 @@ export const defaultCommands = (
 										start1,
 										end1,
 										Math.max(start1, start + diff),
-										Math.min(end + diff, start1 + newLines[0].length)
+										Math.min(end + diff, start1 + newLines[0].length),
 									)
 								scroll()
 							}
 						}
 					}
 				})
-				;["copy", "cut", "paste"].forEach(type =>
-					textarea.addEventListener(<"copy" | "cut" | "paste">type, e => {
-						const [start, end] = getSelection()
-						if (start == end && clipboard) {
-							const [[line], start1, end1] = getLines(editor.value, start, end)
-							if (type == "paste") {
-								if (e.clipboardData!.getData("text/plain") == prevCopy) {
-									insertText(editor, prevCopy + "\n", start1, start1, start + prevCopy.length + 1)
-									e.preventDefault()
+
+				if (clipboard)
+					(["copy", "cut", "paste"] as const).forEach(type =>
+						textarea.addEventListener(type, e => {
+							const [start, end] = getSelection()
+							if (start == end) {
+								const [[line], start1, end1] = getLines(editor.value, start, end)
+								if (type == "paste") {
+									if (e.clipboardData!.getData("text/plain") == prevCopy) {
+										insertText(editor, prevCopy + "\n", start1, start1, start + prevCopy.length + 1)
+										scroll()
+										preventDefault(e)
+									}
+								} else {
+									clipboard.writeText((prevCopy = line))
+									if (type == "cut") insertText(editor, "", start1, end1 + 1), scroll()
+									preventDefault(e)
 								}
-							} else {
-								clipboard.writeText((prevCopy = line))
-								if (type == "cut") insertText(editor, "", start1, end1 + 1), scroll()
-								e.preventDefault()
 							}
-						}
-					})
-				)
+						}),
+					)
 			}
 		},
 	}

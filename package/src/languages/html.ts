@@ -1,16 +1,12 @@
-import { languages } from "../index.js"
+import { languages } from "../core"
+import { xmlClosingTag, xmlOpeningTag } from "./patterns"
 
-const openingTag =
-	/<(?!\d)([^\s>\/=$<%]+)(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*>[ \t]*$/
-const voidTags = /^(area|base|br|col|embed|hr|img|input|link|meta|source|track|wbr)$/
-const closingTag = /^<\/(?!\d)[^\s>\/=$<%]+\s*>/
+const voidTags = /^(area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/
 
-const isOpening = (value: string) => !voidTags.test(value.match(openingTag)?.[1] || "br")
+const isOpening = (value: string) => !voidTags.test(value.match(xmlOpeningTag)?.[1] || "br")
 
 languages.markup =
 	languages.html =
-	languages.mathml =
-	languages.svg =
 	languages.markdown =
 	languages.md =
 		{
@@ -20,10 +16,11 @@ languages.markup =
 			autoIndent: [
 				([start], value) => isOpening(value.slice(0, start)),
 				([start, end], value) =>
-					isOpening(value.slice(0, start)) && closingTag.test(value.slice(end)),
+					isOpening(value.slice(0, start).slice(-999)) && xmlClosingTag.test(value.slice(end)),
 			],
 			autoCloseTags([start, end], value) {
-				const tagName = start == end ? (value.slice(0, start) + ">").match(openingTag)?.[1] : ""
-				return tagName && !voidTags.test(tagName) ? `</${tagName}>` : ""
+				const tagName =
+					start == end ? (value.slice(0, start).slice(-999) + ">").match(xmlOpeningTag)?.[1] : ""
+				if (tagName && !voidTags.test(tagName)) return `</${tagName}>`
 			},
 		}
