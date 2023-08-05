@@ -420,7 +420,7 @@ import { languages } from "prism-code-editor"
 
 languages.whatever = {
   comments: {
-    line: "//"
+    line: "//",
     block: ["/*", "*/"]
   },
   autoIndent: [
