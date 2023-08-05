@@ -20,7 +20,7 @@ There are multiple fully featured code editors for the web such as Monaco, Ace a
 - Automatic indentation
 - Automatic closing of brackets, quotes and tags
 - Indent selected lines with tab key
-- Uses the browsers native undo/redo
+- Uses the browser's native undo/redo
 - Highlights the line with the cursor
 - Bracket pairing and rainbow brackets
 - Works great on mobile
@@ -218,7 +218,7 @@ The `PrismEditor` type includes a bunch of useful read only properties and metho
 - `textarea`: Underlying `<textarea>` in the editor.
 - `activeLine`: The line the cursor is currently on.
 - `activeLineNumber`: The index of the active line.
-- `focused`: Whether or not the `<textarea>` is focused.
+- `focused`: Whether the `<textarea>` is focused.
 - `value`: Text in the `<textarea>`. Equivalent to `textarea.value`.
 - `options`: Current options for the editor.
 - `inputCommandMap`: Record mapping an input to a function called when that input is typed.
@@ -375,7 +375,7 @@ You can change the color of the scrollbar thumb using the custom property `--edi
 
 ### Advanced styling
 
-If you're not using any of the setups, the styles aren't scoped using an iframe or shadow DOM, which makes them easy to change. If you want to change color, background, font, lineheight or similar, you can do it on `.prism-editor` with CSS.
+If you're not using any of the setups, the styles aren't scoped using an iframe or shadow DOM, which makes them easy to change. If you want to change color, background, font, line-height or similar, you can do it on `.prism-editor` with CSS.
 
 Default padding is `0.75em` on all sides. If you want to change it, you can use the custom property `--padding-inline` for left and right. Padding on the top and bottom can changed by changing margin-top/bottom on `.prism-editor-wrapper`.
 
