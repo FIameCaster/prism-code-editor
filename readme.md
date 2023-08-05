@@ -57,6 +57,7 @@ https://prism-code-editor.netlify.app
 - [Prism plugin support](#demo-and-examples)
 - [Performance](#performance)
 - [Browser support](#browser-support)
+- [Credits](#credits)
 - [Contributing](#contributing)
 
 ## Installation
