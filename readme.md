@@ -1,5 +1,5 @@
-[![Bundle size](https://badgen.net/bundlephobia/minzip/prism-code-editor)](https://bundlephobia.com/package/prism-code-editor)
-[![NPM Package](https://badgen.net/npm/v/prism-code-editor)](https://npmjs.com/prism-code-editor)
+[![Bundle size](https://img.shields.io/bundlephobia/minzip/prism-code-editor?label=size)](https://bundlephobia.com/package/prism-code-editor)
+[![NPM Package](https://img.shields.io/npm/v/prism-code-editor)](https://npmjs.com/prism-code-editor)
 
 # Prism code editor
 
@@ -11,7 +11,7 @@ There are multiple fully featured code editors for the web such as Monaco, Ace a
 
 ## Key features
 
-- Lightweight, 2kB gzip core
+- Lightweight, 2kB gzipped core
 - Line numbers
 - Optional word wrap
 - Line- and block comment toggling
@@ -20,7 +20,7 @@ There are multiple fully featured code editors for the web such as Monaco, Ace a
 - Automatic indentation
 - Automatic closing of brackets, quotes and tags
 - Indent selected lines with tab key
-- Undo and redo
+- Uses the browsers native undo/redo
 - Highlights the line with the cursor
 - Bracket pairing and rainbow brackets
 - Works great on mobile
@@ -200,7 +200,6 @@ const options = {
 	wordWrap: false,
 	value: "",
 	onUpdate: undefined,
-	onHighlightChange: undefined,
 	onSelectionChange: undefined,
 	onTokenize: undefined,
 }
@@ -244,7 +243,7 @@ All methods are documented in detail with JSDoc, but here's a list of them:
 
 All utilities you can import are documented in detail with JSDoc, but here's a list of them:
 
-- `escapeRegExp: (str: string) => string`
+- `regexEscape: (str: string) => string`
 - `getLineBefore: (text: string, position: number) => string`
 - `getLines: (text: string, start: number, end: number) => readonly [string[], number, number]`
 - `getClosestToken: (editor: PrismEditor, selector: string, marginLeft?: number, marginRight?: number, position?: number) => HTMLSpanElement | null`
@@ -329,7 +328,9 @@ You can also write a class with an update method if that's preferred.
 
 ## Handling Tab
 
-By default, the tab key is used for indentation, which you can change. Users can at any time toggle tab capturing with Ctrl+M / Ctrl+Shift+M (Mac).
+If you're adding the default commands to your editor, the tab key is used for indentation. If this isn't wanted, you can change the behavior. 
+
+Users can at any time toggle tab capturing with Ctrl+M / Ctrl+Shift+M (Mac).
 
 ```javascript
 import { setIgnoreTab } from "prism-code-editor"
@@ -497,7 +498,9 @@ Attributes include `language`, `theme`, `tab-size`, `line-numbers`, `word-wrap`,
 
 ## Prism plugin support
 
-This library only runs the `before-tokenize` and `after-tokenize` hooks. This means pretty much none of the Prism plugins will work, although they wouldn't be very useful if they did. Markdown uses a `wrap` hook to highlight code blocks to support the autoloader plugin. Since the autoloader won't work anyway, highlighting code blocks will work just fine with an `after-tokenize` hook which is what the modified markdown you can import uses.
+This library only runs the `before-tokenize` and `after-tokenize` hooks. This means pretty much none of the Prism plugins will work, although they wouldn't be very useful if they did. 
+
+Markdown uses a `wrap` hook to highlight code blocks to support the autoloader plugin. Since the autoloader won't work anyway, highlighting code blocks will work just fine with an `after-tokenize` hook which is what the modified markdown you can import uses.
 
 Behavior identical to [Highlight Keywords](https://prismjs.com/plugins/highlight-keywords/) is included.
 
@@ -505,12 +508,21 @@ Behavior identical to [Highlight Keywords](https://prismjs.com/plugins/highlight
 
 All the code is tokenized each time for simplicity's sake. Even though only lines that change are updated in the DOM, the editor slows down as more code is added, although not as quickly as with zero optimizations.
 
-Once you start approaching 1000 LOC, the editor will noticeably slow down on most hardware. If you need to show more code than that, consider a more robust/heavy library.
+Once you start approaching 1000 LOC, the editor will noticeably slow down on most hardware. If you need to display that much code, consider a more robust/heavy library.
 
 ## Browser support
 
 This has been tested to work in the latest desktop and mobile versions of both Safari, Chrome and Firefox. It should work in slightly older browsers too. Won't work properly in browsers that don't support beforeinput events.
 
+## Credits
+
+This library is made possible thanks to [Prism](https://prismjs.com).
+
 ## Contributing
 
-Feature requests, bug reports, optimizations and potentially new themes and extensions are all welcome. Be sure to thoroughly test your changes using the test page in the package.
+Feature requests, bug reports, optimizations and potentially new themes and extensions are all welcome.
+
+To test your changes during development, start the dev server:
+
+	cd package
+	pnpm run dev
