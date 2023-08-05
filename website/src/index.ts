@@ -35,8 +35,8 @@ document.head.append(style)
 editors[0].setOptions({ value: basicUsage })
 editors[2].scrollContainer.style.maxHeight = "22.3rem"
 editors[2].scrollContainer.before(sections[3].children[2])
-editors[4].scrollContainer.before(sections[4].children[2])
-editors[5].scrollContainer.style.maxHeight = "24.3rem"
+editors[6].scrollContainer.before(sections[5].children[2])
+editors[3].scrollContainer.style.maxHeight = "24.3rem"
 
 setTimeout(() => import("./dynamic"))
 

@@ -10,7 +10,6 @@ export const startCode = `<!DOCTYPE html>
   </style>
 </head>
 <body>
-  
   <script>
     
   </script>
@@ -31,7 +30,6 @@ const options = {
   wordWrap: false,
   value: code,
   onUpdate(code) {},
-  onActiveChange(oldLine, newLine) {},
   onSelectionChange([start, end, direction], code) {},
   onTokenize({ language, code, grammar, tokens }) {}
 }`,

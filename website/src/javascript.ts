@@ -140,12 +140,19 @@ Object.assign(js, {
 	constant: /\b[A-Z](?:[A-Z_]|\dx?)*\b/,
 	keyword: [
 		{
-			pattern: /((?:^|\})\s*)catch\b/,
+			pattern: /(^|[^.]|\.\.\.\s*)\b(?:as|default|export|from|import)\b/,
+			alias: "module",
 			lookbehind: true,
 		},
 		{
 			pattern:
-				/(^|[^.]|\.\.\.\s*)\b(?:as|assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|await|break|case|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally(?=\s*(?:\{|$))|for|from(?=\s*(?:['"]|$))|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)\b/,
+				/(^|[^.]|\.\.\.\s*)\b(?:await|break|catch|continue|do|else|finally|for|if|return|switch|throw|try|while|yield)\b/,
+			alias: "control-flow",
+			lookbehind: true,
+		},
+		{
+			pattern:
+				/(^|[^.]|\.\.\.\s*)\b(?:assert(?=\s*\{)|async(?=\s*(?:function\b|\(|[$\w\xA0-\uFFFF]|$))|case|class|const|debugger|delete|enum|extends|function|(?:get|set)(?=\s*(?:[#\[$\w\xA0-\uFFFF]|$))|implements|in|instanceof|interface|let|new|null|of|package|private|protected|public|static|super|this|typeof|undefined|var|void|with)\b/,
 			lookbehind: true,
 		},
 	],

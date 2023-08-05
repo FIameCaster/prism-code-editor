@@ -33,8 +33,7 @@ Prism.languages.markup.tag.addInlined("script", "javascript")
 // add attribute support for all DOM events.
 // https://developer.mozilla.org/en-US/docs/Web/Events#Standard_events
 Prism.languages.markup.tag.addAttribute(
-	/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/
-		.source,
+	"on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)",
 	"javascript",
 )
 
@@ -46,7 +45,7 @@ const tabs = wrapper.querySelectorAll(".tab")
 const errorEl = <HTMLDivElement>wrapper.querySelector(".error")!
 const errorMessage = <HTMLPreElement>errorEl.lastElementChild
 
-const langs = ["tsx", "jsx", "typescript", "html", "javascript", "typescript", "typescript"]
+const langs = ["tsx", "jsx", "javascript", "javascript", "typescript", "html", "javascript"]
 
 const runBtn = <HTMLButtonElement>document.getElementById("run")
 
@@ -72,9 +71,7 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 		if (!activeEditor) {
 			runBtn.setAttribute("aria-hidden", "true")
 			errorEl.setAttribute("aria-hidden", "true")
-		}
-		// @ts-ignore
-		else runBtn.setAttribute("aria-hidden", currentOptions == editor.value)
+		} else runBtn.setAttribute("aria-hidden", <any>(currentOptions == editor.value))
 		activeEditor = +!activeEditor
 	}
 
@@ -102,9 +99,7 @@ let editor1 = makeEditor(wrapper, {
 
 editor1.scrollContainer.style.display = "none"
 
-editor.options.onUpdate = (
-	code, // @ts-ignore
-) => runBtn.setAttribute("aria-hidden", currentOptions == code)
+editor.options.onUpdate = code => runBtn.setAttribute("aria-hidden", <any>(currentOptions == code))
 
 runBtn.title = isMac ? "(Cmd + Enter)" : "(Ctrl + Enter)"
 

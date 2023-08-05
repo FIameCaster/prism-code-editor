@@ -40,38 +40,6 @@ export const PrismEditorReact = forwardRef((
   />
 }`,
 
-	`import {
-  addBasicEditor, PrismEditorElement
-} from "prism-code-editor/web-component"
-import Prism from "prism-code-editor/prism-core"
-
-// Adds a web component with the specified name
-addBasicEditor(Prism, "prism-editor")
-
-const editorElement = document.querySelector<PrismEditorElement>("prism-editor")
-
-// Add an event for when the editor finishes loading
-editorElement.addEventListener("ready", () => console.log("ready"))
-
-// The editor can be accessed from the element
-console.log(editorElement.editor)`,
-
-	`<style>
-  prism-editor {
-    display: grid;
-    height: 30em;
-    overflow: hidden;
-  }
-</style>
-<prism-editor 
-  language="javascript"
-  theme="vs-code-dark"
-  tab-size="4" word-wrap
-  line-numbers insert-spaces
->
-  The editors initial code goes here
-</prism-editor>`,
-
 	`// extensions.ts
 import "prism-code-editor/search.css"
 import "prism-code-editor/copy-button.css"
@@ -116,6 +84,38 @@ import('./extensions').then(module => {
     cursor,
   )
 })`,
+
+	`import {
+  addBasicEditor, PrismEditorElement
+} from "prism-code-editor/web-component"
+import Prism from "prism-code-editor/prism-core"
+
+// Adds a web component with the specified name
+addBasicEditor(Prism, "prism-editor")
+
+const editorElement = document.querySelector<PrismEditorElement>("prism-editor")
+
+// Add an event for when the editor finishes loading
+editorElement.addEventListener("ready", () => console.log("ready"))
+
+// The editor can be accessed from the element
+console.log(editorElement.editor)`,
+
+	`<style>
+  prism-editor {
+    display: grid;
+    height: 30em;
+    overflow: hidden;
+  }
+</style>
+<prism-editor 
+  language="javascript"
+  theme="vs-code-dark"
+  tab-size="4" word-wrap
+  line-numbers insert-spaces
+>
+  The editors initial code goes here
+</prism-editor>`,
 
 	`import Prism from "prism-code-editor/prism-core"
 import { createEditor } from "prism-code-editor"
