@@ -5,13 +5,13 @@ export type EditorOptions = {
 	language: string
 	/** Tabsize for the editor. Defaults to `2`. */
 	tabSize?: number | undefined
-	/** Whether or not the editor should insert spaces for indentation. Defaults to `true`. */
+	/** Whether the editor should insert spaces for indentation. Defaults to `true`. */
 	insertSpaces?: boolean | undefined
-	/** Whether or not line numbers should be shown. Defaults to `true`. */
+	/** Whether line numbers should be shown. Defaults to `true`. */
 	lineNumbers?: boolean | undefined
-	/** Whether or not the editor should be read only. Defaults to `false`. */
+	/** Whether the editor should be read only. Defaults to `false`. */
 	readOnly?: boolean | undefined
-	/** Whether or not the editor should have word wrap. Defaults to `false`. */
+	/** Whether the editor should have word wrap. Defaults to `false`. */
 	wordWrap?: boolean | undefined
 	/** Initial code to display in the editor. */
 	value: string
@@ -102,7 +102,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	readonly activeLine: HTMLDivElement
 	/** The line number of the active line. */
 	readonly activeLineNumber: number
-	/** Whether or not the `textarea` is focused. */
+	/** Whether the `textarea` is focused. */
 	readonly focused: boolean
 	/** Current code in the editor. Same as `textarea.value`. */
 	readonly value: string
