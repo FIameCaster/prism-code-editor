@@ -6,23 +6,22 @@ const template = createTemplate(
 	"",
 	"color:#0000;display:none;contain:strict;margin:0 var(--padding-inline) 0 var(--padding-left);",
 )
-template.setAttribute("aria-hidden", <any>true)
 
 export interface SearchAPI {
 	/**
 	 * Unhides the search container and highlights all matches of the specified string in the editor.
 	 * @param str String to search for.
 	 * @param caseSensitive Whether or not the search is case sensetive.
-	 * @param wholeWordSearch Whether or not matches must be surrounded by word boundries (\b).
+	 * @param wholeWord Whether or not matches must be surrounded by word boundries (\b).
 	 * @param useRegExp If false, special characters will be escaped when creating the RegExp.
-	 * @param selection boundries to search between. If excluded, all the code is searched.
+	 * @param selection Boundries to search between. If excluded, all the code is searched.
 	 * @param excludedPosition A match containing this position in the string will be excluded.
 	 * @returns An error message if the RegExp was invalid.
 	 */
 	search(
 		str: string,
 		caseSensitive?: boolean,
-		wholeWordSearch?: boolean,
+		wholeWordh?: boolean,
 		useRegExp?: boolean,
 		selection?: [number, number],
 		excludedPosition?: number,
@@ -41,7 +40,13 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	const span = document.createElement("span"),
 		nodes: ChildNode[] = [new Text()],
 		nodeValues: string[] = [],
-		container = <HTMLDivElement>template.cloneNode()
+		container = <HTMLDivElement>template.cloneNode(),
+		stopSearch = () => {
+			if (matchPositions[0]) {
+				matchPositions = []
+				container.style.display = "none"
+			}
+		}
 
 	let matchPositions: [number, number][] = []
 	let regex: RegExp
@@ -49,17 +54,23 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	editor.overlays.append(container)
 
 	return {
-		search(str, caseSensitive, wholeWordSearch, useRegExp, selection, excludedPosition = -1) {
-			if (!str) return this.stopSearch()
+		search(str, caseSensitive, wholeWord, useRegExp, selection, excludedPosition = -1) {
+			if (!str) return stopSearch()
 			if (!useRegExp) str = regexEscape(str)
-			if (wholeWordSearch) str = `\\b${str}\\b`
 			const value = editor.value,
 				searchStr = selection ? value.slice(...selection) : value,
-				offset = selection?.[0] || 0
+				offset = selection?.[0] || 0,
+				flags = `gu${caseSensitive ? "" : "i"}`
 
 			try {
 				matchPositions = []
-				regex = RegExp(str, `gu${caseSensitive ? "" : "i"}`)
+				regex = RegExp(str, flags)
+				// Reassigning the regex means error messages won't include the lookbehind or lookahead
+				if (wholeWord)
+					regex = RegExp(
+						supportsLookbehind ? `(?<=^|\\b|\\W)${str}(?=\\b|\\W|$)` : `\\b${str}\\b`,
+						flags,
+					)
 				for (
 					let match: RegExpExecArray | null, l: number, index: number, i = 0;
 					(match = regex.exec(searchStr));
@@ -95,7 +106,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 				}
 
 				if (remainder != nodeValues[l]) (<Text>nodes[l]).data = nodeValues[l] = remainder
-				container.style.removeProperty("display")
+				container.style.display = ""
 			}
 		},
 		container,
@@ -105,13 +116,16 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 		get matches() {
 			return matchPositions
 		},
-		stopSearch() {
-			if (matchPositions[0]) {
-				matchPositions = []
-				container.style.display = "none"
-			}
-		},
+		stopSearch,
 	}
 }
+
+template.setAttribute("aria-hidden", <any>true)
+
+let supportsLookbehind: boolean
+try {
+	RegExp("(?<=)")
+	supportsLookbehind = true
+} catch {}
 
 export { createSearchAPI }

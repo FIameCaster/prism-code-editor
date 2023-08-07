@@ -1,6 +1,6 @@
 import { Extension, InputSelection, PrismEditor } from "../.."
-import { isChrome, isMac, getModifierCode, createTemplate, preventDefault } from "../../core"
-import { regexEscape, getLines } from "../../utils"
+import { isChrome, isMac, createTemplate, preventDefault } from "../../core"
+import { regexEscape, getLines, getModifierCode } from "../../utils"
 import { createReplaceAPI } from "./replace"
 
 const template = createTemplate(
@@ -78,21 +78,20 @@ export const searchWidget = (): SearchWidget => {
 			}
 
 			const startSearch = (selectMatch?: boolean) => {
-				const result = replaceAPI.search(
+				const error = replaceAPI.search(
 						findInput.value,
 						matchCase,
 						wholeWord,
 						useRegExp,
 						searchSelection,
 					),
-					isError = !!result,
-					index = isError ? -1 : replaceAPI.closest()
+					index = error ? -1 : selectNext ? replaceAPI.next() : replaceAPI.closest()
 
 				current.data = <any>index + 1
 				total.data = <any>replaceAPI.matches.length
-				findContainer.classList.toggle("has-error", isError)
+				findContainer.classList.toggle("has-error", !!error)
 
-				if (isError) errorEl.textContent = result
+				if (error) errorEl.textContent = error
 				else selectMatch && replaceAPI.selectMatch(index, prevMargin)
 			}
 
@@ -127,7 +126,8 @@ export const searchWidget = (): SearchWidget => {
 					}
 				}
 				if (selectNext) replaceInput.focus()
-				startSearch(selectNext != (selectNext = false))
+				startSearch(selectNext)
+				selectNext = false
 			}
 
 			const open = (this.open = (focusInput?: boolean) => {
@@ -156,7 +156,7 @@ export const searchWidget = (): SearchWidget => {
 			})
 
 			const move = (next?: boolean) => {
-				if (replaceAPI.matches.length) {
+				if (replaceAPI.matches[0]) {
 					const index = replaceAPI[next ? "next" : "prev"]()
 					replaceAPI.selectMatch(index, prevMargin)
 					current.data = <any>index + 1
@@ -265,7 +265,7 @@ export const searchWidget = (): SearchWidget => {
 							? useRegExpEl
 							: key == "l"
 							? inSelectionEl
-							: null
+							: 0
 
 					if (input) preventDefault(e), input.click()
 				} else if (key == "Enter" && target.tagName == "INPUT") {

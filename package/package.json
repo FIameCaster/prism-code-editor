@@ -1,6 +1,6 @@
 {
   "name": "prism-code-editor",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "description": "Lightweight, extensible code editor for the web using Prism",
   "main": "./dist/index.js",
@@ -34,7 +34,9 @@
   },
   "typesVersions": {
     "*": {
-      "*": ["./dist/*"]
+      "*": [
+        "./dist/*"
+      ]
     }
   },
   "files": [

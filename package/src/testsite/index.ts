@@ -104,7 +104,7 @@ const toggleActive = () => {
 	for (const tab of tabs) tab.classList.toggle("active")
 	const current = (activeEditor ? editor1 : editor).scrollContainer
 	const newEditor = (activeEditor ? editor : editor1).scrollContainer
-	newEditor.style.removeProperty("display")
+	newEditor.style.display = ""
 	newEditor.scrollTo(...scrollPos)
 	scrollPos = [current.scrollLeft, current.scrollTop]
 	current.style.display = "none"

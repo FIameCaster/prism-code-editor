@@ -27,7 +27,16 @@ export interface ReplaceAPI extends SearchAPI {
 
 const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 	const { getSelection, textarea } = editor,
-		search = createSearchAPI(editor)
+		search = createSearchAPI(editor),
+		closest = () => {
+			const caretPos = getSelection()[0],
+				matches = search.matches,
+				l = matches.length
+			for (let i = l; i; ) {
+				if (caretPos > matches[--i][1]) return i == l - 1 ? 0 : i + 1
+			}
+			return l ? 0 : -1
+		}
 
 	let currentLine: HTMLDivElement,
 		currentMatch: HTMLSpanElement,
@@ -35,12 +44,12 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 
 	return Object.assign(search, {
 		next() {
-			const [start, end] = getSelection(),
+			let [start, end] = getSelection(),
 				matches = search.matches,
-				pos = end + +(start == end),
 				l = matches.length
+			if (start == end) end++
 			for (let i = 0; i < l; i++) {
-				if (matches[i][0] >= pos) return i
+				if (matches[i][0] >= end) return i
 			}
 			return l ? 0 : -1
 		},
@@ -53,15 +62,7 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 			}
 			return l - 1
 		},
-		closest() {
-			const caretPos = getSelection()[0],
-				matches = search.matches,
-				l = matches.length
-			for (let i = l; i; ) {
-				if (caretPos > matches[--i][1]) return i == l - 1 ? 0 : i + 1
-			}
-			return l ? 0 : -1
-		},
+		closest,
 		selectMatch(index: number, scrollPadding?: number) {
 			removeHighlight?.()
 			const match = search.matches[index]
@@ -85,15 +86,15 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 		},
 		replace(str: string) {
 			if (!search.matches[0]) return
-			const index = this.closest(),
+			const index = closest(),
 				[start, end] = search.matches[index],
 				[caretStart, caretEnd] = getSelection()
 
-			if (start == caretStart && end == caretEnd) insertText(editor, str)
-			else {
+			if (start != caretStart || end != caretEnd) {
 				this.selectMatch(index)
 				return index
 			}
+			insertText(editor, str)
 		},
 		replaceAll(str: string, selection?: [number, number]) {
 			const { matches, regex } = search

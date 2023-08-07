@@ -1,13 +1,13 @@
 import { EditorOptions, Extension, InputSelection } from ".."
-import { ignoreTab, isMac, preventDefault, setIgnoreTab, getModifierCode, languages } from "../core"
-import { getLanguage, insertText, getLineBefore, getLines, regexEscape } from "../utils"
+import { ignoreTab, isMac, preventDefault, setIgnoreTab, languages } from "../core"
+import { getLanguage, insertText, getLineBefore, getLines, regexEscape, getModifierCode } from "../utils"
 import { Cursor } from "./cursor"
 
 const clipboard = navigator.clipboard
 
 /**
  * Extension that will add automatic indentation, closing of brackets,
- * quotes and tags, line and block comment toggling and line moving/copying.
+ * quotes and tags, line- and block comment toggling and line moving/copying.
  * @param cursor Cursor that will be used to keep the cursor in view when typing.
  * @param selfClosePairs Pairs of self-closing brackets and quotes.
  * Must be an array of strings with 2 characters each.
@@ -162,7 +162,7 @@ export const defaultCommands = (
 							indentChar.repeat(indenationCount + extraIndent) +
 							(extraLine ? "\n" + indentChar.repeat(indenationCount) : "")
 
-					if (newText[1]) {
+					if (newText[1] || selection[1] < value.length) {
 						insertText(
 							editor,
 							newText,

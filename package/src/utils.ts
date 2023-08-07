@@ -103,12 +103,12 @@ const insertText = (
 
 	// Only Safari dispatches a beforeinput event
 	isWebKit || textarea.dispatchEvent(new InputEvent("beforeinput", { data: text }))
-
+	console.log(textarea.selectionStart, textarea.selectionEnd)
 	// Inserting escaped HTML in Chrome and Safari instead for much better performance
 	if (isChrome || isWebKit) {
 		// Bug inserting new lines at the end if the editor ends with an empty line
 		const avoidBug =
-			isChrome && !value[getSelection()[1]] && /^$|\n$/.test(value) && /\n$/.test(text)
+			isChrome && !value[textarea.selectionEnd] && /^$|\n$/.test(value) && /\n$/.test(text)
 		if (avoidBug) {
 			// This means the last new line won't be inserted if there's
 			// no selection, but that's less annoying than the bug.
@@ -124,21 +124,36 @@ const insertText = (
 		)
 		if (avoidBug) textarea.selectionStart++
 	} else document.execCommand(text ? "insertText" : "delete", false, text)
+	console.log(textarea.selectionStart, textarea.selectionEnd)
 	if (selection) {
 		textarea.setSelectionRange(...selection)
 		setSelection()
 	}
 }
 
-const scrollToEl = (editor: PrismEditor, el: Element, paddingTop = 0) => {
-	editor.scrollContainer.style.scrollPaddingBlock =
-		document.documentElement.style.scrollPaddingBlock = `${paddingTop}px ${
-			isChrome ? Math.round(el.getBoundingClientRect().height - el.scrollHeight) : 0
-		}px`
+/**
+ * Returns a 4 bit integer where each bit represents whether
+ * each modifier is pressed in the order Shift, Meta, Ctrl, Alt
+ * ```javascript
+ * e.altKey && e.ctrlKey && e.shiftKey && !e.metaKey
+ * // is equivalent to
+ * getModifierCode(e) == 0b1011
+ * ```
+ */
+const getModifierCode = (
+	e: KeyboardEvent, // @ts-ignore
+): number => e.altKey + e.ctrlKey * 2 + e.metaKey * 4 + e.shiftKey * 8
+
+const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
+	const style1 = editor.scrollContainer.style,
+		style2 = document.documentElement.style
+
+	style1.scrollPaddingBlock = style2.scrollPaddingBlock = `${paddingTop}px ${
+		isChrome && !el.innerText ? Math.round(el.getBoundingClientRect().height - el.scrollHeight) : 0
+	}px`
 
 	el.scrollIntoView({ block: "nearest" })
-	editor.scrollContainer.style.removeProperty("scroll-padding-block")
-	document.documentElement.style.removeProperty("scroll-padding-block")
+	style1.scrollPaddingBlock = style2.scrollPaddingBlock = ""
 }
 
 export {
@@ -149,4 +164,5 @@ export {
 	getLanguage,
 	insertText,
 	scrollToEl,
+	getModifierCode,
 }

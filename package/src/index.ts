@@ -7,7 +7,6 @@ export {
 	languages,
 	setIgnoreTab,
 	numLines,
-	getModifierCode,
 	ignoreTab,
 } from "./core"
 export {
@@ -17,4 +16,5 @@ export {
 	getClosestToken,
 	getLanguage,
 	insertText,
+	getModifierCode,
 } from "./utils"

@@ -290,19 +290,6 @@ const createEditor = (
 const createTemplate = (innerHTML = "", style = "", className = ""): HTMLDivElement =>
 	Object.assign(document.createElement("div"), { innerHTML, style, className })
 
-/**
- * Returns a 4 bit integer where each bit represents whether
- * each modifier is pressed in the order Shift, Meta, Ctrl, Alt
- * ```javascript
- * e.altKey && e.ctrlKey && e.shiftKey && !e.metaKey
- * // is equivalent to
- * getModifierCode(e) == 0b1011
- * ```
- */
-const getModifierCode = (
-	e: KeyboardEvent, // @ts-ignore
-): number => e.altKey + e.ctrlKey * 2 + e.metaKey * 4 + e.shiftKey * 8
-
 const getElement = (el?: ParentNode | string | null) =>
 	typeof el == "string" ? document.querySelector(el) : el
 
@@ -352,7 +339,6 @@ export {
 	isChrome,
 	isWebKit,
 	getElement,
-	getModifierCode,
 	preventDefault,
 	setSelection,
 }
