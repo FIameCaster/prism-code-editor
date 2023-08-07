@@ -63,7 +63,7 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 		for (const tab of tabs) tab.classList.toggle("active")
 		const current = (activeEditor ? editor1 : editor).scrollContainer
 		const newEditor = (activeEditor ? editor : editor1).scrollContainer
-		newEditor.style.removeProperty("display")
+		newEditor.style.display = ""
 		newEditor.scrollTo(...scrollPos)
 		scrollPos = [current.scrollLeft, current.scrollTop]
 		current.style.display = "none"
@@ -74,9 +74,6 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 		} else runBtn.setAttribute("aria-hidden", <any>(currentOptions == editor.value))
 		activeEditor = +!activeEditor
 	}
-
-const commands = editor.keyCommandMap,
-	oldEnter = commands.Enter
 
 const observer = new IntersectionObserver(
 	e =>
@@ -147,6 +144,9 @@ for (let i = 3; i < 7; i++) {
 
 for (let e of [editor, editor1, ...editors]) addWidgets(e)
 editors.forEach(e => e.addExtensions(copyButton()))
+
+const commands = editor.keyCommandMap,
+	oldEnter = commands.Enter
 
 commands.Enter = (e, selection, value) => {
 	if (getModifierCode(e) == (isMac ? 4 : 2) && value != currentOptions) {
