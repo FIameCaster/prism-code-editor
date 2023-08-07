@@ -103,7 +103,7 @@ const insertText = (
 
 	// Only Safari dispatches a beforeinput event
 	isWebKit || textarea.dispatchEvent(new InputEvent("beforeinput", { data: text }))
-	console.log(textarea.selectionStart, textarea.selectionEnd)
+
 	// Inserting escaped HTML in Chrome and Safari instead for much better performance
 	if (isChrome || isWebKit) {
 		// Bug inserting new lines at the end if the editor ends with an empty line
@@ -124,7 +124,6 @@ const insertText = (
 		)
 		if (avoidBug) textarea.selectionStart++
 	} else document.execCommand(text ? "insertText" : "delete", false, text)
-	console.log(textarea.selectionStart, textarea.selectionEnd)
 	if (selection) {
 		textarea.setSelectionRange(...selection)
 		setSelection()

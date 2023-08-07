@@ -1,6 +1,6 @@
 {
   "name": "prism-code-editor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "Lightweight, extensible code editor for the web using Prism",
   "main": "./dist/index.js",
@@ -49,7 +49,6 @@
     "prepublish": "tsc && vite build && node scripts/build.mjs"
   },
   "devDependencies": {
-    "@types/node": "^20.3.1",
     "prismjs": "^1.29.0",
     "typescript": "^5.0.2",
     "vite": "^4.3.9",
