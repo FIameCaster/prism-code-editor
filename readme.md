@@ -217,7 +217,7 @@ The `PrismEditor` type includes a bunch of useful read only properties and metho
 - `overlays`: Element containing the overlays.
 - `textarea`: Underlying `<textarea>` in the editor.
 - `activeLine`: The line the cursor is currently on.
-- `activeLineNumber`: The index of the active line.
+- `activeLineNumber`: The line number of the active line.
 - `focused`: Whether the `<textarea>` is focused.
 - `value`: Text in the `<textarea>`. Equivalent to `textarea.value`.
 - `options`: Current options for the editor.
