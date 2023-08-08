@@ -14,12 +14,12 @@ const clipboard = navigator.clipboard
  * Defaults to `['""', "''", '``', '()', '[]', '{}']`.
  * @param selfCloseRegex Regexp controlling whether or not a bracket/quote should
  * automatically close based on the character before and after the cursor.
- * Defaults to ``/([^\w$'"`]["'`]|.[[({])[,.\])}>\s]|.[[({]`/s``.
+ * Defaults to ``/([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s``.
  */
 export const defaultCommands = (
 	cursor?: Cursor,
 	selfClosePairs = ['""', "''", "``", "()", "[]", "{}"],
-	selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[,.\])}>\s]|.[[({]`/s,
+	selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s,
 ): Extension => {
 	let initialized: boolean, prevCopy: string
 

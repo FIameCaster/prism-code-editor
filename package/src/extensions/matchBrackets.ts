@@ -86,7 +86,6 @@ export const matchBrackets = (
 	let pairs: number[][] = [],
 		secondOrder: number[][],
 		activeID: number,
-		prevPair: number[],
 		currentEditor: PrismEditor,
 		openingBrackets: HTMLCollectionOf<HTMLSpanElement>,
 		closingBrackets: HTMLCollectionOf<HTMLSpanElement>
@@ -104,7 +103,7 @@ export const matchBrackets = (
 		selectionChange = () => {
 			const [start, end] = currentEditor.getSelection()
 			const newID = start == end && currentEditor.focused ? getClosest(start) : -1
-			if (prevPair != (prevPair = pairs[newID])) {
+			if (activeID != newID) {
 				toggleBrackets(activeID, false)
 				toggleBrackets((activeID = newID), true)
 			}
@@ -129,6 +128,8 @@ export const matchBrackets = (
 				addListener("selectionChange", selectionChange)
 				addListener("tokenize", (env: TokenizeEnv) => {
 					if (env.language != "regex") {
+						toggleBrackets(activeID, false)
+						activeID = -1
 						pairs = pairBrackets(env.tokens, openingRegex, closingRegex, pairRegex)
 						secondOrder = pairs.slice().sort((a, b) => a[0] - b[0])
 					}
