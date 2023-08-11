@@ -26,9 +26,6 @@ button {
 	cursor: pointer;
 	display: inline-block;
 	font: inherit;
-	margin: 0;
-	padding: 0;
-	text-align: inherit;
 }
 
 * {
@@ -225,7 +222,7 @@ section > div,
 
 .select {
 	display: inline-grid;
-	grid-template-areas: "select";
+	grid: "a";
 	align-items: center;
 	border-radius: 0.25em;
 	position: relative;
@@ -243,7 +240,7 @@ section > div,
 	color: inherit;
 	cursor: default;
 	outline: 0;
-	grid-area: select;
+	grid-area: a;
 	background-color: var(--bg-btn);
 	line-height: 1.2;
 }
@@ -255,7 +252,7 @@ section > div,
 	margin-right: 0.5em;
 	background-color: var(--border);
 	clip-path: polygon(100% 0%, 0 0%, 50% 100%);
-	grid-area: select;
+	grid-area: a;
 	justify-self: end;
 	pointer-events: none;
 }

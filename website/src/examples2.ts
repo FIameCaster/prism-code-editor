@@ -47,10 +47,22 @@ import "prism-code-editor/languages/html"
 import "prism-code-editor/languages/clike"
 import "prism-code-editor/languages/css"
 
-export * from "prism-code-editor/search"
-export * from "prism-code-editor/commands"
-export * from "prism-code-editor/cursor"
-export * from "prism-code-editor/copy-button"`,
+import { PrismEditor } from "prism-code-editor"
+import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
+import { defaultCommands } from "prism-code-editor/commands"
+import { cursorPosition } from "prism-code-editor/cursor"
+import { copyButton } from "prism-code-editor/copy-button"
+
+export const addExtensions = (editor: PrismEditor) => {
+  const cursor = cursorPosition()
+  editor.addExtensions(
+    highlightSelectionMatches(),
+    searchWidget(),
+    defaultCommands(cursor),
+    copyButton(),
+    cursor,
+  )
+}`,
 
 	`import Prism from "prism-code-editor/prism-core"
 import "prismjs/components/prism-markup.js"
@@ -75,14 +87,7 @@ const editor = createEditor(
 )
 
 import('./extensions').then(module => {
-  const cursor = module.cursorPosition()
-  editor.addExtensions(
-    module.highlightSelectionMatches(),
-    module.searchWidget(),
-    module.defaultCommands(cursor),
-    module.copyButton(),
-    cursor,
-  )
+  module.addExtensions(editor)
 })`,
 
 	`import {

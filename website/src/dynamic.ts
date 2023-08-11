@@ -45,7 +45,7 @@ const tabs = wrapper.querySelectorAll(".tab")
 const errorEl = <HTMLDivElement>wrapper.querySelector(".error")!
 const errorMessage = <HTMLPreElement>errorEl.lastElementChild
 
-const langs = ["tsx", "jsx", "javascript", "javascript", "typescript", "html", "javascript"]
+const langs = ["tsx", "jsx", "typescript", "javascript", "typescript", "html", "javascript"]
 
 const runBtn = <HTMLButtonElement>document.getElementById("run")
 
