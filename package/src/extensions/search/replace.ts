@@ -44,21 +44,22 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 
 	return Object.assign(search, {
 		next() {
-			let [start, end] = getSelection(),
+			const cursor = getSelection()[1],
 				matches = search.matches,
 				l = matches.length
-			if (start == end) end++
-			for (let i = 0; i < l; i++) {
-				if (matches[i][0] >= end) return i
+			for (let i = 0, match: [number, number]; i < l; i++) {
+				match = matches[i]
+				if (match[0] - <any>(match[0] == match[1]) >= cursor) return i
 			}
 			return l ? 0 : -1
 		},
 		prev() {
-			const caretPos = getSelection()[1],
+			const cursor = getSelection()[0],
 				matches = search.matches,
 				l = matches.length
-			for (let i = l; i; ) {
-				if (matches[--i][1] < caretPos) return i
+			for (let i = l, match: [number, number]; i; ) {
+				match = matches[--i]
+				if (match[1] + <any>(match[0] == match[1]) <= cursor) return i
 			}
 			return l - 1
 		},

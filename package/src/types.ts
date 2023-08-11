@@ -129,7 +129,8 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	/** Gets `selectionStart`, `selectionEnd` and `selectionDirection` for the `textarea`. */
 	getSelection(): InputSelection
 	/**
-	 * Sets the selection for the `textarea` and synchronously runs the selectionChange listeners. 
+	 * Sets the selection for the `textarea` and synchronously runs the selectionChange listeners.
+	 * Focuses the textarea in Safari.
 	 * @param start New selectionStart
 	 * @param end New selectionEnd
 	 * @param direction New direction

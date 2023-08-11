@@ -37,7 +37,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 }
 
 .search-matches .match {
-	--widget__bg-find: #545A8B;
+	--widget__bg-find: #545a8b;
 }
 
 .active-line {

@@ -78,7 +78,9 @@ const createEditor = (
 
 		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
 		if (isNewGrammar || value != textarea.value) {
-			focusRelatedTarget()
+			// Safari focuses the textarea if you change its selection or value programmatically
+			if (isWebKit && !focused())
+				addTextareaListener("focus", e => (<HTMLElement>e.relatedTarget)?.focus(), { once: true })
 			textarea.value = value
 			textarea.selectionEnd = 0
 			update()
@@ -179,12 +181,6 @@ const createEditor = (
 
 	const inputCommandMap: Record<string, InputCommandCallback | null> = {}
 
-	// Safari focuses the textarea if you change its selection or value programmatically
-	const focusRelatedTarget = () =>
-		isWebKit &&
-		!focused() &&
-		addTextareaListener("focus", e => (<HTMLElement>e.relatedTarget)?.focus(), { once: true })
-
 	const dispatchEvent = <T extends keyof EditorEventMap>(
 		name: T,
 		...args: Parameters<EditorEventMap[T]>
@@ -225,7 +221,6 @@ const createEditor = (
 		update,
 		getSelection: getInputSelection,
 		setSelection(start, end, direction) {
-			focusRelatedTarget()
 			textarea.setSelectionRange(start, end ?? start, direction)
 			dispatchSelection()
 		},

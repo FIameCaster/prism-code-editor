@@ -4,7 +4,7 @@ import { regexEscape, getLines, getModifierCode } from "../../utils"
 import { createReplaceAPI } from "./replace"
 
 const template = createTemplate(
-	'<div class="prism-search"><button aria-expanded="false" title="Toggle Replace" class="expand-search"></button><div spellcheck="false"><div><div class="input find"><input autocorrect="off" autocapitalize="off" placeholder="Find" aria-label="Find"><button class="prev-match" title="Previous Match (Shift+Enter)"></button><button class="next-match" title="Next Match (Enter)"></button><div class="search-error"></div></div><button class="search-close" title="Close (Esc)"></button></div><div class="input replace"><input autocorrect="off" autocapitalize="off" placeholder="Replace" aria-label="Replace"><button title="(Enter)">Replace</button><button title="(Ctrl+Alt+Enter)">All</button></div><div class="search-options"><div class="match-count">0<span> of </span>0</div><button aria-pressed="false" class="use-regexp" title="RegExp Search (Alt+R)"><span aria-hidden="true"></span></button><button aria-pressed="false" title="Match Case (Alt+C)"><span aria-hidden="true">Aa</span></button><button aria-pressed="false" class="whole-word" title="Match Whole Word (Alt+W)"><span aria-hidden="true">ab</span></button><button aria-pressed="false" class="find-in-selection" title="Find in Selection (Alt+L)"></button></div></div></div>',
+	'<div class="prism-search"><button aria-expanded="false" title="Toggle Replace" class="expand-search"></button><div spellcheck="false"><div><div class="input find"><input autocorrect="off" autocapitalize="off" placeholder="Find" aria-label="Find"><button class="prev-match" title="Previous Match (Shift+Enter)"></button><button class="next-match" title="Next Match (Enter)"></button><div class="search-error"></div></div><button class="search-close" title="Close (Esc)"></button></div><div class="input replace"><input autocorrect="off" autocapitalize="off" placeholder="Replace" aria-label="Replace"><button title="(Enter)">Replace</button><button>All</button></div><div class="search-options"><div class="match-count">0<span> of </span>0</div><button aria-pressed="false" class="use-regexp"><span aria-hidden="true"></span></button><button aria-pressed="false"><span aria-hidden="true">Aa</span></button><button aria-pressed="false" class="whole-word"><span aria-hidden="true">ab</span></button><button aria-pressed="false" class="find-in-selection"></button></div></div></div>',
 	"display:none;align-items:flex-start;justify-content:flex-end;left:var(--padding-left);",
 	"prism-search-container",
 )
@@ -125,7 +125,6 @@ export const searchWidget = (): SearchWidget => {
 						if (end <= searchStart - +(diff < 0)) searchSelection[0] -= diff
 					}
 				}
-				if (selectNext) replaceInput.focus()
 				startSearch(selectNext)
 				selectNext = false
 			}
@@ -183,25 +182,28 @@ export const searchWidget = (): SearchWidget => {
 
 			const observer = window.ResizeObserver ? new ResizeObserver(resize) : null
 
+			const replace = () => {
+				selectNext = true
+				replaceAPI.replace(replaceInput.value)
+			}
+
+			const replaceAll = () => {
+				replaceAPI.replaceAll(replaceInput.value, searchSelection)
+			}
+
+			const keyButtonMap: Record<string, HTMLButtonElement> = {
+				p: matchCaseEl,
+				w: wholeWordEl,
+				r: useRegExpEl,
+				l: inSelectionEl,
+			}
+
 			const elementHandlerMap = new Map<HTMLElement, () => any>([
 				[nextEl, () => move(true)],
-				[prevEl, () => move()],
+				[prevEl, move],
 				[closeEl, () => close(true)],
-				[
-					replaceEl,
-					() => {
-						if (!textarea.readOnly) {
-							selectNext = true
-							replaceAPI.replace(replaceInput.value)
-						}
-					},
-				],
-				[
-					replaceAllEl,
-					() => {
-						textarea.readOnly || replaceAPI.replaceAll(replaceInput.value, searchSelection)
-					},
-				],
+				[replaceEl, replace],
+				[replaceAllEl, replaceAll],
 				[
 					toggle,
 					() => {
@@ -228,6 +230,14 @@ export const searchWidget = (): SearchWidget => {
 				],
 			])
 
+			const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
+
+			matchCaseEl.title = `Preserve Case${shortcut}P)`
+			wholeWordEl.title = `Match Whole Word${shortcut}W)`
+			useRegExpEl.title = `RegExmp Search${shortcut}R)`
+			inSelectionEl.title = `Find in Selection${shortcut}L)`
+			replaceAllEl.title = `(${isMac ? "Cmd" : "Ctrl+Alt"}+Enter)`
+
 			textarea.addEventListener("keydown", keydown)
 
 			// Patches a selection bug when moving focus from the textarea to the buttons on the widget
@@ -242,9 +252,11 @@ export const searchWidget = (): SearchWidget => {
 			container.addEventListener("click", e => {
 				const target = <HTMLElement>e.target
 				elementHandlerMap.get(<HTMLElement>target)?.()
-				if (target.matches(".search-options button")) {
+				if (target.matches("input~*")) target.focus()
+				if (target.matches(".search-options>button")) {
 					toggleAttr(target, "aria-pressed")
 					startSearch(true)
+					e.isTrusted && target.focus()
 				}
 			})
 
@@ -255,24 +267,19 @@ export const searchWidget = (): SearchWidget => {
 					target = <HTMLElement>e.target,
 					key = e.key,
 					isFind = target == findInput
-				if (shortcut == 1) {
-					const input =
-						key == "c"
-							? matchCaseEl
-							: key == "w"
-							? wholeWordEl
-							: key == "r"
-							? useRegExpEl
-							: key == "l"
-							? inSelectionEl
-							: 0
-
-					if (input) preventDefault(e), input.click()
+				if (shortcut == (isMac ? 5 : 1)) {
+					let input = keyButtonMap[isMac ? e.code[3].toLowerCase() : key]
+					if (input) {
+						preventDefault(e)
+						input.click()
+						target.focus()
+					}
 				} else if (key == "Enter" && target.tagName == "INPUT") {
 					preventDefault(e)
-					if (!shortcut) (isFind ? nextEl : replaceEl).click()
-					else if (shortcut == 8 && isFind) prevEl.click()
-					else if (shortcut == 3 && !isFind) replaceAllEl.click()
+					if (!shortcut) isFind ? move(true) : replace()
+					else if (shortcut == 8 && isFind) move()
+					else if (shortcut == (isMac ? 4 : 3) && !isFind) replaceAll()
+					target.focus()
 				} else if (!shortcut && key == "Escape") close(true)
 				else keydown(e)
 			})
