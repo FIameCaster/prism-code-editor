@@ -126,9 +126,9 @@ To avoid layout shifts when the editor loads, you should give the container a fi
 
 With little effort, you can fully customize which extensions are added and how they're loaded. This won't use a shadow root which makes the editor much easier to style and customize at the expense of potential style collisions.
 
-To minimize your main javascript bundle, you can dynamically import extensions. This can be made easier by creating a module that exports all extensions you want to dynamically import which is what's done below.
+To minimize your main javascript bundle, you can dynamically import extensions. This can be made easier by creating a module that exports a function adding the extensions.
 
-```javascript
+```typescript
 // extensions.ts
 import "prism-code-editor/search.css"
 import "prism-code-editor/copy-button.css"
@@ -136,10 +136,22 @@ import "prism-code-editor/languages/html"
 import "prism-code-editor/languages/clike"
 import "prism-code-editor/languages/css"
 
-export * from "prism-code-editor/search"
-export * from "prism-code-editor/commands"
-export * from "prism-code-editor/cursor"
-export * from "prism-code-editor/copy-button"
+import { PrismEditor } from "prism-code-editor"
+import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
+import { defaultCommands } from "prism-code-editor/commands"
+import { cursorPosition } from "prism-code-editor/cursor"
+import { copyButton } from "prism-code-editor/copy-button"
+
+export const addExtensions = (editor: PrismEditor) => {
+  const cursor = cursorPosition()
+  editor.addExtensions(
+    highlightSelectionMatches(),
+    searchWidget(),
+    defaultCommands(cursor),
+    copyButton(),
+    cursor,
+  )
+}
 ```
 
 ```javascript
@@ -157,17 +169,16 @@ import "prism-code-editor/layout.css"
 import "prism-code-editor/scrollbar.css"
 import "prism-code-editor/themes/github-dark.css"
 
-const editor = createEditor(Prism, "#editor", { language: "html" }, indentGuides(), matchBrackets())
+const editor = createEditor(
+  Prism,
+  "#editor",
+  { language: "html" },
+  indentGuides(),
+  matchBrackets()
+)
 
-import("./extensions").then(module => {
-  const cursor = module.cursorPosition()
-  editor.addExtensions(
-    module.highlightSelectionMatches(),
-    module.searchWidget(),
-    module.defaultCommands(cursor),
-    module.copyButton(),
-    cursor,
-  )
+import('./extensions').then(module => {
+  module.addExtensions(editor)
 })
 ```
 
