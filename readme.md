@@ -534,7 +534,11 @@ This library is made possible thanks to [Prism](https://prismjs.com).
 
 Feature requests, bug reports, optimizations and potentially new themes and extensions are all welcome.
 
-To test your changes during development, start the dev server:
+To test your changes during development, install dependencies:
 
     cd package
+    pnpm install
+
+And run the development server:
+
     pnpm run dev
