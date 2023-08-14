@@ -50,9 +50,9 @@ const minimalEditor = (
 		if (!editor.removed) {
 			addStyles(shadow, style.default)
 			addStyles(shadow, theme || "", "theme")
-			editor.setOptions(options)
 			shadow.append(editor.scrollContainer)
-			readyCallback?.()
+			editor.setOptions(options)
+			readyCallback && readyCallback()
 		}
 	})
 

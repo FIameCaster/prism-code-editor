@@ -47,7 +47,7 @@ export type Language = {
 export type PrismType = typeof Prism
 /**
  * Function called when a certain key is pressed.
- * If true is returned, `e.preventDefault()` is called automatically.
+ * If true is returned, `e.preventDefault()` and `e.stopImmediatePropagation()` is called automatically.
  */
 export type KeyCommandCallback = (
 	e: KeyboardEvent,
@@ -56,7 +56,7 @@ export type KeyCommandCallback = (
 ) => void | boolean
 /**
  * Function called when a certain input is typed.
- * If true is returned, `e.preventDefault()` is called automatically.
+ * If true is returned, `e.preventDefault()` and `e.stopImmediatePropagation()` is called automatically.
  */
 export type InputCommandCallback = (
 	e: InputEvent,
@@ -130,7 +130,6 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	getSelection(): InputSelection
 	/**
 	 * Sets the selection for the `textarea` and synchronously runs the selectionChange listeners.
-	 * Focuses the textarea in Safari.
 	 * @param start New selectionStart
 	 * @param end New selectionEnd
 	 * @param direction New direction

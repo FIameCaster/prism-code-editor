@@ -78,9 +78,7 @@ const createEditor = (
 
 		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
 		if (isNewGrammar || value != textarea.value) {
-			// Safari focuses the textarea if you change its selection or value programmatically
-			if (isWebKit && !focused())
-				addTextareaListener("focus", e => (<HTMLElement>e.relatedTarget)?.focus(), { once: true })
+			focusRelatedTarget()
 			textarea.value = value
 			textarea.selectionEnd = 0
 			update()
@@ -181,6 +179,12 @@ const createEditor = (
 
 	const inputCommandMap: Record<string, InputCommandCallback | null> = {}
 
+	// Safari focuses the textarea if you change its selection or value programmatically
+	const focusRelatedTarget = () =>
+		isWebKit &&
+		!focused() &&
+		addTextareaListener("focus", e => e.relatedTarget ? (<HTMLElement>e.relatedTarget).focus() : textarea.blur(), { once: true })
+
 	const dispatchEvent = <T extends keyof EditorEventMap>(
 		name: T,
 		...args: Parameters<EditorEventMap[T]>
@@ -221,6 +225,7 @@ const createEditor = (
 		update,
 		getSelection: getInputSelection,
 		setSelection(start, end, direction) {
+			focusRelatedTarget()
 			textarea.setSelectionRange(start, end ?? start, direction)
 			dispatchSelection()
 		},
@@ -267,10 +272,10 @@ const createEditor = (
 	// For browsers that support selectionchange on textareas
 	addTextareaListener("selectionchange", e => {
 		dispatchSelection()
-		e.stopPropagation()
+		preventDefault(e)
 	})
 	// Hack to fix an obscure fontsize bug on iOS Safari when overflowing horizontally
-	if (isWebKit && /Mobile/.test(navigator.userAgent)) {
+	if (isWebKit && /Mobile/.test(userAgent)) {
 		scrollContainer.contentEditable = <any>true
 		wrapper.contentEditable = <any>false
 		scrollContainer.tabIndex = -1
@@ -288,9 +293,10 @@ const createTemplate = (innerHTML = "", style = "", className = ""): HTMLDivElem
 const getElement = (el?: ParentNode | string | null) =>
 	typeof el == "string" ? document.querySelector(el) : el
 
+const userAgent = navigator.userAgent
 const isMac = /Mac|iPhone|iPod|iPad/i.test(navigator.platform)
-const isChrome = /Chrome\//.test(navigator.userAgent)
-const isWebKit = !isChrome && /AppleWebKit\//.test(navigator.userAgent)
+const isChrome = /Chrome\//.test(userAgent)
+const isWebKit = !isChrome && /AppleWebKit\//.test(userAgent)
 
 /**
  * Counts number of lines in the string up to the position.
@@ -307,7 +313,7 @@ const numLines = (str: string, position = Infinity) => {
 const languages: Record<string, Language> = {}
 
 const editorTemplate = createTemplate(
-	'<div class="prism-editor-wrapper"><div class="editor-overlays"><textarea spellcheck="false"autocapitalize="off" autocomplete="off"></textarea></div></div>',
+	'<div class="prism-editor-wrapper"><div class="editor-overlays"><textarea spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></div></div>',
 )
 /**
  * Sets whether editors should ignore tab or use it for indentation.
@@ -315,7 +321,10 @@ const editorTemplate = createTemplate(
  */
 const setIgnoreTab = (newState: boolean) => (ignoreTab = newState)
 
-const preventDefault = (e: Event) => e.preventDefault()
+const preventDefault = (e: Event) => {
+	e.preventDefault()
+	e.stopImmediatePropagation()
+}
 
 const setSelection = (s?: InputSelection) => (selection = s)
 

@@ -116,6 +116,8 @@ export const searchWidget = (): SearchWidget => {
 
 			const input = () => {
 				if (searchSelection) {
+					// This preserves the selection well for normal typing,
+					// but for indenting, toggling comments, etc. it doesn't
 					const diff = prevLength - (prevLength = editor.value.length),
 						[, end] = currentSelection,
 						[searchStart, searchEnd] = searchSelection
@@ -146,7 +148,7 @@ export const searchWidget = (): SearchWidget => {
 				if (isOpen != (isOpen = false)) {
 					replaceAPI.stopSearch()
 					editor.removeListener("update", input)
-					textarea.removeEventListener("beforeinput", input)
+					textarea.removeEventListener("beforeinput", beforeinput)
 					container.style.display = "none"
 					updateMargin()
 					observer?.disconnect()
@@ -234,7 +236,7 @@ export const searchWidget = (): SearchWidget => {
 
 			matchCaseEl.title = `Preserve Case${shortcut}P)`
 			wholeWordEl.title = `Match Whole Word${shortcut}W)`
-			useRegExpEl.title = `RegExmp Search${shortcut}R)`
+			useRegExpEl.title = `RegExp Search${shortcut}R)`
 			inSelectionEl.title = `Find in Selection${shortcut}L)`
 			replaceAllEl.title = `(${isMac ? "Cmd" : "Ctrl+Alt"}+Enter)`
 

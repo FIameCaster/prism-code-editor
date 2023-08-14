@@ -27,9 +27,7 @@
 	border: none;
 	color: inherit;
 	font: inherit;
-	text-align: center;
 	cursor: pointer;
-	padding: 0;
 }
 
 [readonly] ~ .prism-search-container > div {
@@ -158,10 +156,11 @@
 .search-error {
 	display: none;
 	position: absolute;
-	top: calc(100% - 1px);
+	top: 100%;
 	box-shadow: inherit;
 	width: 100%;
 	white-space: normal;
+	word-break: break-word;
 	left: 0;
 	background: var(--widget__bg-error);
 	padding: 0.5em;
@@ -176,8 +175,7 @@ button.search-close {
 	display: grid;
 	width: 1.3em;
 	height: 1.3em;
-	align-items: center;
-	justify-items: center;
+	place-items: center;
 	margin-left: auto;
 	border-radius: 0.3em;
 }
@@ -218,8 +216,7 @@ button.search-close {
 
 button.expand-search {
 	display: grid;
-	justify-items: center;
-	align-items: center;
+	place-items: center;
 	border-radius: 0.25em;
 	margin: -0.15em;
 }
@@ -275,8 +272,7 @@ button.expand-search {
 
 button.find-in-selection {
 	display: grid;
-	align-items: center;
-	justify-items: center;
+	place-items: center;
 	align-self: stretch;
 }
 
