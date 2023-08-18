@@ -14,6 +14,7 @@ import { copyButton } from "prism-code-editor/copy-button"
 import { defaultCommands } from "prism-code-editor/commands"
 import { highlightSelectionMatches, searchWidget } from "prism-code-editor/search"
 import { cursorPosition } from "prism-code-editor/cursor"
+import { matchTags } from "prism-code-editor/match-tags"
 import { code } from "./examples2"
 import { PrismEditor, getModifierCode, isMac } from "prism-code-editor"
 import { loadTheme } from "prism-code-editor/themes"
@@ -55,6 +56,7 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 		editor.addExtensions(
 			searchWidget(),
 			highlightSelectionMatches(),
+			matchTags(),
 			defaultCommands(cursor),
 			cursor,
 		)

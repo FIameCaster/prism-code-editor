@@ -52,6 +52,7 @@ import { searchWidget, highlightSelectionMatches } from "prism-code-editor/searc
 import { defaultCommands } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { copyButton } from "prism-code-editor/copy-button"
+import { matchTags } from "prism-code-editor/match-tags"
 
 export const addExtensions = (editor: PrismEditor) => {
   const cursor = cursorPosition()
@@ -60,6 +61,7 @@ export const addExtensions = (editor: PrismEditor) => {
     searchWidget(),
     defaultCommands(cursor),
     copyButton(),
+    matchTags(),
     cursor,
   )
 }`,
@@ -113,7 +115,7 @@ console.log(editorElement.editor)`,
     overflow: hidden;
   }
 </style>
-<prism-editor 
+<prism-editor
   language="javascript"
   theme="vs-code-dark"
   tab-size="4" word-wrap
