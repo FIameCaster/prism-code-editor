@@ -22,8 +22,7 @@ Original: https://github.com/dracula/visual-studio-code */
 	--editor__line-number: #6272a4;
 	--editor__bg-scrollbar: 0, 0%, 50%;
 	--bg-guide-indent: #ffffff1a;
-	--bg-guide-indent-active: #ffffff45;
-	color-scheme: light;
+	color-scheme: dark;
 }
 
 .match-highlight {
@@ -42,6 +41,10 @@ Original: https://github.com/dracula/visual-studio-code */
 
 .active-line {
 	--editor__line-number: #c6c6c6;
+}
+
+.guide-indents .active {
+	--bg-guide-indent: #ffffff45;
 }
 
 /* Tokens */
@@ -207,4 +210,8 @@ Original: https://github.com/dracula/visual-studio-code */
 
 .active-bracket {
 	box-shadow: inset 0 0 0 1px #b9b9b9, inset 0 0 0 9in #0064001a;
+}
+
+.active-tagname {
+	background: #8be9fd4f;
 }

@@ -24,7 +24,6 @@
 	--editor__line-number: #636d83;
 	--editor__bg-scrollbar: 220, 13%, 41%;
 	--bg-guide-indent: #abb2bf26;
-	--bg-guide-indent-active: #626772;
 	color-scheme: dark;
 }
 
@@ -40,6 +39,10 @@
 
 .active-line {
 	--editor__line-number: #abb2bf;
+}
+
+.guide-indents .active {
+	--bg-guide-indent: #626772;
 }
 
 .token.comment,
@@ -228,4 +231,8 @@
 
 .active-bracket {
 	box-shadow: inset 0 0 0 1px #888, inset 0 0 0 9in #0064001a;
+}
+
+.active-tagname {
+	background: #575757b8;
 }

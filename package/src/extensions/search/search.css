@@ -28,6 +28,7 @@
 	color: inherit;
 	font: inherit;
 	cursor: pointer;
+	padding: 0 0.2em;
 }
 
 [readonly] ~ .prism-search-container > div {
@@ -64,7 +65,6 @@
 }
 
 .search-options button {
-	padding: 0 0.2em;
 	border-radius: 0.2em;
 	width: 1.6em;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;

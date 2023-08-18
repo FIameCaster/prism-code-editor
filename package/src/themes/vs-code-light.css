@@ -3,7 +3,7 @@
 .prism-editor {
 	background: #fff;
 	caret-color: #000;
-	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--widget__border: #bfbfbf;
 	--widget__bg: #f2f2f2;
 	--widget__color: #444;
@@ -21,7 +21,6 @@
 	--editor__line-number: #53abc6;
 	--editor__bg-scrollbar: 0, 0%, 25%;
 	--bg-guide-indent: #d3d3d3;
-	--bg-guide-indent-active: #939393;
 	color-scheme: light;
 }
 
@@ -43,9 +42,13 @@
 	--editor__line-number: #0b216f;
 }
 
+.guide-indents .active {
+	--bg-guide-indent: #939393;
+}
+
 /* Tokens */
 .namespace {
-	opacity: .7;
+	opacity: 0.7;
 }
 
 .token.doctype .token.name {
@@ -276,4 +279,8 @@
 
 .active-bracket {
 	box-shadow: inset 0 0 0 1px #b9b9b9, inset 0 0 0 9in #0064001a;
+}
+
+.active-tagname {
+	background: #57575740;
 }

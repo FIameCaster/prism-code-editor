@@ -104,10 +104,6 @@
 	word-break: break-word;
 }
 
-.editor-overlays:not(:focus-within) .selection-matches span {
-	opacity: 0.5;
-}
-
 .selection-matches span {
 	background: var(--editor__bg-selection-match);
 }

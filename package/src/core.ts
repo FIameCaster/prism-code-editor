@@ -35,7 +35,8 @@ const createEditor = (
 		value = "",
 		activeLineNumber: number,
 		removed = false,
-		handleSelecionChange = true
+		handleSelecionChange = true,
+		tokens: (Prism.Token | string)[] = []
 
 	const scrollContainer = <HTMLDivElement>editorTemplate.cloneNode(true),
 		wrapper = <HTMLDivElement>scrollContainer.firstChild,
@@ -92,7 +93,7 @@ const createEditor = (
 			closingTags = "",
 			env = <TokenizeEnv>{ language, code, grammar }
 		Prism.hooks.run("before-tokenize", env)
-		const tokens = (env.tokens = Prism.tokenize(env.code, env.grammar))
+		tokens = (env.tokens = Prism.tokenize(env.code, env.grammar))
 		Prism.hooks.run("after-tokenize", env)
 		dispatchEvent("tokenize", env)
 
@@ -218,6 +219,9 @@ const createEditor = (
 		},
 		get removed() {
 			return removed
+		},
+		get tokens() {
+			return tokens
 		},
 		inputCommandMap,
 		keyCommandMap,

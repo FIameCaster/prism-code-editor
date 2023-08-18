@@ -2,8 +2,13 @@ import { createTemplate } from "../core"
 import { Extension, PrismEditor } from "../types"
 
 const template = createTemplate(
-	'<style>.guide-indents div{width:1px;position:absolute;background:var(--bg-guide-indent)}.guide-indents .active{background:var(--bg-guide-indent-active)}</style><div class="guide-indents" style="position:relative;"> </div>',
+	'<div class="guide-indents" style="position:relative;display:inline-block"> </div>',
 	"left:var(--padding-left)",
+)
+
+const indentTemplate = createTemplate(
+	"",
+	"width:1px;position:absolute;background:var(--bg-guide-indent)",
 )
 
 export interface IndentGuides extends Extension {
@@ -15,12 +20,11 @@ export interface IndentGuides extends Extension {
 
 /** Adds indent guides to an editor. Does not work with word wrap. */
 export const indentGuides = (): IndentGuides => {
-	let currentTabSize: number,
+	let tabSize: number,
 		prevLength = 0,
 		lineIndentMap: number[],
 		active = -1,
-		currentEditor: PrismEditor,
-		currentWrap: boolean
+		currentEditor: PrismEditor
 
 	const lines: HTMLDivElement[] = [],
 		indents: number[][] = [],
@@ -34,7 +38,7 @@ export const indentGuides = (): IndentGuides => {
 			l = newIndents.length
 
 		for (let i = 0, prev: number[] = [], next = newIndents[0]; next; i++) {
-			const { style } = lines[i] || (lines[i] = document.createElement("div")),
+			const { style } = lines[i] || (lines[i] = <HTMLDivElement>indentTemplate.cloneNode()),
 				[top, height, left] = next,
 				old = indents[i]
 
@@ -42,7 +46,7 @@ export const indentGuides = (): IndentGuides => {
 
 			if (top != old?.[0]) style.top = top + "00%"
 			if (height != old?.[1]) style.height = height + "00%"
-			if (left != old?.[2]) style.left = left + "ch"
+			if (left != old?.[2]) style.left = left + "00%"
 
 			const isSingleIndent = prev[0] != top && next?.[0] != top,
 				isSingleOutdent = prev[0] + prev[1] != top + height && next?.[0] + next?.[1] != top + height
@@ -87,7 +91,7 @@ export const indentGuides = (): IndentGuides => {
 					results[p++] = stack[j] = [
 						emptyPos == -1 || j > prevIndent ? i : emptyPos,
 						0,
-						j++ * currentTabSize,
+						j++ * tabSize,
 					]
 				}
 				emptyPos = -1
@@ -104,9 +108,9 @@ export const indentGuides = (): IndentGuides => {
 			result = 0
 		if (l == -1) return -1
 		for (let i = 0; i < l; ) {
-			result += text[i++] == "\t" ? currentTabSize - (result % currentTabSize) : 1
+			result += text[i++] == "\t" ? tabSize - (result % tabSize) : 1
 		}
-		return Math.ceil(result / currentTabSize)
+		return Math.ceil(result / tabSize)
 	}
 
 	return {
@@ -114,18 +118,16 @@ export const indentGuides = (): IndentGuides => {
 		get indentLevels() {
 			return indentLevels
 		},
-		update(editor, { wordWrap = false, tabSize }) {
-			let wrapChanged = currentWrap != (currentWrap = wordWrap),
-				tabChanged = currentTabSize != (currentTabSize = tabSize || 2)
-
-			if (currentEditor != (currentEditor = editor) || wrapChanged) {
-				wordWrap ? container.remove() : editor.overlays.append(container)
-
-				const listener = wordWrap ? editor.removeListener : editor.addListener
-				listener("update", update)
-				listener("selectionChange", updateActive)
+		update(editor, options) {
+			if (!currentEditor) {
+				currentEditor = editor
+				editor.overlays.append(container)
+				editor.addListener("update", update)
+				editor.addListener("selectionChange", updateActive)
 			}
-			if (!wordWrap && (wrapChanged || tabChanged)) update(editor.value), updateActive()
+			container.style.display = options.wordWrap ? "none" : ""
+
+			if (tabSize != (tabSize = options.tabSize || 2)) update(editor.value), updateActive()
 		},
 	}
 }

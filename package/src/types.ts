@@ -117,6 +117,8 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	readonly keyCommandMap: Record<string, KeyCommandCallback | null | undefined>
 	/** True if the remove method has been called. */
 	readonly removed: boolean
+	/** Tokens currently displayed in the editor. */
+	readonly tokens: (Prism.Token | string)[]
 	/**
 	 * Set new options for the editor.
 	 * Ommitted properties will use their previous value.

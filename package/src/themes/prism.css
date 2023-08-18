@@ -8,7 +8,7 @@
 	color: #000;
 	caret-color: #000;
 	background: #f5f2f0;
-	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--widget__border: #bfbfbf;
 	--widget__bg: #edeae8;
 	--widget__color: #444;
@@ -26,7 +26,6 @@
 	--editor__line-number: #9d897b;
 	--editor__bg-scrollbar: 24, 7%, 35%;
 	--bg-guide-indent: #d9d3ce;
-	--bg-guide-indent-active: #aea49e;
 	color-scheme: light;
 }
 
@@ -44,6 +43,10 @@
 	--editor__line-number: #4d3a2e;
 }
 
+.guide-indents .active {
+	--bg-guide-indent: #aea49e;
+}
+
 .token.comment,
 .token.prolog,
 .token.doctype,
@@ -56,7 +59,7 @@
 }
 
 .token.namespace {
-	opacity: .7;
+	opacity: 0.7;
 }
 
 .token.property,
@@ -141,4 +144,8 @@
 
 .active-bracket {
 	box-shadow: inset 0 0 0 1px #b9b9b9, inset 0 0 0 9in #0064001a;
+}
+
+.active-tagname {
+	background: #57575740;
 }

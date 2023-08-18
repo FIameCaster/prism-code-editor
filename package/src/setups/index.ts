@@ -71,13 +71,7 @@ const basicEditor = (
 	readyCallback?: () => any,
 ) => {
 	import("./common").then(mod => {
-		const cursor = mod.cursorPosition()
-		editor.addExtensions(
-			cursor,
-			mod.defaultCommands(cursor),
-			mod.matchBrackets(),
-			mod.indentGuides(),
-		)
+		mod.addExtensions(editor)
 	})
 
 	const editor = minimalEditor(Prism, container, options, readyCallback)
@@ -89,7 +83,7 @@ const basicEditor = (
 	return editor
 }
 
-/** Same as the `basicEditor` function, but also adds the search widget. */
+/** Same as the `basicEditor` function, but adds the search widget and tag matching. */
 const fullEditor = (
 	Prism: PrismType,
 	container: HTMLElement | string,
@@ -97,13 +91,7 @@ const fullEditor = (
 	readyCallback?: () => any,
 ) => {
 	import("./common").then(mod => {
-		const cursor = mod.cursorPosition()
-		editor.addExtensions(
-			cursor,
-			mod.defaultCommands(cursor),
-			mod.matchBrackets(),
-			mod.indentGuides(),
-		)
+		mod.addExtensions(editor)
 	})
 
 	const el = <HTMLElement>getElement(container)
@@ -115,6 +103,10 @@ const fullEditor = (
 
 	import("../extensions/search/index.ts").then(mod => {
 		editor.addExtensions(mod.highlightSelectionMatches(), mod.searchWidget())
+	})
+
+	import("../extensions/matchTags.ts").then(mod => {
+		editor.addExtensions(mod.matchTags())
 	})
 
 	return editor
@@ -132,7 +124,7 @@ const readonlyEditor = (
 	readyCallback?: () => any,
 ) => {
 	import("./readonly").then(mod => {
-		editor.addExtensions(mod.copyButton(), mod.matchBrackets(), mod.indentGuides())
+		mod.addExtensions(editor)
 		editor.removed || addStyles(el.shadowRoot!, mod.style)
 	})
 

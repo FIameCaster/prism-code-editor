@@ -1,65 +1,4 @@
-import { Extension, PrismEditor, TokenizeEnv } from ".."
-
-const pairBrackets = (
-	tokens: (Prism.Token | string)[],
-	openingRegex: RegExp,
-	closingRegex: RegExp,
-	pairRegex: RegExp,
-) => {
-	let position = 0
-	const stack: [number, Prism.Token][] = []
-	const positions: number[][] = []
-	const add = (token: Prism.Token, classes: string) => {
-		let alias = token.alias
-		token.alias = (alias ? (Array.isArray(alias) ? alias.join(" ") : alias) + " " : "") + classes
-	}
-	const matchPairs = (tokens: (Prism.Token | string)[]) => {
-		for (let i = 0, l = tokens.length; i < l; i++) {
-			const token = tokens[i]
-			if (typeof token != "string") {
-				const { content, type } = token
-
-				if (Array.isArray(content)) {
-					matchPairs(content)
-					continue
-				}
-				if (
-					typeof content == "string" &&
-					(type == "punctuation" || token.alias == "punctuation") &&
-					type != "regex"
-				) {
-					if (openingRegex.test(content)) stack.push([position, token])
-					else if (closingRegex.test(content)) {
-						let i = stack.length,
-							found: boolean
-
-						while (i) {
-							const [position1, token1] = stack[--i]
-							if (pairRegex.test(token1.content + content)) {
-								for (let arr = stack.splice(i), j = 1; j < arr.length; )
-									add(arr[j++][1], "bracket-error")
-								if (position - position1 == 1) {
-									token1.content += content
-									token.content = ""
-								}
-								positions.push([position1, position])
-								add(token1, "bracket-open bracket-level-" + (i % 12))
-								add(token, "bracket-close bracket-level-" + (i % 12))
-								found = true
-								break
-							}
-						}
-						found! || add(token, "bracket-error")
-					}
-				}
-			}
-			position += token.length
-		}
-	}
-	matchPairs(tokens)
-	stack.forEach(item => add(item[1], "bracket-error"))
-	return positions
-}
+import { Extension, PrismEditor } from ".."
 
 export interface BracketMatcher extends Extension {
 	/** Array of the positions of all the brackets. */
@@ -126,11 +65,62 @@ export const matchBrackets = (
 				add("blur", selectionChange)
 				add("focus", selectionChange)
 				addListener("selectionChange", selectionChange)
-				addListener("tokenize", (env: TokenizeEnv) => {
+				addListener("tokenize", env => {
 					if (env.language != "regex") {
 						toggleBrackets(activeID, false)
 						activeID = -1
-						pairs = pairBrackets(env.tokens, openingRegex, closingRegex, pairRegex)
+						pairs = []
+						let position = 0
+						let stack: [number, Prism.Token][] = []
+						let add = (token: Prism.Token, classes: string) => {
+							let alias = token.alias
+							token.alias = (alias ? (Array.isArray(alias) ? alias.join(" ") : alias) + " " : "") + classes
+						}
+						let matchPairs = (tokens: (Prism.Token | string)[]) => {
+							for (let i = 0, l = tokens.length; i < l; i++) {
+								const token = tokens[i]
+								if (typeof token != "string") {
+									const { content, type } = token
+
+									if (Array.isArray(content)) {
+										matchPairs(content)
+										continue
+									}
+									if (
+										typeof content == "string" &&
+										(type == "punctuation" || token.alias == "punctuation") &&
+										type != "regex"
+									) {
+										if (openingRegex.test(content)) stack.push([position, token])
+										else if (closingRegex.test(content)) {
+											let i = stack.length,
+												found: boolean
+
+											while (i) {
+												const [position1, token1] = stack[--i]
+												if (pairRegex.test(token1.content + content)) {
+													for (let arr = stack.splice(i), j = 1; j < arr.length; )
+														add(arr[j++][1], "bracket-error")
+													if (position - position1 == 1) {
+														token1.content += content
+														token.content = ""
+													}
+													pairs.push([position1, position])
+													add(token1, "bracket-open bracket-level-" + (i % 12))
+													add(token, "bracket-close bracket-level-" + (i % 12))
+													found = true
+													break
+												}
+											}
+											found! || add(token, "bracket-error")
+										}
+									}
+								}
+								position += token.length
+							}
+						}
+						matchPairs(env.tokens)
+						stack.forEach(item => add(item[1], "bracket-error"))
 						secondOrder = pairs.slice().sort((a, b) => a[0] - b[0])
 					}
 				})

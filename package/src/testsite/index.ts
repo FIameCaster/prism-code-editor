@@ -16,6 +16,7 @@ import "../prismMarkdown"
 import "../scrollbar.css"
 import { addFullEditor, PrismEditorElement } from "../webComponent"
 import "./style.css"
+import { matchTags } from "../extensions/matchTags"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -30,6 +31,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			options,
 			cursor,
 			indentGuides(),
+			matchTags(),
 			matchBrackets(),
 			copyButton(),
 			highlightSelectionMatches(),

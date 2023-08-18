@@ -9,6 +9,7 @@ const entries = {
 	"setups/index": "src/setups/index.ts",
 	webComponent: "src/webComponent.ts",
 	"extensions/matchBrackets": "src/extensions/matchBrackets.ts",
+	"extensions/matchTags": "src/extensions/matchTags.ts",
 	"extensions/search/index": "src/extensions/search/index.ts",
 	"extensions/search/api": "src/extensions/search/api.ts",
 	search: "src/extensions/search/search.css",
