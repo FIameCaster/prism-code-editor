@@ -80,7 +80,7 @@ import { createEditor } from "prism-code-editor"
 const editor = createEditor(Prism, "#editor", { language: "html" })
 ```
 
-Alternatively, you can import a modified Prism core which is less than half the size due to stripping away all methods except for `Prism.Tokenize` and dropping support for legacy browsers.
+Alternatively, you can import a modified Prism core which is less than half the size due to stripping away all methods except for `Prism.tokenize` and dropping support for legacy browsers.
 
 ```javascript
 import Prism from "prism-code-editor/prism-core"
@@ -141,6 +141,7 @@ import { searchWidget, highlightSelectionMatches } from "prism-code-editor/searc
 import { defaultCommands } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { copyButton } from "prism-code-editor/copy-button"
+import { matchTags } from "prism-code-editor/match-tags"
 
 export const addExtensions = (editor: PrismEditor) => {
   const cursor = cursorPosition()
@@ -149,6 +150,7 @@ export const addExtensions = (editor: PrismEditor) => {
     searchWidget(),
     defaultCommands(cursor),
     copyButton(),
+    matchTags(),
     cursor,
   )
 }
@@ -235,6 +237,7 @@ The `PrismEditor` type includes a bunch of useful read only properties and metho
 - `inputCommandMap`: Record mapping an input to a function called when that input is typed.
 - `keyCommandMap`: Record mapping KeyboardEvent.key to a function called when that key is pressed.
 - `removed`: True if the remove method has been called.
+- `tokens`: Tokens currently displayed in the editor.
 
 Adding IDs and event listeners is supported on all elements. Adding classes is supported on all elements except for the scroll container.
 
@@ -272,6 +275,7 @@ Most behavior isn't included by default and must be imported. This is to keep th
 import Prism from "prism-code-editor/prism-core"
 import { createEditor } from "prism-code-editor"
 import { matchBrackets } from "prism-code-editor/match-brackets"
+import { matchTags } from "prism-code-editor/match-brackets"
 import { defaultCommands } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 
@@ -288,6 +292,7 @@ import "prism-code-editor/copy-button.css"
 // These extensions have extra properties
 // and methods you might find useful.
 const brackets = matchBrackets()
+const tags = matchTags()
 const indents = indentGuides()
 const search = searchWidget()
 const cursor = cursorPosition()
@@ -297,6 +302,7 @@ const editor = createEditor(
   "#editor",
   { language: "html" },
   brackets,
+  tags,
   indents,
   search,
   defaultCommands(cursor),
