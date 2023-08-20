@@ -58,14 +58,14 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 
 					if (Array.isArray(content)) {
 						if (type == "tag") {
-							const [{ length: openingLength }, tagName] = <[Prism.Token, string?]>(
+							let [{ length: openingLength }, tagName] = <[Prism.Token, (string | Prism.Token)?]>(
 								(<Prism.Token>content[0]).content
 							)
+							let closingLength = (<Prism.Token>content[content.length - 1]).length
 
-							const closingLength = (<Prism.Token>content[content.length - 1]).length
-
-							// Skip self-closing tags or JSX fragments
-							if (closingLength == 1 && tagName && (noVoidTags || !voidTags.has(tagName))) {
+							// Skip self-closing tags
+							if (closingLength == 1 && (noVoidTags || !voidTags.has(<string>tagName))) {
+								tagName = <string>((<Prism.Token>tagName)?.content || tagName)
 								if (openingLength == 1) {
 									stack.push([tagIndex, tagName])
 								} else {
