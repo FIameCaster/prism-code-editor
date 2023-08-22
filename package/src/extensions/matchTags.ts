@@ -10,10 +10,15 @@ const voidTags = new Set(
 
 export interface TagMatcher {
 	/**
-	 * Array of tuples where each tuple containes the token for a tag, its starting position
-	 * in the code and the length of the leftmost punctuation in the tag.
+	 * Array of tuples containing:
+	 * - The tag's `Token`
+	 * - Its starting position
+	 * - Its leftmost punctuation length
+	 * - Its ending position
+	 * - Its tag name
+	 * - Whether it's self-closing
 	 */
-	readonly tags: [Prism.Token, number, number][]
+	readonly tags: [Prism.Token, number, number, number, string, boolean][]
 	/** Array mapping the index of a tag to the index of its matching tag. */
 	readonly pairs: (number | undefined)[]
 }
@@ -30,7 +35,7 @@ export interface TagHighlighter extends Extension {
 
 export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 	let pairMap: number[],
-		tags: [Prism.Token, number, number][],
+		tags: [Prism.Token, number, number, number, string, boolean][],
 		stack: [number, string][],
 		position: number,
 		tagIndex: number,
@@ -62,11 +67,11 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 								(<Prism.Token>content[0]).content
 							)
 							let closingLength = (<Prism.Token>content[content.length - 1]).length
+							let selfClosing = closingLength > 1 || (!noVoidTags && voidTags.has(<string>tagName))
 
-							// Skip self-closing tags
-							if (closingLength == 1 && (noVoidTags || !voidTags.has(<string>tagName))) {
-								tagName = <string>((<Prism.Token>tagName)?.content || tagName)
-								if (openingLength == 1) {
+							tagName = tagName ? <string>((<Prism.Token>tagName).content || tagName) : ""
+							if (!selfClosing) {
+								if (openingLength < 2) {
 									stack.push([tagIndex, tagName])
 								} else {
 									for (let i = stack.length; i; ) {
@@ -79,7 +84,15 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 									}
 								}
 							}
-							tags[tagIndex++] = [token, position, openingLength]
+
+							tags[tagIndex++] = [
+								token,
+								position,
+								openingLength,
+								position + token.length,
+								tagName,
+								selfClosing,
+							]
 						} else {
 							if (
 								!matchTagsRecursive(content, type.indexOf("language-") ? language : type.slice(9))
@@ -124,10 +137,8 @@ export const matchTags = (matcher?: TagMatcher): TagHighlighter => {
 			if (init != (init = true)) {
 				matcher ||= createTagMatcher(editor)
 				const getClosestTagIndex = (pos: number) => {
-					for (let i = 0, tags = matcher!.tags, l = tags.length; i < l; i++)
-						if (tags[i][1] <= pos) {
-							if (tags[i][1] + tags[i][0].length >= pos) return i
-						} else break
+					for (let i = 0, tags = matcher!.tags, l = tags.length; i < l && tags[i][1] <= pos; i++)
+						if (tags[i][3] >= pos) return i
 				}
 				const highlight = (remove?: boolean) => {
 					;[openEl, closeEl].forEach(el => {
@@ -143,8 +154,7 @@ export const matchTags = (matcher?: TagMatcher): TagHighlighter => {
 
 						if (index! + 1) {
 							const tags = matcher!.tags
-							const tagData = tags[index!]
-							const tag1 = getClosestToken(editor, ".tag>.tag", -tagData[2], 0)
+							const tag1 = getClosestToken(editor, ".tag>.tag", -tags[index!][2], 0)
 							const otherIndex = matcher!.pairs[index!]
 
 							if (tag1 && otherIndex! + 1) {
