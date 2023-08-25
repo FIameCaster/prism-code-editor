@@ -1,0 +1,113 @@
+.prism-editor {
+	overflow: auto;
+	display: grid;
+	outline: 0;
+	line-height: 1.4;
+	--padding-inline: 0.75em;
+	--number-spacing: 0.75em;
+	--padding-left: var(--padding-inline);
+	scroll-padding-left: var(--padding-left);
+	-webkit-user-select: none;
+	user-select: none;
+	isolation: isolate;
+}
+
+.show-line-numbers {
+	--padding-left: calc(var(--padding-inline) + var(--number-width) + var(--number-spacing));
+	grid: 1fr / 0 1fr;
+}
+
+.prism-editor-wrapper {
+	margin: 0.75em 0;
+	white-space: pre;
+	position: relative;
+	pointer-events: none;
+}
+
+.prism-editor textarea {
+	box-sizing: border-box;
+	resize: none;
+	border: 0;
+	outline: 0;
+	height: 100%;
+	width: 100%;
+	color: #0000;
+	background: #0000;
+	white-space: inherit;
+	overflow: hidden;
+	overflow-wrap: inherit;
+	letter-spacing: inherit;
+	font: inherit;
+	pointer-events: auto;
+	padding: 0 var(--padding-inline) 0 var(--padding-left);
+}
+
+.no-selection > :focus {
+	z-index: 1;
+}
+
+.code-line {
+	padding: 0 var(--padding-inline) 0 0;
+	margin: 0 0 0 var(--padding-left);
+	position: relative;
+}
+
+.show-line-numbers .code-line::before {
+	content: attr(data-line);
+	display: inline-block;
+	margin: 0 0 0 calc(-1 * var(--padding-left));
+	padding: 0 var(--number-spacing) 0 0;
+	box-sizing: border-box;
+	color: var(--editor__line-number);
+	text-align: right;
+}
+
+.show-line-numbers::before {
+	content: "";
+	background: inherit;
+	pointer-events: none;
+}
+
+.show-line-numbers::before,
+.code-line::before {
+	position: sticky;
+	height: 100%;
+	z-index: 2;
+	left: 0;
+	width: var(--padding-left);
+}
+
+.word-wrap .code-line::before {
+	position: absolute;
+}
+
+.editor-overlays,
+.editor-overlays > *,
+.no-selection ~ .active-line::after,
+.active-line.match-highlight::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.active-line::after {
+	border: var(--editor__border-highlight);
+	background: var(--editor__bg-highlight);
+	z-index: -2;
+}
+
+.word-wrap > * {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.selection-matches span {
+	background: var(--editor__bg-selection-match);
+}
+
+.no-word-wrap .active-bracket {
+	display: inline-block;
+}

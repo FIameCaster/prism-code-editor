@@ -1,0 +1,155 @@
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+.prism-editor {
+	color: #f8f8f2;
+	caret-color: #f8f8f2;
+	background: #272822;
+	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+	--widget__border: #4f5148;
+	--widget__bg: #242622;
+	--widget__color: #cfd1c7;
+	--widget__color-active: #fff;
+	--widget__color-options: #9ea092;
+	--widget__bg-input: #35372f;
+	--widget__bg-hover: #5a5d5e4f;
+	--widget__bg-active: #99947c66;
+	--widget__focus-ring: #99947c;
+	--widget__bg-find: #ea5c0054;
+	--widget__bg-error: #5a1d1d;
+	--widget__error-ring: #be1100;
+	--editor__bg-highlight: #36362b;
+	--editor__bg-selection-match: #575b6180;
+	--editor__line-number: #90908a;
+	--editor__bg-scrollbar: 0, 0%, 45%;
+	--bg-guide-indent: #464741;
+	color-scheme: dark;
+}
+
+/* Selection */
+.prism-editor textarea::selection {
+	background: #878b9180;
+	color: #0000;
+}
+
+.search-matches .match {
+	--widget__bg-find: #885a3c;
+}
+
+.active-line {
+	--editor__line-number: #c2c2bf;
+}
+
+.guide-indents .active {
+	--bg-guide-indent: #767771;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #8292a2;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted,
+.token.keyword.control-flow,
+.token.keyword.module {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+/* Brackets */
+
+.token.bracket-level-0,
+.token.bracket-level-3,
+.token.bracket-level-6,
+.token.bracket-level-9 {
+	color: #ffd700;
+}
+
+.token.bracket-level-1,
+.token.bracket-level-4,
+.token.bracket-level-7,
+.token.bracket-level-10 {
+	color: #da70d6;
+}
+
+.token.bracket-level-2,
+.token.bracket-level-5,
+.token.bracket-level-8,
+.token.bracket-level-11 {
+	color: #179fff;
+}
+
+.token.bracket-error {
+	color: #ff1212cc;
+}
+
+.active-bracket {
+	box-shadow: inset 0 0 0 1px #888, inset 0 0 0 9in #0064001a;
+}
+
+.active-tagname {
+	background: #4a4a7680;
+}

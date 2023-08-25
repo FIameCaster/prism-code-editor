@@ -1,0 +1,238 @@
+/**
+ * Based on Atom's One Dark theme: https://github.com/atom/atom/tree/master/packages/one-dark-syntax
+ */
+
+.prism-editor {
+	background: #292c33;
+	color: #abb2bf;
+	caret-color: #528bff;
+	font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	--widget__border: #3a3f4b;
+	--widget__bg: #21252b;
+	--widget__color: #ccc;
+	--widget__color-active: #fff;
+	--widget__color-options: #b2b2b2;
+	--widget__bg-input: #1b1d23;
+	--widget__bg-hover: #5a5d5e4f;
+	--widget__bg-active: #336699;
+	--widget__focus-ring: #5299e0;
+	--widget__bg-find: #575757b8;
+	--widget__bg-error: #5a1d1d;
+	--widget__error-ring: #be1100;
+	--editor__bg-highlight: #99bbff0a;
+	--editor__bg-selection-match: #33384299;
+	--editor__line-number: #636d83;
+	--editor__bg-scrollbar: 220, 13%, 41%;
+	--bg-guide-indent: #abb2bf26;
+	color-scheme: dark;
+}
+
+/* Selection */
+.prism-editor textarea::selection {
+	background: #3e4451;
+	color: #0000;
+}
+
+.search-matches .match {
+	--widget__bg-find: #43557b;
+}
+
+.active-line {
+	--editor__line-number: #abb2bf;
+}
+
+.guide-indents .active {
+	--bg-guide-indent: #626772;
+}
+
+.token.comment,
+.token.prolog,
+.token.cdata {
+	color: #5c6370;
+}
+
+.token.punctuation,
+.token.entity {
+	color: #abb2bf;
+}
+
+.token.attr-name,
+.doctype .name,
+.token.class-name,
+.selector .class,
+.selector .pseudo-element,
+.selector .pseudo-class,
+.token.boolean,
+.token.constant,
+.token.number,
+.token.unit,
+.token.atrule {
+	color: #d19a66;
+}
+
+.token.keyword,
+.selector .punctuation,
+.selector .combinator {
+	color: #c678dd;
+}
+
+.token.property,
+.token.tag,
+.token.doctype,
+.token.symbol,
+.token.deleted,
+.token.important,
+.token.variable {
+	color: #e06c75;
+}
+
+.token.selector,
+.token.string,
+.token.char,
+.token.inserted,
+.token.regex,
+.token.attr-value,
+.token.attr-value > .token.punctuation {
+	color: #98c379;
+}
+
+.language-markdown .token.variable,
+.token.operator,
+.token.function {
+	color: #61afef;
+}
+
+.token.url,
+.token.hexcode,
+.token.keyword-get,
+.token.builtin {
+	color: #56b6c2;
+}
+
+/* Language overrides */
+.token.attr-value > .token.punctuation.attr-equals,
+.token.special-attr > .token.attr-value > .token.value.css {
+	color: #abb2bf;
+}
+
+.token.selector {
+	color: #e06c75;
+}
+
+.language-css .token.property {
+	color: #abb2bf;
+}
+
+.language-css .token.function {
+	color: #56b6c2;
+}
+
+.token.string.url {
+	color: #98c379;
+}
+
+.language-css .token.important,
+.token.atrule .token.rule {
+	color: #c678dd;
+}
+
+.language-javascript .token.operator,
+.language-typescript .token.operator,
+.language-jsx .token.operator,
+.language-tsx .token.operator {
+	color: #c678dd;
+}
+
+.token.token.interpolation-punctuation {
+	color: #be5046;
+}
+
+.language-json .token.keyword-null {
+	color: #d19a66;
+}
+
+.language-markdown .code.keyword,
+.language-json .token.operator,
+.language-markdown .token.url,
+.language-markdown .token.url > .token.operator,
+.language-markdown .token.url-reference.url > .token.string {
+	color: #abb2bf;
+}
+
+.language-markdown .token.url > .token.content {
+	color: #61afef;
+}
+
+.language-markdown .token.blockquote.punctuation,
+.language-markdown .token.hr.punctuation,
+.language-markdown .token.url > .token.url,
+.language-markdown .token.url-reference.url {
+	color: #56b6c2;
+}
+
+.token.code-snippet.code {
+	color: #98c379;
+}
+
+.language-markdown .token.bold .token {
+	color: #d19a66;
+}
+
+.language-markdown .token.italic .token {
+	color: #c678dd;
+}
+
+.language-markdown .token.strike .token,
+.language-markdown .token.list.punctuation,
+.language-markdown .token.title.important > .token.punctuation {
+	color: #e06c75;
+}
+
+/* General */
+.token.bold {
+	font-weight: bold;
+}
+
+.token.comment,
+.token.italic {
+	font-style: italic;
+}
+
+.token.namespace {
+	opacity: 0.8;
+}
+
+/* Brackets */
+
+.token.bracket-level-0,
+.token.bracket-level-3,
+.token.bracket-level-6,
+.token.bracket-level-9 {
+	color: #ffd700;
+}
+
+.token.bracket-level-1,
+.token.bracket-level-4,
+.token.bracket-level-7,
+.token.bracket-level-10 {
+	color: #da70d6;
+}
+
+.token.bracket-level-2,
+.token.bracket-level-5,
+.token.bracket-level-8,
+.token.bracket-level-11 {
+	color: #179fff;
+}
+
+.token.bracket-error {
+	color: #ff1212cc;
+}
+
+.active-bracket {
+	box-shadow: inset 0 0 0 1px #888, inset 0 0 0 9in #0064001a;
+}
+
+.active-tagname {
+	background: #575757b8;
+}
