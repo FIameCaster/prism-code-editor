@@ -93,7 +93,7 @@ const createEditor = (
 			closingTags = "",
 			env = <TokenizeEnv>{ language, code, grammar }
 		Prism.hooks.run("before-tokenize", env)
-		tokens = (env.tokens = Prism.tokenize(env.code, env.grammar))
+		tokens = env.tokens = Prism.tokenize(env.code, env.grammar)
 		Prism.hooks.run("after-tokenize", env)
 		dispatchEvent("tokenize", env)
 
@@ -184,7 +184,11 @@ const createEditor = (
 	const focusRelatedTarget = () =>
 		isWebKit &&
 		!focused() &&
-		addTextareaListener("focus", e => e.relatedTarget ? (<HTMLElement>e.relatedTarget).focus() : textarea.blur(), { once: true })
+		addTextareaListener(
+			"focus",
+			e => (e.relatedTarget ? (<HTMLElement>e.relatedTarget).focus() : textarea.blur()),
+			{ once: true },
+		)
 
 	const dispatchEvent = <T extends keyof EditorEventMap>(
 		name: T,
@@ -279,7 +283,7 @@ const createEditor = (
 		preventDefault(e)
 	})
 	// Hack to fix an obscure fontsize bug on iOS Safari when overflowing horizontally
-	if (isWebKit && /Mobile/.test(userAgent)) {
+	if (isWebKit) {
 		scrollContainer.contentEditable = <any>true
 		wrapper.contentEditable = <any>false
 		scrollContainer.tabIndex = -1

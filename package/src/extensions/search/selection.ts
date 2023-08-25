@@ -18,10 +18,11 @@ export const highlightSelectionMatches = (
 
 	return {
 		update(editor: PrismEditor) {
-			if (initialized != (initialized = true)) {
+			if (!initialized) {
 				const searchAPI = createSearchAPI(editor),
 					container = searchAPI.container
-
+				
+				initialized = true
 				container.style.zIndex = "-1"
 				container.className = "selection-matches"
 				editor.addListener("selectionChange", ([start, end], value) => {

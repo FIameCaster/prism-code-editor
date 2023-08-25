@@ -2,11 +2,9 @@ import { Extension, PrismEditor } from ".."
 import { getClosestToken } from "../utils"
 
 // Using sets instead of Regex for performace
-const langsWithTags = new Set("html,markup,mathml,svg,markdown,md,xml,rss,atom,jsx,tsx".split(","))
-const langsWithoutVoidTags = new Set("xml,rss,atom,jsx,tsx".split(","))
-const voidTags = new Set(
-	"area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr".split(","),
-)
+const langsWithTags = "html,markup,mathml,svg,markdown,md,xml,rss,atom,jsx,tsx".split(",")
+const langsWithoutVoidTags = "xml,rss,atom,jsx,tsx".split(",")
+const voidTags = "area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr".split(",")
 
 export interface TagMatcher {
 	/**
@@ -42,18 +40,17 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 		matchTags = (tokens: (Prism.Token | string)[], language: string) => {
 			pairMap = []
 			tags = []
-			position = 0
-			tagIndex = 0
 			stack = []
+			position = tagIndex = 0
 			matchTagsRecursive(tokens, language)
 		},
 		matchTagsRecursive = (tokens: (Prism.Token | string)[], language: string) => {
-			if (!langsWithTags.has(language)) return true
+			if (!langsWithTags.includes(language)) return true
 			for (
 				let i = 0,
 					l = tokens.length,
 					token: string | Prism.Token,
-					noVoidTags = langsWithoutVoidTags.has(language);
+					noVoidTags = langsWithoutVoidTags.includes(language);
 				i < l;
 				i++
 			) {
@@ -67,7 +64,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 								(<Prism.Token>content[0]).content
 							)
 							let closingLength = (<Prism.Token>content[content.length - 1]).length
-							let selfClosing = closingLength > 1 || (!noVoidTags && voidTags.has(<string>tagName))
+							let selfClosing = closingLength > 1 || (!noVoidTags && voidTags.includes(<string>tagName))
 
 							tagName = tagName ? <string>((<Prism.Token>tagName).content || tagName) : ""
 							if (!selfClosing) {
@@ -75,10 +72,9 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 									stack.push([tagIndex, tagName])
 								} else {
 									for (let i = stack.length; i; ) {
-										const [index, tagName1] = stack[--i]
-										if (tagName == tagName1) {
+										if (tagName == stack[--i][1]) {
+											pairMap[(pairMap[tagIndex] = stack[i][0])] = tagIndex
 											stack.length = i
-											pairMap[(pairMap[tagIndex] = index)] = tagIndex
 											break
 										}
 									}

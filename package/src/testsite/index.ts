@@ -5,7 +5,8 @@ import "../extensions/copyButton/copy.css"
 import { cursorPosition } from "../extensions/cursor"
 import { indentGuides } from "../extensions/guides"
 import guides from "../extensions/guides.ts?raw"
-import { matchBrackets } from "../extensions/matchBrackets"
+import { bracketMatcher } from "../extensions/matchBrackets"
+import { highlightBracketPairs } from "../extensions/matchBrackets/highlight"
 import { highlightSelectionMatches, searchWidget } from "../extensions/search"
 import "../extensions/search/search.css"
 import "../languages"
@@ -32,7 +33,8 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			cursor,
 			indentGuides(),
 			matchTags(),
-			matchBrackets(),
+			bracketMatcher(true),
+			highlightBracketPairs(),
 			copyButton(),
 			highlightSelectionMatches(),
 			searchWidget(),

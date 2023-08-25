@@ -41,7 +41,8 @@ export const searchWidget = (): SearchWidget => {
 
 	return {
 		update(editor: PrismEditor) {
-			if (initialized == (initialized = true)) return
+			if (initialized) return
+			initialized = true
 
 			const container = <HTMLDivElement>template.cloneNode(true),
 				[toggle, div] = <[HTMLButtonElement, HTMLDivElement]>(

@@ -1,6 +1,13 @@
 import { EditorOptions, Extension, InputSelection } from ".."
 import { ignoreTab, isMac, preventDefault, setIgnoreTab, languages } from "../core"
-import { getLanguage, insertText, getLineBefore, getLines, regexEscape, getModifierCode } from "../utils"
+import {
+	getLanguage,
+	insertText,
+	getLineBefore,
+	getLines,
+	regexEscape,
+	getModifierCode,
+} from "../utils"
 import { Cursor } from "./cursor"
 
 const clipboard = navigator.clipboard
@@ -12,7 +19,7 @@ const clipboard = navigator.clipboard
  * @param selfClosePairs Pairs of self-closing brackets and quotes.
  * Must be an array of strings with 2 characters each.
  * Defaults to `['""', "''", '``', '()', '[]', '{}']`.
- * @param selfCloseRegex Regexp controlling whether or not a bracket/quote should
+ * @param selfCloseRegex Regex controlling whether or not a bracket/quote should
  * automatically close based on the character before and after the cursor.
  * Defaults to ``/([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s``.
  */
@@ -25,7 +32,8 @@ export const defaultCommands = (
 
 	return {
 		update(editor, options) {
-			if (initialized != (initialized = true)) {
+			if (!initialized) {
+				initialized = true
 				const { textarea, keyCommandMap, inputCommandMap, getSelection } = editor
 
 				const getIndent = ({ insertSpaces = true, tabSize }: EditorOptions) =>
