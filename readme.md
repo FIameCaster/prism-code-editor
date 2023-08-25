@@ -3,7 +3,7 @@
 
 # Prism code editor
 
-Lightweight, extensible code editor for the web using [Prism](https://prismjs.com)
+Lightweight, extensible code editor component for the web using [Prism](https://prismjs.com)
 
 ## Why
 
@@ -54,7 +54,7 @@ https://prism-code-editor.netlify.app
   - [Adding languages](#adding-languages)
 - [Editing key commands](#editing-key-commands)
 - [Web components](#web-components)
-- [Prism plugin support](#demo-and-examples)
+- [Prism plugin support](#prism-plugin-support)
 - [Performance](#performance)
 - [Browser support](#browser-support)
 - [Credits](#credits)
@@ -142,6 +142,7 @@ import { defaultCommands } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { copyButton } from "prism-code-editor/copy-button"
 import { matchTags } from "prism-code-editor/match-tags"
+import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
 
 export const addExtensions = (editor: PrismEditor) => {
   const cursor = cursorPosition()
@@ -151,6 +152,7 @@ export const addExtensions = (editor: PrismEditor) => {
     defaultCommands(cursor),
     copyButton(),
     matchTags(),
+    highlightBracketPairs(),
     cursor,
   )
 }
@@ -164,8 +166,9 @@ import "prismjs/components/prism-clike.js"
 import "prismjs/components/prism-javascript.js"
 
 import { createEditor } from "prism-code-editor"
-import { matchBrackets } from "prism-code-editor/match-brackets"
+import { bracketMatcher } from "prism-code-editor/match-brackets"
 import { indentGuides } from "prism-code-editor/guides"
+
 // Importing styles
 import "prism-code-editor/layout.css"
 import "prism-code-editor/scrollbar.css"
@@ -176,15 +179,15 @@ const editor = createEditor(
   "#editor",
   { language: "html" },
   indentGuides(),
-  matchBrackets()
+  bracketMatcher(true),
 )
 
 import('./extensions').then(module => {
-  module.addExtensions(editor)
+  module.addExtensions(editor, matcher)
 })
 ```
 
-Indent guides and bracket matching can also be dynamically imported, but this isn't recommended since they affect the appearance of the editor. The bracket matcher will also force a rerender of the editor if it's added dynamically.
+Adding indentation guides and bracket matching dynamically is fully supported, but with some downsides.
 
 ## API
 
@@ -269,48 +272,9 @@ All utilities you can import are documented in detail with JSDoc, but here's a l
 
 ## Extensions
 
-Most behavior isn't included by default and must be imported. This is to keep the core small for those who don't need the extra functionality.
+Most behavior isn't included by default and must be imported. This is to keep the core small for those who don't need the extra functionality. To see which extensions are available and how to add them, see [advanced usage](#advanced-usage).
 
-```javascript
-import Prism from "prism-code-editor/prism-core"
-import { createEditor } from "prism-code-editor"
-import { matchBrackets } from "prism-code-editor/match-brackets"
-import { matchTags } from "prism-code-editor/match-brackets"
-import { defaultCommands } from "prism-code-editor/commands"
-import { cursorPosition } from "prism-code-editor/cursor"
-
-// Doesn't work with word wrap
-import { indentGuides } from "prism-code-editor/guides"
-
-import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
-import "prism-code-editor/search.css"
-
-// Best used for code examples
-import { copyButton } from "prism-code-editor/copy-button"
-import "prism-code-editor/copy-button.css"
-
-// These extensions have extra properties
-// and methods you might find useful.
-const brackets = matchBrackets()
-const tags = matchTags()
-const indents = indentGuides()
-const search = searchWidget()
-const cursor = cursorPosition()
-
-const editor = createEditor(
-  Prism,
-  "#editor",
-  { language: "html" },
-  brackets,
-  tags,
-  indents,
-  search,
-  defaultCommands(cursor),
-  highlightSelectionMatches(),
-  copyButton(),
-  cursor,
-)
-```
+Many extensions have extra methods and read-only properties you might find useful.
 
 ### Searching
 
@@ -418,6 +382,9 @@ By default, automatic indentation, toggling comments and automatic closing of ta
 import "prism-code-editor/languages/clike"
 import "prism-code-editor/languages/html"
 import "prism-code-editor/languages/css"
+import "prism-code-editor/languages/xml"
+import "prism-code-editor/languages/jsx"
+import "prism-code-editor/languages/python"
 ```
 
 The clike language will work with many languages including JavaScript, Java, C++, C# and C.
