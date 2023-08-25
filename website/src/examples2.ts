@@ -46,13 +46,13 @@ import "prism-code-editor/copy-button.css"
 import "prism-code-editor/languages/html"
 import "prism-code-editor/languages/clike"
 import "prism-code-editor/languages/css"
-
 import { PrismEditor } from "prism-code-editor"
 import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
 import { defaultCommands } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { copyButton } from "prism-code-editor/copy-button"
 import { matchTags } from "prism-code-editor/match-tags"
+import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
 
 export const addExtensions = (editor: PrismEditor) => {
   const cursor = cursorPosition()
@@ -62,6 +62,7 @@ export const addExtensions = (editor: PrismEditor) => {
     defaultCommands(cursor),
     copyButton(),
     matchTags(),
+    highlightBracketPairs(),
     cursor,
   )
 }`,
@@ -73,8 +74,9 @@ import "prismjs/components/prism-clike.js"
 import "prismjs/components/prism-javascript.js"
 
 import { createEditor } from "prism-code-editor"
-import { matchBrackets } from "prism-code-editor/match-brackets"
+import { bracketMatcher } from "prism-code-editor/match-brackets"
 import { indentGuides } from "prism-code-editor/guides"
+
 // Importing styles
 import "prism-code-editor/layout.css"
 import "prism-code-editor/scrollbar.css"
@@ -85,7 +87,7 @@ const editor = createEditor(
   "#editor",
   { language: "html" },
   indentGuides(),
-  matchBrackets()
+  bracketMatcher(true),
 )
 
 import('./extensions').then(module => {

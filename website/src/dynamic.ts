@@ -15,6 +15,7 @@ import { defaultCommands } from "prism-code-editor/commands"
 import { highlightSelectionMatches, searchWidget } from "prism-code-editor/search"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { matchTags } from "prism-code-editor/match-tags"
+import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
 import { code } from "./examples2"
 import { PrismEditor, getModifierCode, isMac } from "prism-code-editor"
 import { loadTheme } from "prism-code-editor/themes"
@@ -57,6 +58,7 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 			searchWidget(),
 			highlightSelectionMatches(),
 			matchTags(),
+			highlightBracketPairs(),
 			defaultCommands(cursor),
 			cursor,
 		)
@@ -125,8 +127,7 @@ runBtn.onclick = () => {
 	}
 
 	editor1.remove()
-	editor1 = newEditor
-	addWidgets?.(editor1)
+	addWidgets?.(editor1 = newEditor)
 	toggleActive()
 	newEditor.textarea.focus()
 }
