@@ -183,7 +183,7 @@ const editor = createEditor(
 )
 
 import('./extensions').then(module => {
-  module.addExtensions(editor, matcher)
+  module.addExtensions(editor)
 })
 ```
 
