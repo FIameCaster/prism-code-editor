@@ -46,6 +46,7 @@ import "prism-code-editor/copy-button.css"
 import "prism-code-editor/languages/html"
 import "prism-code-editor/languages/clike"
 import "prism-code-editor/languages/css"
+
 import { PrismEditor } from "prism-code-editor"
 import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
 import { defaultCommands } from "prism-code-editor/commands"
