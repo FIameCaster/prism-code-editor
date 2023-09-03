@@ -103,7 +103,7 @@ import "prism-code-editor/prism-markdown"
 
 ## Basic usage
 
-The library includes 4 different setups you can import. These will automatically import the necessary styles and scope them with a shadow root, add various extensions and import all language specific behavior. There's also [web components](#web-components) wrapping these setups if that's preferred. These setups are only recommended for getting started due to being harder to customize and extend while risking code duplication.
+The library includes 4 different setups you can import. These will automatically import the necessary styles and scope them with a shadow root, add various extensions and import all language specific behavior. There's also [web components](#web-components) wrapping these setups if that's preferred. These setups are only recommended for getting started due to being harder to customize and extend while risking code duplication in your bundles.
 
 ```javascript
 import { minimalEditor, basicEditor, fullEditor, readonlyEditor } from "prism-code-editor/setups"
@@ -145,15 +145,14 @@ import { matchTags } from "prism-code-editor/match-tags"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
 
 export const addExtensions = (editor: PrismEditor) => {
-  const cursor = cursorPosition()
   editor.addExtensions(
     highlightSelectionMatches(),
     searchWidget(),
-    defaultCommands(cursor),
+    defaultCommands(),
     copyButton(),
     matchTags(),
     highlightBracketPairs(),
-    cursor,
+    cursorPosition(),
   )
 }
 ```
@@ -166,7 +165,7 @@ import "prismjs/components/prism-clike.js"
 import "prismjs/components/prism-javascript.js"
 
 import { createEditor } from "prism-code-editor"
-import { bracketMatcher } from "prism-code-editor/match-brackets"
+import { matchBrackets } from "prism-code-editor/match-brackets"
 import { indentGuides } from "prism-code-editor/guides"
 
 // Importing styles
@@ -179,11 +178,11 @@ const editor = createEditor(
   "#editor",
   { language: "html" },
   indentGuides(),
-  bracketMatcher(true),
+  matchBrackets(true),
 )
 
 import('./extensions').then(module => {
-  module.addExtensions(editor)
+  module.addExtensions(editor, matcher)
 })
 ```
 
@@ -241,6 +240,7 @@ The `PrismEditor` type includes a bunch of useful read only properties and metho
 - `keyCommandMap`: Record mapping KeyboardEvent.key to a function called when that key is pressed.
 - `removed`: True if the remove method has been called.
 - `tokens`: Tokens currently displayed in the editor.
+- `extensions`: Object storing some of the extensions added to the editor.
 
 Adding IDs and event listeners is supported on all elements. Adding classes is supported on all elements except for the scroll container.
 
@@ -267,14 +267,31 @@ All utilities you can import are documented in detail with JSDoc, but here's a l
 - `getClosestToken: (editor: PrismEditor, selector: string, marginLeft?: number, marginRight?: number, position?: number) => HTMLSpanElement | null`
 - `getLanguage: (editor: PrismEditor, position?: number) => string`
 - `insertText: (editor: PrismEditor, text: string, start?: number | null, end?: number | null, newCursorStart?: number | null, newCursorEnd?: number | null) => void`
-- `numLines: (str: string, position?: number) => number`
+- `numLines: (str: string, start?: number, end?: number) => number`
 - `getModifierCode: (e: KeyboardEvent) => number`
 
 ## Extensions
 
-Most behavior isn't included by default and must be imported. This is to keep the core small for those who don't need the extra functionality. To see which extensions are available and how to add them, see [advanced usage](#advanced-usage).
+Most behavior isn't included by default and must be imported. This is to keep the core small for those who don't need the extra functionality. To see how to add extensions them, see [advanced usage](#advanced-usage).
 
-Many extensions have extra methods and read-only properties you might find useful.
+All extensions are documented with JSDoc and here's how to import all of them:
+
+```javascript
+import { matchBrackets } from "prism-code-editor/match-brackets"
+import { matchTags } from "prism-code-editor/match-tags"
+import { indentGuides } from "prism-code-editor/guides"
+import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
+import { defaultCommands } from "prism-code-editor/commands"
+import { cursorPosition } from "prism-code-editor/cursor"
+import { copyButton } from "prism-code-editor/copy-button"
+import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
+import { readOnlycodeFolding } from "prism-code-editor/code-folding"
+
+// And CSS
+import "prism-code-editor/search.css"
+import "prism-code-editor/copy-button.css"
+import "prism-code-editor/code-folding.css"
+```
 
 ### Searching
 
@@ -448,7 +465,7 @@ Changing `editor.inputCommandMap` will work the exact same way.
 
 ## Web components
 
-The library includes a custom element wrapper for all 4 setups you can import.
+The library includes a custom element wrapper for each of the 4 setups you can import.
 
 ```typescript
 import { addBasicEditor, PrismEditorElement } from "prism-code-editor/web-component"
