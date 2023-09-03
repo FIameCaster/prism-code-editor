@@ -1,5 +1,6 @@
 import "prism-code-editor/search.css"
 import "prism-code-editor/copy-button.css"
+import "prism-code-editor/code-folding.css"
 import "prism-code-editor/languages"
 import "prismjs/components/prism-markup"
 import "prismjs/components/prism-css"
@@ -14,6 +15,7 @@ import { copyButton } from "prism-code-editor/copy-button"
 import { defaultCommands } from "prism-code-editor/commands"
 import { highlightSelectionMatches, searchWidget } from "prism-code-editor/search"
 import { cursorPosition } from "prism-code-editor/cursor"
+import { readOnlyCodeFolding } from "prism-code-editor/code-folding"
 import { matchTags } from "prism-code-editor/match-tags"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
 import { code } from "./examples2"
@@ -47,20 +49,19 @@ const tabs = wrapper.querySelectorAll(".tab")
 const errorEl = <HTMLDivElement>wrapper.querySelector(".error")!
 const errorMessage = <HTMLPreElement>errorEl.lastElementChild
 
-const langs = ["tsx", "jsx", "typescript", "javascript", "typescript", "html", "javascript"]
+const langs = ["tsx", "jsx", "typescript", "javascript", "typescript", "html", "javascript", "html"]
 
 const runBtn = <HTMLButtonElement>document.getElementById("run")
 
 const theme = <HTMLSelectElement>document.getElementById("themes"),
 	addWidgets = (editor: PrismEditor) => {
-		const cursor = cursorPosition()
 		editor.addExtensions(
 			searchWidget(),
 			highlightSelectionMatches(),
 			matchTags(),
 			highlightBracketPairs(),
-			defaultCommands(cursor),
-			cursor,
+			defaultCommands(),
+			cursorPosition(),
 		)
 	},
 	toggleActive = () => {
@@ -83,10 +84,13 @@ const observer = new IntersectionObserver(
 	e =>
 		e.forEach(entry => {
 			if (!entry.isIntersecting) return
-
 			const index = editors.findIndex(e => e.scrollContainer == entry.target)
 			observer.unobserve(entry.target)
-			editors[index].setOptions({ value: code[index - 1], language: langs[index - 1] })
+			editors[index].setOptions({
+				value: code[index - 1],
+				language: langs[index - 1],
+				readOnly: index > 7,
+			})
 		}),
 	{
 		rootMargin: "9999px 0px 500px 0px",
@@ -127,7 +131,7 @@ runBtn.onclick = () => {
 	}
 
 	editor1.remove()
-	addWidgets?.(editor1 = newEditor)
+	addWidgets?.((editor1 = newEditor))
 	toggleActive()
 	newEditor.textarea.focus()
 }
@@ -137,16 +141,19 @@ for (const prop of ["readOnly", "wordWrap", "lineNumbers"]) {
 		const options = {
 			[prop]: (<HTMLInputElement>e.target).checked,
 		}
-		editors.forEach(editor => editor.setOptions(options))
+		editors.forEach((editor, i) => {
+			if (prop != "readOnly" || i < 8) editor.setOptions(options)
+		})
 	}
 }
 
-for (let i = 3; i < 7; i++) {
+for (let i = 3; i < 8; i++) {
 	sections[i].querySelectorAll(".prism-editor").forEach(el => observer.observe(el))
 }
 
 for (let e of [editor, editor1, ...editors]) addWidgets(e)
 editors.forEach(e => e.addExtensions(copyButton()))
+editors[8].addExtensions(readOnlyCodeFolding())
 
 const commands = editor.keyCommandMap,
 	oldEnter = commands.Enter

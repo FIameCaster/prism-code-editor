@@ -289,6 +289,10 @@ option {
 	font-size: 1.8rem;
 }
 
+.folding {
+	--number-spacing: 1.5em;
+}
+
 @media (prefers-color-scheme: dark) {
 	:root {
 		--bg: #0d1117;

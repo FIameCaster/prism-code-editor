@@ -55,7 +55,6 @@ import { matchTags } from "prism-code-editor/match-tags"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
 
 export const addExtensions = (editor: PrismEditor) => {
-  const cursor = cursorPosition()
   editor.addExtensions(
     highlightSelectionMatches(),
     searchWidget(),
@@ -63,7 +62,7 @@ export const addExtensions = (editor: PrismEditor) => {
     copyButton(),
     matchTags(),
     highlightBracketPairs(),
-    cursor,
+    cursorPosition(),
   )
 }`,
 
@@ -74,7 +73,7 @@ import "prismjs/components/prism-clike.js"
 import "prismjs/components/prism-javascript.js"
 
 import { createEditor } from "prism-code-editor"
-import { bracketMatcher } from "prism-code-editor/match-brackets"
+import { matchBrackets } from "prism-code-editor/match-brackets"
 import { indentGuides } from "prism-code-editor/guides"
 
 // Importing styles
@@ -87,7 +86,7 @@ const editor = createEditor(
   "#editor",
   { language: "html" },
   indentGuides(),
-  bracketMatcher(true),
+  matchBrackets(true),
 )
 
 import('./extensions').then(module => {
@@ -170,4 +169,49 @@ languages.whatever = {
     ([start, end], value) => /\\[]|\\(\\)|{}/.test(value[start - 1] + value[end])
   ]
 }`,
+	`<!DOCTYPE html>
+<html lang="en">
+<head>
+	<style>
+		/* You probably want to give extra space for the fold gutters */
+		.prism-editor {
+			--number-spacing: 1.5em;
+		}
+	</style>
+</head>
+<body>
+	<div id="myEditor"></div>
+	<script type="module">
+		import { readOnlyCodeFolding } from "prism-code-editor/code-folding"
+		import { createEditor } from "prism-code-editor"
+		import { indentGuides } from "prism-code-editor/guides"
+		import { matchBrackets } from "prism-code-editor/match-brackets"
+		import { matchTags } from "prism-code-editor/match-tags"
+		import "prism-code-editor/code-folding.css"
+
+		/* Not all necessary imports are shown above.
+
+		To fold matching curly/square brackets or XML elements,
+		you will need a bracket matcher and a tag matcher respectively.
+		Those extensions should be added before the code folding.
+
+		Folding of multiline comments is also supported, but you will
+		need to import language specific behavior for it to work. */
+
+		const editor = createEditor(
+			Prism,
+			"#myEditor",
+			{
+				language: "html",
+				readOnly: true,
+				value: "<div>\\n  test\\n</div>"
+			},
+			indentGuides(),
+			matchBrackets(true),
+			matchTags(),
+			readOnlyCodeFolding()
+		)
+	</script>
+</body>
+</html>`,
 ]

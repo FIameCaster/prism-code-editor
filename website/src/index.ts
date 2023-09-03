@@ -6,16 +6,15 @@ import "prism-code-editor/scrollbar.css"
 import "./style.css"
 import initialTheme from "prism-code-editor/themes/github-dark.css?inline"
 import { startOptions, basicUsage } from "./examples1"
-import { bracketMatcher } from "prism-code-editor/match-brackets"
+import { matchBrackets } from "prism-code-editor/match-brackets"
 import { indentGuides } from "prism-code-editor/guides"
 
 const style = document.createElement("style")
 const wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!
 const sections = document.getElementsByTagName("section")
 
-const makeEditor = (container: ParentNode | string, options?: Partial<EditorOptions>) => 
-	createEditor(Prism, container, options, bracketMatcher(true), indentGuides())
-
+const makeEditor = (container: ParentNode | string, options?: Partial<EditorOptions>) =>
+	createEditor(Prism, container, options, matchBrackets(true), indentGuides())
 
 const editor = makeEditor(wrapper, {
 	language: "javascript",
@@ -26,7 +25,7 @@ for (const section of sections) {
 	section.querySelectorAll("div").forEach(div => div.remove())
 }
 
-const editors = [2, 3, 3, 4, 4, 5, 5, 6].map(data =>
+const editors = [2, 3, 3, 4, 4, 5, 5, 6, 7].map(data =>
 	makeEditor(sections[data], { language: "javascript" }),
 )
 
