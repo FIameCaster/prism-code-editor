@@ -126,7 +126,8 @@ section h2 {
 	font-size: 1.4rem;
 }
 
-prism-editor {
+prism-editor,
+readonly-editor {
 	max-height: 70rem;
 	height: calc(100vh - 16rem);
 	border-radius: 0.5rem;
@@ -134,6 +135,10 @@ prism-editor {
 	display: grid;
 	overflow: hidden;
 	font-size: 1.4rem;
+}
+
+readonly-editor {
+	--number-spacing: 1.6em;
 }
 
 .error svg {

@@ -47,7 +47,7 @@ const getOptions = (el: HTMLElement) => {
 const addComponent = (Prism: PrismType, name: string, createEditor: typeof basicEditor) => {
 	customElements.define(
 		name,
-		class EditorComponent extends HTMLElement {
+		class extends HTMLElement {
 			static observedAttributes = attributes
 			editor: PrismEditor
 

@@ -51,7 +51,7 @@ export const indentGuides = (): IndentGuides => {
 			const isSingleIndent = prev[0] != top && next?.[0] != top,
 				isSingleOutdent = prev[0] + prev[1] != top + height && next?.[0] + next?.[1] != top + height
 
-			for (let j = isSingleIndent ? -1 : 0, l = isSingleOutdent ? height + 1 : height; j < l; j++)
+			for (let j = -isSingleIndent, l = height + <any>isSingleOutdent; j < l; j++)
 				lineIndentMap[j + top] = i
 
 			prev = indents[i] = newIndents[i]
@@ -121,6 +121,7 @@ export const indentGuides = (): IndentGuides => {
 		update(editor, options) {
 			if (!currentEditor) {
 				currentEditor = editor
+				editor.extensions.indentGuides = this
 				editor.overlays.append(container)
 				editor.addListener("update", update)
 				editor.addListener("selectionChange", updateActive)

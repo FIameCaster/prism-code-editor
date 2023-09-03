@@ -1,4 +1,10 @@
 import * as Prism from "prismjs"
+import { BracketMatcher } from "./extensions/matchBrackets"
+import { TagMatcher } from "./extensions/matchTags"
+import { Cursor } from "./extensions/cursor"
+import { SearchWidget } from "./extensions/search"
+import { IndentGuides } from "./extensions/guides"
+import { ReadOnlyCodeFolding } from "./extensions/folding"
 
 export type EditorOptions = {
 	/** Language used for syntax highlighting. */
@@ -119,6 +125,15 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	readonly removed: boolean
 	/** Tokens currently displayed in the editor. */
 	readonly tokens: (Prism.Token | string)[]
+	/** Object storing some of the extensions added to the editor. */
+	readonly extensions: {
+		matchBrackets?: BracketMatcher
+		matchTags?: TagMatcher
+		cursor?: Cursor
+		searchWidget?: SearchWidget
+		indentGuides?: IndentGuides
+		codeFold?: ReadOnlyCodeFolding
+	}
 	/**
 	 * Set new options for the editor.
 	 * Ommitted properties will use their previous value.

@@ -17,7 +17,7 @@ export interface Cursor extends Extension {
 	scrollIntoView(): void
 }
 
-const cursorTemplate = createTemplate(" <span></span> ", "position:absolute;top:0;opacity:0;")
+const cursorTemplate = createTemplate(" <span></span> ", "position:absolute;top:0;opacity:0;padding:inherit")
 
 /** Extension which can be used to calculate the position of the cursor and scroll it into view. */
 export const cursorPosition = (): Cursor => {
@@ -46,6 +46,7 @@ export const cursorPosition = (): Cursor => {
 			if (!cEditor) {
 				;(cEditor = editor).addListener("selectionChange", selectionChange)
 
+				editor.extensions.cursor = this
 				editor.textarea.addEventListener("beforeinput", e => {
 					shouldScroll = /history/.test(e.inputType)
 				})

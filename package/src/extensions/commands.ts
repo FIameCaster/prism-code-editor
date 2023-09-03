@@ -8,14 +8,12 @@ import {
 	regexEscape,
 	getModifierCode,
 } from "../utils"
-import { Cursor } from "./cursor"
 
 const clipboard = navigator.clipboard
 
 /**
  * Extension that will add automatic indentation, closing of brackets,
  * quotes and tags, line- and block comment toggling and line moving/copying.
- * @param cursor Cursor that will be used to keep the cursor in view when typing.
  * @param selfClosePairs Pairs of self-closing brackets and quotes.
  * Must be an array of strings with 2 characters each.
  * Defaults to `['""', "''", '``', '()', '[]', '{}']`.
@@ -24,7 +22,6 @@ const clipboard = navigator.clipboard
  * Defaults to ``/([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s``.
  */
 export const defaultCommands = (
-	cursor?: Cursor,
 	selfClosePairs = ['""', "''", "``", "()", "[]", "{}"],
 	selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s,
 ): Extension => {
@@ -39,7 +36,7 @@ export const defaultCommands = (
 				const getIndent = ({ insertSpaces = true, tabSize }: EditorOptions) =>
 					[insertSpaces ? " " : "\t", insertSpaces ? tabSize || 2 : 1] as const
 
-				const scroll = (): true => !cursor?.scrollIntoView()
+				const scroll = (): true => !editor.extensions.cursor?.scrollIntoView()
 
 				/**
 				 * Automatically closes quotes and brackets if text is selected,
@@ -109,6 +106,30 @@ export const defaultCommands = (
 					}
 				}
 
+				const indent = (
+					outdent: boolean,
+					lines: string[],
+					start1: number,
+					end1: number,
+					start: number,
+					end: number,
+					indentChar: string,
+					tabSize: number
+				) => {
+					insertLines(
+						lines,
+						lines.map(
+							outdent
+								? str => str.slice(str.search(/\S|$/) ? tabSize - (str.search(/\S|$/) % tabSize) : 0)
+								: str => str && indentChar.repeat(tabSize - (str.search(/\S|$/) % tabSize)) + str,
+						),
+						start1,
+						end1,
+						start,
+						end,
+					)
+				}
+
 				inputCommandMap["<"] = (_e, selection, value) => selfClose(selection, "<>", value, true)
 
 				selfClosePairs.forEach(([open, close]) => {
@@ -140,20 +161,7 @@ export const defaultCommands = (
 					const [lines, start1, end1] = getLines(value, start, end)
 					if (start == end && !shiftKey) {
 						insertText(editor, indentChar.repeat(tabSize - ((start - start1) % tabSize)))
-					} else
-						insertLines(
-							lines,
-							lines.map(
-								e.shiftKey
-									? str =>
-											str.slice(str.search(/\S|$/) ? tabSize - (str.search(/\S|$/) % tabSize) : 0)
-									: str => str && indentChar.repeat(tabSize - (str.search(/\S|$/) % tabSize)) + str,
-							),
-							start1,
-							end1,
-							start,
-							end,
-						)
+					} else indent(shiftKey, lines, start1, end1, start, end, indentChar, tabSize)
 					return scroll()
 				}
 
@@ -231,12 +239,16 @@ export const defaultCommands = (
 					}
 
 				editor.textarea.addEventListener("keydown", e => {
-					const code = getModifierCode(e)
+					const code = getModifierCode(e), keyCode = e.keyCode
 
-					if (code == (isMac ? 0b1010 : 0b0010) && e.keyCode == 77) {
+					if (code == (isMac ? 4 : 2) && (keyCode == 221 || keyCode == 219)) {
+						const [start, end] = getSelection()
+						indent(keyCode == 219, ...getLines(editor.value, start, end), start, end, ...getIndent(options))
+					}
+					else if (code == (isMac ? 0b1010 : 0b0010) && keyCode== 77) {
 						setIgnoreTab(!ignoreTab)
 						preventDefault(e)
-					} else if ((e.code == "Backslash" && code == 2) || (e.keyCode == 65 && code == 9)) {
+					} else if ((e.code == "Backslash" && code == 2) || (keyCode == 65 && code == 9)) {
 						const value = editor.value,
 							isBlock = code == 9,
 							[start, end] = getSelection(),

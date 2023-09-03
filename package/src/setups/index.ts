@@ -113,9 +113,9 @@ const fullEditor = (
 }
 
 /**
- * Same as `minimalEditor`, but also a copy button, bracket matching and
- * indentation guides. No commands are added which makes this setup best
- * used with the `readOnly` option set to true.
+ * Same as `minimalEditor`, but also a copy button, bracket matching, tag matching,
+ * indentation guides, selection match highlighting and code folding. No commands are
+ * added which makes this setup best used with the `readOnly` option set to true.
  */
 const readonlyEditor = (
 	Prism: PrismType,

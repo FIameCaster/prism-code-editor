@@ -14,13 +14,14 @@ Original: https://github.com/dracula/visual-studio-code */
 	--widget__bg-hover: #5a5d5e80;
 	--widget__bg-active: #6272a466;
 	--widget__focus-ring: #bd93f9;
-	--widget__bg-find: #ffffff40;
+	--search__bg-find: #ffffff40;
 	--widget__bg-error: #5a1d1d;
 	--widget__error-ring: #ff5555;
 	--editor__border-highlight: 2px solid #44475a;
 	--editor__bg-selection-match: #424450;
 	--editor__line-number: #6272a4;
 	--editor__bg-scrollbar: 0, 0%, 50%;
+	--editor__bg-fold: #c5c5c5;
 	--bg-guide-indent: #ffffff1a;
 	color-scheme: dark;
 }
@@ -36,7 +37,7 @@ Original: https://github.com/dracula/visual-studio-code */
 }
 
 .search-matches .match {
-	--widget__bg-find: #ffb86c80;
+	--search__bg-find: #ffb86c80;
 }
 
 .active-line {

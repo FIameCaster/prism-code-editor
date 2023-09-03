@@ -43,6 +43,7 @@ export const searchWidget = (): SearchWidget => {
 		update(editor: PrismEditor) {
 			if (initialized) return
 			initialized = true
+			editor.extensions.searchWidget = this
 
 			const container = <HTMLDivElement>template.cloneNode(true),
 				[toggle, div] = <[HTMLButtonElement, HTMLDivElement]>(
@@ -180,7 +181,7 @@ export const searchWidget = (): SearchWidget => {
 					"--search-width",
 					`min(${
 						(scrollContainer.clientWidth / getStyleValue(div, "fontSize")) * 0.9
-					}em - var(--padding-left) - var(--padding-inline), 20em)`,
+					}em - var(--padding-left) - var(--padding-inline,.75em),20em)`,
 				)
 
 			const observer = window.ResizeObserver ? new ResizeObserver(resize) : null

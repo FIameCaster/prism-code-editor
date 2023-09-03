@@ -16,6 +16,8 @@ const entries = {
 	search: "src/extensions/search/search.css",
 	copy: "src/extensions/copyButton/copy.css",
 	"extensions/copyButton/index": "src/extensions/copyButton/index.ts",
+	"extensions/folding/index": "src/extensions/folding/index.ts",
+	folding: "src/extensions/folding/folding.css",
 	scollbar: "src/scrollbar.css",
 	layout: "src/layout.css",
 	"themes/index": "src/themes/index.ts",

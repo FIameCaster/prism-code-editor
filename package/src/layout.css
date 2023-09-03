@@ -3,9 +3,7 @@
 	display: grid;
 	outline: 0;
 	line-height: 1.4;
-	--padding-inline: 0.75em;
-	--number-spacing: 0.75em;
-	--padding-left: var(--padding-inline);
+	--padding-left: var(--padding-inline, 0.75em);
 	scroll-padding-left: var(--padding-left);
 	-webkit-user-select: none;
 	user-select: none;
@@ -13,7 +11,9 @@
 }
 
 .show-line-numbers {
-	--padding-left: calc(var(--padding-inline) + var(--number-width) + var(--number-spacing));
+	--padding-left: calc(
+		var(--padding-inline, 0.75em) + var(--number-width) + var(--number-spacing, 0.75em)
+	);
 	grid: 1fr / 0 1fr;
 }
 
@@ -25,21 +25,13 @@
 }
 
 .prism-editor textarea {
+	all: unset;
 	box-sizing: border-box;
-	resize: none;
-	border: 0;
-	outline: 0;
 	height: 100%;
 	width: 100%;
 	color: #0000;
-	background: #0000;
-	white-space: inherit;
-	overflow: hidden;
-	overflow-wrap: inherit;
-	letter-spacing: inherit;
-	font: inherit;
 	pointer-events: auto;
-	padding: 0 var(--padding-inline) 0 var(--padding-left);
+	padding: 0 var(--padding-inline, 0.75em) 0 var(--padding-left);
 }
 
 .no-selection > :focus {
@@ -47,7 +39,7 @@
 }
 
 .code-line {
-	padding: 0 var(--padding-inline) 0 0;
+	padding: 0 var(--padding-inline, 0.75em) 0 0;
 	margin: 0 0 0 var(--padding-left);
 	position: relative;
 }
@@ -56,10 +48,10 @@
 	content: attr(data-line);
 	display: inline-block;
 	margin: 0 0 0 calc(-1 * var(--padding-left));
-	padding: 0 var(--number-spacing) 0 0;
+	padding: 0 var(--number-spacing, 0.75em) 0 0;
 	box-sizing: border-box;
 	color: var(--editor__line-number);
-	text-align: right;
+	text-align: end;
 }
 
 .show-line-numbers::before {

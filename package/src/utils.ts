@@ -49,7 +49,7 @@ const getClosestToken = (
 ) => {
 	const value = editor.value,
 		length = value.slice(position).search(/\n|$/) + 1,
-		line = editor.wrapper.children[numLines(value, position)],
+		line = editor.wrapper.children[numLines(value, 0, position)],
 		tokens = <NodeListOf<HTMLSpanElement>>line.querySelectorAll(selector),
 		range = new Range()
 	range.setEndAfter(line)

@@ -53,7 +53,7 @@ const createEditor = (
 			selectionChange: new Set([
 				([start, end, direction]) => {
 					const newLine =
-						lines[(activeLineNumber = numLines(value, direction == "backward" ? start : end))]
+						lines[(activeLineNumber = numLines(value, 0, direction == "backward" ? start : end))]
 
 					if (newLine != activeLine) {
 						activeLine?.classList.remove("active-line")
@@ -67,12 +67,12 @@ const createEditor = (
 
 	const setOptions = (options: Partial<EditorOptions>) => {
 		Object.assign(currentOptions, { value }, options)
-		currentExtensions.forEach(extension => extension.update(self, currentOptions))
 		;({ language, value } = currentOptions)
 
 		const isNewGrammar = grammar != (grammar = Prism.languages[language])
 		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
 
+		currentExtensions.forEach(extension => extension.update(self, currentOptions))
 		scrollContainer.className = `prism-editor language-${language}${
 			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
 		} ${currentOptions.wordWrap ? "" : "no-"}word-wrap`
@@ -200,8 +200,8 @@ const createEditor = (
 		currentOptions[`on${name[0].toUpperCase()}${name.slice(1)}`]?.apply(self, args)
 	}
 
-	const dispatchSelection = () =>
-		handleSelecionChange && dispatchEvent("selectionChange", getInputSelection(), value)
+	const dispatchSelection = (force?: boolean) =>
+		(force || handleSelecionChange) && dispatchEvent("selectionChange", getInputSelection(), value)
 
 	const self: PrismEditor = {
 		scrollContainer,
@@ -229,13 +229,14 @@ const createEditor = (
 		},
 		inputCommandMap,
 		keyCommandMap,
+		extensions: {},
 		setOptions,
 		update,
 		getSelection: getInputSelection,
 		setSelection(start, end, direction) {
 			focusRelatedTarget()
 			textarea.setSelectionRange(start, end ?? start, direction)
-			dispatchSelection()
+			dispatchSelection(true)
 		},
 		addExtensions(...extensions) {
 			extensions.forEach(extension => {
@@ -307,13 +308,12 @@ const isChrome = /Chrome\//.test(userAgent)
 const isWebKit = !isChrome && /AppleWebKit\//.test(userAgent)
 
 /**
- * Counts number of lines in the string up to the position.
- * If position is excluded, the whole string is searched.
+ * Counts number of lines in the string between `start` and `end`.
+ * If start and end are excluded, the whole string is searched.
  */
-const numLines = (str: string, position = Infinity) => {
-	let count = 1,
-		i = -1
-	for (; (i = str.indexOf("\n", i + 1)) + 1 && i < position; count++);
+const numLines = (str: string, start = 0, end = Infinity) => {
+	let count = 1
+	for (; (start = str.indexOf("\n", start) + 1) && start <= end; count++);
 	return count
 }
 

@@ -5,9 +5,3 @@ const clikeIndent = /[([{][^\n)\]}]*$|((^|[^.])\b(if\s*\(.+?\)|else|case.+?:))[ 
 	xmlClosingTag = /^<\/(?!\d)[^\s>\/=$<%]+\s*>/
 
 export { clikeIndent, isBracketPair, xmlOpeningTag, xmlClosingTag }
-
-switch (1 + 1) {
-  case 2 ?
-   3 : 2:
-
-}

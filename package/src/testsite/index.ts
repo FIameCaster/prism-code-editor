@@ -2,10 +2,12 @@ import { createEditor, EditorOptions, getModifierCode, isMac, PrismEditor } from
 import { defaultCommands } from "../extensions/commands"
 import { copyButton } from "../extensions/copyButton"
 import "../extensions/copyButton/copy.css"
+import "../extensions/folding/folding.css"
 import { cursorPosition } from "../extensions/cursor"
 import { indentGuides } from "../extensions/guides"
 import guides from "../extensions/guides.ts?raw"
-import { bracketMatcher } from "../extensions/matchBrackets"
+import coreCode from "../core.ts?raw"
+import { matchBrackets } from "../extensions/matchBrackets"
 import { highlightBracketPairs } from "../extensions/matchBrackets/highlight"
 import { highlightSelectionMatches, searchWidget } from "../extensions/search"
 import "../extensions/search/search.css"
@@ -15,7 +17,7 @@ import Prism from "../prismCore"
 import "./languages"
 import "../prismMarkdown"
 import "../scrollbar.css"
-import { addFullEditor, PrismEditorElement } from "../webComponent"
+import { addFullEditor, addReadonlyEditor, PrismEditorElement } from "../webComponent"
 import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 
@@ -24,25 +26,21 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	tabs = wrapper.querySelectorAll(".tab"),
 	errorEl = <HTMLDivElement>wrapper.querySelector(".error")!,
 	errorMessage = <HTMLPreElement>errorEl.lastElementChild,
-	createEditorWrapper = (container: ParentNode, options: EditorOptions) => {
-		const cursor = cursorPosition()
-		const editor = createEditor(
+	createEditorWrapper = (container: ParentNode, options: EditorOptions) =>
+		createEditor(
 			Prism,
 			container,
 			options,
-			cursor,
+			cursorPosition(),
 			indentGuides(),
 			matchTags(),
-			bracketMatcher(true),
+			matchBrackets(true),
 			highlightBracketPairs(),
 			copyButton(),
 			highlightSelectionMatches(),
 			searchWidget(),
-			defaultCommands(cursor),
-		)
-
-		return editor
-	},
+			defaultCommands(),
+		),
 	startCode = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +55,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 <body>
   
   <script>
-    
+		
   </script>
 </body>
 </html>`
@@ -132,13 +130,16 @@ tabSize.oninput = () => {
 	webComponent.tabSize = +(tabSizeNode.data = tabSize.value)
 }
 
-for (const attr of ["word-wrap", "readonly", "line-numbers"]) {
-	document.getElementById(attr)!.onchange = () => webComponent.toggleAttribute(attr)
+for (const attr of ["word-wrap", "readonly", "line-numbers"] as const) {
+	document.getElementById(attr)!.onchange = () => {
+		webComponent.toggleAttribute(attr)
+		if (attr != "readonly") readonlyEditor.toggleAttribute(attr)
+	}
 }
 
 const theme2 = <HTMLSelectElement>document.getElementById("themes2")!
 theme2.oninput = () => {
-	webComponent.theme = theme2.value.toLowerCase().replace(/ /g, "-")
+	readonlyEditor.theme = webComponent.theme = theme2.value.toLowerCase().replace(/ /g, "-")
 }
 
 runBtn.onclick = () => {
@@ -185,5 +186,15 @@ const webComponent = document.querySelector<PrismEditorElement>("prism-editor")!
 webComponent.addEventListener("ready", () => {
 	webComponent.editor.setOptions({
 		value: guides.trimEnd().replace(/\r/g, ""),
+	})
+})
+
+addReadonlyEditor(Prism, "readonly-editor")
+
+const readonlyEditor = document.querySelector<PrismEditorElement>("readonly-editor")!
+
+readonlyEditor.addEventListener("ready", () => {
+	readonlyEditor.editor.setOptions({
+		value: coreCode.trimEnd().replace(/\r/g, ""),
 	})
 })

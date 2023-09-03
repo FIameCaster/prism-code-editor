@@ -1,23 +1,23 @@
 import { Extension, PrismEditor } from "../.."
-import { Bracket, BracketMatcherNew, editorMatcherMap } from "./match"
+import { Bracket, BracketMatcher } from "./"
 import { getClosestToken } from "../../utils"
 
 /**
  * Extension adding a `selectionChange` handler to highlight the closest bracket pair.
  *
- * You must to add a bracket matcher to your editor for this extension to work.
+ * You must to add bracket matching to your editor for this extension to work.
  *
  * The `.active-bracket` CSS selector can be used to highlight the brackets.
  */
 export const highlightBracketPairs = (): Extension => {
 	let initialized: boolean,
-		matcher: BracketMatcherNew,
+		matcher: BracketMatcher,
 		cEditor: PrismEditor,
 		activeID = -1,
 		els: HTMLSpanElement[] = [],
 		selectionChange = ([start, end] = cEditor.getSelection()) => {
 			let newID =
-				start == end && (matcher = editorMatcherMap.get(cEditor)!) && cEditor.focused
+				start == end && (matcher = cEditor.extensions.matchBrackets!) && cEditor.focused
 					? closest(end) || -1
 					: -1
 			if (newID != activeID) {

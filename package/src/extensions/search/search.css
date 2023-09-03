@@ -6,7 +6,6 @@
 	padding: 0.3em;
 	border-radius: 0.3em;
 	margin: -99in 0 0 0;
-	line-height: 1.5;
 	font: 400 1em/1.5 Arial, Helvetica, sans-serif;
 	color: var(--widget__color);
 	background: var(--widget__bg);
@@ -23,12 +22,8 @@
 }
 
 .prism-search button {
-	background: 0 0;
-	border: none;
-	color: inherit;
-	font: inherit;
+	all: unset;
 	cursor: pointer;
-	padding: 0 0.2em;
 }
 
 [readonly] ~ .prism-search-container > div {
@@ -65,8 +60,9 @@
 }
 
 .search-options button {
+	padding: 0 0.2em;
 	border-radius: 0.2em;
-	width: 1.6em;
+	width: 1.2em;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 }
 
@@ -244,7 +240,7 @@ button.expand-search {
 	opacity: 0.75;
 }
 
-.use-regexp {
+button.use-regexp {
 	display: flex;
 	align-self: stretch;
 }
@@ -276,7 +272,7 @@ button.find-in-selection {
 	align-self: stretch;
 }
 
-.whole-word {
+button.whole-word {
 	position: relative;
 }
 
@@ -314,20 +310,9 @@ button.find-in-selection {
 }
 
 .search-matches span {
-	background: var(--widget__bg-find);
+	background: var(--search__bg-find);
 }
 
 .search-matches :empty {
-	position: relative;
-}
-
-.search-matches :empty::after {
-	content: "";
-	background: var(--widget__bg-find);
-	position: absolute;
-	top: 0;
-	left: -0.5ch;
-	right: -0.5ch;
-	bottom: 0;
-	z-index: -1;
+	box-shadow: 0 0 0 2px var(--search__bg-find);
 }

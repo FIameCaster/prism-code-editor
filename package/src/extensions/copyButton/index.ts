@@ -19,7 +19,7 @@ export const copyButton = (): Extension => {
 
 	btn.addEventListener("click", () => {
 		btn.setAttribute("aria-label", "Copied!")
-		if (clipboard) clipboard.writeText(cEditor.value)
+		if (clipboard) clipboard.writeText(cEditor.extensions.codeFold?.fullCode ?? cEditor.value)
 		else {
 			cEditor.textarea.select()
 			document.execCommand("copy")

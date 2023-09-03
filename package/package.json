@@ -1,6 +1,6 @@
 {
   "name": "prism-code-editor",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "Lightweight, extensible code editor component for the web using Prism",
   "main": "./dist/index.js",
@@ -11,6 +11,7 @@
     "./web-component": "./dist/webComponent.js",
     "./copy-button": "./dist/extensions/copyButton/index.js",
     "./copy-button.css": "./dist/copy.css",
+    "./code-folding.css": "./dist/folding.css",
     "./scrollbar.css": "./dist/scrollbar.css",
     "./setups": "./dist/setups/index.js",
     "./layout.css": "./dist/layout.css",
@@ -28,6 +29,7 @@
     "./match-tags": "./dist/extensions/matchTags.js",
     "./commands": "./dist/extensions/commands.js",
     "./cursor": "./dist/extensions/cursor.js",
+    "./code-folding": "./dist/extensions/folding/index.js",
     "./prism-core": "./dist/prismCore.js",
     "./prism-markdown": "./dist/prismMarkdown.js",
     "./search": "./dist/extensions/search/index.js",
@@ -76,8 +78,8 @@
   "sideEffects": [
     "*.css",
     "./dist/languages/*",
-    "./dist/prism-core.js",
-    "./dist/prism-markdown.js"
+    "./dist/prismCore.js",
+    "./dist/prismMarkdown.js"
   ],
   "pnpm": {
     "patchedDependencies": {

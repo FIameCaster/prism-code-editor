@@ -12,13 +12,14 @@
 	--widget__bg-hover: #b8b8b84f;
 	--widget__bg-active: #6fa3b34d;
 	--widget__focus-ring: #4bafce;
-	--widget__bg-find: #eb5e0054;
+	--search__bg-find: #eb5e0054;
 	--widget__bg-error: #f2dede;
 	--widget__error-ring: #be1100;
 	--editor__bg-highlight: #eee8d5;
 	--editor__bg-selection-match: #f3f0e299;
 	--editor__line-number: #53abc6;
 	--editor__bg-scrollbar: 0, 0%, 25%;
+	--editor__bg-fold: #424242;
 	--bg-guide-indent: #586e7580;
 	color-scheme: light;
 }
@@ -29,7 +30,7 @@
 }
 
 .search-matches .match {
-	--widget__bg-find: #edba8f;
+	--search__bg-find: #edba8f;
 }
 
 .active-line {

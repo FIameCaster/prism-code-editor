@@ -1,7 +1,6 @@
 import { Extension, PrismEditor } from ".."
 import { getClosestToken } from "../utils"
 
-// Using sets instead of Regex for performace
 const langsWithTags = "html,markup,mathml,svg,markdown,md,xml,rss,atom,jsx,tsx".split(",")
 const langsWithoutVoidTags = "xml,rss,atom,jsx,tsx".split(",")
 const voidTags = "area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr".split(",")
@@ -24,47 +23,43 @@ export interface TagMatcher {
 export interface TagHighlighter extends Extension {
 	/**
 	 * The tag matcher used by the extension.
-	 *
-	 * If the extension was created without a tag matcher,
-	 * this will be `undefined` until it's added to an editor.
+	 * This property is only available after the extension is added to an editor.
 	 */
-	readonly matcher: TagMatcher | undefined
+	readonly matcher?: TagMatcher
 }
 
-export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
+/**
+ * Function that adds tag matching to the editor.
+ * @returns An object with two properties. One is an array of all the tags in the editor.
+ * The second is a sparce array which maps the index of a tag to the index of its matching tag.
+ */
+export const createTagMatcher = (editor: PrismEditor) => {
 	let pairMap: number[],
 		tags: [Prism.Token, number, number, number, string, boolean][],
 		stack: [number, string][],
-		position: number,
 		tagIndex: number,
 		matchTags = (tokens: (Prism.Token | string)[], language: string) => {
 			pairMap = []
 			tags = []
 			stack = []
-			position = tagIndex = 0
-			matchTagsRecursive(tokens, language)
+			tagIndex = 0
+			matchTagsRecursive(tokens, language, 0)
 		},
-		matchTagsRecursive = (tokens: (Prism.Token | string)[], language: string) => {
-			if (!langsWithTags.includes(language)) return true
-			for (
-				let i = 0,
-					l = tokens.length,
-					token: string | Prism.Token,
-					noVoidTags = langsWithoutVoidTags.includes(language);
-				i < l;
-				i++
-			) {
-				token = tokens[i]
-				if (typeof token != "string") {
-					const { content, type } = token
-
+		matchTagsRecursive = (tokens: (Prism.Token | string)[], language: string, position: number) => {
+			if (langsWithTags.includes(language))
+				for (let i = 0, l = tokens.length; i < l; ) {
+					const noVoidTags = langsWithoutVoidTags.includes(language),
+						token = <Prism.Token>tokens[i++],
+						content = token.content,
+						type = token.type
 					if (Array.isArray(content)) {
 						if (type == "tag") {
 							let [{ length: openingLength }, tagName] = <[Prism.Token, (string | Prism.Token)?]>(
 								(<Prism.Token>content[0]).content
 							)
 							let closingLength = (<Prism.Token>content[content.length - 1]).length
-							let selfClosing = closingLength > 1 || (!noVoidTags && voidTags.includes(<string>tagName))
+							let selfClosing =
+								closingLength > 1 || (!noVoidTags && voidTags.includes(<string>tagName))
 
 							tagName = tagName ? <string>((<Prism.Token>tagName).content || tagName) : ""
 							if (!selfClosing) {
@@ -89,16 +84,15 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 								tagName,
 								selfClosing,
 							]
-						} else {
-							if (
-								!matchTagsRecursive(content, type.indexOf("language-") ? language : type.slice(9))
+						} else
+							matchTagsRecursive(
+								content,
+								type.indexOf("language-") ? language : type.slice(9),
+								position,
 							)
-								continue
-						}
 					}
+					position += token.length
 				}
-				position += token.length
-			}
 		}
 
 	editor.addListener("tokenize", env => {
@@ -107,7 +101,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 
 	matchTags(editor.tokens, editor.options.language)
 
-	return {
+	return editor.extensions.matchTags = {
 		get tags() {
 			return tags
 		},
@@ -117,21 +111,24 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 	}
 }
 /**
- * Extension that adds classes to matching tags a tag.
- * @param matcher The tag matcher used to match the tags.
- * If omitted, one is created after the extension is added to an editor.
+ * Extension that adds classes to matching HTML/XML/JSX tags. If the editor doesn't
+ * have a tag matcher, one is created.
  *
  * Use the CSS selectors `.active-tagname` to style the elements.
  *
- * This extension can safely be added to an editor dynamically.
+ * This extension can safely be added dynamically to an editor.
  */
-export const matchTags = (matcher?: TagMatcher): TagHighlighter => {
-	let init: boolean, openEl: HTMLSpanElement | null, closeEl: HTMLSpanElement | null
+export const matchTags = (): TagHighlighter => {
+	let init: boolean,
+		openEl: HTMLSpanElement | null,
+		closeEl: HTMLSpanElement | null,
+		matcher: TagMatcher
 
 	return {
 		update(editor) {
-			if (init != (init = true)) {
-				matcher ||= createTagMatcher(editor)
+			if (!init) {
+				init = true
+				matcher = editor.extensions.matchTags || createTagMatcher(editor)
 				const getClosestTagIndex = (pos: number) => {
 					for (let i = 0, tags = matcher!.tags, l = tags.length; i < l && tags[i][1] <= pos; i++)
 						if (tags[i][3] >= pos) return i
