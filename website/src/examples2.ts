@@ -59,7 +59,7 @@ export const addExtensions = (editor: PrismEditor) => {
   editor.addExtensions(
     highlightSelectionMatches(),
     searchWidget(),
-    defaultCommands(cursor),
+    defaultCommands(),
     copyButton(),
     matchTags(),
     highlightBracketPairs(),
