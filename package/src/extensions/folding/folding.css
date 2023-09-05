@@ -4,9 +4,13 @@
 	margin: 0 0 0 calc(2px - var(--number-spacing, 0.75em));
 	width: calc(var(--number-spacing, 0.75em) - 2px);
 	place-items: center;
+}
+
+.fold-line-btn,
+.fold-placeholder span {
 	pointer-events: auto;
 	cursor: pointer;
-	z-index: 2;
+	z-index: 1;
 }
 
 .fold-line-btn > * {
@@ -46,6 +50,6 @@
 	border-radius: 0.3em;
 	pointer-events: auto;
 	cursor: pointer;
-	background: var(--widget__bg) calc(1.5ch - 1.3px) 0.5em/0.85ch
+	background: repeat-x var(--widget__bg) calc(1.5ch - 1.3px) 0.5em/0.85ch
 		url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"><circle fill="%23999" r="1.3" cx="1.3" cy="1.3"/></svg>');
 }

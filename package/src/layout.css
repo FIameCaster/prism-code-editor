@@ -30,6 +30,8 @@
 	height: 100%;
 	width: 100%;
 	color: #0000;
+	-webkit-user-select: auto;
+	user-select: auto;
 	pointer-events: auto;
 	padding: 0 var(--padding-inline, 0.75em) 0 var(--padding-left);
 }
@@ -64,7 +66,7 @@
 .code-line::before {
 	position: sticky;
 	height: 100%;
-	z-index: 2;
+	z-index: 1;
 	left: 0;
 	width: var(--padding-left);
 }
@@ -74,7 +76,7 @@
 }
 
 .editor-overlays,
-.editor-overlays > *,
+div.editor-overlays > *,
 .no-selection ~ .active-line::after,
 .active-line.match-highlight::after {
 	content: "";
