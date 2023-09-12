@@ -168,11 +168,12 @@ export const searchWidget = (): SearchWidget => {
 
 			const updateMargin = () => {
 				const newMargin = isOpen
-					? getStyleValue(search, "top") + getStyleValue(search, "height")
-					: marginTop
+						? getStyleValue(search, "top") + getStyleValue(search, "height")
+						: marginTop,
+					newScroll = scrollContainer.scrollTop + newMargin - prevMargin
 
 				wrapper.style.marginTop = newMargin + "px"
-				scrollContainer.scrollBy(0, newMargin - prevMargin)
+				scrollContainer.scroll({ top: newScroll })
 				prevMargin = newMargin
 			}
 
