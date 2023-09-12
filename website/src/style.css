@@ -20,12 +20,9 @@ body {
 }
 
 button {
-	background: 0 0;
-	border: none;
-	color: currentColor;
+	all: unset;
 	cursor: pointer;
 	display: inline-block;
-	font: inherit;
 }
 
 * {
