@@ -18,6 +18,7 @@ import { cursorPosition } from "prism-code-editor/cursor"
 import { readOnlyCodeFolding } from "prism-code-editor/code-folding"
 import { matchTags } from "prism-code-editor/match-tags"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
+import { addOverscroll } from "prism-code-editor/tooltips"
 import { code } from "./examples2"
 import { PrismEditor, getModifierCode, isMac } from "prism-code-editor"
 import { loadTheme } from "prism-code-editor/themes"
@@ -174,3 +175,5 @@ theme.oninput = () => {
 	const target = <HTMLElement>e.target
 	if (target.matches(".tab:not(.active)")) toggleActive()
 }
+
+addOverscroll(editors[8])
