@@ -52,6 +52,8 @@ https://prism-code-editor.netlify.app
     - [Creating a theme](#creating-a-theme)
 - [Language specific behavior](#language-specific-behavior)
   - [Adding languages](#adding-languages)
+- [Tooltips](#tooltips)
+- [Overscroll](#overscroll)
 - [Editing key commands](#editing-key-commands)
 - [Web components](#web-components)
 - [Prism plugin support](#prism-plugin-support)
@@ -431,13 +433,39 @@ languages.whatever = {
     ([start, end], value) => /\[]|\(\)|{}/.test(code[start - 1] + code[end])
   ],
   autoCloseTags([start, end, direction], value) {
-    // Function called when the user types ">".
-    // Intended to auto close tags.
-    // If a string is returned, it will get inserted
-    // behind the cursor after a 100ms delay.
+    // Function called when the user types ">", intended to auto close tags.
+    // If a string is returned, it will get inserted behind the cursor.
   }
 }
 ```
+
+## Tooltips
+
+There's a utility to display tooltips above or below the cursor that can be imported from `prism-code-editor/tooltips`.
+
+```typescript
+const addTooltip = (editor: PrismEditor, element: HTMLElement, fixedWidth?: boolean): [ShowTooltip, HideTooltip]
+
+const [show, hide] = addTooltip(editor, element)
+```
+
+- `editor`: The editor you want the tooltip to be associated with.
+- `element`: The element for your tooltip.
+- `fixedWidth`: If false, the tooltip will shrink instead of getting offset to the left if there's not enough space to the right of the cursor. Defaults to `true`.
+
+You must add the `cursorPosition` extension to the editor before calling the `show` function.
+
+If you want the tooltip to always be visible when the user scrolls horizontally, add `position: sticky` along with the `left` and/or `right` CSS properties to your tooltip.
+
+## Overscroll
+
+```javascript
+import { addOverscroll, removeOverscroll } from "prism-code-editor/tooltips"
+
+addOverscroll(editor)
+```
+
+This will allow users to scroll until the last line is at the top of the editor.
 
 ## Editing key commands
 
