@@ -18,6 +18,7 @@ const entries = {
 	"extensions/copyButton/index": "src/extensions/copyButton/index.ts",
 	"extensions/folding/index": "src/extensions/folding/index.ts",
 	folding: "src/extensions/folding/folding.css",
+	tooltips: "src/tooltips.ts",
 	scollbar: "src/scrollbar.css",
 	layout: "src/layout.css",
 	"themes/index": "src/themes/index.ts",

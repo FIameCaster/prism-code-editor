@@ -36,7 +36,8 @@ const createEditor = (
 		activeLineNumber: number,
 		removed = false,
 		handleSelecionChange = true,
-		tokens: (Prism.Token | string)[] = []
+		tokens: (Prism.Token | string)[] = [],
+		readOnly: boolean
 
 	const scrollContainer = <HTMLDivElement>editorTemplate.cloneNode(true),
 		wrapper = <HTMLDivElement>scrollContainer.firstChild,
@@ -84,7 +85,8 @@ const createEditor = (
 			textarea.selectionEnd = 0
 			update()
 		}
-		overlays.classList.toggle("readonly", (textarea.readOnly = !!currentOptions.readOnly))
+		overlays.classList.toggle("readonly", (readOnly = !!currentOptions.readOnly))
+		textarea.inputMode = readOnly ? "none" : ""
 	}
 
 	/** Faster than `Prism.Token.stringify` since it doesn't run `wrap` hooks and can be safely split into lines. */
@@ -263,8 +265,11 @@ const createEditor = (
 	})
 
 	addTextareaListener("beforeinput", e => {
-		if (e.inputType == "insertText")
-			inputCommandMap[e.data!]?.(e, getInputSelection(), value) && preventDefault(e)
+		if (
+			readOnly ||
+			(e.inputType == "insertText" && inputCommandMap[e.data!]?.(e, getInputSelection(), value))
+		)
+			preventDefault(e)
 	})
 	addTextareaListener("input", () => {
 		if (value != textarea.value) {

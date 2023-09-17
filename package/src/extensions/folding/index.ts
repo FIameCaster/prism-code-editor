@@ -15,8 +15,8 @@ export interface ReadOnlyCodeFolding extends Extension {
 	toggleFold(lineNumber: number, force?: boolean): void
 }
 
-const template = createTemplate("<div title='Fold line'> </div>", "", "fold-line-btn")
-const template2 = createTemplate(" <span>   </span> ", "", "fold-placeholder")
+const template = createTemplate("<div> </div>", "", "fold-line-btn")
+const template2 = createTemplate(" <span title='Unfold'>   </span> ", "", "fold-placeholder")
 
 /**
  * Extension only supporting read-only editors which adds code folding to the editor.
@@ -129,6 +129,7 @@ export const readOnlyCodeFolding = (
 				}
 				if (parent != el.parentNode && !parent.querySelector(".fold-line-btn")) parent.prepend(el)
 				el.classList.toggle("closed-fold", isClosed)
+				el.title = `${isClosed ? "Unf" : "F"}old line`
 				el = foldPlaceholders[line]
 				if (isClosed) {
 					if (!el) {
@@ -157,7 +158,7 @@ export const readOnlyCodeFolding = (
 			const content = token.content
 			const length = token.length
 			const type = token.type
-			if (type == "comment" && numLines(value, position, position + length) > 1) {
+			if ((token.alias || type) == "comment" && numLines(value, position, position + length) > 1) {
 				let comment = languages[language]?.comments?.block
 				if (comment)
 					folds.push([position + comment[0].length, position + length - comment[1].length])
@@ -172,14 +173,13 @@ export const readOnlyCodeFolding = (
 	}
 
 	const createFolds = () => {
-		code = cEditor.options.value
 		folds = []
 		foldToggles = []
 		foldPlaceholders = []
 		foldPositions = []
 		foldedRanges.clear()
 		foldedLines.clear()
-		value = cEditor.value
+		value = code = cEditor.value
 		findMultilineComments(cEditor.tokens, 0)
 		;({ matchTags, matchBrackets } = cEditor.extensions)
 

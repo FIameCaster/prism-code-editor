@@ -12,7 +12,7 @@
 	position: sticky;
 	top: 0.5em;
 	right: 0.5em;
-	z-index: 2;
+	z-index: 4;
 	pointer-events: auto;
 	box-sizing: border-box;
 }
@@ -26,7 +26,7 @@
 	cursor: pointer;
 }
 
-[readonly] ~ .prism-search-container > div {
+.readonly > .prism-search-container > div {
 	grid: auto / auto;
 }
 
@@ -218,12 +218,9 @@ button.expand-search {
 	margin: -0.15em;
 }
 
-[readonly] ~ .prism-search-container .expand-search {
-	display: none;
-}
-
+.readonly > .prism-search-container .expand-search,
 [aria-expanded="false"] + div .replace,
-[readonly] ~ .prism-search-container .replace {
+.readonly > .prism-search-container .replace {
 	display: none;
 }
 

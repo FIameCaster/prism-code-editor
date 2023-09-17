@@ -13,10 +13,11 @@ languages.jsx = languages.tsx = {
 	},
 	autoIndent: [
 		([start], value) =>
-			openingTag.test((value = value.slice(0, start).slice(-999))) || clikeIndent.test(value),
+			openingTag.test((value = value.substring(start - 999, start))) || clikeIndent.test(value),
 		([start, end], value) =>
 			isBracketPair.test(value[start - 1] + value[end]) ||
-			(openingTag.test(value.slice(0, start).slice(-999)) && closingTag.test(value.slice(end))),
+			(openingTag.test(value.substring(start - 999, start)) &&
+				closingTag.test(value.slice(end, end + 999))),
 	],
 	autoCloseTags([start, end], value) {
 		const match = start == end ? (value.slice(0, start) + ">").match(openingTag) : null

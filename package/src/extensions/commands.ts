@@ -114,13 +114,14 @@ export const defaultCommands = (
 					start: number,
 					end: number,
 					indentChar: string,
-					tabSize: number
+					tabSize: number,
 				) => {
 					insertLines(
 						lines,
 						lines.map(
 							outdent
-								? str => str.slice(str.search(/\S|$/) ? tabSize - (str.search(/\S|$/) % tabSize) : 0)
+								? str =>
+										str.slice(str.search(/\S|$/) ? tabSize - (str.search(/\S|$/) % tabSize) : 0)
 								: str => str && indentChar.repeat(tabSize - (str.search(/\S|$/) % tabSize)) + str,
 						),
 						start1,
@@ -143,19 +144,20 @@ export const defaultCommands = (
 							skipIfEqual(selection, close, value) && scroll()
 				})
 
-				inputCommandMap[">"] = (_e, selection, value) => {
+				inputCommandMap[">"] = (e, selection, value) => {
 					const closingTag = languages[getLanguage(editor)]?.autoCloseTags?.call(
 						editor,
 						selection,
 						value,
 					)
 					if (closingTag) {
-						setTimeout(() => insertText(editor, closingTag, null, null, selection[0] + 1), 100)
+						insertText(editor, ">" + closingTag, null, null, selection[0] + 1)
+						preventDefault(e)
 					}
 				}
 
 				keyCommandMap.Tab = (e, [start, end], value) => {
-					if (ignoreTab || e.ctrlKey || e.metaKey) return
+					if (ignoreTab || options.readOnly || getModifierCode(e) & 6) return
 					const [indentChar, tabSize] = getIndent(options)
 					const shiftKey = e.shiftKey
 					const [lines, start1, end1] = getLines(value, start, end)
@@ -239,13 +241,19 @@ export const defaultCommands = (
 					}
 
 				editor.textarea.addEventListener("keydown", e => {
-					const code = getModifierCode(e), keyCode = e.keyCode
+					const code = getModifierCode(e),
+						keyCode = e.keyCode
 
 					if (code == (isMac ? 4 : 2) && (keyCode == 221 || keyCode == 219)) {
 						const [start, end] = getSelection()
-						indent(keyCode == 219, ...getLines(editor.value, start, end), start, end, ...getIndent(options))
-					}
-					else if (code == (isMac ? 0b1010 : 0b0010) && keyCode== 77) {
+						indent(
+							keyCode == 219,
+							...getLines(editor.value, start, end),
+							start,
+							end,
+							...getIndent(options),
+						)
+					} else if (code == (isMac ? 0b1010 : 0b0010) && keyCode == 77) {
 						setIgnoreTab(!ignoreTab)
 						preventDefault(e)
 					} else if ((e.code == "Backslash" && code == 2) || (keyCode == 65 && code == 9)) {

@@ -1,32 +1,32 @@
-.editor-copy,
-.editor-copy::after,
-.editor-copy::before {
-	position: absolute;
-	opacity: 0;
-	border-radius: 0.4em;
-}
-
 .editor-copy {
+	all: unset;
 	cursor: pointer;
 	position: sticky;
-	border: 0;
 	right: 0.5em;
 	top: 0.5em;
 	box-shadow: inset 0 0 0 1px var(--widget__border);
 	margin: -9in 0 0 0;
 	padding: 0.6em;
 	background: var(--widget__bg);
-	z-index: 1;
+	z-index: 3;
 	color: var(--widget__color-options);
-	transition: opacity 0.1s ease-out;
 	pointer-events: auto;
 	display: grid !important;
 	align-items: center;
 	font: 400 1em/1.5 Arial, Helvetica, sans-serif;
 }
 
+.editor-copy,
+.editor-copy::after,
+.editor-copy::before {
+	opacity: 0;
+	border-radius: 0.4em;
+	transition: opacity 0.1s ease-out;
+}
+
 .editor-copy::after {
 	content: attr(aria-label);
+	position: absolute;
 	right: calc(100% + 0.5em);
 	background: #000000b3;
 	color: #fff;
@@ -39,12 +39,12 @@
 
 .editor-copy::before {
 	content: "";
+	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	background: #9992;
-	transition: inherit;
 	box-shadow: inset 0 0 0 1px #999;
 }
 

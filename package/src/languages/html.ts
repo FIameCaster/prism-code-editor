@@ -14,13 +14,13 @@ languages.markup =
 				block: ["<!--", "-->"],
 			},
 			autoIndent: [
-				([start], value) => isOpening(value.slice(0, start)),
+				([start], value) => isOpening(value.substring(start - 999, start)),
 				([start, end], value) =>
-					isOpening(value.slice(0, start).slice(-999)) && xmlClosingTag.test(value.slice(end)),
+					isOpening(value.substring(start - 999, start)) && xmlClosingTag.test(value.slice(end)),
 			],
 			autoCloseTags([start, end], value) {
 				const tagName =
-					start == end ? (value.slice(0, start).slice(-999) + ">").match(xmlOpeningTag)?.[1] : ""
+					start == end ? (value.substring(start - 999, start) + ">").match(xmlOpeningTag)?.[1] : ""
 				if (tagName && !voidTags.test(tagName)) return `</${tagName}>`
 			},
 		}

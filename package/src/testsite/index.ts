@@ -20,6 +20,7 @@ import "../scrollbar.css"
 import { addFullEditor, addReadonlyEditor, PrismEditorElement } from "../webComponent"
 import "./style.css"
 import { matchTags } from "../extensions/matchTags"
+import { addOverscroll, addTooltip } from "../tooltips"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -55,7 +56,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 <body>
   
   <script>
-		
+    
   </script>
 </body>
 </html>`
@@ -127,7 +128,7 @@ const tabSizeNode = new Text("2")
 const tabSize = <HTMLInputElement>document.getElementById("tab-size")
 tabSize.before(tabSizeNode)
 tabSize.oninput = () => {
-	webComponent.tabSize = +(tabSizeNode.data = tabSize.value)
+	readonlyEditor.tabSize = webComponent.tabSize = +(tabSizeNode.data = tabSize.value)
 }
 
 for (const attr of ["word-wrap", "readonly", "line-numbers"] as const) {
@@ -198,3 +199,8 @@ readonlyEditor.addEventListener("ready", () => {
 		value: coreCode.trimEnd().replace(/\r/g, ""),
 	})
 })
+
+addOverscroll(editor)
+
+// @ts-ignore
+window.dings = addTooltip.bind(null, editor)

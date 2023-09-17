@@ -8,6 +8,7 @@ export type CursorPosition = {
 	bottom: number
 	left: number
 	right: number
+	height: number
 }
 
 export interface Cursor extends Extension {
@@ -15,9 +16,14 @@ export interface Cursor extends Extension {
 	getPosition(): CursorPosition
 	/** Scrolls the cursor into view. */
 	scrollIntoView(): void
+	/** The empty span element representing the cursor. */
+	element: HTMLSpanElement
 }
 
-const cursorTemplate = createTemplate(" <span></span> ", "position:absolute;top:0;opacity:0;padding:inherit")
+const cursorTemplate = createTemplate(
+	" <span></span> ",
+	"position:absolute;top:0;opacity:0;padding:inherit",
+)
 
 /** Extension which can be used to calculate the position of the cursor and scroll it into view. */
 export const cursorPosition = (): Cursor => {
@@ -63,8 +69,10 @@ export const cursorPosition = (): Cursor => {
 				bottom: rect2.bottom - rect1.bottom,
 				left: rect1.x - rect2.x,
 				right: rect2.right - rect1.x,
+				height: rect1.height,
 			}
 		},
 		scrollIntoView,
+		element: cursor,
 	}
 }

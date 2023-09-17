@@ -2,8 +2,9 @@ import { createTemplate } from "../core"
 import { Extension, PrismEditor } from "../types"
 
 const template = createTemplate(
-	'<div class="guide-indents" style="position:relative;display:inline-block"> </div>',
+	'<div style="position:relative;display:inline-block"> </div>',
 	"left:var(--padding-left)",
+	"guide-indents",
 )
 
 const indentTemplate = createTemplate(

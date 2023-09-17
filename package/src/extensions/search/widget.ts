@@ -5,7 +5,7 @@ import { createReplaceAPI } from "./replace"
 
 const template = createTemplate(
 	'<div class="prism-search"><button aria-expanded="false" title="Toggle Replace" class="expand-search"></button><div spellcheck="false"><div><div class="search-input find"><input autocorrect="off" autocapitalize="off" placeholder="Find" aria-label="Find"><button class="prev-match" title="Previous Match (Shift+Enter)"></button><button class="next-match" title="Next Match (Enter)"></button><div class="search-error"></div></div><button class="search-close" title="Close (Esc)"></button></div><div class="search-input replace"><input autocorrect="off" autocapitalize="off" placeholder="Replace" aria-label="Replace"><button title="(Enter)">Replace</button><button>All</button></div><div class="search-options"><div class="match-count">0<span> of </span>0</div><button aria-pressed="false" class="use-regexp"><span aria-hidden="true"></span></button><button aria-pressed="false"><span aria-hidden="true">Aa</span></button><button aria-pressed="false" class="whole-word"><span aria-hidden="true">ab</span></button><button aria-pressed="false" class="find-in-selection"></button></div></div></div>',
-	"display:none;align-items:flex-start;justify-content:flex-end;left:var(--padding-left);",
+	"display:none;align-items:flex-start;justify-content:flex-end;",
 	"prism-search-container",
 )
 
@@ -173,7 +173,7 @@ export const searchWidget = (): SearchWidget => {
 					newScroll = scrollContainer.scrollTop + newMargin - prevMargin
 
 				wrapper.style.marginTop = newMargin + "px"
-				scrollContainer.scroll({ top: newScroll })
+				scrollContainer.scrollTop = newScroll
 				prevMargin = newMargin
 			}
 

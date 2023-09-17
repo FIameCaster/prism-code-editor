@@ -45,7 +45,7 @@ export type Language = {
 	]
 	/**
 	 * Function called when the user types `>`. Intended to auto close tags.
-	 * @returns string which will get inserted behind the cursor after a 100ms delay.
+	 * @returns string which will get inserted behind the cursor.
 	 */
 	autoCloseTags?(this: PrismEditor, selection: InputSelection, value: string): string | undefined
 }

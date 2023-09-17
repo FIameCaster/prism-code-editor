@@ -13,14 +13,14 @@ languages.xml =
 				block: ["<!--", "-->"],
 			},
 			autoIndent: [
-				([start], value) => xmlOpeningTag.test(value.slice(0, start).slice(-999)),
+				([start], value) => xmlOpeningTag.test(value.substring(start - 999, start)),
 				([start, end], value) =>
-					xmlOpeningTag.test(value.slice(0, start).slice(-999)) &&
-					xmlClosingTag.test(value.slice(end)),
+					xmlOpeningTag.test(value.substring(start - 999, start)) &&
+					xmlClosingTag.test(value.slice(end, end + 999)),
 			],
 			autoCloseTags([start, end], value) {
 				const tagName =
-					start == end ? (value.slice(0, start).slice(-999) + ">").match(xmlOpeningTag)?.[1] : ""
+					start == end ? (value.substring(start - 999, start) + ">").match(xmlOpeningTag)?.[1] : ""
 				return tagName ? `</${tagName}>` : ""
 			},
 		}

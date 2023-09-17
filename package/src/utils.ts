@@ -93,7 +93,7 @@ const insertText = (
 ) => {
 	const { textarea, getSelection, value, focused } = editor
 
-	if (textarea.readOnly) return
+	if (editor.options.readOnly) return
 	focused || textarea.focus()
 	const selection =
 		newCursorStart != null

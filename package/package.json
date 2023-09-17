@@ -1,6 +1,6 @@
 {
   "name": "prism-code-editor",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "type": "module",
   "description": "Lightweight, extensible code editor component for the web using Prism",
   "main": "./dist/index.js",
@@ -27,6 +27,7 @@
     "./match-brackets": "./dist/extensions/matchBrackets/index.js",
     "./highlight-brackets": "./dist/extensions/matchBrackets/highlight.js",
     "./match-tags": "./dist/extensions/matchTags.js",
+    "./tooltips": "./dist/tooltips.js",
     "./commands": "./dist/extensions/commands.js",
     "./cursor": "./dist/extensions/cursor.js",
     "./code-folding": "./dist/extensions/folding/index.js",
