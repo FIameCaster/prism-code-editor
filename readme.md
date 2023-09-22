@@ -36,6 +36,7 @@ https://prism-code-editor.netlify.app
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
 - [Advanced usage](#advanced-usage)
+- [Examples](#examples)
 - [API](#api)
   - [Return type](#return-type)
     - [Read-only properties](#read-only-properties)
@@ -52,8 +53,10 @@ https://prism-code-editor.netlify.app
     - [Creating a theme](#creating-a-theme)
 - [Language specific behavior](#language-specific-behavior)
   - [Adding languages](#adding-languages)
+- [Avoiding layout shifts](#avoiding-layout-shifts)
 - [Tooltips](#tooltips)
 - [Overscroll](#overscroll)
+- [RTL support](#rtl-support)
 - [Editing key commands](#editing-key-commands)
 - [Web components](#web-components)
 - [Prism plugin support](#prism-plugin-support)
@@ -122,8 +125,6 @@ const editor = fullEditor(
 )
 ```
 
-To avoid layout shifts when the editor loads, you should give the container a fixed height.
-
 ## Advanced usage
 
 With little effort, you can fully customize which extensions are added and how they're loaded. This won't use a shadow root which makes the editor much easier to style and customize at the expense of potential style collisions.
@@ -190,6 +191,12 @@ import('./extensions').then(module => {
 
 Adding indentation guides and bracket matching dynamically is fully supported, but with some downsides.
 
+## Examples
+
+- [`height: auto` without layout shifts](https://stackblitz.com/edit/vitejs-vite-sbvab7?file=index.html,src%2Fstyle.css,src%2Fmain.ts,readme.md)
+- [Simple tooltip example](https://stackblitz.com/edit/vitejs-vite-z2fgpu?file=src%2Fmain.ts)
+- [Formatting with Prettier](https://stackblitz.com/edit/vitejs-vite-x7tzhu?file=src%2Fmain.ts,src%2Fextensions.ts)
+
 ## API
 
 ```typescript
@@ -217,6 +224,7 @@ const options = {
   readOnly: false,
   wordWrap: false,
   value: "",
+  rtl: false,
   onUpdate: undefined,
   onSelectionChange: undefined,
   onTokenize: undefined,
@@ -439,6 +447,21 @@ languages.whatever = {
 }
 ```
 
+## Avoiding layout shifts
+
+Adding an editor in the middle of your page will cause layout shifts. This is bad for UX and should ideally be mitigated. One way is to reserve space for the editor by giving its container a fixed height or a grid layout. This works well enough for editors with vertical scrolling.
+
+A second solution is to have a placeholder element which gets replaced by your editor. This is the ideal solution for read-only code examples where you want `height: auto` instead of a vertical scroll bar. To make this easier, there's a wrapper around `createEditor` intended for exactly this, which replaces your element instead of appending the editor to it. The placeholder element's `textContent` will be used as the editor's code unless `options.value` is defined.
+
+```javascript
+import { editorFromPlaceholder } from "prism-code-editor"
+
+const editor = editorFromPlaceholder(Prism, "#editor", { language: "javascript" })
+```
+
+If you know the height of the editor, your placeholder could be as simple as a div with a fixed height. If not, the placeholder element should have a very similar layout to the editor, i.e. same `padding`, `font-size`, `font-family`, `white-space`, `line-height`. How this achieved doesn't matter, but a solution is to use similar markup to the editor itself. [Here's an example](https://stackblitz.com/edit/vitejs-vite-sbvab7?file=index.html,src%2Fstyle.css,src%2Fmain.ts,readme.md) of this.
+
+
 ## Tooltips
 
 There's a utility to display tooltips above or below the cursor that can be imported from `prism-code-editor/tooltips`.
@@ -466,6 +489,22 @@ addOverscroll(editor)
 ```
 
 This will allow users to scroll until the last line is at the top of the editor.
+
+## RTL Support
+
+RTL support is disabled by default. To enable it, you need to import an extra stylesheet, only then will the `rtl` option do something.
+
+```javascript
+import "prism-code-editor/rtl-layout.css"
+```
+
+RTL support is currently experimental due to multiple browser bugs being present:
+
+- In Chrome and Safari, the linenumber background won't stick when scrolling. The linenumbers themselves are given a background to compensate, but this isn't perfect.
+- In FireFox, the first tab character on a line will sometimes be incorrectly sized.
+- In Safari, absolutely positioned elements inside lines can change the order of characters when mixing RTL and LTR text and tab characters are super buggy.
+
+If you want to use RTL directionality, you should be aware of these bugs and use spaces instead of tabs for indenting.
 
 ## Editing key commands
 
