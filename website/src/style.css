@@ -113,16 +113,16 @@ section h2 {
 
 section > div,
 .editor-wrapper {
-	height: calc(100vh - 16rem);
-	max-height: var(--height, 60.3rem);
 	width: 100%;
-	border-radius: 0.5rem;
-	border: 1px solid var(--border);
+	border-radius: 0.3em;
 }
 
 .editor-wrapper {
+	height: calc(100vh - 16rem);
+	max-height: var(--height, 60.3rem);
+	border: 1px solid var(--border);
 	margin-top: 3rem;
-	text-align: left;
+	text-align: start;
 	overflow: hidden;
 	display: grid;
 	grid-template-rows: auto 1fr;
@@ -273,7 +273,7 @@ option {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.5rem 1rem;
-	text-align: left;
+	text-align: start;
 	font-size: 1.8rem;
 }
 
@@ -286,8 +286,10 @@ option {
 	font-size: 1.8rem;
 }
 
-.folding {
+.folding > div {
 	--number-spacing: 1.5em;
+	height: calc(100vh - 16rem);
+	max-height: 60.1rem;
 }
 
 @media (prefers-color-scheme: dark) {

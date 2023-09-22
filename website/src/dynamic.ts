@@ -1,6 +1,8 @@
+import Prism from "prism-code-editor/prism-core"
 import "prism-code-editor/search.css"
 import "prism-code-editor/copy-button.css"
 import "prism-code-editor/code-folding.css"
+import "prism-code-editor/rtl-layout.css"
 import "prism-code-editor/languages"
 import "prismjs/components/prism-markup"
 import "prismjs/components/prism-css"
@@ -19,11 +21,21 @@ import { readOnlyCodeFolding } from "prism-code-editor/code-folding"
 import { matchTags } from "prism-code-editor/match-tags"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
 import { addOverscroll } from "prism-code-editor/tooltips"
-import { code } from "./examples2"
-import { PrismEditor, getModifierCode, isMac } from "prism-code-editor"
+
+import {
+	EditorOptions,
+	PrismEditor,
+	createEditor,
+	editorFromPlaceholder,
+	getModifierCode,
+	isMac,
+} from "prism-code-editor"
 import { loadTheme } from "prism-code-editor/themes"
-import { editor, editors, makeEditor, sections, startOptions, style, wrapper } from "./index"
+import { editor, editors, placeholders, startOptions, style, wrapper } from "./index"
 import { startCode } from "./examples1"
+import { matchBrackets } from "prism-code-editor/match-brackets"
+import { indentGuides } from "prism-code-editor/guides"
+import { code } from "./examples2"
 
 // @ts-ignore
 delete Prism.languages.jsx.style // @ts-ignore
@@ -50,7 +62,8 @@ const tabs = wrapper.querySelectorAll(".tab")
 const errorEl = <HTMLDivElement>wrapper.querySelector(".error")!
 const errorMessage = <HTMLPreElement>errorEl.lastElementChild
 
-const langs = ["tsx", "jsx", "typescript", "javascript", "typescript", "html", "javascript", "html"]
+const makeEditor = (container: ParentNode | string, options?: Partial<EditorOptions>) =>
+	createEditor(Prism, container, options, matchBrackets(true), indentGuides())
 
 const runBtn = <HTMLButtonElement>document.getElementById("run")
 
@@ -81,27 +94,22 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 		activeEditor = +!activeEditor
 	}
 
-const observer = new IntersectionObserver(
-	e =>
-		e.forEach(entry => {
-			if (!entry.isIntersecting) return
-			const index = editors.findIndex(e => e.scrollContainer == entry.target)
-			observer.unobserve(entry.target)
-			editors[index].setOptions({
-				value: code[index - 1],
-				language: langs[index - 1],
-				readOnly: index > 7,
-			})
-		}),
-	{
-		rootMargin: "9999px 0px 500px 0px",
-	},
-)
-
 let editor1 = makeEditor(wrapper, {
 	language: "html",
 	value: startCode,
 })
+
+;["tsx", "jsx", "typescript", "javascript", "typescript", "html", "javascript", "html"].forEach(
+	(language, i) => {
+		editors.push(editorFromPlaceholder(
+			Prism,
+			placeholders[i + 1],
+			{ language, value: code[i] },
+			matchBrackets(true),
+			indentGuides(),
+		))
+	},
+)
 
 editor1.scrollContainer.style.display = "none"
 
@@ -148,13 +156,11 @@ for (const prop of ["readOnly", "wordWrap", "lineNumbers"]) {
 	}
 }
 
-for (let i = 3; i < 8; i++) {
-	sections[i].querySelectorAll(".prism-editor").forEach(el => observer.observe(el))
-}
-
 for (let e of [editor, editor1, ...editors]) addWidgets(e)
 editors.forEach(e => e.addExtensions(copyButton()))
 editors[8].addExtensions(readOnlyCodeFolding())
+editors[8].setOptions({ readOnly: true })
+addOverscroll(editors[8])
 
 const commands = editor.keyCommandMap,
 	oldEnter = commands.Enter
@@ -175,5 +181,3 @@ theme.oninput = () => {
 	const target = <HTMLElement>e.target
 	if (target.matches(".tab:not(.active)")) toggleActive()
 }
-
-addOverscroll(editors[8])
