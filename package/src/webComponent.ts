@@ -8,6 +8,7 @@ const attributeMap = {
 	"line-numbers": (value: string | null) => value != null,
 	readonly: (value: string | null) => value != null,
 	"word-wrap": (value: string | null) => value != null,
+	rtl: (value: string | null) => value != null,
 	theme: (value: string | null) => value || "vs-code-dark",
 } as const
 
@@ -18,6 +19,7 @@ const propMap = {
 	"line-numbers": "lineNumbers",
 	readonly: "readOnly",
 	"word-wrap": "wordWrap",
+	rtl: "rtl",
 	theme: "theme",
 } as const
 

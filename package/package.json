@@ -15,6 +15,7 @@
     "./scrollbar.css": "./dist/scrollbar.css",
     "./setups": "./dist/setups/index.js",
     "./layout.css": "./dist/layout.css",
+    "./rtl-layout.css": "./dist/rtl-layout.css",
     "./themes/*.css": "./dist/themes/*.css",
     "./themes": "./dist/themes/index.js",
     "./languages": "./dist/languages/index.js",
@@ -56,7 +57,7 @@
   "devDependencies": {
     "prismjs": "^1.29.0",
     "typescript": "^5.0.2",
-    "vite": "^4.3.9",
+    "vite": "^4.4.9",
     "vite-plugin-dts": "^2.3.0"
   },
   "dependencies": {

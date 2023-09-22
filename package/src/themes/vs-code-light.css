@@ -1,9 +1,9 @@
 /** Based on VS Code Light+ */
 
 .prism-editor {
-	background: #fff;
 	caret-color: #000;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+	--editor__bg: #fff;
 	--widget__border: #bfbfbf;
 	--widget__bg: #f2f2f2;
 	--widget__color: #444;

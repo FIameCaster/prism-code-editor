@@ -18,7 +18,7 @@ import type {
  * @param Prism Reference to your Prism instance.
  * @param options Options the editor is initialized with.
  * If omitted, the editor won't function until you call `setOptions`.
- * @param extensions Extensions present before the first render. You can still add extensions later.
+ * @param extensions Extensions added before the first render. You can still add extensions later.
  * @returns Object to interact with the created editor.
  */
 const createEditor = (
@@ -67,8 +67,7 @@ const createEditor = (
 		}
 
 	const setOptions = (options: Partial<EditorOptions>) => {
-		Object.assign(currentOptions, { value }, options)
-		;({ language, value } = currentOptions)
+		;({ language, value } = Object.assign(currentOptions, { value }, options))
 
 		const isNewGrammar = grammar != (grammar = Prism.languages[language])
 		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
@@ -76,7 +75,7 @@ const createEditor = (
 		currentExtensions.forEach(extension => extension.update(self, currentOptions))
 		scrollContainer.className = `prism-editor language-${language}${
 			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
-		} ${currentOptions.wordWrap ? "" : "no-"}word-wrap`
+		} ${currentOptions.wordWrap ? "" : "no-"}word-wrap${currentOptions.rtl ? " rtl-editor" : ""}`
 
 		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
 		if (isNewGrammar || value != textarea.value) {
@@ -87,6 +86,7 @@ const createEditor = (
 		}
 		overlays.classList.toggle("readonly", (readOnly = !!currentOptions.readOnly))
 		textarea.inputMode = readOnly ? "none" : ""
+		textarea.setAttribute("aria-readonly", <any>readOnly)
 	}
 
 	/** Faster than `Prism.Token.stringify` since it doesn't run `wrap` hooks and can be safely split into lines. */
@@ -150,7 +150,7 @@ const createEditor = (
 		while (end1 && newLines[--end1] == prevLines[--end2]);
 
 		// This is not needed, but significantly improves performance when only one line changed
-		start - end1 + start - end2 || (lines[++start].innerHTML = newLines[start - 1] + "\n")
+		start == end1 && start == end2 && (lines[++start].innerHTML = newLines[start - 1] + "\n")
 
 		for (let i = end2 < start ? end2 : start - 1; i < end1; )
 			newHTML += `<div class="code-line" aria-hidden="true">${newLines[++i]}\n</div>`
@@ -300,12 +300,40 @@ const createEditor = (
 	return self
 }
 
+/**
+ * Almost identical to the `createEditor` function, but instead of appending the editor to your
+ * element, the editor replaces it.
+ *
+ * The `textContent` of the placeholder will be the code in the editor unless `options.value` is defined.
+ * @param Prism Reference to your Prism instance.
+ * @param placeholder Element or selector which will be replaced by the editor.
+ * @param options Options the editor is initialized with.
+ * @param extensions Extensions added before the first render. You can still add extensions later.
+ * @returns Object to interact with the created editor.
+ */
+const editorFromPlaceholder = (
+	Prism: PrismType,
+	placeholder: string | HTMLElement,
+	options: Partial<EditorOptions>,
+	...extensions: Extension[]
+) => {
+	const el = getElement(placeholder)!
+	const editor = createEditor(
+		Prism,
+		undefined,
+		Object.assign({ value: el.textContent }, options),
+		...extensions,
+	)
+	el.replaceWith(editor.scrollContainer)
+	return editor
+}
+
 /** Returns a div with the specified HTML, class and inline style */
 const createTemplate = (innerHTML = "", style = "", className = ""): HTMLDivElement =>
 	Object.assign(document.createElement("div"), { innerHTML, style, className })
 
-const getElement = (el?: ParentNode | string | null) =>
-	typeof el == "string" ? document.querySelector(el) : el
+const getElement = <T extends ParentNode>(el?: T | string | null) =>
+	typeof el == "string" ? document.querySelector<HTMLElement>(el) : el
 
 const userAgent = navigator.userAgent
 const isMac = /Mac|iPhone|iPod|iPad/i.test(navigator.platform)
@@ -358,4 +386,5 @@ export {
 	getElement,
 	preventDefault,
 	setSelection,
+	editorFromPlaceholder,
 }

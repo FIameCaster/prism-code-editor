@@ -2,12 +2,14 @@
 	overflow: auto;
 	display: grid;
 	outline: 0;
+	background: var(--editor__bg);
 	line-height: 1.4;
 	--padding-left: var(--padding-inline, 0.75em);
 	scroll-padding-left: var(--padding-left);
 	-webkit-user-select: none;
 	user-select: none;
 	isolation: isolate;
+	white-space: pre;
 }
 
 .show-line-numbers {
@@ -19,7 +21,6 @@
 
 .prism-editor-wrapper {
 	margin: 0.75em 0;
-	white-space: pre;
 	position: relative;
 	pointer-events: none;
 }
@@ -93,7 +94,7 @@ div.editor-overlays > *,
 	z-index: -2;
 }
 
-.word-wrap > * {
+.word-wrap {
 	white-space: pre-wrap;
 	word-break: break-word;
 }

@@ -4,8 +4,8 @@
 
 .prism-editor {
 	caret-color: #539bf5;
-	background: #22272e;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+	--editor__bg: #22272e;
 	--widget__border: #444;
 	--widget__bg: #22272e;
 	--widget__color: #adbac7;

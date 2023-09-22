@@ -21,6 +21,8 @@ export type EditorOptions = {
 	wordWrap?: boolean | undefined
 	/** Initial code to display in the editor. */
 	value: string
+	/** @experimental Whether the editor uses right to left directionality. Defaults to `false`. */
+	rtl?: boolean
 	/** Function called when the code of the editor changes. */
 	onUpdate?: EditorEventMap["update"] | null
 	/** Function called when the selection changes in the editor. */

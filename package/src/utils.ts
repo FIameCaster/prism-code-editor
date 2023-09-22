@@ -79,9 +79,9 @@ const getLanguage = (editor: PrismEditor, position?: number) =>
  * @param editor Target editor.
  * @param text Text to insert.
  * @param start Index to start the insertion. Defaults to `selectionStart`.
- * @param end Index to end the insertion. Defaults to start if specified else `selectionEnd`.
- * @param newCursorStart New start position of the cursor. Defaults to the end of the inserted text.
- * @param newCursorEnd New end position of the cursor. Defaults to `newCursorStart`.
+ * @param end Index to end the insertion. Defaults to `start` if specified, else `selectionEnd`.
+ * @param newCursorStart New starting position for the cursor. Defaults to the end of the inserted text.
+ * @param newCursorEnd New ending position for the cursor. Defaults to `newCursorStart`.
  */
 const insertText = (
 	editor: PrismEditor,

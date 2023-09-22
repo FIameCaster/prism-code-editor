@@ -110,7 +110,7 @@ section h2 {
 
 .editor-wrapper {
 	margin-top: 3rem;
-	text-align: left;
+	text-align: start;
 	overflow: hidden;
 	display: grid;
 	grid-template-rows: auto 1fr;
@@ -275,7 +275,7 @@ select option {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 0.5rem 1rem;
-	text-align: left;
+	text-align: start;
 	font-size: 1.8rem;
 }
 

@@ -41,12 +41,12 @@ export const addTooltip = (
 		(above?: boolean) => {
 			let cursor = editor.extensions.cursor
 			if (cursor) {
-				let { left, top, bottom, height } = cursor.getPosition()
+				let { left, right, top, bottom, height } = cursor.getPosition()
 				container.parentNode || editor.overlays.append(container)
-				spacer.style.width = left + "px"
-				
+				spacer.style.width = (editor.options.rtl ? right : left) + "px"
+
 				let placeAbove =
-					!above == top > bottom && (above ? top : bottom) < element.clientHeight ? !above : above
+					!above == top > bottom && (above ? top : bottom) < container.clientHeight ? !above : above
 
 				style[placeAbove ? "bottom" : "top"] = height + (placeAbove ? bottom : top) + "px"
 				style[placeAbove ? "top" : "bottom"] = "auto"
@@ -69,16 +69,12 @@ const observer = window.ResizeObserver
 	  )
 	: null
 
-/**
- * Allows users to scroll past the last line in the editor by adding padding to the wrapper
- */
+/** Allows users to scroll past the last line in the editor by adding padding to the wrapper. */
 export const addOverscroll = (editor: PrismEditor) => {
 	observer && observer.observe(editor.scrollContainer)
 }
 
-/**
- * Removes the ability to scroll past the last line in the editor
- */
+/** Removes the ability to scroll past the last line in the editor. */
 export const removeOverscroll = (editor: PrismEditor) => {
 	const el = editor.scrollContainer
 	observer && observer.unobserve(el)

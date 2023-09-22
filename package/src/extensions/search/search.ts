@@ -4,7 +4,7 @@ import { PrismEditor } from "../../types"
 
 const template = createTemplate(
 	"",
-	"color:#0000;display:none;contain:strict;margin:0 var(--padding-inline,.75em) 0 var(--padding-left);",
+	"color:#0000;display:none;contain:strict;padding:0 var(--padding-inline,.75em) 0 var(--padding-left);",
 )
 
 export interface SearchAPI {

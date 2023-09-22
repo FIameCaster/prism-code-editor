@@ -2,9 +2,9 @@
 Original: https://github.com/dracula/visual-studio-code */
 
 .prism-editor {
-	background: #282a36;
 	caret-color: #aeafad;
 	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	--editor__bg: #282a36;
 	--widget__border: #454545;
 	--widget__bg: #21222c;
 	--widget__color: #f8f8f2;

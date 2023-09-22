@@ -13,6 +13,7 @@ import { highlightSelectionMatches, searchWidget } from "../extensions/search"
 import "../extensions/search/search.css"
 import "../languages"
 import "../layout.css"
+import "../rtl-layout.css"
 import Prism from "../prismCore"
 import "./languages"
 import "../prismMarkdown"
@@ -20,7 +21,7 @@ import "../scrollbar.css"
 import { addFullEditor, addReadonlyEditor, PrismEditorElement } from "../webComponent"
 import "./style.css"
 import { matchTags } from "../extensions/matchTags"
-import { addOverscroll, addTooltip } from "../tooltips"
+import { addOverscroll } from "../tooltips"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -74,6 +75,7 @@ const options = {
   readOnly: false,
   wordWrap: false,
   value: code,
+	rtl: false,
   onUpdate(code) {},
   onSelectionChange([start, end, direction], code) {},
   onTokenize({ language, code, grammar, tokens }) {}
@@ -201,6 +203,3 @@ readonlyEditor.addEventListener("ready", () => {
 })
 
 addOverscroll(editor)
-
-// @ts-ignore
-window.dings = addTooltip.bind(null, editor)

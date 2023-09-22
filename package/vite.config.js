@@ -20,6 +20,7 @@ const entries = {
 	folding: "src/extensions/folding/folding.css",
 	tooltips: "src/tooltips.ts",
 	scollbar: "src/scrollbar.css",
+	"rtl-layout": "src/rtl-layout.css",
 	layout: "src/layout.css",
 	"themes/index": "src/themes/index.ts",
 	prismCore: "src/prismCore.ts",

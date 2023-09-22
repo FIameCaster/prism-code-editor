@@ -2,9 +2,9 @@
 Original: https://github.com/sdras/night-owl-vscode-theme */
 
 .prism-editor {
-	background: #011627;
 	caret-color: #80a4c2;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+	--editor__bg: #011627;
 	--widget__border: #122d42;
 	--widget__bg: #021320;
 	--widget__color: #d6deeb;
