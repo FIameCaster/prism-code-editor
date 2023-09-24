@@ -1,8 +1,6 @@
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/prism-code-editor?label=size)](https://bundlephobia.com/package/prism-code-editor)
 [![NPM Package](https://img.shields.io/npm/v/prism-code-editor)](https://npmjs.com/prism-code-editor)
 
-# Prism code editor
-
 Lightweight, extensible code editor component for the web using [Prism](https://prismjs.com)
 
 ## Why
@@ -25,11 +23,9 @@ There are multiple fully featured code editors for the web such as Monaco, Ace a
 - Bracket pairing and rainbow brackets
 - Works great on mobile
 
-## Demo and examples
+Have a look at [the demos](https://prism-code-editor.netlify.app) to see it in action!
 
-Underneath you can see the editor in action and play around with all the options.
-
-https://prism-code-editor.netlify.app
+Here's the [API Documentation](https://prism-code-editor.netlify.app/api).
 
 ## Table of contents
 
@@ -37,11 +33,6 @@ https://prism-code-editor.netlify.app
 - [Basic usage](#basic-usage)
 - [Advanced usage](#advanced-usage)
 - [Examples](#examples)
-- [API](#api)
-  - [Return type](#return-type)
-    - [Read-only properties](#read-only-properties)
-    - [Methods](#methods)
-  - [Utilities](#utilities)
 - [Extensions](#extensions)
   - [Searching](#searching)
   - [Creating your own](#creating-your-own)
@@ -197,94 +188,9 @@ Adding indentation guides and bracket matching dynamically is fully supported, b
 - [Simple tooltip example](https://stackblitz.com/edit/vitejs-vite-z2fgpu?file=src%2Fmain.ts)
 - [Formatting with Prettier](https://stackblitz.com/edit/vitejs-vite-x7tzhu?file=src%2Fmain.ts,src%2Fextensions.ts)
 
-## API
-
-```typescript
-const createEditor = (
-  Prism: PrismType,
-  container?: ParentNode | string,
-  options?: Partial<EditorOptions>,
-  ...extensions: Extension[]
-) => PrismEditor
-```
-
-- `container` is the element the editor gets appended to. Can either be an HTML element or a selector. If omitted, you must manually append the `scrollContainer` to the DOM.
-- `Prism` is a reference to your Prism instance.
-- `options` is the options the editor is created with. If omitted, the editor won't function until you call `setOptions`.
-- `extensions` is a rest parameter of extensions that will be added to the editor before its first render.
-
-Below are all the properties you can add to `options` with their default values:
-
-```javascript
-const options = {
-  language: "text",
-  tabSize: 2,
-  insertSpaces: true,
-  lineNumbers: true,
-  readOnly: false,
-  wordWrap: false,
-  value: "",
-  rtl: false,
-  onUpdate: undefined,
-  onSelectionChange: undefined,
-  onTokenize: undefined,
-}
-```
-
-### Return type
-
-The `PrismEditor` type includes a bunch of useful read only properties and methods for interacting with the editor.
-
-#### Read-only properties
-
-- `scrollContainer`: Scroll container for the editor.
-- `wrapper`: Element wrapping the lines and overlays.
-- `overlays`: Element containing the overlays.
-- `textarea`: Underlying `<textarea>` in the editor.
-- `activeLine`: The line the cursor is currently on.
-- `activeLineNumber`: The line number of the active line.
-- `focused`: Whether the `<textarea>` is focused.
-- `value`: Text in the `<textarea>`. Equivalent to `textarea.value`.
-- `options`: Current options for the editor.
-- `inputCommandMap`: Record mapping an input to a function called when that input is typed.
-- `keyCommandMap`: Record mapping KeyboardEvent.key to a function called when that key is pressed.
-- `removed`: True if the remove method has been called.
-- `tokens`: Tokens currently displayed in the editor.
-- `extensions`: Object storing some of the extensions added to the editor.
-
-Adding IDs and event listeners is supported on all elements. Adding classes is supported on all elements except for the scroll container.
-
-#### Methods
-
-All methods are documented in detail with JSDoc, but here's a list of them:
-
-- `setOptions(options: Partial<Options>): void`
-- `update(): void`
-- `getSelection(): InputSelection`
-- `setSelection(): void`
-- `addListener<T extends keyof EditorEventMap>(name: T, handler: EditorEventMap[T]): void`
-- `removeListener<T extends keyof EditorEventMap>(name: T, handler: EditorEventMap[T]): void`
-- `addExtensions(...extensions: Extension[]): void`
-- `remove(): void`
-
-### Utilities
-
-All utilities you can import are documented in detail with JSDoc, but here's a list of them:
-
-- `regexEscape: (str: string) => string`
-- `getLineBefore: (text: string, position: number) => string`
-- `getLines: (text: string, start: number, end: number) => readonly [string[], number, number]`
-- `getClosestToken: (editor: PrismEditor, selector: string, marginLeft?: number, marginRight?: number, position?: number) => HTMLSpanElement | null`
-- `getLanguage: (editor: PrismEditor, position?: number) => string`
-- `insertText: (editor: PrismEditor, text: string, start?: number | null, end?: number | null, newCursorStart?: number | null, newCursorEnd?: number | null) => void`
-- `numLines: (str: string, start?: number, end?: number) => number`
-- `getModifierCode: (e: KeyboardEvent) => number`
-
 ## Extensions
 
-Most behavior isn't included by default and must be imported. This is to keep the core small for those who don't need the extra functionality. To see how to add extensions them, see [advanced usage](#advanced-usage).
-
-All extensions are documented with JSDoc and here's how to import all of them:
+Most behavior isn't included by default and must be imported. This is to keep the core small for those who don't need the extra functionality. Beneath you can see how to import all extensions. To see how to add extensions, see [advanced usage](#advanced-usage).
 
 ```javascript
 import { matchBrackets } from "prism-code-editor/match-brackets"
@@ -472,12 +378,6 @@ const addTooltip = (editor: PrismEditor, element: HTMLElement, fixedWidth?: bool
 const [show, hide] = addTooltip(editor, element)
 ```
 
-- `editor`: The editor you want the tooltip to be associated with.
-- `element`: The element for your tooltip.
-- `fixedWidth`: If false, the tooltip will shrink instead of getting offset to the left if there's not enough space to the right of the cursor. Defaults to `true`.
-
-You must add the `cursorPosition` extension to the editor before calling the `show` function.
-
 If you want the tooltip to always be visible when the user scrolls horizontally, add `position: sticky` along with the `left` and/or `right` CSS properties to your tooltip.
 
 ## Overscroll
@@ -550,7 +450,7 @@ editorElement.addEventListener("ready", () => console.log("ready"))
 console.log(editorElement.editor)
 ```
 
-Attributes include `language`, `theme`, `tab-size`, `line-numbers`, `word-wrap`, `readonly` and `insert-spaces`. These attributes are also writable properties on the element.
+Attributes include `language`, `theme`, `tab-size`, `line-numbers`, `word-wrap`, `readonly`, `insert-spaces` and `rtl`. These attributes are also writable properties on the element.
 
 ```html
 <prism-editor
