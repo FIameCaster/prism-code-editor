@@ -2,10 +2,10 @@ import { Extension, PrismEditor } from "../.."
 import { createSearchAPI } from "./search"
 
 /**
- * Highlights selection matches in an editor.
+ * Extension that highlights selection matches in an editor.
  * @param caseSensitive Whether or not matches must have the same case. Defaults to false.
  * @param minLength Minimum length needed to perform a search. Defaults to 1.
- * @param maxLength Maximim length at which to perform a search. Defaults to 200.
+ * @param maxLength Maximum length at which to perform a search. Defaults to 200.
  *
  * Lower values of `minLength` and higher values of `maxLength` can impact performance.
  */

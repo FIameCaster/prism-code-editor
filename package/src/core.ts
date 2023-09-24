@@ -132,7 +132,7 @@ const createEditor = (
 
 			return Array.isArray(token)
 				? stringifyAll(token)
-				: (token = token.replace(/&/g, "&amp;").replace(/</g, "&lt;")).includes("\n")
+				: (token = token.replace(/&/g, "&amp;").replace(/</g, "&lt;")).includes("\n") && closingTags
 				? token.replace(/\n/g, closingTags + "\n" + openingTags)
 				: token
 		}
@@ -301,7 +301,7 @@ const createEditor = (
 }
 
 /**
- * Almost identical to the `createEditor` function, but instead of appending the editor to your
+ * Almost identical to {@link createEditor}, but instead of appending the editor to your
  * element, the editor replaces it.
  *
  * The `textContent` of the placeholder will be the code in the editor unless `options.value` is defined.

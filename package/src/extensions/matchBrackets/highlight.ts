@@ -1,3 +1,5 @@
+/** @module highlight-brackets */
+
 import { Extension, PrismEditor } from "../.."
 import { Bracket, BracketMatcher } from "./"
 import { getClosestToken } from "../../utils"
@@ -5,7 +7,7 @@ import { getClosestToken } from "../../utils"
 /**
  * Extension adding a `selectionChange` handler to highlight the closest bracket pair.
  *
- * You must to add bracket matching to your editor for this extension to work.
+ * You must to add a {@link BracketMatcher} to your editor for this extension to work.
  *
  * The `.active-bracket` CSS selector can be used to highlight the brackets.
  */

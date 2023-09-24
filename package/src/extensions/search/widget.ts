@@ -16,8 +16,17 @@ const getStyleValue = <T extends keyof CSSStyleDeclaration>(el: HTMLElement, pro
 	parseFloat(<string>getComputedStyle(el)[prop])
 
 export interface SearchWidget extends Extension {
+	/** The search widget's outer element. */
 	readonly widgetEl: HTMLDivElement
+	/**
+	 * Method for hiding the search widget.
+	 * @param focusTextarea Whether the editor's `textarea` should gain focus. Defaults to true.
+	 */
 	close: (focusTextarea?: boolean) => void
+	/**
+	 * Method for showing the search widget.
+	 * @param focusInput Whether the widgets's search input should gain focus. Defaults to true.
+	 */
 	open: (focusInput?: boolean) => void
 }
 
@@ -36,8 +45,23 @@ export const searchWidget = (): SearchWidget => {
 		prevMargin: number,
 		selectNext = false,
 		marginTop: number,
-		search: HTMLDivElement,
 		initialized: boolean
+
+	const container = <HTMLDivElement>template.cloneNode(true),
+		search = <HTMLDivElement>container.firstChild,
+		[toggle, div] = <[HTMLButtonElement, HTMLDivElement]>(<unknown>search.children),
+		rows = div.children,
+		[findContainer, closeEl] = <[HTMLDivElement, HTMLButtonElement]>(<unknown>rows[0].children),
+		[findInput, prevEl, nextEl, errorEl] = <
+			[HTMLInputElement, HTMLButtonElement, HTMLButtonElement, HTMLDivElement]
+		>(<unknown>findContainer.children),
+		[replaceInput, replaceEl, replaceAllEl] = <
+			[HTMLInputElement, HTMLButtonElement, HTMLButtonElement]
+		>(<unknown>rows[1].children),
+		[matchCount, useRegExpEl, matchCaseEl, wholeWordEl, inSelectionEl] = <
+			[HTMLDivElement, HTMLButtonElement, HTMLButtonElement, HTMLButtonElement, HTMLButtonElement]
+		>(<unknown>rows[2].children),
+		[current, , total] = <Text[]>(<unknown>matchCount.childNodes)
 
 	return {
 		update(editor: PrismEditor) {
@@ -45,29 +69,7 @@ export const searchWidget = (): SearchWidget => {
 			initialized = true
 			editor.extensions.searchWidget = this
 
-			const container = <HTMLDivElement>template.cloneNode(true),
-				[toggle, div] = <[HTMLButtonElement, HTMLDivElement]>(
-					(<unknown>(search = <HTMLDivElement>container.firstElementChild).children)
-				),
-				rows = div.children,
-				[findContainer, closeEl] = <[HTMLDivElement, HTMLButtonElement]>(<unknown>rows[0].children),
-				[findInput, prevEl, nextEl, errorEl] = <
-					[HTMLInputElement, HTMLButtonElement, HTMLButtonElement, HTMLDivElement]
-				>(<unknown>findContainer.children),
-				[replaceInput, replaceEl, replaceAllEl] = <
-					[HTMLInputElement, HTMLButtonElement, HTMLButtonElement]
-				>(<unknown>rows[1].children),
-				[matchCount, useRegExpEl, matchCaseEl, wholeWordEl, inSelectionEl] = <
-					[
-						HTMLDivElement,
-						HTMLButtonElement,
-						HTMLButtonElement,
-						HTMLButtonElement,
-						HTMLButtonElement,
-					]
-				>(<unknown>rows[2].children),
-				[current, , total] = <Text[]>(<unknown>matchCount.childNodes),
-				{ textarea, wrapper, overlays, scrollContainer, getSelection: selection } = editor,
+			const { textarea, wrapper, overlays, scrollContainer, getSelection: selection } = editor,
 				replaceAPI = createReplaceAPI(editor)
 
 			const getSelectedWord = () => {
@@ -102,7 +104,7 @@ export const searchWidget = (): SearchWidget => {
 				if (e.keyCode >> 1 == 35 && getModifierCode(e) == (isMac ? 0b0100 : 0b0010)) {
 					preventDefault(e)
 					let word = getSelectedWord()
-					open(true)
+					open()
 					if (/^$|\n/.test(word)) startSearch()
 					else {
 						if (useRegExp) word = regexEscape(word)
@@ -133,8 +135,9 @@ export const searchWidget = (): SearchWidget => {
 				selectNext = false
 			}
 
-			const open = (this.open = (focusInput?: boolean) => {
-				if (isOpen != (isOpen = true)) {
+			const open = (this.open = (focusInput = true) => {
+				if (!isOpen) {
+					isOpen = true
 					if (marginTop == null) prevMargin = marginTop = getStyleValue(wrapper, "marginTop")
 					editor.addListener("update", input)
 					textarea.addEventListener("beforeinput", beforeinput)
@@ -146,8 +149,9 @@ export const searchWidget = (): SearchWidget => {
 				if (focusInput) findInput.focus(), findInput.select()
 			})
 
-			const close = (this.close = (focusTextarea?: boolean) => {
-				if (isOpen != (isOpen = false)) {
+			const close = (this.close = (focusTextarea = true) => {
+				if (isOpen) {
+					isOpen = false
 					replaceAPI.stopSearch()
 					editor.removeListener("update", input)
 					textarea.removeEventListener("beforeinput", beforeinput)
@@ -204,7 +208,7 @@ export const searchWidget = (): SearchWidget => {
 			const elementHandlerMap = new Map<HTMLElement, () => any>([
 				[nextEl, () => move(true)],
 				[prevEl, move],
-				[closeEl, () => close(true)],
+				[closeEl, () => close()],
 				[replaceEl, replace],
 				[replaceAllEl, replaceAll],
 				[
@@ -283,16 +287,14 @@ export const searchWidget = (): SearchWidget => {
 					else if (shortcut == 8 && isFind) move()
 					else if (shortcut == (isMac ? 4 : 3) && !isFind) replaceAll()
 					target.focus()
-				} else if (!shortcut && key == "Escape") close(true)
+				} else if (!shortcut && key == "Escape") close()
 				else keydown(e)
 			})
 
 			overlays.append(container)
 			replaceAPI.container.className = "search-matches"
 		},
-		get widgetEl() {
-			return search
-		},
+		widgetEl: search,
 		close() {},
 		open() {},
 	}

@@ -1,10 +1,17 @@
+/** @module code-folding */
+
 import { Extension, PrismEditor, numLines } from "../.."
 import { getLineBefore } from "../../utils"
 import { createTemplate, languages } from "../../core"
 import { BracketMatcher } from "../matchBrackets"
 import { TagMatcher } from "../matchTags"
 
-/** Callback used to add extra foldable ranges to an editor */
+/**
+ * Callback used to add extra foldable ranges to an editor.
+ * @param editor Editor the folding ranges are added to.
+ * @param currentFolds The ranges that a currently foldable.
+ * @returns An array of extra foldable ranges.
+ */
 export type AddFoldRangesCallback = (
 	editor: PrismEditor,
 	currentFolds: [number, number][],
@@ -21,9 +28,9 @@ const template2 = createTemplate(" <span title='Unfold'>   </span> ", "", "fo
 /**
  * Extension only supporting read-only editors which adds code folding to the editor.
  * 
- * To fold XML elements, a tag matching extension needs to be added before.
+ * To fold XML elements, a {@link TagMatcher} needs to be added before.
  * 
- * To fold bracket pairs, a bracket matching extension needs to be added before.
+ * To fold bracket pairs, a {@link BracketMatcher} needs to be added before.
  * 
  * @param addExtraFoldRanges Optional callback that can add extra foldable ranges.
  */

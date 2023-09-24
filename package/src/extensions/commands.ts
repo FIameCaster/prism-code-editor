@@ -1,3 +1,5 @@
+/** @module commands */
+
 import { EditorOptions, Extension, InputSelection } from ".."
 import { ignoreTab, isMac, preventDefault, setIgnoreTab, languages } from "../core"
 import {

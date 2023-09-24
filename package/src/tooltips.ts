@@ -1,5 +1,6 @@
 import { PrismEditor } from "."
 import { createTemplate } from "./core"
+import { cursorPosition } from "./extensions/cursor"
 
 const template = /* @__PURE__ */ createTemplate(
 	"<div></div>",
@@ -11,11 +12,14 @@ const template = /* @__PURE__ */ createTemplate(
  * Moves to tooltip to align with the cursor and shows it.
  * @param preferPlacingAboveCursor Whether the preferred position is above the cursor or not.
  */
-type ShowTooltip = (preferPlacingAboveCursor?: boolean) => void
+export type ShowTooltip = (preferPlacingAboveCursor?: boolean) => void
 
-type HideTooltip = () => void
+/** Function removing the tooltip from the DOM. */
+export type HideTooltip = () => void
 
 /**
+ * Utility making it easy to add tolltips to an editor. In order to
+ * use this, a the {@link cursorPosition} must be added to the editor.
  * @param editor Editor you want to add the tooltip to.
  * @param element Element for the tooltip.
  * @param fixedWidth If false, the tooltip will shrink instead of getting offset to

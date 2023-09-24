@@ -7,12 +7,13 @@ const template = createTemplate(
 	"color:#0000;display:none;contain:strict;padding:0 var(--padding-inline,.75em) 0 var(--padding-left);",
 )
 
+/** Object with methods useful for performing a search and highlighting the matches. */
 export interface SearchAPI {
 	/**
 	 * Unhides the search container and highlights all matches of the specified string in the editor.
 	 * @param str String to search for.
 	 * @param caseSensitive Whether or not the search is case sensetive.
-	 * @param wholeWord Whether or not matches must be surrounded by word boundries (\b).
+	 * @param wholeWord Whether or not matches must be surrounded by word boundries.
 	 * @param useRegExp If false, special characters will be escaped when creating the RegExp.
 	 * @param selection Boundries to search between. If excluded, all the code is searched.
 	 * @param excludedPosition A match containing this position in the string will be excluded.
@@ -21,12 +22,12 @@ export interface SearchAPI {
 	search(
 		str: string,
 		caseSensitive?: boolean,
-		wholeWordh?: boolean,
+		wholeWord?: boolean,
 		useRegExp?: boolean,
 		selection?: [number, number],
 		excludedPosition?: number,
 	): string | void
-	/** Container that all the match results are appended to. */
+	/** Container that all the search results are appended to. */
 	readonly container: HTMLDivElement
 	/** Current regex used for searching. */
 	readonly regex: RegExp
@@ -36,6 +37,7 @@ export interface SearchAPI {
 	stopSearch(): void
 }
 
+/** Function adding search functionality to an editor. */
 const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	const span = document.createElement("span"),
 		nodes: ChildNode[] = [new Text()],

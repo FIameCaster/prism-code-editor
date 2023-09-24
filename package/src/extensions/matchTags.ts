@@ -1,3 +1,5 @@
+/** @module match-tags */
+
 import { Extension, PrismEditor } from ".."
 import { getClosestToken } from "../utils"
 
@@ -30,10 +32,9 @@ export interface TagHighlighter extends Extension {
 
 /**
  * Function that adds tag matching to the editor.
- * @returns An object with two properties. One is an array of all the tags in the editor.
- * The second is a sparce array which maps the index of a tag to the index of its matching tag.
+ * @returns An object containing all tags and pairs.
  */
-export const createTagMatcher = (editor: PrismEditor) => {
+export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 	let pairMap: number[],
 		tags: [Prism.Token, number, number, number, string, boolean][],
 		stack: [number, string][],
@@ -112,7 +113,7 @@ export const createTagMatcher = (editor: PrismEditor) => {
 }
 /**
  * Extension that adds classes to matching HTML/XML/JSX tags. If the editor doesn't
- * have a tag matcher, one is created.
+ * have a {@link TagMatcher}, one is created.
  *
  * Use the CSS selectors `.active-tagname` to style the elements.
  *

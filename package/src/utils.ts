@@ -1,16 +1,16 @@
 import { PrismEditor } from "."
 import { numLines, isChrome, isWebKit, setSelection } from "./core"
 
-/** Escapes all special regex characters with a backslash and returns the escaped string */
+/** Escapes all special regex characters with a backslash and returns the escaped string. */
 const regexEscape = (str: string) => str.replace(/[$+?|.^*(){}[\]\\]/g, "\\$&")
 
-/** Returns the string between the position and the last \n */
+/** Returns the string between the position and the last \n. */
 const getLineBefore = (text: string, position: number) =>
 	text.slice(text.lastIndexOf("\n", position - 1) + 1, position)
 
 /**
  * Returns all lines that are at least partially between start and end.
- * Also returns the start of the first line, and the end of the last line
+ * Also returns the start of the first line, and the end of the last line.
  */
 const getLines = (text: string, start: number, end: number) =>
 	[
@@ -31,12 +31,13 @@ const getLines = (text: string, start: number, end: number) =>
  * @param editor Editor you want to search in.
  * @param selector CSS selector for the tokens you want to search for.
  * @param marginLeft How far ahead of the token the cursor can be. Defaults to 0.
- * @param marginRight How far behind the token the cursor can be. Defaults to marginLeft.
+ * @param marginRight How far behind the token the cursor can be. Defaults to `marginLeft`.
  * @param position Position to search in. Defaults to `selectionStart`.
  * @returns A span element if one's found and null if not.
+ * @example
+ * This will return a string token if the cursor
+ * is at least 1 character inside a string token
  * ```javascript
- * // This will return a string token if the cursor
- * // is at least 1 character inside a string token
  * getClosestToken(editor, '.string', -1)
  * ```
  */

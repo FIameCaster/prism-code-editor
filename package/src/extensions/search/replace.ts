@@ -2,6 +2,10 @@ import { PrismEditor } from "../.."
 import { insertText, scrollToEl } from "../../utils"
 import { SearchAPI, createSearchAPI } from "./search"
 
+/**
+ * Object with methods useful for performing a search
+ * and both highlighting and replacing the matches.
+ */
 export interface ReplaceAPI extends SearchAPI {
 	/** Index of the match ahead of the cursor. */
 	next(): number
@@ -25,6 +29,7 @@ export interface ReplaceAPI extends SearchAPI {
 	destroy(): void
 }
 
+/** Function adding both search and replace functionality to an editor. */
 const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 	const { getSelection, textarea } = editor,
 		search = createSearchAPI(editor),

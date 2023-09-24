@@ -1,3 +1,5 @@
+/** @module web-component */
+
 import { PrismEditor, PrismType } from "./types"
 import { basicEditor, fullEditor, minimalEditor, readonlyEditor, updateTheme } from "./setups"
 

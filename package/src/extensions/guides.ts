@@ -1,3 +1,5 @@
+/** @module guides */
+
 import { createTemplate } from "../core"
 import { Extension, PrismEditor } from "../types"
 
@@ -19,7 +21,7 @@ export interface IndentGuides extends Extension {
 	readonly indentLevels: number[]
 }
 
-/** Adds indent guides to an editor. Does not work with word wrap. */
+/** Extension adding indent guides to an editor. Does not work with word wrap. */
 export const indentGuides = (): IndentGuides => {
 	let tabSize: number,
 		prevLength = 0,

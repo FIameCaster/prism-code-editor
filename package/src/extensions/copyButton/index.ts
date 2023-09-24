@@ -1,3 +1,5 @@
+/** @module copy-button */
+
 import { createTemplate } from "../../core"
 import { Extension, PrismEditor } from "../../types"
 

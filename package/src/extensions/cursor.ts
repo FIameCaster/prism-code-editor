@@ -1,6 +1,9 @@
+/** @module cursor */
+
 import { Extension, InputSelection, PrismEditor, getLineBefore } from ".."
 import { createTemplate } from "../core"
 import { scrollToEl } from "../utils"
+import { defaultCommands } from "./commands"
 
 /** Postion of the cursor relative to the editors overlays. */
 export type CursorPosition = {
@@ -25,7 +28,10 @@ const cursorTemplate = createTemplate(
 	"position:absolute;top:0;opacity:0;padding:inherit",
 )
 
-/** Extension which can be used to calculate the position of the cursor and scroll it into view. */
+/** 
+ * Extension which can be used to calculate the position of the cursor and scroll it into view.
+ * This is used by the {@link defaultCommands} extension to keep the cursor in view while typing.
+ */
 export const cursorPosition = (): Cursor => {
 	let shouldScroll = false,
 		cEditor: PrismEditor,

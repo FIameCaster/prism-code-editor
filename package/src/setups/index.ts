@@ -12,8 +12,8 @@ const addStyles = (shadow: ShadowRoot, styles: string, id?: string) => {
 }
 
 /**
- * Updates the theme of an editor.
- * Needs to be inside a shadow root with a style element for the theme whoose id is `theme`.
+ * Updates the theme of an editor. The editor needs to be inside a shadow root
+ * with a style element for the theme whoose `id` is `"theme"`.
  * @param editor Editor you want to change the theme of.
  * @param theme Name of the new theme.
  */
@@ -60,9 +60,8 @@ const minimalEditor = (
 }
 
 /**
- * Same as the `minimalEditor` function, but also adds indentation
- * guides, selection match highlighting, bracket matching,
- * commands and language specific behvaior.
+ * Same as {@link minimalEditor}, but also adds indentation guides, selection
+ * match highlighting, bracket matching, commands and language specific behvaior.
  */
 const basicEditor = (
 	Prism: PrismType,
@@ -83,7 +82,7 @@ const basicEditor = (
 	return editor
 }
 
-/** Same as the `basicEditor` function, but adds the search widget and tag matching. */
+/** Same as {@link basicEditor}, but also adds the search widget and tag matching. */
 const fullEditor = (
 	Prism: PrismType,
 	container: HTMLElement | string,
@@ -113,7 +112,7 @@ const fullEditor = (
 }
 
 /**
- * Same as `minimalEditor`, but also a copy button, bracket matching, tag matching,
+ * Same as {@link minimalEditor}, but also a copy button, bracket matching, tag matching,
  * indentation guides, selection match highlighting and code folding. No commands are
  * added which makes this setup best used with the `readOnly` option set to true.
  */

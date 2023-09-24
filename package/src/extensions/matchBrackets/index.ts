@@ -1,3 +1,5 @@
+/** @module match-brackets */
+
 import { Extension } from "../.."
 
 const openingCharCodes: boolean[] = []
