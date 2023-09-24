@@ -25,6 +25,10 @@ And run the dev server:
 
 ## Build
 
-To build the website for production, run the build script:
+To build the demo site for production, run the build script:
 
 	pnpm run build
+
+To build both the demo site and the API documentation run:
+
+	pnpm run docs
