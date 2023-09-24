@@ -89,7 +89,6 @@ main {
 	gap: 2rem;
 	justify-items: center;
 	text-align: center;
-	--height: 44.52rem;
 }
 
 .description {
@@ -119,7 +118,7 @@ section > div,
 
 .editor-wrapper {
 	height: calc(100vh - 16rem);
-	max-height: var(--height, 60.3rem);
+	max-height: 44.52rem;
 	border: 1px solid var(--border);
 	margin-top: 3rem;
 	text-align: start;
@@ -263,22 +262,16 @@ option {
 }
 
 .rows {
-	max-width: max-content;
-	display: flex;
-	flex-direction: column;
+	display: grid;
 	gap: 2rem;
 }
 
-.input-group {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 0.5rem 1rem;
-	text-align: start;
+.rows > * {
+	display: grid;
+	grid: 1fr / 1fr 1fr;
+	gap: 1rem;
+	align-items: center;
 	font-size: 1.8rem;
-}
-
-.input-group > * {
-	flex-grow: 1;
 }
 
 .grid {
