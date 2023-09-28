@@ -187,6 +187,8 @@ Adding indentation guides and bracket matching dynamically is fully supported, b
 - [`height: auto` without layout shifts](https://stackblitz.com/edit/vitejs-vite-sbvab7?file=index.html,src%2Fstyle.css,src%2Fmain.ts,readme.md)
 - [Simple tooltip example](https://stackblitz.com/edit/vitejs-vite-z2fgpu?file=src%2Fmain.ts)
 - [Formatting with Prettier](https://stackblitz.com/edit/vitejs-vite-x7tzhu?file=src%2Fmain.ts,src%2Fextensions.ts)
+- [Relative line numbers](https://stackblitz.com/edit/vitejs-vite-2wytja?file=src%2Fextensions.ts,src%2Fmain.ts)
+- [Usage with React](https://stackblitz.com/edit/vitejs-vite-cahjr5?file=src%2FApp.tsx)
 
 ## Extensions
 
