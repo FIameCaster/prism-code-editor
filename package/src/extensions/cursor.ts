@@ -56,7 +56,8 @@ export const cursorPosition = (): Cursor => {
 	return {
 		update(editor) {
 			if (!cEditor) {
-				;(cEditor = editor).addListener("selectionChange", selectionChange)
+				editor.addListener("selectionChange", selectionChange)
+				cEditor = editor
 
 				editor.extensions.cursor = this
 				editor.textarea.addEventListener("beforeinput", e => {

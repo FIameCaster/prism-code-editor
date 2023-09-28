@@ -13,33 +13,27 @@ export const highlightSelectionMatches = (
 	caseSensitive?: boolean,
 	minLength = 1,
 	maxLength = 200,
-): Extension => {
-	let initialized: boolean
+): Extension => ({
+	update(editor: PrismEditor) {
+		this.update = () => {}
+		const searchAPI = createSearchAPI(editor),
+			container = searchAPI.container
 
-	return {
-		update(editor: PrismEditor) {
-			if (!initialized) {
-				const searchAPI = createSearchAPI(editor),
-					container = searchAPI.container
+		container.style.zIndex = <any>-1
+		container.className = "selection-matches"
+		editor.addListener("selectionChange", ([start, end], value) => {
+			value = editor.focused ? value.slice(start, end) : ""
+			let offset = value.search(/\S/),
+				l = (value = value.trim()).length
 
-				initialized = true
-				container.style.zIndex = <any>-1
-				container.className = "selection-matches"
-				editor.addListener("selectionChange", ([start, end], value) => {
-					value = editor.focused ? value.slice(start, end) : ""
-					let offset = value.search(/\S/),
-						l = (value = value.trim()).length
-
-					searchAPI.search(
-						minLength > l || l > maxLength ? "" : value,
-						caseSensitive,
-						false,
-						false,
-						undefined,
-						start + offset,
-					)
-				})
-			}
-		},
-	}
-}
+			searchAPI.search(
+				minLength > l || l > maxLength ? "" : value,
+				caseSensitive,
+				false,
+				false,
+				undefined,
+				start + offset,
+			)
+		})
+	},
+})

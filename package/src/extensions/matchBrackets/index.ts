@@ -29,8 +29,7 @@ export type Bracket = [Prism.Token, number, number, string, boolean]
  * Without rainbow brackets, this extension can be added dynamically with no side effects.
  */
 export const matchBrackets = (rainbowBrackets?: boolean): BracketMatcher => {
-	let initialized: boolean,
-		brackets: Bracket[] = [],
+	let brackets: Bracket[] = [],
 		stack: [number, number][],
 		bracketIndex: number,
 		pairMap: number[] = [],
@@ -67,8 +66,8 @@ export const matchBrackets = (rainbowBrackets?: boolean): BracketMatcher => {
 
 								if (isOpen) stack.push([bracketIndex, charCode])
 								else {
-									for (let i = stack.length, charCode1: number, index: number; i; ) {
-										;[index, charCode1] = stack[--i]
+									for (let i = stack.length; i; ) {
+										let [index, charCode1] = stack[--i]
 										if (charCode - charCode1 < 3 && charCode - charCode1 > 0) {
 											pairMap[(pairMap[bracketIndex] = index)] = bracketIndex
 											brackets[bracketIndex][2] = brackets[index][2] = stack.length = i
@@ -87,14 +86,11 @@ export const matchBrackets = (rainbowBrackets?: boolean): BracketMatcher => {
 
 	return {
 		update(editor) {
-			if (!initialized) {
-				initialized = true
-
-				editor.extensions.matchBrackets = this
-				editor.addListener("tokenize", matchBrackets)
-				if (rainbowBrackets && editor.tokens[0]) editor.update()
-				else matchBrackets(editor)
-			}
+			this.update = () => {}
+			editor.extensions.matchBrackets = this
+			editor.addListener("tokenize", matchBrackets)
+			if (rainbowBrackets && editor.tokens[0]) editor.update()
+			else matchBrackets(editor)
 		},
 		get brackets() {
 			return brackets

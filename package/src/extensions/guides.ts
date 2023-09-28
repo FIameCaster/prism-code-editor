@@ -118,9 +118,7 @@ export const indentGuides = (): IndentGuides => {
 
 	return {
 		lines: <HTMLCollectionOf<HTMLDivElement>>guideHeight.children,
-		get indentLevels() {
-			return indentLevels
-		},
+		indentLevels,
 		update(editor, options) {
 			if (!currentEditor) {
 				currentEditor = editor

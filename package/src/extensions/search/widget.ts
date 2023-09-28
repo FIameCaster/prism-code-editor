@@ -44,8 +44,7 @@ export const searchWidget = (): SearchWidget => {
 		currentSelection: InputSelection,
 		prevMargin: number,
 		selectNext = false,
-		marginTop: number,
-		initialized: boolean
+		marginTop: number
 
 	const container = <HTMLDivElement>template.cloneNode(true),
 		search = <HTMLDivElement>container.firstChild,
@@ -65,8 +64,7 @@ export const searchWidget = (): SearchWidget => {
 
 	return {
 		update(editor: PrismEditor) {
-			if (initialized) return
-			initialized = true
+			this.update = () => {}
 			editor.extensions.searchWidget = this
 
 			const { textarea, wrapper, overlays, scrollContainer, getSelection: selection } = editor,

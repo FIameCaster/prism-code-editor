@@ -27,7 +27,7 @@ export interface TagHighlighter extends Extension {
 	 * The tag matcher used by the extension.
 	 * This property is only available after the extension is added to an editor.
 	 */
-	readonly matcher?: TagMatcher
+	matcher?: TagMatcher
 }
 
 /**
@@ -102,14 +102,14 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 
 	matchTags(editor.tokens, editor.options.language)
 
-	return editor.extensions.matchTags = {
+	return (editor.extensions.matchTags = {
 		get tags() {
 			return tags
 		},
 		get pairs() {
 			return pairMap
 		},
-	}
+	})
 }
 /**
  * Extension that adds classes to matching HTML/XML/JSX tags. If the editor doesn't
@@ -119,67 +119,55 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
  *
  * This extension can safely be added dynamically to an editor.
  */
-export const matchTags = (): TagHighlighter => {
-	let init: boolean,
-		openEl: HTMLSpanElement | null,
-		closeEl: HTMLSpanElement | null,
-		matcher: TagMatcher
+export const matchTags = (): TagHighlighter => ({
+	update(editor) {
+		let openEl: HTMLSpanElement | null, closeEl: HTMLSpanElement | null
+		const matcher = (this.matcher = editor.extensions.matchTags || createTagMatcher(editor))
+		const getClosestTagIndex = (pos: number) => {
+			for (let i = 0, tags = matcher!.tags, l = tags.length; i < l && tags[i][1] <= pos; i++)
+				if (tags[i][3] >= pos) return i
+		}
+		const highlight = (remove?: boolean) => {
+			;[openEl, closeEl].forEach(el => {
+				el?.classList.toggle("active-tagname", !remove)
+			})
+		}
+		const selectionChange = () => {
+			const [start, end] = editor.getSelection()
+			if (start == end && editor.focused) {
+				let index = getClosestTagIndex(start)
+				let newEl1: HTMLSpanElement
+				let newEl2: HTMLSpanElement
 
-	return {
-		update(editor) {
-			if (!init) {
-				init = true
-				matcher = editor.extensions.matchTags || createTagMatcher(editor)
-				const getClosestTagIndex = (pos: number) => {
-					for (let i = 0, tags = matcher!.tags, l = tags.length; i < l && tags[i][1] <= pos; i++)
-						if (tags[i][3] >= pos) return i
-				}
-				const highlight = (remove?: boolean) => {
-					;[openEl, closeEl].forEach(el => {
-						el?.classList.toggle("active-tagname", !remove)
-					})
-				}
-				const selectionChange = () => {
-					const [start, end] = editor.getSelection()
-					if (start == end && editor.focused) {
-						let index = getClosestTagIndex(start)
-						let newEl1: HTMLSpanElement
-						let newEl2: HTMLSpanElement
+				if (index! + 1) {
+					const tags = matcher!.tags
+					const tag1 = getClosestToken(editor, ".tag>.tag", -tags[index!][2], 0)
+					const otherIndex = matcher!.pairs[index!]
 
-						if (index! + 1) {
-							const tags = matcher!.tags
-							const tag1 = getClosestToken(editor, ".tag>.tag", -tags[index!][2], 0)
-							const otherIndex = matcher!.pairs[index!]
-
-							if (tag1 && otherIndex! + 1) {
-								const tag2 = getClosestToken(editor, ".tag>.tag", 0, 0, tags[otherIndex!][1])!
-								;[newEl1, newEl2] = [tag1, tag2].map(el => {
-									let child = el.lastChild!
-									let tagName = (<Text>child).data
-									if (tagName) {
-										child.replaceWith((child = document.createElement("span")))
-										child.textContent = tagName
-									}
-									return <HTMLSpanElement>child
-								})
+					if (tag1 && otherIndex! + 1) {
+						const tag2 = getClosestToken(editor, ".tag>.tag", 0, 0, tags[otherIndex!][1])!
+						;[newEl1, newEl2] = [tag1, tag2].map(el => {
+							let child = el.lastChild!
+							let tagName = (<Text>child).data
+							if (tagName) {
+								child.replaceWith((child = document.createElement("span")))
+								child.textContent = tagName
 							}
-						}
-						if (openEl != newEl1!) {
-							highlight(true)
-							openEl = newEl1!
-							closeEl = newEl2!
-							highlight()
-						}
-					} else {
-						highlight(true)
-						openEl = closeEl = null
+							return <HTMLSpanElement>child
+						})
 					}
 				}
-				editor.addListener("selectionChange", selectionChange)
+				if (openEl != newEl1!) {
+					highlight(true)
+					openEl = newEl1!
+					closeEl = newEl2!
+					highlight()
+				}
+			} else {
+				highlight(true)
+				openEl = closeEl = null
 			}
-		},
-		get matcher() {
-			return matcher
-		},
-	}
-}
+		}
+		editor.addListener("selectionChange", selectionChange)
+	},
+})
