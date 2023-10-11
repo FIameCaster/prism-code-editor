@@ -57,6 +57,7 @@ Prism.languages.markup.tag.addAttribute(
 let currentOptions = startOptions
 let scrollPos: [number, number] = [0, 0]
 let activeEditor = 0
+let editor1: PrismEditor
 
 const tabs = wrapper.querySelectorAll(".tab")
 const errorEl = <HTMLDivElement>wrapper.querySelector(".error")!
@@ -68,7 +69,7 @@ const makeEditor = (container: ParentNode | string, options?: Partial<EditorOpti
 const runBtn = <HTMLButtonElement>document.getElementById("run")
 
 const theme = <HTMLSelectElement>document.getElementById("themes"),
-	addWidgets = (editor: PrismEditor) => {
+	addExtensions = (editor: PrismEditor) => {
 		editor.addExtensions(
 			searchWidget(),
 			highlightSelectionMatches(),
@@ -79,6 +80,14 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 		)
 	},
 	toggleActive = () => {
+		if (!editor1) {
+			addExtensions(
+				(editor1 = makeEditor(wrapper, {
+					language: "html",
+					value: startCode,
+				})),
+			)
+		}
 		for (const tab of tabs) tab.classList.toggle("active")
 		const current = (activeEditor ? editor1 : editor).scrollContainer
 		const newEditor = (activeEditor ? editor : editor1).scrollContainer
@@ -94,24 +103,45 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 		activeEditor = +!activeEditor
 	}
 
-let editor1 = makeEditor(wrapper, {
-	language: "html",
-	value: startCode,
-})
+const langs = ["tsx", "jsx", "typescript", "javascript", "typescript", "html", "javascript", "html"]
 
-;["tsx", "jsx", "typescript", "javascript", "typescript", "html", "javascript", "html"].forEach(
-	(language, i) => {
-		editors.push(editorFromPlaceholder(
-			Prism,
-			placeholders[i + 1],
-			{ language, value: code[i] },
-			matchBrackets(true),
-			indentGuides(),
-		))
-	},
+const inputs = ["readOnly", "wordWrap", "lineNumbers"].map(
+	id => <HTMLInputElement>document.getElementById(id)!,
 )
 
-editor1.scrollContainer.style.display = "none"
+const commands = editor.keyCommandMap,
+	oldEnter = commands.Enter
+
+const observer = new IntersectionObserver(entries =>
+	entries.forEach(entry => {
+		if (entry.isIntersecting) {
+			const target = <HTMLElement>entry.target
+			const index = [].indexOf.call(placeholders, <never>target)
+			const editor = (editors[index] = editorFromPlaceholder(
+				Prism,
+				target,
+				{
+					readOnly: index > 7 || inputs[0].checked,
+					wordWrap: inputs[1].checked,
+					lineNumbers: inputs[2].checked,
+					language: langs[index - 1],
+					value: code[index - 1],
+				},
+				matchBrackets(true),
+				indentGuides(),
+				copyButton(),
+			))
+			addExtensions(editor)
+			if (index == 8) {
+				editor.addExtensions(readOnlyCodeFolding())
+				addOverscroll(editor)
+			}
+			observer.unobserve(target)
+		}
+	}),
+)
+
+placeholders.forEach((el, i) => i && observer.observe(el))
 
 editor.options.onUpdate = code => runBtn.setAttribute("aria-hidden", <any>(currentOptions == code))
 
@@ -139,31 +169,25 @@ runBtn.onclick = () => {
 		return
 	}
 
-	editor1.remove()
-	addWidgets?.((editor1 = newEditor))
+	editor1?.remove()
+	addExtensions?.((editor1 = newEditor))
 	toggleActive()
 	newEditor.textarea.focus()
 }
 
-for (const prop of ["readOnly", "wordWrap", "lineNumbers"]) {
-	document.getElementById(prop.toLowerCase())!.onchange = e => {
-		const options = {
-			[prop]: (<HTMLInputElement>e.target).checked,
-		}
-		editors.forEach((editor, i) => {
-			if (prop != "readOnly" || i < 8) editor.setOptions(options)
-		})
-	}
-}
-
-for (let e of [editor, editor1, ...editors]) addWidgets(e)
-editors.forEach(e => e.addExtensions(copyButton()))
-editors[8].addExtensions(readOnlyCodeFolding())
-editors[8].setOptions({ readOnly: true })
-addOverscroll(editors[8])
-
-const commands = editor.keyCommandMap,
-	oldEnter = commands.Enter
+inputs.forEach(
+	input =>
+		(input.onchange = () => {
+			let options = {
+				[input.id]: input.checked,
+			}
+			editors.forEach((editor, i) => {
+				if (input.id != "readOnly" || i < 8) editor.setOptions(options)
+			})
+		}),
+)
+;[editor, editors[0]].forEach(addExtensions)
+editors[0].addExtensions(copyButton())
 
 commands.Enter = (e, selection, value) => {
 	if (getModifierCode(e) == (isMac ? 4 : 2) && value != currentOptions) {
@@ -178,6 +202,5 @@ theme.oninput = () => {
 	})
 }
 ;(<HTMLDivElement>wrapper.firstElementChild).onclick = e => {
-	const target = <HTMLElement>e.target
-	if (target.matches(".tab:not(.active)")) toggleActive()
+	if ((<HTMLElement>e.target).matches(".tab:not(.active)")) toggleActive()
 }
