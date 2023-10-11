@@ -4,7 +4,9 @@
 	outline: 0;
 	background: var(--editor__bg);
 	line-height: 1.4;
-	--padding-left: var(--padding-inline, 0.75em);
+	--_pse: var(--padding-inline, 0.75em);
+	--_ns: var(--number-spacing, 0.75em);
+	--padding-left: var(--_pse);
 	scroll-padding-left: var(--padding-left);
 	-webkit-user-select: none;
 	user-select: none;
@@ -13,9 +15,7 @@
 }
 
 .show-line-numbers {
-	--padding-left: calc(
-		var(--padding-inline, 0.75em) + var(--number-width) + var(--number-spacing, 0.75em)
-	);
+	--padding-left: calc(var(--_pse) + var(--number-width) + var(--_ns));
 	grid: 1fr / 0 1fr;
 }
 
@@ -34,7 +34,7 @@
 	-webkit-user-select: auto;
 	user-select: auto;
 	pointer-events: auto;
-	padding: 0 var(--padding-inline, 0.75em) 0 var(--padding-left);
+	padding: 0 var(--_pse) 0 var(--padding-left);
 }
 
 .no-selection > :focus {
@@ -42,7 +42,7 @@
 }
 
 .code-line {
-	padding: 0 var(--padding-inline, 0.75em) 0 0;
+	padding: 0 var(--_pse) 0 0;
 	margin: 0 0 0 var(--padding-left);
 	position: relative;
 }
@@ -51,7 +51,7 @@
 	content: attr(data-line);
 	display: inline-block;
 	margin: 0 0 0 calc(-1 * var(--padding-left));
-	padding: 0 var(--number-spacing, 0.75em) 0 0;
+	padding: 0 var(--_ns) 0 0;
 	box-sizing: border-box;
 	color: var(--editor__line-number);
 	text-align: end;

@@ -26,13 +26,13 @@
 	--editor__line-number: #90908a;
 	--editor__bg-scrollbar: 0, 0%, 45%;
 	--editor__bg-fold: #c5c5c5;
-	--bg-guide-indent: #464741;
+	--bg-guide-indent: #9e9f9640;
 	color-scheme: dark;
 }
 
 /* Selection */
 .prism-editor textarea::selection {
-	background: #878b9180;
+	background: #575a5a;
 	color: #0000;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .guide-indents .active {
-	--bg-guide-indent: #767771;
+	--bg-guide-indent: #dbdbd973;
 }
 
 .token.comment,

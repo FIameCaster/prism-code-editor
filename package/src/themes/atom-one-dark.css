@@ -3,7 +3,6 @@
  */
 
 .prism-editor {
-	color: #abb2bf;
 	caret-color: #528bff;
 	font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
 	--editor__bg: #292c33;
@@ -16,11 +15,11 @@
 	--widget__bg-hover: #5a5d5e4f;
 	--widget__bg-active: #336699;
 	--widget__focus-ring: #5299e0;
-	--search__bg-find: #575757b8;
+	--search__bg-find: #528bff3d;
 	--widget__bg-error: #5a1d1d;
 	--widget__error-ring: #be1100;
 	--editor__bg-highlight: #99bbff0a;
-	--editor__bg-selection-match: #33384299;
+	--editor__bg-selection-match: #4a566d66;
 	--editor__line-number: #636d83;
 	--editor__bg-scrollbar: 220, 13%, 41%;
 	--editor__bg-fold: #c5c5c5;
@@ -35,7 +34,7 @@
 }
 
 .search-matches .match {
-	--search__bg-find: #43557b;
+	--search__bg-find: #515c6a;
 }
 
 .active-line {
@@ -43,7 +42,7 @@
 }
 
 .guide-indents .active {
-	--bg-guide-indent: #626772;
+	--bg-guide-indent: #abb2c280;
 }
 
 .token.comment,
@@ -57,9 +56,15 @@
 	color: #abb2bf;
 }
 
+.token.keyword,
+.selector .punctuation,
+.selector .combinator,
+.token.token.arrow {
+	color: #c678dd;
+}
+
 .token.attr-name,
 .doctype .name,
-.token.class-name,
 .selector .class,
 .selector .pseudo-element,
 .selector .pseudo-class,
@@ -67,14 +72,15 @@
 .token.constant,
 .token.number,
 .token.unit,
-.token.atrule {
+.token.atrule,
+.token.keyword-null,
+.token.keyword-undefined {
 	color: #d19a66;
 }
 
-.token.keyword,
-.selector .punctuation,
-.selector .combinator {
-	color: #c678dd;
+.token.class-name,
+.token.maybe-class-name {
+	color: #e5c07b;
 }
 
 .token.property,
@@ -83,64 +89,51 @@
 .token.symbol,
 .token.deleted,
 .token.important,
-.token.variable {
+.token.keyword-this,
+.token.this
+.token.variable,
+.token.selector,
+.token.property-access {
 	color: #e06c75;
 }
 
-.token.selector,
 .token.string,
 .token.char,
 .token.inserted,
 .token.regex,
 .token.attr-value,
-.token.attr-value > .token.punctuation {
+.token.string.url,
+.token.attr-value > .punctuation,
+.token.code-snippet.code {
 	color: #98c379;
 }
 
-.language-markdown .token.variable,
-.token.operator,
-.token.function {
+.language-markdown .url > .variable,
+.language-markdown .url > .content,
+.token.function,
+.token.selector .id {
 	color: #61afef;
 }
 
 .token.url,
 .token.hexcode,
 .token.keyword-get,
-.token.builtin {
+.token.builtin,
+.token.operator {
 	color: #56b6c2;
 }
 
 /* Language overrides */
-.token.attr-value > .token.punctuation.attr-equals,
-.token.special-attr > .token.attr-value > .token.value.css {
+
+[class*="language-"],
+.token.attr-value > .attr-equals,
+.language-css .property {
 	color: #abb2bf;
-}
-
-.token.selector {
-	color: #e06c75;
-}
-
-.language-css .token.property {
-	color: #abb2bf;
-}
-
-.language-css .token.function {
-	color: #56b6c2;
-}
-
-.token.string.url {
-	color: #98c379;
 }
 
 .language-css .token.important,
-.token.atrule .token.rule {
-	color: #c678dd;
-}
-
-.language-javascript .token.operator,
-.language-typescript .token.operator,
-.language-jsx .token.operator,
-.language-tsx .token.operator {
+.token.atrule .token.rule,
+.language-markdown .italic {
 	color: #c678dd;
 }
 
@@ -148,22 +141,20 @@
 	color: #be5046;
 }
 
-.language-json .token.keyword-null {
+.language-json .token.keyword-null,
+.language-markdown .bold * {
 	color: #d19a66;
 }
 
 .language-markdown .code.keyword,
 .language-json .token.operator,
 .language-markdown .token.url,
-.language-markdown .token.url > .token.operator,
-.language-markdown .token.url-reference.url > .token.string {
+.language-markdown .url > .operator,
+.language-markdown .token.url-reference > .string {
 	color: #abb2bf;
 }
 
-.language-markdown .token.url > .token.content {
-	color: #61afef;
-}
-
+.language-css .function,
 .language-markdown .token.blockquote.punctuation,
 .language-markdown .token.hr.punctuation,
 .language-markdown .token.url > .token.url,
@@ -171,19 +162,7 @@
 	color: #56b6c2;
 }
 
-.token.code-snippet.code {
-	color: #98c379;
-}
-
-.language-markdown .token.bold .token {
-	color: #d19a66;
-}
-
-.language-markdown .token.italic .token {
-	color: #c678dd;
-}
-
-.language-markdown .token.strike .token,
+.language-markdown .strike *,
 .language-markdown .token.list.punctuation,
 .language-markdown .token.title.important > .token.punctuation {
 	color: #e06c75;

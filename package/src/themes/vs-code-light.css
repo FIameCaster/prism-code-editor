@@ -21,7 +21,7 @@
 	--editor__line-number: #53abc6;
 	--editor__bg-scrollbar: 0, 0%, 25%;
 	--editor__bg-fold: #424242;
-	--bg-guide-indent: #d3d3d3;
+	--bg-guide-indent: #3333;
 	color-scheme: light;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .guide-indents .active {
-	--bg-guide-indent: #939393;
+	--bg-guide-indent: #0006;
 }
 
 /* Tokens */
@@ -186,7 +186,7 @@
 .language-html,
 .language-xml,
 .language-svg,
-.lanugage-text,
+.language-text,
 .language-css,
 .language-scss,
 .language-sass {

@@ -13,7 +13,7 @@ div.rtl-editor::before,
 .rtl-editor textarea,
 .rtl-editor .selection-matches,
 .rtl-editor .search-matches {
-	padding: 0 var(--padding-left) 0 var(--padding-inline, 0.75em) !important;
+	padding: 0 var(--padding-left) 0 var(--_pse) !important;
 }
 
 .rtl-editor .guide-indents {
@@ -29,21 +29,21 @@ div.rtl-editor::before,
 
 .rtl-editor.show-line-numbers .code-line::before {
 	margin: 0 calc(-1 * var(--padding-left)) 0 0;
-	padding: 0 0 0 var(--number-spacing, 0.75em);
+	padding: 0 0 0 var(--_ns);
 	background: var(--editor__bg);
 }
 
 .rtl-editor .code-line {
-	padding: 0 0 0 var(--padding-inline, 0.75em);
+	padding: 0 0 0 var(--_pse);
   margin: 0 var(--padding-left) 0 0;
 }
 
 .rtl-editor.no-word-wrap .fold-line-btn {
-	right: calc(2px + var(--padding-left) - var(--number-spacing, 0.75em));
+	right: calc(2px + var(--padding-left) - var(--_ns));
 }
 
 .rtl-editor .fold-line-btn {
-	margin: 0 calc(2px - var(--number-spacing, 0.75em)) 0 0;
+	margin: 0 calc(2px - var(--_ns)) 0 0;
 }
 
 .rtl-editor .closed-fold > ::after {

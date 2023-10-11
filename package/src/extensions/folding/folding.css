@@ -1,8 +1,8 @@
 .fold-line-btn {
 	position: absolute;
 	display: inline-grid;
-	margin: 0 0 0 calc(2px - var(--number-spacing, 0.75em));
-	width: calc(var(--number-spacing, 0.75em) - 2px);
+	margin: 0 0 0 calc(2px - var(--_ns));
+	width: calc(var(--_ns) - 2px);
 	place-items: center;
 	z-index: 2;
 }
@@ -35,7 +35,7 @@
 
 .no-word-wrap .fold-line-btn {
 	position: sticky;
-	left: calc(2px + var(--padding-left) - var(--number-spacing, 0.75em));
+	left: calc(2px + var(--padding-left) - var(--_ns));
 }
 
 .fold-placeholder {

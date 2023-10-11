@@ -90,10 +90,10 @@ const createEditor = (
 	}
 
 	/** Faster than `Prism.Token.stringify` since it doesn't run `wrap` hooks and can be safely split into lines. */
-	const highlight = (code: string) => {
+	const highlight = () => {
 		let openingTags = "",
 			closingTags = "",
-			env = <TokenizeEnv>{ language, code, grammar }
+			env = <TokenizeEnv>{ language, code: value, grammar }
 		Prism.hooks.run("before-tokenize", env)
 		tokens = env.tokens = Prism.tokenize(env.code, env.grammar)
 		Prism.hooks.run("after-tokenize", env)
@@ -140,7 +140,7 @@ const createEditor = (
 	}
 
 	const update = () => {
-		const newLines = highlight(value).split("\n"),
+		const newLines = highlight().split("\n"),
 			l = newLines.length
 		let start = 0,
 			end1 = newLines.length,

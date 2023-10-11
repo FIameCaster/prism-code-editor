@@ -26,7 +26,7 @@
 	--editor__line-number: #9d897b;
 	--editor__bg-scrollbar: 24, 7%, 35%;
 	--editor__bg-fold: #424242;
-	--bg-guide-indent: #d9d3ce;
+	--bg-guide-indent: #4b413a33;
 	color-scheme: light;
 }
 
@@ -45,7 +45,7 @@
 }
 
 .guide-indents .active {
-	--bg-guide-indent: #aea49e;
+	--bg-guide-indent: #38322f66;
 }
 
 .token.comment,

@@ -21,7 +21,7 @@
 	--editor__line-number: #888;
 	--editor__bg-scrollbar: 0, 0%, 50%;
 	--editor__bg-fold: #c5c5c5;
-	--bg-guide-indent: #404040;
+	--bg-guide-indent: #9994;
 	color-scheme: dark;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .guide-indents .active {
-	--bg-guide-indent: #707070;
+	--bg-guide-indent: #eee6;
 }
 
 /* Tokens */
@@ -117,7 +117,7 @@
 }
 
 .token.class-name,
-[class*="language-t"] .token.builtin,
+[class*="language-t"] .builtin,
 .token.maybe-class-name {
 	color: #4ec9b0;
 }
