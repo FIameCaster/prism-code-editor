@@ -10,4 +10,4 @@ export {
 	numLines,
 	ignoreTab,
 } from "./core"
-export * from "./prismCore"
+export { Prism } from "./prismCore"
