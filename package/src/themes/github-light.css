@@ -2,7 +2,7 @@
 * Based on GitHub Light
 */
 
-.prism-editor {
+.prism-code-editor {
 	caret-color: #24292e;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--editor__bg: #fff;
@@ -27,16 +27,12 @@
 	color-scheme: light;
 }
 
-[class*="language-"] {
-	color: #24292e;
-}
-
-.prism-editor textarea::selection {
+.prism-code-editor textarea::selection {
 	color: #0000;
 	background: #add6ff;
 }
 
-.search-matches .match {
+.pce-matches .match {
 	--search__bg-find: #e9e5ba;
 }
 
@@ -48,13 +44,15 @@
 	--bg-guide-indent: #1f23284d;
 }
 
+[class*="language-"],
+.language-markdown .url > .operator,
+.token.punctuation {
+	color: #24292e;
+}
+
 .token.doctype,
 .token.builtin {
 	color: #005cc5;
-}
-
-.token.punctuation {
-	color: #24292e;
 }
 
 .token.atrule,
@@ -94,7 +92,8 @@
 .token.regex,
 .language-regex,
 .token.string-property,
-.language-markdown .token.url {
+.language-markdown .url .content,
+.language-markdown .url .variable {
 	color: #032f62;
 }
 
@@ -175,6 +174,10 @@
 
 .token.bracket-error {
 	color: #ff1212cc;
+}
+
+.token.markup-bracket {
+	color: inherit;
 }
 
 .active-bracket {

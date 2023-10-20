@@ -1,6 +1,8 @@
 import { defineConfig } from "vite"
 import dts from "vite-plugin-dts"
 
+import components from "prismjs/components"
+
 const entries = {
 	index: "src/index.ts",
 	"extensions/guides": "src/extensions/guides.ts",
@@ -23,9 +25,11 @@ const entries = {
 	"rtl-layout": "src/rtl-layout.css",
 	layout: "src/layout.css",
 	"themes/index": "src/themes/index.ts",
-	prismCore: "src/prismCore.ts",
-	prismMarkdown: "src/prismMarkdown.ts",
+	utils: "src/utilsExport.ts",
 }
+
+for (const name in components.languages) 
+	name != "meta" && (entries[`grammars/${name}`] = `src/grammars/${name}.js`)
 
 for (const theme of [
 	"atom-one-dark",

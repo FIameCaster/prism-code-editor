@@ -1,22 +1,25 @@
-import { languages } from "../core"
-import { xmlClosingTag, xmlOpeningTag } from "./patterns"
+import { languageMap } from "../core"
+import { isBracketPair, xmlClosingTag, xmlOpeningTag } from "./patterns"
 
 // Same as HTML, but without void tags
-languages.xml =
-	languages.ssml =
-	languages.atom =
-	languages.rss =
-	languages.mathml =
-	languages.svg =
+languageMap.xml =
+	languageMap.ssml =
+	languageMap.atom =
+	languageMap.rss =
+	languageMap.mathml =
+	languageMap.svg =
 		{
 			comments: {
 				block: ["<!--", "-->"],
 			},
 			autoIndent: [
-				([start], value) => xmlOpeningTag.test(value.substring(start - 999, start)),
+				([start], value) =>
+					xmlOpeningTag.test((value = value.substring(start - 999, start))) ||
+					/[([{][^\n)\]}]*$/.test(value),
 				([start, end], value) =>
-					xmlOpeningTag.test(value.substring(start - 999, start)) &&
-					xmlClosingTag.test(value.slice(end, end + 999)),
+					isBracketPair.test(value[start - 1] + value[end]) ||
+					(xmlOpeningTag.test(value.substring(start - 999, start)) &&
+						xmlClosingTag.test(value.slice(end, end + 999))),
 			],
 			autoCloseTags([start, end], value) {
 				const tagName =

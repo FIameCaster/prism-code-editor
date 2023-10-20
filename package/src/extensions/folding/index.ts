@@ -2,7 +2,7 @@
 
 import { Extension, PrismEditor, numLines } from "../.."
 import { getLineBefore } from "../../utils"
-import { createTemplate, languages } from "../../core"
+import { createTemplate, languageMap } from "../../core"
 import { BracketMatcher } from "../matchBrackets"
 import { TagMatcher } from "../matchTags"
 
@@ -12,38 +12,48 @@ import { TagMatcher } from "../matchTags"
  * @param currentFolds The ranges that a currently foldable.
  * @returns An array of extra foldable ranges.
  */
-export type AddFoldRangesCallback = (
+export type FoldingRangeProvider = (
 	editor: PrismEditor,
 	currentFolds: [number, number][],
 ) => [number, number][]
 
 export interface ReadOnlyCodeFolding extends Extension {
+	/** The code in the editor with no ranges collapsed. */
 	readonly fullCode: string
-	toggleFold(lineNumber: number, force?: boolean): void
+	/**
+	 * Toggles whether a range is folded. Does not cause a rerender so it's possible to
+	 * toggle multiple folds simultaneously.
+	 * @param lineNumber The line number of the fold.
+	 * @param force If set to `true`, the range will only be folded.
+	 * If `false`, the range will only be unfolded.
+	 * If `undefined`, it will be toggled.
+	 * @returns A boolean indicating whether or not a fold was toggled which means
+	 * calling {@link updateFolds} in the near future is necessary.
+	 */
+	toggleFold(lineNumber: number, force?: boolean): boolean
+	/** Call this after the {@link toggleFold} method to rerender the editor. */
+	updateFolds(): void
 }
 
-const template = createTemplate("<div> </div>", "", "fold-line-btn")
-const template2 = createTemplate(" <span title='Unfold'>   </span> ", "", "fold-placeholder")
+const template = createTemplate("<div> </div>", "", "pce-fold")
+const template2 = createTemplate(" <span title='Unfold'>   </span> ", "", "pce-unfold")
 
 /**
  * Extension only supporting read-only editors which adds code folding to the editor.
- * 
+ *
  * To fold XML elements, a {@link TagMatcher} needs to be added before.
- * 
+ *
  * To fold bracket pairs, a {@link BracketMatcher} needs to be added before.
- * 
- * @param addExtraFoldRanges Optional callback that can add extra foldable ranges.
+ *
+ * @param providers Callbacks that can add extra foldable ranges.
+ * Very minimal downsides to adding this extension dynamically.
  */
-export const readOnlyCodeFolding = (
-	addExtraFoldRanges?: AddFoldRangesCallback,
-): ReadOnlyCodeFolding => {
-	let matchTags: TagMatcher | undefined,
-		matchBrackets: BracketMatcher | undefined,
-		cEditor: PrismEditor,
+const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCodeFolding => {
+	let cEditor: PrismEditor,
 		value: string,
-		code = "",
+		code: string,
 		lines: HTMLCollection,
-		folds: [number, number][],
+		textarea: HTMLTextAreaElement,
 		foldPositions: (undefined | [number, number])[],
 		foldToggles: HTMLDivElement[],
 		foldPlaceholders: HTMLDivElement[]
@@ -54,9 +64,9 @@ export const readOnlyCodeFolding = (
 	const getPosition = (pos: number) => {
 		let result = pos
 		for (let [start, end] of foldedRanges) {
-			if (start < pos) {
-				if (end > pos) return -1
-				else result -= end - start - 3
+			if (pos > start) {
+				if (pos < end) return -1
+				result -= end - start - 3
 			}
 		}
 		return result
@@ -96,6 +106,9 @@ export const readOnlyCodeFolding = (
 			foldedLines.add(line)
 			addFold(line)
 		}
+	}
+
+	const update = () => {
 		value = ""
 		let pos = 0,
 			skippedLines: number[] = [],
@@ -106,9 +119,8 @@ export const readOnlyCodeFolding = (
 			skippedLines[numLines(value)] = numLines(code, start, (pos = end))
 		}
 
-		cEditor.textarea.value = value += code.slice(pos)
-		cEditor.textarea.dispatchEvent(new Event("input"))
-		cEditor.setSelection(getPosition(start))
+		textarea.value = value += code.slice(pos)
+		textarea.dispatchEvent(new Event("input"))
 
 		for (let i = 1, j = 0, l = lines.length; i < l; i++)
 			lines[i].setAttribute("data-line", <any>(j += skippedLines[i - 1] || 1))
@@ -117,24 +129,22 @@ export const readOnlyCodeFolding = (
 			"--number-width",
 			Math.ceil(Math.log10(numLines(code))) + 0.001 + "ch",
 		)
-
 		updateFolds()
 	}
 
 	const updateFolds = () => {
-		for (let line in foldPositions) {
+		for (let line = 0, l = foldPositions.length; line < l; line++) {
+			if (!foldPositions[line]) continue
 			let pos = getPosition(foldPositions[line]![0])
 			if (pos + 1) {
 				let parent = lines[numLines(value, 0, pos)]
 				let el = foldToggles[line]
-				let isClosed = foldedLines.has(+line)
+				let isClosed = foldedLines.has(line)
 				if (!el) {
 					el = foldToggles[line] = <HTMLDivElement>template.cloneNode(true)
-					el.onclick = () => {
-						toggleFold(+line)
-					}
+					el.onclick = () => toggleAndUpdate(line)
 				}
-				if (parent != el.parentNode && !parent.querySelector(".fold-line-btn")) parent.prepend(el)
+				if (parent != el.parentNode && !parent.querySelector(".pce-fold")) parent.prepend(el)
 				el.classList.toggle("closed-fold", isClosed)
 				el.title = `${isClosed ? "Unf" : "F"}old line`
 				el = foldPlaceholders[line]
@@ -146,52 +156,31 @@ export const readOnlyCodeFolding = (
 					const [before, placeholder, after] = <[Text, HTMLElement, Text]>(<any>el.childNodes)
 					before.data = getLineBefore(value, pos)
 					after.data = /.*/.exec(value.slice(pos2))![0]
-					placeholder.onclick = () => {
-						toggleFold(+line)
-					}
+					placeholder.onclick = () => toggleAndUpdate(line)
 					if (parent != el.parentNode) parent.prepend(el)
 				} else el?.remove()
 			}
 		}
 	}
 
-	const findMultilineComments = (
-		tokens: (Prism.Token | string)[],
-		position: number,
-		language = cEditor.options.language,
-	) => {
-		for (let i = 0, l = tokens.length; i < l; ) {
-			const token = <Prism.Token>tokens[i++]
-			const content = token.content
-			const length = token.length
-			const type = token.type
-			if ((token.alias || type) == "comment" && numLines(value, position, position + length) > 1) {
-				let comment = languages[language]?.comments?.block
-				if (comment)
-					folds.push([position + comment[0].length, position + length - comment[1].length])
-			} else if (Array.isArray(content))
-				findMultilineComments(
-					content,
-					position,
-					type.slice(0, 9) == "language-" ? type.slice(9) : language,
-				)
-			position += length
-		}
+	const toggleAndUpdate = (line: number) => {
+		toggleFold(line)
+		update()
+		cEditor.setSelection(getPosition(foldPositions[line]![0]))
 	}
 
 	const createFolds = () => {
-		folds = []
 		foldToggles = []
 		foldPlaceholders = []
 		foldPositions = []
 		foldedRanges.clear()
 		foldedLines.clear()
 		value = code = cEditor.value
-		findMultilineComments(cEditor.tokens, 0)
-		;({ matchTags, matchBrackets } = cEditor.extensions)
+		const folds: [number, number][] = []
+		const { matchTags, matchBrackets } = cEditor.extensions
 
 		if (matchTags) {
-			const { tags, pairs } = matchTags
+			let { tags, pairs } = matchTags
 			for (let i = 0, j: number, l = pairs.length; i < l; i++) {
 				if ((j = pairs[i]!) > i && numLines(value, tags[i][3], tags[j][1]) > 1) {
 					folds.push([tags[i][3], tags[j][1]])
@@ -199,18 +188,17 @@ export const readOnlyCodeFolding = (
 			}
 		}
 		if (matchBrackets) {
-			const { brackets, pairs } = matchBrackets
+			let { brackets, pairs } = matchBrackets
 			for (let i = 0, j: number, l = pairs.length; i < l; i++) {
 				if (
 					(j = pairs[i]!) > i &&
 					brackets[i][3] != "(" &&
 					numLines(value, brackets[i][1], brackets[j][1]) > 1
-				) {
+				)
 					folds.push([brackets[i][1] + brackets[i][3].length, brackets[j][1]])
-				}
 			}
 		}
-		if (addExtraFoldRanges) folds.push(...addExtraFoldRanges(cEditor, folds))
+		providers.forEach(clb => folds.push(...clb(cEditor, folds)))
 
 		for (let i = 0, l = folds.length; i < l; i++) {
 			const [start, end] = folds[i],
@@ -226,6 +214,7 @@ export const readOnlyCodeFolding = (
 		update(editor, options) {
 			if (!cEditor) {
 				cEditor = editor
+				textarea = editor.textarea
 				editor.extensions.codeFold = this
 				lines = editor.wrapper.children
 				if (editor.tokens[0]) createFolds()
@@ -237,13 +226,99 @@ export const readOnlyCodeFolding = (
 					: "",
 			)
 			editor.addListener("update", createFolds)
-			setTimeout(() => editor.removeListener("update", createFolds))
+			setTimeout(editor.removeListener, 0, "update", createFolds)
 		},
 		get fullCode() {
 			return code
 		},
-		toggleFold(lineNumber, force) {
-			if (foldPositions[lineNumber] && foldedLines.has(lineNumber) != force) toggleFold(lineNumber)
-		},
+		toggleFold: (lineNumber, force) =>
+			!!foldPositions[lineNumber] &&
+			foldedLines.has(lineNumber) != force &&
+			!toggleFold(lineNumber)!,
+		updateFolds: update,
 	}
 }
+
+/**
+ * Folding range provider that allows folding of block comments. For this to work,
+ * you need to befine block comments in the {@link languageMap} for the language.
+ * 
+ * Simply pass this function as one of the arguments when calling {@link readOnlyCodeFolding}.
+ */
+const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { language } }) => {
+	const folds: [number, number][] = []
+	const findBlockComments = (
+		tokens: (Prism.Token | string)[],
+		position: number,
+		language: string,
+	) => {
+		for (let i = 0, l = tokens.length; i < l; ) {
+			const token = <Prism.Token>tokens[i++]
+			const content = token.content
+			const length = token.length
+			const type = token.type
+			if ((token.alias || type) == "comment" && numLines(value, position, position + length) > 1) {
+				let comment = languageMap[language]?.comments?.block
+				if (comment)
+					folds.push([position + comment[0].length, position + length - comment[1].length])
+			} else if (Array.isArray(content))
+				findBlockComments(
+					content,
+					position,
+					type.indexOf("language-") ? language : type.slice(9),
+				)
+			position += length
+		}
+	}
+
+	findBlockComments(tokens, 0, language)
+
+	return folds
+}
+
+/**
+ * Folding range provider that allows folding of titles and code blocks in markdown.
+ * 
+ * Simply pass this function as one of the arguments when calling {@link readOnlyCodeFolding}.
+ */
+const markdownFolding: FoldingRangeProvider = ({ tokens, value, options: { language } }) => {
+	let folds: [number, number][] = []
+	let pos = 0
+	let openTitles: number[] = []
+	let closeTitles = (level: number) => {
+		let end = value.slice(0, pos).trimEnd().length
+		for (let i = level - 1; i < openTitles.length; i++) {
+			folds.push([openTitles[i], end])
+		}
+	}
+	if (language == "markdown" || language == "md")
+		for (let i = 0, end = tokens.length - 1; ; i++) {
+			const token = <Prism.Token>tokens[i]
+			const length = token.length
+			const type = token.type
+			if (type == "code" && !token.alias) {
+				let content = <Prism.Token[]>(<Prism.Token>token).content
+				folds.push([
+					pos + content[0].length + (content[1].content || "").length,
+					pos + length - content[content.length - 1].length - 1,
+				])
+			}
+			if (type == "title") {
+				let [token1, token2] = <Prism.Token[]>(<Prism.Token>token).content
+				let level = token1.type ? token1.length : (<string>token2.content)[0] == "=" ? 1 : 2
+				closeTitles(level)
+				openTitles.length = level
+				openTitles[level - 1] = pos + (token1.type ? length : token1.length - 1)
+			}
+
+			pos += length
+			if (i == end) {
+				closeTitles(1)
+				break
+			}
+		}
+
+	return folds
+}
+
+export { readOnlyCodeFolding, markdownFolding, blockCommentFolding }

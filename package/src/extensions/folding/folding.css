@@ -1,4 +1,4 @@
-.fold-line-btn {
+.pce-fold {
 	position: absolute;
 	display: inline-grid;
 	margin: 0 0 0 calc(2px - var(--_ns));
@@ -7,17 +7,17 @@
 	z-index: 2;
 }
 
-.fold-line-btn,
-.fold-placeholder span {
+.pce-fold,
+.pce-unfold span {
 	pointer-events: auto;
 	cursor: pointer;
 }
 
-.fold-line-btn > * {
+.pce-fold > * {
 	width: 0.7em;
 }
 
-.fold-line-btn > ::after {
+.pce-fold > ::after {
 	content: "";
 	display: block;
 	position: absolute;
@@ -33,12 +33,12 @@
 	transform: translateY(-50%) rotate(-90deg);
 }
 
-.no-word-wrap .fold-line-btn {
+.pce-nowrap .pce-fold {
 	position: sticky;
 	left: calc(2px + var(--padding-left) - var(--_ns));
 }
 
-.fold-placeholder {
+.pce-unfold {
 	position: absolute;
 	padding: inherit;
 	top: 0;
@@ -46,7 +46,7 @@
 	z-index: 1;
 }
 
-.fold-placeholder span {
+.pce-unfold span {
 	box-shadow: inset 0 0 0 1px var(--widget__border);
 	border-radius: 0.3em;
 	background: repeat-x var(--widget__bg) calc(1.5ch - 1.3px) 0.5em/0.85ch

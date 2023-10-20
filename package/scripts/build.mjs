@@ -36,4 +36,7 @@ for (const entry of entries) {
 fs.writeFile("dist/themes/index.js", themeMod, logError)
 
 fs.copyFile("../readme.md", "readme.md", logError)
-fs.copyFile('../LICENSE', 'LICENSE', logError)
+fs.copyFile("../LICENSE", "LICENSE", logError)
+
+const utils = fs.readFileSync("dist/utils.d.ts", "utf-8")
+fs.writeFile("dist/utils.d.ts", utils.replace(", scrollToEl", ""), logError)

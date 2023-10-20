@@ -2,7 +2,7 @@
 * Based on GitHub Dark theme
 */
 
-.prism-editor {
+.prism-code-editor {
 	caret-color: #2f81f7;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--editor__bg: #0d1117;
@@ -27,16 +27,12 @@
 	color-scheme: dark;
 }
 
-[class*="language-"] {
-	color: #e6edf3;
-}
-
-.prism-editor textarea::selection {
+.prism-code-editor textarea::selection {
 	color: #0000;
 	background: #264f78;
 }
 
-.search-matches .match {
+.pce-matches .match {
 	--search__bg-find: #8c8d6c;
 }
 
@@ -48,6 +44,8 @@
 	--bg-guide-indent: #e6edf33d;
 }
 
+[class*="language-"],
+.language-markdown .url > .operator,
 .token.punctuation,
 .token.code.keyword {
 	color: #e6edf3;
@@ -83,7 +81,8 @@
 .token.regex,
 .language-regex,
 .token.string-property,
-.language-markdown .token.url {
+.language-markdown .url .content, 
+.language-markdown .url .variable {
 	color: #a5d6ff;
 }
 
@@ -166,6 +165,10 @@
 
 .token.bracket-error {
 	color: #7d8590;
+}
+
+.token.markup-bracket {
+	color: inherit;
 }
 
 .active-bracket {

@@ -3,8 +3,7 @@
 * Based (more or less) on the Twilight theme originally of Textmate fame.
 * @author Remy Bach
 */
-.prism-editor {
-	color: #fff;
+.prism-code-editor {
 	caret-color: #fff;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--editor__bg: #141414;
@@ -30,12 +29,12 @@
 }
 
 /* Selection */
-.prism-editor textarea::selection {
+.prism-code-editor textarea::selection {
 	background: #27292a;
 	color: #0000;
 }
 
-.search-matches .match {
+.pce-matches .match {
 	--search__bg-find: #3a3e41;
 }
 
@@ -45,6 +44,10 @@
 
 .guide-indents .active {
 	--bg-guide-indent: #ededed3d;
+}
+
+[class*="language-"] {
+	color: #fff;
 }
 
 .token.comment,
@@ -106,9 +109,8 @@
 	font-style: italic;
 }
 
-/* Markup */
-.language-html .token.tag,
-.language-html .token.attr-name,
+.token.tag,
+.token.attr-name,
 .tag > .token.punctuation {
 	color: #ad895c;
 }
@@ -142,6 +144,10 @@
 .token.bracket-error {
 	color: #ff1212cc;
 	opacity: 1;
+}
+
+.token.markup-bracket {
+	color: inherit;
 }
 
 .active-bracket {

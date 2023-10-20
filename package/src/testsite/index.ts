@@ -1,12 +1,18 @@
-import { createEditor, EditorOptions, getModifierCode, isMac, PrismEditor } from ".."
+import { createEditor, EditorOptions, isMac, PrismEditor } from ".."
 import { defaultCommands } from "../extensions/commands"
 import { copyButton } from "../extensions/copyButton"
+import "../grammars/markup"
+import "../grammars/js-extras"
+import "../grammars/css-extras"
+import "../grammars/markdown"
+import "../grammars/tsx"
+import "../grammars/python"
 import "../extensions/copyButton/copy.css"
 import "../extensions/folding/folding.css"
 import { cursorPosition } from "../extensions/cursor"
 import { indentGuides } from "../extensions/guides"
 import guides from "../extensions/guides.ts?raw"
-import coreCode from "../core.ts?raw"
+import readme from "/readme.md?raw"
 import { matchBrackets } from "../extensions/matchBrackets"
 import { highlightBracketPairs } from "../extensions/matchBrackets/highlight"
 import { highlightSelectionMatches, searchWidget } from "../extensions/search"
@@ -14,14 +20,12 @@ import "../extensions/search/search.css"
 import "../languages"
 import "../layout.css"
 import "../rtl-layout.css"
-import Prism from "../prismCore"
-import "./languages"
-import "../prismMarkdown"
 import "../scrollbar.css"
 import { addFullEditor, addReadonlyEditor, PrismEditorElement } from "../webComponent"
 import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
+import { getModifierCode } from "../utils"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -30,13 +34,12 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	errorMessage = <HTMLPreElement>errorEl.lastElementChild,
 	createEditorWrapper = (container: ParentNode, options: EditorOptions) =>
 		createEditor(
-			Prism,
 			container,
 			options,
 			cursorPosition(),
 			indentGuides(),
 			matchTags(),
-			matchBrackets(true),
+			matchBrackets(),
 			highlightBracketPairs(),
 			copyButton(),
 			highlightSelectionMatches(),
@@ -182,7 +185,7 @@ commands.Enter = (e, selection, value) => {
 	} else return oldEnter!(e, selection, value)
 }
 
-addFullEditor(Prism, "prism-editor")
+addFullEditor("prism-editor")
 
 const webComponent = document.querySelector<PrismEditorElement>("prism-editor")!
 
@@ -192,13 +195,13 @@ webComponent.addEventListener("ready", () => {
 	})
 })
 
-addReadonlyEditor(Prism, "readonly-editor")
+addReadonlyEditor("readonly-editor")
 
 const readonlyEditor = document.querySelector<PrismEditorElement>("readonly-editor")!
 
 readonlyEditor.addEventListener("ready", () => {
 	readonlyEditor.editor.setOptions({
-		value: coreCode.trimEnd().replace(/\r/g, ""),
+		value: readme.replace(/\r/g, ""),
 	})
 })
 

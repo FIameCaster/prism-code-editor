@@ -27,7 +27,7 @@
 	cursor: pointer;
 }
 
-.readonly > .prism-search-container > div {
+.pce-readonly > .prism-search-container > div {
 	grid: auto / auto;
 }
 
@@ -49,18 +49,18 @@
 	opacity: 0.6;
 }
 
-.match-count {
+.pce-match-count {
 	margin-right: auto;
 }
 
-.search-options {
+.pce-options {
 	color: var(--widget__color-options);
 	font-size: 80%;
 	gap: 0.25em;
 	align-items: center;
 }
 
-.search-options button {
+.pce-options button {
 	padding: 0 0.2em;
 	border-radius: 0.2em;
 	width: 1.2em;
@@ -68,7 +68,7 @@
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 }
 
-.search-options button span {
+.pce-options button span {
 	pointer-events: none;
 }
 
@@ -77,13 +77,13 @@
 	z-index: 1;
 }
 
-.prism-search .search-input,
-.search-options button {
+.prism-search .pce-input,
+.pce-options button {
 	box-shadow: 0 0 0 1px var(--_border, var(--widget__border));
 	margin: 1px;
 }
 
-.prism-search .search-input {
+.prism-search .pce-input {
 	display: flex;
 	position: relative;
 	justify-content: flex-end;
@@ -96,26 +96,26 @@
 	outline: 0;
 }
 
-.search-input:focus-within {
+.pce-input:focus-within {
 	--_border: var(--widget__focus-ring);
 }
 
-.search-input.find button {
+.pce-input.pce-find button {
 	display: grid;
 	align-items: center;
 	padding: 0 0.4em;
 }
 
-.search-input.replace button {
+.pce-input.pce-replace button {
 	width: 7.3ch;
 	text-align: center;
 }
 
-.search-input.replace :last-child {
+.pce-input.pce-replace :last-child {
 	width: 2.7ch;
 }
 
-.search-input button {
+.pce-input button {
 	box-shadow: -1px 0 0 0 var(--widget__border);
 	margin-left: 1px;
 }
@@ -125,7 +125,7 @@
 }
 
 .next-match::before,
-.expand-search::before {
+.pce-expand::before {
 	transform: rotate(90deg);
 }
 
@@ -135,17 +135,17 @@
 	}
 }
 
-.search-options button[aria-pressed="true"] {
+.pce-options button[aria-pressed="true"] {
 	background: var(--widget__bg-active);
 	color: var(--widget__color-active);
 	--_border: var(--widget__focus-ring);
 }
 
-.search-input > :nth-child(3) {
+.pce-input > :nth-child(3) {
 	border-radius: 0 0.15em 0.15em 0;
 }
 
-.search-input.find.has-error {
+.pce-input.pce-find.pce-error {
 	--_border: var(--widget__error-ring);
 	position: relative;
 }
@@ -164,11 +164,11 @@
 	z-index: 1;
 }
 
-.has-error:focus-within .search-error {
+.pce-error:focus-within .search-error {
 	display: block;
 }
 
-button.search-close {
+button.pce-close {
 	display: grid;
 	width: 1.3em;
 	height: 1.3em;
@@ -177,16 +177,16 @@ button.search-close {
 	border-radius: 0.3em;
 }
 
-.search-input.find button::before,
-.expand-search::before,
-.search-close::before {
+.pce-input.pce-find button::before,
+.pce-expand::before,
+.pce-close::before {
 	content: "";
 	background: currentColor;
 	height: 1.2em;
 	opacity: 0.75;
 }
 
-.search-close::before {
+.pce-close::before {
 	clip-path: polygon(
 		50% 44.34%,
 		0% 74.34%,
@@ -212,41 +212,41 @@ button.search-close {
 	width: var(--search-width, 20em);
 }
 
-button.expand-search {
+button.pce-expand {
 	display: grid;
 	place-items: center;
 	border-radius: 0.25em;
 	margin: -0.15em;
 }
 
-.readonly > .prism-search-container .expand-search,
-[aria-expanded="false"] + div .replace,
-.readonly > .prism-search-container .replace {
+.pce-readonly > .prism-search-container .pce-expand,
+[aria-expanded="false"] + div .pce-replace,
+.pce-readonly > .prism-search-container .pce-replace {
 	display: none;
 }
 
-.expand-search[aria-expanded="true"]::before {
+.pce-expand[aria-expanded="true"]::before {
 	transform: rotate(180deg);
 }
 
-.search-input.find button::before,
-.expand-search::before {
+.pce-input.pce-find button::before,
+.pce-expand::before {
 	width: 0.84em;
 	clip-path: polygon(50% 28.96%, 0% 63.96%, 10.1% 71.04%, 50% 43.11%, 89.9% 71.04%, 100% 63.96%);
 }
 
-button.use-regexp {
+button.pce-regex {
 	display: flex;
 	align-self: stretch;
 }
 
-.use-regexp span {
+.pce-regex span {
 	display: flex;
 	align-self: stretch;
 	align-items: flex-end;
 }
 
-.use-regexp span::before {
+.pce-regex span::before {
 	content: "";
 	width: 0.3em;
 	height: 0.3em;
@@ -254,24 +254,24 @@ button.use-regexp {
 	margin: 0 0 0.2em 0.1em;
 }
 
-.use-regexp span::after {
+.pce-regex span::after {
 	content: "*";
 	line-height: 0;
 	font-size: 140%;
 	margin-bottom: 0.5em;
 }
 
-button.find-in-selection {
+button.pce-in-selection {
 	display: grid;
 	place-items: center;
 	align-self: stretch;
 }
 
-button.whole-word {
+button.pce-whole {
 	position: relative;
 }
 
-.whole-word::after {
+.pce-whole::after {
 	content: "";
 	position: absolute;
 	bottom: 0.31em;
@@ -282,7 +282,7 @@ button.whole-word {
 	box-shadow: 0 0 0 1px;
 }
 
-.find-in-selection::before {
+.pce-in-selection::before {
 	content: "";
 	height: 80%;
 	width: 90%;
@@ -303,10 +303,10 @@ button.whole-word {
 	);
 }
 
-.search-matches span {
+.pce-matches span {
 	background: var(--search__bg-find);
 }
 
-.search-matches :empty {
+.pce-matches :empty {
 	box-shadow: 0 0 0 2px var(--search__bg-find);
 }

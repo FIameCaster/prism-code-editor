@@ -64,7 +64,7 @@ const observer = window.ResizeObserver
 	? /* @__PURE__ */ new ResizeObserver(e =>
 			e.forEach(entry => {
 				const el = entry.target
-				const wrapper = el.querySelector<HTMLDivElement>(".prism-editor-wrapper")!
+				const wrapper = el.querySelector<HTMLDivElement>(".pce-wrapper")!
 				const style = getComputedStyle(wrapper)
 				wrapper.style.paddingBottom = `${
 					el.clientHeight - parseFloat(style.marginBottom) - parseFloat(style.lineHeight)
@@ -82,5 +82,5 @@ export const addOverscroll = (editor: PrismEditor) => {
 export const removeOverscroll = (editor: PrismEditor) => {
 	const el = editor.scrollContainer
 	observer && observer.unobserve(el)
-	el.querySelector<HTMLDivElement>(".prism-editor-wrapper")!.style.paddingBottom = ""
+	el.querySelector<HTMLDivElement>(".pce-wrapper")!.style.paddingBottom = ""
 }

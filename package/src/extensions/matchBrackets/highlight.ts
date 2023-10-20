@@ -42,7 +42,7 @@ export const highlightBracketPairs = (): Extension => ({
 			},
 			closest = (offset: number) => {
 				for (
-					let i = 0, brackets = matcher.brackets, pairs = matcher.pairs, bracket: Bracket;
+					let i = 0, { brackets, pairs } = matcher, bracket: Bracket;
 					(bracket = brackets[++i]);
 
 				) {

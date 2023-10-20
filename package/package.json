@@ -1,6 +1,6 @@
 {
   "name": "prism-code-editor",
-  "version": "1.2.2",
+  "version": "2.0.0",
   "type": "module",
   "description": "Lightweight, extensible code editor component for the web using Prism",
   "main": "./dist/index.js",
@@ -14,17 +14,14 @@
     "./code-folding.css": "./dist/folding.css",
     "./scrollbar.css": "./dist/scrollbar.css",
     "./setups": "./dist/setups/index.js",
+    "./utils": "./dist/utils.js",
     "./layout.css": "./dist/layout.css",
     "./rtl-layout.css": "./dist/rtl-layout.css",
     "./themes/*.css": "./dist/themes/*.css",
     "./themes": "./dist/themes/index.js",
     "./languages": "./dist/languages/index.js",
-    "./languages/clike": "./dist/languages/clike.js",
-    "./languages/css": "./dist/languages/css.js",
-    "./languages/html": "./dist/languages/html.js",
-    "./languages/jsx": "./dist/languages/jsx.js",
-    "./languages/python": "./dist/languages/python.js",
-    "./languages/xml": "./dist/languages/xml.js",
+    "./languages/*": "./dist/languages/*.js",
+    "./grammars/*": "./dist/grammars/*.js",
     "./match-brackets": "./dist/extensions/matchBrackets/index.js",
     "./highlight-brackets": "./dist/extensions/matchBrackets/highlight.js",
     "./match-tags": "./dist/extensions/matchTags.js",
@@ -32,8 +29,6 @@
     "./commands": "./dist/extensions/commands.js",
     "./cursor": "./dist/extensions/cursor.js",
     "./code-folding": "./dist/extensions/folding/index.js",
-    "./prism-core": "./dist/prismCore.js",
-    "./prism-markdown": "./dist/prismMarkdown.js",
     "./search": "./dist/extensions/search/index.js",
     "./search/api": "./dist/extensions/search/api.js",
     "./search.css": "./dist/search.css"
@@ -49,8 +44,8 @@
     "dist/*"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build && node scripts/build.mjs",
+    "dev": "node scripts/buildLangs.cjs && vite",
+    "build": "node scripts/buildLangs.cjs && tsc && vite build && node scripts/build.mjs",
     "preview": "vite preview",
     "prepublish": "tsc && vite build && node scripts/build.mjs"
   },
@@ -62,7 +57,7 @@
     "vite-plugin-dts": "^2.3.0"
   },
   "dependencies": {
-    "@types/prismjs": "^1.26.0"
+    "@types/prismjs": "^1.26.2"
   },
   "keywords": [
     "editor",
@@ -81,8 +76,7 @@
   "sideEffects": [
     "*.css",
     "./dist/languages/*",
-    "./dist/prismCore.js",
-    "./dist/prismMarkdown.js"
+    "./dist/grammars/*"
   ],
   "pnpm": {
     "patchedDependencies": {

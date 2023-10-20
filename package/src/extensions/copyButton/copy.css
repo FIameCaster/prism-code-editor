@@ -1,4 +1,4 @@
-.editor-copy {
+.pce-copy {
 	all: unset;
 	cursor: pointer;
 	position: sticky;
@@ -17,15 +17,15 @@
 	font: 400 1em/1.5 Arial, Helvetica, sans-serif;
 }
 
-.editor-copy,
-.editor-copy::after,
-.editor-copy::before {
+.pce-copy,
+.pce-copy::after,
+.pce-copy::before {
 	opacity: 0;
 	border-radius: 0.4em;
 	transition: opacity 0.1s ease-out;
 }
 
-.editor-copy::after {
+.pce-copy::after {
 	content: attr(aria-label);
 	position: absolute;
 	right: calc(100% + 0.5em);
@@ -38,7 +38,7 @@
 	pointer-events: none;
 }
 
-.editor-copy::before {
+.pce-copy::before {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -49,14 +49,14 @@
 	box-shadow: inset 0 0 0 1px #999;
 }
 
-.prism-editor:hover .editor-copy,
-.editor-copy:hover::before,
-.editor-copy:hover::after {
+.prism-code-editor:hover .pce-copy,
+.pce-copy:hover::before,
+.pce-copy:hover::after {
 	opacity: 1;
 }
 
-.editor-copy:focus-visible::before,
-.editor-copy:focus-visible,
-.editor-copy:focus-visible::after {
+.pce-copy:focus-visible::before,
+.pce-copy:focus-visible,
+.pce-copy:focus-visible::after {
 	opacity: 1;
 }

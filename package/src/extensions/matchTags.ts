@@ -3,8 +3,7 @@
 import { Extension, PrismEditor } from ".."
 import { getClosestToken } from "../utils"
 
-const langsWithTags = "html,markup,mathml,svg,markdown,md,xml,rss,atom,jsx,tsx".split(",")
-const langsWithoutVoidTags = "xml,rss,atom,jsx,tsx".split(",")
+const voidlessLangs = "xml,rss,atom,jsx,tsx".split(",")
 const voidTags = "area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr".split(",")
 
 export interface TagMatcher {
@@ -35,29 +34,29 @@ export interface TagHighlighter extends Extension {
  * @returns An object containing all tags and pairs.
  */
 export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
-	let pairMap: number[],
-		tags: [Prism.Token, number, number, number, string, boolean][],
+	let pairMap: number[] = [],
+		tags: [Prism.Token, number, number, number, string, boolean][] = [],
 		stack: [number, string][],
 		tagIndex: number,
 		matchTags = (tokens: (Prism.Token | string)[], language: string) => {
-			pairMap = []
-			tags = []
 			stack = []
-			tagIndex = 0
+			tags.length = pairMap.length = tagIndex = 0
 			matchTagsRecursive(tokens, language, 0)
 		},
 		matchTagsRecursive = (tokens: (Prism.Token | string)[], language: string, position: number) => {
-			if (langsWithTags.includes(language))
-				for (let i = 0, l = tokens.length; i < l; ) {
-					const noVoidTags = langsWithoutVoidTags.includes(language),
-						token = <Prism.Token>tokens[i++],
-						content = token.content,
-						type = token.type
-					if (Array.isArray(content)) {
-						if (type == "tag") {
-							let [{ length: openingLength }, tagName] = <[Prism.Token, (string | Prism.Token)?]>(
-								(<Prism.Token>content[0]).content
-							)
+			for (let i = 0, noVoidTags = voidlessLangs.includes(language), l = tokens.length; i < l; ) {
+				const token = <Prism.Token>tokens[i++],
+					content = token.content,
+					type = token.type,
+					length = token.length
+				if (Array.isArray(content)) {
+					if (type == "tag") {
+						let nameContent = <[Prism.Token, (string | Prism.Token)?]>(
+							(<Prism.Token>content[0])?.content
+						)
+						if (nameContent && nameContent[0]) {
+							let [{ length: openingLength }, tagName] = nameContent
+
 							let closingLength = (<Prism.Token>content[content.length - 1]).length
 							let selfClosing =
 								closingLength > 1 || (!noVoidTags && voidTags.includes(<string>tagName))
@@ -81,19 +80,20 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 								token,
 								position,
 								openingLength,
-								position + token.length,
+								position + length,
 								tagName,
 								selfClosing,
 							]
-						} else
-							matchTagsRecursive(
-								content,
-								type.indexOf("language-") ? language : type.slice(9),
-								position,
-							)
-					}
-					position += token.length
+						}
+					} else
+						matchTagsRecursive(
+							content,
+							type.indexOf("language-") ? language : type.slice(9),
+							position,
+						)
 				}
+				position += length
+			}
 		}
 
 	editor.addListener("tokenize", env => {
@@ -103,17 +103,19 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 	matchTags(editor.tokens, editor.options.language)
 
 	return (editor.extensions.matchTags = {
-		get tags() {
-			return tags
-		},
-		get pairs() {
-			return pairMap
-		},
+		tags,
+		pairs: pairMap,
 	})
 }
+
+const getClosestTagIndex = (pos: number, tags: TagMatcher["tags"]) => {
+	for (let i = 0, l = tags.length; i < l && tags[i][1] <= pos; i++) if (tags[i][3] >= pos) return i
+}
+
 /**
  * Extension that adds classes to matching HTML/XML/JSX tags. If the editor doesn't
- * have a {@link TagMatcher}, one is created.
+ * have a {@link TagMatcher}, one is created. Obviously don't add this if the languages
+ * used don't have tags.
  *
  * Use the CSS selectors `.active-tagname` to style the elements.
  *
@@ -121,31 +123,27 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
  */
 export const matchTags = (): TagHighlighter => ({
 	update(editor) {
-		let openEl: HTMLSpanElement | null, closeEl: HTMLSpanElement | null
-		const matcher = (this.matcher = editor.extensions.matchTags || createTagMatcher(editor))
-		const getClosestTagIndex = (pos: number) => {
-			for (let i = 0, tags = matcher!.tags, l = tags.length; i < l && tags[i][1] <= pos; i++)
-				if (tags[i][3] >= pos) return i
-		}
-		const highlight = (remove?: boolean) => {
-			;[openEl, closeEl].forEach(el => {
-				el?.classList.toggle("active-tagname", !remove)
+		this.update = () => {}
+		let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
+		const { tags, pairs } = (this.matcher = editor.extensions.matchTags || createTagMatcher(editor))
+		const highlight = (remove?: boolean) =>
+			[openEl, closeEl].forEach(el => {
+				el && el.classList.toggle("active-tagname", !remove)
 			})
-		}
+
 		const selectionChange = () => {
-			const [start, end] = editor.getSelection()
+			let [start, end] = editor.getSelection()
+			let newEl1: HTMLSpanElement
+			let newEl2: HTMLSpanElement
 			if (start == end && editor.focused) {
-				let index = getClosestTagIndex(start)
-				let newEl1: HTMLSpanElement
-				let newEl2: HTMLSpanElement
+				let index = getClosestTagIndex(start, tags)!
 
-				if (index! + 1) {
-					const tags = matcher!.tags
-					const tag1 = getClosestToken(editor, ".tag>.tag", -tags[index!][2], 0)
-					const otherIndex = matcher!.pairs[index!]
+				if (index + 1) {
+					const tag1 = getClosestToken(editor, ".tag>.tag", -tags[index][2], 0)
+					const otherIndex = pairs[index]!
 
-					if (tag1 && otherIndex! + 1) {
-						const tag2 = getClosestToken(editor, ".tag>.tag", 0, 0, tags[otherIndex!][1])!
+					if (tag1 && otherIndex + 1) {
+						const tag2 = getClosestToken(editor, ".tag>.tag", 0, 0, tags[otherIndex][1])!
 						;[newEl1, newEl2] = [tag1, tag2].map(el => {
 							let child = el.lastChild!
 							let tagName = (<Text>child).data
@@ -157,17 +155,63 @@ export const matchTags = (): TagHighlighter => ({
 						})
 					}
 				}
-				if (openEl != newEl1!) {
-					highlight(true)
-					openEl = newEl1!
-					closeEl = newEl2!
-					highlight()
-				}
-			} else {
+			}
+			if (openEl != newEl1!) {
 				highlight(true)
-				openEl = closeEl = null
+				openEl = newEl1!
+				closeEl = newEl2!
+				highlight()
 			}
 		}
 		editor.addListener("selectionChange", selectionChange)
+	},
+})
+
+/**
+ * Extension that highlights `<` and `>` punctuation in XML tags.
+ * @param className Class name used to highlight the punctuation.
+ * @param alwaysHighlight If true, the punctuation will always be highlighted when the cursor
+ * is inside a tag. If not it will only be highlighted when the cursor is on the punctuation.
+ */
+export const highlightTagPunctuation = (
+	className: string,
+	alwaysHighlight?: boolean,
+): TagHighlighter => ({
+	update(editor) {
+		this.update = () => {}
+		let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
+		const { tags } = (this.matcher = editor.extensions.matchTags || createTagMatcher(editor))
+		const highlight = (remove?: boolean) =>
+			[openEl, closeEl].forEach(el => {
+				el && el.classList.toggle(className, !remove)
+			})
+
+		const selectionChange = () => {
+			let [start, end] = editor.getSelection()
+			let newEl1: HTMLSpanElement
+			let newEl2: HTMLSpanElement
+			if (start == end) {
+				let tag = tags[editor.focused ? getClosestTagIndex(start, tags)! : -1]
+
+				if (
+					tag &&
+					(alwaysHighlight ||
+						(!getClosestToken(editor, ".tag>.tag", -tag[2], 0) &&
+							getClosestToken(editor, ".tag>.punctuation", 0, -(end == tag[3]), tag[1])))
+				) {
+					newEl1 = getClosestToken(editor, ".tag>.punctuation", 0, 0, tag[1])!
+					newEl2 = getClosestToken(editor, ".tag>.punctuation", 0, 0, tag[3] - 1)!
+				}
+			}
+			if (openEl != newEl1!) {
+				highlight(true)
+				openEl = newEl1!
+				closeEl = newEl2!
+				highlight()
+			}
+		}
+		editor.addListener("selectionChange", selectionChange)
+		editor.textarea.addEventListener("focus", () => selectionChange())
+		editor.textarea.addEventListener("blur", () => selectionChange())
 	},
 })

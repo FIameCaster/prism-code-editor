@@ -43,14 +43,14 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 		nodes: ChildNode[] = [new Text()],
 		nodeValues: string[] = [],
 		container = <HTMLDivElement>template.cloneNode(),
+		matchPositions: [number, number][] = [],
 		stopSearch = () => {
 			if (matchPositions[0]) {
-				matchPositions = []
+				matchPositions.length = 0
 				container.style.display = "none"
 			}
 		}
 
-	let matchPositions: [number, number][] = []
 	let regex: RegExp
 	span.append("")
 	editor.overlays.append(container)
@@ -62,12 +62,12 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 			const value = editor.value,
 				searchStr = selection ? value.slice(...selection) : value,
 				offset = selection?.[0] || 0,
-				flags = `gu${caseSensitive ? "" : "i"}`
+				flags = `gum${caseSensitive ? "" : "i"}`
 
 			try {
-				matchPositions = []
+				matchPositions.length = 0
 				regex = RegExp(str, flags)
-				// Reassigning the regex means error messages won't include the lookbehind or lookahead
+				// Reassigning the regex for cleaner error messages
 				if (wholeWord)
 					regex = RegExp(
 						supportsLookbehind ? `(?<=^|\\b|\\W)${str}(?=\\b|\\W|$)` : `\\b${str}\\b`,
@@ -115,9 +115,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 		get regex() {
 			return regex
 		},
-		get matches() {
-			return matchPositions
-		},
+		matches: matchPositions,
 		stopSearch,
 	}
 }

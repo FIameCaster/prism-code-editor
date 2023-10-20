@@ -1,4 +1,4 @@
-import { languages } from "../core"
+import { languageMap } from "../core"
 import { clikeIndent, isBracketPair } from "./patterns"
 
 const openingTag =
@@ -6,7 +6,7 @@ const openingTag =
 
 const closingTag = /^<\/[\w.:-]*\s*>/
 
-languages.jsx = languages.tsx = {
+languageMap.jsx = languageMap.tsx = {
 	comments: {
 		line: "//",
 		block: ["/*", "*/"],

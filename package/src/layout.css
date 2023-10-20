@@ -1,4 +1,4 @@
-.prism-editor {
+.prism-code-editor {
 	overflow: auto;
 	display: grid;
 	outline: 0;
@@ -19,13 +19,13 @@
 	grid: 1fr / 0 1fr;
 }
 
-.prism-editor-wrapper {
-	margin: 0.75em 0;
+.pce-wrapper {
+	margin: 0.5em 0;
 	position: relative;
 	pointer-events: none;
 }
 
-.prism-editor textarea {
+.prism-code-editor textarea {
 	all: unset;
 	box-sizing: border-box;
 	height: 100%;
@@ -33,21 +33,22 @@
 	color: #0000;
 	-webkit-user-select: auto;
 	user-select: auto;
+	overflow: hidden;
 	pointer-events: auto;
 	padding: 0 var(--_pse) 0 var(--padding-left);
 }
 
-.no-selection > :focus {
+.pce-no-selection > :focus {
 	z-index: 1;
 }
 
-.code-line {
+.pce-line {
 	padding: 0 var(--_pse) 0 0;
 	margin: 0 0 0 var(--padding-left);
 	position: relative;
 }
 
-.show-line-numbers .code-line::before {
+.show-line-numbers .pce-line::before {
 	content: attr(data-line);
 	display: inline-block;
 	margin: 0 0 0 calc(-1 * var(--padding-left));
@@ -64,7 +65,7 @@
 }
 
 .show-line-numbers::before,
-.code-line::before {
+.pce-line::before {
 	position: sticky;
 	height: 100%;
 	z-index: 2;
@@ -72,13 +73,13 @@
 	width: var(--padding-left);
 }
 
-.word-wrap .code-line::before {
+.pce-wrap .pce-line::before {
 	position: absolute;
 }
 
-.editor-overlays,
-div.editor-overlays > *,
-.no-selection ~ .active-line::after,
+.pce-overlays,
+div.pce-overlays > *,
+.pce-no-selection ~ .active-line::after,
 .active-line.match-highlight::after {
 	content: "";
 	position: absolute;
@@ -94,7 +95,7 @@ div.editor-overlays > *,
 	z-index: -2;
 }
 
-.word-wrap {
+.pce-wrap {
 	white-space: pre-wrap;
 	word-break: break-word;
 }
@@ -103,6 +104,6 @@ div.editor-overlays > *,
 	background: var(--editor__bg-selection-match);
 }
 
-.no-word-wrap .active-bracket {
+.pce-nowrap .active-bracket {
 	display: inline-block;
 }

@@ -6,18 +6,18 @@ settings:
 
 patchedDependencies:
   prismjs@1.29.0:
-    hash: elz3gb3zwbfr33caqbjr42pkry
+    hash: oc74724xkaomswkmdb6omon63q
     path: patches/prismjs@1.29.0.patch
 
 dependencies:
   '@types/prismjs':
-    specifier: ^1.26.0
-    version: 1.26.0
+    specifier: ^1.26.2
+    version: 1.26.2
 
 devDependencies:
   prismjs:
     specifier: ^1.29.0
-    version: 1.29.0(patch_hash=elz3gb3zwbfr33caqbjr42pkry)
+    version: 1.29.0(patch_hash=oc74724xkaomswkmdb6omon63q)
   typedoc:
     specifier: ^0.25.1
     version: 0.25.1(typescript@5.1.6)
@@ -390,8 +390,8 @@ packages:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
     dev: true
 
-  /@types/prismjs@1.26.0:
-    resolution: {integrity: sha512-ZTaqn/qSqUuAq1YwvOFQfVW1AR/oQJlLSZVustdjwI+GZ8kr0MSHBj0tsXPW1EqHubx50gtBEjbPGsdZwQwCjQ==}
+  /@types/prismjs@1.26.2:
+    resolution: {integrity: sha512-/r7Cp7iUIk7gts26mHXD66geUC+2Fo26TZYjQK6Nr4LDfi6lmdRmMqM0oPwfiMhUwoBAOFe8GstKi2pf6hZvwA==}
     dev: false
 
   /ajv@6.12.6:
@@ -735,7 +735,7 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /prismjs@1.29.0(patch_hash=elz3gb3zwbfr33caqbjr42pkry):
+  /prismjs@1.29.0(patch_hash=oc74724xkaomswkmdb6omon63q):
     resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
     engines: {node: '>=6'}
     dev: true

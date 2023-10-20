@@ -79,8 +79,8 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 					textarea.removeEventListener("focus", removeHighlight!)
 					removeHighlight = null
 				}
-				textarea.addEventListener("focus", removeHighlight)
 				editor.setSelection(...match)
+				textarea.addEventListener("focus", removeHighlight)
 				currentLine = editor.activeLine!
 				currentLine.classList.add("match-highlight")
 				currentMatch = <HTMLSpanElement>search.container.children[index]
@@ -133,7 +133,7 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 
 			insertText(
 				editor,
-				value.slice(searchStart, searchEnd).replace(regex, str),
+				value.slice(searchStart, searchEnd).replace(regex, str.replace(/\$/g, "$$$$")),
 				searchStart,
 				searchEnd,
 				newStart,

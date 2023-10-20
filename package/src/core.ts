@@ -1,7 +1,6 @@
 import type {
 	EditorOptions,
 	PrismEditor,
-	PrismType,
 	KeyCommandCallback,
 	Language,
 	InputCommandCallback,
@@ -10,19 +9,19 @@ import type {
 	Extension,
 	InputSelection,
 } from "./types"
+import { Prism, languages } from "./prismCore"
 
 /**
  * Creates a code editor using the specified container and options.
  * @param container Element to append the editor to or a selector.
+ * This can also be a `ShadowRoot` or `DocumentFragment` for example.
  * If omitted, you must manually append the `scrollContainer` to the DOM.
- * @param Prism Reference to your Prism instance.
  * @param options Options the editor is initialized with.
  * If omitted, the editor won't function until you call `setOptions`.
  * @param extensions Extensions added before the first render. You can still add extensions later.
  * @returns Object to interact with the created editor.
  */
 const createEditor = (
-	Prism: PrismType,
 	container?: ParentNode | string,
 	options?: Partial<EditorOptions>,
 	...extensions: Extension[]
@@ -61,7 +60,7 @@ const createEditor = (
 						newLine.classList.add("active-line")
 						activeLine = newLine
 					}
-					overlays.classList.toggle("no-selection", start == end)
+					overlays.classList.toggle("pce-no-selection", start == end)
 				},
 			]),
 		}
@@ -69,13 +68,13 @@ const createEditor = (
 	const setOptions = (options: Partial<EditorOptions>) => {
 		;({ language, value } = Object.assign(currentOptions, { value }, options))
 
-		const isNewGrammar = grammar != (grammar = Prism.languages[language])
+		const isNewGrammar = grammar != (grammar = languages[language])
 		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
 
 		currentExtensions.forEach(extension => extension.update(self, currentOptions))
-		scrollContainer.className = `prism-editor language-${language}${
+		scrollContainer.className = `prism-code-editor language-${language}${
 			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
-		} ${currentOptions.wordWrap ? "" : "no-"}word-wrap${currentOptions.rtl ? " rtl-editor" : ""}`
+		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""}`
 
 		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
 		if (isNewGrammar || value != textarea.value) {
@@ -84,7 +83,7 @@ const createEditor = (
 			textarea.selectionEnd = 0
 			update()
 		}
-		overlays.classList.toggle("readonly", (readOnly = !!currentOptions.readOnly))
+		overlays.classList.toggle("pce-readonly", (readOnly = !!currentOptions.readOnly))
 		textarea.inputMode = readOnly ? "none" : ""
 		textarea.setAttribute("aria-readonly", <any>readOnly)
 	}
@@ -153,7 +152,7 @@ const createEditor = (
 		start == end1 && start == end2 && (lines[++start].innerHTML = newLines[start - 1] + "\n")
 
 		for (let i = end2 < start ? end2 : start - 1; i < end1; )
-			newHTML += `<div class="code-line" aria-hidden="true">${newLines[++i]}\n</div>`
+			newHTML += `<div class="pce-line" aria-hidden="true">${newLines[++i]}\n</div>`
 		for (let i = end1 < start ? end1 : start - 1; i < end2; i++) lines[start + 1].remove()
 		if (newHTML) lines[start].insertAdjacentHTML("afterend", newHTML)
 		for (let i = end1 < start ? end1 + 1 : start; i < l; )
@@ -305,21 +304,18 @@ const createEditor = (
  * element, the editor replaces it.
  *
  * The `textContent` of the placeholder will be the code in the editor unless `options.value` is defined.
- * @param Prism Reference to your Prism instance.
  * @param placeholder Element or selector which will be replaced by the editor.
  * @param options Options the editor is initialized with.
  * @param extensions Extensions added before the first render. You can still add extensions later.
  * @returns Object to interact with the created editor.
  */
 const editorFromPlaceholder = (
-	Prism: PrismType,
 	placeholder: string | HTMLElement,
 	options: Partial<EditorOptions>,
 	...extensions: Extension[]
 ) => {
 	const el = getElement(placeholder)!
 	const editor = createEditor(
-		Prism,
 		undefined,
 		Object.assign({ value: el.textContent }, options),
 		...extensions,
@@ -351,10 +347,10 @@ const numLines = (str: string, start = 0, end = Infinity) => {
 }
 
 /** Object storing all language specific behavior. */
-const languages: Record<string, Language> = {}
+const languageMap: Record<string, Language> = {}
 
 const editorTemplate = createTemplate(
-	'<div class="prism-editor-wrapper"><div class="editor-overlays"><textarea spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></div></div>',
+	'<div class="pce-wrapper"><div class="pce-overlays"><textarea spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></div></div>',
 )
 /**
  * Sets whether editors should ignore tab or use it for indentation.
@@ -375,7 +371,7 @@ document.addEventListener("selectionchange", () => selectionChange?.())
 
 export {
 	createEditor,
-	languages,
+	languageMap,
 	setIgnoreTab,
 	ignoreTab,
 	numLines,

@@ -5,17 +5,9 @@ export {
 	isChrome,
 	isMac,
 	isWebKit,
-	languages,
+	languageMap,
 	setIgnoreTab,
 	numLines,
 	ignoreTab,
 } from "./core"
-export {
-	regexEscape,
-	getLineBefore,
-	getLines,
-	getClosestToken,
-	getLanguage,
-	insertText,
-	getModifierCode,
-} from "./utils"
+export * from "./prismCore"

@@ -1,8 +1,8 @@
 /** @module cursor */
 
-import { Extension, InputSelection, PrismEditor, getLineBefore } from ".."
+import { Extension, InputSelection, PrismEditor } from ".."
 import { createTemplate } from "../core"
-import { scrollToEl } from "../utils"
+import { scrollToEl, getLineBefore } from "../utils"
 import { defaultCommands } from "./commands"
 
 /** Postion of the cursor relative to the editors overlays. */

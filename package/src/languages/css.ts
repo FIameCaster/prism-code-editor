@@ -1,9 +1,9 @@
-import { languages } from "../core"
+import { languageMap } from "../core"
 import { isBracketPair } from "./patterns"
 
-languages.css =
-	languages.sass =
-	languages.scss =
+languageMap.css =
+	languageMap.sass =
+	languageMap.scss =
 		{
 			comments: {
 				block: ["/*", "*/"],

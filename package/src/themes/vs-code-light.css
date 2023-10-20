@@ -1,6 +1,6 @@
 /** Based on VS Code Light+ */
 
-.prism-editor {
+.prism-code-editor {
 	caret-color: #000;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--editor__bg: #fff;
@@ -30,12 +30,12 @@
 }
 
 /* Selection */
-.prism-editor textarea::selection {
+.prism-code-editor textarea::selection {
 	background: #add6ff;
 	color: #0000;
 }
 
-.search-matches .match {
+.pce-matches .match {
 	--search__bg-find: #c1adab;
 }
 
@@ -48,12 +48,8 @@
 }
 
 /* Tokens */
-.namespace {
+.token.namespace {
 	opacity: 0.7;
-}
-
-.token.doctype .token.name {
-	color: #e50000;
 }
 
 .token.comment,
@@ -133,7 +129,9 @@
 	color: #267f99;
 }
 
-.token.property {
+.token.doctype .name,
+.token.property,
+.token.attr-name {
 	color: #e50000;
 }
 
@@ -143,10 +141,6 @@
 .token.literal-property,
 .token.atrule {
 	color: #001080;
-}
-
-.token.attr-name {
-	color: #e50000;
 }
 
 .token.doctype .token.doctype-tag,
@@ -276,6 +270,10 @@
 
 .token.bracket-error {
 	color: #ff1212cc;
+}
+
+.token.markup-bracket {
+	color: inherit;
 }
 
 .active-bracket {

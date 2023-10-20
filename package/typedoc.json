@@ -1,6 +1,7 @@
 {
   "entryPoints": [
 		"src/index.ts",
+		"src/utilsExport.ts",
 		"src/extensions/guides.ts",
 		"src/extensions/commands.ts",
 		"src/extensions/cursor.ts",

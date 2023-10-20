@@ -4,8 +4,7 @@
 * @author Lea Verou
 */
 
-.prism-editor {
-	color: #000;
+.prism-code-editor {
 	caret-color: #000;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--editor__bg: #f5f2f0;
@@ -31,12 +30,12 @@
 }
 
 /* Selection */
-.prism-editor textarea::selection {
+.prism-code-editor textarea::selection {
 	background: #b6d5fc;
 	color: #0000;
 }
 
-.search-matches .match {
+.pce-matches .match {
 	--search__bg-find: #c7ada9;
 }
 
@@ -46,6 +45,10 @@
 
 .guide-indents .active {
 	--bg-guide-indent: #38322f66;
+}
+
+[class*="language-"] {
+	color: #000;
 }
 
 .token.comment,
@@ -141,6 +144,10 @@
 
 .token.bracket-error {
 	color: #ff1212cc;
+}
+
+.token.markup-bracket {
+	color: inherit;
 }
 
 .active-bracket {

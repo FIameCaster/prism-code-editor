@@ -102,7 +102,7 @@ export const indentGuides = (): IndentGuides => {
 			}
 			if (last) break
 		}
-		indentLevels.splice(l)
+		indentLevels.length = 0
 		return results
 	}
 

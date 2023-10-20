@@ -23,21 +23,19 @@ export type Bracket = [Prism.Token, number, number, string, boolean]
 
 /**
  * Extension that matches brackets together.
- * @param rainbowBrackets If true, extra classes are added to brackets for styling.
+ * @param rainbowBrackets Whether to add extra classes to brackets for styling. Defaults to true.
  * Adding the extension dynamically, will force a rerender to apply those extra classes.
  *
  * Without rainbow brackets, this extension can be added dynamically with no side effects.
  */
-export const matchBrackets = (rainbowBrackets?: boolean): BracketMatcher => {
+export const matchBrackets = (rainbowBrackets = true): BracketMatcher => {
 	let brackets: Bracket[] = [],
 		stack: [number, number][],
 		bracketIndex: number,
 		pairMap: number[] = [],
 		matchBrackets = (obj: { tokens: (Prism.Token | string)[] }) => {
-			pairMap = []
-			brackets = []
 			stack = []
-			bracketIndex = 0
+			pairMap.length = brackets.length = bracketIndex = 0
 			matchRecursive(obj.tokens, 0)
 			if (rainbowBrackets) {
 				for (let i = 0, bracket: Bracket; (bracket = brackets[i]); ) {
@@ -92,12 +90,8 @@ export const matchBrackets = (rainbowBrackets?: boolean): BracketMatcher => {
 			if (rainbowBrackets && editor.tokens[0]) editor.update()
 			else matchBrackets(editor)
 		},
-		get brackets() {
-			return brackets
-		},
-		get pairs() {
-			return pairMap
-		},
+		brackets,
+		pairs: pairMap,
 	}
 }
 

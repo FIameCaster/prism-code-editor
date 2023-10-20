@@ -2,7 +2,7 @@
 * Based on Github dark dimmed
 */
 
-.prism-editor {
+.prism-code-editor {
 	caret-color: #539bf5;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--editor__bg: #22272e;
@@ -28,16 +28,12 @@
 	color-scheme: dark;
 }
 
-[class*="language-"] {
-	color: #adbac7;
-}
-
-.prism-editor textarea::selection {
+.prism-code-editor textarea::selection {
 	background: #264f78;
 	color: #0000;
 }
 
-.search-matches .match {
+.pce-matches .match {
 	--search__bg-find: #888a6c;
 }
 
@@ -49,6 +45,8 @@
 	--bg-guide-indent: #adbac73d;
 }
 
+[class*="language-"],
+.language-markdown .url > .operator,
 .token.punctuation,
 .token.code.keyword {
 	color: #adbac7;
@@ -88,7 +86,8 @@
 .token.regex,
 .language-regex,
 .token.string-property,
-.language-markdown .token.url {
+.language-markdown .url .content,
+.language-markdown .url .variable {
 	color: #96d0ff;
 }
 
@@ -167,6 +166,10 @@
 
 .token.bracket-error {
 	color: #768390;
+}
+
+.token.markup-bracket {
+	color: inherit;
 }
 
 .active-bracket {

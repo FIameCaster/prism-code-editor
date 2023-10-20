@@ -1,55 +1,55 @@
-div.rtl-editor {
+div.pce-rtl {
 	direction: rtl;
 	scroll-padding: 0 var(--padding-left) 0 0;
 }
 
-div.rtl-editor::before,
-.rtl-editor .code-line::before {
+div.pce-rtl::before,
+.pce-rtl .pce-line::before {
 	left: auto;
 	right: 0;
 	background: none;
 }
 
-.rtl-editor textarea,
-.rtl-editor .selection-matches,
-.rtl-editor .search-matches {
+.pce-rtl textarea,
+.pce-rtl .selection-matches,
+.pce-rtl .pce-matches {
 	padding: 0 var(--padding-left) 0 var(--_pse) !important;
 }
 
-.rtl-editor .guide-indents {
+.pce-rtl .guide-indents {
 	left: auto !important;
 	right: var(--padding-left);
 	transform: scaleX(-1);
 }
 
-.rtl-editor .editor-copy::after {
+.pce-rtl .pce-copy::after {
 	left: calc(100% + 0.5em);
 	right: auto;
 }
 
-.rtl-editor.show-line-numbers .code-line::before {
+.pce-rtl.show-line-numbers .pce-line::before {
 	margin: 0 calc(-1 * var(--padding-left)) 0 0;
 	padding: 0 0 0 var(--_ns);
 	background: var(--editor__bg);
 }
 
-.rtl-editor .code-line {
+.pce-rtl .pce-line {
 	padding: 0 0 0 var(--_pse);
   margin: 0 var(--padding-left) 0 0;
 }
 
-.rtl-editor.no-word-wrap .fold-line-btn {
+.pce-rtl.pce-nowrap .pce-fold {
 	right: calc(2px + var(--padding-left) - var(--_ns));
 }
 
-.rtl-editor .fold-line-btn {
+.pce-rtl .pce-fold {
 	margin: 0 calc(2px - var(--_ns)) 0 0;
 }
 
-.rtl-editor .closed-fold > ::after {
+.pce-rtl .closed-fold > ::after {
 	transform: translateY(-50%) rotate(90deg);
 }
 
-div.rtl-editor .active-bracket {
+div.pce-rtl .active-bracket {
 	display: inline;
 }

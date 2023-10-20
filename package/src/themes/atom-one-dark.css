@@ -2,7 +2,7 @@
  * Based on Atom's One Dark theme: https://github.com/atom/atom/tree/master/packages/one-dark-syntax
  */
 
-.prism-editor {
+.prism-code-editor {
 	caret-color: #528bff;
 	font-family: "Fira Code", "Fira Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
 	--editor__bg: #292c33;
@@ -28,12 +28,12 @@
 }
 
 /* Selection */
-.prism-editor textarea::selection {
+.prism-code-editor textarea::selection {
 	background: #3e4451;
 	color: #0000;
 }
 
-.search-matches .match {
+.pce-matches .match {
 	--search__bg-find: #515c6a;
 }
 
@@ -51,6 +51,7 @@
 	color: #5c6370;
 }
 
+[class*="language-"],
 .token.punctuation,
 .token.entity {
 	color: #abb2bf;
@@ -125,7 +126,6 @@
 
 /* Language overrides */
 
-[class*="language-"],
 .token.attr-value > .attr-equals,
 .language-css .property {
 	color: #abb2bf;
@@ -207,6 +207,10 @@
 
 .token.bracket-error {
 	color: #ff1212cc;
+}
+
+.token.markup-bracket {
+	color: inherit;
 }
 
 .active-bracket {

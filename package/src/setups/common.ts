@@ -10,7 +10,7 @@ export const addExtensions = (editor: PrismEditor) => {
 	editor.addExtensions(
 		defaultCommands(),
 		indentGuides(),
-		matchBrackets(true),
+		matchBrackets(),
 		highlightBracketPairs(),
 		cursorPosition(),
 	)

@@ -1,6 +1,6 @@
 /** @module web-component */
 
-import { PrismEditor, PrismType } from "./types"
+import { PrismEditor } from "./types"
 import { basicEditor, fullEditor, minimalEditor, readonlyEditor, updateTheme } from "./setups"
 
 const attributeMap = {
@@ -48,7 +48,7 @@ const getOptions = (el: HTMLElement) => {
 	return options
 }
 
-const addComponent = (Prism: PrismType, name: string, createEditor: typeof basicEditor) => {
+const addComponent = (name: string, createEditor: typeof basicEditor) => {
 	customElements.define(
 		name,
 		class extends HTMLElement {
@@ -57,7 +57,7 @@ const addComponent = (Prism: PrismType, name: string, createEditor: typeof basic
 
 			constructor() {
 				super()
-				this.editor = createEditor(Prism, this, getOptions(this), () =>
+				this.editor = createEditor(this, getOptions(this), () =>
 					this.dispatchEvent(new CustomEvent("ready")),
 				)
 
@@ -142,29 +142,25 @@ export interface PrismEditorElement extends HTMLElement {
 
 /**
  * Adds a custom element wrapping the editor with no extensions.
- * @param Prism Reference to yout Prism instance.
  * @param name Name of the custom element. Must be a valid custom element name.
  */
-export const addMinimalEditor = (Prism: PrismType, name: string) =>
-	addComponent(Prism, name, minimalEditor)
+export const addMinimalEditor = (name: string) =>
+	addComponent(name, minimalEditor)
 /**
  * Adds a custom element wrapping the editor with indent guides and selection match highlighting.
- * @param Prism Reference to yout Prism instance.
  * @param name Name of the custom element. Must be a valid custom element name.
  */
-export const addBasicEditor = (Prism: PrismType, name: string) =>
-	addComponent(Prism, name, basicEditor)
+export const addBasicEditor = (name: string) =>
+	addComponent(name, basicEditor)
 /**
  * Adds a custom element wrapping the editor with all extensions.
- * @param Prism Reference to yout Prism instance.
  * @param name Name of the custom element. Must be a valid custom element name.
  */
-export const addFullEditor = (Prism: PrismType, name: string) =>
-	addComponent(Prism, name, fullEditor)
+export const addFullEditor = (name: string) =>
+	addComponent(name, fullEditor)
 /**
  * Adds a custom element wrapping the editor with all extensions.
- * @param Prism Reference to yout Prism instance.
  * @param name Name of the custom element. Must be a valid custom element name.
  */
-export const addReadonlyEditor = (Prism: PrismType, name: string) =>
-	addComponent(Prism, name, readonlyEditor)
+export const addReadonlyEditor = (name: string) =>
+	addComponent(name, readonlyEditor)

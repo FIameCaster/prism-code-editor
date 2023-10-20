@@ -1,7 +1,6 @@
-.prism-editor {
+.prism-code-editor {
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--editor__bg: #fdf6e3;
-	color: #657b83;
 	caret-color: #657b83;
 	--widget__border: #c2c2c2;
 	--widget__bg: #f9f0d7;
@@ -24,12 +23,12 @@
 	color-scheme: light;
 }
 
-.prism-editor textarea::selection {
+.prism-code-editor textarea::selection {
 	background: #ede7d4;
 	color: #0000;
 }
 
-.search-matches .match {
+.pce-matches .match {
 	--search__bg-find: #edba8f;
 }
 
@@ -39,6 +38,10 @@
 
 .guide-indents .active {
 	--bg-guide-indent: #081e2580;
+}
+
+[class*="language-"] {
+	color: #657b83;
 }
 
 .token.comment,
@@ -129,6 +132,10 @@
 
 .token.bracket-error {
 	color: #ff1212cc;
+}
+
+.token.markup-bracket {
+	color: inherit;
 }
 
 .active-bracket {

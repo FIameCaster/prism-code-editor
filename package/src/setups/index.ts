@@ -1,4 +1,4 @@
-import { EditorOptions, PrismEditor, PrismType, createEditor } from ".."
+import { EditorOptions, PrismEditor, createEditor } from ".."
 import { getElement } from "../core"
 import { loadTheme } from "../themes"
 
@@ -30,21 +30,19 @@ const updateTheme = (editor: PrismEditor, theme: string) => {
 
 /**
  * Adds an editor inside a shadow root to the given element and asynchronously loads the styles.
- * @param Prism Reference to your Prism instance.
  * @param container Must be an element you can attach a shadow root to
  * @param options Options to create the editor as well as the theme to use.
  * @param readyCallback Function called when the styles are loaded.
  * @returns Object to interact with the editor.
  */
 const minimalEditor = (
-	Prism: PrismType,
 	container: HTMLElement | string,
 	options: SetupOptions,
 	readyCallback?: () => any,
 ) => {
 	const el = <HTMLElement>getElement(container)
 	const shadow = el.shadowRoot || el.attachShadow({ mode: "open" })
-	const editor = createEditor(Prism)
+	const editor = createEditor()
 
 	Promise.all([import("./styles.ts"), loadTheme(options.theme)]).then(([style, theme]) => {
 		if (!editor.removed) {
@@ -64,7 +62,6 @@ const minimalEditor = (
  * match highlighting, bracket matching, commands and language specific behvaior.
  */
 const basicEditor = (
-	Prism: PrismType,
 	container: HTMLElement | string,
 	options: SetupOptions,
 	readyCallback?: () => any,
@@ -73,7 +70,7 @@ const basicEditor = (
 		mod.addExtensions(editor)
 	})
 
-	const editor = minimalEditor(Prism, container, options, readyCallback)
+	const editor = minimalEditor(container, options, readyCallback)
 
 	import("../extensions/search/selection.ts").then(mod => {
 		editor.addExtensions(mod.highlightSelectionMatches())
@@ -84,7 +81,6 @@ const basicEditor = (
 
 /** Same as {@link basicEditor}, but also adds the search widget and tag matching. */
 const fullEditor = (
-	Prism: PrismType,
 	container: HTMLElement | string,
 	options: SetupOptions,
 	readyCallback?: () => any,
@@ -94,7 +90,7 @@ const fullEditor = (
 	})
 
 	const el = <HTMLElement>getElement(container)
-	const editor = minimalEditor(Prism, el, options, readyCallback)
+	const editor = minimalEditor(el, options, readyCallback)
 
 	import("../extensions/search/search.css?inline").then(module => {
 		editor.removed || addStyles(el.shadowRoot!, module.default)
@@ -117,7 +113,6 @@ const fullEditor = (
  * added which makes this setup best used with the `readOnly` option set to true.
  */
 const readonlyEditor = (
-	Prism: PrismType,
 	container: HTMLElement | string,
 	options: SetupOptions,
 	readyCallback?: () => any,
@@ -128,7 +123,7 @@ const readonlyEditor = (
 	})
 
 	const el = <HTMLElement>getElement(container)
-	const editor = minimalEditor(Prism, el, options, readyCallback)
+	const editor = minimalEditor(el, options, readyCallback)
 
 	return editor
 }

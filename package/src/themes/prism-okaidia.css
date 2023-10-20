@@ -4,8 +4,7 @@
  * @author ocodia
  */
 
-.prism-editor {
-	color: #f8f8f2;
+.prism-code-editor {
 	caret-color: #f8f8f2;
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--editor__bg: #272822;
@@ -31,12 +30,12 @@
 }
 
 /* Selection */
-.prism-editor textarea::selection {
+.prism-code-editor textarea::selection {
 	background: #575a5a;
 	color: #0000;
 }
 
-.search-matches .match {
+.pce-matches .match {
 	--search__bg-find: #885a3c;
 }
 
@@ -55,6 +54,7 @@
 	color: #8292a2;
 }
 
+[class*="language-"],
 .token.punctuation {
 	color: #f8f8f2;
 }
@@ -145,6 +145,10 @@
 
 .token.bracket-error {
 	color: #ff1212cc;
+}
+
+.token.markup-bracket {
+	color: inherit;
 }
 
 .active-bracket {

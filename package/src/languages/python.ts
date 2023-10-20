@@ -1,9 +1,9 @@
-import { languages } from "../core"
+import { languageMap } from "../core"
 import { isBracketPair } from "./patterns"
 
 const openBracketOrColon = /[([{][^\n)\]}]*$|:[ \t]*$/
 
-languages.py = languages.python = {
+languageMap.py = languageMap.python = {
 	comments: {
 		line: "#",
 	},

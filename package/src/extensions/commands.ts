@@ -1,7 +1,7 @@
 /** @module commands */
 
 import { EditorOptions, Extension, InputSelection } from ".."
-import { ignoreTab, isMac, preventDefault, setIgnoreTab, languages } from "../core"
+import { ignoreTab, isMac, preventDefault, setIgnoreTab, languageMap } from "../core"
 import {
 	getLanguage,
 	insertText,
@@ -135,7 +135,7 @@ export const defaultCommands = (
 		})
 
 		inputCommandMap[">"] = (e, selection, value) => {
-			const closingTag = languages[getLanguage(editor)]?.autoCloseTags?.call(
+			const closingTag = languageMap[getLanguage(editor)]?.autoCloseTags?.call(
 				editor,
 				selection,
 				value,
@@ -159,7 +159,7 @@ export const defaultCommands = (
 
 		keyCommandMap.Enter = (_e, selection, value) => {
 			const [indentChar, tabSize] = getIndent(options),
-				context = languages[getLanguage(editor)],
+				context = languageMap[getLanguage(editor)],
 				autoIndent = context?.autoIndent,
 				indenationCount =
 					Math.floor(getLineBefore(value, selection[0]).search(/\S|$/) / tabSize) * tabSize,
@@ -224,7 +224,7 @@ export const defaultCommands = (
 				}
 			}
 
-		editor.textarea.addEventListener("keydown", e => {
+		textarea.addEventListener("keydown", e => {
 			const code = getModifierCode(e),
 				keyCode = e.keyCode
 
@@ -245,7 +245,7 @@ export const defaultCommands = (
 					isBlock = code == 9,
 					[start, end] = getSelection(),
 					{ line, block } =
-						languages[getLanguage(editor, isBlock ? start : value.lastIndexOf("\n", start - 1) + 1)]
+						languageMap[getLanguage(editor, isBlock ? start : value.lastIndexOf("\n", start - 1) + 1)]
 							?.comments || {},
 					[lines, start1, end1] = getLines(value, start, end),
 					last = lines.length - 1

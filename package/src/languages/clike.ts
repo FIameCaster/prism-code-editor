@@ -1,16 +1,16 @@
-import { languages } from "../core"
+import { languageMap } from "../core"
 import { clikeIndent, isBracketPair } from "./patterns"
 
-languages.clike =
-	languages.js =
-	languages.javascript =
-	languages.ts =
-	languages.typescript =
-	languages.java =
-	languages.cs =
-	languages.csharp =
-	languages.c =
-	languages.cpp =
+languageMap.clike =
+	languageMap.js =
+	languageMap.javascript =
+	languageMap.ts =
+	languageMap.typescript =
+	languageMap.java =
+	languageMap.cs =
+	languageMap.csharp =
+	languageMap.c =
+	languageMap.cpp =
 		{
 			comments: {
 				line: "//",

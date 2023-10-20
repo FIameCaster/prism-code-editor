@@ -52,7 +52,7 @@ export type Language = {
 	autoCloseTags?(this: PrismEditor, selection: InputSelection, value: string): string | undefined
 }
 
-export type PrismType = typeof Prism
+export type PrismType = Omit<typeof Prism, "highlight" | "highlightAll" | "highlightAllUnder" | "highlightElement">
 /**
  * Function called when a certain key is pressed.
  * If true is returned, `e.preventDefault()` and `e.stopImmediatePropagation()` is called automatically.

@@ -1,7 +1,7 @@
 /* Implementation of the Dracula theme for VS Code
 Original: https://github.com/dracula/visual-studio-code */
 
-.prism-editor {
+.prism-code-editor {
 	caret-color: #aeafad;
 	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
 	--editor__bg: #282a36;
@@ -31,12 +31,12 @@ Original: https://github.com/dracula/visual-studio-code */
 }
 
 /* Selection */
-.prism-editor textarea::selection {
+.prism-code-editor textarea::selection {
 	background: #44475a;
 	color: #0000;
 }
 
-.search-matches .match {
+.pce-matches .match {
 	--search__bg-find: #ffb86c80;
 }
 
@@ -62,7 +62,7 @@ Original: https://github.com/dracula/visual-studio-code */
 	color: #f8f8f2;
 }
 
-.namespace {
+.token.namespace {
 	opacity: .7;
 }
 
@@ -207,6 +207,10 @@ Original: https://github.com/dracula/visual-studio-code */
 
 .token.bracket-error {
 	color: #ff5555;
+}
+
+.token.markup-bracket {
+	color: inherit;
 }
 
 .active-bracket {
