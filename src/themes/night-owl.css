@@ -1,0 +1,233 @@
+/* Implementation of the Night Owl theme for VS Code
+Original: https://github.com/sdras/night-owl-vscode-theme */
+
+.prism-code-editor {
+	caret-color: #80a4c2;
+	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+	--editor__bg: #011627;
+	--widget__border: #122d42;
+	--widget__bg: #021320;
+	--widget__color: #d6deeb;
+	--widget__color-active: #fff;
+	--widget__color-options: #b3bccc;
+	--widget__bg-input: #0b253a;
+	--widget__bg-hover: #5a5d5e80;
+	--widget__bg-active: #122d4266;
+	--widget__focus-ring: #5f7e97;
+	--search__bg-find: #5f7e9778;
+	--widget__bg-error: #ab0300f2;
+	--widget__error-ring: #ef5350;
+	--editor__bg-highlight: #0003;
+	--editor__bg-selection-match: #5f7e9778;
+	--editor__line-number: #4b6479;
+	--editor__bg-scrollbar: 206, 88%, 27%;
+	--editor__bg-fold: #c5c5c5;
+	--bg-guide-indent: #5e81ce52;
+	color-scheme: dark;
+}
+
+.match-highlight {
+	--editor__bg-highlight: #7e57c259;
+}
+
+/* Selection */
+.prism-code-editor textarea::selection {
+	background: #1d3b53;
+	color: #0000;
+}
+
+.pce-matches .match {
+	--search__bg-find: #545a8b;
+}
+
+.active-line {
+	--editor__line-number: #c5e4fd;
+}
+
+.guide-indents .active {
+	--bg-guide-indent: #b3cfe7b3;
+}
+
+/* Tokens */
+
+.token.comment,
+.token.prolog,
+.token.cdata {
+	color: #637777;
+	font-style: italic;
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property {
+	color: #80cbc4;
+}
+
+.token.keyword,
+.token.punctuation,
+.selector .token.punctuation,
+.tag .token.script-punctuation,
+.token.literal-property,
+.token.operator,
+.token.atrule .rule,
+.language-css .important,
+.language-scss .important,
+.language-sass .important,
+.language-markdown .italic * {
+	color: #c792ea;
+}
+
+[class*="language-"],
+.language-css .punctuation,
+.language-scss .punctuation,
+.language-sass .punctuation,
+.language-markdown .code.keyword,
+.language-markdown .url .content {
+	color: #d6deeb;
+}
+
+.token.tag,
+.token.doctype {
+	color: #caece6;
+}
+
+.token.number,
+.token.tag .class-name {
+	color: #f78c6c;
+}
+
+.token.boolean,
+.token.keyword-null {
+	color: #ff5874;
+}
+
+.token.selector {
+	color: #ff6363;
+}
+
+.language-markdown .token.url {
+	color: #ff869a;
+}
+
+.token.unit,
+.token.color {
+	color: #ffeb95;
+}
+
+.token.atrule,
+.token.parameter {
+	color: #d7dbe0;
+}
+
+.token.token.interpolation-punctuation {
+	color: #d3423e;
+}
+
+.tag .punctuation,
+.doctype .punctuation,
+.selector .combinator,
+.token.attr-equals,
+.token.property-access,
+.language-markdown .url .markup-bracket {
+	color: #7fdbca;
+}
+
+.token.attr-value > .punctuation {
+	color: #d9f5dd;
+}
+
+.token.attr-name,
+.doctype .name,
+.token.variable,
+.selector .class,
+.selector .pseudo-element,
+.selector .pseudo-class,
+.language-css .function,
+.language-scss .function,
+.language-sass .function,
+.language-typescript .token.builtin,
+.language-tsx .token.builtin,
+.language-markdown .bold *,
+.language-markdown .code.code-snippet {
+	color: #c5e478;
+}
+
+.token.function,
+.token.keyword-undefined,
+.token.function .maybe-class-name,
+.token.title.important,
+.token.title > .punctuation,
+.language-markdown .url .variable {
+	color: #82aaff;
+}
+
+.token.attr-value,
+.token.string,
+.token.string-property {
+	color: #ecc48d;
+}
+
+.token.class-name,
+.token.maybe-class-name {
+	color: #ffcb8b;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.function,
+.token.keyword,
+.token.italic,
+.token.attr-name,
+.doctype .name {
+	font-style: italic;
+}
+
+.token.keyword-this,
+.token.keyword-null,
+.token.keyword-undefined {
+	font-style: normal;
+}
+
+/* Brackets */
+
+.token.bracket-level-0,
+.token.bracket-level-3,
+.token.bracket-level-6,
+.token.bracket-level-9 {
+	color: #ffd700;
+}
+
+.token.bracket-level-1,
+.token.bracket-level-4,
+.token.bracket-level-7,
+.token.bracket-level-10 {
+	color: #da70d6;
+}
+
+.token.bracket-level-2,
+.token.bracket-level-5,
+.token.bracket-level-8,
+.token.bracket-level-11 {
+	color: #179fff;
+}
+
+.token.bracket-error {
+	color: #ff1212cc;
+}
+
+.token.markup-bracket {
+	color: inherit;
+}
+
+.active-bracket {
+	box-shadow: inset 0 0 0 1px #b3cfe7a1, inset 0 0 0 9in #5f7e974d;
+}
+
+.active-tagname {
+	background: #f6bbe533;
+}

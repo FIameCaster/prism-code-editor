@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Lightweight, extensible code editor with syntax highlighting using Prism">
+	<title>Prism code editor</title>
+  <link rel="stylesheet" href="src/themes/github-dark.css" id="theme">
+	<script type="module" src="src/testsite/index.ts"></script>
+</head>
+<body>
+	<main>
+		<h1>Prism code editor</h1>
+		<p class="description">Lightweight, extensible code editor with syntax highlighting using Prism</p>
+		<div class="rows">
+			<a class="btn" href="https://github.com/FIameCaster/prism-code-editor">Documentation</a>
+			<div class="input-group">
+				<label for="themes">Theme:</label>
+				<div class="select">
+					<select id="themes">
+						<option>Atom One Dark</option>
+						<option>Dracula</option>
+						<option selected>Github Dark</option>
+						<option>Github Dark Dimmed</option>
+						<option>Github Light</option>
+						<option>Night Owl</option>
+						<option>Prism</option>
+						<option>Prism Okaidia</option>
+						<option>Prism Solarized Light</option>
+						<option>Prism Twilight</option>
+						<option>VS Code Dark</option>
+						<option>VS Code Light</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="editor-wrapper">
+			<div class="header">
+				<button class="tab active">Config</button>
+				<button class="tab">Result</button>
+				<div class="error" tabindex="0" aria-hidden="true">
+					<svg viewbox="0 0 19 17"><path d="M9.5 2L2 15L17 15Z"/></svg>
+					<pre class="message"></pre>
+				</div>
+				<button id="run" aria-hidden="true">Run</button>
+			</div>
+		</div>
+		<p>You can change the config above and see the result.</p>
+	</main>
+	<section>
+		<h2>Web component</h2>
+		<p style="display: grid;">
+			<label><input type="checkbox" id="readonly">Readonly</label>
+			<label><input type="checkbox" id="word-wrap">Word wrap</label>
+			<label><input type="checkbox" checked id="line-numbers">Line numbers</label>
+			<label>Tabsize: <input type="range" min="1" max="8" value="2" id="tab-size"></label>
+		</p>
+		<div class="input-group">
+			<label for="themes2">Theme:</label>
+			<div class="select">
+				<select id="themes2">
+					<option>Atom One Dark</option>
+					<option>Dracula</option>
+					<option selected>Github Dark</option>
+					<option>Github Dark Dimmed</option>
+					<option>Github Light</option>
+					<option>Night Owl</option>
+					<option>Prism</option>
+					<option>Prism Okaidia</option>
+					<option>Prism Solarized Light</option>
+					<option>Prism Twilight</option>
+					<option>VS Code Dark</option>
+					<option>VS Code Light</option>
+				</select>
+			</div>
+		</div>
+		<prism-editor line-numbers language="typescript" theme="github-dark"></prism-editor>
+	</section>
+	<section>
+		<readonly-editor readonly line-numbers language="markdown" theme="github-dark"></readonly-editor>
+	</section>
+</body>
+</html>
