@@ -1,46 +1,36 @@
 [![Bundle size](https://img.shields.io/bundlephobia/minzip/prism-code-editor?label=size)](https://bundlephobia.com/package/prism-code-editor)
 [![NPM Package](https://img.shields.io/npm/v/prism-code-editor)](https://npmjs.com/prism-code-editor)
 
-Lightweight, extensible code editor component for the web using [Prism](https://prismjs.com)
+Lightweight, extensible code editor component for the web using [Prism](https://github.com/PrismJS/prism).
 
-## Why
+Check out [the demos](https://prism-code-editor.netlify.app) and the [API Documentation](https://prism-code-editor.netlify.app/api)!
 
-There are multiple fully featured code editors for the web such as Monaco, Ace and Codemirror. While these are awesome, they have a large footprint and are likely overkill for simple interactive code examples or forms where users submit code. Since the library is so lightweight, a read-only editor is an excellent alternative to plain Prism as well.
+## Why?
 
-## Key features
+There are multiple fully featured code editors for the web such as Monaco, Ace and CodeMirror. While these are awesome, they have a large footprint and are likely overkill for code examples, forms or small playgrounds where you won't display large documents.
 
-- Lightweight, 2kB gzipped core
-- Line numbers
-- Optional word wrap
-- Line- and block comment toggling
-- Search and replace functionality
-- Wraps selection in brackets/quotes
-- Automatic indentation
-- Automatic closing of brackets, quotes and tags
-- Indent selected lines with tab key
-- Uses the browser's native undo/redo
-- Highlights the line with the cursor
-- Bracket pairing and rainbow brackets
-- Works great on mobile
+## How?
 
-Have a look at [the demos](https://prism-code-editor.netlify.app) to see it in action!
+This library overlays syntax highlighted code over a `<textarea>`. Libraries like [CodeFlask](https://github.com/kazzkiq/CodeFlask), [react-simple-code-editor](https://github.com/react-simple-code-editor/react-simple-code-editor) and many others have been doing this for years, but this library offers some distinct advantages:
 
-Here's the [API Documentation](https://prism-code-editor.netlify.app/api).
+- It patches Prism's core, so it no longer relies on global variables and strips away unnecessary methods making it nearly 60% smaller.
+- It re-exports Prism's languages that now automatically import their required dependencies and embedded languages are resolved at runtime.
+- It splits the highlighted code into lines. This makes it easy to add line numbers, highlight a line and only update changed lines in the DOM for efficient updates.
+- The core is light as a feather with a wide array of [extensions](#extensions) you can choose from and multiple events to listen to.
 
-## Table of contents
+## Contents
 
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
 - [Advanced usage](#advanced-usage)
 - [Examples](#examples)
 - [Extensions](#extensions)
-  - [Searching](#searching)
+  - [Importing extensions](#importing-extensions)
   - [Creating your own](#creating-your-own)
 - [Styling](#styling)
   - [Importing themes](#importing-themes)
   - [Scrollbar styling](#scrollbar-styling)
   - [Advanced styling](#advanced-styling)
-    - [Conflicting styles](#conflicting-styles)
     - [Creating a theme](#creating-a-theme)
 - [Language specific behavior](#language-specific-behavior)
   - [Adding languages](#adding-languages)
@@ -50,63 +40,27 @@ Here's the [API Documentation](https://prism-code-editor.netlify.app/api).
 - [RTL support](#rtl-support)
 - [Editing key commands](#editing-key-commands)
 - [Web components](#web-components)
-- [Prism plugin support](#prism-plugin-support)
 - [Performance](#performance)
-- [Browser support](#browser-support)
+- [Compatibility](#compatibility)
 - [Credits](#credits)
 - [Contributing](#contributing)
 
 ## Installation
 
-    npm install prism-code-editor
-
-Before you can create any editors, you need to import Prism. To do this you can install Prism from npm or [download](https://prismjs.com/download.html) it.
-
-    npm install prismjs
-
-You can now create an editor.
-
-```javascript
-import Prism from "prismjs"
-// Importing additional languages from Prism
-import "prismjs/components/prism-css-extras.js"
-import "prismjs/components/prism-js-extras.js"
-import { createEditor } from "prism-code-editor"
-
-const editor = createEditor(Prism, "#editor", { language: "html" })
-```
-
-Alternatively, you can import a modified Prism core which is less than half the size due to stripping away all methods except for `Prism.tokenize` and dropping support for legacy browsers.
-
-```javascript
-import Prism from "prism-code-editor/prism-core"
-// This core is not bundled with any languages
-import "prismjs/components/prism-clike.js"
-import "prismjs/components/prism-markup.js"
-import "prismjs/components/prism-javascript.js"
-import "prismjs/components/prism-css.js"
-import { createEditor } from "prism-code-editor"
-
-const editor = createEditor(Prism, "#editor", { language: "html" })
-```
-
-If you want to use markdown, you need to import a modified version to highlight code blocks. This modified version is also ~25% smaller.
-
-```javascript
-import Prism from "prism-code-editor/prism-core"
-import "prism-code-editor/prism-markdown"
-```
+    npm i prism-code-editor
 
 ## Basic usage
 
-The library includes 4 different setups you can import. These will automatically import the necessary styles and scope them with a shadow root, add various extensions and import all language specific behavior. There's also [web components](#web-components) wrapping these setups if that's preferred. These setups are only recommended for getting started due to being harder to customize and extend while risking code duplication in your bundles.
+The library includes 4 different setups you can import. These will automatically import the necessary styles and scope them with a shadow root, add various extensions and import all language specific behavior. There are also [web components](#web-components) wrapping these setups if that's preferred.
+
+These setups are very cumbersome to customize and are therefore only recommended while getting started.
 
 ```javascript
 import { minimalEditor, basicEditor, fullEditor, readonlyEditor } from "prism-code-editor/setups"
-import Prism from "prism-code-editor/prism-core"
+// Importing Prism grammars
+import "prism-code-editor/grammars/markup"
 
 const editor = fullEditor(
-  Prism,
   "#editor",
   {
     language: "html",
@@ -118,9 +72,9 @@ const editor = fullEditor(
 
 ## Advanced usage
 
-With little effort, you can fully customize which extensions are added and how they're loaded. This won't use a shadow root which makes the editor much easier to style and customize at the expense of potential style collisions.
+With little effort, you can fully customize which extensions are added and how they're loaded. This won't use a shadow root which makes the editor much easier to style and customize.
 
-To minimize your main javascript bundle, you can dynamically import extensions. This can be made easier by creating a module that exports a function adding the extensions.
+To minimize your main JavaScript bundle, you can dynamically import all extensions *(but some probably shouldn't be)*. This can be made easier by creating a module that exports a function adding the extensions.
 
 ```typescript
 // extensions.ts
@@ -152,11 +106,9 @@ export const addExtensions = (editor: PrismEditor) => {
 ```
 
 ```javascript
-import Prism from "prism-code-editor/prism-core"
-import "prismjs/components/prism-markup.js"
-import "prismjs/components/prism-css.js"
-import "prismjs/components/prism-clike.js"
-import "prismjs/components/prism-javascript.js"
+import "prism-code-editor/grammars/markup"
+import "prism-code-editor/grammars/css-extras"
+import "prism-code-editor/grammars/js-extras"
 
 import { createEditor } from "prism-code-editor"
 import { matchBrackets } from "prism-code-editor/match-brackets"
@@ -168,19 +120,16 @@ import "prism-code-editor/scrollbar.css"
 import "prism-code-editor/themes/github-dark.css"
 
 const editor = createEditor(
-  Prism,
   "#editor",
   { language: "html" },
   indentGuides(),
-  matchBrackets(true),
+  matchBrackets(),
 )
 
 import('./extensions').then(module => {
-  module.addExtensions(editor, matcher)
+  module.addExtensions(editor)
 })
 ```
-
-Adding indentation guides and bracket matching dynamically is fully supported, but with some downsides.
 
 ## Examples
 
@@ -192,7 +141,28 @@ Adding indentation guides and bracket matching dynamically is fully supported, b
 
 ## Extensions
 
-Most behavior isn't included by default and must be imported. This is to keep the core small for those who don't need the extra functionality. Beneath you can see how to import all extensions. To see how to add extensions, see [advanced usage](#advanced-usage).
+Most behavior isn't included by default and must be imported. This is to keep the core small for those who don't need the extra functionality. See [advanced usage](#advanced-usage) for how to add extensions.
+
+There are extensions adding:
+
+- Many common commands
+- Bracket matching and rainbow brackets
+- Tag matching
+- Indentation guides
+- Search, regex search and replace
+- Selection match highlighting
+- A copy button
+- Read-only code folding
+
+The default commands extension includes:
+
+- Line- and block comment toggling
+- Wrapping selection in brackets/quotes
+- Automatic closing of brackets, quotes, and tags
+- Automatic indentation and indentation with Tab key
+- Moving/copying lines with arrow keys
+
+### Importing extensions
 
 ```javascript
 import { matchBrackets } from "prism-code-editor/match-brackets"
@@ -203,23 +173,16 @@ import { defaultCommands } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { copyButton } from "prism-code-editor/copy-button"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
-import { readOnlycodeFolding } from "prism-code-editor/code-folding"
+import {
+  readOnlycodeFolding,
+  markdownFolding,
+  blockCommentFolding
+} from "prism-code-editor/code-folding"
 
 // And CSS
 import "prism-code-editor/search.css"
 import "prism-code-editor/copy-button.css"
 import "prism-code-editor/code-folding.css"
-```
-
-### Searching
-
-If you're not happy with the default search widget, you can import the API's and create your own widget consuming the API.
-
-```javascript
-import { createSearchAPI, createReplaceAPI } from "prism-code-editor/search/api"
-
-const searchAPI = createSearchAPI(editor)
-const replaceAPI = createReplaceAPI(editor)
 ```
 
 ### Creating your own
@@ -235,7 +198,7 @@ const myExtension = (): MyExtension => {
   return {
     update(editor, options) {
       // Called when the extension is added to an editor
-      // Or when the options change
+      // And when the options change
     },
   }
 }
@@ -260,7 +223,7 @@ setIgnoreTab(true)
 
 There are currently 12 different themes you can import, one of them being from `prism-code-editor/themes/github-dark.css`.
 
-You can also dynamically import themes into your javascript.
+You can also dynamically import themes into your JavaScript. This is used by the demo website.
 
 ```javascript
 import { loadTheme } from "prism-code-editor/themes"
@@ -291,27 +254,24 @@ You can change the color of the scrollbar thumb using the custom property `--edi
 
 ### Advanced styling
 
-If you're not using any of the setups, the styles aren't scoped using an iframe or shadow DOM, which makes them easy to change. If you want to change color, background, font, line-height or similar, you can do it on `.prism-editor` with CSS.
+If you're not using any of the setups, the styles aren't scoped using a shadow root, which makes them easy to change. If you want to change color, background, font, line-height or similar, you can do it on `.prism-code-editor` with CSS.
 
-Default padding is `0.75em` on all sides. If you want to change it, you can use the custom property `--padding-inline` for left and right. Padding on the top and bottom can changed by changing margin-top/bottom on `.prism-editor-wrapper`.
-
-#### Conflicting styles
-
-If you have conflicting styles, but don't use any of the setups, create your own shadow root to put your editor inside. Then just import the CSS inline and append style elements to your shadow root.
+Default padding is `0.75em` left/right and `0.5em` top/bottom. If you want to change it, you can use the custom property `--padding-inline` for left/right. Padding top and bottom can changed by changing the margin on `.pce-wrapper`.
 
 #### Creating a theme
 
-Prism themes will work to style the tokens, but nothing else. Great examples of how to create a theme can be found by looking at the [included themes](https://github.com/FIameCaster/prism-code-editor/tree/main/src/themes). These will show you almost everything you need to make a theme. Below is some additional information.
+It's likely that none of the themes perfectly fit your website. A great solution is to modify one of the [included themes](https://github.com/FIameCaster/prism-code-editor/tree/main/src/themes) to better suit your website. Alternatively, you can import one of the themes and override some of the styles in your on stylesheets.
 
-- `.code-line::before` will match a line number
-- `.code-line.active-line` matches the line with the cursor
-- `.code-line.match-highlight` matches the line with the active search match
-- `.prism-editor::before` is the background of the line numbers
-- The variable `--number-spacing` is the spacing to the right of the line numbers which defaults to 0.75em
+Below is some additional styling information:
+
+- `.pce-line::before` will match a line number
+- `.pce-line.active-line` matches the line with the cursor
+- `.prism-code-editor::before` is the background for the line numbers
+- The variable `--number-spacing` is the spacing to the right of the line numbers which defaults to `0.75em`
 
 ## Language specific behavior
 
-By default, automatic indentation, toggling comments and automatic closing of tags won't work. You'll need to import the behavior or define it yourself.
+If you're not using the setups, automatic indentation, toggling comments, and automatic closing of tags won't work. You'll need to import the behavior or define it yourself.
 
 ```javascript
 import "prism-code-editor/languages/clike"
@@ -330,14 +290,14 @@ Alternatively, you can import all language behavior at the expense of your bundl
 import "prism-code-editor/languages"
 ```
 
-It's recommended to dynamically import the language behavior since it's not needed before the page has loaded.
+It's recommended to dynamically import the language behavior since it's usually not needed before the page has loaded.
 
 ### Adding languages
 
 ```javascript
-import { languages } from "prism-code-editor"
+import { languageMap } from "prism-code-editor"
 
-languages.whatever = {
+languageMap.whatever = {
   comments: {
     line: "//",
     block: ["/*", "*/"]
@@ -359,16 +319,15 @@ languages.whatever = {
 
 Adding an editor in the middle of your page will cause layout shifts. This is bad for UX and should ideally be mitigated. One way is to reserve space for the editor by giving its container a fixed height or a grid layout. This works well enough for editors with vertical scrolling.
 
-A second solution is to have a placeholder element which gets replaced by your editor. This is the ideal solution for read-only code examples where you want `height: auto` instead of a vertical scroll bar. To make this easier, there's a wrapper around `createEditor` intended for exactly this, which replaces your element instead of appending the editor to it. The placeholder element's `textContent` will be used as the editor's code unless `options.value` is defined.
+A second solution is to have a placeholder element which gets replaced by your editor. This is the ideal solution for read-only code examples where you want `height: auto` instead of a vertical scroll bar. To make this easier, there's a wrapper around `createEditor` intended for exactly this which replaces your element instead of appending the editor to it. The placeholder element's `textContent` will be used as the editor's code unless `options.value` is defined.
 
 ```javascript
 import { editorFromPlaceholder } from "prism-code-editor"
 
-const editor = editorFromPlaceholder(Prism, "#editor", { language: "javascript" })
+const editor = editorFromPlaceholder("#editor", { language: "javascript" })
 ```
 
-If you know the height of the editor, your placeholder could be as simple as a div with a fixed height. If not, the placeholder element should have a very similar layout to the editor, i.e. same `padding`, `font-size`, `font-family`, `white-space`, `line-height`. How this achieved doesn't matter, but a solution is to use similar markup to the editor itself. [Here's an example](https://stackblitz.com/edit/vitejs-vite-sbvab7?file=index.html,src%2Fstyle.css,src%2Fmain.ts,readme.md) of this.
-
+If you know the height of the editor, your placeholder could be as simple as a div with a fixed height. If not, the placeholder element should have a very similar layout to the editor, i.e., same `padding`, `font-size`, `font-family`, `white-space`, `line-height`. How this achieved doesn't matter, but a solution is to use similar markup to the editor itself. [Here's an example](https://stackblitz.com/edit/vitejs-vite-sbvab7?file=index.html,src%2Fstyle.css,src%2Fmain.ts,readme.md) of this.
 
 ## Tooltips
 
@@ -402,8 +361,8 @@ import "prism-code-editor/rtl-layout.css"
 
 RTL support is currently experimental due to multiple browser bugs being present:
 
-- In Chrome and Safari, the linenumber background won't stick when scrolling. The linenumbers themselves are given a background to compensate, but this isn't perfect.
-- In FireFox, the first tab character on a line will sometimes be incorrectly sized.
+- In Chrome and Safari, the line number background won't stick when scrolling. The line numbers themselves are given a background to compensate, but this isn't perfect.
+- In Firefox, the first tab character on a line will sometimes be incorrectly sized.
 - In Safari, absolutely positioned elements inside lines can change the order of characters when mixing RTL and LTR text and tab characters are super buggy.
 
 If you want to use RTL directionality, you should be aware of these bugs and use spaces instead of tabs for indenting.
@@ -438,10 +397,9 @@ The library includes a custom element wrapper for each of the 4 setups you can i
 
 ```typescript
 import { addBasicEditor, PrismEditorElement } from "prism-code-editor/web-component"
-import Prism from "prism-code-editor/prism-core"
 
 // Adds a web component with the specified name
-addBasicEditor(Prism, "prism-editor")
+addBasicEditor("prism-editor")
 
 const editorElement = document.querySelector<PrismEditorElement>("prism-editor")
 
@@ -467,23 +425,19 @@ Attributes include `language`, `theme`, `tab-size`, `line-numbers`, `word-wrap`,
 </prism-editor>
 ```
 
-## Prism plugin support
-
-This library only runs the `before-tokenize` and `after-tokenize` hooks. This means pretty much none of the Prism plugins will work, although they wouldn't be very useful if they did. 
-
-Markdown uses a `wrap` hook to highlight code blocks to support the autoloader plugin. Since the autoloader won't work anyway, highlighting code blocks will work just fine with an `after-tokenize` hook which is what the modified markdown you can import uses.
-
-Behavior identical to [Highlight Keywords](https://prismjs.com/plugins/highlight-keywords/) is included.
-
 ## Performance
 
 All the code is tokenized each time for simplicity's sake. Even though only lines that change are updated in the DOM, the editor slows down as more code is added, although not as quickly as with zero optimizations.
 
-Once you start approaching 1000 LOC, the editor will noticeably slow down on most hardware. If you need to display that much code, consider a more robust/heavy library.
+Once you start approaching 1000 LOC, the editor will start slowing down on most hardware. If you need to display that much code, consider a more robust/heavy library.
 
-## Browser support
+## Compatibility
 
-This has been tested to work in the latest desktop and mobile versions of both Safari, Chrome and Firefox. It should work in slightly older browsers too. Won't work properly in browsers that don't support beforeinput events.
+This has been tested to work in the latest desktop and mobile versions of both Safari, Chrome, and Firefox. It should work in slightly older browsers too, but there will be many bugs present in browsers that don't support `beforeinput` events.
+
+This library does not support any Prism plugins due to only running the `before-tokenize` and `after-tokenize` hooks. Behavior identical to the [Highlight Keywords](https://prismjs.com/plugins/highlight-keywords/) plugin is included.
+
+Prism's own languages rely on global variables, so you'll have to define `window.Prism` before you can import them. Don't do this and import languages from `prism-code-editor/grammars/*` instead.
 
 ## Credits
 
