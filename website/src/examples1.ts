@@ -39,12 +39,9 @@ basicUsage = `import {
   minimalEditor, basicEditor,
   fullEditor, readonlyEditor
 } from "prism-code-editor/setups"
-import Prism from "prism-code-editor/prism-core"
-import "prismjs/components/prism-clike"
-import "prismjs/components/prism-javascript"
+import "prism-code-editor/grammars/javascript"
 
 const editor = basicEditor(
-  Prism,
   "#editor",
   {
     language: "javascript",

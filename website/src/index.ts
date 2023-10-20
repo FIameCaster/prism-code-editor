@@ -1,4 +1,3 @@
-import Prism from "prism-code-editor/prism-core"
 import "./javascript"
 import { createEditor, editorFromPlaceholder } from "prism-code-editor"
 import "prism-code-editor/layout.css"
@@ -14,7 +13,6 @@ const wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!
 const placeholders = document.querySelectorAll<HTMLDivElement>("section > div")
 
 const editor = createEditor(
-	Prism,
 	wrapper,
 	{
 		language: "javascript",
@@ -26,7 +24,6 @@ const editor = createEditor(
 
 const editors = [
 	editorFromPlaceholder(
-		Prism,
 		placeholders[0],
 		{ language: "javascript", value: basicUsage },
 		matchBrackets(true),

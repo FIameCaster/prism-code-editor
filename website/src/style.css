@@ -118,7 +118,7 @@ section > div,
 
 .editor-wrapper {
 	height: calc(100vh - 16rem);
-	max-height: 44.52rem;
+	max-height: 43.82rem;
 	border: 1px solid var(--border);
 	margin-top: 3rem;
 	text-align: start;
@@ -128,7 +128,7 @@ section > div,
 	font-weight: 400;
 }
 
-.prism-editor {
+.prism-code-editor {
 	font-size: 1.4rem;
 	line-height: 2rem;
 }
@@ -279,10 +279,10 @@ option {
 	font-size: 1.8rem;
 }
 
-.folding > div {
+#folding > div {
 	--number-spacing: 1.5em;
 	height: calc(100vh - 16rem);
-	max-height: 60.1rem;
+	max-height: 59.4rem;
 }
 
 @media (prefers-color-scheme: dark) {

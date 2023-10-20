@@ -2,7 +2,6 @@ export const code = [
 	`import { ForwardedRef, forwardRef, useEffect, useRef } from "react"
 import { PrismEditor } from "prism-code-editor"
 import { fullEditor, SetupOptions, updateTheme } from "prism-code-editor/setups"
-import Prism from "prism-code-editor/prism-core"
 
 export const PrismEditorReact = forwardRef((
   props: SetupOptions,
@@ -20,8 +19,7 @@ export const PrismEditorReact = forwardRef((
   }, [props.theme])
 
   useEffect(() => {
-    const div = divRef.current!
-    const editor = editorRef.current = fullEditor(Prism, div, props)
+    const editor = editorRef.current = fullEditor(divRef.current!, props)
     if (ref) typeof ref == "function" ? ref(editor) : ref.current = editor
     return editor.remove
   }, [])
@@ -67,11 +65,9 @@ export const addExtensions = (editor: PrismEditor) => {
   )
 }`,
 
-	`import Prism from "prism-code-editor/prism-core"
-import "prismjs/components/prism-markup.js"
-import "prismjs/components/prism-css.js"
-import "prismjs/components/prism-clike.js"
-import "prismjs/components/prism-javascript.js"
+	`import "prism-code-editor/grammars/markup"
+import "prism-code-editor/grammars/css-extras"
+import "prism-code-editor/grammars/js-extras"
 
 import { createEditor } from "prism-code-editor"
 import { matchBrackets } from "prism-code-editor/match-brackets"
@@ -83,11 +79,10 @@ import "prism-code-editor/scrollbar.css"
 import "prism-code-editor/themes/github-dark.css"
 
 const editor = createEditor(
-  Prism,
   "#editor",
   { language: "html" },
   indentGuides(),
-  matchBrackets(true),
+  matchBrackets(),
 )
 
 import('./extensions').then(module => {
@@ -97,10 +92,9 @@ import('./extensions').then(module => {
 	`import {
   addBasicEditor, PrismEditorElement
 } from "prism-code-editor/web-component"
-import Prism from "prism-code-editor/prism-core"
 
 // Adds a web component with the specified name
-addBasicEditor(Prism, "prism-editor")
+addBasicEditor("prism-editor")
 
 const editorElement = document.querySelector<PrismEditorElement>("prism-editor")
 
@@ -126,9 +120,8 @@ console.log(editorElement.editor)`,
   The editors initial code goes here
 </prism-editor>`,
 
-	`import Prism from "prism-code-editor/prism-core"
-import { createEditor } from "prism-code-editor"
-const editor = createEditor(Prism, "#editor", { language: "html" })
+	`import { createEditor } from "prism-code-editor"
+const editor = createEditor("#editor", { language: "html" })
 
 // Adding a Ctrl+Enter shortcut while keeping the default enter functionality
 const oldEnterCallback = editor.keyCommandMap.Enter
@@ -156,9 +149,9 @@ loadTheme(isDark ? "github-dark" : "github-light").then(theme => {
 })
 
 // Adding custom language behavior
-import { langauages } from "prism-code-editor"
+import { languageMap } from "prism-code-editor"
 
-languages.whatever = {
+languageMap.whatever = {
   comments: {
     line: "//",
     block: ["/*", "*/"]
@@ -170,49 +163,83 @@ languages.whatever = {
     ([start, end], value) => /\\[]|\\(\\)|{}/.test(value[start - 1] + value[end])
   ]
 }`,
-	`<!DOCTYPE html>
-<html lang="en">
-<head>
-	<style>
-		/* You probably want to give extra space for the fold gutters */
-		.prism-editor {
-			--number-spacing: 1.5em;
-		}
-	</style>
-</head>
-<body>
-	<div id="myEditor"></div>
-	<script type="module">
-		import { readOnlyCodeFolding } from "prism-code-editor/code-folding"
-		import { createEditor } from "prism-code-editor"
-		import { indentGuides } from "prism-code-editor/guides"
-		import { matchBrackets } from "prism-code-editor/match-brackets"
-		import { matchTags } from "prism-code-editor/match-tags"
-		import "prism-code-editor/code-folding.css"
 
-		/* Not all necessary imports are shown above.
+	`## How to add
 
-		To fold matching curly/square brackets or XML elements,
-		you will need a bracket matcher and a tag matcher respectively.
-		Those extensions should be added before the code folding.
+To add code-folding, you must import it.
 
-		Folding of multiline comments is also supported, but you will
-		need to import language specific behavior for it to work. */
+\`\`\`javascript
+import { readOnlyCodeFolding } from "prism-code-editor/code-folding"
+\`\`\`
 
-		const editor = createEditor(
-			Prism,
-			"#myEditor",
-			{
-				language: "html",
-				readOnly: true,
-				value: "<div>\\n  test\\n</div>"
-			},
-			indentGuides(),
-			matchBrackets(true),
-			matchTags(),
-			readOnlyCodeFolding()
-		)
-	</script>
-</body>
-</html>`,
+This will allow folding of square- and curly brackets and XML/HTML tags.
+But to do so, bracket matching and tag matching must be added to the editor,
+preferably *before* the code folding.
+
+<h2 align="center">
+  Try folding this element!
+</h2>
+
+\`\`\`javascript
+import { createEditor } from "prism-code-editor"
+import { matchBrackets } from "prism-code-editor/match-brackets"
+import { matchTags } from "prism-code-editor/match-tags"
+
+const editor = createEditor(
+  "#my-editor",
+  {
+    language: "html",
+    readOnly: true,
+    value: "<div>\\n  test\\n</div>"
+  },
+  matchBrackets(),
+  matchTags(),
+  readOnlyCodeFolding()
+)
+\`\`\`
+
+## Styling
+
+You probably want to give extra space for the fold gutters. Use the custom
+property \`--editor__bg-fold\` to change the folding arrow color.
+
+\`\`\`css
+.prism-code-editor {
+  --number-spacing: 1.5em;
+}
+\`\`\`
+
+## Adding extra providers
+
+You can add any number of folding range providers. These providers are simply a
+function returning an array of tuples containing the start and end position for
+the fold. Just pass it to the \`readOnlyCodeFolding\` extension to add it.
+
+\`\`\`typescript
+import {
+  readOnlyCodeFolding, markdownFolding,
+  blockCommentFolding, FoldingRangeProvider
+} from "prism-code-editor/code-folding"
+
+const myProvider: FoldingRangeProvider = editor => [
+  [5, 20], [10, 15]
+]
+
+readOnlyCodeFolding(myProvider, markdownFolding, blockCommentFolding)
+\`\`\`
+
+The \`markdownFolding\` provider adds folding of both titles and code blocks
+in markdown, and the \`blockCommentFolding\` adds folding of multiline block
+comments. In order for the comment folding to work for a language, the language
+specific behavior needs to be defined in the language map. Either import the
+behavior from \`prism-code-editor/languages/*\` or define it yourself.
+
+## Read-only setup
+
+If you don't care about customization, you can use the read-only setup instead.
+
+\`\`\`javascript
+import { readonlyEditor } from "prism-code-editor/setups"
+\`\`\`
+`,
 ]

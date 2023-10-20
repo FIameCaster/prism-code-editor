@@ -1,2 +1,5 @@
+/api/assets/*
+	cache-control: "public, max-age=2592000"
+
 /assets/*
 	cache-control: "public, max-age=2592000"
