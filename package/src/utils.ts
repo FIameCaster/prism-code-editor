@@ -25,7 +25,7 @@ const getLines = (text: string, start: number, end: number) =>
 	] as const
 
 /**
- * Searches a full line for a token that matches a selector and includes selectionStart
+ * Searches a full line for a token that matches a selector and contains `position`
  * within the specified margins. Tokens are searched in reverse document order which means
  * children are searched before their parents.
  * @param editor Editor you want to search in.
@@ -79,8 +79,8 @@ const getLanguage = (editor: PrismEditor, position?: number) =>
  * Focuses the `textarea` if it isn't already.
  * @param editor Target editor.
  * @param text Text to insert.
- * @param start Index to start the insertion. Defaults to `selectionStart`.
- * @param end Index to end the insertion. Defaults to `start` if specified, else `selectionEnd`.
+ * @param start Position to start the insertion. Defaults to `selectionStart`.
+ * @param end Position to end the insertion. Defaults to `start` if specified, else `selectionEnd`.
  * @param newCursorStart New starting position for the cursor. Defaults to the end of the inserted text.
  * @param newCursorEnd New ending position for the cursor. Defaults to `newCursorStart`.
  */

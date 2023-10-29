@@ -98,11 +98,15 @@ export interface EventHandler<EventMap extends Record<string, (...args: any) => 
 }
 
 export interface PrismEditor extends EventHandler<EditorEventMap> {
-	/** Scroll container for the editor. */
+	/** This is the outermost element of the editor. */
 	readonly scrollContainer: HTMLDivElement
 	/** Element wrapping the lines and overlays. */
 	readonly wrapper: HTMLDivElement
-	/** Element containing the overlays. */
+	/** 
+	 * Element containing overlays that are absolutely positioned ontop or underneath the code.
+	 * It is completely safe to append your own overlays to this element, but they will get
+	 * some default styles.
+	 */
 	readonly overlays: HTMLDivElement
 	/** Underlying `<textarea>` in the editor. */
 	readonly textarea: HTMLTextAreaElement
@@ -137,9 +141,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 		codeFold?: ReadOnlyCodeFolding
 	}
 	/**
-	 * Set new options for the editor.
-	 * Ommitted properties will use their previous value.
-	 * Passing `undefined` to a property returns it to its default value.
+	 * Set new options for the editor. Ommitted properties will use their previous value.
 	 * @param options New options for the editor
 	 */
 	setOptions(options: Partial<EditorOptions>): void

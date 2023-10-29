@@ -18,8 +18,8 @@ export type ShowTooltip = (preferPlacingAboveCursor?: boolean) => void
 export type HideTooltip = () => void
 
 /**
- * Utility making it easy to add tolltips to an editor. In order to
- * use this, a the {@link cursorPosition} must be added to the editor.
+ * Utility making it easy to add tolltips to an editor. Before you can show the tooltip,
+ * a {@link cursorPosition} extension must be added to the editor.
  * @param editor Editor you want to add the tooltip to.
  * @param element Element for the tooltip.
  * @param fixedWidth If false, the tooltip will shrink instead of getting offset to
@@ -60,18 +60,18 @@ export const addTooltip = (
 	]
 }
 
-const observer = window.ResizeObserver
-	? /* @__PURE__ */ new ResizeObserver(e =>
-			e.forEach(entry => {
-				const el = entry.target
-				const wrapper = el.querySelector<HTMLDivElement>(".pce-wrapper")!
-				const style = getComputedStyle(wrapper)
-				wrapper.style.paddingBottom = `${
-					el.clientHeight - parseFloat(style.marginBottom) - parseFloat(style.lineHeight)
-				}px`
-			}),
-	  )
-	: null
+const observer =
+	window.ResizeObserver &&
+	/* @__PURE__ */ new ResizeObserver(e =>
+		e.forEach(entry => {
+			const el = entry.target
+			const wrapper = el.querySelector<HTMLDivElement>(".pce-wrapper")!
+			const style = getComputedStyle(wrapper)
+			wrapper.style.paddingBottom = `${
+				el.clientHeight - parseFloat(style.marginBottom) - parseFloat(style.lineHeight)
+			}px`
+		}),
+	)
 
 /** Allows users to scroll past the last line in the editor by adding padding to the wrapper. */
 export const addOverscroll = (editor: PrismEditor) => {
