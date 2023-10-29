@@ -56,6 +56,7 @@
 .token.maybe-class-name,
 .token.atrule,
 .token.variable,
+.language-css .token.url,
 .token.parameter,
 .token.list.punctuation {
 	color: #f69d50;

@@ -57,6 +57,7 @@
 
 .token.atrule,
 .token.variable,
+.language-css .token.url,
 .token.parameter,
 .token.list.punctuation,
 .token.maybe-class-name,
