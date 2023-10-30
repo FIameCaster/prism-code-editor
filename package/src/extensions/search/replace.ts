@@ -19,12 +19,15 @@ export interface ReplaceAPI extends SearchAPI {
 	 */
 	selectMatch(index: number, scrollPadding?: number): void
 	/**
-	 * If a match is selected, it's replaced with the specified string.
+	 * If a match is selected, it's replaced with the specified value.
 	 * If not, the closest match will be selected and the index is returned.
 	 */
-	replace(str: string): number | undefined
-	/** Replaces all matches with the specified string. */
-	replaceAll(str: string, selection?: [number, number]): void
+	replace(value: string): number | undefined
+	/**
+	 * @param value Value
+	 * @param selection Does nothing. Kept for backwards compatibility.
+	 */
+	replaceAll(value: string, selection?: [number, number]): void
 	/** Removes the highlight container from the DOM and all potential event listeners. */
 	destroy(): void
 }
@@ -102,40 +105,39 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 			}
 			insertText(editor, str)
 		},
-		replaceAll(str: string, selection?: [number, number]) {
-			const { matches, regex } = search
+		replaceAll(str: string) {
+			const { matches } = search
 			if (!matches[0]) return
 			let value = editor.value,
 				[start, end] = getSelection(),
 				newLen = str.length,
 				newStart = start,
 				newEnd = end,
-				[searchStart, searchEnd] = selection || [0, value.length]
+				newValue = "",
+				l = matches.length
 
-			for (let i = 0, l = matches.length; i < l; i++) {
+			for (let i = 0; i < l; i++) {
 				const [matchStart, matchEnd] = matches[i],
-					lengthDiff = newLen - matchEnd + matchStart
-				if (end <= matchStart) break
+					lengthDiff = newLen - matchEnd + matchStart,
+					move = (pos: number) =>
+						matchStart > pos
+							? 0
+							: pos >= matchEnd
+							? lengthDiff
+							: lengthDiff < 0 && pos > matchStart + newLen
+							? newLen + matchStart - pos
+							: 0
 
-				newEnd +=
-					end >= matchEnd
-						? lengthDiff
-						: lengthDiff < 0 && end > matchStart + newLen
-						? newLen + matchStart - end
-						: 0
-				newStart +=
-					start >= matchEnd
-						? lengthDiff
-						: lengthDiff < 0 && start > matchStart + newLen
-						? newLen + matchStart - start
-						: 0
+				newEnd += move(end)
+				newStart += move(start)
+				newValue += i ? value.slice(matches[i - 1][1], matchStart) + str : str
 			}
 
 			insertText(
 				editor,
-				value.slice(searchStart, searchEnd).replace(regex, str.replace(/\$/g, "$$$$")),
-				searchStart,
-				searchEnd,
+				newValue,
+				matches[0][0],
+				matches[l - 1][1],
 				newStart,
 				newEnd,
 			)

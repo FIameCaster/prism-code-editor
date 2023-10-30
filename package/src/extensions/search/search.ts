@@ -7,6 +7,8 @@ const template = createTemplate(
 	"color:#0000;display:none;contain:strict;padding:0 var(--padding-inline,.75em) 0 var(--padding-left);",
 )
 
+export type SearchFilter = (start: number, end: number) => boolean
+
 /** Object with methods useful for performing a search and highlighting the matches. */
 export interface SearchAPI {
 	/**
@@ -16,7 +18,8 @@ export interface SearchAPI {
 	 * @param wholeWord Whether or not matches must be surrounded by word boundries.
 	 * @param useRegExp If false, special characters will be escaped when creating the RegExp.
 	 * @param selection Boundries to search between. If excluded, all the code is searched.
-	 * @param excludedPosition A match containing this position in the string will be excluded.
+	 * @param filter A function called for each match. If it returns false, the match won't be included.
+	 * Can also take an excluded position for backwards compatibility.
 	 * @returns An error message if the RegExp was invalid.
 	 */
 	search(
@@ -25,13 +28,13 @@ export interface SearchAPI {
 		wholeWord?: boolean,
 		useRegExp?: boolean,
 		selection?: [number, number],
-		excludedPosition?: number,
+		filter?: number | SearchFilter,
 	): string | void
 	/** Container that all the search results are appended to. */
 	readonly container: HTMLDivElement
 	/** Current regex used for searching. */
 	readonly regex: RegExp
-	/** Array of the positions of all the matches. */
+	/** Array of positions of all the matches. */
 	readonly matches: [number, number][]
 	/** Hides the search container and removes all the matches. */
 	stopSearch(): void
@@ -56,15 +59,23 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	editor.overlays.append(container)
 
 	return {
-		search(str, caseSensitive, wholeWord, useRegExp, selection, excludedPosition = -1) {
+		search(str, caseSensitive, wholeWord, useRegExp, selection, filter) {
 			if (!str) return stopSearch()
 			if (!useRegExp) str = regexEscape(str)
 			const value = editor.value,
 				searchStr = selection ? value.slice(...selection) : value,
 				offset = selection?.[0] || 0,
-				flags = `gum${caseSensitive ? "" : "i"}`
+				flags = `gum${caseSensitive ? "" : "i"}`,
+				filterFn =
+					typeof filter == "number"
+						? (start: number, end: number) => start > filter || end <= filter
+						: filter
 
 			try {
+				let match: RegExpExecArray | null,
+					l: number,
+					index: number,
+					i = 0
 				matchPositions.length = 0
 				regex = RegExp(str, flags)
 				// Reassigning the regex for cleaner error messages
@@ -73,13 +84,10 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 						supportsLookbehind ? `(?<=^|\\b|\\W)${str}(?=\\b|\\W|$)` : `\\b${str}\\b`,
 						flags,
 					)
-				for (
-					let match: RegExpExecArray | null, l: number, index: number, i = 0;
-					(match = regex.exec(searchStr));
-
-				) {
+				while ((match = regex.exec(searchStr))) {
 					;(l = match[0].length) || regex.lastIndex++
-					if ((index = match.index) > excludedPosition || index + l <= excludedPosition)
+					index = match.index
+					if (!filterFn || filterFn(index, index + l))
 						matchPositions[i++] = [index + offset, index + l + offset]
 				}
 			} catch (e) {
