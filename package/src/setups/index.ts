@@ -1,5 +1,14 @@
 import { EditorOptions, PrismEditor, createEditor } from ".."
 import { getElement } from "../core"
+import { defaultCommands } from "../extensions/commands.ts"
+import { copyButton } from "../extensions/copyButton/index.ts"
+import { readOnlyCodeFolding } from "../extensions/folding/index.ts"
+import { indentGuides } from "../extensions/guides.ts"
+import { highlightBracketPairs } from "../extensions/matchBrackets/highlight.ts"
+import { matchBrackets } from "../extensions/matchBrackets/index.ts"
+import { matchTags } from "../extensions/matchTags.ts"
+import { highlightSelectionMatches } from "../extensions/search/selection.ts"
+import { searchWidget } from "../extensions/search/widget.ts"
 import { loadTheme } from "../themes"
 
 export type SetupOptions = Partial<EditorOptions> & { theme: string }
@@ -58,8 +67,9 @@ const minimalEditor = (
 }
 
 /**
- * Same as {@link minimalEditor}, but also adds indentation guides, selection
- * match highlighting, bracket matching, commands and language specific behvaior.
+ * Same as {@link minimalEditor}, but also adds {@link indentGuides}, {@link highlightSelectionMatches},
+ * {@link matchBrackets}, {@link highlightBracketPairs} and {@link defaultCommands}
+ * extensions and language specific behvaior.
  */
 const basicEditor = (
 	container: HTMLElement | string,
@@ -79,7 +89,7 @@ const basicEditor = (
 	return editor
 }
 
-/** Same as {@link basicEditor}, but also adds the search widget and tag matching. */
+/** Same as {@link basicEditor}, but also adds the {@link searchWidget} and {@link matchTags} extensions. */
 const fullEditor = (
 	container: HTMLElement | string,
 	options: SetupOptions,
@@ -108,9 +118,10 @@ const fullEditor = (
 }
 
 /**
- * Same as {@link minimalEditor}, but also a copy button, bracket matching, tag matching,
- * indentation guides, selection match highlighting and code folding. No commands are
- * added which makes this setup best used with the `readOnly` option set to true.
+ * Same as {@link minimalEditor}, but also adds the {@link copyButton}, {@link matchBrackets},
+ * {@link highlightBracketPairs}, {@link matchTags}, {@link indentGuides}, {@link highlightSelectionMatches}
+ * and {@link readOnlyCodeFolding} extensions. No commands are added which makes this setup
+ * best used with the `readOnly` option set to true.
  */
 const readonlyEditor = (
 	container: HTMLElement | string,
