@@ -245,8 +245,9 @@ export const defaultCommands = (
 					isBlock = code == 9,
 					[start, end] = getSelection(),
 					{ line, block } =
-						languageMap[getLanguage(editor, isBlock ? start : value.lastIndexOf("\n", start - 1) + 1)]
-							?.comments || {},
+						languageMap[
+							getLanguage(editor, isBlock ? start : value.lastIndexOf("\n", start - 1) + 1)
+						]?.comments || {},
 					[lines, start1, end1] = getLines(value, start, end),
 					last = lines.length - 1
 
@@ -302,10 +303,9 @@ export const defaultCommands = (
 							hasComment ? "" : open + " ",
 						)
 						let diff = insertionPoint > start - start1 ? 0 : newLines[0].length - lines[0].length
-						newLines[last] = newLines[last].replace(
-							RegExp(`( ?${regexEscape(close)})?$`),
-							hasComment ? "" : " " + close,
-						)
+						newLines[last] = hasComment
+							? newLines[last].replace(RegExp(`( ?${regexEscape(close)})?$`), "")
+							: newLines[last] + " " + close
 
 						if (last)
 							insertLines(lines, newLines, start1, end1, start, end, insertionPoint, Infinity)
