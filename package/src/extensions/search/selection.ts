@@ -56,31 +56,48 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
  * The CSS-selector `.word-matches span` can be used to style the matches.
  *
  * @example
- * This filters away all words that start inside a string, comment or keyword token.
- * The filter function should be adjusted based on the language used.
+ * This filters away all words that start inside a string, comment or keyword or regex token.
+ * Different filter functions should be chosen based on language.
  * ```
  * editor.addExtensions(
  * 	highlightCurrentword(
- * 		start => !getClosestToken(editor, ".string, .comment, .keyword", 0, 0, start)
+ * 		start => !getClosestToken(editor, ".string, .comment, .keyword, .regex", 0, 0, start)
  * 	)
  * )
  * ```
  */
 const highlightCurrentWord = (filter?: SearchFilter): WordHighlighter =>
-	Object.assign(extensionTemplate("word-matches", (editor, searchAPI) => ([start, end], value) => {
-		value =
-			editor.focused && start == end && (!filter || filter(start, start))
-				? value.slice(0, start).match(/[\p{L}_$\d]*$/u)![0] +
-				  value.slice(start).match(/^[\p{L}_$\d]*/u)![0]
-				: ""
-		searchAPI.search(/^\d/.test(value) ? "" : value, true, true, false, undefined, filter)
-		// This stops the search if there was less than two matches
-		// searchAPI.matches[1] || searchAPI.search("")
-		// Not sure if it should be added or not
-	}), {
-		setFilter(newFilter: SearchFilter) {
-			filter = newFilter
-		}
-	})
+	Object.assign(
+		extensionTemplate("word-matches", (editor, searchAPI) => {
+			let noHighlight = true
+			editor.addListener("update", () => (noHighlight = true))
+
+			return ([start, end], value) => {
+				let before = value.slice(0, start).match(/[\p{L}_$\d-]*$/u)!
+				let index = before.index!
+				let word = before[0] + value.slice(start).match(/^[\p{L}_$\d-]*/u)![0]
+				searchAPI.search(
+					noHighlight ||
+						start != end ||
+						!editor.focused ||
+						/^-*\d/.test(word) ||
+						(filter && !filter(index, index + word.length))
+						? ""
+						: word,
+					true,
+					true,
+					false,
+					undefined,
+					filter,
+				)
+				noHighlight = false
+			}
+		}),
+		{
+			setFilter(newFilter: SearchFilter) {
+				filter = newFilter
+			},
+		},
+	)
 
 export { highlightSelectionMatches, highlightCurrentWord }
