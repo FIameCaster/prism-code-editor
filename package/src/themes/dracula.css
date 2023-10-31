@@ -217,6 +217,7 @@ Original: https://github.com/dracula/visual-studio-code */
 	box-shadow: inset 0 0 0 1px #b9b9b9, inset 0 0 0 9in #0064001a;
 }
 
-.active-tagname {
+.active-tagname,
+.word-matches span {
 	background: #8be9fd4f;
 }

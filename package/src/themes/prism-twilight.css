@@ -154,6 +154,7 @@
 	box-shadow: inset 0 0 0 1px #888, inset 0 0 0 9in #0064001a;
 }
 
-.active-tagname {
+.active-tagname,
+.word-matches span {
 	background: #575757b8;
 }

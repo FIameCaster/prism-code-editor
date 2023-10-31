@@ -15,7 +15,7 @@ import guides from "../extensions/guides.ts?raw"
 import readme from "/readme.md?raw"
 import { matchBrackets } from "../extensions/matchBrackets"
 import { highlightBracketPairs } from "../extensions/matchBrackets/highlight"
-import { highlightSelectionMatches, searchWidget } from "../extensions/search"
+import { highlightCurrentWord, highlightSelectionMatches, searchWidget } from "../extensions/search"
 import "../extensions/search/search.css"
 import "../languages"
 import "../layout.css"
@@ -25,7 +25,7 @@ import { addFullEditor, addReadonlyEditor, PrismEditorElement } from "../webComp
 import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
-import { getModifierCode } from "../utils"
+import { getClosestToken, getModifierCode } from "../utils"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -188,11 +188,17 @@ commands.Enter = (e, selection, value) => {
 addFullEditor("prism-editor")
 
 const webComponent = document.querySelector<PrismEditorElement>("prism-editor")!
+const editor2 = webComponent.editor
 
 webComponent.addEventListener("ready", () => {
-	webComponent.editor.setOptions({
+	editor2.setOptions({
 		value: guides.trimEnd().replace(/\r/g, ""),
 	})
+	editor2.addExtensions(
+		highlightCurrentWord(
+			start => !getClosestToken(editor2, ".string, .comment, .keyword", 0, 0, start)
+		)
+	)
 })
 
 addReadonlyEditor("readonly-editor")

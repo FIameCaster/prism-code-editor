@@ -228,6 +228,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	box-shadow: inset 0 0 0 1px #b3cfe7a1, inset 0 0 0 9in #5f7e974d;
 }
 
-.active-tagname {
+.active-tagname,
+.word-matches span {
 	background: #f6bbe533;
 }
