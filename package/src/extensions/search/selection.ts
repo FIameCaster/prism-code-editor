@@ -69,7 +69,7 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
 const highlightCurrentWord = (filter?: SearchFilter): WordHighlighter =>
 	Object.assign(
 		extensionTemplate("word-matches", (editor, searchAPI) => {
-			let noHighlight = true
+			let noHighlight = false
 			editor.addListener("update", () => (noHighlight = true))
 
 			return ([start, end], value) => {
