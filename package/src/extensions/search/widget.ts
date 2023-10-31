@@ -19,12 +19,12 @@ export interface SearchWidget extends Extension {
 	/** The search widget's outer element. */
 	readonly widgetEl: HTMLDivElement
 	/**
-	 * Method for hiding the search widget.
+	 * Hides the search widget and removes most event listeners.
 	 * @param focusTextarea Whether the editor's `textarea` should gain focus. Defaults to true.
 	 */
 	close: (focusTextarea?: boolean) => void
 	/**
-	 * Method for showing the search widget.
+	 * Opens the search widget.
 	 * @param focusInput Whether the widgets's search input should gain focus. Defaults to true.
 	 */
 	open: (focusInput?: boolean) => void
@@ -74,9 +74,7 @@ export const searchWidget = (): SearchWidget => {
 				let [start, end] = selection(),
 					value = editor.value
 				if (start != end) return value.slice(start, end)
-				if (/\w/.test(value[start] || "")) start += 1
-				const newStart = value.slice(0, start).match(/\b\w*\b$/)?.[0]
-				return newStart ? newStart + (value.slice(start).match(/^\b\w*\b/)?.[0] || "") : ""
+				return value.slice(0, start).match(/\w*$/)![0] + value.slice(start).match(/^\w*/)![0]
 			}
 
 			const startSearch = (selectMatch?: boolean) => {
@@ -185,7 +183,7 @@ export const searchWidget = (): SearchWidget => {
 					`min(${scrollContainer.clientWidth - 2}px - 2.4em - var(--padding-left),20em)`,
 				)
 
-			const observer = window.ResizeObserver ? new ResizeObserver(resize) : null
+			const observer = window.ResizeObserver && new ResizeObserver(resize)
 
 			const replace = () => {
 				selectNext = true
@@ -193,7 +191,7 @@ export const searchWidget = (): SearchWidget => {
 			}
 
 			const replaceAll = () => {
-				replaceAPI.replaceAll(replaceInput.value, searchSelection)
+				replaceAPI.replaceAll(replaceInput.value)
 			}
 
 			const keyButtonMap: Record<string, HTMLButtonElement> = {
@@ -206,7 +204,7 @@ export const searchWidget = (): SearchWidget => {
 			const elementHandlerMap = new Map<HTMLElement, () => any>([
 				[nextEl, () => move(true)],
 				[prevEl, move],
-				[closeEl, () => close()],
+				[closeEl, close],
 				[replaceEl, replace],
 				[replaceAllEl, replaceAll],
 				[
@@ -265,7 +263,7 @@ export const searchWidget = (): SearchWidget => {
 				}
 			})
 
-			findInput.oninput = () => startSearch(true)
+			findInput.oninput = () => isOpen && startSearch(true)
 
 			container.addEventListener("keydown", e => {
 				const shortcut = getModifierCode(e),
