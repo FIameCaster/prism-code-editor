@@ -13,7 +13,7 @@ There are multiple fully featured code editors for the web such as Monaco, Ace a
 
 This library overlays syntax highlighted code over a `<textarea>`. Libraries like [CodeFlask](https://github.com/kazzkiq/CodeFlask), [react-simple-code-editor](https://github.com/react-simple-code-editor/react-simple-code-editor) and many others have been doing this for years, but this library offers some distinct advantages:
 
-- It patches Prism's core, so it no longer relies on global variables and strips away unnecessary methods making it nearly 60% smaller.
+- It patches Prism's core, so it no longer relies on global variables and strips away unneeded methods making it nearly 60% smaller.
 - It re-exports Prism's languages that now automatically import their required dependencies and embedded languages are resolved at runtime.
 - It splits the highlighted code into lines. This makes it easy to add line numbers, highlight a line and only update changed lines in the DOM for efficient updates.
 - The core is light as a feather with a wide array of [extensions](#extensions) you can choose from and multiple events to listen to.
@@ -138,6 +138,7 @@ import('./extensions').then(module => {
 - [Formatting with Prettier](https://stackblitz.com/edit/vitejs-vite-x7tzhu?file=src%2Fmain.ts,src%2Fextensions.ts)
 - [Relative line numbers](https://stackblitz.com/edit/vitejs-vite-2wytja?file=src%2Fextensions.ts,src%2Fmain.ts)
 - [Usage with React](https://stackblitz.com/edit/vitejs-vite-cahjr5?file=src%2FApp.tsx)
+- [Adding elements to code lines](https://stackblitz.com/edit/vitejs-vite-y5pwon?file=src%2Fmain.ts,readme.md)
 
 ## Extensions
 
@@ -168,7 +169,9 @@ The default commands extension includes:
 import { matchBrackets } from "prism-code-editor/match-brackets"
 import { matchTags } from "prism-code-editor/match-tags"
 import { indentGuides } from "prism-code-editor/guides"
-import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
+import {
+  searchWidget, highlightSelectionMatches, highlightCurrentWord
+} from "prism-code-editor/search"
 import { defaultCommands } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { copyButton } from "prism-code-editor/copy-button"
