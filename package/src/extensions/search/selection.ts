@@ -57,13 +57,13 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
  *
  * @example
  * This filters away all words that start inside a string, comment or keyword or regex token.
- * Different filter functions should be chosen based on language.
+ * Different filter functions should be chosen based on the language.
  * ```
  * const selector = ".string, .comment, .keyword, .regex"
  * const filter = start => !getClosestToken(editor, selector, 0, 0, start)
  * 
  * editor.addExtensions(
- * 	highlightCurrentword(filter)
+ * 	highlightCurrentWord(filter)
  * )
  * ```
  */
