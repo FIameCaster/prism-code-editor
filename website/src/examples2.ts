@@ -123,21 +123,17 @@ console.log(editorElement.editor)`,
 	`import { createEditor } from "prism-code-editor"
 const editor = createEditor("#editor", { language: "html" })
 
-// Adding a Ctrl+Enter shortcut while keeping the default enter functionality
-const oldEnterCallback = editor.keyCommandMap.Enter
+// Adding the word highlighting that's present in this editor
+import { highlightCurrentWord } from "prism-code-editor/search"
+import { getClosestToken } from "prism-code-editor/utils"
 
-editor.keyCommandMap.Enter = (e, selection, value) => {
-  if (e.ctrlKey) {
-    // Shortcut code goes here
+// Filter away words starting inside a string, comment, keyword or regex token
+const selector = ".string, .comment, .keyword, .regex"
+const filter = start => !getClosestToken(editor, selector, 0, 0, start)
 
-    // returning true will automatically call e.preventDefault()
-    return true
-  }
-  return oldEnterCallback?.(e, selection, value)
-}
-
-// Removing the default backspace command
-editor.keyCommandMap.Backspace = null
+editor.addExtensions(
+  highlightCurrentWord(filter)
+)
 
 // Dynamically importing themes inline
 import { loadTheme } from "prism-code-editor/themes"

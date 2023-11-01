@@ -11,7 +11,11 @@ import "prism-code-editor/grammars/clike"
 import "prism-code-editor/grammars/python"
 import { copyButton } from "prism-code-editor/copy-button"
 import { defaultCommands } from "prism-code-editor/commands"
-import { highlightSelectionMatches, searchWidget } from "prism-code-editor/search"
+import {
+	highlightSelectionMatches,
+	searchWidget,
+	highlightCurrentWord,
+} from "prism-code-editor/search"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { markdownFolding, readOnlyCodeFolding } from "prism-code-editor/code-folding"
 import { matchTags } from "prism-code-editor/match-tags"
@@ -25,7 +29,7 @@ import {
 	editorFromPlaceholder,
 	isMac,
 } from "prism-code-editor"
-import { getModifierCode } from "prism-code-editor/utils"
+import { getClosestToken, getModifierCode } from "prism-code-editor/utils"
 import { loadTheme } from "prism-code-editor/themes"
 import { editor, editors, placeholders, startOptions, style, wrapper } from "./index"
 import { startCode } from "./examples1"
@@ -43,7 +47,7 @@ const errorEl = <HTMLDivElement>wrapper.querySelector(".error")!
 const errorMessage = <HTMLPreElement>errorEl.lastElementChild
 
 const makeEditor = (add: boolean, options?: Partial<EditorOptions>) =>
-	createEditor(add ? wrapper : undefined, options, matchBrackets(true), indentGuides())
+	createEditor(add ? wrapper : undefined, options, matchBrackets(), indentGuides())
 
 const runBtn = <HTMLButtonElement>document.getElementById("run")
 
@@ -82,7 +86,16 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 		activeEditor = +!activeEditor
 	}
 
-const langs = ["tsx", "jsx", "typescript", "javascript", "typescript", "html", "javascript", "markdown"]
+const langs = [
+	"tsx",
+	"jsx",
+	"typescript",
+	"javascript",
+	"typescript",
+	"html",
+	"javascript",
+	"markdown",
+]
 
 const inputs = ["readOnly", "wordWrap", "lineNumbers"].map(
 	id => <HTMLInputElement>document.getElementById(id)!,
@@ -110,6 +123,13 @@ const observer = new IntersectionObserver(entries =>
 				copyButton(),
 			))
 			addExtensions(editor)
+			if (index == 7) {
+				editor.addExtensions(
+					highlightCurrentWord(
+						start => !getClosestToken(editor, ".string,.comment,.keyword,.regex", 0, 0, start),
+					),
+				)
+			}
 			if (index == 8) {
 				editor.addExtensions(readOnlyCodeFolding(markdownFolding))
 				addOverscroll(editor)
@@ -165,7 +185,8 @@ inputs.forEach(
 			})
 		}),
 )
-;[editor, editors[0]].forEach(addExtensions)
+addExtensions(editor)
+addExtensions(editors[0])
 editors[0].addExtensions(copyButton())
 
 commands.Enter = (e, selection, value) => {
