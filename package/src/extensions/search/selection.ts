@@ -2,7 +2,7 @@ import { EditorEventMap, Extension, PrismEditor } from "../.."
 import { SearchAPI, SearchFilter, createSearchAPI } from "./search"
 
 export interface WordHighlighter extends Extension {
-	/** Sets the search filter used. Useful for updating the filter after changing an editors language. */
+	/** Sets the search filter used. Useful for updating the filter after changing an editor's language. */
 	setFilter(newFilter: SearchFilter): void
 }
 
@@ -59,10 +59,11 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
  * This filters away all words that start inside a string, comment or keyword or regex token.
  * Different filter functions should be chosen based on language.
  * ```
+ * const selector = ".string, .comment, .keyword, .regex"
+ * const filter = start => !getClosestToken(editor, selector, 0, 0, start)
+ * 
  * editor.addExtensions(
- * 	highlightCurrentword(
- * 		start => !getClosestToken(editor, ".string, .comment, .keyword, .regex", 0, 0, start)
- * 	)
+ * 	highlightCurrentword(filter)
  * )
  * ```
  */
