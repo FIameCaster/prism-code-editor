@@ -134,7 +134,7 @@ Object.assign(js, {
 		},
 		{
 			pattern:
-				/(^|[^.]|\.\.\.\s*)\b(?:await|break|catch|continue|do|else|finally|for|if|return|switch|throw|try|while|yield)\b/,
+				/(^|[^.]|\.\.\.\s*)\b(?:await|break|case|catch|continue|do|else|finally|for|if|return|switch|throw|try|while|yield)\b/,
 			alias: "control-flow",
 			lookbehind: true,
 		},

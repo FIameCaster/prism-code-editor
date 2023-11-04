@@ -38,34 +38,8 @@ export const PrismEditorReact = forwardRef((
   />
 }`,
 
-	`// extensions.ts
-import "prism-code-editor/search.css"
-import "prism-code-editor/copy-button.css"
-import "prism-code-editor/languages/html"
-import "prism-code-editor/languages/clike"
-import "prism-code-editor/languages/css"
-
-import { PrismEditor } from "prism-code-editor"
-import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
-import { defaultCommands } from "prism-code-editor/commands"
-import { cursorPosition } from "prism-code-editor/cursor"
-import { copyButton } from "prism-code-editor/copy-button"
-import { matchTags } from "prism-code-editor/match-tags"
-import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
-
-export const addExtensions = (editor: PrismEditor) => {
-  editor.addExtensions(
-    highlightSelectionMatches(),
-    searchWidget(),
-    defaultCommands(),
-    copyButton(),
-    matchTags(),
-    highlightBracketPairs(),
-    cursorPosition(),
-  )
-}`,
-
-	`import "prism-code-editor/grammars/markup"
+	`// index.ts
+import "prism-code-editor/grammars/markup"
 import "prism-code-editor/grammars/css-extras"
 import "prism-code-editor/grammars/js-extras"
 
@@ -78,16 +52,39 @@ import "prism-code-editor/layout.css"
 import "prism-code-editor/scrollbar.css"
 import "prism-code-editor/themes/github-dark.css"
 
-const editor = createEditor(
+export const editor = createEditor(
   "#editor",
   { language: "html" },
   indentGuides(),
   matchBrackets(),
 )
+  
+import('./extensions')`,
 
-import('./extensions').then(module => {
-  module.addExtensions(editor)
-})`,
+	`// extensions.ts
+import "prism-code-editor/search.css"
+import "prism-code-editor/copy-button.css"
+import "prism-code-editor/languages/html"
+import "prism-code-editor/languages/clike"
+import "prism-code-editor/languages/css"
+
+import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
+import { defaultCommands } from "prism-code-editor/commands"
+import { cursorPosition } from "prism-code-editor/cursor"
+import { copyButton } from "prism-code-editor/copy-button"
+import { matchTags } from "prism-code-editor/match-tags"
+import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
+import { editor } from "./index"
+
+editor.addExtensions(
+  highlightSelectionMatches(),
+  searchWidget(),
+  defaultCommands(),
+  copyButton(),
+  matchTags(),
+  highlightBracketPairs(),
+  cursorPosition(),
+)`,
 
 	`import {
   addBasicEditor, PrismEditorElement
@@ -123,7 +120,7 @@ console.log(editorElement.editor)`,
 	`import { createEditor } from "prism-code-editor"
 const editor = createEditor("#editor", { language: "html" })
 
-// Adding the word highlighting that's present in this editor
+// Adding the word highlighting extension
 import { highlightCurrentWord } from "prism-code-editor/search"
 import { getClosestToken } from "prism-code-editor/utils"
 

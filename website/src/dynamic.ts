@@ -90,12 +90,21 @@ const langs = [
 	"tsx",
 	"jsx",
 	"typescript",
-	"javascript",
+	"typescript",
 	"typescript",
 	"html",
 	"javascript",
 	"markdown",
 ]
+
+const addWordHighlight = (editor: PrismEditor, jsx?: boolean) => {
+	let selector =
+		".string,.comment,.keyword,.regex" + (jsx ? ",.tag>.tag,.tag>.attr-value,.plain-text" : "")
+
+	editor.addExtensions(
+		highlightCurrentWord(start => !getClosestToken(editor, selector, 0, 0, start)),
+	)
+}
 
 const inputs = ["readOnly", "wordWrap", "lineNumbers"].map(
 	id => <HTMLInputElement>document.getElementById(id)!,
@@ -118,17 +127,13 @@ const observer = new IntersectionObserver(entries =>
 					language: langs[index - 1],
 					value: code[index - 1],
 				},
-				matchBrackets(true),
+				matchBrackets(),
 				indentGuides(),
 				copyButton(),
 			))
 			addExtensions(editor)
-			if (index == 7) {
-				editor.addExtensions(
-					highlightCurrentWord(
-						start => !getClosestToken(editor, ".string,.comment,.keyword,.regex", 0, 0, start),
-					),
-				)
+			if (index < 6 || index == 7) {
+				addWordHighlight(editor, index < 3)
 			}
 			if (index == 8) {
 				editor.addExtensions(readOnlyCodeFolding(markdownFolding))
@@ -187,6 +192,7 @@ inputs.forEach(
 )
 addExtensions(editor)
 addExtensions(editors[0])
+addWordHighlight(editors[0])
 editors[0].addExtensions(copyButton())
 
 commands.Enter = (e, selection, value) => {
