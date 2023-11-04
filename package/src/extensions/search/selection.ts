@@ -52,6 +52,9 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
  * Extension that highlights all instances of the word the cursor is on if there's no selection.
  * @param filter Function that can filter away matches based on their position.
  * The filter can be changed later using the `setFilter` method.
+ * @param includeHyphens A function returning whether or not hyphens should be included in the search.
+ * For languages that don't commonly use hyphens as an operator (such as CSS), it makes sense to
+ * return true. If this parameter is omitted, hyphens are not included.
  *
  * The CSS-selector `.word-matches span` can be used to style the matches.
  *
@@ -61,36 +64,38 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
  * ```
  * const selector = ".string, .comment, .keyword, .regex"
  * const filter = start => !getClosestToken(editor, selector, 0, 0, start)
- * 
+ * const includeHyphens = position => getLanguage(editor, position) == "css"
+ *
  * editor.addExtensions(
- * 	highlightCurrentWord(filter)
+ * 	highlightCurrentWord(filter, includeHyphens)
  * )
  * ```
  */
-const highlightCurrentWord = (filter?: SearchFilter): WordHighlighter =>
+const highlightCurrentWord = (
+	filter?: SearchFilter,
+	includeHyphens?: (cursorPosition: number) => boolean,
+): WordHighlighter =>
 	Object.assign(
 		extensionTemplate("word-matches", (editor, searchAPI) => {
 			let noHighlight = false
 			editor.addListener("update", () => (noHighlight = true))
 
 			return ([start, end], value) => {
-				let before = value.slice(0, start).match(/[\p{L}_$\d-]*$/u)!
-				let index = before.index!
-				let word = before[0] + value.slice(start).match(/^[\p{L}_$\d-]*/u)![0]
-				searchAPI.search(
-					noHighlight ||
-						start != end ||
-						!editor.focused ||
-						/^-*\d/.test(word) ||
-						(filter && !filter(index, index + word.length))
-						? ""
-						: word,
-					true,
-					true,
-					false,
-					undefined,
-					filter,
-				)
+				if (start != end || !editor.focused || noHighlight) searchAPI.search("")
+				else {
+					let group = `[\\p{L}_$\\d${includeHyphens && includeHyphens(start) ? "-" : ""}]*`
+					let before = value.slice(0, start).match(RegExp(group + "$", "u"))!
+					let index = before.index!
+					let word = before[0] + value.slice(start).match(RegExp("^" + group, "u"))![0]
+					searchAPI.search(
+						/^-*(\d|$)/.test(word) || (filter && !filter(index, index + word.length)) ? "" : word,
+						true,
+						true,
+						false,
+						undefined,
+						filter,
+					)
+				}
 				noHighlight = false
 			}
 		}),
