@@ -13,7 +13,7 @@ There are multiple fully featured code editors for the web such as Monaco, Ace a
 
 This library overlays syntax highlighted code over a `<textarea>`. Libraries like [CodeFlask](https://github.com/kazzkiq/CodeFlask), [react-simple-code-editor](https://github.com/react-simple-code-editor/react-simple-code-editor) and many others have been doing this for years, but this library offers some distinct advantages:
 
-- It patches Prism's core, so it no longer relies on global variables and strips away unneeded methods making it nearly 60% smaller.
+- It patches Prism's core, so it no longer relies on global variables and strips away unneeded methods making it less than 40% the size.
 - It re-exports Prism's languages that now automatically import their required dependencies and embedded languages are resolved at runtime.
 - It splits the highlighted code into lines. This makes it easy to add line numbers, highlight a line and only update changed lines in the DOM for efficient updates.
 - The core is light as a feather with a wide array of [extensions](#extensions) you can choose from and multiple events to listen to.
@@ -74,38 +74,8 @@ const editor = fullEditor(
 
 With little effort, you can fully customize which extensions are added and how they're loaded. This won't use a shadow root which makes the editor much easier to style and customize.
 
-To minimize your main JavaScript bundle, you can dynamically import all extensions *(but some probably shouldn't be)*. This can be made easier by creating a module that exports a function adding the extensions.
-
-```typescript
-// extensions.ts
-import "prism-code-editor/search.css"
-import "prism-code-editor/copy-button.css"
-import "prism-code-editor/languages/html"
-import "prism-code-editor/languages/clike"
-import "prism-code-editor/languages/css"
-
-import { PrismEditor } from "prism-code-editor"
-import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
-import { defaultCommands } from "prism-code-editor/commands"
-import { cursorPosition } from "prism-code-editor/cursor"
-import { copyButton } from "prism-code-editor/copy-button"
-import { matchTags } from "prism-code-editor/match-tags"
-import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
-
-export const addExtensions = (editor: PrismEditor) => {
-  editor.addExtensions(
-    highlightSelectionMatches(),
-    searchWidget(),
-    defaultCommands(),
-    copyButton(),
-    matchTags(),
-    highlightBracketPairs(),
-    cursorPosition(),
-  )
-}
-```
-
 ```javascript
+// index.ts
 import "prism-code-editor/grammars/markup"
 import "prism-code-editor/grammars/css-extras"
 import "prism-code-editor/grammars/js-extras"
@@ -119,16 +89,43 @@ import "prism-code-editor/layout.css"
 import "prism-code-editor/scrollbar.css"
 import "prism-code-editor/themes/github-dark.css"
 
-const editor = createEditor(
+export const editor = createEditor(
   "#editor",
   { language: "html" },
   indentGuides(),
   matchBrackets(),
 )
+  
+import('./extensions')
+```
 
-import('./extensions').then(module => {
-  module.addExtensions(editor)
-})
+To minimize your main JavaScript bundle, you can dynamically import all extensions *(but some probably shouldn't be)*.
+
+```typescript
+// extensions.ts
+import "prism-code-editor/search.css"
+import "prism-code-editor/copy-button.css"
+import "prism-code-editor/languages/html"
+import "prism-code-editor/languages/clike"
+import "prism-code-editor/languages/css"
+
+import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
+import { defaultCommands } from "prism-code-editor/commands"
+import { cursorPosition } from "prism-code-editor/cursor"
+import { copyButton } from "prism-code-editor/copy-button"
+import { matchTags } from "prism-code-editor/match-tags"
+import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
+import { editor } from "./index"
+
+editor.addExtensions(
+  highlightSelectionMatches(),
+  searchWidget(),
+  defaultCommands(),
+  copyButton(),
+  matchTags(),
+  highlightBracketPairs(),
+  cursorPosition(),
+)
 ```
 
 ## Examples
