@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   prismjs@1.29.0:
-    hash: 3yloe5jcs3vwsgrgmng6nycblu
+    hash: xv7x2jg65oeoc65gvnt4azc6jq
     path: patches/prismjs@1.29.0.patch
 
 dependencies:
@@ -17,7 +17,7 @@ dependencies:
 devDependencies:
   prismjs:
     specifier: ^1.29.0
-    version: 1.29.0(patch_hash=3yloe5jcs3vwsgrgmng6nycblu)
+    version: 1.29.0(patch_hash=xv7x2jg65oeoc65gvnt4azc6jq)
   typedoc:
     specifier: ^0.25.1
     version: 0.25.1(typescript@5.1.6)
@@ -735,7 +735,7 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /prismjs@1.29.0(patch_hash=3yloe5jcs3vwsgrgmng6nycblu):
+  /prismjs@1.29.0(patch_hash=xv7x2jg65oeoc65gvnt4azc6jq):
     resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
     engines: {node: '>=6'}
     dev: true
