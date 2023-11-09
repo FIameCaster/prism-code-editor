@@ -1,7 +1,6 @@
 .prism-code-editor {
 	overflow: auto;
 	display: grid;
-	outline: 0;
 	background: var(--editor__bg);
 	line-height: 1.4;
 	--_pse: var(--padding-inline, 0.75em);
@@ -23,6 +22,8 @@
 	margin: 0.5em 0;
 	position: relative;
 	pointer-events: none;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
 }
 
 .prism-code-editor textarea {

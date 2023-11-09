@@ -287,12 +287,6 @@ const createEditor = (
 		dispatchSelection()
 		preventDefault(e)
 	})
-	// Hack to fix an obscure fontsize bug on iOS Safari when overflowing horizontally
-	if (isWebKit) {
-		scrollContainer.contentEditable = <any>true
-		wrapper.contentEditable = <any>false
-		scrollContainer.tabIndex = -1
-	}
 
 	containerEl?.append(scrollContainer)
 	options && setOptions(options)
