@@ -105,17 +105,11 @@ const createEditor = (
 			return str
 		}
 
-		const stringify = (token: string | Prism.TokenStream | Prism.Token): string => {
+		const stringify = (token: Prism.TokenStream | Prism.Token): string => {
 			if (token instanceof Prism.Token) {
 				let { type, alias, content } = token,
-					className = ""
-
-				if (alias) {
-					if (Array.isArray(alias))
-						for (let i = 0; i < alias.length; ) className += " " + alias[i++]
-					else className += " " + alias
-				}
-				let prevOpening = openingTags,
+					className = alias ? " " + (typeof alias == "string" ? alias : alias.join(" ")) : "",
+					prevOpening = openingTags,
 					prevClosing = closingTags,
 					opening = `<span class="token ${
 						type + className + (type == "keyword" ? " keyword-" + content : "")
@@ -129,7 +123,7 @@ const createEditor = (
 				return opening + contentStr + closingTag
 			}
 
-			return Array.isArray(token)
+			return typeof token != "string"
 				? stringifyAll(token)
 				: (token = token.replace(/&/g, "&amp;").replace(/</g, "&lt;")).includes("\n") && closingTags
 				? token.replace(/\n/g, closingTags + "\n" + openingTags)
