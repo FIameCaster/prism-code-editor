@@ -10,7 +10,7 @@ import { indentGuides } from "prism-code-editor/guides"
 
 const style = document.createElement("style")
 const wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!
-const placeholders = document.querySelectorAll<HTMLDivElement>("section > div")
+const placeholders = document.querySelectorAll<HTMLDivElement>("main>div")
 
 const editor = createEditor(
 	wrapper,
@@ -18,7 +18,7 @@ const editor = createEditor(
 		language: "javascript",
 		value: startOptions,
 	},
-	matchBrackets(true),
+	matchBrackets(),
 	indentGuides(),
 )
 
@@ -26,7 +26,7 @@ const editors = [
 	editorFromPlaceholder(
 		placeholders[0],
 		{ language: "javascript", value: basicUsage },
-		matchBrackets(true),
+		matchBrackets(),
 		indentGuides(),
 	),
 ]

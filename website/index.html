@@ -10,47 +10,47 @@
 </head>
 <body>
 	<main>
-		<h1>Prism code editor</h1>
-		<p class="description">Lightweight, extensible code editor component for the web using <a class="link" href="https://github.com/PrismJS/prism">Prism</a></p>
-		<div class="rows">
-			<div>
-				<a class="btn" href="https://github.com/FIameCaster/prism-code-editor">GitHub</a>
-				<a class="btn" href="/api">API Docs</a>
-			</div>
-			<label style="grid: 1fr / auto 1fr">
-				Theme:
-				<div class="select">
-					<select id="themes">
-						<option>Atom One Dark</option>
-						<option>Dracula</option>
-						<option selected>Github Dark</option>
-						<option>Github Dark Dimmed</option>
-						<option>Github Light</option>
-						<option>Night Owl</option>
-						<option>Prism</option>
-						<option>Prism Okaidia</option>
-						<option>Prism Solarized Light</option>
-						<option>Prism Twilight</option>
-						<option>VS Code Dark</option>
-						<option>VS Code Light</option>
-					</select>
+		<section>
+			<h1>Prism code editor</h1>
+			<p class="description">Lightweight, extensible code editor component for the web using <a class="link" href="https://github.com/PrismJS/prism">Prism</a></p>
+			<div class="rows">
+				<div>
+					<a class="btn" href="https://github.com/FIameCaster/prism-code-editor">GitHub</a>
+					<a class="btn" href="/api">API Docs</a>
 				</div>
-			</label>
-		</div>
-		<div class="editor-wrapper">
-			<div class="header">
-				<button class="tab active">Config</button>
-				<button class="tab">Result</button>
-				<div class="error" tabindex="0" aria-hidden="true">
-					<svg viewbox="0 0 19 17"><path d="M9.5 2L2 15L17 15Z"/></svg>
-					<pre class="message"></pre>
-				</div>
-				<button id="run" aria-hidden="true">Run</button>
+				<label style="grid: 1fr / auto 1fr">
+					Theme:
+					<div class="select">
+						<select id="themes">
+							<option>Atom One Dark</option>
+							<option>Dracula</option>
+							<option selected>Github Dark</option>
+							<option>Github Dark Dimmed</option>
+							<option>Github Light</option>
+							<option>Night Owl</option>
+							<option>Prism</option>
+							<option>Prism Okaidia</option>
+							<option>Prism Solarized Light</option>
+							<option>Prism Twilight</option>
+							<option>VS Code Dark</option>
+							<option>VS Code Light</option>
+						</select>
+					</div>
+				</label>
 			</div>
-		</div>
-		<p>You can change the config above and see the result.</p>
-	</main>
-	<section>
+			<div class="editor-wrapper">
+				<div class="header">
+					<button class="tab active">Config</button>
+					<button class="tab">Result</button>
+					<div class="error" tabindex="0" aria-hidden="true">
+						<svg viewbox="0 0 19 17"><path d="M9.5 2L2 15L17 15Z"/></svg>
+						<pre class="message"></pre>
+					</div>
+					<button id="run" aria-hidden="true">Run</button>
+				</div>
+			</div>
+			<p>You can change the config above and see the result.</p>
+		</section>
 		<h2>Key features</h2>
 		<ul class="grid">
 			<li>Core is &lt; 4kB including Prism</li>
@@ -67,49 +67,41 @@
 			<li>Bracket matching and rainbow brackets</li>
 			<li>Works great on mobile</li>
 		</ul>
-	</section>
-	<section>
+
 		<h2 style="font-size: 2rem">Example settings</h2>
 		<p style="display: grid;">
 			<label><input type="checkbox" id="readOnly">Readonly</label>
 			<label><input type="checkbox" id="wordWrap">Word wrap</label>
 			<label><input type="checkbox" id="lineNumbers" checked>Line numbers</label>
 		</p>
-	</section>
-	<section>
+
 		<h2>Basic usage</h2>
 		<p>You can import 4 different setups. These will automatically import the necessary styles and scope them with a shadow root while adding various extensions. These are only recommended for quickly getting started.</p>
 		<div style="height:29.4rem"></div>
-	</section>
-	<section>
+
 		<h2>With frameworks</h2>
 		<p>The API is very friendly towards creating wrappers for most frameworks. Under is an example of a wrapper for React.</p>
 		<div style="height:55.4rem"></div>
 		<p>This is how the component could be used:</p>
 		<div style="height:21.4rem"></div>
-	</section>
-	<section>
+
 		<h2>Advanced usage</h2>
 		<p>With little effort, you can fully customize which extensions are added and how they're loaded.</p>
 		<div style="height:45.4rem"></div>
 		<p>To minimize your main javascript bundle, you can dynamically import extensions.</p>
 		<div style="height:49.4rem"></div>
-	</section>
-	<section>
+
 		<h2>Web components</h2>
 		<p>The library includes a custom element wrapper for each of the 4 setups you can import.</p>
 		<div style="height:29.4rem"></div>
 		<p>The custom element can be used like this:</p>
 		<div style="height:31.4rem"></div>
-	</section>
-	<section>
-		<h2 style="border: 0; padding: 0;">Various examples</h2>
+
+		<h2 style="border: 0; padding-bottom: 0;">Various examples</h2>
 		<div style="height:79.4rem"></div>
-	</section>
-	<section id="folding">
-		<h2>Read-only code folding</h2>
+		<h2 id="folding">Read-only code folding</h2>
 		<p>In read-only editors, you can add code folding. You can see both how the code folding works and how to add it below. Overscrolling has also been added to this editor.</p>
 		<div></div>
-	</section>
+	</main>
 </body>
 </html>

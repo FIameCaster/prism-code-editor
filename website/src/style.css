@@ -4,8 +4,8 @@
 	--color: #000;
 	--bg-btn: #f6f8fa;
 	--border: #d0d7de;
-	--focus-shadow: hsl(210, 100%, 30%, 0.3);
-	--focus-ring: hsl(210, 75%, 50%);
+	--focus-shadow: #004c994d;
+	--focus-ring: #207fdf;
 }
 
 body {
@@ -15,7 +15,6 @@ body {
 	font-size: 1.6rem;
 	margin: 0;
 	line-height: 1.5;
-	padding: 4.4rem 1.4rem 0;
 	font-weight: 300;
 }
 
@@ -69,10 +68,9 @@ select:focus {
 
 section,
 main {
-	max-width: 75rem;
 	margin: auto;
-	padding: 2rem 0;
 	display: grid;
+	gap: 1.4rem;
 }
 
 h1 {
@@ -86,9 +84,8 @@ h1, h2 {
 }
 
 main {
-	gap: 2rem;
-	justify-items: center;
-	text-align: center;
+	max-width: 77.8rem;
+	padding: 6.4rem 1.4rem 1.4rem;
 }
 
 .description {
@@ -97,11 +94,14 @@ main {
 }
 
 section {
-	gap: 1.4rem;
+	gap: 2rem;
+	text-align: center;
+	justify-items: center;
+	width: 100%;
 }
 
-section h2 {
-	padding-bottom: 0.5em;
+main h2 {
+	padding: 2.6rem 0 0.5em;
 	font-size: 2.8rem;
 	border-bottom: 1px solid var(--border);
 }
@@ -110,15 +110,13 @@ section h2 {
 	visibility: hidden;
 }
 
-section > div,
+main > div,
 .editor-wrapper {
-	width: 100%;
 	border-radius: 0.3em;
 }
 
 .editor-wrapper {
-	height: calc(100vh - 16rem);
-	max-height: 43.82rem;
+	height: min(43.82rem, 100vh - 16rem);
 	border: 1px solid var(--border);
 	margin-top: 3rem;
 	text-align: start;
@@ -126,6 +124,12 @@ section > div,
 	display: grid;
 	grid-template-rows: auto 1fr;
 	font-weight: 400;
+	width: 100%;
+	resize: vertical;
+}
+
+main > .prism-code-editor {
+	resize: vertical;
 }
 
 .prism-code-editor {
@@ -279,20 +283,19 @@ option {
 	font-size: 1.8rem;
 }
 
-#folding > div {
+#folding ~ div {
 	--number-spacing: 1.5em;
-	height: calc(100vh - 16rem);
-	max-height: 59.4rem;
+	height: min(59.4rem, 100vh - 16rem);
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
 		--bg: #0d1117;
-		--color: hsl(210, 9%, 93%);
-		--bg-btn: hsl(220, 13%, 9%);
-		--border: #30363d;
-		--focus-shadow: hsl(210, 100%, 67%, 0.2);
-		--focus-ring: hsl(210, 70%, 60%);
+    --color: #ecedef;
+    --bg-btn: #14161a;
+    --border: #30363d;
+    --focus-shadow: #57abff33;
+    --focus-ring: #5299e0;
 		color-scheme: dark;
 	}
 	.header {
