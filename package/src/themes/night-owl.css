@@ -67,25 +67,24 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 
 .token.keyword,
 .token.punctuation,
-.selector .token.punctuation,
 .tag .token.script-punctuation,
 .token.literal-property,
 .token.operator,
 .token.atrule .rule,
 .language-css .important,
-.language-scss .important,
-.language-sass .important,
 .language-markdown .italic * {
 	color: #c792ea;
 }
 
 [class*="language-"],
 .language-css .punctuation,
-.language-scss .punctuation,
-.language-sass .punctuation,
 .language-markdown .code.keyword,
 .language-markdown .url .content {
 	color: #d6deeb;
+}
+
+.selector .punctuation {
+	color: #c792ea;
 }
 
 .token.tag,
@@ -128,25 +127,26 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .tag .punctuation,
 .doctype .punctuation,
 .selector .combinator,
+.selector .operator,
 .token.attr-equals,
 .token.property-access,
 .language-markdown .url .markup-bracket {
 	color: #7fdbca;
 }
 
+.selector .id {
+	color: #fad430;
+}
+
 .token.attr-value > .punctuation {
 	color: #d9f5dd;
 }
-
 .token.attr-name,
 .doctype .name,
 .token.variable,
 .selector .class,
 .selector .pseudo-element,
 .selector .pseudo-class,
-.language-css .function,
-.language-scss .function,
-.language-sass .function,
 .language-typescript .token.builtin,
 .language-tsx .token.builtin,
 .language-markdown .bold *,
@@ -183,8 +183,18 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.keyword,
 .token.italic,
 .token.attr-name,
+.token.pseudo-class,
+.token.pseudo-element,
+.selector .class,
+.selector .id,
+.token.atrule .rule,
 .doctype .name {
 	font-style: italic;
+}
+
+.language-css .function {
+	color: #c5e478;
+	font-style: normal;
 }
 
 .token.keyword-this,

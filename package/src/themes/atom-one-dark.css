@@ -60,6 +60,7 @@
 .token.keyword,
 .selector .punctuation,
 .selector .combinator,
+.selector .operator,
 .token.token.arrow {
 	color: #c678dd;
 }
@@ -94,6 +95,7 @@
 .token.this
 .token.variable,
 .token.selector,
+.language-css .variable,
 .token.property-access {
 	color: #e06c75;
 }

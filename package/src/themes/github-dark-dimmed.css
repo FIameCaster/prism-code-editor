@@ -94,6 +94,7 @@
 
 .token.builtin,
 .token.selector .class,
+.token.selector .id,
 .token.pseudo-class,
 .token.pseudo-element,
 .token.attr-name,
