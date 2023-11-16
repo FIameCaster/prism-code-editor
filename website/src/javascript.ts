@@ -46,7 +46,7 @@ Object.assign(js, {
 		alias: "comment",
 	},
 	"template-string": {
-		pattern: /`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,
+		pattern: /`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}|(?!\$\{)[^\\`])*`/g,
 		greedy: true,
 		inside: {
 			"template-punctuation": {
@@ -54,7 +54,7 @@ Object.assign(js, {
 				alias: "string",
 			},
 			interpolation: {
-				pattern: /((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
+				pattern: /((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/,
 				lookbehind: true,
 				inside: {
 					"interpolation-punctuation": {

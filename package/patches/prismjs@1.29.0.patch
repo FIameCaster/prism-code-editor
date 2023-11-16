@@ -4041,7 +4041,7 @@ index 187d2cd74a6848a0ac8bd67da899ce72514dbdf9..c7868c8f10c2d18242b8721e786a1cd2
  
  }(Prism));
 diff --git a/components/prism-javascript.js b/components/prism-javascript.js
-index 7eda6c617f96726ca2ea12cda1e39527d67e7295..c70b329ce36842500f9227f7e340bc86e97f4ba5 100644
+index 7eda6c617f96726ca2ea12cda1e39527d67e7295..f81496b40e16e9afcee418ae1740d1a21598ed41 100644
 --- a/components/prism-javascript.js
 +++ b/components/prism-javascript.js
 @@ -1,76 +1,50 @@
@@ -4154,7 +4154,7 @@ index 7eda6c617f96726ca2ea12cda1e39527d67e7295..c70b329ce36842500f9227f7e340bc86
  			},
  			'regex-delimiter': /^\/|\/$/,
  			'regex-flags': /^[a-z]+$/,
-@@ -90,31 +64,19 @@ Prism.languages.insertBefore('javascript', 'keyword', {
+@@ -90,38 +64,26 @@ Prism.languages.insertBefore('javascript', 'keyword', {
  		alias: 'function'
  	},
  	'parameter': [
@@ -4196,7 +4196,23 @@ index 7eda6c617f96726ca2ea12cda1e39527d67e7295..c70b329ce36842500f9227f7e340bc86
  	'hashbang': {
  		pattern: /^#!.*/,
  		greedy: true,
-@@ -136,7 +98,7 @@ Prism.languages.insertBefore('javascript', 'string', {
+ 		alias: 'comment'
+ 	},
+ 	'template-string': {
+-		pattern: /`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}|(?!\$\{)[^\\`])*`/,
++		pattern: /`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}|(?!\$\{)[^\\`])*`/g,
+ 		greedy: true,
+ 		inside: {
+ 			'template-punctuation': {
+@@ -129,14 +91,14 @@ Prism.languages.insertBefore('javascript', 'string', {
+ 				alias: 'string'
+ 			},
+ 			'interpolation': {
+-				pattern: /((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
++				pattern: /((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/,
+ 				lookbehind: true,
+ 				inside: {
+ 					'interpolation-punctuation': {
  						pattern: /^\$\{|\}$/,
  						alias: 'punctuation'
  					},
