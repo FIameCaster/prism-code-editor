@@ -308,5 +308,6 @@ button.pce-whole {
 }
 
 .pce-matches :empty {
-	box-shadow: 0 0 0 2px var(--search__bg-find);
+	padding: 0 2px;
+	margin: 0 -2px;
 }

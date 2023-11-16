@@ -4,7 +4,7 @@ import { PrismEditor } from "../../types"
 
 const template = createTemplate(
 	"",
-	"color:#0000;display:none;contain:strict;padding:0 var(--padding-inline,.75em) 0 var(--padding-left);",
+	"color:#0000;display:none;contain:strict;padding:0 var(--_pse) 0 var(--padding-left);",
 )
 
 export type SearchFilter = (start: number, end: number) => boolean
@@ -64,7 +64,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 			if (!useRegExp) str = regexEscape(str)
 			const value = editor.value,
 				searchStr = selection ? value.slice(...selection) : value,
-				offset = selection?.[0] || 0,
+				offset = selection ? selection[0] : 0,
 				flags = `gum${caseSensitive ? "" : "i"}`,
 				filterFn =
 					typeof filter == "number"
@@ -85,10 +85,10 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 						flags,
 					)
 				while ((match = regex.exec(searchStr))) {
-					;(l = match[0].length) || regex.lastIndex++
-					index = match.index
-					if (!filterFn || filterFn(index, index + l))
-						matchPositions[i++] = [index + offset, index + l + offset]
+					l = match[0].length
+					index = match.index + offset
+					if (!l) regex.lastIndex += value.codePointAt(index)! > 0xffff ? 2 : 1
+					if (!filterFn || filterFn(index, index + l)) matchPositions[i++] = [index, index + l]
 				}
 			} catch (e) {
 				return (<Error>e).message
