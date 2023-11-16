@@ -221,9 +221,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 			}
 			editor.scrollContainer.style.setProperty(
 				"--padding-left",
-				options.lineNumbers == false
-					? "calc(var(--padding-inline,.75em) + var(--number-spacing,.75em))"
-					: "",
+				options.lineNumbers == false ? "calc(var(--_pse) + var(--_ns))" : "",
 			)
 			editor.addListener("update", createFolds)
 			setTimeout(editor.removeListener, 0, "update", createFolds)
@@ -242,7 +240,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 /**
  * Folding range provider that allows folding of block comments. For this to work,
  * you need to befine block comments in the {@link languageMap} for the language.
- * 
+ *
  * Simply pass this function as one of the arguments when calling {@link readOnlyCodeFolding}.
  */
 const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { language } }) => {
@@ -262,11 +260,7 @@ const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { l
 				if (comment)
 					folds.push([position + comment[0].length, position + length - comment[1].length])
 			} else if (Array.isArray(content))
-				findBlockComments(
-					content,
-					position,
-					type.indexOf("language-") ? language : type.slice(9),
-				)
+				findBlockComments(content, position, type.indexOf("language-") ? language : type.slice(9))
 			position += length
 		}
 	}
@@ -278,7 +272,7 @@ const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { l
 
 /**
  * Folding range provider that allows folding of titles and code blocks in markdown.
- * 
+ *
  * Simply pass this function as one of the arguments when calling {@link readOnlyCodeFolding}.
  */
 const markdownFolding: FoldingRangeProvider = ({ tokens, value, options: { language } }) => {

@@ -78,7 +78,7 @@ const options = {
   readOnly: false,
   wordWrap: false,
   value: code,
-	rtl: false,
+  rtl: false,
   onUpdate(code) {},
   onSelectionChange([start, end, direction], code) {},
   onTokenize({ language, code, grammar, tokens }) {}

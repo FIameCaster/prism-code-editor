@@ -149,7 +149,7 @@ const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
 		style2 = document.documentElement.style
 
 	style1.scrollPaddingBlock = style2.scrollPaddingBlock = `${paddingTop}px ${
-		isChrome && !el.innerText ? Math.round(el.getBoundingClientRect().height - el.scrollHeight) : 0
+		isChrome && !el.textContent ? el.offsetHeight : 0
 	}px`
 
 	el.scrollIntoView({ block: "nearest" })

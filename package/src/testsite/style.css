@@ -138,7 +138,7 @@ readonly-editor {
 }
 
 readonly-editor {
-	--number-spacing: 1.6em;
+	--number-spacing: 1.5em;
 }
 
 .error svg {
