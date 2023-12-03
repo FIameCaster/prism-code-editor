@@ -22,14 +22,8 @@ import { matchTags } from "prism-code-editor/match-tags"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
 import { addOverscroll } from "prism-code-editor/tooltips"
 
-import {
-	EditorOptions,
-	PrismEditor,
-	createEditor,
-	editorFromPlaceholder,
-	isMac,
-} from "prism-code-editor"
-import { getClosestToken, getModifierCode } from "prism-code-editor/utils"
+import { EditorOptions, PrismEditor, createEditor, editorFromPlaceholder } from "prism-code-editor"
+import { getClosestToken } from "prism-code-editor/utils"
 import { loadTheme } from "prism-code-editor/themes"
 import { editor, editors, placeholders, startOptions, style, wrapper } from "./index"
 import { startCode } from "./examples1"
@@ -110,9 +104,6 @@ const inputs = ["readOnly", "wordWrap", "lineNumbers"].map(
 	id => <HTMLInputElement>document.getElementById(id)!,
 )
 
-const commands = editor.keyCommandMap,
-	oldEnter = commands.Enter
-
 const observer = new IntersectionObserver(entries =>
 	entries.forEach(entry => {
 		if (entry.isIntersecting) {
@@ -147,8 +138,6 @@ const observer = new IntersectionObserver(entries =>
 placeholders.forEach((el, i) => i && observer.observe(el))
 
 editor.options.onUpdate = code => runBtn.setAttribute("aria-hidden", <any>(currentOptions == code))
-
-runBtn.title = isMac ? "(Cmd + Enter)" : "(Ctrl + Enter)"
 
 runBtn.onclick = () => {
 	currentOptions = editor.value
@@ -194,13 +183,6 @@ addExtensions(editor)
 addExtensions(editors[0])
 addWordHighlight(editors[0])
 editors[0].addExtensions(copyButton())
-
-commands.Enter = (e, selection, value) => {
-	if (getModifierCode(e) == (isMac ? 4 : 2) && value != currentOptions) {
-		runBtn.click()
-		return true
-	} else return oldEnter!(e, selection, value)
-}
 
 theme.oninput = () => {
 	loadTheme(theme.value.toLowerCase().replace(/ /g, "-")).then(theme => {
