@@ -137,9 +137,10 @@ export const matchTags = (): TagHighlighter => ({
 			let newEl2: HTMLSpanElement
 			if (start == end && editor.focused) {
 				let index = getClosestTagIndex(start, tags)!
+				let tag = tags[index]
 
-				if (index + 1) {
-					const tag1 = getClosestToken(editor, ".tag>.tag", -tags[index][2], 0)
+				if (tag && tag[4]) {
+					const tag1 = getClosestToken(editor, ".tag>.tag", -tag[2], 0)
 					const otherIndex = pairs[index]!
 
 					if (tag1 && otherIndex + 1) {
