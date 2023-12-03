@@ -81,7 +81,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 				// Reassigning the regex for cleaner error messages
 				if (wholeWord)
 					regex = RegExp(
-						supportsLookbehind ? `(?<=^|\\b|\\W)${str}(?=\\b|\\W|$)` : `\\b${str}\\b`,
+						supportsLookbehind ? `(?<=[^_\\d\\p{L}]|^)${str}(?=[^_\\d\\p{L}]|$)` : `\\b${str}\\b`,
 						flags,
 					)
 				while ((match = regex.exec(searchStr))) {
@@ -102,7 +102,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 					nodes[i++] = new Text()
 				}
 
-				for (let i = container.childNodes.length - 1; i > l; ) nodes[i--].remove()
+				for (let i = nodeCount - 1; i > l; ) nodes[i--].remove()
 				if (nodeCount <= l) container.append(...nodes.slice(nodeCount, l + 1))
 
 				// Diffing from bottom to top as well should be better

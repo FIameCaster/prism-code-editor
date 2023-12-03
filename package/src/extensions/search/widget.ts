@@ -70,13 +70,6 @@ export const searchWidget = (): SearchWidget => {
 			const { textarea, wrapper, overlays, scrollContainer, getSelection: selection } = editor,
 				replaceAPI = createReplaceAPI(editor)
 
-			const getSelectedWord = () => {
-				let [start, end] = selection(),
-					value = editor.value
-				if (start != end) return value.slice(start, end)
-				return value.slice(0, start).match(/\w*$/)![0] + value.slice(start).match(/^\w*/)![0]
-			}
-
 			const startSearch = (selectMatch?: boolean) => {
 				const error = replaceAPI.search(
 						findInput.value,
@@ -99,8 +92,13 @@ export const searchWidget = (): SearchWidget => {
 				// F or G + Ctrl/Cmd
 				if (e.keyCode >> 1 == 35 && getModifierCode(e) == (isMac ? 0b0100 : 0b0010)) {
 					preventDefault(e)
-					let word = getSelectedWord()
 					open()
+					let [start, end] = selection(),
+						value = editor.value,
+						word =
+							value.slice(start, end) ||
+							value.slice(0, start).match(/[\p{L}_\d]*$/u)![0] +
+								value.slice(start).match(/^[\p{L}_\d]*/u)![0]
 					if (/^$|\n/.test(word)) startSearch()
 					else {
 						if (useRegExp) word = regexEscape(word)
@@ -131,7 +129,7 @@ export const searchWidget = (): SearchWidget => {
 				selectNext = false
 			}
 
-			const open = (this.open = (focusInput = true) => {
+			const open = (focusInput = true) => {
 				if (!isOpen) {
 					isOpen = true
 					if (marginTop == null) prevMargin = marginTop = getStyleValue(wrapper, "marginTop")
@@ -143,7 +141,7 @@ export const searchWidget = (): SearchWidget => {
 					observer?.observe(scrollContainer)
 				}
 				if (focusInput) findInput.focus(), findInput.select()
-			})
+			}
 
 			const close = (this.close = (focusTextarea = true) => {
 				if (isOpen) {
@@ -286,6 +284,11 @@ export const searchWidget = (): SearchWidget => {
 				} else if (!shortcut && key == "Escape") close()
 				else keydown(e)
 			})
+
+			this.open = focusInput => {
+				open(focusInput)
+				startSearch()
+			}
 
 			overlays.append(container)
 			replaceAPI.container.className = "pce-matches"
