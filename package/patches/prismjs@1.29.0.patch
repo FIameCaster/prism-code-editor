@@ -5083,7 +5083,7 @@ index 70a99944ba94d62889b3adace9c21c7663cf0699..bf0066fd6928179a4df114efba4af334
  		),
  		alias: 'number'
 diff --git a/components/prism-kotlin.js b/components/prism-kotlin.js
-index 3b45dcbf577fc2c9fa769ea260079addda729bcf..7659ac17c2b0012eddcf360c30813e36882404f2 100644
+index 3b45dcbf577fc2c9fa769ea260079addda729bcf..1488dc57cdd61accd86048404537bffdc41d58fb 100644
 --- a/components/prism-kotlin.js
 +++ b/components/prism-kotlin.js
 @@ -1,5 +1,6 @@
@@ -5103,7 +5103,7 @@ index 3b45dcbf577fc2c9fa769ea260079addda729bcf..7659ac17c2b0012eddcf360c30813e36
  
  	var interpolationInside = {
  		'interpolation-punctuation': {
-@@ -29,7 +30,7 @@
+@@ -29,11 +30,11 @@
  		},
  		'expression': {
  			pattern: /[\s\S]+/,
@@ -5112,6 +5112,11 @@ index 3b45dcbf577fc2c9fa769ea260079addda729bcf..7659ac17c2b0012eddcf360c30813e36
  		}
  	};
  
+-	Prism.languages.insertBefore('kotlin', 'string', {
++	Prism.languages.insertBefore('kotlin', 'comment', {
+ 		// https://kotlinlang.org/spec/expressions.html#string-interpolation-expressions
+ 		'string-literal': [
+ 			{
 @@ -67,7 +68,7 @@
  		}
  	});
