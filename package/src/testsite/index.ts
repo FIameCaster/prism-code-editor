@@ -212,3 +212,7 @@ readonlyEditor.addEventListener("ready", () => {
 })
 
 addOverscroll(editor)
+
+document.querySelector<HTMLElement>("button.btn")!.onclick = () => {
+	editor2.extensions.searchWidget!.open()
+}

@@ -48,7 +48,7 @@ export const defaultCommands = (
 			value: string,
 			wrapOnly?: boolean,
 		) =>
-			(start != end ||
+			(start < end ||
 				(!wrapOnly && selfCloseRegex.test((value[end - 1] || " ") + open + (value[end] || " ")))) &&
 			!insertText(editor, open + value.slice(start, end) + close, null, null, start + 1, end + 1)!
 

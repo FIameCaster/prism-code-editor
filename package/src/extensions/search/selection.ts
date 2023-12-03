@@ -81,7 +81,7 @@ const highlightCurrentWord = (
 			editor.addListener("update", () => (noHighlight = true))
 
 			return ([start, end], value) => {
-				if (start != end || !editor.focused || noHighlight) searchAPI.search("")
+				if (start < end || !editor.focused || noHighlight) searchAPI.search("")
 				else {
 					let group = `[\\p{L}_$\\d${includeHyphens && includeHyphens(start) ? "-" : ""}]*`
 					let before = value.slice(0, start).match(RegExp(group + "$", "u"))!
