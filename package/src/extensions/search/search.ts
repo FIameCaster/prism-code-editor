@@ -7,6 +7,16 @@ const template = createTemplate(
 	"color:#0000;display:none;contain:strict;padding:0 var(--_pse) 0 var(--padding-left);",
 )
 
+const testBoundary = (str: string, position: number) => {
+	if (!position) return false
+	return /[_\p{N}\p{L}]{2}/u.test(
+		str.slice(
+			position - (str.codePointAt(position - 2)! > 0xffff ? 2 : 1),
+			position + (str.codePointAt(position)! > 0xffff ? 2 : 1),
+		),
+	)
+}
+
 export type SearchFilter = (start: number, end: number) => boolean
 
 /** Object with methods useful for performing a search and highlighting the matches. */
@@ -78,16 +88,11 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 					i = 0
 				matchPositions.length = 0
 				regex = RegExp(str, flags)
-				// Reassigning the regex for cleaner error messages
-				if (wholeWord)
-					regex = RegExp(
-						supportsLookbehind ? `(?<=[^_\\d\\p{L}]|^)${str}(?=[^_\\d\\p{L}]|$)` : `\\b${str}\\b`,
-						flags,
-					)
 				while ((match = regex.exec(searchStr))) {
 					l = match[0].length
 					index = match.index + offset
 					if (!l) regex.lastIndex += value.codePointAt(index)! > 0xffff ? 2 : 1
+					if (wholeWord && (testBoundary(value, index) || testBoundary(value, index + l))) continue
 					if (!filterFn || filterFn(index, index + l)) matchPositions[i++] = [index, index + l]
 				}
 			} catch (e) {
@@ -129,11 +134,5 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 }
 
 template.setAttribute("aria-hidden", <any>true)
-
-let supportsLookbehind: boolean
-try {
-	RegExp("(?<=)")
-	supportsLookbehind = true
-} catch {}
 
 export { createSearchAPI }

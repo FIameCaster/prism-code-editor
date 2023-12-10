@@ -97,8 +97,8 @@ export const searchWidget = (): SearchWidget => {
 						value = editor.value,
 						word =
 							value.slice(start, end) ||
-							value.slice(0, start).match(/[\p{L}_\d]*$/u)![0] +
-								value.slice(start).match(/^[\p{L}_\d]*/u)![0]
+							value.slice(0, start).match(/[_\p{N}\p{L}]*$/u)![0] +
+								value.slice(start).match(/^[_\p{N}\p{L}]*/u)![0]
 					if (/^$|\n/.test(word)) startSearch()
 					else {
 						if (useRegExp) word = regexEscape(word)
@@ -241,10 +241,10 @@ export const searchWidget = (): SearchWidget => {
 
 			textarea.addEventListener("keydown", keydown)
 
-			// Patches a selection bug when moving focus from the textarea to the buttons on the widget
+			// Patches a bug where Chrome lies about the textarea's selection
 			isChrome &&
 				container.addEventListener("focusin", e => {
-					if (e.relatedTarget == textarea) {
+					if (!container.contains(<Element>e.relatedTarget)) {
 						findInput.focus()
 						;(<HTMLElement>e.target).focus()
 					}
