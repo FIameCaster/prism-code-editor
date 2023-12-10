@@ -21,7 +21,7 @@ const entries = {
 	"extensions/folding/index": "src/extensions/folding/index.ts",
 	folding: "src/extensions/folding/folding.css",
 	tooltips: "src/tooltips.ts",
-	scollbar: "src/scrollbar.css",
+	scrollbar: "src/scrollbar.css",
 	"rtl-layout": "src/rtl-layout.css",
 	layout: "src/layout.css",
 	"themes/index": "src/themes/index.ts",
