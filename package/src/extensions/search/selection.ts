@@ -1,7 +1,16 @@
 import { EditorEventMap, Extension, PrismEditor } from "../.."
 import { SearchAPI, SearchFilter, createSearchAPI } from "./search"
 
-export interface WordHighlighter extends Extension {
+export interface SelectionMatchHighlighter extends Extension {
+	/**
+	 * Search API used by the extension.
+	 * Can be used get the position of the matches for example.
+	 * This property is only present after the extension is added to an editor.
+	 */
+	api?: SearchAPI
+}
+
+export interface WordHighlighter extends SelectionMatchHighlighter {
 	/** Sets the search filter used. Useful for updating the filter after changing an editor's language. */
 	setFilter(newFilter: SearchFilter): void
 }
@@ -9,10 +18,10 @@ export interface WordHighlighter extends Extension {
 const extensionTemplate = (
 	className: string,
 	handler: (editor: PrismEditor, api: SearchAPI) => EditorEventMap["selectionChange"],
-): Extension => ({
+): SelectionMatchHighlighter => ({
 	update(editor: PrismEditor) {
 		this.update = () => {}
-		const searchAPI = createSearchAPI(editor),
+		const searchAPI = (this.api = createSearchAPI(editor)),
 			container = searchAPI.container
 
 		container.style.zIndex = <any>-1
