@@ -7,9 +7,9 @@ const template = createTemplate(
 	"color:#0000;display:none;contain:strict;padding:0 var(--_pse) 0 var(--padding-left);",
 )
 
-const testBoundary = (str: string, position: number) => {
+const testBoundary = (str: string, position: number, pattern = /[_\p{N}\p{L}]{2}/u) => {
 	if (!position) return false
-	return /[_\p{N}\p{L}]{2}/u.test(
+	return pattern.test(
 		str.slice(
 			position - (str.codePointAt(position - 2)! > 0xffff ? 2 : 1),
 			position + (str.codePointAt(position)! > 0xffff ? 2 : 1),
@@ -30,6 +30,9 @@ export interface SearchAPI {
 	 * @param selection Boundries to search between. If excluded, all the code is searched.
 	 * @param filter A function called for each match. If it returns false, the match won't be included.
 	 * Can also take an excluded position for backwards compatibility.
+	 * @param wholeWordBoundry Pattern controlling the behavior of whole word search. Best left
+	 * undefined, unless you know what you're doing Does nothing if `wholeWord` isn't set to `true`.
+	 * Defaults to `/[_\p{N}\p{L}]{2}/u`.
 	 * @returns An error message if the RegExp was invalid.
 	 */
 	search(
@@ -39,6 +42,7 @@ export interface SearchAPI {
 		useRegExp?: boolean,
 		selection?: [number, number],
 		filter?: number | SearchFilter,
+		wholeWordBoundry?: RegExp,
 	): string | void
 	/** Container that all the search results are appended to. */
 	readonly container: HTMLDivElement
@@ -69,7 +73,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	editor.overlays.append(container)
 
 	return {
-		search(str, caseSensitive, wholeWord, useRegExp, selection, filter) {
+		search(str, caseSensitive, wholeWord, useRegExp, selection, filter, pattern) {
 			if (!str) return stopSearch()
 			if (!useRegExp) str = regexEscape(str)
 			const value = editor.value,
@@ -92,7 +96,11 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 					l = match[0].length
 					index = match.index + offset
 					if (!l) regex.lastIndex += value.codePointAt(index)! > 0xffff ? 2 : 1
-					if (wholeWord && (testBoundary(value, index) || testBoundary(value, index + l))) continue
+					if (
+						wholeWord &&
+						(testBoundary(value, index, pattern) || testBoundary(value, index + l, pattern))
+					)
+						continue
 					if (!filterFn || filterFn(index, index + l)) matchPositions[i++] = [index, index + l]
 				}
 			} catch (e) {
