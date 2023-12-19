@@ -83,10 +83,10 @@ const highlightCurrentWord = (
 			return ([start, end], value) => {
 				if (start < end || !editor.focused || noHighlight) searchAPI.search("")
 				else {
-					let group = `[\\p{L}_$\\d${includeHyphens && includeHyphens(start) ? "-" : ""}]*`
-					let before = value.slice(0, start).match(RegExp(group + "$", "u"))!
+					let group = `[_$\\p{L}\\d${includeHyphens && includeHyphens(start) ? "-" : ""}]`
+					let before = value.slice(0, start).match(RegExp(group + "*$", "u"))!
 					let index = before.index!
-					let word = before[0] + value.slice(start).match(RegExp("^" + group, "u"))![0]
+					let word = before[0] + value.slice(start).match(RegExp("^" + group + "*", "u"))![0]
 					searchAPI.search(
 						/^-*(\d|$)/.test(word) || (filter && !filter(index, index + word.length)) ? "" : word,
 						true,
@@ -94,6 +94,7 @@ const highlightCurrentWord = (
 						false,
 						undefined,
 						filter,
+						RegExp(group + "{2}", "u"),
 					)
 				}
 				noHighlight = false
