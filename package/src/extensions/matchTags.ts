@@ -8,7 +8,7 @@ const voidTags = "area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr
 
 export interface TagMatcher {
 	/**
-	 * Array of tuples containing:
+	 * Array of tuples containing in the following order:
 	 * - The tag's `Token`
 	 * - Its starting position
 	 * - Its leftmost punctuation length
@@ -24,7 +24,7 @@ export interface TagMatcher {
 export interface TagHighlighter extends Extension {
 	/**
 	 * The tag matcher used by the extension.
-	 * This property is only available after the extension is added to an editor.
+	 * This property is only present after the extension is added to an editor.
 	 */
 	matcher?: TagMatcher
 }
@@ -51,17 +51,19 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 					length = token.length
 				if (Array.isArray(content)) {
 					if (type == "tag") {
-						let nameContent = <[Prism.Token, (string | Prism.Token)?]>(
-							(<Prism.Token>content[0])?.content
-						)
+						let nameContent = <Prism.Token[]>(<Prism.Token>content[0])?.content
 						if (nameContent && nameContent[0]) {
-							let [{ length: openingLength }, tagName] = nameContent
+							const openingLength = nameContent[0].length
+							const offset = content[0].length
+							const tagName = editor.value.slice(position + openingLength, position + offset)
 
-							let closingLength = (<Prism.Token>content[content.length - 1]).length
-							let selfClosing =
+							const closingLength = (<Prism.Token>content[content.length - 1]).length
+							const selfClosing =
 								closingLength > 1 || (!noVoidTags && voidTags.includes(<string>tagName))
 
-							tagName = tagName ? <string>((<Prism.Token>tagName).content || tagName) : ""
+							if (content[1] && noVoidTags)
+								matchTagsRecursive(content.slice(1, -1), language, position + offset)
+
 							if (!selfClosing) {
 								if (openingLength < 2) {
 									stack.push([tagIndex, tagName])
@@ -109,7 +111,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 }
 
 const getClosestTagIndex = (pos: number, tags: TagMatcher["tags"]) => {
-	for (let i = 0, l = tags.length; i < l && tags[i][1] <= pos; i++) if (tags[i][3] >= pos) return i
+	for (let i = 0, l = tags.length; i < l; i++) if (tags[i][1] <= pos && tags[i][3] >= pos) return i
 }
 
 /**
@@ -146,11 +148,12 @@ export const matchTags = (): TagHighlighter => ({
 					if (tag1 && otherIndex + 1) {
 						const tag2 = getClosestToken(editor, ".tag>.tag", 0, 0, tags[otherIndex][1])!
 						;[newEl1, newEl2] = [tag1, tag2].map(el => {
-							let child = el.lastChild!
-							let tagName = (<Text>child).data
-							if (tagName) {
-								child.replaceWith((child = document.createElement("span")))
-								child.textContent = tagName
+							let children = el.childNodes
+							let child = children[1]
+							if (children[2] || (<Text>child).data) {
+								child = document.createElement("span")
+								;(<HTMLElement>child).append(...[].slice.call(children, 1))
+								el.append(child)
 							}
 							return <HTMLSpanElement>child
 						})
