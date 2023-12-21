@@ -22,7 +22,7 @@ for (const theme of themes) {
 }
 
 let themeMod = fs.readFileSync("dist/themes/index.js", "utf-8")
-const regex = RegExp(`(${themes.join("|")})(-[0-9a-f]+)\.js`)
+const regex = RegExp(`^(${themes.join("|")})(-\\w+)\.js$`)
 const entries = await fs.promises.readdir("dist", { withFileTypes: true })
 
 for (const entry of entries) {

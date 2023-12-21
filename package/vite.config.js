@@ -53,6 +53,7 @@ for (const lang of ["clike", "css", "html", "jsx", "python", "xml", "index"])
 export default defineConfig({
 	build: {
 		cssCodeSplit: true,
+		sourcemap: 'true',
 		lib: {
 			entry: entries,
 			formats: ["es"],
