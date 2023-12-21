@@ -55,6 +55,7 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 			defaultCommands(),
 			cursorPosition(),
 		)
+		editor.textarea.setAttribute("aria-label", "Code editor")
 	},
 	toggleActive = () => {
 		if (!editor1) {
