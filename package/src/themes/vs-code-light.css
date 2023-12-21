@@ -136,7 +136,6 @@
 }
 
 .token.variable,
-.token.constant,
 .token.parameter,
 .token.literal-property,
 .token.atrule {
@@ -159,6 +158,10 @@
 
 .token.namespace {
 	color: #4ec9b0;
+}
+
+.token.constant {
+	color: #0070c1;
 }
 
 /* Language overrides */

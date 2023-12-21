@@ -157,6 +157,10 @@
 	color: #ce9178;
 }
 
+.token.constant {
+	color: #4fc1ff;
+}
+
 /* Language overrides */
 
 [class*="language-"] {
