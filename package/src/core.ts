@@ -66,7 +66,7 @@ const createEditor = (
 		}
 
 	const setOptions = (options: Partial<EditorOptions>) => {
-		;({ language, value } = Object.assign(currentOptions, { value }, options))
+		;({ language, value = "" } = Object.assign(currentOptions, { value }, options))
 
 		const isNewGrammar = grammar != (grammar = languages[language])
 		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
