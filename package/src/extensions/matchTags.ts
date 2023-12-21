@@ -173,7 +173,7 @@ export const matchTags = (): TagHighlighter => ({
 
 /**
  * Extension that highlights `<` and `>` punctuation in XML tags.
- * @param className Class name used to highlight the punctuation.
+ * @param className Class added to the active punctuation you can use to style them with CSS.
  * @param alwaysHighlight If true, the punctuation will always be highlighted when the cursor
  * is inside a tag. If not it will only be highlighted when the cursor is on the punctuation.
  */
@@ -185,6 +185,7 @@ export const highlightTagPunctuation = (
 		this.update = () => {}
 		let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
 		const { tags } = (this.matcher = editor.extensions.matchTags || createTagMatcher(editor))
+		const getPunctuation = (pos?: number) => getClosestToken(editor, ".tag>.punctuation", 0, 0, pos)
 		const highlight = (remove?: boolean) =>
 			[openEl, closeEl].forEach(el => {
 				el && el.classList.toggle(className, !remove)
@@ -194,20 +195,19 @@ export const highlightTagPunctuation = (
 			let [start, end] = editor.getSelection()
 			let newEl1: HTMLSpanElement
 			let newEl2: HTMLSpanElement
-			if (start == end) {
-				let tag = tags[editor.focused ? getClosestTagIndex(start, tags)! : -1]
+			if (start == end && editor.focused) {
+				let tag = tags[getClosestTagIndex(start, tags)!]
 
 				if (
 					tag &&
 					(alwaysHighlight ||
-						(!getClosestToken(editor, ".tag>.tag", -tag[2], 0) &&
-							getClosestToken(editor, ".tag>.punctuation", 0, -(end == tag[3]), tag[1])))
+						((end < tag[1] + tag[2] || end > tag[1] + tag[2] + tag[4].length) && getPunctuation()))
 				) {
-					newEl1 = getClosestToken(editor, ".tag>.punctuation", 0, 0, tag[1])!
-					newEl2 = getClosestToken(editor, ".tag>.punctuation", 0, 0, tag[3] - 1)!
+					newEl1 = getPunctuation(tag[1])!
+					newEl2 = getPunctuation(tag[3] - 1)!
 				}
 			}
-			if (openEl != newEl1!) {
+			if (openEl != newEl1! || closeEl != newEl2!) {
 				highlight(true)
 				openEl = newEl1!
 				closeEl = newEl2!
@@ -215,7 +215,7 @@ export const highlightTagPunctuation = (
 			}
 		}
 		editor.addListener("selectionChange", selectionChange)
-		editor.textarea.addEventListener("focus", () => selectionChange())
-		editor.textarea.addEventListener("blur", () => selectionChange())
+		editor.textarea.addEventListener("focus", selectionChange)
+		editor.textarea.addEventListener("blur", selectionChange)
 	},
 })
