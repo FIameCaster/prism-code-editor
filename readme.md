@@ -23,6 +23,7 @@ This library overlays syntax highlighted code over a `<textarea>`. Libraries lik
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
 - [Advanced usage](#advanced-usage)
+- [Importing Prism](#importing-prism)
 - [Examples](#examples)
 - [Extensions](#extensions)
   - [Importing extensions](#importing-extensions)
@@ -126,6 +127,14 @@ editor.addExtensions(
   highlightBracketPairs(),
   cursorPosition(),
 )
+```
+
+## Importing Prism
+
+If you want access to the patched Prism core to add your own languages for example, just import it.
+
+```javascript
+import { Prism } from "prism-code-editor"
 ```
 
 ## Examples
