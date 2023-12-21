@@ -17,7 +17,7 @@ languageMap.clike =
 				block: ["/*", "*/"],
 			},
 			autoIndent: [
-				([start], value) => clikeIndent.test(value.substring(start - 999, start)),
+				([start], value) => clikeIndent.test(value.slice(0, start)),
 				([start, end], value) => isBracketPair.test(value[start - 1] + value[end]),
 			],
 		}

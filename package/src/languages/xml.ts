@@ -14,16 +14,16 @@ languageMap.xml =
 			},
 			autoIndent: [
 				([start], value) =>
-					xmlOpeningTag.test((value = value.substring(start - 999, start))) ||
+					xmlOpeningTag.test((value = value.slice(0, start))) ||
 					/[([{][^\n)\]}]*$/.test(value),
 				([start, end], value) =>
 					isBracketPair.test(value[start - 1] + value[end]) ||
-					(xmlOpeningTag.test(value.substring(start - 999, start)) &&
-						xmlClosingTag.test(value.slice(end, end + 999))),
+					(xmlOpeningTag.test(value.slice(0, start)) &&
+						xmlClosingTag.test(value.slice(end))),
 			],
 			autoCloseTags([start, end], value) {
-				const tagName =
-					start == end ? (value.substring(start - 999, start) + ">").match(xmlOpeningTag)?.[1] : ""
-				return tagName ? `</${tagName}>` : ""
+				const match =
+					start == end && (value.slice(0, start) + ">").match(xmlOpeningTag)
+				return match ? `</${match[1]}>` : ""
 			},
 		}
