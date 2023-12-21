@@ -31,7 +31,7 @@ button {
 }
 
 a.link {
-	color: #3d8af5;
+	color: #0969da;
 }
 
 a.link:hover {
@@ -303,5 +303,8 @@ option {
 	}
 	.header .tab.active {
 		border-bottom-color: hsl(210, 60%, 60%);
+	}
+	a.link {
+		color: #2f81f7;
 	}
 }
