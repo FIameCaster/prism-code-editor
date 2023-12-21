@@ -18,7 +18,7 @@ export type ShowTooltip = (preferPlacingAboveCursor?: boolean) => void
 export type HideTooltip = () => void
 
 /**
- * Utility making it easy to add tolltips to an editor. Before you can show the tooltip,
+ * Utility making it easy to add tooltips to an editor. Before you can show the tooltip,
  * a {@link cursorPosition} extension must be added to the editor.
  * @param editor Editor you want to add the tooltip to.
  * @param element Element for the tooltip.

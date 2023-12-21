@@ -196,8 +196,8 @@ webComponent.addEventListener("ready", () => {
 	})
 	editor2.addExtensions(
 		highlightCurrentWord(
-			start => !getClosestToken(editor2, ".string, .comment, .keyword, .regex", 0, 0, start)
-		)
+			start => !getClosestToken(editor2, ".string, .comment, .keyword, .regex", 0, 0, start),
+		),
 	)
 })
 

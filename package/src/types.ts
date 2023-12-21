@@ -145,7 +145,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	 * @param options New options for the editor
 	 */
 	setOptions(options: Partial<EditorOptions>): void
-	/** Forces the editor to update. Might be necessary after adding a tokenize listener. */
+	/** Forces the editor to update. Can be useful after adding a tokenize listener or modifying a grammar. */
 	update(): void
 	/** Gets `selectionStart`, `selectionEnd` and `selectionDirection` for the `textarea`. */
 	getSelection(): InputSelection
