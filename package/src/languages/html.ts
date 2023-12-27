@@ -1,5 +1,5 @@
 import { languageMap } from "../core"
-import { isBracketPair, xmlClosingTag, xmlOpeningTag } from "./patterns"
+import { isBracketPair, openBracket, xmlClosingTag, xmlOpeningTag } from "./patterns"
 
 const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/
 
@@ -14,16 +14,13 @@ languageMap.markup =
 				block: ["<!--", "-->"],
 			},
 			autoIndent: [
-				([start], value) =>
-					isOpening((value = value.slice(0, start))) ||
-					/[([{][^\n)\]}]*$/.test(value),
+				([start], value) => isOpening((value = value.slice(0, start))) || openBracket.test(value),
 				([start, end], value) =>
 					isBracketPair.test(value[start - 1] + value[end]) ||
 					(isOpening(value.slice(0, start)) && xmlClosingTag.test(value.slice(end))),
 			],
 			autoCloseTags([start, end], value) {
-				const tagName =
-					start == end && (value.slice(0, start) + ">").match(xmlOpeningTag)?.[1]
+				const tagName = start == end && (value.slice(0, start) + ">").match(xmlOpeningTag)?.[1]
 				if (tagName && !voidTags.test(tagName)) return `</${tagName}>`
 			},
 		}
