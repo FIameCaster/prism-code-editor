@@ -8874,7 +8874,7 @@ index 2dedeb2ab47630514f62c2542c763d4ef7ca0944..ad9c5f5d1e31aac5c5924c1b2407ebc1
 -
  }(Prism));
 diff --git a/components/prism-tsx.js b/components/prism-tsx.js
-index 33b0ec6e1c3deb118180832c5c811a3ffff6cdff..061ee5b870146a70bb83e73cdaa0f08b7467b207 100644
+index 33b0ec6e1c3deb118180832c5c811a3ffff6cdff..595fe513eb90077e6dcbc6e88fcd76fd771d0d6d 100644
 --- a/components/prism-tsx.js
 +++ b/components/prism-tsx.js
 @@ -1,15 +1,21 @@
@@ -8885,7 +8885,7 @@ index 33b0ec6e1c3deb118180832c5c811a3ffff6cdff..061ee5b870146a70bb83e73cdaa0f08b
 +	var typescript = Prism.util.clone(Prism.languages.ts);
 +	var tsx = Prism.languages.tsx = Prism.languages.extend('jsx', typescript);
 +	var tag = tsx.tag;
-+	var bracket = '(';
++	var bracket = '(?:^|(';
 +	
  	// doesn't work with TS because TS is too complex
 -	delete Prism.languages.tsx['parameter'];
@@ -8905,7 +8905,7 @@ index 33b0ec6e1c3deb118180832c5c811a3ffff6cdff..061ee5b870146a70bb83e73cdaa0f08b
 +	} catch {
 +		tag.lookbehind = true;
 +	}
-+	tag.pattern = RegExp(bracket + `^|[^\\w$]|(?=</))${tag.pattern.source}`, 'g');
++	tag.pattern = RegExp(bracket + `[^\\w$])|(?=</))${tag.pattern.source}`, 'g');
  }(Prism));
 diff --git a/components/prism-tt2.js b/components/prism-tt2.js
 index 7ea37da456f660a4d894350cf2ed6665deeb9cc0..17c4a430d922960bac5d3f1ba3c5734de5bdcf6e 100644
