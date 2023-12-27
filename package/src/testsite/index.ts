@@ -192,7 +192,7 @@ const editor2 = webComponent.editor
 
 webComponent.addEventListener("ready", () => {
 	editor2.setOptions({
-		value: guides.trimEnd().replace(/\r/g, ""),
+		value: guides.trimEnd(),
 	})
 	editor2.addExtensions(
 		highlightCurrentWord(
@@ -207,7 +207,7 @@ const readonlyEditor = document.querySelector<PrismEditorElement>("readonly-edit
 
 readonlyEditor.addEventListener("ready", () => {
 	readonlyEditor.editor.setOptions({
-		value: readme.replace(/\r/g, ""),
+		value: readme,
 	})
 })
 

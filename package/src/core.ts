@@ -80,6 +80,7 @@ const createEditor = (
 		if (isNewGrammar || value != textarea.value) {
 			focusRelatedTarget()
 			textarea.value = value
+			value = textarea.value
 			textarea.selectionEnd = 0
 			update()
 		}
