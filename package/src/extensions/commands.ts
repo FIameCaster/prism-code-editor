@@ -66,33 +66,29 @@ export const defaultCommands = (
 			end: number,
 			selectionStart: number,
 			selectionEnd: number,
-			firstInsersion?: number,
-			lastInsersion?: number,
 		) => {
-			const newLines = newL.join("\n"),
-				last = old.length - 1,
-				clamp = (num: number) => Math.max(start, Math.min(num, start + newLines.length))
+			let newLines = newL.join("\n")
 			if (newLines != old.join("\n")) {
-				firstInsersion ??= old[0].search(/\S|$/)
-				lastInsersion ??= old[last].search(/\S|$/)
+				let last = old.length - 1
+				let lastLine = newL[last]
+				let oldLastLine = old[last]
+				let lastDiff = oldLastLine.length - lastLine.length
+				let firstDiff = newL[0].length - old[0].length
+				let firstInsersion = start + (firstDiff < 0 ? newL : old)[0].search(/\S|$/)
+				let lastInsersion = end - oldLastLine.length + (lastDiff > 0 ? lastLine : oldLastLine).search(/\S|$/)
+				let offset = start - end + newLines.length + lastDiff
+				let newCursorStart =
+					firstInsersion > selectionStart
+						? selectionStart
+						: Math.max(firstInsersion, selectionStart + firstDiff)
+				let newCursorEnd = selectionEnd + start - end + newLines.length
 				insertText(
 					editor,
 					newLines,
 					start,
 					end,
-					clamp(
-						selectionStart +
-							(selectionStart - start < firstInsersion ? 0 : newL[0].length - old[0].length),
-					),
-					clamp(
-						selectionEnd +
-							newLines.length -
-							end +
-							start -
-							(old[last].length - end + selectionEnd < lastInsersion
-								? newL[last].length - old[last].length
-								: 0),
-					),
+					newCursorStart,
+					selectionEnd < lastInsersion ? newCursorEnd + lastDiff : Math.max(lastInsersion + offset, newCursorEnd)
 				)
 			}
 		}
@@ -151,9 +147,9 @@ export const defaultCommands = (
 			const [indentChar, tabSize] = getIndent(options)
 			const shiftKey = e.shiftKey
 			const [lines, start1, end1] = getLines(value, start, end)
-			if (start == end && !shiftKey) {
-				insertText(editor, indentChar.repeat(tabSize - ((start - start1) % tabSize)))
-			} else indent(shiftKey, lines, start1, end1, start, end, indentChar, tabSize)
+			if (start < end || shiftKey) {
+				indent(shiftKey, lines, start1, end1, start, end, indentChar, tabSize)
+			} else insertText(editor, indentChar.repeat(tabSize - ((start - start1) % tabSize)))
 			return scroll()
 		}
 
@@ -226,9 +222,10 @@ export const defaultCommands = (
 
 		textarea.addEventListener("keydown", e => {
 			const code = getModifierCode(e),
-				keyCode = e.keyCode
+				keyCode = e.keyCode,
+				mod = isMac ? 4 : 2
 
-			if (code == (isMac ? 4 : 2) && (keyCode == 221 || keyCode == 219)) {
+			if (code == mod && (keyCode == 221 || keyCode == 219)) {
 				const [start, end] = getSelection()
 				indent(
 					keyCode == 219,
@@ -240,7 +237,7 @@ export const defaultCommands = (
 			} else if (code == (isMac ? 0b1010 : 0b0010) && keyCode == 77) {
 				setIgnoreTab(!ignoreTab)
 				preventDefault(e)
-			} else if ((e.code == "Backslash" && code == 2) || (keyCode == 65 && code == 9)) {
+			} else if ((e.code == "Backslash" && code == mod) || (keyCode == 65 && code == 9)) {
 				const value = editor.value,
 					isBlock = code == 9,
 					[start, end] = getSelection(),
@@ -302,22 +299,22 @@ export const defaultCommands = (
 							hasComment ? RegExp(regexEscape(open) + " ?") : /(?=\S)|$/,
 							hasComment ? "" : open + " ",
 						)
-						let diff = insertionPoint > start - start1 ? 0 : newLines[0].length - lines[0].length
+						let diff = newLines[0].length - lines[0].length
 						newLines[last] = hasComment
 							? newLines[last].replace(RegExp(`( ?${regexEscape(close)})?$`), "")
 							: newLines[last] + " " + close
 
-						if (last)
-							insertLines(lines, newLines, start1, end1, start, end, insertionPoint, Infinity)
-						else
-							insertText(
-								editor,
-								newLines[0],
-								start1,
-								end1,
-								Math.max(start1, start + diff),
-								Math.min(end + diff, start1 + newLines[0].length),
-							)
+						let newText = newLines.join("\n")
+						insertText(
+							editor,
+							newText,
+							start1,
+							end1,
+							insertionPoint > start - start1
+								? start
+								: Math.max(start + diff, insertionPoint + start1),
+							Math.min(end + diff, start1 + newText.length),
+						)
 						scroll()
 					}
 				}
@@ -326,9 +323,9 @@ export const defaultCommands = (
 		;(["copy", "cut", "paste"] as const).forEach(type =>
 			textarea.addEventListener(type, e => {
 				const [start, end] = getSelection()
-				if (start == end) {
+				if (start == end && clipboard) {
 					const [[line], start1, end1] = getLines(editor.value, start, end)
-					if (type == "paste" && clipboard) {
+					if (type == "paste") {
 						if (e.clipboardData!.getData("text/plain") == prevCopy) {
 							insertText(editor, prevCopy + "\n", start1, start1, start + prevCopy.length + 1)
 							scroll()
