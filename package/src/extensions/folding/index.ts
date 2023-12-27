@@ -9,7 +9,7 @@ import { TagMatcher } from "../matchTags"
 /**
  * Callback used to add extra foldable ranges to an editor.
  * @param editor Editor the folding ranges are added to.
- * @param currentFolds The ranges that a currently foldable.
+ * @param currentFolds The ranges that are currently foldable.
  * @returns An array of extra foldable ranges.
  */
 export type FoldingRangeProvider = (
