@@ -5375,10 +5375,10 @@ index 690fe7b56df7a59546bd030640287e915dee53ee..8dd362caf312bbf698e8e74d6a16e30d
  			},
  
 diff --git a/components/prism-jsx.js b/components/prism-jsx.js
-index ac6c2d64243ac329e7c8a159cdebf5b37eff6a4e..a9c9125a350586188b74150c63734086c604f289 100644
+index ac6c2d64243ac329e7c8a159cdebf5b37eff6a4e..11b79cee936c3dcaf92e06dbb25bd7a06e5b7048 100644
 --- a/components/prism-jsx.js
 +++ b/components/prism-jsx.js
-@@ -1,145 +1,128 @@
+@@ -1,145 +1,127 @@
  (function (Prism) {
  
 -	var javascript = Prism.util.clone(Prism.languages.javascript);
@@ -5394,8 +5394,9 @@ index ac6c2d64243ac329e7c8a159cdebf5b37eff6a4e..a9c9125a350586188b74150c63734086
 +	var spread = /(?:\{<S>*\.{3}(?:[^{}]|<BRACES>)*\})/;
  
  	/**
- 	 * @param {string} source
- 	 * @param {string} [flags]
+-	 * @param {string} source
+-	 * @param {string} [flags]
++	 * @param {RegExp} pattern
  	 */
 -	function re(source, flags) {
 -		source = source
@@ -5434,7 +5435,8 @@ index ac6c2d64243ac329e7c8a159cdebf5b37eff6a4e..a9c9125a350586188b74150c63734086
 +	delete jsx.script;
 +	delete jsx['markup-bracket'];
  
- 	Prism.languages.insertBefore('inside', 'attr-name', {
+-	Prism.languages.insertBefore('inside', 'attr-name', {
++	Prism.languages.insertBefore('inside', 'punctuation', {
  		'spread': {
 -			pattern: re(/<SPREAD>/.source),
 -			inside: Prism.languages.jsx
@@ -5449,7 +5451,7 @@ index ac6c2d64243ac329e7c8a159cdebf5b37eff6a4e..a9c9125a350586188b74150c63734086
  			// Allow for two levels of nesting
 -			pattern: re(/=<BRACES>/.source),
 -			alias: 'language-javascript',
-+			pattern: re(/=<BRACES>/),
++			pattern: re(/=\s*<BRACES>/),
 +			alias: 'language-jsx',
  			inside: {
  				'script-punctuation': {
