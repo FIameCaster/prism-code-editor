@@ -51,37 +51,36 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 					length = token.length
 				if (Array.isArray(content)) {
 					if (type == "tag") {
-						let nameContent = <Prism.Token[]>(<Prism.Token>content[0])?.content
-						if (nameContent && nameContent[0]) {
-							const openingLength = nameContent[0].length
+						if ((<Prism.Token>content[0]).content) {
+							const value = editor.value
 							const offset = content[0].length
-							const tagName = editor.value.slice(position + openingLength, position + offset)
-
-							const closingLength = (<Prism.Token>content[content.length - 1]).length
+							const isClosing = value[position + 1] == "/"
+							const tagName = value.slice(position + 1 + <any>isClosing, position + offset)
 							const selfClosing =
-								closingLength > 1 || (!noVoidTags && voidTags.includes(<string>tagName))
+								value[position + length - 2] == "/" ||
+								(!noVoidTags && voidTags.includes(<string>tagName))
 
-							if (content[1] && noVoidTags)
+							if (content[2] && noVoidTags)
 								matchTagsRecursive(content.slice(1, -1), language, position + offset)
 
 							if (!selfClosing) {
-								if (openingLength < 2) {
-									stack.push([tagIndex, tagName])
-								} else {
+								if (isClosing) {
 									for (let i = stack.length; i; ) {
 										if (tagName == stack[--i][1]) {
 											pairMap[(pairMap[tagIndex] = stack[i][0])] = tagIndex
 											stack.length = i
-											break
+											i = 0
 										}
 									}
+								} else {
+									stack.push([tagIndex, tagName])
 								}
 							}
 
 							tags[tagIndex++] = [
 								token,
 								position,
-								openingLength,
+								1 + <any>isClosing,
 								position + length,
 								tagName,
 								selfClosing,
