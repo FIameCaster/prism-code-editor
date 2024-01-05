@@ -26,16 +26,10 @@ THE SOFTWARE.
 import { Prism } from "prism-code-editor"
 
 Prism.languages.javascript = Prism.languages.js = {
-	comment: [
-		{
-			pattern: /\/\*[\s\S]*?(?:\*\/|$)/,
-			greedy: true,
-		},
-		{
-			pattern: /\/\/.*/,
-			greedy: true,
-		},
-	],
+	comment: {
+		pattern: /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)/,
+		greedy: true,
+	},
 	hashbang: {
 		pattern: /^#!.*/,
 		greedy: true,
@@ -64,13 +58,13 @@ Prism.languages.javascript = Prism.languages.js = {
 		},
 	},
 	"string-property": {
-		pattern: /((?:^|[,{])[ \t]*)(["'])(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2(?=\s*:)/m,
+		pattern: /((?:^|[,{])[ \t]*)(["'])(?:\\[\s\S]|(?!\2)[^\\\n])*\2(?=\s*:)/m,
 		lookbehind: true,
 		greedy: true,
 		alias: "property",
 	},
 	string: {
-		pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+		pattern: /(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/,
 		greedy: true,
 	},
 	"class-name": [
@@ -90,7 +84,7 @@ Prism.languages.javascript = Prism.languages.js = {
 	],
 	regex: {
 		pattern:
-			/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}|(?:\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.|\[(?:[^[\]\\\r\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\r\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\r\n,.;:})\]]|\/\/))/,
+			/((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:[^\]\\\n]|\\.)*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}|(?:\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\n,.;:})\]]|\/\/))/,
 		lookbehind: true,
 		greedy: true,
 		inside: {
