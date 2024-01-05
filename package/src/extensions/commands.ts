@@ -12,6 +12,7 @@ import {
 } from "../utils"
 
 const clipboard = navigator.clipboard
+const mod = isMac ? 4 : 2
 
 /**
  * Extension that will add automatic indentation, closing of brackets,
@@ -69,26 +70,29 @@ export const defaultCommands = (
 		) => {
 			let newLines = newL.join("\n")
 			if (newLines != old.join("\n")) {
-				let last = old.length - 1
-				let lastLine = newL[last]
-				let oldLastLine = old[last]
-				let lastDiff = oldLastLine.length - lastLine.length
-				let firstDiff = newL[0].length - old[0].length
-				let firstInsersion = start + (firstDiff < 0 ? newL : old)[0].search(/\S|$/)
-				let lastInsersion = end - oldLastLine.length + (lastDiff > 0 ? lastLine : oldLastLine).search(/\S|$/)
-				let offset = start - end + newLines.length + lastDiff
-				let newCursorStart =
+				const last = old.length - 1
+				const lastLine = newL[last]
+				const oldLastLine = old[last]
+				const lastDiff = oldLastLine.length - lastLine.length
+				const firstDiff = newL[0].length - old[0].length
+				const firstInsersion = start + (firstDiff < 0 ? newL : old)[0].search(/\S|$/)
+				const lastInsersion =
+					end - oldLastLine.length + (lastDiff > 0 ? lastLine : oldLastLine).search(/\S|$/)
+				const offset = start - end + newLines.length + lastDiff
+				const newCursorStart =
 					firstInsersion > selectionStart
 						? selectionStart
 						: Math.max(firstInsersion, selectionStart + firstDiff)
-				let newCursorEnd = selectionEnd + start - end + newLines.length
+				const newCursorEnd = selectionEnd + start - end + newLines.length
 				insertText(
 					editor,
 					newLines,
 					start,
 					end,
 					newCursorStart,
-					selectionEnd < lastInsersion ? newCursorEnd + lastDiff : Math.max(lastInsersion + offset, newCursorEnd)
+					selectionEnd < lastInsersion
+						? newCursorEnd + lastDiff
+						: Math.max(lastInsersion + offset, newCursorEnd),
 				)
 			}
 		}
@@ -222,8 +226,7 @@ export const defaultCommands = (
 
 		textarea.addEventListener("keydown", e => {
 			const code = getModifierCode(e),
-				keyCode = e.keyCode,
-				mod = isMac ? 4 : 2
+				keyCode = e.keyCode
 
 			if (code == mod && (keyCode == 221 || keyCode == 219)) {
 				const [start, end] = getSelection()
@@ -305,16 +308,13 @@ export const defaultCommands = (
 							: newLines[last] + " " + close
 
 						let newText = newLines.join("\n")
-						insertText(
-							editor,
-							newText,
-							start1,
-							end1,
-							insertionPoint > start - start1
-								? start
-								: Math.max(start + diff, insertionPoint + start1),
-							Math.min(end + diff, start1 + newText.length),
-						)
+						let firstInsersion = insertionPoint + start1
+						let newStart = firstInsersion > start ? start : Math.max(start + diff, firstInsersion)
+						let newEnd =
+							firstInsersion > end - <any>(start != end)
+								? end
+								: Math.min(Math.max(firstInsersion, end + diff), start1 + newText.length)
+						insertText(editor, newText, start1, end1, newStart, Math.max(newStart, newEnd))
 						scroll()
 					}
 				}
