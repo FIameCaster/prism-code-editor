@@ -243,7 +243,7 @@ const createEditor = (
 			})
 		},
 		addListener<T extends keyof EditorEventMap>(name: T, handler: EditorEventMap[T]) {
-			;(listeners[name] || (listeners[name] = <any>new Set())).add(handler)
+			;(listeners[name] ||= new Set<any>()).add(handler)
 		},
 		removeListener<T extends keyof EditorEventMap>(name: T, handler: EditorEventMap[T]) {
 			listeners[name]?.delete(handler)

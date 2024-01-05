@@ -52,7 +52,10 @@ export type Language = {
 	autoCloseTags?(this: PrismEditor, selection: InputSelection, value: string): string | undefined
 }
 
-export type PrismType = Omit<typeof Prism, "highlight" | "highlightAll" | "highlightAllUnder" | "highlightElement">
+export type PrismType = Omit<
+	typeof Prism,
+	"highlight" | "highlightAll" | "highlightAllUnder" | "highlightElement"
+>
 /**
  * Function called when a certain key is pressed.
  * If true is returned, `e.preventDefault()` and `e.stopImmediatePropagation()` is called automatically.
@@ -102,8 +105,8 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	readonly scrollContainer: HTMLDivElement
 	/** Element wrapping the lines and overlays. */
 	readonly wrapper: HTMLDivElement
-	/** 
-	 * Element containing overlays that are absolutely positioned ontop or underneath the code.
+	/**
+	 * Element containing overlays that are absolutely positioned ontop or behind the code.
 	 * It is completely safe to append your own overlays to this element, but they will get
 	 * some default styles.
 	 */
