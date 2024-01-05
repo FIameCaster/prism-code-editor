@@ -1,20 +1,11 @@
-export const startCode = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Prism code editor</title>
-  <script src="prism.js" data-manual></script>
-  <link rel="stylesheet" href="src/style.css">
+export const startCode = `<body>
   <style>
     
   </style>
-</head>
-<body>
   <script>
     
   </script>
-</body>
-</html>`,
+</body>`,
 
 startOptions = `const code = '${startCode.replace(/\n/g, '\\n')}'
 
