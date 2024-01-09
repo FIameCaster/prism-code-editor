@@ -255,12 +255,17 @@ const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { l
 			const content = token.content
 			const length = token.length
 			const type = token.type
-			if ((token.alias || type) == "comment" && numLines(value, position, position + length) > 1) {
+			const aliasType = token.alias || type
+			if (aliasType === "comment" && numLines(value, position, position + length) > 1) {
 				let comment = languageMap[language]?.comments?.block
-				if (comment)
+				if (comment && value.indexOf(comment[0], position) == position)
 					folds.push([position + comment[0].length, position + length - comment[1].length])
-			} else if (Array.isArray(content))
-				findBlockComments(content, position, type.indexOf("language-") ? language : type.slice(9))
+			} else if (Array.isArray(content)) {
+				findBlockComments(
+					content,
+					position,
+					aliasType.indexOf("language-") ? language : (<string>aliasType).slice(9),
+				)}
 			position += length
 		}
 	}

@@ -86,12 +86,14 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 								selfClosing,
 							]
 						}
-					} else
+					} else {
+						let lang = token.alias || type
 						matchTagsRecursive(
 							content,
-							type.indexOf("language-") ? language : type.slice(9),
+							lang.indexOf("language-") ? language : (<string>lang).slice(9),
 							position,
 						)
+					}
 				}
 				position += length
 			}
