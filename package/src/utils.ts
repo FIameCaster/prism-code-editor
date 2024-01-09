@@ -9,10 +9,12 @@ const getLineBefore = (text: string, position: number) =>
 	text.slice(text.lastIndexOf("\n", position - 1) + 1, position)
 
 /**
- * Returns all lines that are at least partially between start and end.
- * Also returns the start of the first line, and the end of the last line.
+ * Gets all lines that are at least partially between `start` and `end`
+ * @param text Text to search in.
+ * @param start Start of the selection.
+ * @param end End of the selection. Defaults to `start`.
  */
-const getLines = (text: string, start: number, end: number) =>
+const getLines = (text: string, start: number, end = start) =>
 	[
 		text
 			.slice(
