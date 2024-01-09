@@ -157,22 +157,31 @@ export const defaultCommands = (
 			return scroll()
 		}
 
-		keyCommandMap.Enter = (_e, selection, value) => {
-			const [indentChar, tabSize] = getIndent(options),
-				context = languageMap[getLanguage(editor)],
-				autoIndent = context?.autoIndent,
-				indenationCount =
-					Math.floor(getLineBefore(value, selection[0]).search(/\S|$/) / tabSize) * tabSize,
-				extraIndent = autoIndent?.[0]?.call(editor, selection, value) ? tabSize : 0,
-				extraLine = autoIndent?.[1]?.call(editor, selection, value),
-				newText =
-					"\n" +
-					indentChar.repeat(indenationCount + extraIndent) +
-					(extraLine ? "\n" + indentChar.repeat(indenationCount) : "")
+		keyCommandMap.Enter = (e, selection, value) => {
+			const code = getModifierCode(e) & 7
+			if (!code || code == mod) {
+				if (code) selection = <any>Array(2).fill(getLines(value, selection[1], selection[1])[2])
+				const [indentChar, tabSize] = getIndent(options),
+					autoIndent = languageMap[getLanguage(editor)]?.autoIndent,
+					indenationCount =
+						Math.floor(getLineBefore(value, selection[0]).search(/\S|$/) / tabSize) * tabSize,
+					extraIndent = autoIndent?.[0]?.call(editor, selection, value) ? tabSize : 0,
+					extraLine = autoIndent?.[1]?.call(editor, selection, value),
+					newText =
+						"\n" +
+						indentChar.repeat(indenationCount + extraIndent) +
+						(extraLine ? "\n" + indentChar.repeat(indenationCount) : "")
 
-			if (newText[1] || selection[1] < value.length) {
-				insertText(editor, newText, null, null, selection[0] + indenationCount + extraIndent + 1)
-				return scroll()
+				if (newText[1] || selection[1] < value.length) {
+					insertText(
+						editor,
+						newText,
+						selection[0],
+						selection[1],
+						selection[0] + indenationCount + extraIndent + 1,
+					)
+					return scroll()
+				}
 			}
 		}
 

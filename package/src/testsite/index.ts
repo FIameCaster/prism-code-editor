@@ -1,4 +1,4 @@
-import { createEditor, EditorOptions, isMac, PrismEditor } from ".."
+import { createEditor, EditorOptions, PrismEditor } from ".."
 import { defaultCommands } from "../extensions/commands"
 import { copyButton } from "../extensions/copyButton"
 import "../grammars/markup"
@@ -25,7 +25,7 @@ import { addFullEditor, addReadonlyEditor, PrismEditorElement } from "../webComp
 import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
-import { getClosestToken, getModifierCode } from "../utils"
+import { getClosestToken } from "../utils"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -98,8 +98,6 @@ const editor = createEditorWrapper(wrapper, {
 			runBtn.setAttribute("aria-hidden", <any>(currentOptions == code))
 		},
 	}),
-	commands = editor.keyCommandMap,
-	oldEnter = commands.Enter,
 	theme = <HTMLLinkElement>document.getElementById("theme"),
 	themes = <HTMLSelectElement>document.getElementById("themes")
 
@@ -174,15 +172,6 @@ runBtn.onclick = () => {
 	editor1 = newEditor
 	toggleActive()
 	newEditor.textarea.focus()
-}
-
-runBtn.title = isMac ? "(Cmd + Enter)" : "(Ctrl + Enter)"
-
-commands.Enter = (e, selection, value) => {
-	if (getModifierCode(e) == (isMac ? 4 : 2) && value != currentOptions) {
-		runBtn.click()
-		return true
-	} else return oldEnter!(e, selection, value)
 }
 
 addFullEditor("prism-editor")
