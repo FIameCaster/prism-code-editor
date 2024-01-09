@@ -318,6 +318,20 @@ export const defaultCommands = (
 						scroll()
 					}
 				}
+			} else if (code == 8 + mod && keyCode == 75) {
+				const value = editor.value,
+					[start, end, dir] = getSelection(),
+					[lines, start1, end1] = getLines(value, start, end),
+					column = dir == "forward" ? end - end1 + lines.pop()!.length : start - start1,
+					newLineLen = getLines(value, end1 + 1)[0][0].length
+				insertText(
+					editor,
+					"",
+					start1 - <any>!!start1,
+					end1 + <any>!start1,
+					start1 + Math.min(column, newLineLen),
+				)
+				scroll()
 			}
 		})
 		;(["copy", "cut", "paste"] as const).forEach(type =>
