@@ -31,11 +31,22 @@ export type EditorOptions = {
 	onTokenize?: EditorEventMap["tokenize"] | null
 }
 
+export type CommentTokens = {
+	line?: string
+	block?: [string, string]
+}
+
 export type Language = {
-	comments?: {
-		line?: string
-		block?: [string, string]
-	}
+	/** Comment tokens used by the language */
+	comments?: CommentTokens
+	/**
+	 * Method called when a user executes a comment toggling command.
+	 * @param editor The editor the user is interacting with.
+	 * @param position Where in the code the comment is being toggled.
+	 * @param value Current code in the editor.
+	 * @returns The comment tokens that should be used for this command.
+	 */
+	getComments?: (editor: PrismEditor, position: number, value: string) => CommentTokens
 	/**
 	 * Callbacks controlling the automatic indentation on new lines.
 	 * First function should return whether indentation should be increased.

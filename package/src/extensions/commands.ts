@@ -244,10 +244,10 @@ export const defaultCommands = (
 				const value = editor.value,
 					isBlock = code == 9,
 					[start, end] = getSelection(),
+					position = isBlock ? start : value.lastIndexOf("\n", start - 1) + 1,
+					language = languageMap[getLanguage(editor, position)] || {},
 					{ line, block } =
-						languageMap[
-							getLanguage(editor, isBlock ? start : value.lastIndexOf("\n", start - 1) + 1)
-						]?.comments || {},
+						language.getComments?.(editor, position, value) || language.comments || {},
 					[lines, start1, end1] = getLines(value, start, end),
 					last = lines.length - 1
 

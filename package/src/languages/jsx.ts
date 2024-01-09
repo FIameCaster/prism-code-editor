@@ -1,4 +1,7 @@
+import { CommentTokens } from ".."
 import { languageMap } from "../core"
+import { Bracket, BracketMatcher } from "../extensions/matchBrackets"
+import { TagMatcher } from "../extensions/matchTags"
 import { clikeIndent, isBracketPair } from "./patterns"
 
 const openingTag =
@@ -6,10 +9,51 @@ const openingTag =
 
 const closingTag = /^<\/(?!\d)[^\s>\/=<%]*\s*>/
 
+const inJsxContext = (
+	{ tags, pairs }: TagMatcher,
+	{ brackets, pairs: bracketPairs }: BracketMatcher,
+	position: number,
+) => {
+	for (let i = tags.length, tag: TagMatcher["tags"][0], min = 0; (tag = tags[--i]); ) {
+		if (tag[3] > position && tag[1] < position) min = tag[1]
+		else if (
+			tag[2] < 2 &&
+			!tag[5] &&
+			tag[1] >= min &&
+			tag[3] <= position &&
+			!(tags[pairs[i]!]?.[1] < position)
+		) {
+			for (let i = brackets.length, bracket: Bracket; (bracket = brackets[--i]); ) {
+				if (
+					bracket[1] >= tag[3] &&
+					bracket[1] < position &&
+					bracket[3] == "{" &&
+					!(brackets[bracketPairs[i]!]?.[1] < position)
+				) {
+					return
+				}
+			}
+			return true
+		}
+	}
+}
+
+const jsComment: CommentTokens = {
+	line: "//",
+	block: ["/*", "*/"],
+}
+
+const jsxComment: CommentTokens = {
+	block: ["{/*", "*/}"],
+}
+
 languageMap.jsx = languageMap.tsx = {
-	comments: {
-		line: "//",
-		block: ["/*", "*/"],
+	comments: jsComment,
+	getComments(editor, position) {
+		const { matchBrackets, matchTags } = editor.extensions
+		return matchBrackets && matchTags && inJsxContext(matchTags, matchBrackets, position)
+			? jsxComment
+			: jsComment
 	},
 	autoIndent: [
 		([start], value) => openingTag.test((value = value.slice(0, start))) || clikeIndent.test(value),
