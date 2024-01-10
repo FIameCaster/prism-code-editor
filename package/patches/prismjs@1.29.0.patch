@@ -67,6 +67,25 @@ index a537f39b0ad8f80c73acc0c5e42ba2627ba26a10..081288e74a8995ce6aa54856b5a17474
  	'attribute': {
  		pattern: /\b'\w+/,
  		alias: 'attr-name'
+diff --git a/components/prism-antlr4.js b/components/prism-antlr4.js
+index d5c446b1f36d63c7fc47ea1d4e435033c0daa93a..654088c0ead2a2ff0adb3e0e983fde77558cb6dc 100644
+--- a/components/prism-antlr4.js
++++ b/components/prism-antlr4.js
+@@ -22,12 +22,8 @@ Prism.languages.antlr4 = {
+ 		pattern: /\{(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*\}/,
+ 		greedy: true,
+ 		inside: {
+-			'content': {
+-				// this might be C, C++, Python, Java, C#, or any other language ANTLR4 compiles to
+-				pattern: /(\{)[\s\S]+(?=\})/,
+-				lookbehind: true
+-			},
+-			'punctuation': /[{}]/
++			'content': /(?!^)[\s\S]+(?=.)/,
++			'punctuation': /./
+ 		}
+ 	},
+ 	'command': {
 diff --git a/components/prism-apex.js b/components/prism-apex.js
 index dbb7f0dcd6d369f547376fa976efbec1e4bad363..91f7abce02266949983d91df2476ed5ea6ccf42c 100644
 --- a/components/prism-apex.js
@@ -113,10 +132,10 @@ index 3d688b4a8da2c05d927db68387f906f4753bdd13..14c44b00ba38be767c8c0c0ab80271f0
  	'number': /(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e-?\d+)?\b/i,
  	'operator': [
 diff --git a/components/prism-arturo.js b/components/prism-arturo.js
-index d09b5e27ef5ce7151fcaa69515289354534b719e..ef940ac3806c19936a09968a394fb28e947fa572 100644
+index d09b5e27ef5ce7151fcaa69515289354534b719e..ef702423195d1863c5cd71bc6d26e9c32e4d4086 100644
 --- a/components/prism-arturo.js
 +++ b/components/prism-arturo.js
-@@ -3,21 +3,19 @@
+@@ -3,21 +3,18 @@
  	 * @param {string} lang
  	 * @param {string} pattern
  	 */
@@ -139,19 +158,18 @@ index d09b5e27ef5ce7151fcaa69515289354534b719e..ef940ac3806c19936a09968a394fb28e
 +		pattern: RegExp(`\\{!(?:${pattern})$[\\s\\S]*\\}`, 'mg'),
 +		greedy: true,
 +		inside: {
++			'string': /^.+|.$/,
 +			'embedded': {
-+				pattern: /(^\{!\w+\b)[\s\S]+(?=\}$)/,
-+				lookbehind: true,
++				pattern: /[\s\S]+/,
 +				alias: 'language-' + lang,
 +				inside: lang
 +			},
-+			'string': /[\s\S]+/
 +		}
 +	});
  
  	Prism.languages.arturo = {
  		'comment': {
-@@ -31,9 +29,7 @@
+@@ -31,9 +28,7 @@
  			greedy: true
  		},
  
@@ -162,7 +180,7 @@ index d09b5e27ef5ce7151fcaa69515289354534b719e..ef940ac3806c19936a09968a394fb28e
  
  		'string': {
  			pattern: /"(?:[^"\\\r\n]|\\.)*"/,
-@@ -92,13 +88,9 @@
+@@ -92,13 +87,9 @@
  
  		'punctuation': /[()[\],]/,
  
@@ -459,7 +477,7 @@ index 6d2e3815c2b589d8dc0bbb94e14a840e227e5a31..30213f9a8e93169db39b703c5d2c7a44
 -	Prism.languages.shell = Prism.languages.bash;
  }(Prism));
 diff --git a/components/prism-bicep.js b/components/prism-bicep.js
-index 7220f2916a1f8170662eec162c36fc34c6354058..a21ec3838c05362b1900876f784306e788f08a87 100644
+index 7220f2916a1f8170662eec162c36fc34c6354058..0b428ae7129f11744dbeb4d7473763636ab04efd 100644
 --- a/components/prism-bicep.js
 +++ b/components/prism-bicep.js
 @@ -1,20 +1,9 @@
@@ -487,17 +505,22 @@ index 7220f2916a1f8170662eec162c36fc34c6354058..a21ec3838c05362b1900876f784306e7
  	'property': [
  		{
  			pattern: /([\r\n][ \t]*)[a-z_]\w*(?=[ \t]*:)/i,
-@@ -47,7 +36,8 @@ Prism.languages.bicep = {
+@@ -45,11 +34,11 @@ Prism.languages.bicep = {
+ 			'interpolation': {
+ 				pattern: /\$\{[^{}\r\n]*\}/,
  				inside: {
++					'punctuation': /^\$\{|\}$/,
  					'expression': {
- 						pattern: /(^\$\{)[\s\S]+(?=\}$)/,
+-						pattern: /(^\$\{)[\s\S]+(?=\}$)/,
 -						lookbehind: true
-+						lookbehind: true,
++						pattern: /[\s\S]+/,
 +						inside: 'bicep'
  					},
- 					'punctuation': /^\$\{|\}$/,
+-					'punctuation': /^\$\{|\}$/,
  				}
-@@ -73,5 +63,3 @@ Prism.languages.bicep = {
+ 			},
+ 			'string': /[\s\S]+/
+@@ -73,5 +62,3 @@ Prism.languages.bicep = {
  	'operator': /--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/,
  	'punctuation': /[{}[\];(),.:]/,
  };
@@ -629,6 +652,25 @@ index 7f0cd974371b29444b5b59d3211fe677a8713550..3f23374ffe4bb49666c37ea9a46cf3dd
 -delete Prism.languages.cfscript['class-name'];
 -Prism.languages.cfc = Prism.languages['cfscript'];
 +delete Prism.languages.cfc['class-name'];
+diff --git a/components/prism-chaiscript.js b/components/prism-chaiscript.js
+index abfd1b15fae0accb9fdc63044d0de3c394b822dd..5cf117e90598213decb9b1c8d4bd86b9a57273ff 100644
+--- a/components/prism-chaiscript.js
++++ b/components/prism-chaiscript.js
+@@ -44,12 +44,12 @@ Prism.languages.insertBefore('chaiscript', 'string', {
+ 				lookbehind: true,
+ 				inside: {
+ 					'interpolation-expression': {
+-						pattern: /(^\$\{)[\s\S]+(?=\}$)/,
++						pattern: /(..)[\s\S]+(?=.)/,
+ 						lookbehind: true,
+ 						inside: Prism.languages.chaiscript
+ 					},
+ 					'interpolation-punctuation': {
+-						pattern: /^\$\{|\}$/,
++						pattern: /.+/,
+ 						alias: 'punctuation'
+ 					}
+ 				}
 diff --git a/components/prism-clike.js b/components/prism-clike.js
 index 8c5d96a194166bb146a8c820631022e5f8d12d7e..a25fc75613d8c6f3e448f16d10c610200f113599 100644
 --- a/components/prism-clike.js
@@ -686,10 +728,10 @@ index 72fe0b8ba6e019b4e9854fbbe7a74c354ee6b09f..913b1d9ee22028aecd981db528f214f7
 -	Prism.languages.coffee = Prism.languages.coffeescript;
  }(Prism));
 diff --git a/components/prism-concurnas.js b/components/prism-concurnas.js
-index 476d0b49adf7bb250d3418bd3f86ea8f686653d3..d7ce594304862c151273bf1fe3d4915067995a66 100644
+index 476d0b49adf7bb250d3418bd3f86ea8f686653d3..9629dfeae4ec76ba2ba45b5551d85541932a62c0 100644
 --- a/components/prism-concurnas.js
 +++ b/components/prism-concurnas.js
-@@ -1,9 +1,32 @@
+@@ -1,16 +1,39 @@
 -Prism.languages.concurnas = {
 +Prism.languages.conc = Prism.languages.concurnas = {
  	'comment': {
@@ -725,6 +767,14 @@ index 476d0b49adf7bb250d3418bd3f86ea8f686653d3..d7ce594304862c151273bf1fe3d49150
  	'langext': {
  		pattern: /\b\w+\s*\|\|[\s\S]+?\|\|/,
  		greedy: true,
+ 		inside: {
+ 			'class-name': /^\w+/,
+ 			'string': {
+-				pattern: /(^\s*\|\|)[\s\S]+(?=\|\|$)/,
++				pattern: /(^\s*..)[\s\S]+(?=..)/,
+ 				lookbehind: true
+ 			},
+ 			'punctuation': /\|\|/
 @@ -30,32 +53,3 @@ Prism.languages.concurnas = {
  		alias: 'builtin'
  	}
@@ -759,7 +809,7 @@ index 476d0b49adf7bb250d3418bd3f86ea8f686653d3..d7ce594304862c151273bf1fe3d49150
 -
 -Prism.languages.conc = Prism.languages.concurnas;
 diff --git a/components/prism-cooklang.js b/components/prism-cooklang.js
-index cb49ed1260c48f7ecedb5b9148ba40e8901eef3d..8182c35332cad5f5ca8bb13304f457f72d8d1f64 100644
+index cb49ed1260c48f7ecedb5b9148ba40e8901eef3d..c92992555b7efdccb38ab88f99a21432d8d11ee5 100644
 --- a/components/prism-cooklang.js
 +++ b/components/prism-cooklang.js
 @@ -58,18 +58,10 @@
@@ -783,20 +833,23 @@ index cb49ed1260c48f7ecedb5b9148ba40e8901eef3d..8182c35332cad5f5ca8bb13304f457f7
  					lookbehind: true,
  					alias: 'variable',
  				},
-@@ -78,10 +70,10 @@
+@@ -78,29 +70,22 @@
  					alias: 'keyword',
  				},
  				'quantity-group': {
 -					pattern: new RegExp(/\{[^{}@#]*\}/),
-+					pattern: RegExp(/\{[^{}@#]*\}/),
++					pattern: /\{[^{}@#]*\}/,
  					inside: {
++						'punctuation': /[{}]/,
  						'quantity': {
 -							pattern: new RegExp(/(^\{)/.source + multi_token_infix),
-+							pattern: RegExp('(^\\{)' + multi_token_infix),
- 							lookbehind: true,
+-							lookbehind: true,
++							pattern: /[\s\S]+/,
  							alias: 'number',
  						},
-@@ -91,16 +83,10 @@
+-						'punctuation': /[{}]/,
+ 					}
+ 				}
  			},
  		},
  		'ingredient-group': { // @...{...}, @...
@@ -815,7 +868,7 @@ index cb49ed1260c48f7ecedb5b9148ba40e8901eef3d..8182c35332cad5f5ca8bb13304f457f7
  					lookbehind: true,
  					alias: 'variable',
  				},
-@@ -125,7 +111,7 @@
+@@ -125,7 +110,7 @@
  					inside: {
  						'punctuation': /[{}]/,
  						'unit': {
@@ -2138,7 +2191,7 @@ index 070cdd9cf8d71cfcbd5520fb4347f36cdd7fce07..aa38de0c5cf4c871dec519a98b161c0e
  
  }(Prism));
 diff --git a/components/prism-crystal.js b/components/prism-crystal.js
-index c2c0c53a9a3b33aa9c238c39e5cb5018d6685708..7ae175b51c124229c3bc2b643a10c650c2849cba 100644
+index c2c0c53a9a3b33aa9c238c39e5cb5018d6685708..43003634f12628bf611ea8b749062f21ffbe2805 100644
 --- a/components/prism-crystal.js
 +++ b/components/prism-crystal.js
 @@ -1,5 +1,5 @@
@@ -2157,15 +2210,22 @@ index c2c0c53a9a3b33aa9c238c39e5cb5018d6685708..7ae175b51c124229c3bc2b643a10c650
  				},
  			}
  		},
-@@ -40,7 +40,7 @@
+@@ -38,12 +38,12 @@
+ 			pattern: /\{(?:\{.*?\}|%.*?%)\}/,
+ 			inside: {
  				'content': {
- 					pattern: /^(\{.)[\s\S]+(?=.\}$)/,
+-					pattern: /^(\{.)[\s\S]+(?=.\}$)/,
++					pattern: /^(..)[\s\S]+(?=..)/,
  					lookbehind: true,
 -					inside: Prism.languages.crystal
 +					inside: crystal
  				},
  				'delimiter': {
- 					pattern: /^\{[\{%]|[\}%]\}$/,
+-					pattern: /^\{[\{%]|[\}%]\}$/,
++					pattern: /../,
+ 					alias: 'operator'
+ 				}
+ 			}
 diff --git a/components/prism-csharp.js b/components/prism-csharp.js
 index 9db624d63171ee7eed4e2a0ac0b17f4317098aca..a7d94f3199ea9812a066c2519e33c1df36c24525 100644
 --- a/components/prism-csharp.js
@@ -2961,7 +3021,7 @@ index be525e599285045cdb86d12abcbae592f35f89d7..0577df2126fbd26cba55fec31e707153
  			pattern: /\/(?:[^\\\/\r\n]|\\[^\r\n])+\//,
  			greedy: true
 diff --git a/components/prism-dhall.js b/components/prism-dhall.js
-index ee69839b87bb66a1f6943c5915f7457243b8b2e3..508f46f2f5a284384978df7a815f5ffa76f708c5 100644
+index ee69839b87bb66a1f6943c5915f7457243b8b2e3..5c0b96f2e38bd8dbfb15766b95b90aa08bcc100c 100644
 --- a/components/prism-dhall.js
 +++ b/components/prism-dhall.js
 @@ -1,7 +1,13 @@
@@ -2970,7 +3030,7 @@ index ee69839b87bb66a1f6943c5915f7457243b8b2e3..508f46f2f5a284384978df7a815f5ffa
  
 -Prism.languages.dhall = {
 +var expression = {
-+	pattern: /(^\$\{)[\s\S]+(?=\}$)/,
++	pattern: /(^..)[\s\S]+(?=.)/,
 +	lookbehind: true,
 +	alias: 'language-dhall'
 +}
@@ -2979,7 +3039,7 @@ index ee69839b87bb66a1f6943c5915f7457243b8b2e3..508f46f2f5a284384978df7a815f5ffa
  	// Multi-line comments can be nested. E.g. {- foo {- bar -} -}
  	// The multi-line pattern is essentially this:
  	//   \{-(?:[^-{]|-(?!\})|\{(?!-)|<SELF>)*-\}
-@@ -13,12 +19,7 @@ Prism.languages.dhall = {
+@@ -13,13 +19,8 @@ Prism.languages.dhall = {
  			'interpolation': {
  				pattern: /\$\{[^{}]*\}/,
  				inside: {
@@ -2989,10 +3049,12 @@ index ee69839b87bb66a1f6943c5915f7457243b8b2e3..508f46f2f5a284384978df7a815f5ffa
 -						alias: 'language-dhall',
 -						inside: null // see blow
 -					},
+-					'punctuation': /\$\{|\}/
 +					'expression': expression,
- 					'punctuation': /\$\{|\}/
++					'punctuation': /.+/
  				}
  			}
+ 		}
 @@ -65,5 +66,3 @@ Prism.languages.dhall = {
  	// we'll just assume that every capital word left is a type name
  	'class-name': /\b[A-Z]\w*\b/
@@ -3000,25 +3062,75 @@ index ee69839b87bb66a1f6943c5915f7457243b8b2e3..508f46f2f5a284384978df7a815f5ffa
 -
 -Prism.languages.dhall.string.inside.interpolation.inside.expression.inside = Prism.languages.dhall;
 diff --git a/components/prism-diff.js b/components/prism-diff.js
-index eadf69758cc83b44ac53766c72d24cdab70d6d88..5957e781492f0507ffad3d413c4f84d55baec328 100644
+index eadf69758cc83b44ac53766c72d24cdab70d6d88..27dfcfedfe841925a139b6f77db03f788923eb0b 100644
 --- a/components/prism-diff.js
 +++ b/components/prism-diff.js
-@@ -28,14 +28,14 @@
+@@ -1,14 +1,10 @@
+ (function (Prism) {
+ 
+-	Prism.languages.diff = {
+-		'coord': [
+-			// Match all kinds of coord lines (prefixed by "+++", "---" or "***").
+-			/^(?:\*{3}|-{3}|\+{3}).*$/m,
+-			// Match "@@ ... @@" coord lines in unified diff.
+-			/^@@.*@@$/m,
+-			// Match coord lines in normal diff (starts with a number).
+-			/^\d.*$/m
+-		]
++	var diff = Prism.languages.diff = {
++		// Match all kinds of coord lines (prefixed by "+++", "---" or "***").
++		// Match "@@ ... @@" coord lines in unified diff.
++		// Match coord lines in normal diff (starts with a number).
++		'coord': /^(?:\*{3}|-{3}|\+{3}|\d).*$|^@@.*@@$/m
+ 
+ 		// deleted, inserted, unchanged, diff
+ 	};
+@@ -28,36 +24,26 @@
  	};
  
  	// add a token for each prefix
 -	Object.keys(PREFIXES).forEach(function (name) {
-+	Object.keys(PREFIXES).forEach(name => {
- 		var prefix = PREFIXES[name];
+-		var prefix = PREFIXES[name];
++	for (var name in PREFIXES) {
  
- 		var alias = [];
- 		if (!/^\w+$/.test(name)) { // "deleted-sign" -> "deleted"
- 			alias.push(/\w+/.exec(name)[0]);
- 		}
+-		var alias = [];
+-		if (!/^\w+$/.test(name)) { // "deleted-sign" -> "deleted"
+-			alias.push(/\w+/.exec(name)[0]);
+-		}
 -		if (name === 'diff') {
-+		if (name == 'diff') {
- 			alias.push('bold');
- 		}
+-			alias.push('bold');
+-		}
++		var prefix = name.split('-')[0];
+ 
+-		Prism.languages.diff[name] = {
+-			pattern: RegExp('^(?:[' + prefix + '].*(?:\r\n?|\n|(?![\\s\\S])))+', 'm'),
+-			alias: alias,
++		diff[name] = {
++			pattern: RegExp('^(?:[' + PREFIXES[name] + '].*$(?:\r\n?|\n)?)+', 'm'),
++			alias: prefix != name ? prefix : name == 'diff' ? 'bold' : undefined,
+ 			inside: {
+-				'line': {
+-					pattern: /(.)(?=[\s\S]).*(?:\r\n?|\n)?/,
+-					lookbehind: true
+-				},
+ 				'prefix': {
+-					pattern: /[\s\S]/,
+-					alias: /\w+/.exec(name)[0]
++					pattern: RegExp('^[' + PREFIXES[name] + ']', 'm'),
++					greedy: true,
++					alias: prefix
+ 				}
+ 			}
+ 		};
+ 
+-	});
++	};
+ 
+ 	// make prefixes available to Diff plugin
+-	Object.defineProperty(Prism.languages.diff, 'PREFIXES', {
++	Object.defineProperty(diff, 'PREFIXES', {
+ 		value: PREFIXES
+ 	});
  
 diff --git a/components/prism-django.js b/components/prism-django.js
 index 98501b48b809b82631c027f73d79b0545d6ff6f4..b131db2505e4498b39f2080a8b55877435127824 100644
@@ -3094,7 +3206,7 @@ index 953f3ae03e2e6022100a50175f4208d2261643c9..784245e10cff188aabe04f0562150430
 -
  }(Prism));
 diff --git a/components/prism-dot.js b/components/prism-dot.js
-index e93b5bff1b51f491efb5504938ae2ec5ab8df4fa..90053a9e2fa6a7a9f6330ffcd6eda2cc7ddbbdd0 100644
+index e93b5bff1b51f491efb5504938ae2ec5ab8df4fa..a993ec7fed1d5cae8612fc8745c7bc18ab03c0e6 100644
 --- a/components/prism-dot.js
 +++ b/components/prism-dot.js
 @@ -2,23 +2,14 @@
@@ -3115,7 +3227,8 @@ index e93b5bff1b51f491efb5504938ae2ec5ab8df4fa..90053a9e2fa6a7a9f6330ffcd6eda2cc
  
  	var IDInside = {
  		'markup': {
- 			pattern: /(^<)[\s\S]+(?=>$)/,
+-			pattern: /(^<)[\s\S]+(?=>$)/,
++			pattern: /(^<)[\s\S]+(?=>)/,
  			lookbehind: true,
 -			alias: ['language-markup', 'language-html', 'language-xml'],
 -			inside: Prism.languages.markup
@@ -3969,7 +4082,7 @@ index 5cc796a1910a109b15cfb56436f8a0ff5fbf74f2..aea79157cd8738c91658c95fa0419c2a
  	});
  
 diff --git a/components/prism-haxe.js b/components/prism-haxe.js
-index fffef0228d8f727a58d827f3480193bc8e1579fb..efddaf6490443008863d2f53c3713880321ed378 100644
+index fffef0228d8f727a58d827f3480193bc8e1579fb..dd371d386c1cd73e075176d1ecff7c54bd132a27 100644
 --- a/components/prism-haxe.js
 +++ b/components/prism-haxe.js
 @@ -1,4 +1,4 @@
@@ -3987,15 +4100,25 @@ index fffef0228d8f727a58d827f3480193bc8e1579fb..efddaf6490443008863d2f53c3713880
  					},
  				}
  			},
-@@ -55,7 +55,7 @@ Prism.languages.insertBefore('haxe', 'class-name', {
- 				pattern: /^(~\/)[\s\S]+(?=\/$)/,
- 				lookbehind: true,
+@@ -50,14 +50,13 @@ Prism.languages.insertBefore('haxe', 'class-name', {
+ 		pattern: /~\/(?:[^\/\\\r\n]|\\.)+\/[a-z]*/,
+ 		greedy: true,
+ 		inside: {
+-			'regex-flags': /\b[a-z]+$/,
++			'regex-flags': /\w+$/,
++			'regex-delimiter': /^~\/|\/$/,
+ 			'regex-source': {
+-				pattern: /^(~\/)[\s\S]+(?=\/$)/,
+-				lookbehind: true,
++				pattern: /[\s\S]+/,
  				alias: 'language-regex',
 -				inside: Prism.languages.regex
 +				inside: 'regex'
  			},
- 			'regex-delimiter': /^~\/|\/$/,
+-			'regex-delimiter': /^~\/|\/$/,
  		}
+ 	}
+ });
 diff --git a/components/prism-http.js b/components/prism-http.js
 index d14eb379a424d8452a2914139877f06935095be1..d48d42d59db448bec25dc446416d36f138395917 100644
 --- a/components/prism-http.js
@@ -4147,7 +4270,7 @@ index d14eb379a424d8452a2914139877f06935095be1..d48d42d59db448bec25dc446416d36f1
  
  }(Prism));
 diff --git a/components/prism-icu-message-format.js b/components/prism-icu-message-format.js
-index a4de0db52f835e6d6e5ea220727cad242a8c7eee..b6561c1cb451e4cc1f54f2854b5a43c85b717f7f 100644
+index a4de0db52f835e6d6e5ea220727cad242a8c7eee..c48e41abada2b191fc0fa7f6feff351491e814f8 100644
 --- a/components/prism-icu-message-format.js
 +++ b/components/prism-icu-message-format.js
 @@ -8,12 +8,11 @@
@@ -4167,13 +4290,12 @@ index a4de0db52f835e6d6e5ea220727cad242a8c7eee..b6561c1cb451e4cc1f54f2854b5a43c8
  	}
  
  	var stringPattern = /'[{}:=,](?:[^']|'')*'(?!')/;
-@@ -31,20 +30,33 @@
+@@ -31,20 +30,32 @@
  		}
  	};
  
 +	var message = {
-+		pattern: /^(\{)[\s\S]+(?=\}$)/,
-+		lookbehind: true
++		pattern: /(?!^)[\s\S]+(?=.)/
 +	};
 +
 +	var choiceStyleInside = {
@@ -4207,7 +4329,7 @@ index a4de0db52f835e6d6e5ea220727cad242a8c7eee..b6561c1cb451e4cc1f54f2854b5a43c8
  			'message-delimiter': {
  				pattern: /./,
  				alias: 'punctuation'
-@@ -52,7 +64,7 @@
+@@ -52,14 +63,13 @@
  		}
  	};
  
@@ -4216,7 +4338,15 @@ index a4de0db52f835e6d6e5ea220727cad242a8c7eee..b6561c1cb451e4cc1f54f2854b5a43c8
  		'argument': {
  			pattern: RegExp(argumentSource),
  			greedy: true,
-@@ -69,18 +81,7 @@
+ 			inside: {
+ 				'content': {
+-					pattern: /^(\{)[\s\S]+(?=\}$)/,
+-					lookbehind: true,
++					pattern: /(?!^)[\s\S]+(?=.)/,
+ 					inside: {
+ 						'argument-name': {
+ 							pattern: /^(\s*)[^{}:=,\s]+/,
+@@ -69,18 +79,7 @@
  							// https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/classicu_1_1ChoiceFormat.html#details
  							pattern: /^(\s*,\s*choice\s*,\s*)\S(?:[\s\S]*\S)?/,
  							lookbehind: true,
@@ -4236,7 +4366,7 @@ index a4de0db52f835e6d6e5ea220727cad242a8c7eee..b6561c1cb451e4cc1f54f2854b5a43c8
  						},
  						'plural-style': {
  							// https://unicode-org.github.io/icu-docs/apidoc/released/icu4j/com/ibm/icu/text/PluralFormat.html#:~:text=Patterns%20and%20Their%20Interpretation
-@@ -142,7 +143,4 @@
+@@ -142,7 +141,4 @@
  		'string': string
  	};
  
@@ -4493,10 +4623,10 @@ index 187d2cd74a6848a0ac8bd67da899ce72514dbdf9..c21bad3ddfcb83bfd2ebc405124f0542
  
  }(Prism));
 diff --git a/components/prism-javascript.js b/components/prism-javascript.js
-index 7eda6c617f96726ca2ea12cda1e39527d67e7295..99c3b2e67532026e18b41cd5da200d210e0b7431 100644
+index 7eda6c617f96726ca2ea12cda1e39527d67e7295..0643116cf91d7e5d2e3ad822fa741dcec5535583 100644
 --- a/components/prism-javascript.js
 +++ b/components/prism-javascript.js
-@@ -1,76 +1,45 @@
+@@ -1,127 +1,83 @@
 -Prism.languages.javascript = Prism.languages.extend('clike', {
 +var js = Prism.languages.js = Prism.languages.javascript = Prism.languages.extend('clike', {
  	'class-name': [
@@ -4596,16 +4726,19 @@ index 7eda6c617f96726ca2ea12cda1e39527d67e7295..99c3b2e67532026e18b41cd5da200d21
  		lookbehind: true,
  		greedy: true,
  		inside: {
-@@ -78,7 +47,7 @@ Prism.languages.insertBefore('javascript', 'keyword', {
- 				pattern: /^(\/)[\s\S]+(?=\/[a-z]*$)/,
- 				lookbehind: true,
++			'regex-flags': /\w+$/,
++			'regex-delimiter': /^\/|\/$/,
+ 			'regex-source': {
+-				pattern: /^(\/)[\s\S]+(?=\/[a-z]*$)/,
+-				lookbehind: true,
++				pattern: /[\s\S]+/,
  				alias: 'language-regex',
 -				inside: Prism.languages.regex
 +				inside: 'regex'
  			},
- 			'regex-delimiter': /^\/|\/$/,
- 			'regex-flags': /^[a-z]+$/,
-@@ -86,42 +55,30 @@ Prism.languages.insertBefore('javascript', 'keyword', {
+-			'regex-delimiter': /^\/|\/$/,
+-			'regex-flags': /^[a-z]+$/,
+ 		}
  	},
  	// This must be declared before keyword because we use "function" inside the look-forward
  	'function-variable': {
@@ -4660,7 +4793,7 @@ index 7eda6c617f96726ca2ea12cda1e39527d67e7295..99c3b2e67532026e18b41cd5da200d21
  		greedy: true,
  		inside: {
  			'template-punctuation': {
-@@ -129,14 +86,14 @@ Prism.languages.insertBefore('javascript', 'string', {
+@@ -129,14 +85,14 @@ Prism.languages.insertBefore('javascript', 'string', {
  				alias: 'string'
  			},
  			'interpolation': {
@@ -4677,7 +4810,7 @@ index 7eda6c617f96726ca2ea12cda1e39527d67e7295..99c3b2e67532026e18b41cd5da200d21
  				}
  			},
  			'string': /[\s\S]+/
-@@ -152,21 +109,16 @@ Prism.languages.insertBefore('javascript', 'string', {
+@@ -152,21 +108,16 @@ Prism.languages.insertBefore('javascript', 'string', {
  
  Prism.languages.insertBefore('javascript', 'operator', {
  	'literal-property': {
@@ -4722,15 +4855,14 @@ index 6b54f864729c7a7aaea8c1d99d06f4b3e9f89ea6..85e79dd82ba08998f031ce5e0bc9931a
 +	'property': /\b(?:Aggregates|[Ii]nterfaces|Java|Javascript|Jolie|[Ll]ocation|OneWay|[Pp]rotocol|Redirects|RequestResponse)\b(?=[ \t]*:)/
  });
 diff --git a/components/prism-jq.js b/components/prism-jq.js
-index 3cc030e72fd1325f4719b8cf89178670898edecc..00581d047cc7ae9a35b76ca2dd9e74676389825a 100644
+index 3cc030e72fd1325f4719b8cf89178670898edecc..a28a54b35e309a2c5cbb23029ffec09283800e1a 100644
 --- a/components/prism-jq.js
 +++ b/components/prism-jq.js
-@@ -1,23 +1,23 @@
+@@ -1,23 +1,22 @@
  (function (Prism) {
  
 +	var content = {
-+		pattern: /^(\\\()[\s\S]+(?=\)$)/,
-+		lookbehind: true
++		pattern: /[\s\S]+/
 +	};
  	var interpolation = /\\\((?:[^()]|\([^()]*\))*\)/.source;
 -	var string = RegExp(/(^|[^\\])"(?:[^"\r\n\\]|\\[^\r\n(]|__)*"/.source.replace(/__/g, function () { return interpolation; }));
@@ -4745,8 +4877,9 @@ index 3cc030e72fd1325f4719b8cf89178670898edecc..00581d047cc7ae9a35b76ca2dd9e7467
 -					lookbehind: true,
 -					inside: null // see below
 -				},
-+				'content': content,
- 				'punctuation': /^\\\(|\)$/
+-				'punctuation': /^\\\(|\)$/
++				'punctuation': /^\\\(|\)$/,
++				'content': content
  			}
  		}
  	};
@@ -4756,7 +4889,7 @@ index 3cc030e72fd1325f4719b8cf89178670898edecc..00581d047cc7ae9a35b76ca2dd9e7467
  		'comment': /#.*/,
  		'property': {
  			pattern: RegExp(string.source + /(?=\s*:(?!:))/.source),
-@@ -64,6 +64,4 @@
+@@ -64,6 +63,4 @@
  		}
  	};
  
@@ -4917,14 +5050,14 @@ index 64cac5af9baa7cbc06390623019140f15e7380e7..39e2324a548b1490b2de0655d5989616
  
  }(Prism));
 diff --git a/components/prism-js-templates.js b/components/prism-js-templates.js
-index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624370465ea 100644
+index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..bd57038ef56c6926dcd73f2f6bb44b81a8577ad1 100644
 --- a/components/prism-js-templates.js
 +++ b/components/prism-js-templates.js
 @@ -1,13 +1,14 @@
  (function (Prism) {
  
 -	var templateString = Prism.languages.javascript['template-string'];
-+	var js = Prism.languages.js
++	var js = Prism.languages.js;
 +	var templateString = js['template-string'];
  
  	// see the pattern in prism-javascript.js
@@ -4940,7 +5073,7 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
  
  	/**
  	 * Creates a new pattern to match a template string with a special tag.
-@@ -15,60 +16,54 @@
+@@ -15,61 +16,54 @@
  	 * This will return `undefined` if there is no grammar with the given language id.
  	 *
  	 * @param {string} language The language id of the embedded language. E.g. `markdown`.
@@ -5020,11 +5153,12 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
  		// vanilla template string
  		templateString
 -	].filter(Boolean);
+-
 +	];
  
- 
  	/**
-@@ -78,9 +73,7 @@
+ 	 * Returns a specific placeholder literal for the given language.
+@@ -78,9 +72,7 @@
  	 * @param {string} language
  	 * @returns {string}
  	 */
@@ -5035,7 +5169,7 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
  
  	/**
  	 * Returns the tokens of `Prism.tokenize` but also runs the `before-tokenize` and `after-tokenize` hooks.
-@@ -90,7 +83,7 @@
+@@ -90,7 +82,7 @@
  	 * @param {string} language
  	 * @returns {(string|Token)[]}
  	 */
@@ -5044,14 +5178,14 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
  		var env = {
  			code: code,
  			grammar: grammar,
-@@ -108,13 +101,14 @@
+@@ -108,13 +100,14 @@
  	 * @param {string} expression The code of the expression. E.g. `"${42}"`
  	 * @returns {Token}
  	 */
 -	function tokenizeInterpolationExpression(expression) {
 -		var tempGrammar = {};
 -		tempGrammar['interpolation-punctuation'] = interpolationPunctuationObject;
-+	var tokenizeInterpolationExpression = (expression, alias) => {
++	var tokenizeInterpolationExpression = (expression) => {
 +		var tempGrammar = {
 +			['interpolation-punctuation']: interpolationPunctuationObject
 +		};
@@ -5063,7 +5197,7 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
  			/**
  			 * The token array will look like this
  			 * [
-@@ -123,14 +117,10 @@
+@@ -123,14 +116,10 @@
  			 *     ["interpolation-punctuation", "}"]
  			 * ]
  			 */
@@ -5076,16 +5210,16 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
  		}
  
 -		return new Prism.Token('interpolation', tokens, interpolationObject.alias, expression);
-+		return new Prism.Token('interpolation', tokens, alias, expression);
++		return new Prism.Token('interpolation', tokens, 'language-javascript', expression);
  	}
  
  	/**
-@@ -150,14 +140,14 @@
+@@ -150,14 +139,14 @@
  	 * @param {string} language
  	 * @returns {Token}
  	 */
 -	function tokenizeEmbedded(code, grammar, language) {
-+	var tokenizeEmbedded = (code, grammar = {}, language, alias) => {
++	var tokenizeEmbedded = (code, grammar = {}, language) => {
  		// 1. First filter out all interpolations
  
  		// because they might be escaped, we need a lookbehind, so we use Prism
@@ -5097,7 +5231,7 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
  				lookbehind: true
  			}
  		});
-@@ -166,25 +156,20 @@
+@@ -166,83 +155,77 @@
  		var placeholderCounter = 0;
  		/** @type {Object<string, string>} */
  		var placeholderMap = {};
@@ -5131,7 +5265,13 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
  		// 3. Re-insert the interpolation
  
  		var placeholders = Object.keys(placeholderMap);
-@@ -195,51 +180,43 @@
+-		placeholderCounter = 0;
++		var l = placeholders.length;
++		var parentCount = 0;
++		var parents = [];
+ 
+ 		/**
+ 		 *
  		 * @param {(Token|string)[]} tokens
  		 * @returns {void}
  		 */
@@ -5142,13 +5282,14 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
 -				}
 -
 +		var walkTokens = tokens => {
-+			for (var i = 0, l = placeholders.length; i < tokens.length && placeholderCounter < l; i++) {
++			for (var i = 0; i < tokens.length && placeholderCounter < l; i++) {
  				var token = tokens[i];
 +				var content = token.content;
  
 -				if (typeof token === 'string' || typeof token.content === 'string') {
++				if (content) parents[parentCount++] = token;
 +				if (Array.isArray(content)) {
-+					walkTokens(content)
++					walkTokens(content);
 +				}
 +				else {
  					var placeholder = placeholders[placeholderCounter];
@@ -5164,22 +5305,26 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
 -						var middle = tokenizeInterpolationExpression(placeholderMap[placeholder]);
 -						var after = s.substring(index + placeholder.length);
 +						var before = s.slice(0, index);
-+						var middle = tokenizeInterpolationExpression(placeholderMap[placeholder], alias);
-+						var after = s.slice(index + placeholder.length);
++						var interpolation = placeholderMap[placeholder];
++						var length = placeholder.length;
++						var middle = tokenizeInterpolationExpression(interpolation);
++						var after = s.slice(index + length);
  
 -						var replacement = [];
-+						var replacement = [middle];
- 						if (before) {
+-						if (before) {
 -							replacement.push(before);
-+							replacement.unshift(before)
- 						}
+-						}
 -						replacement.push(middle);
++						var replacement = [middle];
++						var j = 0;
++						if (before) replacement.unshift(before);
  						if (after) {
  							var afterTokens = [after];
  							walkTokens(afterTokens);
 -							replacement.push.apply(replacement, afterTokens);
 +							replacement.push(...afterTokens);
  						}
++						for (; j < parentCount; ) parents[j++].length += interpolation.length - length;
  
 -						if (typeof token === 'string') {
 -							tokens.splice.apply(tokens, [i, 1].concat(replacement));
@@ -5198,9 +5343,14 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
 -						walkTokens([content]);
 -					}
  				}
++				if (content) parentCount--;
  			}
  		}
-@@ -253,42 +230,31 @@
++		placeholderCounter = 0;
+ 		walkTokens(embeddedTokens);
+ 
+ 		return new Prism.Token(language, embeddedTokens, 'language-' + language, code);
+@@ -253,42 +236,31 @@
  	 *
  	 * JS templating isn't active for only JavaScript but also related languages like TypeScript, JSX, and TSX.
  	 */
@@ -5252,14 +5402,15 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
  					/**
  					 * A JavaScript template-string token will look like this:
  					 *
-@@ -305,20 +271,12 @@
+@@ -305,20 +277,12 @@
  					 */
  
  					var embedded = content[1];
 -					if (content.length === 3 && typeof embedded !== 'string' && embedded.type === 'embedded-code') {
 +					if (content.length == 3 && embedded.type == 'embedded-code') {
  						// get string content
- 						var code = stringContent(embedded);
+-						var code = stringContent(embedded);
++						var code = embedded.content;
 +						var language = embedded.alias;
  
 -						var alias = embedded.alias;
@@ -5272,31 +5423,34 @@ index 8562126cd46ec862b8adfa76c2e8722d0aff28e9..dae0e2c69168afa256199f5c8a141624
 -						}
 -
 -						content[1] = tokenizeEmbedded(code, grammar, language);
-+						content[1] = tokenizeEmbedded(code, Prism.languages[language], language, langAlias);
++						content[1] = tokenizeEmbedded(code, Prism.languages[language], language);
  					}
  				} else {
  					findTemplateStrings(content);
-@@ -336,14 +294,13 @@
- 	 * @param {string | Token | (string | Token)[]} value
- 	 * @returns {string}
- 	 */
+@@ -329,21 +293,4 @@
+ 		findTemplateStrings(env.tokens);
+ 	});
+ 
+-
+-	/**
+-	 * Returns the string content of a token or token stream.
+-	 *
+-	 * @param {string | Token | (string | Token)[]} value
+-	 * @returns {string}
+-	 */
 -	function stringContent(value) {
 -		if (typeof value === 'string') {
-+	var stringContent = value => {
-+		if (typeof value == 'string') {
- 			return value;
+-			return value;
 -		} else if (Array.isArray(value)) {
-+		} if (Array.isArray(value)) {
- 			return value.map(stringContent).join('');
+-			return value.map(stringContent).join('');
 -		} else {
 -			return stringContent(value.content);
- 		}
-+		return stringContent(value.content);
- 	}
- 
+-		}
+-	}
+-
  }(Prism));
 diff --git a/components/prism-jsdoc.js b/components/prism-jsdoc.js
-index fab3c192dc3e532db09523bf7c827084c5d7fc99..26f29fb63f9ecff0ca3fdfcdead7ac3739cbac41 100644
+index fab3c192dc3e532db09523bf7c827084c5d7fc99..8e3c122860b2c118490c6a8571083abd104ce9c1 100644
 --- a/components/prism-jsdoc.js
 +++ b/components/prism-jsdoc.js
 @@ -1,9 +1,9 @@
@@ -5311,7 +5465,37 @@ index fab3c192dc3e532db09523bf7c827084c5d7fc99..26f29fb63f9ecff0ca3fdfcdead7ac37
  
  	Prism.languages.jsdoc = Prism.languages.extend('javadoclike', {
  		'parameter': {
-@@ -40,7 +40,7 @@
+@@ -19,28 +19,27 @@
+ 	Prism.languages.insertBefore('jsdoc', 'keyword', {
+ 		'optional-parameter': {
+ 			// @param {string} [baz.foo="bar"] foo bar
+-			pattern: RegExp(parameterPrefix + /\[(?:(?!\s)[$\w\xA0-\uFFFF.])+(?:=[^[\]]+)?\](?=\s|$)/.source),
++			pattern: RegExp(parameterPrefix + /\[(?:(?!\s)[$\w\xA0-\uFFFF.])+(?:=[^[\]]+)?\](?!\S)/.source),
+ 			lookbehind: true,
+ 			inside: {
+-				'parameter': {
+-					pattern: /(^\[)[$\w\xA0-\uFFFF\.]+/,
+-					lookbehind: true,
+-					inside: {
+-						'punctuation': /\./
+-					}
+-				},
+ 				'code': {
+-					pattern: /(=)[\s\S]*(?=\]$)/,
++					pattern: /(=)[\s\S]+(?=.)/,
+ 					lookbehind: true,
+ 					inside: javascript,
+ 					alias: 'language-javascript'
+ 				},
+-				'punctuation': /[=[\]]/
++				'punctuation': /[=[\]]/,
++				'parameter': {
++					pattern: /[\s\S]+/,
++					inside: {
++						'punctuation': /\./
++					}
++				},
+ 			}
  		},
  		'class-name': [
  			{
@@ -5320,7 +5504,7 @@ index fab3c192dc3e532db09523bf7c827084c5d7fc99..26f29fb63f9ecff0ca3fdfcdead7ac37
  				lookbehind: true,
  				inside: {
  					'punctuation': /\./
-@@ -53,7 +53,7 @@
+@@ -53,7 +52,7 @@
  					'string': javascript.string,
  					'number': javascript.number,
  					'boolean': javascript.boolean,
@@ -5861,10 +6045,10 @@ index bdbc7e3b38c1b595fdfe109012312210d7e429bd..40c230856792f2a58aa6cba337d11755
  		pattern: /@[\w-](?:\((?:[^(){}]|\([^(){}]*\))*\)|[^(){};\s]|\s+(?!\s))*?(?=\s*\{)/,
  		inside: {
 diff --git a/components/prism-lilypond.js b/components/prism-lilypond.js
-index a2e7845ae84c5ec610444327bce76a6b5934a54d..da8d866917e6458444e6fc49adb39b45cea3ae94 100644
+index a2e7845ae84c5ec610444327bce76a6b5934a54d..cf3bee86a3d83fa9183b976327a46f1ed36407c3 100644
 --- a/components/prism-lilypond.js
 +++ b/components/prism-lilypond.js
-@@ -3,17 +3,20 @@
+@@ -3,23 +3,25 @@
  	var schemeExpression = /\((?:[^();"#\\]|\\[\s\S]|;.*(?!.)|"(?:[^"\\]|\\.)*"|#(?:\{(?:(?!#\})[\s\S])*#\}|[^{])|<expr>)*\)/.source;
  	// allow for up to pow(2, recursivenessLog2) many levels of recursive brace expressions
  	// For some reason, this can't be 4
@@ -5890,7 +6074,14 @@ index a2e7845ae84c5ec610444327bce76a6b5934a54d..da8d866917e6458444e6fc49adb39b45
  			lookbehind: true,
  			greedy: true,
  			inside: {
-@@ -27,11 +30,7 @@
+ 				'scheme': {
+-					pattern: /^(#)[\s\S]+$/,
+-					lookbehind: true,
++					pattern: /(?!^)[\s\S]+/,
+ 					alias: 'language-scheme',
+ 					inside: {
+ 						'embedded-lilypond': {
+@@ -27,11 +29,7 @@
  							greedy: true,
  							inside: {
  								'punctuation': /^#\{|#\}$/,
@@ -5903,7 +6094,7 @@ index a2e7845ae84c5ec610444327bce76a6b5934a54d..da8d866917e6458444e6fc49adb39b45
  							}
  						},
  						rest: Prism.languages.scheme
-@@ -62,8 +61,4 @@
+@@ -62,8 +60,4 @@
  		'number': /\b\d+(?:\/\d+)?\b/
  	};
  
@@ -6086,10 +6277,10 @@ index 64a1dee6ee8ab73b554821f22758ba171c33a262..beebd8e22dbf46c0a9badbf8c59251b1
  		pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
  		greedy: true
 diff --git a/components/prism-markdown.js b/components/prism-markdown.js
-index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fba5ad8fd0 100644
+index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..2428af29f9193f10882ebc0cdb23934aa62bed31 100644
 --- a/components/prism-markdown.js
 +++ b/components/prism-markdown.js
-@@ -1,415 +1,285 @@
+@@ -1,415 +1,284 @@
 -(function (Prism) {
 -
 -	// Allow only one line break
@@ -6129,37 +6320,7 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 -					alias: ['yaml', 'language-yaml'],
 -					inside: Prism.languages.yaml
 -				}
-+// Allow only one line break
-+var inner = /(?:\\.|[^\\\n\r]|(?:\n|\r\n?)(?![\r\n]))/.source;
-+
-+/**
-+ * This function is intended for the creation of the bold or italic pattern.
-+ *
-+ * This also adds a lookbehind group to the given pattern to ensure that the pattern is not backslash-escaped.
-+ *
-+ * _Note:_ Keep in mind that this adds a capturing group.
-+ *
-+ * @param {RegExp} pattern
-+ * @returns {RegExp}
-+ */
-+var createInline = pattern => RegExp(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern.source.replace(/<inner>/g, inner)})`);
-+var tableCell = /(?:\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\|\r\n`])+/.source;
-+var tableRow = /\|?__(?:\|__)+\|?(?:(?:\n|\r\n?)|(?![\s\S]))/.source.replace(/__/g, tableCell);
-+var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?(?:\n|\r\n?)/.source;
-+var markdown = Prism.languages.markdown = Prism.languages.md = Prism.languages.extend('markup', {});
-+
-+Prism.languages.insertBefore('markdown', 'prolog', {
-+	'front-matter-block': {
-+		pattern: /(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,
-+		lookbehind: true,
-+		greedy: true,
-+		inside: {
-+			'punctuation': /^---|---$/,
-+			'front-matter': {
-+				pattern: /\S+(?:\s+\S+)*/,
-+				alias: 'language-yaml',
-+				inside: 'yaml'
- 			}
+-			}
 -		},
 -		'blockquote': {
 -			// > ...
@@ -6198,7 +6359,37 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 -						'punctuation': /\|/
 -					}
 -				}
--			}
++// Allow only one line break
++var inner = /(?:\\.|[^\\\n\r]|(?:\n|\r\n?)(?![\r\n]))/.source;
++
++/**
++ * This function is intended for the creation of the bold or italic pattern.
++ *
++ * This also adds a lookbehind group to the given pattern to ensure that the pattern is not backslash-escaped.
++ *
++ * _Note:_ Keep in mind that this adds a capturing group.
++ *
++ * @param {RegExp} pattern
++ * @returns {RegExp}
++ */
++var createInline = pattern => RegExp(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern.source.replace(/<inner>/g, inner)})`);
++var tableCell = /(?:\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\|\r\n`])+/.source;
++var tableRow = /\|?__(?:\|__)+\|?(?:(?:\n|\r\n?)|(?![\s\S]))/.source.replace(/__/g, tableCell);
++var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?(?:\n|\r\n?)/.source;
++var markdown = Prism.languages.markdown = Prism.languages.md = Prism.languages.extend('markup', {});
++
++Prism.languages.insertBefore('markdown', 'prolog', {
++	'front-matter-block': {
++		pattern: /(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,
++		lookbehind: true,
++		greedy: true,
++		inside: {
++			'punctuation': /^---|---$/,
++			'front-matter': {
++				pattern: /\S+(?:\s+\S+)*/,
++				alias: 'language-yaml',
++				inside: 'yaml'
+ 			}
 -		},
 -		'code': [
 -			{
@@ -6229,14 +6420,14 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 -					'code-block': {
 -						pattern: /^(```.*(?:\n|\r\n?))[\s\S]+?(?=(?:\n|\r\n?)^```$)/m,
 -						lookbehind: true
+-					},
+-					'code-language': {
+-						pattern: /^(```).+/,
+-						lookbehind: true
 +					'table-data': {
 +						pattern: RegExp(tableCell),
 +						inside: markdown
  					},
--					'code-language': {
--						pattern: /^(```).+/,
--						lookbehind: true
--					},
 -					'punctuation': /```/
 +					'punctuation': /\|/
  				}
@@ -6294,13 +6485,7 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 -			// - item
 -			// 1. item
 -			pattern: /(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,
-+		}
-+	},
-+	'code': [
-+		{
-+			// Prefixed by 4 spaces or 1 tab and preceded by an empty line
-+			pattern: /(^[ \t]*(?:\n|\r\n?))(?:    |\t).+(?:(?:\n|\r\n?)(?:    |\t).+)*/m,
- 			lookbehind: true,
+-			lookbehind: true,
 -			alias: 'punctuation'
 -		},
 -		'url-reference': {
@@ -6318,14 +6503,37 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 -				'punctuation': /^[\[\]!:]|[<>]/
 -			},
 -			alias: 'url'
-+			alias: 'keyword'
- 		},
+-		},
 -		'bold': {
 -			// **strong**
 -			// __strong__
 -
 -			// allow one nested instance of italic text using the same delimiter
 -			pattern: createInline(/\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\b|\*\*(?:(?!\*)<inner>|\*(?:(?!\*)<inner>)+\*)+\*\*/.source),
++		}
++	},
++	'code': [
++		{
++			// Prefixed by 4 spaces or 1 tab and preceded by an empty line
++			pattern: /(^[ \t]*(?:\n|\r\n?))(?:    |\t).+(?:(?:\n|\r\n?)(?:    |\t).+)*/m,
+ 			lookbehind: true,
+-			greedy: true,
+-			inside: {
+-				'content': {
+-					pattern: /(^..)[\s\S]+(?=..$)/,
+-					lookbehind: true,
+-					inside: {} // see below
+-				},
+-				'punctuation': /\*\*|__/
+-			}
++			alias: 'keyword'
+ 		},
+-		'italic': {
+-			// *em*
+-			// _em_
+-
+-			// allow one nested instance of bold text using the same delimiter
+-			pattern: createInline(/\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\b|\*(?:(?!\*)<inner>|\*\*(?:(?!\*)<inner>)+\*\*)+\*/.source),
 -			lookbehind: true,
 +		{
 +			// ```optional language
@@ -6335,7 +6543,7 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
  			greedy: true,
  			inside: {
 -				'content': {
--					pattern: /(^..)[\s\S]+(?=..$)/,
+-					pattern: /(^.)[\s\S]+(?=.$)/,
 -					lookbehind: true,
 -					inside: {} // see below
 +				'punctuation': /^```/m,
@@ -6344,15 +6552,14 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 +					pattern: /^(\n|\r\n?)[\s\S]+(?=(?:\n|\r\n?)$)/,
 +					lookbehind: true
  				},
--				'punctuation': /\*\*|__/
+-				'punctuation': /[*_]/
  			}
 -		},
--		'italic': {
--			// *em*
--			// _em_
--
--			// allow one nested instance of bold text using the same delimiter
--			pattern: createInline(/\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\b|\*(?:(?!\*)<inner>|\*\*(?:(?!\*)<inner>)+\*\*)+\*/.source),
+-		'strike': {
+-			// ~~strike through~~
+-			// ~strike~
+-			// eslint-disable-next-line regexp/strict
+-			pattern: createInline(/(~~?)(?:(?!~)<inner>)+\2/.source),
 -			lookbehind: true,
 -			greedy: true,
 +		}
@@ -6368,35 +6575,14 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 +			alias: 'important',
  			inside: {
 -				'content': {
--					pattern: /(^.)[\s\S]+(?=.$)/,
--					lookbehind: true,
--					inside: {} // see below
--				},
--				'punctuation': /[*_]/
-+				punctuation: /==+$|--+$/
- 			}
- 		},
--		'strike': {
--			// ~~strike through~~
--			// ~strike~
--			// eslint-disable-next-line regexp/strict
--			pattern: createInline(/(~~?)(?:(?!~)<inner>)+\2/.source),
-+		{
-+			// # title 1
-+			// ###### title 6
-+			pattern: /(^\s*)#.+/m,
- 			lookbehind: true,
--			greedy: true,
-+			alias: 'important',
- 			inside: {
--				'content': {
 -					pattern: /(^~~?)[\s\S]+(?=\1$)/,
 -					lookbehind: true,
 -					inside: {} // see below
 -				},
 -				'punctuation': /~~?/
--			}
--		},
++				punctuation: /==+$|--+$/
+ 			}
+ 		},
 -		'code-snippet': {
 -			// `code`
 -			// ``code``
@@ -6410,9 +6596,14 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 -			// [example][id]
 -			// [example] [id]
 -			pattern: createInline(/!?\[(?:(?!\])<inner>)+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)|[ \t]?\[(?:(?!\])<inner>)+\])/.source),
--			lookbehind: true,
++		{
++			// # title 1
++			// ###### title 6
++			pattern: /(^\s*)#.+/m,
+ 			lookbehind: true,
 -			greedy: true,
--			inside: {
++			alias: 'important',
+ 			inside: {
 -				'operator': /^!/,
 -				'content': {
 -					pattern: /(^\[)[^\]]+(?=\])/,
@@ -6492,7 +6683,7 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 +		greedy: true,
 +		inside: {
 +			'content': {
-+				pattern: /(^..)[\s\S]+(?=..$)/,
++				pattern: /(^..)[\s\S]+(?=..)/,
 +				lookbehind: true,
 +				inside: {} // see below
 +			},
@@ -6562,8 +6753,7 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 +		greedy: true,
 +		inside: {
 +			'content': {
-+				pattern: /(^.)[\s\S]+(?=.$)/,
-+				lookbehind: true,
++				pattern: /(?!^)[\s\S]+(?=.)/,
 +				inside: {} // see below
 +			},
 +			'punctuation': /./
@@ -6722,7 +6912,7 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 +			else {
 +				var [, codeLang, , codeBlock] = token.content;
 +
-+				if (codeBlock && codeLang && codeBlock.type == 'code-block' && codeLang.type == 'code-language') {
++				if (codeLang && codeBlock && codeBlock.type && codeLang.type) {
 +					var language = (/[a-z][\w-]*/i.exec(
 +						codeLang.content.replace(/\b#/g, 'sharp').replace(/\b\+\+/g, 'pp')
 +					) || [''])[0].toLowerCase();
@@ -6756,7 +6946,7 @@ index 438f8ed8fcb682061959a2bf1be8d467861b7ecd..cb45af34dabd836e468b2ab898a802fb
 +	if (env.language == 'markdown' || env.language == 'md') walkTokens(env.tokens);
 +});
 diff --git a/components/prism-markup-templating.js b/components/prism-markup-templating.js
-index 2855b7c05962c82f9ce2850c769cb09e9ae1c455..c4579913a04b837a0c882ccf2669dd621f89a145 100644
+index 2855b7c05962c82f9ce2850c769cb09e9ae1c455..fae09d763d1e0573c279ac64fac8e7977e0c2f9f 100644
 --- a/components/prism-markup-templating.js
 +++ b/components/prism-markup-templating.js
 @@ -7,9 +7,8 @@
@@ -6771,7 +6961,7 @@ index 2855b7c05962c82f9ce2850c769cb09e9ae1c455..c4579913a04b837a0c882ccf2669dd62
  
  	Object.defineProperties(Prism.languages['markup-templating'] = {}, {
  		buildPlaceholders: {
-@@ -24,22 +23,22 @@
+@@ -24,22 +23,23 @@
  			 * @param {RegExp} placeholderPattern The matches of this pattern will be replaced by placeholders.
  			 * @param {(match: string) => boolean} [replaceFilter]
  			 */
@@ -6783,10 +6973,11 @@ index 2855b7c05962c82f9ce2850c769cb09e9ae1c455..c4579913a04b837a0c882ccf2669dd62
  				}
  
  				var tokenStack = env.tokenStack = [];
++				var code = env.code;
  
 -				env.code = env.code.replace(placeholderPattern, function (match) {
 -					if (typeof replaceFilter === 'function' && !replaceFilter(match)) {
-+				env.code = env.code.replace(placeholderPattern, match => {
++				env.code = code.replace(placeholderPattern, match => {
 +					if (replaceFilter && !replaceFilter(match)) {
  						return match;
  					}
@@ -6795,11 +6986,11 @@ index 2855b7c05962c82f9ce2850c769cb09e9ae1c455..c4579913a04b837a0c882ccf2669dd62
  
  					// Check for existing strings
 -					while (env.code.indexOf(placeholder = getPlaceholder(language, i)) !== -1) {
-+					while (env.code.indexOf(placeholder = getPlaceholder(language, i)) + 1) {
++					while (code.indexOf(placeholder = getPlaceholder(language, i)) + 1) {
  						++i;
  					}
  
-@@ -60,8 +59,8 @@
+@@ -60,8 +60,8 @@
  			 * @param {object} env The environment of the `after-tokenize` hook.
  			 * @param {string} language The language id.
  			 */
@@ -6810,9 +7001,13 @@ index 2855b7c05962c82f9ce2850c769cb09e9ae1c455..c4579913a04b837a0c882ccf2669dd62
  					return;
  				}
  
-@@ -71,45 +70,42 @@
+@@ -70,47 +70,53 @@
+ 
  				var j = 0;
  				var keys = Object.keys(env.tokenStack);
++				var l = keys.length;
++				var parentCount = 0;
++				var parents = [];
  
 -				function walkTokens(tokens) {
 -					for (var i = 0; i < tokens.length; i++) {
@@ -6822,10 +7017,12 @@ index 2855b7c05962c82f9ce2850c769cb09e9ae1c455..c4579913a04b837a0c882ccf2669dd62
 -						}
 -
 +				var walkTokens = tokens => {
-+					for (var i = 0; i < tokens.length && j < keys.length; i++) {
++					for (var i = 0; i < tokens.length && j < l; i++) {
  						var token = tokens[i];
 -						if (typeof token === 'string' || (token.content && typeof token.content === 'string')) {
 +						var content = token.content;
++
++						if (content) parents[parentCount++] = token;
 +						if (Array.isArray(content)) {
 +							walkTokens(content);
 +						}
@@ -6843,11 +7040,13 @@ index 2855b7c05962c82f9ce2850c769cb09e9ae1c455..c4579913a04b837a0c882ccf2669dd62
  
 -								var before = s.substring(0, index);
 +								var before = s.slice(0, index);
++								var length = placeholder.length;
  								var middle = new Prism.Token(language, Prism.tokenize(t, env.grammar), 'language-' + language, t);
 -								var after = s.substring(index + placeholder.length);
-+								var after = s.slice(index + placeholder.length);
++								var after = s.slice(index + length);
  
  								var replacement = [];
++								var m = 0;
  								if (before) {
 -									replacement.push.apply(replacement, walkTokens([before]));
 +									replacement.push(...walkTokens([before]));
@@ -6857,6 +7056,7 @@ index 2855b7c05962c82f9ce2850c769cb09e9ae1c455..c4579913a04b837a0c882ccf2669dd62
 -									replacement.push.apply(replacement, walkTokens([after]));
 +									replacement.push(...walkTokens([after]));
  								}
++								for (; m < parentCount; ) parents[m++].length += t.length - length;
  
 -								if (typeof token === 'string') {
 -									tokens.splice.apply(tokens, [i, 1].concat(replacement));
@@ -6869,8 +7069,10 @@ index 2855b7c05962c82f9ce2850c769cb09e9ae1c455..c4579913a04b837a0c882ccf2669dd62
 -						} else if (token.content /* && typeof token.content !== 'string' */) {
 -							walkTokens(token.content);
  						}
++						if (content) parentCount--;
  					}
  
+ 					return tokens;
 diff --git a/components/prism-markup.js b/components/prism-markup.js
 index 651c62ee08d8cb4be4cf3535ae25cb931b9e2959..5a337573653ac0616c8af2aa66b120196be3568f 100644
 --- a/components/prism-markup.js
@@ -7263,21 +7465,20 @@ index 9a4e1d06d01233a214b1a5a3047af28b626afcbe..2421bc9c46748a01aa8e174780009f4a
  			inside: {
  				'keyword': RegExp('^([\'"])?' + operatorsSource + '(?:\\1)?$')
 diff --git a/components/prism-moonscript.js b/components/prism-moonscript.js
-index ee1023313425cd534fa985e9e0c12cea91e97cdb..0f3597834242e8d3c263cb0c56a67d376aa970a5 100644
+index ee1023313425cd534fa985e9e0c12cea91e97cdb..9da68283b830fec4d06c0aee70c24c12ef5ea1ff 100644
 --- a/components/prism-moonscript.js
 +++ b/components/prism-moonscript.js
-@@ -1,4 +1,9 @@
+@@ -1,4 +1,8 @@
 -Prism.languages.moonscript = {
 +var moonscript = {
-+	pattern: /(^#\{)[\s\S]+(?=\})/,
-+	lookbehind: true
++	pattern: /[\s\S]+/
 +};
 +
 +moonscript.inside = Prism.languages.moon = Prism.languages.moonscript = {
  	'comment': /--.*/,
  	'string': [
  		{
-@@ -12,11 +17,7 @@ Prism.languages.moonscript = {
+@@ -12,15 +16,11 @@ Prism.languages.moonscript = {
  				'interpolation': {
  					pattern: /#\{[^{}]*\}/,
  					inside: {
@@ -7286,11 +7487,17 @@ index ee1023313425cd534fa985e9e0c12cea91e97cdb..0f3597834242e8d3c263cb0c56a67d37
 -							lookbehind: true,
 -							inside: null // see beow
 -						},
-+						'moonscript': moonscript,
  						'interpolation-punctuation': {
- 							pattern: /#\{|\}/,
+-							pattern: /#\{|\}/,
++							pattern: /^#\{|.$/,
  							alias: 'punctuation'
-@@ -51,7 +52,3 @@ Prism.languages.moonscript = {
+-						}
++						},
++						'moonscript': moonscript
+ 					}
+ 				}
+ 			}
+@@ -51,7 +51,3 @@ Prism.languages.moonscript = {
  	'operator': /\.{3}|[-=]>|~=|(?:[-+*/%<>!=]|\.\.)=?|[:#^]|\b(?:and|or)\b=?|\b(?:not)\b/,
  	'punctuation': /[.,()[\]{}\\]/
  };
@@ -7775,10 +7982,27 @@ index 6641fef7d309332bbf90fcbd4c70faa8ed3957e1..61fd4601262e33de67b5c21fc87ebede
  			// <>, <FOO>, _
  			pattern: /<(?![<=])\S*?>|\b_\b/,
 diff --git a/components/prism-php.js b/components/prism-php.js
-index 79e8bd1cdab35fc7522c15a6cb7e6a79dc513342..eb04d70d62c5882e9feb2824fafdb428f8e1273b 100644
+index 79e8bd1cdab35fc7522c15a6cb7e6a79dc513342..a5cb1c8a0c83c7c419f4a3b1a1c19905712d63cf 100644
 --- a/components/prism-php.js
 +++ b/components/prism-php.js
-@@ -326,16 +326,14 @@
+@@ -286,7 +286,7 @@
+ 			greedy: true,
+ 			inside: {
+ 				'attribute-content': {
+-					pattern: /^(#\[)[\s\S]+(?=\]$)/,
++					pattern: /^(..)[\s\S]+(?=.)/,
+ 					lookbehind: true,
+ 					// inside can appear subset of php
+ 					inside: {
+@@ -319,23 +319,21 @@
+ 					}
+ 				},
+ 				'delimiter': {
+-					pattern: /^#\[|\]$/,
++					pattern: /.+/,
+ 					alias: 'punctuation'
+ 				}
+ 			}
  		},
  	});
  
@@ -8493,6 +8717,30 @@ index f8c403559fe870def0d0f2835ecfb16e90faca48..80ad9ea0e0177fdf230229593e9b16fa
  }(Prism));
 -
 -Prism.languages.qs = Prism.languages.qsharp;
+diff --git a/components/prism-regex.js b/components/prism-regex.js
+index a565e23407d04dae171a1629cc360127bc564791..5cb23a5f521a2e563788ece226c291ded1ea4ff7 100644
+--- a/components/prism-regex.js
++++ b/components/prism-regex.js
+@@ -29,15 +29,14 @@
+ 			pattern: /((?:^|[^\\])(?:\\\\)*)\[(?:[^\\\]]|\\[\s\S])*\]/,
+ 			lookbehind: true,
+ 			inside: {
+-				'char-class-negation': {
+-					pattern: /(^\[)\^/,
+-					lookbehind: true,
+-					alias: 'operator'
+-				},
+ 				'char-class-punctuation': {
+ 					pattern: /^\[|\]$/,
+ 					alias: 'punctuation'
+ 				},
++				'char-class-negation': {
++					pattern: /^\^/,
++					alias: 'operator'
++				},
+ 				'range': {
+ 					pattern: range,
+ 					inside: {
 diff --git a/components/prism-renpy.js b/components/prism-renpy.js
 index dc0b02ecc07996b244056aa764b7dd5e765256cf..527518bdf946223ba26b0300b913a5ffb7056065 100644
 --- a/components/prism-renpy.js
@@ -8558,7 +8806,7 @@ index 8e043452eb1f752b89e77959fd03e594812ee7ee..14bb9351d2fcf50d8bc48c9c2bd860ee
 -
  }(Prism));
 diff --git a/components/prism-ruby.js b/components/prism-ruby.js
-index 79256dcf8aa84b7f9ec263513900238a611ddd81..f829dca279186212ac450f78585817cc7985a596 100644
+index 79256dcf8aa84b7f9ec263513900238a611ddd81..95984dadf0007d6e4d6053b239bc61fd24715948 100644
 --- a/components/prism-ruby.js
 +++ b/components/prism-ruby.js
 @@ -5,7 +5,8 @@
@@ -8571,7 +8819,7 @@ index 79256dcf8aa84b7f9ec263513900238a611ddd81..f829dca279186212ac450f78585817cc
  		'comment': {
  			pattern: /#.*|^=begin\s[\s\S]*?^=end/m,
  			greedy: true
-@@ -22,13 +23,6 @@
+@@ -22,31 +23,22 @@
  		'punctuation': /[(){}[\].,;]/,
  	});
  
@@ -8585,16 +8833,19 @@ index 79256dcf8aa84b7f9ec263513900238a611ddd81..f829dca279186212ac450f78585817cc
  	var interpolation = {
  		pattern: /((?:^|[^\\])(?:\\{2})*)#\{(?:[^{}]|\{[^{}]*\})*\}/,
  		lookbehind: true,
-@@ -36,7 +30,7 @@
+ 		inside: {
  			'content': {
- 				pattern: /^(#\{)[\s\S]+(?=\}$)/,
+-				pattern: /^(#\{)[\s\S]+(?=\}$)/,
++				pattern: /^(..)[\s\S]+(?=.)/,
  				lookbehind: true,
 -				inside: Prism.languages.ruby
 +				inside: ruby
  			},
  			'delimiter': {
- 				pattern: /^#\{|\}$/,
-@@ -45,8 +39,6 @@
+-				pattern: /^#\{|\}$/,
++				pattern: /.+/,
+ 				alias: 'punctuation'
+ 			}
  		}
  	};
  
@@ -9923,6 +10174,19 @@ index 7ea37da456f660a4d894350cf2ed6665deeb9cc0..17c4a430d922960bac5d3f1ba3c5734d
  		Prism.languages['markup-templating'].tokenizePlaceholders(env, 'tt2');
  	});
  
+diff --git a/components/prism-turtle.js b/components/prism-turtle.js
+index 357ee132297abeff86f4c58ab7cff3cd4a38363e..e74d1ee715346e898e5ce0783c53a5dd6356df6b 100644
+--- a/components/prism-turtle.js
++++ b/components/prism-turtle.js
+@@ -26,7 +26,7 @@ Prism.languages.turtle = {
+ 		pattern: /(?:(?![-.\d\xB7])[-.\w\xB7\xC0-\uFFFD]+)?:(?:(?![-.])(?:[-.:\w\xC0-\uFFFD]|%[\da-f]{2}|\\.)+)?/i,
+ 		inside: {
+ 			'local-name': {
+-				pattern: /([^:]*:)[\s\S]+/,
++				pattern: /(:)[\s\S]+/,
+ 				lookbehind: true
+ 			},
+ 			'prefix': {
 diff --git a/components/prism-twig.js b/components/prism-twig.js
 index 59442d449e0e5485e94d7471739ebc00e031d707..305d902e9f93a1972f4f29f745013264c903659a 100644
 --- a/components/prism-twig.js
@@ -10011,12 +10275,15 @@ index 43713a37db1ddb7acba471235f2a4c81730ce53f..6a155a0365fd6e986a45233be5cfe943
 -
  }(Prism));
 diff --git a/components/prism-typoscript.js b/components/prism-typoscript.js
-index 108aba41ab6eddb31e5d7b06751c0ca2cba17e23..c42e15eb9e6cdd0c0f5840b928d51014cd656916 100644
+index 108aba41ab6eddb31e5d7b06751c0ca2cba17e23..0a22b0eba102b115ae5871b4f99db80b8e3e9bee 100644
 --- a/components/prism-typoscript.js
 +++ b/components/prism-typoscript.js
-@@ -4,11 +4,8 @@
+@@ -2,13 +2,10 @@
  
- 	Prism.languages.typoscript = {
+ 	var keywords = /\b(?:ACT|ACTIFSUB|CARRAY|CASE|CLEARGIF|COA|COA_INT|CONSTANTS|CONTENT|CUR|EDITPANEL|EFFECT|EXT|FILE|FLUIDTEMPLATE|FORM|FRAME|FRAMESET|GIFBUILDER|GMENU|GMENU_FOLDOUT|GMENU_LAYERS|GP|HMENU|HRULER|HTML|IENV|IFSUB|IMAGE|IMGMENU|IMGMENUITEM|IMGTEXT|IMG_RESOURCE|INCLUDE_TYPOSCRIPT|JSMENU|JSMENUITEM|LLL|LOAD_REGISTER|NO|PAGE|RECORDS|RESTORE_REGISTER|TEMPLATE|TEXT|TMENU|TMENUITEM|TMENU_LAYERS|USER|USER_INT|_GIFBUILDER|global|globalString|globalVar)\b/;
+ 
+-	Prism.languages.typoscript = {
++	Prism.languages.tsconfig = Prism.languages.typoscript = {
  		'comment': [
 -			{
 -				// multiline comments /* */
@@ -10039,6 +10306,13 @@ index 108aba41ab6eddb31e5d7b06751c0ca2cba17e23..c42e15eb9e6cdd0c0f5840b928d51014
  				},
  			},
  			{
+@@ -75,6 +70,4 @@
+ 		'operator': /[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,
+ 	};
+ 
+-	Prism.languages.tsconfig = Prism.languages.typoscript;
+-
+ }(Prism));
 diff --git a/components/prism-uri.js b/components/prism-uri.js
 index 5831c7dd3bf8ca2f14c74d5139b1c016fae31e9e..effa965c7881f120ae85cd5bb53b53aced2a7a67 100644
 --- a/components/prism-uri.js
@@ -10136,18 +10410,28 @@ index 6fc41b8fae3d1200a6d36be19c1c43ce34012baa..458aac2ac230916768bd98bf033aa5d3
  			}
  		}
 diff --git a/components/prism-vala.js b/components/prism-vala.js
-index 17651cbfa2afe759231f8c5299c20a30463d58d1..1ab61b75f0b6801980e269c5ce76beb68e21887a 100644
+index 17651cbfa2afe759231f8c5299c20a30463d58d1..20f2489c99c374fefe94f39c5c2de5f8dcfa8a28 100644
 --- a/components/prism-vala.js
 +++ b/components/prism-vala.js
-@@ -75,7 +75,7 @@ Prism.languages.insertBefore('vala', 'keyword', {
- 				pattern: /^(\/)[\s\S]+(?=\/[a-z]*$)/,
- 				lookbehind: true,
+@@ -71,14 +71,13 @@ Prism.languages.insertBefore('vala', 'keyword', {
+ 		pattern: /\/(?:\[(?:[^\]\\\r\n]|\\.)*\]|\\.|[^/\\\[\r\n])+\/[imsx]{0,4}(?=\s*(?:$|[\r\n,.;})\]]))/,
+ 		greedy: true,
+ 		inside: {
++			'regex-flags': /\w+$/,
++			'regex-delimiter': /^\/|\/$/,
+ 			'regex-source': {
+-				pattern: /^(\/)[\s\S]+(?=\/[a-z]*$)/,
+-				lookbehind: true,
++				pattern: /[\s\S]+/,
  				alias: 'language-regex',
 -				inside: Prism.languages.regex
 +				inside: 'regex'
  			},
- 			'regex-delimiter': /^\//,
- 			'regex-flags': /^[a-z]+$/,
+-			'regex-delimiter': /^\//,
+-			'regex-flags': /^[a-z]+$/,
+ 		}
+ 	}
+ });
 diff --git a/components/prism-vbnet.js b/components/prism-vbnet.js
 index e0bc91c340d3d845e0010ff627e2c257528d2cd5..ba115d27175b38b2e909c9f2c7b9888a99e4cd0d 100644
 --- a/components/prism-vbnet.js
@@ -10298,7 +10582,7 @@ index d272f9cb8109b0cf7035d848a0a9e6bc77249928..7fd2d72464e15aa35c3326b51ce3bc9a
 +
 +delete Prism.languages.wiki['markup-bracket'];
 diff --git a/components/prism-wren.js b/components/prism-wren.js
-index 3c65348060422d132ada42dd92972a2645e142c1..d206af66faf99fd91fdc60fbaeca3b0ae9aa7194 100644
+index 3c65348060422d132ada42dd92972a2645e142c1..29305e3a7527b13fc3b3298b262d01a537cd0b33 100644
 --- a/components/prism-wren.js
 +++ b/components/prism-wren.js
 @@ -3,19 +3,12 @@
@@ -10345,12 +10629,12 @@ index 3c65348060422d132ada42dd92972a2645e142c1..d206af66faf99fd91fdc60fbaeca3b0a
 +				lookbehind: true,
 +				inside: {
 +					'expression': {
-+						pattern: /^(%\()[\s\S]+(?=\)$)/,
++						pattern: /^(..)[\s\S]+(?=.)/,
 +						lookbehind: true,
 +						inside: 'wren'
 +					},
 +					'interpolation-punctuation': {
-+						pattern: /^%\(|\)$/,
++						pattern: /.+/,
 +						alias: 'punctuation'
 +					},
 +				}
