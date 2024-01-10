@@ -163,11 +163,20 @@ There are extensions adding:
 
 The default commands extension includes:
 
-- Line- and block comment toggling
 - Wrapping selection in brackets/quotes
 - Automatic closing of brackets, quotes, and tags
 - Automatic indentation and indentation with Tab key
-- Moving/copying lines with arrow keys
+
+Along with the following commands:
+
+- Alt+ArrowUp/Down: Move line up/down
+- Shift+Alt+ArrowUp/Down: Copy line up/down
+- Ctrl+Enter (Cmd+Enter on MacOS) insert blank line
+- Ctrl+[ (Cmd+[ on MacOS): Outdent line
+- Ctrl+] (Cmd+] on MacOS): Indent line
+- Shift+Ctrl+K (Shift+Cmd+K on MacOS): Delete line
+- Ctrl+/ (Cmd+/ on MacOS): Toggle comment
+- Shift+Alt+A: Toggle block comment
 
 ### Importing extensions
 
@@ -381,11 +390,11 @@ If you want to use RTL directionality, you should be aware of these bugs and use
 Editing key commands is as simple as mutating the `keyCommandMap` for the editor. If you're adding the default commands to the editor, be sure to mutate the command map after adding that extension.
 
 ```javascript
-// Adding a Ctrl+Enter shortcut without removing the default enter functionality
+// Adding a Ctrl+Alt shortcut without removing the default enter functionality
 const oldEnterCallback = editor.keyCommandMap.Enter
 
 editor.keyCommandMap.Enter = (e, selection, value) => {
-  if (e.ctrlKey) {
+  if (e.altKey) {
     // Shortcut code goes here
 
     // returning true will automatically call e.preventDefault()

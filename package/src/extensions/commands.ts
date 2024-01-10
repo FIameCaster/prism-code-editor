@@ -16,7 +16,16 @@ const mod = isMac ? 4 : 2
 
 /**
  * Extension that will add automatic indentation, closing of brackets,
- * quotes and tags, line- and block comment toggling and line moving/copying.
+ * quotes and tags along with the following commands:
+ *
+ * - Alt+ArrowUp/Down: Move line up/down
+ * - Shift+Alt+ArrowUp/Down: Copy line up/down
+ * - Ctrl+Enter (Cmd+Enter on MacOS): insert blank line
+ * - Ctrl+[ (Cmd+[ on MacOS): Outdent line
+ * - Ctrl+] (Cmd+] on MacOS): Indent line
+ * - Shift+Ctrl+K (Shift+Cmd + K on MacOS): Delete line
+ * - Ctrl+/ (Cmd+/ on MacOS): Toggle comment
+ * - Shift+Alt+A: Toggle block comment.
  * @param selfClosePairs Pairs of self-closing brackets and quotes.
  * Must be an array of strings with 2 characters each.
  * Defaults to `['""', "''", '``', '()', '[]', '{}']`.
