@@ -2,6 +2,7 @@ import { CommentTokens } from ".."
 import { languageMap } from "../core"
 import { Bracket, BracketMatcher } from "../extensions/matchBrackets"
 import { TagMatcher } from "../extensions/matchTags"
+import { getClosestToken } from "../utils"
 import { clikeIndent, isBracketPair } from "./patterns"
 
 const openingTag =
@@ -51,9 +52,11 @@ languageMap.jsx = languageMap.tsx = {
 	comments: jsComment,
 	getComments(editor, position) {
 		const { matchBrackets, matchTags } = editor.extensions
-		return matchBrackets && matchTags && inJsxContext(matchTags, matchBrackets, position)
-			? jsxComment
-			: jsComment
+		const inJsx =
+			matchBrackets && matchTags
+				? inJsxContext(matchTags, matchBrackets, position)
+				: getClosestToken(editor, ".plain-text", 0, 0, position)
+		return inJsx ? jsxComment : jsComment
 	},
 	autoIndent: [
 		([start], value) => openingTag.test((value = value.slice(0, start))) || clikeIndent.test(value),
