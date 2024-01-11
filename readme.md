@@ -321,6 +321,11 @@ languageMap.whatever = {
     line: "//",
     block: ["/*", "*/"]
   },
+  getComments(editor, position) {
+    // Method called when a user executes a comment toggling command
+    // Useful if a language uses different comment tokens in different contexts
+    // Currently used by JSX so {/* */} is used to toggle comments in JSX contexts
+  },
   autoIndent: [
     // Whether to indent
     ([start], value) => /[([{][^\n)\]}]*$/.test(code.slice(0, start)),
