@@ -88,13 +88,12 @@ Prism.languages.javascript = Prism.languages.js = {
 		lookbehind: true,
 		greedy: true,
 		inside: {
+			"regex-flags": /\w+$/,
+			"regex-delimiter": /^\/|\/$/,
 			"regex-source": {
-				pattern: /^(\/)[\s\S]+(?=\/[a-z]*$)/,
-				lookbehind: true,
+				pattern: /[\s\S]+/,
 				alias: "language-regex",
 			},
-			"regex-delimiter": /^\/|\/$/,
-			"regex-flags": /^[a-z]+$/,
 		},
 	},
 	// This must be declared before keyword because we use "function" inside the look-forward
