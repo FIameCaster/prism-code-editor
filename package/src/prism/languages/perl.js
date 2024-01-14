@@ -19,7 +19,7 @@ languages.perl = {
 	// TODO Could be nice to handle Heredoc too.
 	'string': {
 		pattern: RegExp(
-			`\\b(?:q|qq|qw|qx)(?![a-zA-Z0-9])\\s*(?:([^a-zA-Z0-9\\s{(\\[<])(?:(?!\\1)[^\\\\]|\\\\[\\s\\S])*\\1|([a-zA-Z0-9])(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2|${brackets})|("|\`)(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3|'(?:[^'\\\\\\r\\n]|\\\\.)*'`, 'g'
+			`\\b(?:q|qq|qw|qx)(?![a-zA-Z0-9])\\s*(?:([^a-zA-Z0-9\\s{(\\[<])(?:(?!\\1)[^\\\\]|\\\\[\\s\\S])*\\1|([a-zA-Z0-9])(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2|${brackets})|("|\`)(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3|'(?:[^'\\\\\n]|\\\\.)*'`, 'g'
 		),
 		greedy: true
 	},
@@ -45,7 +45,7 @@ languages.perl = {
 		// the same line from being highlighted as regex.
 		// This does not support multi-line regex.
 		{
-			pattern: /\/(?:[^\/\\\r\n]|\\.)*\/[msixpodualngc]*(?=\s*(?:$|[\r\n,.;})&|\-+*~<>!?^]|(?:and|cmp|eq|ge|gt|le|lt|ne|not|or|x|xor)\b))/,
+			pattern: /\/(?:[^\/\\\n]|\\.)*\/[msixpodualngc]*(?=\s*(?:$|[\n,.;})&|\-+*~<>!?^]|(?:and|cmp|eq|ge|gt|le|lt|ne|not|or|x|xor)\b))/,
 			greedy: true
 		}
 	],

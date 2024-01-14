@@ -7,7 +7,7 @@ languages.metafont = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^\r\n"]*"/,
+		pattern: /"[^\n"]*"/,
 		greedy: true
 	},
 	'number': /\d*\.?\d+/,

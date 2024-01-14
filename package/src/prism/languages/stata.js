@@ -24,11 +24,11 @@ expression.inside = languages.stata = {
 		}
 	],
 	'string-literal': {
-		pattern: /"[^"\r\n]*"|[‘`']".*?"[’`']/,
+		pattern: /"[^"\n]*"|[‘`']".*?"[’`']/,
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: /\$\{[^{}]*\}|[‘`']\w[^’`'\r\n]*[’`']/,
+				pattern: /\$\{[^{}]*\}|[‘`']\w[^’`'\n]*[’`']/,
 				inside: {
 					'punctuation': /^\$\{|\}$/,
 					'expression': expression
@@ -62,12 +62,12 @@ expression.inside = languages.stata = {
 
 
 	'command': {
-		pattern: /(^[ \t]*(?:\.[ \t]+)?(?:(?:bayes|bootstrap|by|bysort|capture|collect|fmm|fp|frame|jackknife|mfp|mi|nestreg|noisily|permute|quietly|rolling|simulate|statsby|stepwise|svy|version|xi)\b[^:\r\n]*:[ \t]*|(?:capture|noisily|quietly|version)[ \t]+)?)[a-zA-Z]\w*/m,
+		pattern: /(^[ \t]*(?:\.[ \t]+)?(?:(?:bayes|bootstrap|by|bysort|capture|collect|fmm|fp|frame|jackknife|mfp|mi|nestreg|noisily|permute|quietly|rolling|simulate|statsby|stepwise|svy|version|xi)\b[^:\n]*:[ \t]*|(?:capture|noisily|quietly|version)[ \t]+)?)[a-zA-Z]\w*/m,
 		lookbehind: true,
 		greedy: true,
 		alias: 'keyword'
 	},
-	'variable': /\$\w+|[‘`']\w[^’`'\r\n]*[’`']/,
+	'variable': /\$\w+|[‘`']\w[^’`'\n]*[’`']/,
 	'keyword': /\b(?:bayes|bootstrap|by|bysort|capture|clear|collect|fmm|fp|frame|if|in|jackknife|mi[ \t]+estimate|mfp|nestreg|noisily|of|permute|quietly|rolling|simulate|sort|statsby|stepwise|svy|varlist|version|xi)\b/,
 
 

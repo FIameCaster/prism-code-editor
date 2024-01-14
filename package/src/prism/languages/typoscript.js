@@ -23,10 +23,10 @@ languages.tsconfig = languages.typoscript = {
 	'function': [
 		{
 			// old include style
-			pattern: /<INCLUDE_TYPOSCRIPT:\s*source\s*=\s*(?:"[^"\r\n]*"|'[^'\r\n]*')\s*>/,
+			pattern: /<INCLUDE_TYPOSCRIPT:\s*source\s*=\s*(?:"[^"\n]*"|'[^'\n]*')\s*>/,
 			inside: {
 				'string': {
-					pattern: /"[^"\r\n]*"|'[^'\r\n]*'/,
+					pattern: /"[^"\n]*"|'[^'\n]*'/,
 					inside: {
 						'keyword': keywords,
 					},
@@ -36,9 +36,9 @@ languages.tsconfig = languages.typoscript = {
 		},
 		{
 			// new include style
-			pattern: /@import\s*(?:"[^"\r\n]*"|'[^'\r\n]*')/,
+			pattern: /@import\s*(?:"[^"\n]*"|'[^'\n]*')/,
 			inside: {
-				'string': /"[^"\r\n]*"|'[^'\r\n]*'/,
+				'string': /"[^"\n]*"|'[^'\n]*'/,
 			},
 		}
 	],

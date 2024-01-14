@@ -6,7 +6,7 @@ import './bash.js';
 
 languages['sh-session'] = languages.shellsession = languages['shell-session'] = {
 	'command': {
-		pattern: /^(?:[^\s@:$#%*!/\\]+@[^\r\n@:$#%*!/\\]+(?::[^\0-\x1F$#%*?"<>:;|]+)?|[/~.][^\0-\x1F$#%*?"<>@:;|]*)?[$#%](?=\s)(?:[^\\\r\n \t'"<$]|[ \t](?:(?!#)|#.*$)|\\(?:[^\r]|\r\n?)|\$(?!')|<(?!<)|"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"|'[^']*'|\$'(?:[^'\\]|\\[\s\S])*'|<<-?\s*(["']?)(\w+)\1\s[\s\S]*?[\r\n]\2)+/m,
+		pattern: /^(?:[^\s@:$#%*!/\\]+@[^\n@:$#%*!/\\]+(?::[^\0-\x1F$#%*?"<>:;|]+)?|[/~.][^\0-\x1F$#%*?"<>@:;|]*)?[$#%](?=\s)(?:[^\\\n \t'"<$]|[ \t](?:(?!#)|#.*$)|\\[\s\S]|\$(?!')|<(?!<)|"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"|'[^']*'|\$'(?:[^'\\]|\\[\s\S])*'|<<-?\s*(["']?)(\w+)\1\s[\s\S]*?\n\2)+/m,
 		greedy: true,
 		inside: {
 			'info': {
@@ -16,7 +16,7 @@ languages['sh-session'] = languages.shellsession = languages['shell-session'] = 
 				pattern: /^[^#$%]+/,
 				alias: 'punctuation',
 				inside: {
-					'user': /^[^\s@:$#%*!/\\]+@[^\r\n@:$#%*!/\\]+/,
+					'user': /^[^\s@:$#%*!/\\]+@[^\n@:$#%*!/\\]+/,
 					'punctuation': /:/,
 					'path': /[\s\S]+/
 				}
@@ -33,5 +33,5 @@ languages['sh-session'] = languages.shellsession = languages['shell-session'] = 
 			}
 		}
 	},
-	'output': /.(?:.*(?:[\r\n]|.$))*/
+	'output': /.(?:.*(?:\n|.$))*/
 };

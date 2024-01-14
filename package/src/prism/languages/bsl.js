@@ -17,7 +17,7 @@ languages.bsl = {
 		// Дата и время
 		// Date & time
 		{
-			pattern: /'(?:[^'\r\n\\]|\\.)*'/
+			pattern: /'(?:[^'\n\\]|\\.)*'/
 		}
 	],
 	'keyword': [

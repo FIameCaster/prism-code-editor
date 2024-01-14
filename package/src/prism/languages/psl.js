@@ -13,7 +13,7 @@ languages.psl = {
 		}
 	},
 	'heredoc-string': {
-		pattern: /<<<([a-zA-Z_]\w*)[\r\n](?:.*[\r\n])*?\1\b/,
+		pattern: /<<<([a-zA-Z_]\w*)\n(?:.*\n)*?\1\b/,
 		alias: 'string',
 		greedy: true
 	},

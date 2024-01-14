@@ -6,11 +6,11 @@ languages.keyman = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^"\r\n]*"|'[^'\r\n]*'/,
+		pattern: /"[^"\n]*"|'[^'\n]*'/,
 		greedy: true
 	},
 	'virtual-key': {
-		pattern: /\[\s*(?:(?:ALT|CAPS|CTRL|LALT|LCTRL|NCAPS|RALT|RCTRL|SHIFT)\s+)*(?:[TKU]_[\w?]+|[A-E]\d\d?|"[^"\r\n]*"|'[^'\r\n]*')\s*\]/i,
+		pattern: /\[\s*(?:(?:ALT|CAPS|CTRL|LALT|LCTRL|NCAPS|RALT|RCTRL|SHIFT)\s+)*(?:[TKU]_[\w?]+|[A-E]\d\d?|"[^"\n]*"|'[^'\n]*')\s*\]/i,
 		greedy: true,
 		alias: 'function' // alias for styles
 	},

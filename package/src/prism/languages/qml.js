@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import './javascript.js';
 
-var jsString = /"(?:\\.|[^\\"\r\n])*"|'(?:\\.|[^\\'\r\n])*'/.source;
+var jsString = /"(?:\\.|[^\\"\n])*"|'(?:\\.|[^\\'\n])*'/.source;
 var jsComment = /\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\//.source;
 
 var jsExpr = /(?:[^\\()[\]{}"'/]|<string>|\/(?![*/])|<comment>|\(<expr>*\)|\[<expr>*\]|\{<expr>*\}|\\[\s\S])/
@@ -52,7 +52,7 @@ languages.qml = {
 		inside: languages.js
 	},
 	'string': {
-		pattern: /"(?:\\.|[^\\"\r\n])*"/,
+		pattern: /"(?:\\.|[^\\"\n])*"/,
 		greedy: true
 	},
 	'keyword': /\b(?:as|import|on)\b/,

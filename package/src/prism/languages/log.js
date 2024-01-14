@@ -8,12 +8,12 @@ import { languages } from '../core.js';
 languages.log = {
 	'string': {
 		// Single-quoted strings must not be confused with plain text. E.g. Can't isn't Susan's Chris' toy
-		pattern: /"(?:[^"\\\r\n]|\\.)*"|'(?![st] | \w)(?:[^'\\\r\n]|\\.)*'/,
+		pattern: /"(?:[^"\\\n]|\\.)*"|'(?![st] | \w)(?:[^'\\\n]|\\.)*'/,
 		greedy: true,
 	},
 
 	'exception': {
-		pattern: /(^|[^\w.])[a-z][\w.]*(?:Error|Exception):.*(?:(?:\r\n?|\n)[ \t]*(?:at[ \t].+|\.{3}.*|Caused by:.*))+(?:(?:\r\n?|\n)[ \t]*\.{3} .*)?/,
+		pattern: /(^|[^\w.])[a-z][\w.]*(?:Error|Exception):.*(?:\n[ \t]*(?:at[ \t].+|\.{3}.*|Caused by:.*))+(?:\n[ \t]*\.{3} .*)?/,
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-javastacktrace',

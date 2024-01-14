@@ -6,11 +6,11 @@ languages.bicep = {
 	'comment': clikeComment(),
 	'property': [
 		{
-			pattern: /([\r\n][ \t]*)[a-z_]\w*(?=[ \t]*:)/i,
+			pattern: /(\n[ \t]*)[a-z_]\w*(?=[ \t]*:)/i,
 			lookbehind: true
 		},
 		{
-			pattern: /([\r\n][ \t]*)'(?:\\.|\$(?!\{)|[^'\\\r\n$])*'(?=[ \t]*:)/,
+			pattern: /(\n[ \t]*)'(?:\\.|\$(?!\{)|[^'\\\n$])*'(?=[ \t]*:)/,
 			lookbehind: true,
 			greedy: true
 		}
@@ -21,18 +21,18 @@ languages.bicep = {
 			greedy: true
 		},
 		{
-			pattern: /(^|[^\\'])'(?:\\.|\$(?!\{)|[^'\\\r\n$])*'/,
+			pattern: /(^|[^\\'])'(?:\\.|\$(?!\{)|[^'\\\n$])*'/,
 			lookbehind: true,
 			greedy: true,
 		}
 	],
 	'interpolated-string': {
-		pattern: /(^|[^\\'])'(?:\\.|\$(?:(?!\{)|\{[^{}\r\n]*\})|[^'\\\r\n$])*'/,
+		pattern: /(^|[^\\'])'(?:\\.|\$(?:(?!\{)|\{[^{}\n]*\})|[^'\\\n$])*'/,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: /\$\{[^{}\r\n]*\}/,
+				pattern: /\$\{[^{}\n]*\}/,
 				inside: {
 					'punctuation': /^\$\{|\}$/,
 					'expression': {

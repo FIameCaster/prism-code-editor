@@ -40,14 +40,14 @@ languages.livescript = {
 	],
 	'regex': [
 		{
-			pattern: /\/\/(?:\[[^\r\n\]]*\]|\\.|(?!\/\/)[^\\\[])+\/\/[gimyu]{0,5}/,
+			pattern: /\/\/(?:\[[^\n\]]*\]|\\.|(?!\/\/)[^\\\[])+\/\/[gimyu]{0,5}/,
 			greedy: true,
 			inside: {
 				'comment': /#.*/,
 			}
 		},
 		{
-			pattern: /\/(?:\[[^\r\n\]]*\]|\\.|[^/\\\r\n\[])+\/[gimyu]{0,5}/,
+			pattern: /\/(?:\[[^\n\]]*\]|\\.|[^/\\\n\[])+\/[gimyu]{0,5}/,
 			greedy: true
 		}
 	],

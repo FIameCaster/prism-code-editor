@@ -40,7 +40,7 @@ inlineLanguages.forEach(lang => {
 Object.assign(pure, {
 	'inline-lang': inlineLang,
 	'string': {
-		pattern: /"(?:\\.|[^"\\\r\n])*"/,
+		pattern: /"(?:\\.|[^"\\\n])*"/,
 		greedy: true
 	},
 	'number': {

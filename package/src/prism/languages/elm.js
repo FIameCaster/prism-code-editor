@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.elm = {
 	'comment': /--.*|\{-[\s\S]*?-\}/,
 	'char': {
-		pattern: /'(?:[^\\'\r\n]|\\(?:[abfnrtv\\']|\d+|x[0-9a-fA-F]+|u\{[0-9a-fA-F]+\}))'/,
+		pattern: /'(?:[^\\'\n]|\\(?:[abfnrtv\\']|\d+|x[0-9a-fA-F]+|u\{[0-9a-fA-F]+\}))'/,
 		greedy: true
 	},
 	'string': [
@@ -13,7 +13,7 @@ languages.elm = {
 			greedy: true
 		},
 		{
-			pattern: /"(?:[^\\"\r\n]|\\.)*"/,
+			pattern: /"(?:[^\\"\n]|\\.)*"/,
 			greedy: true
 		}
 	],

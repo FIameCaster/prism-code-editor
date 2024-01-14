@@ -9,7 +9,7 @@ languages.yang = {
 		greedy: true
 	},
 	'keyword': {
-		pattern: /(^|[{};\r\n][ \t]*)[a-z_][\w.-]*/i,
+		pattern: /(^|[{};\n][ \t]*)[a-z_][\w.-]*/i,
 		lookbehind: true
 	},
 	'namespace': {

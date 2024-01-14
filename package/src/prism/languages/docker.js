@@ -3,12 +3,12 @@ import { languages } from '../core.js';
 // Many of the following regexes will contain negated lookaheads like `[ \t]+(?![ \t])`. This is a trick to ensure
 // that quantifiers behave *atomically*. Atomic quantifiers are necessary to prevent exponential backtracking.
 
-var spaceAfterBackSlash = /\\[\r\n](?:\s|\\[\r\n]|#.*(?!.))*(?![\s#]|\\[\r\n])/.source;
+var spaceAfterBackSlash = /\\\n(?:\s|\\\n|#.*(?!.))*(?![\s#]|\\\n)/.source;
 // At least one space, comment, or line break
 var space = /(?:[ \t]+(?![ \t])(?:<SP_BS>)?|<SP_BS>)/.source
 	.replace(/<SP_BS>/g, spaceAfterBackSlash);
 
-var string = /"(?:[^"\\\r\n]|\\(?:\r\n|[\s\S]))*"|'(?:[^'\\\r\n]|\\(?:\r\n|[\s\S]))*'/.source;
+var string = /"(?:[^"\\\n]|\\[\s\S])*"|'(?:[^'\\\n]|\\[\s\S])*'/.source;
 var option = /--[\w-]+=(?:<STR>|(?!["'])(?:[^\s\\]|\\.)+)/.source.replace(/<STR>/g, string);
 
 var stringRule = {
@@ -33,7 +33,7 @@ var re = (source, flags) =>
 
 languages.dockerfile = languages.docker = {
 	'instruction': {
-		pattern: /(^[ \t]*)(?:ADD|ARG|CMD|COPY|ENTRYPOINT|ENV|EXPOSE|FROM|HEALTHCHECK|LABEL|MAINTAINER|ONBUILD|RUN|SHELL|STOPSIGNAL|USER|VOLUME|WORKDIR)(?=\s)(?:\\.|[^\r\n\\])*(?:\\$(?:\s|#.*$)*(?![\s#])(?:\\.|[^\r\n\\])*)*/im,
+		pattern: /(^[ \t]*)(?:ADD|ARG|CMD|COPY|ENTRYPOINT|ENV|EXPOSE|FROM|HEALTHCHECK|LABEL|MAINTAINER|ONBUILD|RUN|SHELL|STOPSIGNAL|USER|VOLUME|WORKDIR)(?=\s)(?:\\.|[^\n\\])*(?:\\$(?:\s|#.*$)*(?![\s#])(?:\\.|[^\n\\])*)*/im,
 		lookbehind: true,
 		greedy: true,
 		inside: {

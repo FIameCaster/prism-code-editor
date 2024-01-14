@@ -7,7 +7,7 @@ languages.cobol = {
 		greedy: true
 	},
 	'string': {
-		pattern: /[xzgn]?(?:"(?:[^\r\n"]|"")*"(?!")|'(?:[^\r\n']|'')*'(?!'))/i,
+		pattern: /[xzgn]?(?:"(?:[^\n"]|"")*"(?!")|'(?:[^\n']|'')*'(?!'))/i,
 		greedy: true
 	},
 

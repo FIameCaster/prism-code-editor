@@ -6,7 +6,7 @@ var comment = clikeComment();
 languages.sqf = {
 	'comment': comment,
 	'macro': {
-		pattern: /(^[ \t]*)#[a-z](?:[^\r\n\\]|\\(?:\r\n|[\s\S]))*/im,
+		pattern: /(^[ \t]*)#[a-z](?:[^\n\\]|\\[\s\S])*/im,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property',

@@ -2,18 +2,18 @@ import { languages } from '../core.js';
 
 var char = {
 	// https://en.cppreference.com/w/c/language/character_constant
-	pattern: /'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n]){0,32}'/,
+	pattern: /'(?:\\[\s\S]|[^'\\\n]){0,32}'/,
 	greedy: true
 };
 
 var comment = {
-	pattern: /\/\/(?:[^\r\n\\]|\\\r?\n?)*|\/\*[\s\S]*?(?:\*\/|$)/,
+	pattern: /\/\/(?:[^\n\\]|\\\n?)*|\/\*[\s\S]*?(?:\*\/|$)/,
 	greedy: true
 };
 
 var string = {
 	// https://en.cppreference.com/w/c/language/string_literal
-	pattern: /"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"/,
+	pattern: /"(?:\\[\s\S]|[^"\\\n])*"/,
 	greedy: true
 };
 
@@ -27,7 +27,7 @@ var c = macroExpression.inside = languages.c = {
 	'macro': {
 		// allow for multiline macro definitions
 		// spaces after the # character compile fine with gcc
-		pattern: /(^[\t ]*)#\s*[a-z](?:[^\r\n\\/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|\\(?:\r\n|[\s\S]))*/im,
+		pattern: /(^[\t ]*)#\s*[a-z](?:[^\n\\/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|\\[\s\S])*/im,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property',
@@ -60,7 +60,7 @@ var c = macroExpression.inside = languages.c = {
 				alias: 'keyword'
 			},
 			'directive-hash': /^#/,
-			'punctuation': /##|\\(?=[\r\n])/,
+			'punctuation': /##|\\(?=\n)/,
 			'expression': macroExpression
 		}
 	},

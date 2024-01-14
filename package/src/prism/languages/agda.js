@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.agda = {
 	'comment': /\{-[\s\S]*?(?:-\}|$)|--.*/,
 	'string': {
-		pattern: /"(?:\\(?:\r\n|[\s\S])|[^\\\r\n"])*"/,
+		pattern: /"(?:\\[\s\S]|[^\\\n"])*"/,
 		greedy: true,
 	},
 	'punctuation': /[(){}⦃⦄.;@]/,
@@ -12,7 +12,7 @@ languages.agda = {
 		lookbehind: true,
 	},
 	'function': {
-		pattern: /(^[ \t]*)(?!\s)[^:\r\n]+(?=:)/m,
+		pattern: /(^[ \t]*)(?!\s)[^:\n]+(?=:)/m,
 		lookbehind: true,
 	},
 	'operator': {

@@ -35,7 +35,7 @@ languages.soy = {
 				alias: 'variable'
 			},
 			'keyword': {
-				pattern: /(\{+\/?[^\S\r\n]*)(?:\\[nrt]|alias|call|case|css|default|delcall|delpackage|deltemplate|else(?:if)?|fallbackmsg|for(?:each)?|if(?:empty)?|lb|let|literal|msg|namespace|nil|@?param\??|rb|sp|switch|template|xid)|\b(?:any|as|attributes|bool|css|float|html|in|int|js|list|map|null|number|string|uri)\b/,
+				pattern: /(\{+\/?[^\S\n]*)(?:\\[nrt]|alias|call|case|css|default|delcall|delpackage|deltemplate|else(?:if)?|fallbackmsg|for(?:each)?|if(?:empty)?|lb|let|literal|msg|namespace|nil|@?param\??|rb|sp|switch|template|xid)|\b(?:any|as|attributes|bool|css|float|html|in|int|js|list|map|null|number|string|uri)\b/,
 				lookbehind: true
 			},
 			'delimiter': {
@@ -55,7 +55,7 @@ languages.soy = {
 			'function': [
 				/\w+(?=\()/,
 				{
-					pattern: /(\|[^\S\r\n]*)\w+/,
+					pattern: /(\|[^\S\n]*)\w+/,
 					lookbehind: true
 				}
 			],

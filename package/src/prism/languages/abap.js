@@ -2,9 +2,9 @@ import { languages } from '../core.js';
 
 languages.abap = {
 	'comment': /^\*.*/m,
-	'string': /(`|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
+	'string': /(`|')(?:\\.|(?!\1)[^\\\n])*\1/,
 	'string-template': {
-		pattern: /([|}])(?:\\.|[^\\|{\r\n])*(?=[|{])/,
+		pattern: /([|}])(?:\\.|[^\\|{\n])*(?=[|{])/,
 		lookbehind: true,
 		alias: 'string'
 	},

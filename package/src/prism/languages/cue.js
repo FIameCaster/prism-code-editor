@@ -3,9 +3,9 @@ import { languages } from '../core.js';
 // https://cuelang.org/docs/references/spec/
 
 // eslint-disable-next-line regexp/strict
-var stringEscape = /\\(?:(?!\2)|\2(?:[^()\r\n]|\([^()]*\)))/.source;
+var stringEscape = /\\(?:(?!\2)|\2(?:[^()\n]|\([^()]*\)))/.source;
 // eslint-disable-next-line regexp/strict
-var stringTypes = `"""(?:[^\\\\"]|"(?!""\\2)|<esc>)*"""|'''(?:[^\\\\']|'(?!''\\2)|<esc>)*'''|"(?:[^\\\\\\r\\n"]|"(?!\\2)|<esc>)*"|'(?:[^\\\\\\r\\n']|'(?!\\2)|<esc>)*'`;
+var stringTypes = `"""(?:[^\\\\"]|"(?!""\\2)|<esc>)*"""|'''(?:[^\\\\']|'(?!''\\2)|<esc>)*'''|"(?:[^\\\\\n"]|"(?!\\2)|<esc>)*"|'(?:[^\\\\\n']|'(?!\\2)|<esc>)*'`;
 var stringLiteral = '(?:' + stringTypes.replace(/<esc>/g, stringEscape) + ')';
 
 var expression = {

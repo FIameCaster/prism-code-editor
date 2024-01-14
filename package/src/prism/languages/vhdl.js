@@ -12,7 +12,7 @@ languages.vhdl = {
 		pattern: /"\S+?"(?=\()/,
 		alias: 'function'
 	},
-	'string': /"(?:[^\\"\r\n]|\\(?:\r\n|[\s\S]))*"/,
+	'string': /"(?:[^\\"\n]|\\[\s\S])*"/,
 	'attribute': {
 		pattern: /\b'\w+/,
 		alias: 'attr-name'

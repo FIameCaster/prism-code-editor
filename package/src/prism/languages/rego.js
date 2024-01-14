@@ -5,12 +5,12 @@ import { languages } from '../core.js';
 languages.rego = {
 	'comment': /#.*/,
 	'property': {
-		pattern: /(^|[^\\.])(?:"(?:\\.|[^\\"\r\n])*"|`[^`]*`|\b[a-z_]\w*\b)(?=\s*:(?!=))/i,
+		pattern: /(^|[^\\.])(?:"(?:\\.|[^\\"\n])*"|`[^`]*`|\b[a-z_]\w*\b)(?=\s*:(?!=))/i,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"|`[^`]*`/,
+		pattern: /(^|[^\\])"(?:\\.|[^\\"\n])*"|`[^`]*`/,
 		lookbehind: true,
 		greedy: true
 	},

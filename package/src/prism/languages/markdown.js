@@ -3,7 +3,7 @@ import { extend, insertBefore } from '../utils/language.js';
 import './markup.js';
 
 // Allow only one line break
-var inner = /(?:\\.|[^\\\n\r]|(?:\n|\r\n?)(?![\r\n]))/.source;
+var inner = /(?:\\.|[^\\\n]|\n(?!\n))/.source;
 
 /**
  * This function is intended for the creation of the bold or italic pattern.
@@ -16,14 +16,14 @@ var inner = /(?:\\.|[^\\\n\r]|(?:\n|\r\n?)(?![\r\n]))/.source;
  * @returns {RegExp}
  */
 var createInline = pattern => RegExp(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern.source.replace(/<inner>/g, inner)})`);
-var tableCell = /(?:\\.|``(?:[^`\r\n]|`(?!`))+``|`[^`\r\n]+`|[^\\|\r\n`])+/.source;
-var tableRow = /\|?__(?:\|__)+\|?(?:(?:\n|\r\n?)|(?![\s\S]))/.source.replace(/__/g, tableCell);
-var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?(?:\n|\r\n?)/.source;
+var tableCell = /(?:\\.|``(?:[^`\n]|`(?!`))+``|`[^`\n]+`|[^\\|\n`])+/.source;
+var tableRow = /\|?__(?:\|__)+\|?(?:\n|(?![\s\S]))/.source.replace(/__/g, tableCell);
+var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?\n/.source;
 var markdown = languages.markdown = languages.md = extend('markup', {});
 
 insertBefore(markdown, 'prolog', {
 	'front-matter-block': {
-		pattern: /(^(?:\s*[\r\n])?)---(?!.)[\s\S]*?[\r\n]---(?!.)/,
+		pattern: /(^(?:\s*\n)?)---(?!.)[\s\S]*?\n---(?!.)/,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -77,7 +77,7 @@ insertBefore(markdown, 'prolog', {
 	'code': [
 		{
 			// Prefixed by 4 spaces or 1 tab and preceded by an empty line
-			pattern: /(^[ \t]*(?:\n|\r\n?))(?:    |\t).+(?:(?:\n|\r\n?)(?:    |\t).+)*/m,
+			pattern: /(^[ \t]*\n)(?:    |\t).+(?:\n(?:    |\t).+)*/m,
 			lookbehind: true,
 			alias: 'keyword'
 		},
@@ -120,7 +120,7 @@ insertBefore(markdown, 'prolog', {
 
 			// title 2
 			// -------
-			pattern: /\S.*(?:\n|\r\n?)(?:==+|--+)(?=[ \t]*$)/m,
+			pattern: /\S.*\n(?:==+|--+)(?=[ \t]*$)/m,
 			alias: 'important',
 			inside: {
 				punctuation: /==+$|--+$/
@@ -222,7 +222,7 @@ insertBefore(markdown, 'prolog', {
 	'code-snippet': {
 		// `code`
 		// ``code``
-		pattern: /(^|[^\\`])(?:``[^`\r\n]+(?:`[^`\r\n]+)*``(?!`)|`[^`\r\n]+`(?!`))/,
+		pattern: /(^|[^\\`])(?:``[^`\n]+(?:`[^`\n]+)*``(?!`)|`[^`\n]+`(?!`))/,
 		lookbehind: true,
 		greedy: true,
 		alias: 'code keyword'

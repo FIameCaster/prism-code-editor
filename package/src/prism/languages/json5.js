@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 import { extend } from '../utils/language.js';
 import './json.js';
 
-var string = /("|')(?:\\(?:\r\n?|\n|.)|(?!\1)[^\\\r\n])*\1/;
+var string = /("|')(?:\\[\s\S]|(?!\1)[^\\\n])*\1/;
 
 languages.json5 = extend('json', {
 	'property': [

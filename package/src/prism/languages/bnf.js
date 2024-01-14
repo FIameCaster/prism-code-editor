@@ -1,16 +1,16 @@
 import { languages } from '../core.js';
 
 languages.rbnf = languages.bnf = {
-	'string': /"[^\r\n"]*"|'[^\r\n']*'/,
+	'string': /"[^\n"]*"|'[^\n']*'/,
 	'definition': {
-		pattern: /<[^<>\r\n\t]+>(?=\s*::=)/,
+		pattern: /<[^<>\n\t]+>(?=\s*::=)/,
 		alias: 'rule keyword',
 		inside: {
 			'punctuation': /^<|>$/
 		}
 	},
 	'rule': {
-		pattern: /<[^<>\r\n\t]+>/,
+		pattern: /<[^<>\n\t]+>/,
 		inside: {
 			'punctuation': /^<|>$/
 		}

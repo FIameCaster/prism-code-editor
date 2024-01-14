@@ -21,7 +21,7 @@ languages.git = {
 	/*
 	 * a string (double and simple quote)
 	 */
-	'string': /("|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
+	'string': /("|')(?:\\.|(?!\1)[^\\\n])*\1/,
 
 	/*
 	 * a git command. It starts with a random prompt finishing by a $, then "git" then some other parameters

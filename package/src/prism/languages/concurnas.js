@@ -6,7 +6,7 @@ languages.conc = languages.concurnas = {
 		greedy: true
 	},
 	'regex-literal': {
-		pattern: /\br("|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
+		pattern: /\br("|')(?:\\.|(?!\1)[^\\\n])*\1/,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -18,7 +18,7 @@ languages.conc = languages.concurnas = {
 		}
 	},
 	'string-literal': {
-		pattern: /(?:\B|\bs)("|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
+		pattern: /(?:\B|\bs)("|')(?:\\.|(?!\1)[^\\\n])*\1/,
 		greedy: true,
 		inside: {
 			'interpolation': {

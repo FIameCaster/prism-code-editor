@@ -33,16 +33,16 @@ languages.java = {
 	'comment': clikeComment(),
 	'triple-quoted-string': {
 		// http://openjdk.java.net/jeps/355#Description
-		pattern: /"""[ \t]*[\r\n](?:(?:"|"")?(?:\\.|[^"\\]))*"""/,
+		pattern: /"""[ \t]*\n(?:(?:"|"")?(?:\\.|[^"\\]))*"""/,
 		greedy: true,
 		alias: 'string'
 	},
 	'char': {
-		pattern: /'(?:\\.|[^'\\\r\n]){1,6}'/,
+		pattern: /'(?:\\.|[^'\\\n]){1,6}'/,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:\\.|[^"\\\r\n])*"/,
+		pattern: /(^|[^\\])"(?:\\.|[^"\\\n])*"/,
 		lookbehind: true,
 		greedy: true
 	},

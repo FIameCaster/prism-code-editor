@@ -9,11 +9,11 @@ languages.ini = {
 	 */
 
 	'comment': {
-		pattern: /(^[ \f\t\v]*)[#;][^\n\r]*/m,
+		pattern: /(^[ \f\t\v]*)[#;].*/m,
 		lookbehind: true
 	},
 	'section': {
-		pattern: /(^[ \f\t\v]*)\[[^\n\r\]]*\]?/m,
+		pattern: /(^[ \f\t\v]*)\[[^\n\]]*\]?/m,
 		lookbehind: true,
 		inside: {
 			'section-name': {
@@ -25,12 +25,12 @@ languages.ini = {
 		}
 	},
 	'key': {
-		pattern: /(^[ \f\t\v]*)[^ \f\n\r\t\v=]+(?:[ \f\t\v]+[^ \f\n\r\t\v=]+)*(?=[ \f\t\v]*=)/m,
+		pattern: /(^[ \f\t\v]*)[^ \f\n\t\v=]+(?:[ \f\t\v]+[^ \f\n\t\v=]+)*(?=[ \f\t\v]*=)/m,
 		lookbehind: true,
 		alias: 'attr-name'
 	},
 	'value': {
-		pattern: /(=[ \f\t\v]*)[^ \f\n\r\t\v]+(?:[ \f\t\v]+[^ \f\n\r\t\v]+)*/,
+		pattern: /(=[ \f\t\v]*)[^ \f\n\t\v]+(?:[ \f\t\v]+[^ \f\n\t\v]+)*/,
 		lookbehind: true,
 		alias: 'attr-value',
 		inside: {

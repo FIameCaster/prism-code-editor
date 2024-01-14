@@ -2,7 +2,7 @@ import { languages, rest } from '../core.js';
 
 var elixir = languages.elixir = {
 	'doc': {
-		pattern: /@(?:doc|moduledoc)\s+(?:("""|''')[\s\S]*?\1|("|')(?:\\(?:\r\n|[\s\S])|(?!\2)[^\\\r\n])*\2)/,
+		pattern: /@(?:doc|moduledoc)\s+(?:("""|''')[\s\S]*?\1|("|')(?:\\[\s\S]|(?!\2)[^\\\n])*\2)/,
 		inside: {
 			'attribute': /^@\w+/,
 			'string': /['"][\s\S]+/
@@ -14,13 +14,13 @@ var elixir = languages.elixir = {
 	},
 	// ~r"""foo""" (multi-line), ~r'''foo''' (multi-line), ~r/foo/, ~r|foo|, ~r"foo", ~r'foo', ~r(foo), ~r[foo], ~r{foo}, ~r<foo>
 	'regex': {
-		pattern: /~[rR](?:("""|''')(?:\\[\s\S]|(?!\1)[^\\])+\1|([\/|"'])(?:\\.|(?!\2)[^\\\r\n])+\2|\((?:\\.|[^\\)\r\n])+\)|\[(?:\\.|[^\\\]\r\n])+\]|\{(?:\\.|[^\\}\r\n])+\}|<(?:\\.|[^\\>\r\n])+>)[uismxfr]*/,
+		pattern: /~[rR](?:("""|''')(?:\\[\s\S]|(?!\1)[^\\])+\1|([\/|"'])(?:\\.|(?!\2)[^\\\n])+\2|\((?:\\.|[^\\)\n])+\)|\[(?:\\.|[^\\\]\n])+\]|\{(?:\\.|[^\\}\n])+\}|<(?:\\.|[^\\>\n])+>)[uismxfr]*/,
 		greedy: true
 	},
 	'string': [
 		{
 			// ~s"""foo""" (multi-line), ~s'''foo''' (multi-line), ~s/foo/, ~s|foo|, ~s"foo", ~s'foo', ~s(foo), ~s[foo], ~s{foo} (with interpolation care), ~s<foo>
-			pattern: /~[cCsSwW](?:("""|''')(?:\\[\s\S]|(?!\1)[^\\])+\1|([\/|"'])(?:\\.|(?!\2)[^\\\r\n])+\2|\((?:\\.|[^\\)\r\n])+\)|\[(?:\\.|[^\\\]\r\n])+\]|\{(?:\\.|#\{[^}]+\}|#(?!\{)|[^#\\}\r\n])+\}|<(?:\\.|[^\\>\r\n])+>)[csa]?/,
+			pattern: /~[cCsSwW](?:("""|''')(?:\\[\s\S]|(?!\1)[^\\])+\1|([\/|"'])(?:\\.|(?!\2)[^\\\n])+\2|\((?:\\.|[^\\)\n])+\)|\[(?:\\.|[^\\\]\n])+\]|\{(?:\\.|#\{[^}]+\}|#(?!\{)|[^#\\}\n])+\}|<(?:\\.|[^\\>\n])+>)[csa]?/,
 			greedy: true
 		},
 		{
@@ -29,7 +29,7 @@ var elixir = languages.elixir = {
 		},
 		{
 			// Multi-line strings are allowed
-			pattern: /("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+			pattern: /("|')(?:\\[\s\S]|(?!\1)[^\\\n])*\1/,
 			greedy: true
 		}
 	],

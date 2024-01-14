@@ -60,7 +60,7 @@ expression.inside = languages.plantuml = languages['plant-uml'] = {
 		greedy: true
 	},
 	'text': {
-		pattern: /(\[[ \t]*[\r\n]+(?![\r\n]))[^\]]*(?=\])/,
+		pattern: /(\[[ \t]*\n+(?!\n))[^\]]*(?=\])/,
 		lookbehind: true,
 		greedy: true,
 		alias: 'string'

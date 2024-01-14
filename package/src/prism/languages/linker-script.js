@@ -7,7 +7,7 @@ languages['linker-script'] = {
 		greedy: true
 	},
 	'identifier': {
-		pattern: /"[^"\r\n]*"/,
+		pattern: /"[^"\n]*"/,
 		greedy: true
 	},
 

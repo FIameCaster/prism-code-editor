@@ -5,7 +5,7 @@ import { languages } from '../core.js';
 languages.al = {
 	'comment': /\/\/.*|\/\*[\s\S]*?\*\//,
 	'string': {
-		pattern: /'(?:''|[^'\r\n])*'(?!')|"(?:""|[^"\r\n])*"(?!")/,
+		pattern: /'(?:''|[^'\n])*'(?!')|"(?:""|[^"\n])*"(?!")/,
 		greedy: true
 	},
 	'function': {

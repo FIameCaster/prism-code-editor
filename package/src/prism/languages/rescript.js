@@ -4,7 +4,7 @@ import { clikeComment } from '../utils/shared.js';
 languages.res = languages.rescript = {
 	'comment': clikeComment(),
 	'char': {
-		pattern: /'(?:[^\r\n\\]|\\(?:.|\w+))'/,
+		pattern: /'(?:[^\n\\]|\\(?:.|\w+))'/,
 		greedy: true
 	},
 	'template-string': {
@@ -30,7 +30,7 @@ languages.res = languages.rescript = {
 		}
 	},
 	'string': {
-		pattern: /"(?:\\(?:\r\n|[\s\S])|[^\\\r\n"])*"/,
+		pattern: /"(?:\\[\s\S]|[^\\\n"])*"/,
 		greedy: true
 	},
 	'class-name': /\b[A-Z]\w*|@[a-z.]*|#[A-Za-z]\w*|#\d/,

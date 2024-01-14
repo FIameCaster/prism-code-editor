@@ -17,7 +17,7 @@ languages.odin = {
 	 * Should be found before strings because of '"'"- and '`'`-like sequences.
 	 */
 	'char': {
-		pattern: /'(?:\\(?:.|[0Uux][0-9A-Fa-f]{1,6})|[^\n\r'\\])'/,
+		pattern: /'(?:\\(?:.|[0Uux][0-9A-Fa-f]{1,6})|[^\n'\\])'/,
 		greedy: true,
 		inside: {
 			'symbol': escapes
@@ -30,7 +30,7 @@ languages.odin = {
 			greedy: true
 		},
 		{
-			pattern: /"(?:\\.|[^\n\r"\\])*"/,
+			pattern: /"(?:\\.|[^\n"\\])*"/,
 			greedy: true,
 			inside: {
 				'symbol': escapes

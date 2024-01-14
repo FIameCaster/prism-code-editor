@@ -23,12 +23,12 @@ expression.inside = languages.brightscript = {
 		}
 	},
 	'property': {
-		pattern: /([\r\n{,][\t ]*)(?:(?!\d)\w+|"(?:[^"\r\n]|"")*"(?!"))(?=[ \t]*:)/,
+		pattern: /([\n{,][\t ]*)(?:(?!\d)\w+|"(?:[^"\n]|"")*"(?!"))(?=[ \t]*:)/,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:[^"\r\n]|"")*"(?!")/,
+		pattern: /"(?:[^"\n]|"")*"(?!")/,
 		greedy: true
 	},
 	'class-name': {

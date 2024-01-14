@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.parigp = {
 	'comment': /\/\*[\s\S]*?\*\/|\\\\.*/,
 	'string': {
-		pattern: /"(?:[^"\\\r\n]|\\.)*"/,
+		pattern: /"(?:[^"\\\n]|\\.)*"/,
 		greedy: true
 	},
 	// PARI/GP does not care about white spaces at all

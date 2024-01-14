@@ -4,11 +4,11 @@ import { clikeComment } from '../utils/shared.js';
 languages.antlr4 = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /'(?:\\.|[^\\'\r\n])*'/,
+		pattern: /'(?:\\.|[^\\'\n])*'/,
 		greedy: true
 	},
 	'character-class': {
-		pattern: /\[(?:\\.|[^\\\]\r\n])*\]/,
+		pattern: /\[(?:\\.|[^\\\]\n])*\]/,
 		greedy: true,
 		alias: 'regex',
 		inside: {
@@ -17,7 +17,7 @@ languages.antlr4 = {
 				lookbehind: true,
 				alias: 'punctuation'
 			},
-			'escape': /\\(?:u(?:[a-fA-F\d]{4}|\{[a-fA-F\d]+\})|[pP]\{[=\w-]+\}|[^\r\nupP])/,
+			'escape': /\\(?:u(?:[a-fA-F\d]{4}|\{[a-fA-F\d]+\})|[pP]\{[=\w-]+\}|[^\nupP])/,
 			'punctuation': /[\[\]]/
 		}
 	},
@@ -30,7 +30,7 @@ languages.antlr4 = {
 		}
 	},
 	'command': {
-		pattern: /(->\s*(?!\s))(?:\s*(?:,\s*)?\b[a-z]\w*(?:\s*\([^()\r\n]*\))?)+(?=\s*;)/i,
+		pattern: /(->\s*(?!\s))(?:\s*(?:,\s*)?\b[a-z]\w*(?:\s*\([^()\n]*\))?)+(?=\s*;)/i,
 		lookbehind: true,
 		inside: {
 			'function': /\b\w+(?=\s*(?:[,(]|$))/,

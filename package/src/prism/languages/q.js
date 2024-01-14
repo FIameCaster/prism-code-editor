@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 
 languages.q = {
-	'string': /"(?:\\.|[^"\\\r\n])*"/,
+	'string': /"(?:\\.|[^"\\\n])*"/,
 	'comment': [
 		// From http://code.kx.com/wiki/Reference/Slash:
 		// When / is following a space (or a right parenthesis, bracket, or brace), it is ignored with the rest of the line.
@@ -17,14 +17,13 @@ languages.q = {
 		// If a / is not matched by a \, the multiline comment is unterminated and continues to end of file.
 		// The / and \ must be the first char on the line, but may be followed by any amount of whitespace.
 		{
-			pattern: /(^|\r?\n|\r)\/[\t ]*(?:(?:\r?\n|\r)(?:.*(?:\r?\n|\r(?!\n)))*?(?:\\(?=[\t ]*(?:\r?\n|\r))|$)|\S.*)/,
-			lookbehind: true,
+			pattern: /^\/[\t ]*(?:\n(?:.*\n)*?(?:\\(?=[\t ]*$)|(?![\s\S]))|\S.*)/m,
 			greedy: true
 		},
 		// From http://code.kx.com/wiki/Reference/Slash:
 		// A \ on a line by itself with no preceding matching / will comment to end of file.
 		{
-			pattern: /^\\[\t ]*(?:\r?\n|\r)[\s\S]+|^#!.+/m,
+			pattern: /^\\[\t ]*\n[\s\S]+|^#!.+/m,
 			greedy: true
 		}
 	],

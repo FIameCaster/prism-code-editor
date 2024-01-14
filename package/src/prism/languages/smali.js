@@ -6,20 +6,20 @@ import { languages } from '../core.js';
 languages.smali = {
 	'comment': /#.*/,
 	'string': {
-		pattern: /"(?:[^\r\n\\"]|\\.)*"|'(?:[^\r\n\\']|\\(?:.|u[\da-fA-F]{4}))'/,
+		pattern: /"(?:[^\n\\"]|\\.)*"|'(?:[^\n\\']|\\(?:.|u[\da-fA-F]{4}))'/,
 		greedy: true
 	},
 
 	'class-name': {
-		pattern: /(^|[^L])L(?:(?:\w+|`[^`\r\n]*`)\/)*(?:[\w$]+|`[^`\r\n]*`)(?=\s*;)/,
+		pattern: /(^|[^L])L(?:(?:\w+|`[^`\n]*`)\/)*(?:[\w$]+|`[^`\n]*`)(?=\s*;)/,
 		lookbehind: true,
 		inside: {
 			'class-name': {
-				pattern: /(^L|\/)(?:[\w$]+|`[^`\r\n]*`)$/,
+				pattern: /(^L|\/)(?:[\w$]+|`[^`\n]*`)$/,
 				lookbehind: true
 			},
 			'namespace': {
-				pattern: /^(L)(?:(?:\w+|`[^`\r\n]*`)\/)+/,
+				pattern: /^(L)(?:(?:\w+|`[^`\n]*`)\/)+/,
 				lookbehind: true,
 				inside: {
 					'punctuation': /\//

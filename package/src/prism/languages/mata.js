@@ -10,7 +10,7 @@ languages.mata = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^"\r\n]*"|[‘`']".*?"[’`']/,
+		pattern: /"[^"\n]*"|[‘`']".*?"[’`']/,
 		greedy: true
 	},
 

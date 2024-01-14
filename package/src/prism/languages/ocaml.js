@@ -8,12 +8,12 @@ languages.ocaml = {
 		greedy: true
 	},
 	'char': {
-		pattern: /'(?:[^\\\r\n']|\\(?:.|[ox]?[0-9a-f]{1,3}))'/i,
+		pattern: /'(?:[^\\\n']|\\(?:.|[ox]?[0-9a-f]{1,3}))'/i,
 		greedy: true
 	},
 	'string': [
 		{
-			pattern: /"(?:\\(?:[\s\S]|\r\n)|[^\\\r\n"])*"/,
+			pattern: /"(?:\\[\s\S]|[^\\\n"])*"/,
 			greedy: true
 		},
 		{

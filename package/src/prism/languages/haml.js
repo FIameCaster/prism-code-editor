@@ -5,26 +5,26 @@ var haml = languages.haml = {
 	// Multiline stuff should appear before the rest
 
 	'multiline-comment': {
-		pattern: /((?:^|\r?\n|\r)([\t ]*))(?:\/|-#).*(?:(?:\r?\n|\r)\2[\t ].+)*/,
+		pattern: /(^[\t ]*)(?:\/|-#).*(?:\n\1[\t ].+)*/m,
 		lookbehind: true,
 		alias: 'comment'
 	},
 
 	'multiline-code': [
 		{
-			pattern: /((?:^|\r?\n|\r)([\t ]*)(?:[~-]|[&!]?=)).*,[\t ]*(?:(?:\r?\n|\r)\2[\t ].*,[\t ]*)*(?:(?:\r?\n|\r)\2[\t ].+)/,
+			pattern: /(^([\t ]*)(?:[~-]|[&!]?=)).*,[\t ]*(?:\n\2[\t ].*,[\t ]*)*(?:\n\2[\t ].+)/m,
 			lookbehind: true,
 			inside: 'ruby'
 		},
 		{
-			pattern: /((?:^|\r?\n|\r)([\t ]*)(?:[~-]|[&!]?=)).*\|[\t ]*(?:(?:\r?\n|\r)\2[\t ].*\|[\t ]*)*/,
+			pattern: /(^([\t ]*)(?:[~-]|[&!]?=)).*\|[\t ]*(?:\n\2[\t ].*\|[\t ]*)*/m,
 			lookbehind: true,
 			inside: 'ruby'
 		}
 	]
 };
 
-var filter_pattern = '((?:^|\\r?\\n|\\r)([\\t ]*)):{{name}}(?:(?:\\r?\\n|\\r)(?:\\2[\\t ].+|\\s*?(?=\\r?\\n|\\r)))+';
+var filter_pattern = '(^[\\t ]*):{{name}}(?:\\n(?:\\1[\\t ].+|\\s*?$))+';
 
 // Non exhaustive list of available filters and associated languages
 [
@@ -40,7 +40,7 @@ var filter_pattern = '((?:^|\\r?\\n|\\r)([\\t ]*)):{{name}}(?:(?:\\r?\\n|\\r)(?:
 ].forEach(filter => {
 	var language = filter == 'coffee' ? 'coffeescript' : filter;
 	haml['filter-' + filter] = {
-		pattern: RegExp(filter_pattern.replace('{{name}}', filter)),
+		pattern: RegExp(filter_pattern.replace('{{name}}', filter), 'm'),
 		lookbehind: true,
 		inside: {
 			'filter-name': {
@@ -58,7 +58,7 @@ var filter_pattern = '((?:^|\\r?\\n|\\r)([\\t ]*)):{{name}}(?:(?:\\r?\\n|\\r)(?:
 
 Object.assign(haml, {
 	'filter': {
-		pattern: /((?:^|\r?\n|\r)([\t ]*)):[\w-]+(?:(?:\r?\n|\r)(?:\2[\t ].+|\s*?(?=\r?\n|\r)))+/,
+		pattern: /(^[\t ]*):[\w-]+(?:\n(?:\1[\t ].+|\s*?$))+/m,
 		lookbehind: true,
 		inside: {
 			'filter-name': {
@@ -69,17 +69,17 @@ Object.assign(haml, {
 	},
 
 	'markup': {
-		pattern: /((?:^|\r?\n|\r)[\t ]*)<.+/,
+		pattern: /(^[\t ]*)<.+/m,
 		lookbehind: true,
 		inside: 'markup'
 	},
 	'doctype': {
-		pattern: /((?:^|\r?\n|\r)[\t ]*)!!!(?: .+)?/,
+		pattern: /(^[\t ]*)!!!(?: .+)?/m,
 		lookbehind: true
 	},
 	'tag': {
 		// Allows for one nested group of braces
-		pattern: /((?:^|\r?\n|\r)[\t ]*)[%.#][\w\-#.]*[\w\-](?:\([^)]+\)|\{(?:\{[^}]+\}|[^{}])+\}|\[[^\]]+\])*[\/<>]*/,
+		pattern: /(^[\t ]*)[%.#][\w\-#.]*[\w\-](?:\([^)]+\)|\{(?:\{[^}]+\}|[^{}])+\}|\[[^\]]+\])*[\/<>]*/m,
 		lookbehind: true,
 		inside: {
 			'attributes': [
@@ -94,7 +94,7 @@ Object.assign(haml, {
 					pattern: /\([^)]+\)/,
 					inside: {
 						'attr-value': {
-							pattern: /(=\s*)(?:"(?:\\.|[^\\"\r\n])*"|[^)\s]+)/,
+							pattern: /(=\s*)(?:"(?:\\.|[^\\"\n])*"|[^)\s]+)/,
 							lookbehind: true
 						},
 						'attr-name': /[\w:-]+(?=\s*!?=|\s*[,)])/,
@@ -110,7 +110,7 @@ Object.assign(haml, {
 		}
 	},
 	'code': {
-		pattern: /((?:^|\r?\n|\r)[\t ]*(?:[~-]|[&!]?=)).+/,
+		pattern: /(^[\t ]*(?:[~-]|[&!]?=)).+/m,
 		lookbehind: true,
 		inside: 'ruby'
 	},
@@ -129,7 +129,7 @@ Object.assign(haml, {
 		}
 	},
 	'punctuation': {
-		pattern: /((?:^|\r?\n|\r)[\t ]*)[~=\-&!]+/,
+		pattern: /(^[\t ]*)[~=\-&!]+/m,
 		lookbehind: true
 	}
 });

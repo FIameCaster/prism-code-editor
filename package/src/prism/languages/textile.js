@@ -8,8 +8,8 @@ import './markup.js';
  */
 var withModifier = (source, flags = '') => RegExp(
 	source
-		.replace(/<MOD>/g, '(?:\\([^|()\\n]+\\)|\\[[^\\]\\n]+\\]|\\{[^}\\n]+\\})')
-		.replace(/<PAR>/g, '(?:\\)|\\((?![^|()\\n]+\\)))'),
+		.replace(/<MOD>/g, '(?:\\([^|()\n]+\\)|\\[[^\\]\n]+\\]|\\{[^}\n]+\\})')
+		.replace(/<PAR>/g, '(?:\\)|\\((?![^|()\n]+\\)))'),
 	flags
 );
 
@@ -35,8 +35,7 @@ var modifierTokens = {
 
 var textile = languages.textile = extend('markup', {
 	'phrase': {
-		pattern: /(^|\r|\n)\S[\s\S]*?(?=$|\r?\n\r?\n|\r\r)/,
-		lookbehind: true,
+		pattern: /^\S[\s\S]*?(?:(?![\s\S])|(?=\n\n))/m,
 		inside: {
 
 			// h1. Header 1
@@ -76,7 +75,7 @@ var textile = languages.textile = extend('markup', {
 					'modifier': {
 						// Modifiers for rows after the first one are
 						// preceded by a pipe and a line feed
-						pattern: withModifier(/(^|\|(?:\r?\n|\r)?)(?:<MOD>|<PAR>|[<>=^~_]|[\\/]\d+)+(?=\.)/.source),
+						pattern: withModifier(/(^|\|\n?)(?:<MOD>|<PAR>|[<>=^~_]|[\\/]\d+)+(?=\.)/.source),
 						lookbehind: true,
 						inside: modifierTokens
 					},

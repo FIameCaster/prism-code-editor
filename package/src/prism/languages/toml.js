@@ -4,7 +4,7 @@ import { languages } from '../core.js';
  * @param {string} pattern
  */
 var insertKey = pattern =>
-	pattern.replace(/__/g, `(?:[\\w-]+|'[^'\\n\\r]*'|"(?:\\\\.|[^\\\\"\\r\\n])*")`);
+	pattern.replace(/__/g, `(?:[\\w-]+|'[^'\n]*'|"(?:\\\\.|[^\\\\"\n])*")`);
 
 languages.toml = {
 	'comment': {
@@ -24,7 +24,7 @@ languages.toml = {
 		alias: 'property'
 	},
 	'string': {
-		pattern: /"""(?:\\[\s\S]|[^\\])*?"""|'''[\s\S]*?'''|'[^'\n\r]*'|"(?:\\.|[^\\"\r\n])*"/,
+		pattern: /"""(?:\\[\s\S]|[^\\])*?"""|'''[\s\S]*?'''|'[^'\n]*'|"(?:\\.|[^\\"\n])*"/,
 		greedy: true
 	},
 	'date': [

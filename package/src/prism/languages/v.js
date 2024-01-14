@@ -13,7 +13,7 @@ var generic = {
 
 var v = interpolationExpr.inside = languages.v = extend('clike', {
 	'string': {
-		pattern: /r?(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+		pattern: /r?(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/,
 		alias: 'quoted-string',
 		greedy: true,
 		inside: {

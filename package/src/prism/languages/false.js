@@ -12,7 +12,7 @@ languages['false'] = {
 		greedy: true
 	},
 	'character-code': {
-		pattern: /'(?:[^\r]|\r\n?)/,
+		pattern: /'[\s\S]/,
 		alias: 'number'
 	},
 	'assembler-code': {

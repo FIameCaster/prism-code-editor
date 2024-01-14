@@ -14,7 +14,7 @@ var operator = [
 var sass = languages.sass = extend('css', {
 	// Sass comments don't need to be closed, only indented
 	'comment': {
-		pattern: /^([ \t]*)\/[\/*].*(?:(?:\r?\n|\r)\1[ \t].+)*/m,
+		pattern: /^([ \t]*)\/[\/*].*(?:\n\1[ \t].+)*/m,
 		lookbehind: true,
 		greedy: true
 	}
@@ -70,7 +70,7 @@ delete sass.important;
 // what's left should be selectors
 insertBefore(sass, 'punctuation', {
 	'selector': {
-		pattern: /^([ \t]*)\S(?:,[^,\r\n]+|[^,\r\n]*)(?:,[^,\r\n]+)*(?:,(?:\r?\n|\r)\1[ \t]+\S(?:,[^,\r\n]+|[^,\r\n]*)(?:,[^,\r\n]+)*)*/m,
+		pattern: /^([ \t]*)\S(?:,[^,\n]+|[^,\n]*)(?:,[^,\n]+)*(?:,\n\1[ \t]+\S(?:,[^,\n]+|[^,\n]*)(?:,[^,\n]+)*)*/m,
 		lookbehind: true,
 		greedy: true
 	}

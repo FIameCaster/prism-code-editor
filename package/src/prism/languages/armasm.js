@@ -6,7 +6,7 @@ languages.armasm = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:[^"\r\n]|"")*"/,
+		pattern: /"(?:[^"\n]|"")*"/,
 		greedy: true,
 		inside: {
 			'variable': {
@@ -16,7 +16,7 @@ languages.armasm = {
 		}
 	},
 	'char': {
-		pattern: /'(?:[^'\r\n]{0,4}|'')'/,
+		pattern: /'(?:[^'\n]{0,4}|'')'/,
 		greedy: true
 	},
 	'version-symbol': {
@@ -31,7 +31,7 @@ languages.armasm = {
 		alias: 'property'
 	},
 	'instruction': {
-		pattern: /((?:^|(?:^|[^\\])(?:\r\n?|\n))[ \t]*(?:(?:[A-Z][A-Z0-9_]*[a-z]\w*|[a-z]\w*|\d+)[ \t]+)?)\b[A-Z.]+\b/,
+		pattern: /((?:^|(?:^|[^\\])\n)[ \t]*(?:(?:[A-Z][A-Z0-9_]*[a-z]\w*|[a-z]\w*|\d+)[ \t]+)?)\b[A-Z.]+\b/,
 		lookbehind: true,
 		alias: 'keyword'
 	},

@@ -12,7 +12,7 @@ import './javascript.js';
 // - Add support for markup embedded in plain text
 
 var js = languages.js;
-var filter_pattern = /(^([\t ]*)):<filter_name>(?:(?:\r?\n|\r(?!\n))(?:\2[\t ].+|\s*?(?=\r?\n|\r)))+/.source;
+var filter_pattern = /(^([\t ]*)):<filter_name>(?:\n(?:\2[\t ].+|\s*?$))+/.source;
 
 var langMap = {
 	atpl: 'twig',
@@ -26,14 +26,14 @@ var pug = languages.pug = {
 
 	// This handles both single-line and multi-line comments
 	'comment': {
-		pattern: /(^([\t ]*))\/\/.*(?:(?:\r?\n|\r)\2[\t ].+)*/m,
+		pattern: /(^([\t ]*))\/\/.*(?:\n\2[\t ].+)*/m,
 		lookbehind: true
 	},
 
 	// All the tag-related part is in lookbehind
 	// so that it can be highlighted by the "tag" pattern
 	'multiline-script': {
-		pattern: /(^([\t ]*)script\b.*\.[\t ]*)(?:(?:\r?\n|\r(?!\n))(?:\2[\t ].+|\s*?(?=\r?\n|\r)))+/m,
+		pattern: /(^([\t ]*)script\b.*\.[\t ]*)(?:\n(?:\2[\t ].+|\s*?$))+/m,
 		lookbehind: true,
 		inside: js
 	}
@@ -71,7 +71,7 @@ var pug = languages.pug = {
 
 Object.assign(pug, {
 	'filter': {
-		pattern: /(^([\t ]*)):.+(?:(?:\r?\n|\r(?!\n))(?:\2[\t ].+|\s*?(?=\r?\n|\r)))+/m,
+		pattern: /(^([\t ]*)):.+(?:\n(?:\2[\t ].+|\s*?$))+/m,
 		lookbehind: true,
 		inside: {
 			'filter-name': {
@@ -83,7 +83,7 @@ Object.assign(pug, {
 	},
 
 	'multiline-plain-text': {
-		pattern: /(^([\t ]*)[\w\-#.]+\.[\t ]*)(?:(?:\r?\n|\r(?!\n))(?:\2[\t ].+|\s*?(?=\r?\n|\r)))+/m,
+		pattern: /(^([\t ]*)[\w\-#.]+\.[\t ]*)(?:\n(?:\2[\t ].+|\s*?$))+/m,
 		lookbehind: true
 	},
 	'markup': {
@@ -166,7 +166,7 @@ Object.assign(pug, {
 					pattern: /\([^)]+\)/,
 					inside: {
 						'attr-value': {
-							pattern: /(=\s*(?!\s))(?:\{[^}]*\}|[^,)\r\n]+)/,
+							pattern: /(=\s*(?!\s))(?:\{[^}]*\}|[^,)\n]+)/,
 							lookbehind: true,
 							inside: js
 						},

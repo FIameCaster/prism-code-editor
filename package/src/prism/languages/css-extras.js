@@ -19,7 +19,7 @@ css.selector.inside = css['atrule'].inside['selector-function-argument'].inside 
 	'class': /\.[-\w]+/,
 	'id': /#[-\w]+/,
 	'attribute': {
-		pattern: /\[(?:[^[\]"']|("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1)*\]/,
+		pattern: /\[(?:[^[\]"']|("|')(?:\\[\s\S]|(?!\1)[^\\\n])*\1)*\]/,
 		greedy: true,
 		inside: {
 			'punctuation': /^\[|\]$/,
@@ -40,7 +40,7 @@ css.selector.inside = css['atrule'].inside['selector-function-argument'].inside 
 				lookbehind: true
 			},
 			'attr-value': [
-				/("|')(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+				/("|')(?:\\[\s\S]|(?!\1)[^\\\n])*\1/,
 				{
 					pattern: /(=\s*)(?:(?!\s)[-\w\xA0-\uFFFF])+(?=\s*$)/,
 					lookbehind: true

@@ -17,7 +17,7 @@ languages.nim = {
 	},
 
 	'function': {
-		pattern: /(?:(?!\d)(?:\w|\\x[89a-fA-F][0-9a-fA-F])+|`[^`\r\n]+`)\*?(?:\[[^\]]+\])?(?=\s*\()/,
+		pattern: /(?:(?!\d)(?:\w|\\x[89a-fA-F][0-9a-fA-F])+|`[^`\n]+`)\*?(?:\[[^\]]+\])?(?=\s*\()/,
 		greedy: true,
 		inside: {
 			'operator': /\*$/
@@ -25,7 +25,7 @@ languages.nim = {
 	},
 	// We don't want to highlight operators (and anything really) inside backticks
 	'identifier': {
-		pattern: /`[^`\r\n]+`/,
+		pattern: /`[^`\n]+`/,
 		greedy: true,
 		inside: {
 			'punctuation': /`/

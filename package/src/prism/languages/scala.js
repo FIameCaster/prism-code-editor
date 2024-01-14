@@ -9,7 +9,7 @@ var scala = languages.scala = extend('java', {
 		alias: 'string'
 	},
 	'string': {
-		pattern: /("|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
+		pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/,
 		greedy: true
 	},
 	'keyword': /<-|=>|\b(?:abstract|case|catch|class|def|derives|do|else|enum|extends|extension|final|finally|for|forSome|given|if|implicit|import|infix|inline|lazy|match|new|null|object|opaque|open|override|package|private|protected|return|sealed|self|super|this|throw|trait|transparent|try|type|using|val|var|while|with|yield)\b/,
@@ -20,7 +20,7 @@ var scala = languages.scala = extend('java', {
 
 insertBefore(scala, 'triple-quoted-string', {
 	'string-interpolation': {
-		pattern: /\b[a-z]\w*(?:"""(?:[^$]|\$(?:[^{]|\{(?:[^{}]|\{[^{}]*\})*\}))*?"""|"(?:[^$"\r\n]|\$(?:[^{]|\{(?:[^{}]|\{[^{}]*\})*\}))*")/i,
+		pattern: /\b[a-z]\w*(?:"""(?:[^$]|\$(?:[^{]|\{(?:[^{}]|\{[^{}]*\})*\}))*?"""|"(?:[^$"\n]|\$(?:[^{]|\{(?:[^{}]|\{[^{}]*\})*\}))*")/i,
 		greedy: true,
 		inside: {
 			'id': {

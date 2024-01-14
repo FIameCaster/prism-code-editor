@@ -36,20 +36,20 @@ languages.zig = {
 	'string': [
 		{
 			// "string" and c"string"
-			pattern: /(^|[^\\@])c?"(?:[^"\\\r\n]|\\.)*"/,
+			pattern: /(^|[^\\@])c?"(?:[^"\\\n]|\\.)*"/,
 			lookbehind: true,
 			greedy: true
 		},
 		{
 			// multiline strings and c-strings
-			pattern: /([\r\n])([ \t]+c?\\{2}).*(?:(?:\r\n?|\n)\2.*)*/,
+			pattern: /(\n)([ \t]+c?\\\\).*(?:\n\2.*)*/,
 			lookbehind: true,
 			greedy: true
 		}
 	],
 	'char': {
 		// characters 'a', '\n', '\xFF', '\u{10FFFF}'
-		pattern: /(^|[^\\])'(?:[^'\\\r\n]|[\uD800-\uDFFF]{2}|\\(?:.|x[a-fA-F\d]{2}|u\{[a-fA-F\d]{1,6}\}))'/,
+		pattern: /(^|[^\\])'(?:[^'\\\n]|[\uD800-\uDFFF]{2}|\\(?:.|x[a-fA-F\d]{2}|u\{[a-fA-F\d]{1,6}\}))'/,
 		lookbehind: true,
 		greedy: true
 	},

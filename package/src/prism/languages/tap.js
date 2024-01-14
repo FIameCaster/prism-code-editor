@@ -4,8 +4,8 @@ import './yaml.js';
 // https://en.wikipedia.org/wiki/Test_Anything_Protocol
 
 languages.tap = {
-	'fail': /not ok[^#{\n\r]*/,
-	'pass': /ok[^#{\n\r]*/,
+	'fail': /not ok[^#{\n]*/,
+	'pass': /ok[^#{\n]*/,
 	'pragma': /pragma [+-][a-z]+/,
 	'bailout': /bail out!.*/i,
 	'version': /TAP version \d+/i,
@@ -17,7 +17,7 @@ languages.tap = {
 	'punctuation': /[{}]/,
 	'directive': /#.*/,
 	'yamlish': {
-		pattern: /(^[ \t]*)---[\s\S]*?[\r\n][ \t]*\.{3}$/m,
+		pattern: /(^[ \t]*)---[\s\S]*?\n[ \t]*\.{3}$/m,
 		lookbehind: true,
 		inside: languages.yaml,
 		alias: 'language-yaml'

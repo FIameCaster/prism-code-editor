@@ -3,7 +3,7 @@ import { languages, tokenize, withoutTokenizer } from '../core.js';
 languages.graphql = {
 	'comment': /#.*/,
 	'description': {
-		pattern: /(?:"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\"\r\n])*")(?=\s*[a-z_])/i,
+		pattern: /(?:"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\"\n])*")(?=\s*[a-z_])/i,
 		greedy: true,
 		alias: 'string',
 		inside: {
@@ -15,7 +15,7 @@ languages.graphql = {
 		}
 	},
 	'string': {
-		pattern: /"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\"\r\n])*"/,
+		pattern: /"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\"\n])*"/,
 		greedy: true
 	},
 	'number': /(?:\B-|\b)\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
@@ -26,7 +26,7 @@ languages.graphql = {
 		alias: 'function'
 	},
 	'attr-name': {
-		pattern: /\b[a-z_]\w*(?=\s*(?:\((?:[^()"]|"(?:\\.|[^\\"\r\n])*")*\))?:)/i,
+		pattern: /\b[a-z_]\w*(?=\s*(?:\((?:[^()"]|"(?:\\.|[^\\"\n])*")*\))?:)/i,
 		greedy: true
 	},
 	'atom-input': {

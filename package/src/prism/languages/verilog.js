@@ -6,7 +6,7 @@ languages.verilog = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"/,
+		pattern: /"(?:\\[\s\S]|[^"\\\n])*"/,
 		greedy: true
 	},
 	'kernel-function': {

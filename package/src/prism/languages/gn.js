@@ -12,7 +12,7 @@ expression.inside = languages.gni = languages.gn = {
 		greedy: true
 	},
 	'string-literal': {
-		pattern: /(^|[^\\"])"(?:[^\r\n"\\]|\\.)*"/,
+		pattern: /(^|[^\\"])"(?:[^\n"\\]|\\.)*"/,
 		lookbehind: true,
 		greedy: true,
 		inside: {

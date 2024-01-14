@@ -11,12 +11,12 @@ languages.awk = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:[^\\"\r\n]|\\.)*"/,
+		pattern: /(^|[^\\])"(?:[^\\"\n]|\\.)*"/,
 		lookbehind: true,
 		greedy: true
 	},
 	'regex': {
-		pattern: /((?:^|[^\w\s)])\s*)\/(?:[^\/\\\r\n]|\\.)*\//,
+		pattern: /((?:^|[^\w\s)])\s*)\/(?:[^\/\\\n]|\\.)*\//,
 		lookbehind: true,
 		greedy: true
 	},

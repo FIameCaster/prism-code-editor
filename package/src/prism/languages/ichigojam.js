@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 // according to the offical reference (EN)
 // https://ichigojam.net/IchigoJam-en.html
 languages.ichigojam = {
-	'comment': /(?:\B'|REM)(?:[^\n\r]*)/i,
+	'comment': /(?:\B'|REM).*/i,
 	'string': {
 		pattern: /"(?:""|[!#$%&'()*,\/:;<=>?^\w +\-.])*"/,
 		greedy: true

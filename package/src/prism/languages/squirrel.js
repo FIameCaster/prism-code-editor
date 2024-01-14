@@ -11,7 +11,7 @@ languages.squirrel = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\"'@])(?:@"(?:[^"]|"")*"(?!")|"(?:[^\\\r\n"]|\\.)*")/,
+		pattern: /(^|[^\\"'@])(?:@"(?:[^"]|"")*"(?!")|"(?:[^\\\n"]|\\.)*")/,
 		lookbehind: true,
 		greedy: true
 	},

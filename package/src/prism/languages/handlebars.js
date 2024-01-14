@@ -11,7 +11,7 @@ languages.mustache = languages.hbs = languages.handlebars = {
 				pattern: /^\{\{\{?|\}\}\}?$/,
 				alias: 'punctuation'
 			},
-			'string': /(["'])(?:\\.|(?!\1)[^\\\r\n])*\1/,
+			'string': /(["'])(?:\\.|(?!\1)[^\\\n])*\1/,
 			'number': /\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][+-]?\d+)?/,
 			'boolean': /\b(?:false|true)\b/,
 			'block': {

@@ -12,7 +12,7 @@ var properties = `(?:${tag.source}(?:[ \t]+${anchorOrAlias.source})?|${anchorOrA
 // All these long scarry character classes are simplified versions of YAML's characters
 var plainKey = /(?:[^\s\x00-\x08\x0e-\x1f!"#%&'*,\-:>?@[\]`{|}\x7f-\x84\x86-\x9f\ud800-\udfff\ufffe\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*/.source
 	.replace(/<PLAIN>/g, /[^\s\x00-\x08\x0e-\x1f,[\]{}\x7f-\x84\x86-\x9f\ud800-\udfff\ufffe\uffff]/.source);
-var string = /"(?:[^"\\\r\n]|\\.)*"|'(?:[^'\\\r\n]|\\.)*'/.source;
+var string = /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/.source;
 
 /**
  *
@@ -21,21 +21,21 @@ var string = /"(?:[^"\\\r\n]|\\.)*"|'(?:[^'\\\r\n]|\\.)*'/.source;
  * @returns {RegExp}
  */
 var createValuePattern = (value, flags = 'm') => RegExp(
-	/([:\-,[{]\s*(?:\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\]|\}|(?:[\r\n]\s*)?#))/.source
+	/([:\-,[{]\s*(?:\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\]|\}|(?:\n\s*)?#))/.source
 		.replace(/<<prop>>/g, () => properties).replace(/<<value>>/g, value),
 	flags
 );
 
 languages.yml = languages.yaml = {
 	'scalar': {
-		pattern: RegExp(/([\-:]\s*(?:\s<<prop>>[ \t]+)?[|>])[ \t]*(?:((?:\r?\n|\r)[ \t]+)\S[^\r\n]*(?:\2[^\r\n]+)*)/.source
+		pattern: RegExp(/([\-:]\s*(?:\s<<prop>>[ \t]+)?[|>])[ \t]*(?:(\n[ \t]+)\S.*(?:\2.+)*)/.source
 			.replace(/<<prop>>/g, () => properties)),
 		lookbehind: true,
 		alias: 'string'
 	},
 	'comment': /#.*/,
 	'key': {
-		pattern: RegExp(/((?:^|[:\-,[{\r\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\s*:\s)/.source
+		pattern: RegExp(/((?:^|[:\-,[{\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\s*:\s)/.source
 			.replace(/<<prop>>/g, () => properties)
 			.replace(/<<key>>/g, '(?:' + plainKey + '|' + string + ')')),
 		lookbehind: true,

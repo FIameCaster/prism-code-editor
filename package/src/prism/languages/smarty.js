@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import './markup.js';
 
-var smartyPattern = /\{(?:[^{}"']|"(?:\\.|[^"\\\r\n])*"|'(?:\\.|[^'\\\r\n])*'|\{(?:[^{}"']|"(?:\\.|[^"\\\r\n])*"|'(?:\\.|[^'\\\r\n])*'|\{(?:[^{}"']|"(?:\\.|[^"\\\r\n])*"|'(?:\\.|[^'\\\r\n])*')*\})*\})*\}/g;
+var smartyPattern = /\{(?:[^{}"']|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|\{(?:[^{}"']|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|\{(?:[^{}"']|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')*\})*\})*\}/g;
 
 var expression = {
 	pattern: /[\s\S]+/
@@ -10,7 +10,7 @@ var expression = {
 var smarty = expression.inside = {
 	'string': [
 		{
-			pattern: /"(?:\\.|[^"\\\r\n])*"/,
+			pattern: /"(?:\\.|[^"\\\n])*"/,
 			greedy: true,
 			inside: {
 				'interpolation': {
@@ -27,7 +27,7 @@ var smarty = expression.inside = {
 			}
 		},
 		{
-			pattern: /'(?:\\.|[^'\\\r\n])*'/,
+			pattern: /'(?:\\.|[^'\\\n])*'/,
 			greedy: true
 		},
 	],

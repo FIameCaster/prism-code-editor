@@ -1,12 +1,12 @@
 import { languages } from '../core.js';
 
-var interpolationPattern = /#\{(?:[^"{}]|\{[^{}]*\}|"(?:[^"\\\r\n]|\\(?:\r\n|[\s\S]))*")*\}/.source;
+var interpolationPattern = /#\{(?:[^"{}]|\{[^{}]*\}|"(?:[^"\\\n]|\\[\s\S])*")*\}/.source;
 
 languages.trickle = languages.troy = languages.tremor = {
 	'comment': /\/\*[\s\S]*?\*\/|(?:--|\/\/|#).*/,
 	'interpolated-string': {
 		pattern: RegExp(
-			`(^|[^\\\\])(?:"""(?:[^"\\\\#]|\\\\[\\s\\S]|"(?!"")|#(?!\\{)|${interpolationPattern})*"""|"(?:[^"\\\\\\r\\n#]|\\\\(?:\\r\\n|[\\s\\S])|#(?!\\{)|${interpolationPattern})*")`, 'g'
+			`(^|[^\\\\])(?:"""(?:[^"\\\\#]|\\\\[\\s\\S]|"(?!"")|#(?!\\{)|${interpolationPattern})*"""|"(?:[^"\\\\\n#]|\\\\[\\s\\S]|#(?!\\{)|${interpolationPattern})*")`, 'g'
 		),
 		lookbehind: true,
 		greedy: true,
@@ -25,7 +25,7 @@ languages.trickle = languages.troy = languages.tremor = {
 		}
 	},
 	'extractor': {
-		pattern: /\b[a-z_]\w*\|(?:[^\r\n\\|]|\\(?:\r\n|[\s\S]))*\|/i,
+		pattern: /\b[a-z_]\w*\|(?:[^\n\\|]|\\[\s\S])*\|/i,
 		greedy: true,
 		inside: {
 			'regex': {

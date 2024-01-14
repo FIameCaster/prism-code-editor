@@ -4,12 +4,12 @@ import { clikeComment } from '../utils/shared.js';
 // https://www.json.org/json-en.html
 languages.json = {
 	'property': {
-		pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"(?=\s*:)/,
+		pattern: /(^|[^\\])"(?:\\.|[^\\"\n])*"(?=\s*:)/,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"(?!\s*:)/,
+		pattern: /(^|[^\\])"(?:\\.|[^\\"\n])*"(?!\s*:)/,
 		lookbehind: true,
 		greedy: true
 	},

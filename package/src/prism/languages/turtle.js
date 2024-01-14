@@ -14,7 +14,7 @@ languages.turtle = {
 		}
 	},
 	'string': {
-		pattern: /"(?:[^\\"\r\n]|\\.)*"|'(?:[^\\'\r\n]|\\.)*'/,
+		pattern: /"(?:[^\\"\n]|\\.)*"|'(?:[^\\'\n]|\\.)*'/,
 		greedy: true
 	},
 	'url': {

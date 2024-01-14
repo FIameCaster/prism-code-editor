@@ -5,7 +5,7 @@ import { languages } from '../core.js';
 languages.openqasm = {
 	'comment': /\/\*[\s\S]*?\*\/|\/\/.*/,
 	'string': {
-		pattern: /"[^"\r\n\t]*"|'[^'\r\n\t]*'/,
+		pattern: /"[^"\n\t]*"|'[^'\n\t]*'/,
 		greedy: true
 	},
 

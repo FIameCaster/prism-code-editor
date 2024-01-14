@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 languages.ada = {
 	'comment': /--.*/,
-	'string': /"(?:""|[^"\r\f\n])*"/,
+	'string': /"(?:""|[^"\f\n])*"/,
 	'number': /\b\d(?:_?\d)*(?:#[\dA-F](?:_?[\dA-F])*(?:\.[\dA-F](?:_?[\dA-F])*)?#|(?:\.\d(?:_?\d)*)?)(?:E[+-]?\d(?:_?\d)*)?\b/i,
 	'attribute': {
 		pattern: /\b'\w+/,

@@ -6,19 +6,19 @@ languages.julia = {
 	'comment': /#=(?:[^#=]|=(?!#)|#(?!=)|#=(?:[^#=]|=(?!#)|#(?!=))*=#)*=#|#.*/,
 	'regex': {
 		// https://docs.julialang.org/en/v1/manual/strings/#Regular-Expressions-1
-		pattern: /r"(?:\\.|[^"\\\r\n])*"[imsx]{0,4}/,
+		pattern: /r"(?:\\.|[^"\\\n])*"[imsx]{0,4}/,
 		greedy: true
 	},
 	'string': {
 		// https://docs.julialang.org/en/v1/manual/strings/#String-Basics-1
 		// https://docs.julialang.org/en/v1/manual/strings/#non-standard-string-literals-1
 		// https://docs.julialang.org/en/v1/manual/running-external-programs/#Running-External-Programs-1
-		pattern: /"""[\s\S]+?"""|(?:\b\w+)?"(?:\\.|[^"\\\r\n])*"|`(?:[^\\`\r\n]|\\.)*`/,
+		pattern: /"""[\s\S]+?"""|(?:\b\w+)?"(?:\\.|[^"\\\n])*"|`(?:[^\\`\n]|\\.)*`/,
 		greedy: true
 	},
 	'char': {
 		// https://docs.julialang.org/en/v1/manual/strings/#man-characters-1
-		pattern: /(^|[^\w'])'(?:\\[^\r\n][^'\r\n]*|[^\\\r\n])'/,
+		pattern: /(^|[^\w'])'(?:\\[^\n][^'\n]*|[^\\\n])'/,
 		lookbehind: true,
 		greedy: true
 	},

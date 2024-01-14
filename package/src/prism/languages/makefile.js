@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 import { clikeString } from '../utils/shared.js';
 
 languages.makefile = {
-	'comment': /#(?:\\(?:\r\n|[\s\S])|[^\\\r\n])*/,
+	'comment': /#(?:\\[\s\S]|[^\\\n])*/,
 	'string': clikeString(),
 
 	'builtin-target': {

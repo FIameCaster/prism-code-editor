@@ -24,7 +24,7 @@ languages.objectpascal = asm.inside = languages.pascal = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(?:'(?:''|[^'\r\n])*'(?!')|#[&$%]?[a-f\d]+)+|\^[a-z]/i,
+		pattern: /(?:'(?:''|[^'\n])*'(?!')|#[&$%]?[a-f\d]+)+|\^[a-z]/i,
 		greedy: true
 	},
 	'asm': asm,

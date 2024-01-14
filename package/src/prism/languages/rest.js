@@ -3,14 +3,14 @@ import { languages, rest } from '../core.js';
 languages.rest = {
 	'table': [
 		{
-			pattern: /(^[\t ]*)(?:\+[=-]+)+\+(?:\r?\n|\r)(?:\1[+|].+[+|](?:\r?\n|\r))+\1(?:\+[=-]+)+\+/m,
+			pattern: /(^[\t ]*)(?:\+[=-]+)+\+\n(?:\1[+|].+[+|]\n)+\1(?:\+[=-]+)+\+/m,
 			lookbehind: true,
 			inside: {
 				'punctuation': /\||(?:\+[=-]+)+\+/
 			}
 		},
 		{
-			pattern: /(^[\t ]*)=+ [ =]*=(?:(?:\r?\n|\r)\1.+)+(?:\r?\n|\r)\1=+ [ =]*=(?=(?:\r?\n|\r){2}|\s*$)/m,
+			pattern: /(^[\t ]*)=+ [ =]*=(?:\n\1.+)+\n\1=+ [ =]*=(?=\n\n|\s*$)/m,
 			lookbehind: true,
 			inside: {
 				'punctuation': /[=-]+/
@@ -69,14 +69,14 @@ languages.rest = {
 	},
 	'comment': {
 		// The two alternatives try to prevent highlighting of blank comments
-		pattern: /(^[\t ]*\.\.)(?:(?: .+)?(?:(?:\r?\n|\r).+)+| .+)(?=(?:\r?\n|\r){2}|$)/m,
+		pattern: /(^[\t ]*\.\.)(?:(?: .+)?(?:\n.+)+| .+)(?=\n\n|$)/m,
 		lookbehind: true
 	},
 
 	'title': [
 		// Overlined and underlined
 		{
-			pattern: /^(([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\2+)(?:\r?\n|\r).+(?:\r?\n|\r)\1$/m,
+			pattern: /^(([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\2+)\n.+\n\1$/m,
 			inside: {
 				'punctuation': /^[!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~]+|[!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~]+$/,
 				'important': /.+/
@@ -85,7 +85,7 @@ languages.rest = {
 
 		// Underlined only
 		{
-			pattern: /(^|(?:\r?\n|\r){2}).+(?:\r?\n|\r)([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\2+(?=\r?\n|\r|$)/,
+			pattern: /(^|\n{2}).+\n([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\2+(?=\n|$)/,
 			lookbehind: true,
 			inside: {
 				'punctuation': /[!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~]+$/,
@@ -94,22 +94,22 @@ languages.rest = {
 		}
 	],
 	'hr': {
-		pattern: /((?:\r?\n|\r){2})([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\2{3,}(?=(?:\r?\n|\r){2})/,
+		pattern: /(\n\n)([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\2{3,}(?=\n\n)/,
 		lookbehind: true,
 		alias: 'punctuation'
 	},
 	'field': {
-		pattern: /(^[\t ]*):[^:\r\n]+:(?= )/m,
+		pattern: /(^[\t ]*):[^:\n]+:(?= )/m,
 		lookbehind: true,
 		alias: 'attr-name'
 	},
 	'command-line-option': {
-		pattern: /(^[\t ]*)(?:[+-][a-z\d]|(?:--|\/)[a-z\d-]+)(?:[ =](?:[a-z][\w-]*|<[^<>]+>))?(?:, (?:[+-][a-z\d]|(?:--|\/)[a-z\d-]+)(?:[ =](?:[a-z][\w-]*|<[^<>]+>))?)*(?=(?:\r?\n|\r)? {2,}\S)/im,
+		pattern: /(^[\t ]*)(?:[+-][a-z\d]|(?:--|\/)[a-z\d-]+)(?:[ =](?:[a-z][\w-]*|<[^<>]+>))?(?:, (?:[+-][a-z\d]|(?:--|\/)[a-z\d-]+)(?:[ =](?:[a-z][\w-]*|<[^<>]+>))?)*(?=\n? {2,}\S)/im,
 		lookbehind: true,
 		alias: 'symbol'
 	},
 	'literal-block': {
-		pattern: /::(?:\r?\n|\r){2}([ \t]+)(?![ \t]).+(?:(?:\r?\n|\r)\1.+)*/,
+		pattern: /::\n\n([ \t]+)(?![ \t]).+(?:\n\1.+)*/,
 		inside: {
 			'literal-block-punctuation': {
 				pattern: /^::/,
@@ -118,7 +118,7 @@ languages.rest = {
 		}
 	},
 	'quoted-literal-block': {
-		pattern: /::(?:\r?\n|\r){2}([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~]).*(?:(?:\r?\n|\r)\1.*)*/,
+		pattern: /::\n\n([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~]).*(?:\n\1.*)*/,
 		inside: {
 			'literal-block-punctuation': {
 				pattern: /^(?:::|([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\1*)/m,
@@ -132,7 +132,7 @@ languages.rest = {
 		alias: 'punctuation'
 	},
 	'doctest-block': {
-		pattern: /(^[\t ]*)>>> .+(?:(?:\r?\n|\r).+)*/m,
+		pattern: /(^[\t ]*)>>> .+(?:\n.+)*/m,
 		lookbehind: true,
 		inside: {
 			'punctuation': /^>>>/

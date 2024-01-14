@@ -3,15 +3,15 @@ import { languages } from '../core.js';
 languages.erlang = {
 	'comment': /%.+/,
 	'string': {
-		pattern: /"(?:\\.|[^\\"\r\n])*"/,
+		pattern: /"(?:\\.|[^\\"\n])*"/,
 		greedy: true
 	},
 	'quoted-function': {
-		pattern: /'(?:\\.|[^\\'\r\n])+'(?=\()/,
+		pattern: /'(?:\\.|[^\\'\n])+'(?=\()/,
 		alias: 'function'
 	},
 	'quoted-atom': {
-		pattern: /'(?:\\.|[^\\'\r\n])+'/,
+		pattern: /'(?:\\.|[^\\'\n])+'/,
 		alias: 'atom'
 	},
 	'boolean': /\b(?:false|true)\b/,

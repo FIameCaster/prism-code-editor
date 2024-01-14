@@ -5,7 +5,7 @@ var coreRules = '(?:ALPHA|BIT|CHAR|CR|CRLF|CTL|DIGIT|DQUOTE|HEXDIG|HTAB|LF|LWSP|
 languages.abnf = {
 	'comment': /;.*/,
 	'string': {
-		pattern: /(?:%[is])?"[^"\n\r]*"/,
+		pattern: /(?:%[is])?"[^"\n]*"/,
 		greedy: true,
 		inside: {
 			'punctuation': /^%[is]/
@@ -25,7 +25,7 @@ languages.abnf = {
 		alias: 'operator'
 	},
 	'definition': {
-		pattern: /(^[ \t]*)(?:[a-z][\w-]*|<[^<>\r\n]*>)(?=\s*=)/m,
+		pattern: /(^[ \t]*)(?:[a-z][\w-]*|<[^<>\n]*>)(?=\s*=)/m,
 		lookbehind: true,
 		alias: 'keyword',
 		inside: {
@@ -41,7 +41,7 @@ languages.abnf = {
 		}
 	},
 	'rule': {
-		pattern: /(^|[^<\w-])[a-z][\w-]*|<[^<>\r\n]*>/i,
+		pattern: /(^|[^<\w-])[a-z][\w-]*|<[^<>\n]*>/i,
 		lookbehind: true,
 		inside: {
 			'punctuation': /<|>/

@@ -8,11 +8,11 @@ languages.powerquery = {
 		greedy: true
 	},
 	'quoted-identifier': {
-		pattern: /#"(?:[^"\r\n]|"")*"(?!")/,
+		pattern: /#"(?:[^"\n]|"")*"(?!")/,
 		greedy: true
 	},
 	'string': {
-		pattern: /(?:#!)?"(?:[^"\r\n]|"")*"(?!")/,
+		pattern: /(?:#!)?"(?:[^"\n]|"")*"(?!")/,
 		greedy: true
 	},
 	'constant': [

@@ -25,27 +25,27 @@ languages.gv = languages.dot = {
 		greedy: true
 	},
 	'graph-name': {
-		pattern: withID(/(\b(?:digraph|graph|subgraph)[ \t\r\n]+)<ID>/.source, 'i'),
+		pattern: withID(/(\b(?:digraph|graph|subgraph)[ \t\n]+)<ID>/.source, 'i'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'class-name',
 		inside: IDInside
 	},
 	'attr-value': {
-		pattern: withID(/(=[ \t\r\n]*)<ID>/.source),
+		pattern: withID(/(=[ \t\n]*)<ID>/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: IDInside
 	},
 	'attr-name': {
-		pattern: withID(/([\[;, \t\r\n])<ID>(?=[ \t\r\n]*=)/.source),
+		pattern: withID(/([\[;, \t\n])<ID>(?=[ \t\n]*=)/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: IDInside
 	},
 	'keyword': /\b(?:digraph|edge|graph|node|strict|subgraph)\b/i,
 	'compass-point': {
-		pattern: /(:[ \t\r\n]*)(?:[ewc_]|[ns][ew]?)(?![\w\x80-\uFFFF])/,
+		pattern: /(:[ \t\n]*)(?:[ewc_]|[ns][ew]?)(?![\w\x80-\uFFFF])/,
 		lookbehind: true,
 		alias: 'builtin'
 	},

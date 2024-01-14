@@ -1,6 +1,6 @@
 import { languages, rest } from '../core.js';
 
-var string = /(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/;
+var string = /(?:"(?:\\[\s\S]|[^"\\\n])*"|'(?:\\[\s\S]|[^'\\\n])*')/;
 var stringSrc = string.source;
 
 var css = languages.css = {
@@ -23,7 +23,7 @@ var css = languages.css = {
 	},
 	'url': {
 		// https://drafts.csswg.org/css-values-3/#urls
-		pattern: RegExp(`\\burl\\((?:${stringSrc}|(?:[^\\\\\\r\\n()"']|\\\\[\\s\\S])*)\\)`, 'i'),
+		pattern: RegExp(`\\burl\\((?:${stringSrc}|(?:[^\\\\\n()"']|\\\\[\\s\\S])*)\\)`, 'i'),
 		greedy: true,
 		inside: {
 			'function': /^url/i,

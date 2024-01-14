@@ -3,9 +3,9 @@ import { clone, insertBefore } from '../utils/language.js';
 import './markup.js';
 import './csharp.js';
 
-var commentLike = /\/(?![/*])|\/\/.*[\r\n]|\/\*[^*]*(?:\*(?!\/)[^*]*)*\*\//.source;
+var commentLike = /\/(?![/*])|\/\/.*\n|\/\*[^*]*(?:\*(?!\/)[^*]*)*\*\//.source;
 var stringLike =
-	`@(?!")|"(?:[^\\r\\n\\\\"]|\\\\.)*"|@"(?:[^\\\\"]|""|\\\\[\\s\\S])*"(?!")|'(?:(?:[^\\r\\n'\\\\]|\\\\.|\\\\[Uux][\\da-fA-F]{1,8})'|(?=[^\\\\](?!')))`;
+	`@(?!")|"(?:[^\\n\\\\"]|\\\\.)*"|@"(?:[^\\\\"]|""|\\\\[\\s\\S])*"(?!")|'(?:(?:[^\\n'\\\\]|\\\\.|\\\\[Uux][\\da-fA-F]{1,8})'|(?=[^\\\\](?!')))`;
 
 /**
  * Creates a nested pattern where all occurrences of the string `<<self>>` are replaced with the pattern itself.

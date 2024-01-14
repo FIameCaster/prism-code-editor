@@ -10,11 +10,11 @@ languages.autoit = {
 		}
 	],
 	'url': {
-		pattern: /(^[\t ]*#include\s+)(?:<[^\r\n>]+>|"[^\r\n"]+")/m,
+		pattern: /(^[\t ]*#include\s+)(?:<[^\n>]+>|"[^\n"]+")/m,
 		lookbehind: true
 	},
 	'string': {
-		pattern: /(["'])(?:\1\1|(?!\1)[^\r\n])*\1/,
+		pattern: /(["'])(?:\1\1|(?!\1)[^\n])*\1/,
 		greedy: true,
 		inside: {
 			'variable': /([%$@])\w+\1/

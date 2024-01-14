@@ -32,7 +32,7 @@ languages.arturo = {
 	'number': /\b\d+(?:\.\d+(?:\.\d+(?:-[\w+-]+)?)?)?\b/,
 
 	'string': {
-		pattern: /"(?:[^"\\\r\n]|\\.)*"/,
+		pattern: /"(?:[^"\\\n]|\\.)*"/,
 		greedy: true
 	},
 

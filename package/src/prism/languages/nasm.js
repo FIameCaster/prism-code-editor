@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 languages.nasm = {
 	'comment': /;.*$/m,
-	'string': /(["'`])(?:\\.|(?!\1)[^\\\r\n])*\1/,
+	'string': /(["'`])(?:\\.|(?!\1)[^\\\n])*\1/,
 	'label': {
 		pattern: /(^\s*)[A-Za-z._?$][\w.?$@~#]*:/m,
 		lookbehind: true,
@@ -14,7 +14,7 @@ languages.nasm = {
 			pattern: /(^\s*)section\s*[a-z.]+:?/im,
 			lookbehind: true
 		},
-		/(?:extern|global)[^;\r\n]*/i,
+		/(?:extern|global)[^;\n]*/i,
 		/(?:CPU|DEFAULT|FLOAT).*$/m
 	],
 	'register': {

@@ -8,7 +8,7 @@ languages.autohotkey = {
 			lookbehind: true
 		},
 		{
-			pattern: /(^[\t ]*)\/\*(?:[\r\n](?![ \t]*\*\/)|[^\r\n])*(?:[\r\n][ \t]*\*\/)?/m,
+			pattern: /(^[\t ]*)\/\*(?:\n(?![ \t]*\*\/)|[^\n])*(?:\n[ \t]*\*\/)?/m,
 			lookbehind: true,
 			greedy: true
 		}
@@ -18,7 +18,7 @@ languages.autohotkey = {
 		pattern: /^([ \t]*)[^\s,`":]+(?=:[ \t]*$)/m,
 		lookbehind: true
 	},
-	'string': /"(?:[^"\n\r]|"")*"/,
+	'string': /"(?:[^"\n]|"")*"/,
 	'variable': /%\w+%/,
 	'number': /\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,
 	'operator': /\?|\/\/?=?|:=|\|[=|]?|&[=&]?|\+[=+]?|-[=-]?|\*[=*]?|<(?:<=?|>|=)?|>>?=?|[.^!=~]=?|\b(?:AND|NOT|OR)\b/,

@@ -5,7 +5,7 @@ import './clike.js';
 insertBefore(
 	languages.reason = extend('clike', {
 		'string': {
-			pattern: /"(?:\\(?:\r\n|[\s\S])|[^\\\r\n"])*"/,
+			pattern: /"(?:\\[\s\S]|[^\\\n"])*"/,
 			greedy: true
 		},
 		// 'class-name' must be matched *after* 'constructor' defined below
@@ -15,7 +15,7 @@ insertBefore(
 	}),
 	'class-name', {
 		'char': {
-			pattern: /'(?:\\x[\da-f]{2}|\\o[0-3][0-7][0-7]|\\\d{3}|\\.|[^'\\\r\n])'/,
+			pattern: /'(?:\\x[\da-f]{2}|\\o[0-3][0-7][0-7]|\\\d{3}|\\.|[^'\\\n])'/,
 			greedy: true
 		},
 		// Negative look-ahead prevents from matching things like String.capitalize

@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 languages.magma = {
 	'output': {
-		pattern: /^(>.*(?:\r(?:\n|(?!\n))|\n))(?!>)(?:.+|(?:\r(?:\n|(?!\n))|\n)(?!>).*)(?:(?:\r(?:\n|(?!\n))|\n)(?!>).*)*/m,
+		pattern: /^(>.*\n)(?!>)(?:.+|\n(?!>).*)(?:\n(?!>).*)*/m,
 		lookbehind: true,
 		greedy: true
 	},
@@ -12,7 +12,7 @@ languages.magma = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\"])"(?:[^\r\n\\"]|\\.)*"/,
+		pattern: /(^|[^\\"])"(?:[^\n\\"]|\\.)*"/,
 		lookbehind: true,
 		greedy: true
 	},

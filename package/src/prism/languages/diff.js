@@ -29,7 +29,7 @@ for (var name in PREFIXES) {
 	var prefix = name.split('-')[0];
 
 	diff[name] = {
-		pattern: RegExp('^(?:[' + PREFIXES[name] + '].*$(?:\r\n?|\n)?)+', 'm'),
+		pattern: RegExp('^(?:[' + PREFIXES[name] + '].*$\n?)+', 'm'),
 		alias: prefix != name ? prefix : name == 'diff' ? 'bold' : undefined,
 		inside: {
 			'prefix': {

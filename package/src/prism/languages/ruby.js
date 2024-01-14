@@ -7,7 +7,7 @@ var interpolationContent = {
 
 var percentExpression = /(?:([^a-zA-Z0-9\s{(\[<=])(?:(?!\1)[^\\]|\\[\s\S])*\1|\((?:[^()\\]|\\[\s\S]|\((?:[^()\\]|\\[\s\S])*\))*\)|\{(?:[^{}\\]|\\[\s\S]|\{(?:[^{}\\]|\\[\s\S])*\})*\}|\[(?:[^\[\]\\]|\\[\s\S]|\[(?:[^\[\]\\]|\\[\s\S])*\])*\]|<(?:[^<>\\]|\\[\s\S]|<(?:[^<>\\]|\\[\s\S])*>)*>)/.source;
 
-var symbolName = /(?:"(?:\\.|[^"\\\r\n])*"|(?:\b[a-zA-Z_]\w*|[^\s\0-\x7F]+)[?!]?|\$.)/.source;
+var symbolName = /(?:"(?:\\.|[^"\\\n])*"|(?:\b[a-zA-Z_]\w*|[^\s\0-\x7F]+)[?!]?|\$.)/.source;
 
 var interpolation = {
 	pattern: /((?:^|[^\\])(?:\\{2})*)#\{(?:[^{}]|\{[^{}]*\})*\}/,
@@ -36,7 +36,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /("|')(?:#\{[^}]+\}|#(?!\{)|\\(?:\r\n|[\s\S])|(?!\1)[^\\#\r\n])*\1/,
+			pattern: /("|')(?:#\{[^}]+\}|#(?!\{)|\\[\s\S]|(?!\1)[^\\#\n])*\1/,
 			greedy: true,
 			inside: {
 				'interpolation': interpolation,
@@ -44,7 +44,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /<<[-~]?([a-z_]\w*)[\r\n](?:.*[\r\n])*?[\t ]*\1/i,
+			pattern: /<<[-~]?([a-z_]\w*)\n(?:.*\n)*?[\t ]*\1/i,
 			alias: 'heredoc-string',
 			greedy: true,
 			inside: {
@@ -60,7 +60,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /<<[-~]?'([a-z_]\w*)'[\r\n](?:.*[\r\n])*?[\t ]*\1/i,
+			pattern: /<<[-~]?'([a-z_]\w*)'\n(?:.*\n)*?[\t ]*\1/i,
 			alias: 'heredoc-string',
 			greedy: true,
 			inside: {
@@ -88,7 +88,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /`(?:#\{[^}]+\}|#(?!\{)|\\(?:\r\n|[\s\S])|[^\\`#\r\n])*`/,
+			pattern: /`(?:#\{[^}]+\}|#(?!\{)|\\[\s\S]|[^\\`#\n])*`/,
 			greedy: true,
 			inside: {
 				'interpolation': interpolation,
@@ -116,7 +116,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /(^|[^/])\/(?!\/)(?:\[[^\r\n\]]+\]|\\.|[^[/\\\r\n])+\/[egimnosux]{0,6}(?=\s*(?:$|[\r\n,.;})#]))/,
+			pattern: /(^|[^/])\/(?!\/)(?:\[[^\n\]]+\]|\\.|[^[/\\\n])+\/[egimnosux]{0,6}(?=\s*(?:$|[\n,.;})#]))/,
 			lookbehind: true,
 			greedy: true,
 			inside: {
@@ -133,7 +133,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			greedy: true
 		},
 		{
-			pattern: RegExp(/([\r\n{(,][ \t]*)/.source + symbolName + /(?=:(?!:))/.source),
+			pattern: RegExp(/([\n{(,][ \t]*)/.source + symbolName + /(?=:(?!:))/.source),
 			lookbehind: true,
 			greedy: true
 		},

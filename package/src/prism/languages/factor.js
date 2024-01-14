@@ -70,7 +70,7 @@ var factor = {
 	'multiline-string': [
 		{
 			// STRING: name \n content \n ; -> CONSTANT: name "content" (symbol)
-			pattern: /(^|\s)STRING:\s+\S+(?:\n|\r\n).*(?:\n|\r\n)\s*;(?=\s|$)/,
+			pattern: /(^|\s)STRING:\s+\S+\n.*\n\s*;(?=\s|$)/,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',
@@ -78,7 +78,7 @@ var factor = {
 				'number': string_inside.number,
 				// trailing semicolon on its own line
 				'semicolon-or-setlocal': {
-					pattern: /([\r\n][ \t]*);(?=\s|$)/,
+					pattern: /(\n[ \t]*);(?=\s|$)/,
 					lookbehind: true,
 					alias: 'function'
 				}
@@ -86,7 +86,7 @@ var factor = {
 		},
 		{
 			// HEREDOC: marker \n content \n marker ; -> "content" (immediate)
-			pattern: /(^|\s)HEREDOC:\s+\S+(?:\n|\r\n).*(?:\n|\r\n)\s*\S+(?=\s|$)/,
+			pattern: /(^|\s)HEREDOC:\s+\S+\n.*\n\s*\S+(?=\s|$)/,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',

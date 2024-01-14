@@ -42,7 +42,7 @@ var powershell = languages.powershell = {
 string.inside = {
 	'function': {
 		// Allow for one level of nesting
-		pattern: /(^|[^`])\$\((?:\$\([^\r\n()]*\)|(?!\$\()[^\r\n)])*\)/,
+		pattern: /(^|[^`])\$\((?:\$\([^\n()]*\)|(?!\$\()[^\n)])*\)/,
 		lookbehind: true,
 		inside: powershell
 	},

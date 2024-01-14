@@ -11,7 +11,7 @@ languages.unrealscript = {
 		alias: 'property'
 	},
 	'metadata': {
-		pattern: /(\w\s*)<\s*\w+\s*=[^<>|=\r\n]+(?:\|\s*\w+\s*=[^<>|=\r\n]+)*>/,
+		pattern: /(\w\s*)<\s*\w+\s*=[^<>|=\n]+(?:\|\s*\w+\s*=[^<>|=\n]+)*>/,
 		lookbehind: true,
 		greedy: true,
 		inside: {

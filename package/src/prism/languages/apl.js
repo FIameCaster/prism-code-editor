@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.apl = {
 	'comment': /(?:⍝|#[! ]).*$/m,
 	'string': {
-		pattern: /'(?:[^'\r\n]|'')*'/,
+		pattern: /'(?:[^'\n]|'')*'/,
 		greedy: true
 	},
 	'number': /¯?(?:\d*\.?\b\d+(?:e[+¯]?\d+)?|¯|∞)(?:j¯?(?:(?:\d+(?:\.\d+)?|\.\d+)(?:e[+¯]?\d+)?|¯|∞))?/i,

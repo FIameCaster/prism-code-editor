@@ -1,6 +1,6 @@
 import { languages, tokenize, withoutTokenizer } from '../core.js';
 
-var expressionDef = /\{[^\r\n\[\]{}]*\}/;
+var expressionDef = /\{[^\n\[\]{}]*\}/;
 
 var params = {
 	'quoted-string': {
@@ -59,7 +59,7 @@ languages.nani = languages.naniscript = {
 		alias: 'tag',
 		inside: {
 			'value': {
-				pattern: /(^>\w+[\t ]+)(?!\s)[^{}\r\n]+/,
+				pattern: /(^>\w+[\t ]+)(?!\s)[^{}\n]+/,
 				lookbehind: true,
 				alias: 'operator'
 			},
@@ -106,7 +106,7 @@ languages.nani = languages.naniscript = {
 				alias: 'selector'
 			},
 			'inline-command': {
-				pattern: /\[[\t ]*\w[^\r\n\[\]]*\]/,
+				pattern: /\[[\t ]*\w[^\n\[\]]*\]/,
 				greedy: true,
 				alias: 'function',
 				inside: {

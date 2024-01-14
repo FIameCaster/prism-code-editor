@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.pcode = languages.peoplecode = {
 	'comment': /\/\*[\s\S]*?\*\/|\bREM[^;]*;|<\*(?:[^<*]|\*(?!>)|<(?!\*)|<\*(?:(?!\*>)[\s\S])*\*>)*\*>|\/\+[\s\S]*?\+\//,
 	'string': {
-		pattern: /'(?:''|[^'\r\n])*'(?!')|"(?:""|[^"\r\n])*"(?!")/g,
+		pattern: /'(?:''|[^'\n])*'(?!')|"(?:""|[^"\n])*"(?!")/g,
 		greedy: true
 	},
 	'variable': /%\w+/,

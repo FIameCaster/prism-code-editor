@@ -4,7 +4,7 @@ import { languages } from '../core.js';
 // https://www.gap-system.org/Manuals/doc/ref/chap27.html
 
 var gap = {
-	pattern: /^(gap>).+(?:(?:\r(?:\n|(?!\n))|\n)>.*)*/,
+	pattern: /^(gap>).+(?:\n>.*)*/,
 	lookbehind: true
 };
 
@@ -23,13 +23,12 @@ gap.inside = languages.gap = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\'"])(?:'(?:[^\r\n\\']|\\.){1,10}'|"(?:[^\r\n\\"]|\\.)*"(?!")|"""[\s\S]*?""")/,
+		pattern: /(^|[^\\'"])(?:'(?:[^\n\\']|\\.){1,10}'|"(?:[^\n\\"]|\\.)*"(?!")|"""[\s\S]*?""")/,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'continuation': {
-				pattern: /([\r\n])>/,
-				lookbehind: true,
+				pattern: /^>/m,
 				alias: 'punctuation'
 			}
 		}
@@ -46,8 +45,7 @@ gap.inside = languages.gap = {
 	},
 
 	'continuation': {
-		pattern: /([\r\n])>/,
-		lookbehind: true,
+		pattern: /^>/m,
 		alias: 'punctuation'
 	},
 	'operator': /->|[-+*/^~=!]|<>|[<>]=?|:=|\.\./,

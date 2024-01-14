@@ -7,7 +7,7 @@ var comment = {
 };
 
 var variable = {
-	pattern: /((?:^|[^\\])(?:\\{2})*)[$@&%]\{(?:[^{}\r\n]|\{[^{}\r\n]*\})*\}/,
+	pattern: /((?:^|[^\\])(?:\\{2})*)[$@&%]\{(?:[^{}\n]|\{[^{}\n]*\})*\}/,
 	lookbehind: true,
 	inside: {
 		'punctuation': /^[$@&%]\{|\}$/
@@ -25,7 +25,7 @@ var createSection = (name, inside) => {
 	Object.assign(extendecInside, inside)
 
 	extendecInside['tag'] = {
-		pattern: /([\r\n](?: {2}|\t)[ \t]*)\[[-\w]+\]/,
+		pattern: /(\n(?: {2}|\t)[ \t]*)\[[-\w]+\]/,
 		lookbehind: true,
 		inside: {
 			'punctuation': /\[|\]/
@@ -35,7 +35,7 @@ var createSection = (name, inside) => {
 	extendecInside['comment'] = comment;
 
 	return {
-		pattern: RegExp(/^ ?\*{3}[ \t]*<name>[ \t]*\*{3}(?:.|[\r\n](?!\*{3}))*/.source.replace(/<name>/g, name), 'im'),
+		pattern: RegExp(/^ ?\*{3}[ \t]*<name>[ \t]*\*{3}(?:.|\n(?!\*{3}))*/.source.replace(/<name>/g, name), 'im'),
 		alias: 'section',
 		inside: extendecInside
 	};
@@ -43,13 +43,13 @@ var createSection = (name, inside) => {
 
 
 var docTag = {
-	pattern: /(\[Documentation\](?: {2}|\t)[ \t]*)(?![ \t]|#)(?:.|(?:\r\n?|\n)[ \t]*\.{3})+/,
+	pattern: /(\[Documentation\](?: {2}|\t)[ \t]*)(?![ \t]|#)(?:.|\n[ \t]*\.{3})+/,
 	lookbehind: true,
 	alias: 'string'
 };
 
 var testNameLike = {
-	pattern: /([\r\n] ?)(?!#)(?:\S(?:[ \t]\S)*)+/,
+	pattern: /(\n ?)(?!#)(?:\S(?:[ \t]\S)*)+/,
 	lookbehind: true,
 	alias: 'function',
 	inside: {
@@ -58,7 +58,7 @@ var testNameLike = {
 };
 
 var testPropertyLike = {
-	pattern: /([\r\n](?: {2}|\t)[ \t]*)(?!\[|\.{3}|#)(?:\S(?:[ \t]\S)*)+/,
+	pattern: /(\n(?: {2}|\t)[ \t]*)(?!\[|\.{3}|#)(?:\S(?:[ \t]\S)*)+/,
 	lookbehind: true,
 	inside: {
 		'variable': variable
@@ -68,12 +68,12 @@ var testPropertyLike = {
 languages.robot = languages.robotframework = {
 	'settings': createSection('Settings', {
 		'documentation': {
-			pattern: /([\r\n] ?Documentation(?: {2}|\t)[ \t]*)(?![ \t]|#)(?:.|(?:\r\n?|\n)[ \t]*\.{3})+/,
+			pattern: /(\n ?Documentation(?: {2}|\t)[ \t]*)(?![ \t]|#)(?:.|\n[ \t]*\.{3})+/,
 			lookbehind: true,
 			alias: 'string'
 		},
 		'property': {
-			pattern: /([\r\n] ?)(?!\.{3}|#)(?:\S(?:[ \t]\S)*)+/,
+			pattern: /(\n ?)(?!\.{3}|#)(?:\S(?:[ \t]\S)*)+/,
 			lookbehind: true
 		}
 	}),

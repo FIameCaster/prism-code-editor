@@ -35,7 +35,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 	'heredoc': [
 		// Matches the content of a quoted heredoc string (subject to interpolation)
 		{
-			pattern: /(@\("([^"\r\n\/):]+)"(?:\/[nrts$uL]*)?\).*(?:\r?\n|\r))(?:.*(?:\r?\n|\r(?!\n)))*?[ \t]*(?:\|[ \t]*)?(?:-[ \t]*)?\2/,
+			pattern: /(@\("([^"\n\/):]+)"(?:\/[nrts$uL]*)?\).*\n)(?:.*\n)*?[ \t]*(?:\|[ \t]*)?(?:-[ \t]*)?\2/,
 			lookbehind: true,
 			alias: 'string',
 			inside: {
@@ -47,7 +47,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 		},
 		// Matches the content of an unquoted heredoc string (no interpolation)
 		{
-			pattern: /(@\(([^"\r\n\/):]+)(?:\/[nrts$uL]*)?\).*(?:\r?\n|\r))(?:.*(?:\r?\n|\r(?!\n)))*?[ \t]*(?:\|[ \t]*)?(?:-[ \t]*)?\2/,
+			pattern: /(@\(([^"\n\/):]+)(?:\/[nrts$uL]*)?\).*\n)(?:.*\n)*?[ \t]*(?:\|[ \t]*)?(?:-[ \t]*)?\2/,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',
@@ -58,7 +58,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 		},
 		// Matches the start tag of heredoc strings
 		{
-			pattern: /@\("?(?:[^"\r\n\/):]+)"?(?:\/[nrts$uL]*)?\)/,
+			pattern: /@\("?(?:[^"\n\/):]+)"?(?:\/[nrts$uL]*)?\)/,
 			alias: 'string',
 			inside: {
 				'punctuation': {

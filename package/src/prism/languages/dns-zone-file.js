@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages['dns-zone-file'] = {
 	'comment': /;.*/,
 	'string': {
-		pattern: /"(?:\\.|[^"\\\r\n])*"/,
+		pattern: /"(?:\\.|[^"\\\n])*"/,
 		greedy: true
 	},
 	'variable': [

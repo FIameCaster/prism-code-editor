@@ -3,16 +3,16 @@ import { languages } from '../core.js';
 languages.aql = {
 	'comment': /\/\/.*|\/\*[\s\S]*?\*\//,
 	'property': {
-		pattern: /([{,]\s*)(?:(?!\d)\w+|(["'´`])(?:(?!\2)[^\\\r\n]|\\.)*\2)(?=\s*:)/,
+		pattern: /([{,]\s*)(?:(?!\d)\w+|(["'´`])(?:(?!\2)[^\\\n]|\\.)*\2)(?=\s*:)/,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /(["'])(?:(?!\1)[^\\\r\n]|\\.)*\1/,
+		pattern: /(["'])(?:(?!\1)[^\\\n]|\\.)*\1/,
 		greedy: true
 	},
 	'identifier': {
-		pattern: /([´`])(?:(?!\1)[^\\\r\n]|\\.)*\1/,
+		pattern: /([´`])(?:(?!\1)[^\\\n]|\\.)*\1/,
 		greedy: true
 	},
 	'variable': /@@?\w+/,

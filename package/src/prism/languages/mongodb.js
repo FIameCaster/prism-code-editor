@@ -64,7 +64,7 @@ var mongodb = languages.mongodb = clone(languages.js);
 
 insertBefore(mongodb, 'string', {
 	'property': {
-		pattern: /(?:(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1|(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+)(?=\s*:)/,
+		pattern: /(?:(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1|(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+)(?=\s*:)/,
 		greedy: true,
 		inside: {
 			'keyword': RegExp('^([\'"])?' + operatorsSource + '(?:\\1)?$')

@@ -23,7 +23,7 @@ languages.twig = {
 			},
 		
 			'string': {
-				pattern: /("|')(?:\\.|(?!\1)[^\\\r\n])*\1/,
+				pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/,
 				inside: {
 					'punctuation': /^['"]|['"]$/
 				}

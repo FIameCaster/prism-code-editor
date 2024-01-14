@@ -22,7 +22,7 @@ statement.inside = languages.mel = {
 		}
 	},
 	'string': {
-		pattern: /"(?:\\.|[^\\"\r\n])*"/,
+		pattern: /"(?:\\.|[^\\"\n])*"/,
 		greedy: true
 	},
 	'variable': /\$\w+/,

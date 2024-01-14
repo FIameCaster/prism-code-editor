@@ -81,7 +81,7 @@ httpLanguages.forEach(contentType => {
 
 	http[contentType.replace('/', '-')] = {
 		pattern: RegExp(
-			'(content-type:\\s*'+ pattern + '(?:(?:\\r\\n?|\\n)[\\w-].*)*(?:\\r(?:\\n|(?!\\n))|\\n))[^ \\t\\w-][\\s\\S]*',
+			'(content-type:\\s*'+ pattern + '(?:\n[\\w-].*)*\n)[^ \t\\w-][^]*',
 			'i'
 		),
 		lookbehind: true,
@@ -90,7 +90,7 @@ httpLanguages.forEach(contentType => {
 });
 
 http.header = {
-	pattern: /^[\w-]+:.+(?:(?:\r\n?|\n)[ \t].+)*/m,
+	pattern: /^[\w-]+:.+(?:\n[ \t].+)*/m,
 	inside: {
 		'header-value': [
 			{

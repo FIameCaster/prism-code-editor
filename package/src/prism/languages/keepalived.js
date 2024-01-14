@@ -6,7 +6,7 @@ languages.keepalived = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])(?:"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"|'(?:\\(?:\r\n|[\s\S])|[^'\\\r\n])*')/,
+		pattern: /(^|[^\\])(["'])(?:\\[\s\S]|(?!\2)[^\\\n])*\2/,
 		lookbehind: true,
 		greedy: true
 	},

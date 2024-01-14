@@ -30,7 +30,7 @@ languages.haxe = {
 		greedy: true
 	},
 	'regex': {
-		pattern: /~\/(?:[^\/\\\r\n]|\\.)+\/[a-z]*/,
+		pattern: /~\/(?:[^\/\\\n]|\\.)+\/[a-z]*/,
 		greedy: true,
 		inside: {
 			'regex-flags': /\w+$/,

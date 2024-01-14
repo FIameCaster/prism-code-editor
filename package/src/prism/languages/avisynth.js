@@ -45,7 +45,7 @@ languages.avisynth = {
 		},
 		{
 			// single double-quoted
-			pattern: /"(?:\\(?:\r\n|[\s\S])|[^"\\\r\n])*"/,
+			pattern: /"(?:\\[\s\S]|[^"\\\n])*"/,
 			greedy: true,
 			inside: {
 				'constant': {

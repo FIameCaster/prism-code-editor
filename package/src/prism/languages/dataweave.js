@@ -4,7 +4,7 @@ import { clikeComment } from '../utils/shared.js';
 languages.dataweave = {
 	'url': /\b[A-Za-z]+:\/\/[\w/:.?=&-]+|\burn:[\w:.?=&-]+/,
 	'property': {
-		pattern: /(?:\b\w+#)?(?:"(?:\\.|[^\\"\r\n])*"|\b\w+)(?=\s*[:@])/,
+		pattern: /(?:\b\w+#)?(?:"(?:\\.|[^\\"\n])*"|\b\w+)(?=\s*[:@])/,
 		greedy: true
 	},
 	'string': {
@@ -18,7 +18,7 @@ languages.dataweave = {
 	},
 	'comment': clikeComment(),
 	'regex': {
-		pattern: /\/(?:[^\\\/\r\n]|\\[^\r\n])+\//,
+		pattern: /\/(?:[^\\\/\n]|\\[^\n])+\//,
 		greedy: true
 	},
 	'keyword': /\b(?:and|as|at|case|do|else|fun|if|input|is|match|not|ns|null|or|output|type|unless|update|using|var)\b/,

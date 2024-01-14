@@ -17,7 +17,7 @@ languages.mermaid = {
 	},
 
 	'inter-arrow-label': {
-		pattern: /([^<>ox.=-])(?:-[-.]|==)(?![<>ox.=-])[ \t]*(?:"[^"\r\n]*"|[^\s".=-](?:[^\r\n.=-]*[^\s.=-])?)[ \t]*(?:\.+->?|--+[->]|==+[=>])(?![<>ox.=-])/,
+		pattern: /([^<>ox.=-])(?:-[-.]|==)(?![<>ox.=-])[ \t]*(?:"[^"\n]*"|[^\s".=-](?:[^\n.=-]*[^\s.=-])?)[ \t]*(?:\.+->?|--+[->]|==+[=>])(?![<>ox.=-])/,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -71,18 +71,18 @@ languages.mermaid = {
 	],
 
 	'label': {
-		pattern: /(^|[^|<])\|(?:[^\r\n"|]|"[^"\r\n]*")+\|/,
+		pattern: /(^|[^|<])\|(?:[^\n"|]|"[^"\n]*")+\|/,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property'
 	},
 
 	'text': {
-		pattern: /(?:[(\[{]+|\b>)(?:[^\r\n"()\[\]{}]|"[^"\r\n]*")+(?:[)\]}]+|>)/,
+		pattern: /(?:[(\[{]+|\b>)(?:[^\n"()\[\]{}]|"[^"\n]*")+(?:[)\]}]+|>)/,
 		alias: 'string'
 	},
 	'string': {
-		pattern: /"[^"\r\n]*"/,
+		pattern: /"[^"\n]*"/,
 		greedy: true
 	},
 

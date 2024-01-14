@@ -9,23 +9,23 @@ languages['avro-idl'] = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:[^\r\n"\\]|\\.)*"/,
+		pattern: /(^|[^\\])"(?:[^\n"\\]|\\.)*"/,
 		lookbehind: true,
 		greedy: true
 	},
 
 	'annotation': {
-		pattern: /@(?:[$\w.-]|`[^\r\n`]+`)+/,
+		pattern: /@(?:[$\w.-]|`[^\n`]+`)+/,
 		greedy: true,
 		alias: 'function'
 	},
 	'function-identifier': {
-		pattern: /`[^\r\n`]+`(?=\s*\()/,
+		pattern: /`[^\n`]+`(?=\s*\()/,
 		greedy: true,
 		alias: 'function'
 	},
 	'identifier': {
-		pattern: /`[^\r\n`]+`/,
+		pattern: /`[^\n`]+`/,
 		greedy: true
 	},
 

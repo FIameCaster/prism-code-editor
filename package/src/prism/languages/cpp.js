@@ -35,7 +35,7 @@ insertBefore(cpp, 'string', {
 	'module': {
 		// https://en.cppreference.com/w/cpp/language/modules
 		pattern: RegExp(
-			`(\\b(?:import|module)\\s+)(?:"(?:\\\\(?:\\r\\n|[\\s\\S])|[^"\\\\\\r\\n])*"|<[^<>\\r\\n]*>|<mod>(?:\\s*:\\s*<mod>)?|:\\s*<mod>)`
+			`(\\b(?:import|module)\\s+)(?:"(?:\\\\[\\s\\S]|[^"\\\\\n])*"|<[^<>\n]*>|<mod>(?:\\s*:\\s*<mod>)?|:\\s*<mod>)`
 				.replace(/<mod>/g, `\\b(?!${keyword.source})\\w+(?:\\s*\\.\\s*\\w+)*\\b`)
 		),
 		lookbehind: true,

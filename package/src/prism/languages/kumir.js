@@ -26,7 +26,7 @@ languages.kum = languages.kumir = {
 	},
 
 	'string': {
-		pattern: /"[^\n\r"]*"|'[^\n\r']*'/,
+		pattern: /"[^\n"]*"|'[^\n']*'/,
 		greedy: true
 	},
 

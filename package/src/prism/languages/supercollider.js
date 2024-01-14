@@ -11,7 +11,7 @@ languages.supercollider = {
 		greedy: true
 	},
 	'char': {
-		pattern: /\$(?:[^\\\r\n]|\\.)/,
+		pattern: /\$(?:[^\\\n]|\\.)/,
 		greedy: true
 	},
 	'symbol': {

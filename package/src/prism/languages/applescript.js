@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.applescript = {
 	// Allow one level of nesting
 	'comment': /#.+|--.+|\(\*(?:\(\*(?:[^*]|\*(?!\)))*\*\)|(?!\(\*)[\s\S])*?\*\)/,
-	'string': /"(?:\\.|[^"\\\r\n])*"/,
+	'string': /"(?:\\.|[^"\\\n])*"/,
 	'number': /(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e-?\d+)?\b/i,
 	'operator': [
 		/[&=≠≤≥*+\-\/÷^]|[<>]=?/,

@@ -5,13 +5,13 @@ var comment = {
 	greedy: true
 };
 
-var quotesSource = /"(?:[^\r\n"\\]|\\(?:[^\r]|\r\n?))*"(?!\S)/.source;
+var quotesSource = /"(?:[^\n"\\]|\\[\s\S])*"(?!\S)/.source;
 
 languages.systemd = {
 	'comment': comment,
 
 	'section': {
-		pattern: /^\[[^\n\r\[\]]*\](?=[ \t]*$)/m,
+		pattern: /^\[[^\n\[\]]*\](?=[ \t]*$)/m,
 		greedy: true,
 		inside: {
 			'punctuation': /^\[|\]$/,
@@ -34,7 +34,7 @@ languages.systemd = {
 		//  2) Line continuations.
 		//     After line continuations, empty lines and comments are ignored so we have to consume them.
 		pattern: RegExp(
-			`(=[ \\t]*(?!\\s))(?:${quotesSource}|(?=[^"\r\n]))(?:[^\\s\\\\]|[ \t]+(?:(?![ \t"])|${quotesSource})|\\\\[\\r\\n]+(?:[#;].*[\\r\\n]+)*(?![#;]))*`, 'g'
+			`(=[ \\t]*(?!\\s))(?:${quotesSource}|(?=[^"\n]))(?:[^\\s\\\\]|[ \t]+(?:(?![ \t"])|${quotesSource})|\\\\\n+(?:[#;].*\n+)*(?![#;]))*`, 'g'
 		),
 		lookbehind: true,
 		greedy: true,

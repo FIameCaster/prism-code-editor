@@ -15,7 +15,7 @@ languages.batch = {
 	'comment': [
 		/^::.*/m,
 		{
-			pattern: /((?:^|[&(])[ \t]*)rem\b(?:[^^&)\r\n]|\^(?:\r\n|[\s\S]))*/im,
+			pattern: /((?:^|[&(])[ \t]*)rem\b(?:[^^&)\n]|\^[\s\S])*/im,
 			lookbehind: true
 		}
 	],
@@ -60,7 +60,7 @@ languages.batch = {
 		},
 		{
 			// SET command
-			pattern: /((?:^|[&(])[ \t]*)set(?: \/[a-z](?:[ :](?:"[^"]*"|[^\s"/]\S*))?)* (?:[^^&)\r\n]|\^(?:\r\n|[\s\S]))*/im,
+			pattern: /((?:^|[&(])[ \t]*)set(?: \/[a-z](?:[ :](?:"[^"]*"|[^\s"/]\S*))?)* (?:[^^&)\n]|\^[\s\S])*/im,
 			lookbehind: true,
 			inside: {
 				'keyword': /^set\b/i,
@@ -77,7 +77,7 @@ languages.batch = {
 		},
 		{
 			// Other commands
-			pattern: /((?:^|[&(])[ \t]*@?)\w+\b(?:"(?:[\\"]"|[^"])*"(?!")|[^"^&)\r\n]|\^(?:\r\n|[\s\S]))*/m,
+			pattern: /((?:^|[&(])[ \t]*@?)\w+\b(?:"(?:[\\"]"|[^"])*"(?!")|[^"^&)\n]|\^[\s\S])*/m,
 			lookbehind: true,
 			inside: {
 				'keyword': /^\w+\b/,

@@ -41,7 +41,7 @@ var dart = languages.dart = extend('clike', {
 
 insertBefore(dart, 'string', {
 	'string-literal': {
-		pattern: /r?(?:("""|''')[\s\S]*?\1|(["'])(?:\\.|(?!\2)[^\\\r\n])*\2(?!\2))/,
+		pattern: /r?(?:("""|''')[\s\S]*?\1|(["'])(?:\\.|(?!\2)[^\\\n])*\2(?!\2))/,
 		greedy: true,
 		inside: {
 			'interpolation': {

@@ -5,7 +5,7 @@ import './ruby.js';
 
 languages.erb = {
 	'erb': {
-		pattern: /<%=?(?:[^\r\n]|[\r\n](?!=begin)|[\r\n]=begin\s(?:[^\r\n]|[\r\n](?!=end))*[\r\n]=end)+?%>/,
+		pattern: /<%=?(?:[^\n]|\n(?!=begin)|\n=begin\s(?:[^\n]|\n(?!=end))*\n=end)+?%>/,
 		inside: {
 			'delimiter': {
 				pattern: /^<%=?|%>$/,

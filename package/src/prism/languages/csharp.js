@@ -71,8 +71,8 @@ var typeInside = {
 // strings & characters
 // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/lexical-structure#character-literals
 // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/lexical-structure#string-literals
-var character = /'(?:[^\r\n'\\]|\\.|\\[Uux][\da-fA-F]{1,8})'/.source; // simplified pattern
-var regularString = /"(?:\\.|[^\\"\r\n])*"/.source;
+var character = /'(?:[^\n'\\]|\\.|\\[Uux][\da-fA-F]{1,8})'/.source; // simplified pattern
+var regularString = /"(?:\\.|[^\\"\n])*"/.source;
 var verbatimString = /@"(?:""|\\[\s\S]|[^\\"])*"(?!")/.source;
 
 var cs = languages.dotnet = languages.cs = languages.csharp = extend('clike', {
@@ -260,7 +260,7 @@ insertBefore(cs, 'class-name', {
 
 // attributes
 var regularStringOrCharacter = regularString + '|' + character;
-var regularStringCharacterOrComment = replace(/\/(?![*/])|\/\/[^\r\n]*[\r\n]|\/\*(?:[^*]|\*(?!\/))*\*\/|<<0>>/.source, [regularStringOrCharacter]);
+var regularStringCharacterOrComment = replace(/\/(?![*/])|\/\/[^\n]*\n|\/\*(?:[^*]|\*(?!\/))*\*\/|<<0>>/.source, [regularStringOrCharacter]);
 var roundExpression = nested(replace(/[^"'/()]|<<0>>|\(<<self>>*\)/.source, [regularStringCharacterOrComment]), 2);
 
 // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/#attribute-targets
@@ -268,7 +268,7 @@ var attrTarget = /\b(?:assembly|event|field|method|module|param|property|return|
 var attr = replace(/<<0>>(?:\s*\(<<1>>*\))?/.source, [identifier, roundExpression]);
 
 // string interpolation
-var formatString = /:[^}\r\n]+/.source;
+var formatString = /:[^}\n]+/.source;
 // multi line
 var mInterpolationRound = nested(replace(/[^"'/()]|<<0>>|\(<<self>>*\)/.source, [regularStringCharacterOrComment]), 2);
 var mInterpolation = replace(/\{(?!\{)(?:(?![}:])<<0>>)*<<1>>?\}/.source, [mInterpolationRound, formatString]);
