@@ -1,0 +1,15 @@
+/*
+this is
+a multiline comment.
+this lines will be ignored by the compiler
+*/
+//this is a single line comment. this line will be ignored by the compiler
+# this is also a single line comment.
+
+----------------------------------------------------
+
+[
+	["comment", "/*\nthis is\na multiline comment.\nthis lines will be ignored by the compiler\n*/"],
+	["comment", "//this is a single line comment. this line will be ignored by the compiler"],
+	["comment", "# this is also a single line comment."]
+]

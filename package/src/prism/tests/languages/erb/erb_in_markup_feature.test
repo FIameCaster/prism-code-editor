@@ -1,0 +1,57 @@
+<div class="<%= Time.now.strftime('%A') %>">
+___ERB1___<%= 1 %>___ERB2___<%= 2 %>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"div"
+		]],
+		["attr-name", ["class"]],
+		["attr-value", [
+			["punctuation", "="],
+			["punctuation", "\""],
+			["erb", [
+				["delimiter", "<%="],
+				["ruby", [
+					["builtin", "Time"],
+					["punctuation", "."],
+					"now",
+					["punctuation", "."],
+					"strftime",
+					["punctuation", "("],
+					["string-literal", [
+						["string", "'%A'"]
+					]],
+					["punctuation", ")"]
+				]],
+				["delimiter", "%>"]
+			]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+
+	"\n___ERB1___",
+	["erb", [
+		["delimiter", "<%="],
+		["ruby", [
+			["number", "1"]
+		]],
+		["delimiter", "%>"]
+	]],
+	"___ERB2___",
+	["erb", [
+		["delimiter", "<%="],
+		["ruby", [
+			["number", "2"]
+		]],
+		["delimiter", "%>"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for ERB inside Markup

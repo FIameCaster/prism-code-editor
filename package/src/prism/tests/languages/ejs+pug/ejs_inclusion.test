@@ -1,0 +1,27 @@
+:ejs
+	<% var foo = '', bar = false; %>
+
+----------------------------------------------------
+
+[
+	["filter-ejs", [
+		["filter-name", ":ejs"],
+		["text", [
+			["ejs", [
+				["delimiter", "<%"],
+				["language-javascript", [
+					["keyword", "var"],
+					" foo ",
+					["operator", "="],
+					["string", "''"],
+					["punctuation", ","],
+					" bar ",
+					["operator", "="],
+					["boolean", "false"],
+					["punctuation", ";"]
+				]],
+				["delimiter", "%>"]
+			]]
+		]]
+	]]
+]

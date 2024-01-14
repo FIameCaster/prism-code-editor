@@ -1,0 +1,34 @@
+Foobar <1>
+<1> Foo
+1> Bar
+> Baz
+
+|====
+| Foobar <1>
+<1> Foo
+1> Bar
+> Baz
+|====
+
+----------------------------------------------------
+
+[
+	"Foobar ", ["callout", "<1>"],
+	["callout", "<1>"], " Foo\n",
+	["callout", "1>"], " Bar\n",
+	["callout", ">"], " Baz\n\n",
+
+	["table", [
+		["punctuation", "|===="],
+		["punctuation", "|"],
+		" Foobar ", ["callout", "<1>"],
+		["callout", "<1>"], " Foo\n",
+		["callout", "1>"], " Bar\n",
+		["callout", ">"], " Baz\n",
+		["punctuation", "|===="]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for callouts.

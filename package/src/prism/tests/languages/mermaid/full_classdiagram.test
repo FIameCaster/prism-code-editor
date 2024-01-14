@@ -1,0 +1,656 @@
+classDiagram
+      Animal <|-- Duck
+      Animal <|-- Fish
+      Animal <|-- Zebra
+      Animal : +int age
+      Animal : +String gender
+      Animal: +isMammal()
+      Animal: +mate()
+      class Duck{
+          +String beakColor
+          +swim()
+          +quack()
+      }
+      class Fish{
+          -int sizeInFeet
+          -canEat()
+      }
+      class Zebra{
+          +bool is_wild
+          +run()
+      }
+
+classDiagram
+    class BankAccount
+    BankAccount : +String owner
+    BankAccount : +Bigdecimal balance
+    BankAccount : +deposit(amount)
+    BankAccount : +withdrawl(amount)
+
+classDiagram
+    class Animal
+    Vehicle <|-- Car
+
+class BankAccount
+ BankAccount : +String owner
+ BankAccount : +BigDecimal balance
+ BankAccount : +deposit(amount)
+ BankAccount : +withdrawal(amount)
+
+class BankAccount{
+    +String owner
+    +BigDecimal balance
+    +deposit(amount)
+    +withdrawl(amount)
+}
+
+class BankAccount{
+    +String owner
+    +BigDecimal balance
+    +deposit(amount) bool
+    +withdrawl(amount) int
+}
+
+classDiagram
+class Square~Shape~{
+    int id
+    List~int~ position
+    setPoints(List~int~ points)
+    getPoints() List~int~
+}
+
+Square : -List~string~ messages
+Square : +setMessages(List~string~ messages)
+Square : +getMessages() List~string~
+
+classDiagram
+classA <|-- classB
+classC *-- classD
+classE o-- classF
+classG <-- classH
+classI -- classJ
+classK <.. classL
+classM <|.. classN
+classO .. classP
+
+classDiagram
+classA --|> classB : Inheritance
+classC --* classD : Composition
+classE --o classF : Aggregation
+classG --> classH : Association
+classI -- classJ : Link(Solid)
+classK ..> classL : Dependency
+classM ..|> classN : Realization
+classO .. classP : Link(Dashed)
+
+classDiagram
+classA <|-- classB : implements
+classC *-- classD : composition
+classE o-- classF : association
+
+classDiagram
+    Customer "1" --> "*" Ticket
+    Student "1" --> "1..*" Course
+    Galaxy --> "many" Star : Contains
+
+classDiagram
+class Shape
+<<interface>> Shape
+
+classDiagram
+class Shape{
+    <<interface>>
+    noOfVertices
+    draw()
+}
+class Color{
+    <<enumeration>>
+    RED
+    BLUE
+    GREEN
+    WHITE
+    BLACK
+}
+
+classDiagram
+%% This whole line is a comment classDiagram class Shape <<interface>>
+class Shape{
+    <<interface>>
+    noOfVertices
+    draw()
+}
+
+classDiagram
+  direction RL
+  class Student {
+    -idCard : IdCard
+  }
+  class IdCard{
+    -id : int
+    -name : string
+  }
+  class Bike{
+    -id : int
+    -name : string
+  }
+  Student "1" --o "1" IdCard : carries
+  Student "1" --o "1" Bike : rides
+
+action className "reference" "tooltip"
+click className call callback() "tooltip"
+click className href "url" "tooltip"
+
+classDiagram
+class Shape
+link Shape "http://www.github.com" "This is a tooltip for a link"
+class Shape2
+click Shape2 href "http://www.github.com" "This is a tooltip for a link"
+
+classDiagram
+class Shape
+callback Shape "callbackFunction" "This is a tooltip for a callback"
+class Shape2
+click Shape2 call callbackFunction() "This is a tooltip for a callback"
+
+classDiagram
+Animal <|-- Duck
+Animal <|-- Fish
+Animal <|-- Zebra
+Animal : +int age
+Animal : +String gender
+Animal: +isMammal()
+Animal: +mate()
+class Duck{
+  +String beakColor
+  +swim()
+  +quack()
+  }
+class Fish{
+  -int sizeInFeet
+  -canEat()
+  }
+class Zebra{
+  +bool is_wild
+  +run()
+  }
+
+  callback Duck callback "Tooltip"
+  link Zebra "http://www.github.com" "This is a link"
+
+classDiagram
+    class Animal:::cssClass
+
+classDiagram
+    class Animal:::cssClass {
+        -int sizeInFeet
+        -canEat()
+    }
+
+----------------------------------------------------
+
+[
+	["keyword", "classDiagram"],
+
+	"\n      Animal ",
+	["arrow", "<|--"],
+	" Duck\n      Animal ",
+	["arrow", "<|--"],
+	" Fish\n      Animal ",
+	["arrow", "<|--"],
+	" Zebra\n      Animal ",
+	["operator", ":"],
+	" +int age\n      Animal ",
+	["operator", ":"],
+	" +String gender\n      Animal",
+	["operator", ":"],
+	" +isMammal",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	"\n      Animal",
+	["operator", ":"],
+	" +mate",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["keyword", "class"],
+	" Duck",
+	["punctuation", "{"],
+
+	"\n          +String beakColor\n          +swim",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	"\n          +quack",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["punctuation", "}"],
+
+	["keyword", "class"],
+	" Fish",
+	["punctuation", "{"],
+
+	"\n          -int sizeInFeet\n          -canEat",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["punctuation", "}"],
+
+	["keyword", "class"],
+	" Zebra",
+	["punctuation", "{"],
+
+	"\n          +bool is_wild\n          +run",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["punctuation", "}"],
+
+	["keyword", "classDiagram"],
+
+	["keyword", "class"],
+	" BankAccount\n    BankAccount ",
+	["operator", ":"],
+	" +String owner\n    BankAccount ",
+	["operator", ":"],
+	" +Bigdecimal balance\n    BankAccount ",
+	["operator", ":"],
+	" +deposit",
+	["text", "(amount)"],
+
+	"\n    BankAccount ",
+	["operator", ":"],
+	" +withdrawl",
+	["text", "(amount)"],
+
+	["keyword", "classDiagram"],
+
+	["keyword", "class"],
+	" Animal\n    Vehicle ",
+	["arrow", "<|--"],
+	" Car\n\n",
+
+	["keyword", "class"],
+	" BankAccount\n BankAccount ",
+	["operator", ":"],
+	" +String owner\n BankAccount ",
+	["operator", ":"],
+	" +BigDecimal balance\n BankAccount ",
+	["operator", ":"],
+	" +deposit",
+	["text", "(amount)"],
+
+	"\n BankAccount ",
+	["operator", ":"],
+	" +withdrawal",
+	["text", "(amount)"],
+
+	["keyword", "class"],
+	" BankAccount",
+	["punctuation", "{"],
+
+	"\n    +String owner\n    +BigDecimal balance\n    +deposit",
+	["text", "(amount)"],
+
+	"\n    +withdrawl",
+	["text", "(amount)"],
+
+	["punctuation", "}"],
+
+	["keyword", "class"],
+	" BankAccount",
+	["punctuation", "{"],
+
+	"\n    +String owner\n    +BigDecimal balance\n    +deposit",
+	["text", "(amount)"],
+	" bool\n    +withdrawl",
+	["text", "(amount)"],
+	" int\n",
+
+	["punctuation", "}"],
+
+	["keyword", "classDiagram"],
+
+	["keyword", "class"],
+	" Square~Shape~",
+	["punctuation", "{"],
+
+	"\n    int id\n    List~int~ position\n    setPoints",
+	["text", "(List~int~ points)"],
+
+	"\n    getPoints",
+	["punctuation", "("],
+	["punctuation", ")"],
+	" List~int~\n",
+
+	["punctuation", "}"],
+
+	"\n\nSquare ",
+	["operator", ":"],
+	" -List~string~ messages\nSquare ",
+	["operator", ":"],
+	" +setMessages",
+	["text", "(List~string~ messages)"],
+
+	"\nSquare ",
+	["operator", ":"],
+	" +getMessages",
+	["punctuation", "("],
+	["punctuation", ")"],
+	" List~string~\n\n",
+
+	["keyword", "classDiagram"],
+
+	"\nclassA ",
+	["arrow", "<|--"],
+	" classB\nclassC ",
+	["arrow", "*--"],
+	" classD\nclassE ",
+	["arrow", "o--"],
+	" classF\nclassG ",
+	["arrow", "<--"],
+	" classH\nclassI ",
+	["arrow", "--"],
+	" classJ\nclassK ",
+	["arrow", "<.."],
+	" classL\nclassM ",
+	["arrow", "<|.."],
+	" classN\nclassO ",
+	["arrow", ".."],
+	" classP\n\n",
+
+	["keyword", "classDiagram"],
+
+	"\nclassA ",
+	["arrow", "--|>"],
+	" classB ",
+	["operator", ":"],
+	" Inheritance\nclassC ",
+	["arrow", "--*"],
+	" classD ",
+	["operator", ":"],
+	" Composition\nclassE ",
+	["arrow", "--o"],
+	" classF ",
+	["operator", ":"],
+	" Aggregation\nclassG ",
+	["arrow", "-->"],
+	" classH ",
+	["operator", ":"],
+	" Association\nclassI ",
+	["arrow", "--"],
+	" classJ ",
+	["operator", ":"],
+	" Link",
+	["text", "(Solid)"],
+
+	"\nclassK ",
+	["arrow", "..>"],
+	" classL ",
+	["operator", ":"],
+	" Dependency\nclassM ",
+	["arrow", "..|>"],
+	" classN ",
+	["operator", ":"],
+	" Realization\nclassO ",
+	["arrow", ".."],
+	" classP ",
+	["operator", ":"],
+	" Link",
+	["text", "(Dashed)"],
+
+	["keyword", "classDiagram"],
+
+	"\nclassA ",
+	["arrow", "<|--"],
+	" classB ",
+	["operator", ":"],
+	" implements\nclassC ",
+	["arrow", "*--"],
+	" classD ",
+	["operator", ":"],
+	" composition\nclassE ",
+	["arrow", "o--"],
+	" classF ",
+	["operator", ":"],
+	" association\n\n",
+
+	["keyword", "classDiagram"],
+
+	"\n    Customer ",
+	["string", "\"1\""],
+	["arrow", "-->"],
+	["string", "\"*\""],
+	" Ticket\n    Student ",
+	["string", "\"1\""],
+	["arrow", "-->"],
+	["string", "\"1..*\""],
+	" Course\n    Galaxy ",
+	["arrow", "-->"],
+	["string", "\"many\""],
+	" Star ",
+	["operator", ":"],
+	" Contains\n\n",
+
+	["keyword", "classDiagram"],
+	["keyword", "class"], " Shape\n",
+	["annotation", "<<interface>>"], " Shape\n\n",
+
+	["keyword", "classDiagram"],
+	["keyword", "class"],
+	" Shape",
+	["punctuation", "{"],
+	["annotation", "<<interface>>"],
+	"\n    noOfVertices\n    draw",
+	["punctuation", "("],
+	["punctuation", ")"],
+	["punctuation", "}"],
+	["keyword", "class"],
+	" Color",
+	["punctuation", "{"],
+	["annotation", "<<enumeration>>"],
+	"\n    RED\n    BLUE\n    GREEN\n    WHITE\n    BLACK\n",
+	["punctuation", "}"],
+
+	["keyword", "classDiagram"],
+	["comment", "%% This whole line is a comment classDiagram class Shape <<interface>>"],
+	["keyword", "class"],
+	" Shape",
+	["punctuation", "{"],
+	["annotation", "<<interface>>"],
+	"\n    noOfVertices\n    draw",
+	["punctuation", "("],
+	["punctuation", ")"],
+	["punctuation", "}"],
+
+	["keyword", "classDiagram"],
+
+	["keyword", "direction"],
+	" RL\n  ",
+
+	["keyword", "class"],
+	" Student ",
+	["punctuation", "{"],
+
+	"\n    -idCard ",
+	["operator", ":"],
+	" IdCard\n  ",
+
+	["punctuation", "}"],
+
+	["keyword", "class"],
+	" IdCard",
+	["punctuation", "{"],
+
+	"\n    -id ",
+	["operator", ":"],
+	" int\n    -name ",
+	["operator", ":"],
+	" string\n  ",
+
+	["punctuation", "}"],
+
+	["keyword", "class"],
+	" Bike",
+	["punctuation", "{"],
+
+	"\n    -id ",
+	["operator", ":"],
+	" int\n    -name ",
+	["operator", ":"],
+	" string\n  ",
+
+	["punctuation", "}"],
+
+	"\n  Student ",
+	["string", "\"1\""],
+	["arrow", "--o"],
+	["string", "\"1\""],
+	" IdCard ",
+	["operator", ":"],
+	" carries\n  Student ",
+	["string", "\"1\""],
+	["arrow", "--o"],
+	["string", "\"1\""],
+	" Bike ",
+	["operator", ":"],
+	" rides\n\n",
+
+	["keyword", "action"],
+	" className ",
+	["string", "\"reference\""],
+	["string", "\"tooltip\""],
+
+	["keyword", "click"],
+	" className call callback",
+	["punctuation", "("],
+	["punctuation", ")"],
+	["string", "\"tooltip\""],
+
+	["keyword", "click"],
+	" className href ",
+	["string", "\"url\""],
+	["string", "\"tooltip\""],
+
+	["keyword", "classDiagram"],
+
+	["keyword", "class"],
+	" Shape\n",
+
+	["keyword", "link"],
+	" Shape ",
+	["string", "\"http://www.github.com\""],
+	["string", "\"This is a tooltip for a link\""],
+
+	["keyword", "class"],
+	" Shape2\n",
+
+	["keyword", "click"],
+	" Shape2 href ",
+	["string", "\"http://www.github.com\""],
+	["string", "\"This is a tooltip for a link\""],
+
+	["keyword", "classDiagram"],
+
+	["keyword", "class"],
+	" Shape\n",
+
+	["keyword", "callback"],
+	" Shape ",
+	["string", "\"callbackFunction\""],
+	["string", "\"This is a tooltip for a callback\""],
+
+	["keyword", "class"],
+	" Shape2\n",
+
+	["keyword", "click"],
+	" Shape2 call callbackFunction",
+	["punctuation", "("],
+	["punctuation", ")"],
+	["string", "\"This is a tooltip for a callback\""],
+
+	["keyword", "classDiagram"],
+
+	"\nAnimal ",
+	["arrow", "<|--"],
+	" Duck\nAnimal ",
+	["arrow", "<|--"],
+	" Fish\nAnimal ",
+	["arrow", "<|--"],
+	" Zebra\nAnimal ",
+	["operator", ":"],
+	" +int age\nAnimal ",
+	["operator", ":"],
+	" +String gender\nAnimal",
+	["operator", ":"],
+	" +isMammal",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	"\nAnimal",
+	["operator", ":"],
+	" +mate",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["keyword", "class"],
+	" Duck",
+	["punctuation", "{"],
+
+	"\n  +String beakColor\n  +swim",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	"\n  +quack",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["punctuation", "}"],
+
+	["keyword", "class"],
+	" Fish",
+	["punctuation", "{"],
+
+	"\n  -int sizeInFeet\n  -canEat",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["punctuation", "}"],
+
+	["keyword", "class"],
+	" Zebra",
+	["punctuation", "{"],
+
+	"\n  +bool is_wild\n  +run",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["punctuation", "}"],
+
+	["keyword", "callback"],
+	" Duck callback ",
+	["string", "\"Tooltip\""],
+
+	["keyword", "link"],
+	" Zebra ",
+	["string", "\"http://www.github.com\""],
+	["string", "\"This is a link\""],
+
+	["keyword", "classDiagram"],
+	["keyword", "class"], " Animal", ["operator", ":::"], "cssClass\n\n",
+
+	["keyword", "classDiagram"],
+
+	["keyword", "class"],
+	" Animal",
+	["operator", ":::"],
+	"cssClass ",
+	["punctuation", "{"],
+
+	"\n        -int sizeInFeet\n        -canEat",
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["punctuation", "}"]
+]

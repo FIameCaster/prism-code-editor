@@ -1,0 +1,36 @@
+foo bar
+foo\:\=\ bar bar\:\= \
+baz
+foo = bar
+foo\:\=\ bar = bar\:\= \
+baz
+foo : bar
+foo\:\=\ bar : bar\:\= \
+baz
+
+----------------------------------------------------
+
+[
+	["key", "foo"],
+	["value", "bar"],
+	["key", "foo\\:\\=\\ bar"],
+	["value", "bar\\:\\= \\\nbaz"],
+
+	["key", "foo"],
+	["punctuation", "="],
+	["value", "bar"],
+	["key", "foo\\:\\=\\ bar"],
+	["punctuation", "="],
+	["value", "bar\\:\\= \\\nbaz"],
+
+	["key", "foo"],
+	["punctuation", ":"],
+	["value", "bar"],
+	["key", "foo\\:\\=\\ bar"],
+	["punctuation", ":"],
+	["value", "bar\\:\\= \\\nbaz"]
+]
+
+----------------------------------------------------
+
+Checks for keys and values.

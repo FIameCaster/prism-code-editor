@@ -1,0 +1,49 @@
+{{ this }}
+{% raw %}
+In Handlebars, {{ this }} will be HTML-escaped, but {{{ that }}} will not.
+{% endraw %}
+{{ this }}
+
+----------------------------------------------------
+
+[
+	["liquid", [
+		["delimiter", "{{"],
+		" this ",
+		["delimiter", "}}"]
+	]],
+
+	["liquid", [
+		["delimiter", "{%"],
+		["keyword", "raw"],
+		["delimiter", "%}"]
+	]],
+
+	"\nIn Handlebars, ",
+	["markup-bracket", "{"],
+	["markup-bracket", "{"],
+	" this ",
+	["markup-bracket", "}"],
+	["markup-bracket", "}"],
+	" will be HTML-escaped, but ",
+	["markup-bracket", "{"],
+	["markup-bracket", "{"],
+	["markup-bracket", "{"],
+	" that ",
+	["markup-bracket", "}"],
+	["markup-bracket", "}"],
+	["markup-bracket", "}"],
+	" will not.\n",
+
+	["liquid", [
+		["delimiter", "{%"],
+		["keyword", "endraw"],
+		["delimiter", "%}"]
+	]],
+
+	["liquid", [
+		["delimiter", "{{"],
+		" this ",
+		["delimiter", "}}"]
+	]]
+]

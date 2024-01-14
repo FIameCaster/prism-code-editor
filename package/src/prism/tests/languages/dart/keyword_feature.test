@@ -1,0 +1,54 @@
+async* sync* yield*
+abstract assert async await
+break case catch
+class;
+const
+continue covariant default deferred
+do dynamic else enum
+export extension external
+extends;
+factory final finally for
+get hide if
+implements;
+interface;
+import
+in
+library
+mixin
+new;
+null
+on operator part rethrow return
+set show static super switch sync this
+throw try typedef var
+void while with yield
+
+----------------------------------------------------
+
+[
+	["keyword", "async*"], ["keyword", "sync*"], ["keyword", "yield*"],
+	["keyword", "abstract"], ["keyword", "assert"], ["keyword", "async"], ["keyword", "await"],
+	["keyword", "break"], ["keyword", "case"], ["keyword", "catch"],
+	["keyword", "class"], ["punctuation", ";"],
+	["keyword", "const"],
+	["keyword", "continue"], ["keyword", "covariant"], ["keyword", "default"], ["keyword", "deferred"],
+	["keyword", "do"], ["keyword", "dynamic"], ["keyword", "else"], ["keyword", "enum"],
+	["keyword", "export"], ["keyword", "extension"], ["keyword", "external"],
+	["keyword", "extends"], ["punctuation", ";"],
+	["keyword", "factory"], ["keyword", "final"], ["keyword", "finally"], ["keyword", "for"],
+	["keyword", "get"], ["keyword", "hide"], ["keyword", "if"],
+	["keyword", "implements"], ["punctuation", ";"],
+	["keyword", "interface"], ["punctuation", ";"],
+	["keyword", "import"],
+	["keyword", "in"], ["keyword", "library"],
+	["keyword", "mixin"],
+	["keyword", "new"], ["punctuation", ";"],
+	["keyword", "null"],
+	["keyword", "on"], ["keyword", "operator"], ["keyword", "part"], ["keyword", "rethrow"], ["keyword", "return"],
+	["keyword", "set"], ["keyword", "show"], ["keyword", "static"], ["keyword", "super"], ["keyword", "switch"],  ["keyword", "sync"], ["keyword", "this"],
+	["keyword", "throw"], ["keyword", "try"], ["keyword", "typedef"], ["keyword", "var"],
+	["keyword", "void"], ["keyword", "while"], ["keyword", "with"], ["keyword", "yield"]
+]
+
+----------------------------------------------------
+
+Checks for all keywords.

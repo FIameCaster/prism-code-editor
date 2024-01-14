@@ -1,0 +1,22 @@
+// foobar
+/**/
+/* Single line comment */
+/* Multiline
+comment */
+/**
+Doc comment
+*/
+
+----------------------------------------------------
+
+[
+	["comment", "// foobar"],
+	["comment", "/**/"],
+	["comment", "/* Single line comment */"],
+	["comment", "/* Multiline\ncomment */"],
+	["comment", "/**\nDoc comment\n*/"]
+]
+
+----------------------------------------------------
+
+Checks for comments.

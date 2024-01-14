@@ -1,0 +1,73 @@
+In::
+Lorem::
+  Foo bar baz
+Dolor:::
+  Ipsum::::
+    Donec;;
+      Foobar
+
+____
+In::
+Lorem::
+  Foo bar baz
+Dolor:::
+  Ipsum::::
+    Donec;;
+      Foobar
+____
+
+|========
+|
+In::
+Lorem::
+  Foo bar baz
+Dolor:::
+  Ipsum::::
+    Donec;;
+      Foobar
+|========
+
+----------------------------------------------------
+
+[
+	["list-label", "In::"],
+	["list-label", "Lorem::"],
+	"\n  Foo bar baz\n",
+	["list-label", "Dolor:::"],
+	["list-label", "Ipsum::::"],
+	["list-label", "Donec;;"],
+	"\n      Foobar\n\n",
+
+	["other-block", [
+		["punctuation", "____"],
+
+		["list-label", "In::"],
+		["list-label", "Lorem::"],
+		"\n  Foo bar baz\n",
+		["list-label", "Dolor:::"],
+		["list-label", "Ipsum::::"],
+		["list-label", "Donec;;"],
+		"\n      Foobar\n",
+
+		["punctuation", "____"]
+	]],
+
+	["table", [
+		["punctuation", "|========"],
+		["punctuation", "|"],
+
+		["list-label", "In::"],
+		["list-label", "Lorem::"],
+		"\n  Foo bar baz\n",
+		["list-label", "Dolor:::"],
+		["list-label", "Ipsum::::"],
+		["list-label", "Donec;;"],
+		"\n      Foobar\n",
+
+		["punctuation", "|========"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for list labels.

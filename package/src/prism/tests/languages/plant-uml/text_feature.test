@@ -1,0 +1,29 @@
+Alice -> Bob: Authentication request
+Bob --> Alice: Response
+
+participant Participant [
+    =Title
+    ----
+    ""SubTitle""
+]
+
+----------------------------------------------------
+
+[
+	"Alice ",
+	["arrow", ["->"]],
+	" Bob",
+	["punctuation", ":"],
+	" Authentication request\nBob ",
+	["arrow", ["-->"]],
+	" Alice",
+	["punctuation", ":"],
+	" Response\n\n",
+
+	["keyword", "participant"],
+	" Participant ",
+	["punctuation", "["],
+
+	["text", "    =Title\n    ----\n    \"\"SubTitle\"\"\n"],
+	["punctuation", "]"]
+]

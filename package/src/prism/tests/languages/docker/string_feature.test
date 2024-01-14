@@ -1,0 +1,49 @@
+RUN echo ""
+RUN echo "fo\"obar"
+RUN echo "foo\
+bar"
+
+RUN echo ''
+RUN echo 'fo\'obar'
+RUN echo 'foo\
+bar'
+
+----------------------------------------------------
+
+[
+	["instruction", [
+		["keyword", "RUN"],
+		" echo ",
+		["string", "\"\""]
+	]],
+	["instruction", [
+		["keyword", "RUN"],
+		" echo ",
+		["string", "\"fo\\\"obar\""]
+	]],
+	["instruction", [
+		["keyword", "RUN"],
+		" echo ",
+		["string", "\"foo\\\nbar\""]
+	]],
+
+	["instruction", [
+		["keyword", "RUN"],
+		" echo ",
+		["string", "''"]
+	]],
+	["instruction", [
+		["keyword", "RUN"],
+		" echo ",
+		["string", "'fo\\'obar'"]
+	]],
+	["instruction", [
+		["keyword", "RUN"],
+		" echo ",
+		["string", "'foo\\\nbar'"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for strings.

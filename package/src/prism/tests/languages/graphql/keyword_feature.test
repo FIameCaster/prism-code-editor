@@ -1,0 +1,57 @@
+directive,
+enum,
+extend,
+fragment,
+implements,
+input,
+interface,
+mutation,
+on,
+query,
+repeatable,
+scalar,
+schema,
+subscription,
+type,
+union,
+
+----------------------------------------------------
+
+[
+	["keyword", "directive"],
+	["punctuation", ","],
+	["keyword", "enum"],
+	["punctuation", ","],
+	["keyword", "extend"],
+	["punctuation", ","],
+	["keyword", "fragment"],
+	["punctuation", ","],
+	["keyword", "implements"],
+	["punctuation", ","],
+	["keyword", "input"],
+	["punctuation", ","],
+	["keyword", "interface"],
+	["punctuation", ","],
+	["keyword", "mutation"],
+	["punctuation", ","],
+	["keyword", "on"],
+	["punctuation", ","],
+	["keyword", "query"],
+	["punctuation", ","],
+	["keyword", "repeatable"],
+	["punctuation", ","],
+	["keyword", "scalar"],
+	["punctuation", ","],
+	["keyword", "schema"],
+	["punctuation", ","],
+	["keyword", "subscription"],
+	["punctuation", ","],
+	["keyword", "type"],
+	["punctuation", ","],
+	["keyword", "union"],
+	["punctuation", ","]
+]
+
+----------------------------------------------------
+
+Checks for keywords.

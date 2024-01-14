@@ -4,12 +4,12 @@ import type {
 	KeyCommandCallback,
 	Language,
 	InputCommandCallback,
-	TokenizeEnv,
 	EditorEventMap,
 	Extension,
 	InputSelection,
 } from "./types"
-import { Prism, languages } from "./prismCore"
+import { Token, highlightTokens, languages, tokenizeText } from "./prism"
+import { Grammar } from "./prism/types"
 
 /**
  * Creates a code editor using the specified container and options.
@@ -27,7 +27,7 @@ const createEditor = (
 	...extensions: Extension[]
 ): PrismEditor => {
 	let language: string,
-		grammar: Prism.Grammar,
+		grammar: Grammar,
 		containerEl = getElement(container),
 		prevLines: string[] = [],
 		activeLine: HTMLDivElement,
@@ -35,7 +35,7 @@ const createEditor = (
 		activeLineNumber: number,
 		removed = false,
 		handleSelecionChange = true,
-		tokens: (Prism.Token | string)[] = [],
+		tokens: (Token | string)[] = [],
 		readOnly: boolean
 
 	const scrollContainer = <HTMLDivElement>editorTemplate.cloneNode(true),
@@ -46,7 +46,6 @@ const createEditor = (
 		currentOptions = <EditorOptions>{ language: "text" },
 		currentExtensions = new Set(extensions),
 		addTextareaListener = addEventListener.bind(textarea),
-		closingTag = "</span>",
 		listeners: {
 			[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
 		} = {
@@ -89,52 +88,10 @@ const createEditor = (
 		textarea.setAttribute("aria-readonly", <any>readOnly)
 	}
 
-	/** Faster than `Prism.Token.stringify` since it doesn't run `wrap` hooks and can be safely split into lines. */
-	const highlight = () => {
-		let openingTags = "",
-			closingTags = "",
-			env = <TokenizeEnv>{ language, code: value, grammar }
-		Prism.hooks.run("before-tokenize", env)
-		tokens = env.tokens = Prism.tokenize(env.code, env.grammar)
-		Prism.hooks.run("after-tokenize", env)
-		dispatchEvent("tokenize", env)
-
-		const stringifyAll = (tokens: (string | Prism.Token)[]) => {
-			let str = "",
-				l = tokens.length
-			for (let i = 0; i < l; ) str += stringify(tokens[i++])
-			return str
-		}
-
-		const stringify = (token: Prism.TokenStream | Prism.Token): string => {
-			if (token instanceof Prism.Token) {
-				let { type, alias, content } = token,
-					className = alias ? " " + (typeof alias == "string" ? alias : alias.join(" ")) : "",
-					prevOpening = openingTags,
-					prevClosing = closingTags,
-					opening = `<span class="token ${
-						type + className + (type == "keyword" ? " keyword-" + content : "")
-					}">`
-
-				closingTags += closingTag
-				openingTags += opening
-				let contentStr = stringify(content)
-				openingTags = prevOpening
-				closingTags = prevClosing
-				return opening + contentStr + closingTag
-			}
-
-			return typeof token != "string"
-				? stringifyAll(token)
-				: (token = token.replace(/&/g, "&amp;").replace(/</g, "&lt;")).includes("\n") && closingTags
-				? token.replace(/\n/g, closingTags + "\n" + openingTags)
-				: token
-		}
-		return stringifyAll(tokens)
-	}
-
 	const update = () => {
-		const newLines = highlight().split("\n"),
+		tokens = tokenizeText(value, grammar)
+		dispatchEvent("tokenize", { language, grammar, code: value, tokens })
+		const newLines = highlightTokens(tokens).split("\n"),
 			l = newLines.length
 		let start = 0,
 			end1 = newLines.length,

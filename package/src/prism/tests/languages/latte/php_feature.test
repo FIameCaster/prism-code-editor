@@ -1,0 +1,103 @@
+{tag $a = true ? 10 * 5}
+<div n:attr="$a = true ? 10 * 5">
+{php '' }
+{php "" }
+{php "ba\"r" }
+{php 'ba\'z' }
+{php /* " */ }
+{php /* } */ }
+
+----------------------------------------------------
+
+[
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "tag"],
+		["php", [
+			["variable", "$a"],
+			["operator", "="],
+			["constant", "true"],
+			["operator", "?"],
+			["number", "10"],
+			["operator", "*"],
+			["number", "5"]
+		]],
+		["delimiter", "}"]
+	]],
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"div"
+		]],
+		["n-attr", [
+			["attr-name", "n:attr"],
+			["attr-value", [
+				["punctuation", "="],
+				["punctuation", "\""],
+				["php", [
+					["variable", "$a"],
+					["operator", "="],
+					["constant", "true"],
+					["operator", "?"],
+					["number", "10"],
+					["operator", "*"],
+					["number", "5"]
+				]],
+				["punctuation", "\""]
+			]]
+		]],
+		["punctuation", ">"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["string", "''"]
+		]],
+		["delimiter", "}"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["string", ["\"\""]]
+		]],
+		["delimiter", "}"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["string", ["\"ba\\\"r\""]]
+		]],
+		["delimiter", "}"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["string", "'ba\\'z'"]
+		]],
+		["delimiter", "}"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["comment", "/* \" */"]
+		]],
+		["delimiter", "}"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["comment", "/* } */"]
+		]],
+		["delimiter", "}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for operators.

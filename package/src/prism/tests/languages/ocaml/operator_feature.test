@@ -1,0 +1,52 @@
+and asr land
+lor lsl lsr
+lxor mod or
+
+:= :>
+= < > @
+^ | & ~ .~
++ - * /
+$ % ! ?
+..
+
+~=~
+
+----------------------------------------------------
+
+[
+	["operator", "and"], ["operator", "asr"], ["operator", "land"],
+	["operator", "lor"], ["operator", "lsl"], ["operator", "lsr"],
+	["operator", "lxor"], ["operator", "mod"], ["operator", "or"],
+
+	["operator", ":="],
+	["operator", ":>"],
+
+	["operator", "="],
+	["operator", "<"],
+	["operator", ">"],
+	["operator", "@"],
+
+	["operator", "^"],
+	["operator", "|"],
+	["operator", "&"],
+	["operator", "~"],
+	["operator", ".~"],
+
+	["operator", "+"],
+	["operator", "-"],
+	["operator", "*"],
+	["operator", "/"],
+
+	["operator", "$"],
+	["operator", "%"],
+	["operator", "!"],
+	["operator", "?"],
+
+	["operator", ".."],
+
+	["operator", "~=~"]
+]
+
+----------------------------------------------------
+
+Checks for operators.

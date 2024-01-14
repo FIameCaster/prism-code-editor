@@ -1,0 +1,30 @@
+#!/usr/bin/env q
+/ Foobar "baz"
+
+/
+Foo
+bar "baz"
+\
+
+`john / an atom of type symbol
+
+\
+Foo
+Bar "baz"
+
+----------------------------------------------------
+
+[
+	["comment", "#!/usr/bin/env q"],
+	["comment", "/ Foobar \"baz\""],
+
+	["comment", "/\nFoo\nbar \"baz\"\n\\"],
+
+	["symbol", "`john"], ["comment", "/ an atom of type symbol"],
+
+	["comment", "\\\nFoo\nBar \"baz\""]
+]
+
+----------------------------------------------------
+
+Checks for comments.

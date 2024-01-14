@@ -7,6 +7,8 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
+    "./prism": "./dist/prism/index.js",
+    "./prism/utils": "./dist/prism/utils/index.js",
     "./guides": "./dist/extensions/guides.js",
     "./web-component": "./dist/webComponent.js",
     "./copy-button": "./dist/extensions/copyButton/index.js",
@@ -21,7 +23,7 @@
     "./themes": "./dist/themes/index.js",
     "./languages": "./dist/languages/index.js",
     "./languages/*": "./dist/languages/*.js",
-    "./grammars/*": "./dist/grammars/*.js",
+    "./prism/languages/*": "./dist/prism/languages/*.js",
     "./match-brackets": "./dist/extensions/matchBrackets/index.js",
     "./highlight-brackets": "./dist/extensions/matchBrackets/highlight.js",
     "./match-tags": "./dist/extensions/matchTags.js",
@@ -44,20 +46,25 @@
     "dist/*"
   ],
   "scripts": {
-    "dev": "node scripts/buildLangs.cjs && vite",
-    "build": "node scripts/buildLangs.cjs && tsc && vite build && node scripts/build.mjs",
+    "dev": "vite",
+    "build": "tsc && vite build && node scripts/build.mjs",
     "preview": "vite preview",
+    "test:languages": "mocha src/prism/tests/run.js",
     "prepublish": "tsc && vite build && node scripts/build.mjs"
   },
   "devDependencies": {
-    "prismjs": "^1.29.0",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.0",
+    "@types/yargs": "^17.0.32",
+    "chai": "^5.0.0",
+    "mocha": "^10.2.0",
+    "regexpp": "^3.2.0",
     "typedoc": "^0.25.1",
     "typescript": "^5.0.2",
-    "vite": "^5.0.7",
-    "vite-plugin-dts": "^2.3.0"
-  },
-  "dependencies": {
-    "@types/prismjs": "^1.26.2"
+    "vite": "^5.0.11",
+    "vite-plugin-dts": "^2.3.0",
+    "yargs": "^17.7.2"
   },
   "keywords": [
     "editor",
@@ -76,11 +83,6 @@
   "sideEffects": [
     "*.css",
     "./dist/languages/*",
-    "./dist/grammars/*"
-  ],
-  "pnpm": {
-    "patchedDependencies": {
-      "prismjs@1.29.0": "patches/prismjs@1.29.0.patch"
-    }
-  }
+    "./dist/prism/languages/*"
+  ]
 }

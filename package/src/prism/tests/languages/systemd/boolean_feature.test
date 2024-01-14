@@ -1,0 +1,46 @@
+foo=on
+foo=true
+foo=yes
+foo=off
+foo=false
+foo=no
+
+----------------------------------------------------
+
+[
+	["key", "foo"],
+	["punctuation", "="],
+	["value", [
+		["boolean", "on"]
+	]],
+
+	["key", "foo"],
+	["punctuation", "="],
+	["value", [
+		["boolean", "true"]
+	]],
+
+	["key", "foo"],
+	["punctuation", "="],
+	["value", [
+		["boolean", "yes"]
+	]],
+
+	["key", "foo"],
+	["punctuation", "="],
+	["value", [
+		["boolean", "off"]
+	]],
+
+	["key", "foo"],
+	["punctuation", "="],
+	["value", [
+		["boolean", "false"]
+	]],
+
+	["key", "foo"],
+	["punctuation", "="],
+	["value", [
+		["boolean", "no"]
+	]]
+]

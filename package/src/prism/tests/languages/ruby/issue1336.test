@@ -1,0 +1,13 @@
+:Foo
+Foo::Bar
+
+----------------------------------------------------
+
+[
+	["symbol", ":Foo"],
+	"\nFoo", ["double-colon", "::"], "Bar"
+]
+
+----------------------------------------------------
+
+Ensures module syntax is not confused with symbols. See #1336

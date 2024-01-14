@@ -1,0 +1,23 @@
+//
+// foobar
+/*
+/* foo
+	bar
+
+	/* foo
+	 bar
+	 baz
+
+----------------------------------------------------
+
+[
+	["comment", "//"],
+	["comment", "// foobar"],
+	["comment", "/*"],
+	["comment", "/* foo\n\tbar"],
+	["comment", "/* foo\n\t bar\n\t baz"]
+]
+
+----------------------------------------------------
+
+Checks for comments.

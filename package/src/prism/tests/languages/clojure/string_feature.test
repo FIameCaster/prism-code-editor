@@ -1,0 +1,18 @@
+""
+"Fo\"obar"
+"multi-line
+string"
+\NewLine
+
+----------------------------------------------------
+
+[
+	["string", "\"\""],
+	["string", "\"Fo\\\"obar\""],
+	["string", "\"multi-line\nstring\""],
+	["char", "\\NewLine"]
+]
+
+----------------------------------------------------
+
+Checks for strings.

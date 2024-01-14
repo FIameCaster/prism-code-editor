@@ -1,0 +1,15 @@
+String.foo
+Foo_bar.baz
+A.bar
+
+----------------------------------------------------
+
+[
+	["class-name", "String"], ["punctuation", "."], "foo\n",
+	["class-name", "Foo_bar"], ["punctuation", "."], "baz\n",
+	["class-name", "A"], ["punctuation", "."], "bar"
+]
+
+----------------------------------------------------
+
+Checks for class names.

@@ -1,0 +1,22 @@
+#
+# foobar
+#=#
+#=
+ multi line
+  =#
+
+#= #= nested =# =#
+
+----------------------------------------------------
+
+[
+	["comment", "#"],
+	["comment", "# foobar"],
+	["comment", "#=#"],
+	["comment", "#=\n multi line\n  =#"],
+	["comment", "#= #= nested =# =#"]
+]
+
+----------------------------------------------------
+
+Checks for comments.

@@ -1,0 +1,49 @@
+enum
+extend
+extensions
+import
+message
+oneof
+option
+optional
+package
+public
+repeated
+required
+reserved
+returns
+rpc LotsOfReplies(
+service
+stream
+syntax
+to
+
+----------------------------------------------------
+
+[
+	["keyword", "enum"],
+	["keyword", "extend"],
+	["keyword", "extensions"],
+	["keyword", "import"],
+	["keyword", "message"],
+	["keyword", "oneof"],
+	["keyword", "option"],
+	["keyword", "optional"],
+	["keyword", "package"],
+	["keyword", "public"],
+	["keyword", "repeated"],
+	["keyword", "required"],
+	["keyword", "reserved"],
+	["keyword", "returns"],
+	["keyword", "rpc"],
+	["function", "LotsOfReplies"],
+	["punctuation", "("],
+	["keyword", "service"],
+	["keyword", "stream"],
+	["keyword", "syntax"],
+	["keyword", "to"]
+]
+
+----------------------------------------------------
+
+Check for keywords

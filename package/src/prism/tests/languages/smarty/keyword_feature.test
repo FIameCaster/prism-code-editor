@@ -1,0 +1,33 @@
+{if count($foo)}
+{/if}
+
+{* PHP function *}
+{time()}
+
+----------------------------------------------------
+
+[
+	["smarty", [
+		["delimiter", "{"],
+		["keyword", "if"],
+		["function", "count"],
+		["punctuation", "("],
+		["variable", "$foo"],
+		["punctuation", ")"],
+		["delimiter", "}"]
+	]],
+	["smarty", [
+		["delimiter", "{/"],
+		["keyword", "if"],
+		["delimiter", "}"]
+	]],
+
+	["smarty-comment", "{* PHP function *}"],
+	["smarty", [
+		["delimiter", "{"],
+		["function", "time"],
+		["punctuation", "("],
+		["punctuation", ")"],
+		["delimiter", "}"]
+	]]
+]

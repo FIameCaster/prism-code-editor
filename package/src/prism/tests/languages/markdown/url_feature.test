@@ -1,0 +1,187 @@
+[foo](http://prismjs.com)
+![foo](http://prismjs.com "Foo\"bar")
+[foo][bar]
+[foo] [bar]
+
+[foo
+bar](http://prismjs.com)
+
+[foo *bar* baz](http://prismjs.com)
+[foo _bar_ baz](http://prismjs.com)
+[foo **bar** baz](http://prismjs.com)
+[foo __bar__ baz](http://prismjs.com)
+[foo ~bar~ baz](http://prismjs.com)
+[foo ~~bar~~ baz](http://prismjs.com)
+[foo `bar` baz](http://prismjs.com)
+[`bar`](http://prismjs.com)
+
+----------------------------------------------------
+
+[
+	["url", [
+		["markup-bracket", "["],
+		["content", ["foo"]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["markup-bracket", ")"]
+	]],
+	["url", [
+		["operator", "!"],
+		["markup-bracket", "["],
+		["content", ["foo"]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["string", "\"Foo\\\"bar\""],
+		["markup-bracket", ")"]
+	]],
+	["url", [
+		["markup-bracket", "["],
+		["content", ["foo"]],
+		["markup-bracket", "]"],
+		["markup-bracket", "["],
+		["variable", "bar"],
+		["markup-bracket", "]"]
+	]],
+	["url", [
+		["markup-bracket", "["],
+		["content", ["foo"]],
+		["markup-bracket", "]"],
+		["markup-bracket", "["],
+		["variable", "bar"],
+		["markup-bracket", "]"]
+	]],
+
+	["url", [
+		["markup-bracket", "["],
+		["content", ["foo\nbar"]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["markup-bracket", ")"]
+	]],
+
+	["url", [
+		["markup-bracket", "["],
+		["content", [
+			"foo ",
+			["italic", [
+				["punctuation", "*"],
+				["content", ["bar"]],
+				["punctuation", "*"]
+			]],
+			" baz"
+		]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["markup-bracket", ")"]
+	]],
+	["url", [
+		["markup-bracket", "["],
+		["content", [
+			"foo ",
+			["italic", [
+				["punctuation", "_"],
+				["content", ["bar"]],
+				["punctuation", "_"]
+			]],
+			" baz"
+		]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["markup-bracket", ")"]
+	]],
+	["url", [
+		["markup-bracket", "["],
+		["content", [
+			"foo ",
+			["bold", [
+				["punctuation", "**"],
+				["content", ["bar"]],
+				["punctuation", "**"]
+			]],
+			" baz"
+		]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["markup-bracket", ")"]
+	]],
+	["url", [
+		["markup-bracket", "["],
+		["content", [
+			"foo ",
+			["bold", [
+				["punctuation", "__"],
+				["content", ["bar"]],
+				["punctuation", "__"]
+			]],
+			" baz"
+		]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["markup-bracket", ")"]
+	]],
+	["url", [
+		["markup-bracket", "["],
+		["content", [
+			"foo ",
+			["strike", [
+				["punctuation", "~"],
+				["content", ["bar"]],
+				["punctuation", "~"]
+			]],
+			" baz"
+		]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["markup-bracket", ")"]
+	]],
+	["url", [
+		["markup-bracket", "["],
+		["content", [
+			"foo ",
+			["strike", [
+				["punctuation", "~~"],
+				["content", ["bar"]],
+				["punctuation", "~~"]
+			]],
+			" baz"
+		]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["markup-bracket", ")"]
+	]],
+	["url", [
+		["markup-bracket", "["],
+		["content", [
+			"foo ",
+			["code-snippet", "`bar`"],
+			" baz"
+		]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["markup-bracket", ")"]
+	]],
+	["url", [
+		["markup-bracket", "["],
+		["content", [
+			["code-snippet", "`bar`"]
+		]],
+		["markup-bracket", "]"],
+		["markup-bracket", "("],
+		["url", "http://prismjs.com"],
+		["markup-bracket", ")"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for URLs.

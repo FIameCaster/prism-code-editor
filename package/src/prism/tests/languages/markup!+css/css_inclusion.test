@@ -1,0 +1,124 @@
+<style type="text/css">
+foo {
+	bar: baz;
+}
+</style>
+
+<style>
+.bar { }
+<![CDATA[
+foo {
+	bar: baz;
+}
+]]>
+#foo { }
+</style>
+
+<foo style="bar:baz;">
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"style"
+		]],
+		["attr-name", ["type"]],
+		["attr-value", [
+			["punctuation", "="],
+			["punctuation", "\""],
+			"text/css",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["style", [
+		["language-css", [
+			["selector", "foo"],
+			["punctuation", "{"],
+
+			["property", "bar"],
+			["punctuation", ":"],
+			" baz",
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]]
+	]],
+	["tag", [
+		["tag", [
+			["punctuation", "</"],
+			"style"
+		]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"style"
+		]],
+		["punctuation", ">"]
+	]],
+	["style", [
+		["language-css", [
+			["selector", ".bar"],
+			["punctuation", "{"],
+			["punctuation", "}"]
+		]],
+		["included-cdata", [
+			["cdata", "<![CDATA["],
+			["language-css", [
+				["selector", "foo"],
+				["punctuation", "{"],
+
+				["property", "bar"],
+				["punctuation", ":"],
+				" baz",
+				["punctuation", ";"],
+
+				["punctuation", "}"]
+			]],
+			["cdata", "]]>"]
+		]],
+		["language-css", [
+			["selector", "#foo"],
+			["punctuation", "{"],
+			["punctuation", "}"]
+		]]
+	]],
+	["tag", [
+		["tag", [
+			["punctuation", "</"],
+			"style"
+		]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"foo"
+		]],
+		["special-attr", [
+			["attr-name", "style"],
+			["attr-value", [
+				["punctuation", "="],
+				["punctuation", "\""],
+				["value", [
+					["property", "bar"],
+					["punctuation", ":"],
+					"baz",
+					["punctuation", ";"]
+				]],
+				["punctuation", "\""]
+			]]
+		]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for CSS usage inside Markup, using <style> tag and style attribute.

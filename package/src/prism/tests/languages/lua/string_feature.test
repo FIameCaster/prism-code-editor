@@ -1,0 +1,36 @@
+""
+"Fo\"obar"
+"Foo\
+bar\z
+baz"
+''
+'Fo\'obar'
+'Foo\
+bar\z
+baz'
+[[Foo
+bar]]
+[====[Foo
+bar]=====] ]===]
+baz]====]
+[====[Foo
+-- comment
+baz]====]
+
+----------------------------------------------------
+
+[
+	["string", "\"\""],
+	["string", "\"Fo\\\"obar\""],
+	["string", "\"Foo\\\nbar\\z\nbaz\""],
+	["string", "''"],
+	["string", "'Fo\\'obar'"],
+	["string", "'Foo\\\nbar\\z\nbaz'"],
+	["string", "[[Foo\nbar]]"],
+	["string", "[====[Foo\nbar]=====] ]===]\nbaz]====]"],
+	["string", "[====[Foo\n-- comment\nbaz]====]"]
+]
+
+----------------------------------------------------
+
+Checks for strings.

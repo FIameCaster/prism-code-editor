@@ -1,0 +1,20 @@
+{**}
+{* foo
+bar *}
+
+{* you cannot nest comments *}
+{* {* foo *} *}
+
+----------------------------------------------------
+
+[
+	["smarty-comment", "{**}"],
+	["smarty-comment", "{* foo\nbar *}"],
+
+	["smarty-comment", "{* you cannot nest comments *}"],
+	["smarty-comment", "{* {* foo *}"], " *", ["markup-bracket", "}"]
+]
+
+----------------------------------------------------
+
+Checks for comments.

@@ -1,0 +1,132 @@
+div
+	span&attributes({'data-foo': 'bar'})
+
+input(data-bar="foo", type='checkbox', checked)
+
+a(style={color: 'red', background: 'green'})
+
+div(unescaped!="<code>")
+
+a.button
+.content
+
+a#main-link
+#content
+
+div#test-id.test-class1.test-class2
+.test-class1#test-id.test-class2
+
+a: span
+
+----------------------------------------------------
+
+[
+	["tag", ["div"]],
+	["tag", [
+		"span",
+		["attributes", [
+			["operator", "&"],
+			["function", ["attributes"]],
+			["punctuation", "("],
+			["punctuation", "{"],
+			["string-property", "'data-foo'"],
+			["operator", ":"],
+			["string", "'bar'"],
+			["punctuation", "}"],
+			["punctuation", ")"]
+		]]
+	]],
+
+	["tag", [
+		"input",
+		["attributes", [
+			["punctuation", "("],
+			["attr-name", "data-bar"],
+			["punctuation", "="],
+			["attr-value", [
+				["string", "\"foo\""]
+			]],
+			["punctuation", ","],
+			["attr-name", "type"],
+			["punctuation", "="],
+			["attr-value", [
+				["string", "'checkbox'"]
+			]],
+			["punctuation", ","],
+			["attr-name", "checked"],
+			["punctuation", ")"]
+		]]
+	]],
+
+	["tag", [
+		"a",
+		["attributes", [
+			["punctuation", "("],
+			["attr-name", "style"],
+			["punctuation", "="],
+			["attr-value", [
+				["punctuation", "{"],
+				["literal-property", "color"],
+				["operator", ":"],
+				["string", "'red'"],
+				["punctuation", ","],
+				["literal-property", "background"],
+				["operator", ":"],
+				["string", "'green'"],
+				["punctuation", "}"]
+			]],
+			["punctuation", ")"]
+		]]
+	]],
+
+	["tag", [
+		"div",
+		["attributes", [
+			["punctuation", "("],
+			["attr-name", "unescaped"],
+			["punctuation", "!="],
+			["attr-value", [
+				["string", "\"<code>\""]
+			]],
+			["punctuation", ")"]
+		]]
+	]],
+
+	["tag", [
+		"a",
+		["attr-class", ".button"]
+	]],
+	["tag", [
+		["attr-class", ".content"]
+	]],
+
+	["tag", [
+		"a",
+		["attr-id", "#main-link"]
+	]],
+	["tag", [
+		["attr-id", "#content"]
+	]],
+
+	["tag", [
+		"div",
+		["attr-id", "#test-id"],
+		["attr-class", ".test-class1"],
+		["attr-class", ".test-class2"]
+	]],
+	["tag", [
+		["attr-class", ".test-class1"],
+		["attr-id", "#test-id"],
+		["attr-class", ".test-class2"]
+	]],
+
+	["tag", [
+		"a",
+		["punctuation", ":"]
+	]],
+	["tag", ["span"]]
+]
+
+----------------------------------------------------
+
+Checks for tags and attributes.

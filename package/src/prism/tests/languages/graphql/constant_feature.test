@@ -1,0 +1,41 @@
+enum Color {
+	RED
+	GREEN
+	BLUE
+}
+
+{
+	foo(bar: RED) {
+		baz
+	}
+}
+
+----------------------------------------------------
+
+[
+	["keyword", "enum"], ["class-name", "Color"], ["punctuation", "{"],
+	["constant", "RED"],
+	["constant", "GREEN"],
+	["constant", "BLUE"],
+	["punctuation", "}"],
+
+	["punctuation", "{"],
+
+	["property-query", "foo"],
+	["punctuation", "("],
+	["attr-name", "bar"],
+	["punctuation", ":"],
+	["constant", "RED"],
+	["punctuation", ")"],
+	["punctuation", "{"],
+
+	["property", "baz"],
+
+	["punctuation", "}"],
+
+	["punctuation", "}"]
+]
+
+----------------------------------------------------
+
+Checks for constants.

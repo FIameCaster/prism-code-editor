@@ -1,0 +1,22 @@
+// foo
+ bar
+
+	// foo
+		bar baz
+
+// foo
+
+	// bar
+
+----------------------------------------------------
+
+[
+	["comment", "// foo\n bar"],
+	["comment", "// foo\n\t\tbar baz"],
+	["comment", "// foo"],
+	["comment", "// bar"]
+]
+
+----------------------------------------------------
+
+Checks for single-line comments.

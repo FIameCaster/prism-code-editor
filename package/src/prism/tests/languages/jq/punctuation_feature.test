@@ -1,0 +1,33 @@
+() [] {}
+, : ;
+::
+.foo
+.[]
+
+----------------------------------------------------
+
+[
+	["punctuation", "("],
+	["punctuation", ")"],
+	["punctuation", "["],
+	["punctuation", "]"],
+	["punctuation", "{"],
+	["punctuation", "}"],
+
+	["punctuation", ","],
+	["punctuation", ":"],
+	["punctuation", ";"],
+
+	["punctuation", "::"],
+
+	["punctuation", "."],
+	"foo\n",
+
+	["punctuation", "."],
+	["punctuation", "["],
+	["punctuation", "]"]
+]
+
+----------------------------------------------------
+
+Checks for punctuation.

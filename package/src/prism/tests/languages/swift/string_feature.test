@@ -1,0 +1,134 @@
+""
+"fo\"o"
+"foo\
+bar"
+
+"foo /* not a comment */ bar"
+"foo\
+/* not a comment */\
+bar"
+
+let softWrappedQuotation = """
+The White Rabbit put on his spectacles.  "Where shall I begin, \
+please your Majesty?" he asked.
+
+"Begin at the beginning," the King said gravely, "and go on \
+till you come to the end; then stop."
+"""
+
+let threeMoreDoubleQuotationMarks = #"""
+Here are three more double quotes: """
+"""#
+#"Write an interpolated string in Swift using \(multiplier)."#
+
+
+"foo \(42)"
+"foo \(f("bar"))"
+"\(multiplier) times 2.5 is \(Double(multiplier) * 2.5)"
+#"6 times 7 is \#(6 * 7)."#
+
+----------------------------------------------------
+
+[
+	["string-literal", [
+		["string", "\"\""]
+	]],
+	["string-literal", [
+		["string", "\"fo\\\"o\""]
+	]],
+	["string-literal", [
+		["string", "\"foo"],
+		["punctuation", "\\"],
+		["string", "\nbar\""]
+	]],
+
+	["string-literal", [
+		["string", "\"foo /* not a comment */ bar\""]
+	]],
+	["string-literal", [
+		["string", "\"foo"],
+		["punctuation", "\\"],
+		["string", "\n/* not a comment */"],
+		["punctuation", "\\"],
+		["string", "\nbar\""]
+	]],
+
+	["keyword", "let"],
+	" softWrappedQuotation ",
+	["operator", "="],
+	["string-literal", [
+		["string", "\"\"\"\nThe White Rabbit put on his spectacles.  \"Where shall I begin, "],
+		["punctuation", "\\"],
+		["string", "\nplease your Majesty?\" he asked.\n\n\"Begin at the beginning,\" the King said gravely, \"and go on "],
+		["punctuation", "\\"],
+		["string", "\ntill you come to the end; then stop.\"\n\"\"\""]
+	]],
+
+	["keyword", "let"],
+	" threeMoreDoubleQuotationMarks ",
+	["operator", "="],
+	["string-literal", [
+		["string", "#\"\"\"\nHere are three more double quotes: \"\"\"\n\"\"\"#"]
+	]],
+
+	["string-literal", [
+		["string", "#\"Write an interpolated string in Swift using \\(multiplier).\"#"]
+	]],
+
+	["string-literal", [
+		["string", "\"foo "],
+		["interpolation-punctuation", "\\("],
+		["interpolation", [
+			["number", "42"]
+		]],
+		["interpolation-punctuation", ")"],
+		["string", "\""]
+	]],
+	["string-literal", [
+		["string", "\"foo "],
+		["interpolation-punctuation", "\\("],
+		["interpolation", [
+			["function", "f"],
+			["punctuation", "("],
+			["string-literal", [
+				["string", "\"bar\""]
+			]],
+			["punctuation", ")"]
+		]],
+		["interpolation-punctuation", ")"],
+		["string", "\""]
+	]],
+	["string-literal", [
+		["string", "\""],
+		["interpolation-punctuation", "\\("],
+		["interpolation", ["multiplier"]],
+		["interpolation-punctuation", ")"],
+		["string", " times 2.5 is "],
+		["interpolation-punctuation", "\\("],
+		["interpolation", [
+			["class-name", "Double"],
+			["punctuation", "("],
+			"multiplier",
+			["punctuation", ")"],
+			["operator", "*"],
+			["number", "2.5"]
+		]],
+		["interpolation-punctuation", ")"],
+		["string", "\""]
+	]],
+	["string-literal", [
+		["string", "#\"6 times 7 is "],
+		["interpolation-punctuation", "\\#("],
+		["interpolation", [
+			["number", "6"],
+			["operator", "*"],
+			["number", "7"]
+		]],
+		["interpolation-punctuation", ")"],
+		["string", ".\"#"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for strings and string interpolation.

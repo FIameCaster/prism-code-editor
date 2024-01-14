@@ -1,0 +1,43 @@
+{%
+
+== != <> < <= > >=
+| : ? - =
+..
+
+and or
+contains foo
+
+%}
+
+----------------------------------------------------
+
+[
+	["liquid", [
+		["delimiter", "{%"],
+
+		["operator", "=="],
+		["operator", "!="],
+		["operator", "<>"],
+		["operator", "<"],
+		["operator", "<="],
+		["operator", ">"],
+		["operator", ">="],
+
+		["operator", "|"],
+		["operator", ":"],
+		["operator", "?"],
+		["operator", "-"],
+		["operator", "="],
+
+		["range", ".."],
+
+		["operator", "and"], ["operator", "or"],
+		["operator", "contains"], " foo\n\n",
+
+		["delimiter", "%}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for all operators.

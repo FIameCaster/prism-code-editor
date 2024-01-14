@@ -1,0 +1,12 @@
+upgrade-insecure-requests;
+
+----------------------------------------------------
+
+[
+	["directive", "upgrade-insecure-requests"],
+	["punctuation", ";"]
+]
+
+----------------------------------------------------
+
+Checks for a "void" CSP directive followed by semicolon.

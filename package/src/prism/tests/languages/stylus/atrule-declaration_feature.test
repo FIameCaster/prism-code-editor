@@ -1,0 +1,44 @@
+@media print
+@import "reset.css"
+@font-face {
+@keyframes {
+@media (max-{foo}: bar)
+@namespace url(http://www.w3.org/1999/xhtml)	// comment
+@namespace svg url(http://www.w3.org/2000/svg)	// comment
+
+----------------------------------------------------
+
+[
+	["atrule-declaration", [["atrule", "@media"], " print"]],
+	["atrule-declaration", [["atrule", "@import"], ["string", "\"reset.css\""]]],
+	["atrule-declaration", [["atrule", "@font-face"], ["punctuation", "{"]]],
+	["atrule-declaration", [["atrule", "@keyframes"], ["punctuation", "{"]]],
+	["atrule-declaration", [
+		["atrule", "@media"],
+		["punctuation", "("],
+		"max-",
+		["interpolation", [
+			["delimiter", "{"],
+			"foo",
+			["delimiter", "}"]
+		]],
+		["punctuation", ":"],
+		" bar",
+		["punctuation", ")"]
+	]],
+	["atrule-declaration", [
+		["atrule", "@namespace"],
+		["url", "url(http://www.w3.org/1999/xhtml)"],
+		["comment", "// comment"]
+	]],
+	["atrule-declaration", [
+		["atrule", "@namespace"],
+		" svg ",
+		["url", "url(http://www.w3.org/2000/svg)"],
+		["comment", "// comment"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for at-rules.

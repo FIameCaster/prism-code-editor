@@ -1,0 +1,23 @@
+`${`a string`}`
+
+----------------------------------------------------
+
+[
+	["template-string", [
+		["template-punctuation", "`"],
+		["interpolation", [
+			["interpolation-punctuation", "${"],
+			["template-string", [
+				["template-punctuation", "`"],
+				["string", "a string"],
+				["template-punctuation", "`"]
+			]],
+			["interpolation-punctuation", "}"]
+		]],
+		["template-punctuation", "`"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for nested template strings. See #1397

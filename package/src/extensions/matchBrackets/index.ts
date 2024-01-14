@@ -1,6 +1,7 @@
 /** @module match-brackets */
 
 import { Extension } from "../.."
+import { Token } from "../../prism/core"
 
 const openingCharCodes: boolean[] = []
 const closingCharCodes: boolean[] = []
@@ -19,7 +20,7 @@ export interface BracketMatcher extends Extension {
 	readonly pairs: (number | undefined)[]
 }
 
-export type Bracket = [Prism.Token, number, number, string, boolean]
+export type Bracket = [Token, number, number, string, boolean]
 
 /**
  * Extension that matches brackets together.
@@ -33,7 +34,7 @@ export const matchBrackets = (rainbowBrackets = true): BracketMatcher => {
 	let bracketIndex: number
 	const brackets: Bracket[] = []
 	const pairMap: number[] = []
-	const matchBrackets = (obj: { tokens: (Prism.Token | string)[] }) => {
+	const matchBrackets = (obj: { tokens: (Token | string)[] }) => {
 		stack = []
 		pairMap.length = brackets.length = bracketIndex = 0
 		matchRecursive(obj.tokens, 0)
@@ -42,16 +43,16 @@ export const matchBrackets = (rainbowBrackets = true): BracketMatcher => {
 				let alias = bracket[0].alias
 
 				bracket[0].alias =
-					(alias ? ((<[]>alias).join?.(" ") || alias) + " " : "") +
+					(alias ? alias + " " : "") +
 					`bracket-${pairMap[i++] == null ? "error" : "level-" + (bracket[2] % 12)}`
 			}
 		}
 	}
-	const matchRecursive = (tokens: (Prism.Token | string)[], position: number) => {
-		for (let i = 0, token: string | Prism.Token; (token = tokens[i++]); ) {
+	const matchRecursive = (tokens: (Token | string)[], position: number) => {
+		for (let i = 0, token: string | Token; (token = tokens[i++]); ) {
 			if (typeof token != "string") {
 				const type = token.type,
-					content = <string | (string | Prism.Token)[]>token.content
+					content = <string | (string | Token)[]>token.content
 
 				if (type != "regex") {
 					if (Array.isArray(content)) {

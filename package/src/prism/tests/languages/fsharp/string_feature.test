@@ -1,0 +1,37 @@
+""
+"fo\"o"
+"foo\
+bar"
+"foo"B
+
+@""
+@"foo"
+@"fo""o"
+@"foo"B
+
+""""""
+"""fo""o"
+bar"""
+"""foo"""B
+
+----------------------------------------------------
+
+[
+	["string", "\"\""],
+	["string", "\"fo\\\"o\""],
+	["string", "\"foo\\\nbar\""],
+	["string", "\"foo\"B"],
+
+	["string", "@\"\""],
+	["string", "@\"foo\""],
+	["string", "@\"fo\"\"o\""],
+	["string", "@\"foo\"B"],
+
+	["string", "\"\"\"\"\"\""],
+	["string", "\"\"\"fo\"\"o\"\nbar\"\"\""],
+	["string", "\"\"\"foo\"\"\"B"]
+]
+
+----------------------------------------------------
+
+Checks for normal strings, verbatim strings, and triple-quoted strings.

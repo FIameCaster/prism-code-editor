@@ -1,0 +1,89 @@
+{aa}
+{/aa}
+{/}
+{{aa}}
+{10}
+{=10}
+{test()}
+{'no'}
+{"no"}
+{ no }
+{multi
+line}
+
+----------------------------------------------------
+
+[
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "aa"],
+		["delimiter", "}"]
+	]],
+
+	["latte", [
+		["delimiter", "{/"],
+		["latte-tag", "aa"],
+		["delimiter", "}"]
+	]],
+
+	["latte", [
+		["delimiter", "{/"],
+		["delimiter", "}"]
+	]],
+
+	["markup-bracket", "{"],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "aa"],
+		["delimiter", "}"]
+	]],
+	["markup-bracket", "}"],
+
+	["latte", [
+		["delimiter", "{"],
+		["php", [
+			["number", "10"]
+		]],
+		["delimiter", "}"]
+	]],
+
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "="],
+		["php", [
+			["number", "10"]
+		]],
+		["delimiter", "}"]
+	]],
+
+	["latte", [
+		["delimiter", "{"],
+		["php", [
+			["function", ["test"]],
+			["punctuation", "("],
+			["punctuation", ")"]
+		]],
+		["delimiter", "}"]
+	]],
+
+	["markup-bracket", "{"],
+	"'no'",
+	["markup-bracket", "}"],
+
+	["markup-bracket", "{"],
+	"\"no\"",
+	["markup-bracket", "}"],
+
+	["markup-bracket", "{"],
+	" no ",
+	["markup-bracket", "}"],
+
+	["latte", [
+		["delimiter", "{"], ["latte-tag", "multi"],
+		["php", ["line"]], ["delimiter", "}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for delimiters.

@@ -1,0 +1,24 @@
+#
+# Section1
+#Section2
+# Section4
+#			SectionWithMultipleTabsBefore
+## Section3
+# Section with multiple words
+	# Section with
+	# Section with tab
+
+----------------------------------------------------
+
+[
+	"#\n",
+	["label", "# Section1"],
+	["label", "#Section2"],
+	["label", "# Section4"],
+	["label", "#\t\t\tSectionWithMultipleTabsBefore"],
+	"\n## Section3\n# Section with multiple words\n\t# Section with\n\t# Section with tab"
+]
+
+----------------------------------------------------
+
+Label tests.

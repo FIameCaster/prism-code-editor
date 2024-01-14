@@ -1,0 +1,13 @@
+sub foo
+sub Foo_Bar42
+
+----------------------------------------------------
+
+[
+	["keyword", "sub"], ["function", "foo"],
+	["keyword", "sub"], ["function", "Foo_Bar42"]
+]
+
+----------------------------------------------------
+
+Checks for functions.

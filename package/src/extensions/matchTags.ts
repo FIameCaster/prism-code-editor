@@ -1,6 +1,7 @@
 /** @module match-tags */
 
 import { Extension, PrismEditor } from ".."
+import { Token } from "../prism/core"
 import { getClosestToken } from "../utils"
 
 const voidlessLangs = "xml,rss,atom,jsx,tsx".split(",")
@@ -16,7 +17,7 @@ export interface TagMatcher {
 	 * - Its tag name
 	 * - Whether it's self-closing
 	 */
-	readonly tags: [Prism.Token, number, number, number, string, boolean][]
+	readonly tags: [Token, number, number, number, string, boolean][]
 	/** Array mapping the index of a tag to the index of its matching tag. */
 	readonly pairs: (number | undefined)[]
 }
@@ -35,23 +36,23 @@ export interface TagHighlighter extends Extension {
  */
 export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 	let pairMap: number[] = [],
-		tags: [Prism.Token, number, number, number, string, boolean][] = [],
+		tags: [Token, number, number, number, string, boolean][] = [],
 		stack: [number, string][],
 		tagIndex: number,
-		matchTags = (tokens: (Prism.Token | string)[], language: string) => {
+		matchTags = (tokens: (Token | string)[], language: string) => {
 			stack = []
 			tags.length = pairMap.length = tagIndex = 0
 			matchTagsRecursive(tokens, language, 0)
 		},
-		matchTagsRecursive = (tokens: (Prism.Token | string)[], language: string, position: number) => {
+		matchTagsRecursive = (tokens: (Token | string)[], language: string, position: number) => {
 			for (let i = 0, noVoidTags = voidlessLangs.includes(language), l = tokens.length; i < l; ) {
-				const token = <Prism.Token>tokens[i++],
+				const token = <Token>tokens[i++],
 					content = token.content,
 					type = token.type,
 					length = token.length
 				if (Array.isArray(content)) {
 					if (type == "tag") {
-						if ((<Prism.Token>content[0]).content) {
+						if ((<Token>content[0]).content) {
 							const value = editor.value
 							const offset = content[0].length
 							const isClosing = value[position + 1] == "/"

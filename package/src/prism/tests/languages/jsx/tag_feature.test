@@ -1,0 +1,108 @@
+var myDivElement = <div className="foo" />;
+var myElement = <MyComponent someProperty={true} />;
+<div {...foo}></div>
+<> </>
+<Tree.TreeNode.Item leaf={true}></Tree.TreeNode.Item>
+
+----------------------------------------------------
+
+[
+	["keyword", "var"],
+	" myDivElement ",
+	["operator", "="],
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"div"
+		]],
+		["attr-name", ["className"]],
+		["attr-value", [
+			["punctuation", "="],
+			["punctuation", "\""],
+			"foo",
+			["punctuation", "\""]
+		]],
+		["punctuation", "/>"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "var"],
+	" myElement ",
+	["operator", "="],
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			["class-name", "MyComponent"]
+		]],
+		["attr-name", ["someProperty"]],
+		["script", [
+			["script-punctuation", "="],
+			["punctuation", "{"],
+			["boolean", "true"],
+			["punctuation", "}"]
+		]],
+		["punctuation", "/>"]
+	]],
+	["punctuation", ";"],
+
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"div"
+		]],
+		["spread", [
+			["punctuation", "{"],
+			["operator", "..."],
+			"foo",
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["tag", [
+			["punctuation", "</"],
+			"div"
+		]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["tag", [
+			["punctuation", "<"]
+		]],
+		["punctuation", ">"]
+	]],
+	["plain-text", " "],
+	["tag", [
+		["tag", [
+			["punctuation", "</"]
+		]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			["class-name", "Tree.TreeNode.Item"]
+		]],
+		["attr-name", ["leaf"]],
+		["script", [
+			["script-punctuation", "="],
+			["punctuation", "{"],
+			["boolean", "true"],
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["tag", [
+			["punctuation", "</"],
+			["class-name", "Tree.TreeNode.Item"]
+		]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for JSX tags.

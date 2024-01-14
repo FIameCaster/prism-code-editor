@@ -1,0 +1,28 @@
+:coffee
+	'This is coffee script'
+
+~
+	:coffee
+	  'This is coffee script'
+
+----------------------------------------------------
+
+[
+	["filter-coffee", [
+		["filter-name", ":coffee"],
+		["text", [
+			["string", "'This is coffee script'"]
+		]]
+	]],
+	["punctuation", "~"],
+	["filter-coffee", [
+		["filter-name", ":coffee"],
+		["text", [
+			["string", "'This is coffee script'"]
+		]]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for CoffeeScript filter in Haml. The tilde serves only as a separator.

@@ -1,0 +1,29 @@
+1 CHIL @CHILD1@
+2 PLAC ÁĆÉǴÍ,ḰĹḾŃÓ,ṔŔŚÚẂ,ÝŹáćé,ǵíḱĺḿ,ńóṕŕś,úẃýź
+1 NAME code: 0313/COMMA ABOVE/
+2 DATE @#DGREGORIAN@ 31 DEC 1997
+2 CONT Copyright gedcom@@gedcom.org
+
+----------------------------------------------------
+
+[
+	["level", "1"],
+	["record", "CHIL"],
+	["line-value", [["pointer", "@CHILD1@"]]],
+	["level", "2"],
+	["record", "PLAC"],
+	["line-value", ["ÁĆÉǴÍ,ḰĹḾŃÓ,ṔŔŚÚẂ,ÝŹáćé,ǵíḱĺḿ,ńóṕŕś,úẃýź"]],
+	["level", "1"],
+	["record", "NAME"],
+	["line-value", ["code: 0313/COMMA ABOVE/"]],
+	["level", "2"],
+	["record", "DATE"],
+	["line-value", ["@#DGREGORIAN@ 31 DEC 1997"]],
+	["level", "2"],
+	["record", "CONT"],
+	["line-value", ["Copyright gedcom@@gedcom.org"]]
+]
+
+----------------------------------------------------
+
+Checks for line values.

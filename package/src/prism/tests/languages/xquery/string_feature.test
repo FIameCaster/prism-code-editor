@@ -1,0 +1,25 @@
+""
+"Foo""bar"
+"Foo'
+bar""
+baz"
+''
+'Foo''bar'
+'Foo"
+bar''
+baz'
+
+----------------------------------------------------
+
+[
+	["string", "\"\""],
+	["string", "\"Foo\"\"bar\""],
+	["string", "\"Foo'\nbar\"\"\nbaz\""],
+	["string", "''"],
+	["string", "'Foo''bar'"],
+	["string", "'Foo\"\nbar''\nbaz'"]
+]
+
+----------------------------------------------------
+
+Checks for strings.

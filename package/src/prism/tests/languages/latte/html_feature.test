@@ -1,0 +1,190 @@
+<a href="{link Post:show $post->id}">{$post->title}</a>
+<a {if $post->id}title="ahoj"{/if}>{$post->title}</a>
+
+{tag $a = true ? 10 * 5}
+<div n:attr="$a = true ? 10 * 5">
+{php '' }
+{php "" }
+{php "ba\"r" }
+{php 'ba\'z' }
+{php /* " */ }
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"a"
+		]],
+		["attr-name", ["href"]],
+		["attr-value", [
+			["punctuation", "="],
+			["punctuation", "\""],
+			["latte", [
+				["delimiter", "{"],
+				["latte-tag", "link"],
+				["php", [
+					"Post",
+					["punctuation", ":"],
+					["class-name", "show"],
+					["variable", "$post"],
+					["operator", "->"],
+					["property", "id"]
+				]],
+				["delimiter", "}"]
+			]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["php", [
+			["variable", "$post"],
+			["operator", "->"],
+			["property", "title"]
+		]],
+		["delimiter", "}"]
+	]],
+	["tag", [
+		["tag", [
+			["punctuation", "</"],
+			"a"
+		]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"a"
+		]],
+		["attr-name", [
+			["latte", [
+				["delimiter", "{"],
+				["latte-tag", "if"],
+				["php", [
+					["variable", "$post"],
+					["operator", "->"],
+					["property", "id"]
+				]],
+				["delimiter", "}"]
+			]],
+			"title"
+		]],
+		["attr-value", [
+			["punctuation", "="],
+			["punctuation", "\""],
+			"ahoj",
+			["punctuation", "\""]
+		]],
+		["attr-name", [
+			["latte", [
+				["delimiter", "{/"],
+				["latte-tag", "if"],
+				["delimiter", "}"]
+			]]
+		]],
+		["punctuation", ">"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["php", [
+			["variable", "$post"],
+			["operator", "->"],
+			["property", "title"]
+		]],
+		["delimiter", "}"]
+	]],
+	["tag", [
+		["tag", [
+			["punctuation", "</"],
+			"a"
+		]],
+		["punctuation", ">"]
+	]],
+
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "tag"],
+		["php", [
+			["variable", "$a"],
+			["operator", "="],
+			["constant", "true"],
+			["operator", "?"],
+			["number", "10"],
+			["operator", "*"],
+			["number", "5"]
+		]],
+		["delimiter", "}"]
+	]],
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"div"
+		]],
+		["n-attr", [
+			["attr-name", "n:attr"],
+			["attr-value", [
+				["punctuation", "="],
+				["punctuation", "\""],
+				["php", [
+					["variable", "$a"],
+					["operator", "="],
+					["constant", "true"],
+					["operator", "?"],
+					["number", "10"],
+					["operator", "*"],
+					["number", "5"]
+				]],
+				["punctuation", "\""]
+			]]
+		]],
+		["punctuation", ">"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["string", "''"]
+		]],
+		["delimiter", "}"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["string", ["\"\""]]
+		]],
+		["delimiter", "}"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["string", ["\"ba\\\"r\""]]
+		]],
+		["delimiter", "}"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["string", "'ba\\'z'"]
+		]],
+		["delimiter", "}"]
+	]],
+	["latte", [
+		["delimiter", "{"],
+		["latte-tag", "php"],
+		["php", [
+			["comment", "/* \" */"]
+		]],
+		["delimiter", "}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for operators.

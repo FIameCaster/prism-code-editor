@@ -1,0 +1,27 @@
+{{ null }}
+{{- true -}}
+{{ false }}
+
+----------------------------------------------------
+
+[
+	["twig", [
+		["delimiter", "{{"],
+		["boolean", "null"],
+		["delimiter", "}}"]
+	]],
+	["twig", [
+		["delimiter", "{{-"],
+		["boolean", "true"],
+		["delimiter", "-}}"]
+	]],
+	["twig", [
+		["delimiter", "{{"],
+		["boolean", "false"],
+		["delimiter", "}}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for booleans and null.

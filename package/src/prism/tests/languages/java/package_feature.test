@@ -1,0 +1,148 @@
+package java;
+package java.lang;
+
+import foo.Bar;
+import foo.ID;
+import java.lang.Math;
+import java.lang.*;
+
+import static foo.Bar.BAZ;
+import static foo.ID.DEFAULT;
+import static java.lang.Math.PI;
+import static java.lang.Math.sin;
+import static java.lang.Math.*;
+
+----------------------------------------------------
+
+[
+	["keyword", "package"],
+	["namespace", ["java"]],
+	["punctuation", ";"],
+
+	["keyword", "package"],
+	["namespace", [
+		"java",
+		["punctuation", "."],
+		"lang"
+	]],
+	["punctuation", ";"],
+
+	["keyword", "import"],
+	["import", [
+		["namespace", [
+			"foo",
+			["punctuation", "."]
+		]],
+		["class-name", "Bar"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "import"],
+	["import", [
+		["namespace", [
+			"foo",
+			["punctuation", "."]
+		]],
+		["class-name", "ID"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "import"],
+	["import", [
+		["namespace", [
+			"java",
+			["punctuation", "."],
+			"lang",
+			["punctuation", "."]
+		]],
+		["class-name", "Math"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "import"],
+	["import", [
+		["namespace", [
+			"java",
+			["punctuation", "."],
+			"lang",
+			["punctuation", "."]
+		]],
+		["operator", "*"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "import"],
+	["keyword", "static"],
+	["import", [
+		["namespace", [
+			"foo",
+			["punctuation", "."]
+		]],
+		["class-name", "Bar"],
+		["punctuation", "."],
+		["static", "BAZ"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "import"],
+	["keyword", "static"],
+	["import", [
+		["namespace", [
+			"foo",
+			["punctuation", "."]
+		]],
+		["class-name", "ID"],
+		["punctuation", "."],
+		["static", "DEFAULT"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "import"],
+	["keyword", "static"],
+	["import", [
+		["namespace", [
+			"java",
+			["punctuation", "."],
+			"lang",
+			["punctuation", "."]
+		]],
+		["class-name", "Math"],
+		["punctuation", "."],
+		["static", "PI"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "import"],
+	["keyword", "static"],
+	["import", [
+		["namespace", [
+			"java",
+			["punctuation", "."],
+			"lang",
+			["punctuation", "."]
+		]],
+		["class-name", "Math"],
+		["punctuation", "."],
+		["static", "sin"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "import"],
+	["keyword", "static"],
+	["import", [
+		["namespace", [
+			"java",
+			["punctuation", "."],
+			"lang",
+			["punctuation", "."]
+		]],
+		["class-name", "Math"],
+		["punctuation", "."],
+		["operator", "*"]
+	]],
+	["punctuation", ";"]
+]
+
+----------------------------------------------------
+
+Checks for packages.

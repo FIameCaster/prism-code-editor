@@ -1,0 +1,21 @@
+function foo
+hook foo
+event foo
+function foo::bar
+hook foo::bar
+event foo::bar
+
+----------------------------------------------------
+
+[
+	["keyword", "function"], ["function", "foo"],
+	["keyword", "hook"], ["function", "foo"],
+	["keyword", "event"], ["function", "foo"],
+	["keyword", "function"], ["function", "foo::bar"],
+	["keyword", "hook"], ["function", "foo::bar"],
+	["keyword", "event"], ["function", "foo::bar"]
+]
+
+----------------------------------------------------
+
+Checks for the function feature

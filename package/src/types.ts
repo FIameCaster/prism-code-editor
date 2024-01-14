@@ -1,10 +1,11 @@
-import * as Prism from "prismjs"
 import { BracketMatcher } from "./extensions/matchBrackets"
 import { TagMatcher } from "./extensions/matchTags"
 import { Cursor } from "./extensions/cursor"
 import { SearchWidget } from "./extensions/search"
 import { IndentGuides } from "./extensions/guides"
 import { ReadOnlyCodeFolding } from "./extensions/folding"
+import { Grammar } from "./prism/types"
+import { Token } from "./prism"
 
 export type EditorOptions = {
 	/** Language used for syntax highlighting. */
@@ -63,10 +64,6 @@ export type Language = {
 	autoCloseTags?(this: PrismEditor, selection: InputSelection, value: string): string | undefined
 }
 
-export type PrismType = Omit<
-	typeof Prism,
-	"highlight" | "highlightAll" | "highlightAllUnder" | "highlightElement"
->
 /**
  * Function called when a certain key is pressed.
  * If true is returned, `e.preventDefault()` and `e.stopImmediatePropagation()` is called automatically.
@@ -94,8 +91,8 @@ export interface Extension {
 export type TokenizeEnv = {
 	language: string
 	code: string
-	grammar: Prism.Grammar
-	tokens: (string | Prism.Token)[]
+	grammar: Grammar
+	tokens: (string | Token)[]
 }
 
 export type EditorEventMap = {
@@ -144,7 +141,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	/** True if the remove method has been called. */
 	readonly removed: boolean
 	/** Tokens currently displayed in the editor. */
-	readonly tokens: (Prism.Token | string)[]
+	readonly tokens: (Token | string)[]
 	/** Object storing some of the extensions added to the editor. */
 	readonly extensions: {
 		matchBrackets?: BracketMatcher

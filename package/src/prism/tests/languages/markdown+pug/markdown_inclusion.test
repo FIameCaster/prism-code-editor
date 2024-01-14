@@ -1,0 +1,20 @@
+:markdown
+  # title
+
+----------------------------------------------------
+
+[
+	["filter-markdown", [
+		["filter-name", ":markdown"],
+		["text", [
+			["title", [
+				["punctuation", "#"],
+				" title"
+			]]
+		]]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for markdown filter in pug.

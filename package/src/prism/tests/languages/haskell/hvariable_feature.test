@@ -1,0 +1,25 @@
+foo
+foo'
+Foo.bar
+Baz.foobar_42
+
+----------------------------------------------------
+
+[
+	["hvariable", ["foo"]],
+	["hvariable", ["foo'"]],
+	["hvariable", [
+		"Foo",
+		["punctuation", "."],
+		"bar"
+	]],
+	["hvariable", [
+		"Baz",
+		["punctuation", "."],
+		"foobar_42"
+	]]
+]
+
+----------------------------------------------------
+
+Checks for hvariables.

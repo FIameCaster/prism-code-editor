@@ -1,0 +1,40 @@
+""
+"fo\"o"
+"\xe2\x88"
+
+"""foo"""
+"""fo"o
+bar"""
+
+`echo hello`
+`echo "foo bar"`
+
+# non-standard string
+s"\g<0>1"
+b"DATA\xff\u2200"
+v"0.3-"
+raw"\\ \\\""
+
+----------------------------------------------------
+
+[
+	["string", "\"\""],
+	["string", "\"fo\\\"o\""],
+	["string", "\"\\xe2\\x88\""],
+
+	["string", "\"\"\"foo\"\"\""],
+	["string", "\"\"\"fo\"o\nbar\"\"\""],
+
+	["string", "`echo hello`"],
+	["string", "`echo \"foo bar\"`"],
+
+	["comment", "# non-standard string"],
+	["string", "s\"\\g<0>1\""],
+	["string", "b\"DATA\\xff\\u2200\""],
+	["string", "v\"0.3-\""],
+	["string", "raw\"\\\\ \\\\\\\"\""]
+]
+
+----------------------------------------------------
+
+Checks for strings and characters.

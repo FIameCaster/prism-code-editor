@@ -1,0 +1,28 @@
+.
+
+	(TM) __foobar__
+	:bar: baz
+
+ Foo *bar* baz
+ // Foobar
+ == Foobar ==
+
+    Title
+    ~~~~~
+    .....
+    .....
+
+----------------------------------------------------
+
+[
+	".\n\n",
+	["indented-block", "\t(TM) __foobar__\n\t:bar: baz"],
+	["indented-block", " Foo *bar* baz\n // Foobar\n == Foobar =="],
+	["indented-block", "    Title\n    ~~~~~\n    .....\n    ....."]
+]
+
+----------------------------------------------------
+
+Checks for indented blocks.
+Also checks that nothing gets highlighted inside.
+The initial dot is required because tests are trimmed.

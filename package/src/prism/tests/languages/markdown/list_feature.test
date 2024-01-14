@@ -1,0 +1,46 @@
+* foo
++ bar
+- baz
+
+1. foo
+  2. bar
+42. baz
+
+1. list
+	1. nested list
+		- a
+		- b
+	2. foo
+
+----------------------------------------------------
+
+[
+	["list", "*"],
+	" foo\n",
+	["list", "+"],
+	" bar\n",
+	["list", "-"],
+	" baz\n\n",
+
+	["list", "1."],
+	" foo\n  ",
+	["list", "2."],
+	" bar\n",
+	["list", "42."],
+	" baz\n\n",
+
+	["list", "1."],
+	" list\n\t",
+	["list", "1."],
+	" nested list\n\t\t",
+	["list", "-"],
+	" a\n\t\t",
+	["list", "-"],
+	" b\n\t",
+	["list", "2."],
+	" foo"
+]
+
+----------------------------------------------------
+
+Checks for list symbols.

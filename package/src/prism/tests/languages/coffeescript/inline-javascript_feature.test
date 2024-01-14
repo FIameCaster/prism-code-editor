@@ -1,0 +1,26 @@
+`/* JS here */`
+`/*
+JS here */`
+
+----------------------------------------------------
+
+[
+	["inline-javascript", [
+		["delimiter", "`"],
+		["script", [
+			["comment", "/* JS here */"]
+		]],
+		["delimiter", "`"]
+	]],
+	["inline-javascript", [
+		["delimiter", "`"],
+		["script", [
+			["comment", "/*\nJS here */"]
+		]],
+		["delimiter", "`"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for inline JavaScript.

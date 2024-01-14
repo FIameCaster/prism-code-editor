@@ -1,0 +1,53 @@
+""
+"fo\"obar"
+"foo\
+	bar"
+"foo
+bar"
+
+b""
+b"fo\"obar"
+
+r#""#
+r#"fo"obar"#
+r###"foo
+#
+bar"###
+
+br#""#
+br#"fo"obar"#
+br###"foo#bar"###
+
+r"(?x)
+(?P<year>\d{4})  # the year
+-
+(?P<month>\d{2}) # the month
+-
+(?P<day>\d{2})   # the day
+"
+
+----------------------------------------------------
+
+[
+	["string", "\"\""],
+	["string", "\"fo\\\"obar\""],
+	["string", "\"foo\\\n\tbar\""],
+	["string", "\"foo\nbar\""],
+
+	["string", "b\"\""],
+	["string", "b\"fo\\\"obar\""],
+
+	["string", "r#\"\"#"],
+	["string", "r#\"fo\"obar\"#"],
+	["string", "r###\"foo\n#\nbar\"###"],
+
+	["string", "br#\"\"#"],
+	["string", "br#\"fo\"obar\"#"],
+	["string", "br###\"foo#bar\"###"],
+
+	["string", "r\"(?x)\n(?P<year>\\d{4})  # the year\n-\n(?P<month>\\d{2}) # the month\n-\n(?P<day>\\d{2})   # the day\n\""]
+]
+
+----------------------------------------------------
+
+Checks for strings.

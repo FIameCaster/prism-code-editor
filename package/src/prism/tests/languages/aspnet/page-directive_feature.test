@@ -1,0 +1,92 @@
+<%@Assembly foo="bar"%>
+<% @Control foo="bar" %>
+<%@ Implements%>
+<%@Import%>
+<%@Master%>
+<%@MasterType%>
+<%@OutputCache%>
+<%@Page%>
+<%@PreviousPageType%>
+<%@Reference%>
+<%@Register%>
+
+----------------------------------------------------
+
+[
+	["page-directive", [
+		["page-directive", "<%@Assembly"],
+		["attr-name", [
+			"foo"
+		]],
+		["attr-value", [
+			["punctuation", "="],
+			["punctuation", "\""],
+			"bar",
+			["punctuation", "\""]
+		]],
+		["page-directive", "%>"]
+	]],
+
+	["page-directive", [
+		["page-directive", "<% @Control"],
+		["attr-name", [
+			"foo"
+		]],
+		["attr-value", [
+			["punctuation", "="],
+			["punctuation", "\""],
+			"bar",
+			["punctuation", "\""]
+		]],
+		["page-directive", "%>"]
+	]],
+
+	["page-directive", [
+		["page-directive", "<%@ Implements"],
+		["page-directive", "%>"]
+	]],
+
+	["page-directive", [
+		["page-directive", "<%@Import"],
+		["page-directive", "%>"]
+	]],
+
+	["page-directive", [
+		["page-directive", "<%@Master"],
+		["page-directive", "%>"]
+	]],
+
+	["page-directive", [
+		["page-directive", "<%@MasterType"],
+		["page-directive", "%>"]
+	]],
+
+	["page-directive", [
+		["page-directive", "<%@OutputCache"],
+		["page-directive", "%>"]
+	]],
+
+	["page-directive", [
+		["page-directive", "<%@Page"],
+		["page-directive", "%>"]
+	]],
+
+	["page-directive", [
+		["page-directive", "<%@PreviousPageType"],
+		["page-directive", "%>"]
+	]],
+
+	["page-directive", [
+		["page-directive", "<%@Reference"],
+		["page-directive", "%>"]
+	]],
+
+	["page-directive", [
+		["page-directive", "<%@Register"],
+		["page-directive", "%>"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for all page directives.

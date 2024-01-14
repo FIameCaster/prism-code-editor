@@ -1,0 +1,168 @@
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    CUSTOMER {
+        string name
+        string custNumber
+        string sector
+    }
+    ORDER ||--|{ LINE-ITEM : contains
+    ORDER {
+        int orderNumber
+        string deliveryAddress
+    }
+    LINE-ITEM {
+        string productCode
+        int quantity
+        float pricePerUnit
+    }
+
+PROPERTY ||--|{ ROOM : contains
+
+CAR ||--o{ NAMED-DRIVER : allows
+    PERSON ||--o{ NAMED-DRIVER : is
+
+erDiagram
+    CAR ||--o{ NAMED-DRIVER : allows
+    CAR {
+        string registrationNumber
+        string make
+        string model
+    }
+    PERSON ||--o{ NAMED-DRIVER : is
+    PERSON {
+        string firstName
+        string lastName
+        int age
+    }
+
+erDiagram
+    CAR ||--o{ NAMED-DRIVER : allows
+    CAR {
+        string registrationNumber
+        string make
+        string model
+    }
+    PERSON ||--o{ NAMED-DRIVER : is
+    PERSON {
+        string firstName
+        string lastName
+        int age
+    }
+
+----------------------------------------------------
+
+[
+	["keyword", "erDiagram"],
+
+	"\n    CUSTOMER ",
+	["arrow", "||--o{"],
+	" ORDER ",
+	["operator", ":"],
+	" places\n    ORDER ",
+	["arrow", "||--|{"],
+	" LINE-ITEM ",
+	["operator", ":"],
+	" contains\n    CUSTOMER ",
+	["arrow", "}|..|{"],
+	" DELIVERY-ADDRESS ",
+	["operator", ":"],
+	" uses\n\n",
+
+	["keyword", "erDiagram"],
+
+	"\n    CUSTOMER ",
+	["arrow", "||--o{"],
+	" ORDER ",
+	["operator", ":"],
+	" places\n    CUSTOMER ",
+	["punctuation", "{"],
+
+	"\n        string name\n        string custNumber\n        string sector\n    ",
+
+	["punctuation", "}"],
+
+	"\n    ORDER ",
+	["arrow", "||--|{"],
+	" LINE-ITEM ",
+	["operator", ":"],
+	" contains\n    ORDER ",
+	["punctuation", "{"],
+
+	"\n        int orderNumber\n        string deliveryAddress\n    ",
+
+	["punctuation", "}"],
+
+	"\n    LINE-ITEM ",
+	["punctuation", "{"],
+
+	"\n        string productCode\n        int quantity\n        float pricePerUnit\n    ",
+
+	["punctuation", "}"],
+
+	"\n\nPROPERTY ",
+	["arrow", "||--|{"],
+	" ROOM ",
+	["operator", ":"],
+	" contains\n\nCAR ",
+	["arrow", "||--o{"],
+	" NAMED-DRIVER ",
+	["operator", ":"],
+	" allows\n    PERSON ",
+	["arrow", "||--o{"],
+	" NAMED-DRIVER ",
+	["operator", ":"],
+	" is\n\n",
+
+	["keyword", "erDiagram"],
+
+	"\n    CAR ",
+	["arrow", "||--o{"],
+	" NAMED-DRIVER ",
+	["operator", ":"],
+	" allows\n    CAR ",
+	["punctuation", "{"],
+
+	"\n        string registrationNumber\n        string make\n        string model\n    ",
+
+	["punctuation", "}"],
+
+	"\n    PERSON ",
+	["arrow", "||--o{"],
+	" NAMED-DRIVER ",
+	["operator", ":"],
+	" is\n    PERSON ",
+	["punctuation", "{"],
+
+	"\n        string firstName\n        string lastName\n        int age\n    ",
+
+	["punctuation", "}"],
+
+	["keyword", "erDiagram"],
+
+	"\n    CAR ",
+	["arrow", "||--o{"],
+	" NAMED-DRIVER ",
+	["operator", ":"],
+	" allows\n    CAR ",
+	["punctuation", "{"],
+
+	"\n        string registrationNumber\n        string make\n        string model\n    ",
+
+	["punctuation", "}"],
+
+	"\n    PERSON ",
+	["arrow", "||--o{"],
+	" NAMED-DRIVER ",
+	["operator", ":"],
+	" is\n    PERSON ",
+	["punctuation", "{"],
+
+	"\n        string firstName\n        string lastName\n        int age\n    ",
+
+	["punctuation", "}"]
+]

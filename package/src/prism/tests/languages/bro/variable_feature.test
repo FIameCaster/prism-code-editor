@@ -1,0 +1,34 @@
+local foo
+global foo
+local bool = T;
+const bar
+local baz = 66;
+
+----------------------------------------------------
+
+[
+	["keyword", "local"],
+	" foo\n",
+
+	["keyword", "global"],
+	" foo\n",
+
+	["keyword", "local"],
+	["keyword", "bool"],
+	["operator", "="],
+	["boolean", "T"],
+	["punctuation", ";"],
+
+	["keyword", "const"],
+	["constant", "bar"],
+
+	["keyword", "local"],
+	" baz ",
+	["operator", "="],
+	["number", "66"],
+	["punctuation", ";"]
+]
+
+----------------------------------------------------
+
+Checks for the highlighting of variables

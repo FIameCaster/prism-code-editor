@@ -1,0 +1,19 @@
+// single line comment
+
+/*
+    multi
+    line
+    comment
+*/
+
+/* Unlike C, you can have /* nested */ comments */
+
+----------------------------------------------------
+
+[
+	["comment", "// single line comment"],
+
+	["comment", "/*\n    multi\n    line\n    comment\n*/"],
+
+	["comment", "/* Unlike C, you can have /* nested */ comments */"]
+]

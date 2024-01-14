@@ -1,0 +1,19 @@
+:scale: 50 %
+	:alt: map to buried treasure
+
+:width: 11
+:height: 11
+
+----------------------------------------------------
+
+[
+	["field", ":scale:"], " 50 %\n\t",
+	["field", ":alt:"], " map to buried treasure\n\n",
+
+	["field", ":width:"], " 11\n",
+	["field", ":height:"], " 11"
+]
+
+----------------------------------------------------
+
+Checks for fields.

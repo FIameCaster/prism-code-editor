@@ -5,6 +5,7 @@ import { getLineBefore } from "../../utils"
 import { createTemplate, languageMap } from "../../core"
 import { BracketMatcher } from "../matchBrackets"
 import { TagMatcher } from "../matchTags"
+import { Token } from "../../prism/core"
 
 /**
  * Callback used to add extra foldable ranges to an editor.
@@ -246,12 +247,12 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { language } }) => {
 	const folds: [number, number][] = []
 	const findBlockComments = (
-		tokens: (Prism.Token | string)[],
+		tokens: (Token | string)[],
 		position: number,
 		language: string,
 	) => {
 		for (let i = 0, l = tokens.length; i < l; ) {
-			const token = <Prism.Token>tokens[i++]
+			const token = <Token>tokens[i++]
 			const content = token.content
 			const length = token.length
 			const type = token.type
@@ -292,18 +293,18 @@ const markdownFolding: FoldingRangeProvider = ({ tokens, value, options: { langu
 	}
 	if (language == "markdown" || language == "md")
 		for (let i = 0, end = tokens.length - 1; ; i++) {
-			const token = <Prism.Token>tokens[i]
+			const token = <Token>tokens[i]
 			const length = token.length
 			const type = token.type
 			if (type == "code" && !token.alias) {
-				let content = <Prism.Token[]>(<Prism.Token>token).content
+				let content = <Token[]>(<Token>token).content
 				folds.push([
 					pos + content[0].length + (content[1].content || "").length,
 					pos + length - content[content.length - 1].length - 1,
 				])
 			}
 			if (type == "title") {
-				let [token1, token2] = <Prism.Token[]>(<Prism.Token>token).content
+				let [token1, token2] = <Token[]>(<Token>token).content
 				let level = token1.type ? token1.length : (<string>token2.content)[0] == "=" ? 1 : 2
 				closeTitles(level)
 				openTitles.length = level

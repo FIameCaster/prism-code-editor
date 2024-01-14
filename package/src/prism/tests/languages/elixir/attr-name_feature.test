@@ -1,0 +1,26 @@
+[a: 1, b: 2]
+do: :this, else: :that
+where: foo,
+select: bar,
+attr?: a
+
+----------------------------------------------------
+
+[
+	["punctuation", "["],
+	["attr-name", "a:"],
+	["number", "1"], ["punctuation", ","],
+	["attr-name", "b:"],
+	["number", "2"], ["punctuation", "]"],
+
+	["attr-name", "do:"], ["atom", ":this"],
+	["punctuation", ","],
+	["attr-name", "else:"], ["atom", ":that"],
+	["attr-name", "where:"], " foo", ["punctuation", ","],
+	["attr-name", "select:"], " bar", ["punctuation", ","],
+	["attr-name", "attr?:"], " a"
+]
+
+----------------------------------------------------
+
+Checks for keyword list keys.

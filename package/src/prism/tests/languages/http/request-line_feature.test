@@ -1,0 +1,69 @@
+POST http://example.com HTTP/1.0
+GET http://localhost:9999/foo.html HTTP/1.1
+PUT http://www.example.com HTTP/2.0
+DELETE https://example.com HTTP/1.1
+OPTIONS https://www.example.com HTTP/1.1
+PATCH http://example.com HTTP/1.0
+TRACE http://example.com HTTP/1.0
+CONNECT http://example.com HTTP/1.0
+GET /path/to/foo.html HTTP/1.1
+GET / HTTP/1.1
+
+----------------------------------------------------
+
+[
+	["request-line", [
+		["method", "POST"],
+		["request-target", "http://example.com"],
+		["http-version", "HTTP/1.0"]
+	]],
+	["request-line", [
+		["method", "GET"],
+		["request-target", "http://localhost:9999/foo.html"],
+		["http-version", "HTTP/1.1"]
+	]],
+	["request-line", [
+		["method", "PUT"],
+		["request-target", "http://www.example.com"],
+		["http-version", "HTTP/2.0"]
+	]],
+	["request-line", [
+		["method", "DELETE"],
+		["request-target", "https://example.com"],
+		["http-version", "HTTP/1.1"]
+	]],
+	["request-line", [
+		["method", "OPTIONS"],
+		["request-target", "https://www.example.com"],
+		["http-version", "HTTP/1.1"]
+	]],
+	["request-line", [
+		["method", "PATCH"],
+		["request-target", "http://example.com"],
+		["http-version", "HTTP/1.0"]
+	]],
+	["request-line", [
+		["method", "TRACE"],
+		["request-target", "http://example.com"],
+		["http-version", "HTTP/1.0"]
+	]],
+	["request-line", [
+		["method", "CONNECT"],
+		["request-target", "http://example.com"],
+		["http-version", "HTTP/1.0"]
+	]],
+	["request-line", [
+		["method", "GET"],
+		["request-target", "/path/to/foo.html"],
+		["http-version", "HTTP/1.1"]
+	]],
+	["request-line", [
+		["method", "GET"],
+		["request-target", "/"],
+		["http-version", "HTTP/1.1"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for request lines.

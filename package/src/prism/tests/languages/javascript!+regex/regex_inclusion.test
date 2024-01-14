@@ -1,0 +1,34 @@
+/a+(?:[a-z]|\d)?/im;
+
+----------------------------------------------------
+
+[
+	["regex", [
+		["regex-delimiter", "/"],
+		["regex-source", [
+			"a",
+			["quantifier", "+"],
+			["group", ["(?:"]],
+			["char-class", [
+				["char-class-punctuation", "["],
+				["range", [
+					"a",
+					["range-punctuation", "-"],
+					"z"
+				]],
+				["char-class-punctuation", "]"]
+			]],
+			["alternation", "|"],
+			["char-set", "\\d"],
+			["group", ")"],
+			["quantifier", "?"]
+		]],
+		["regex-delimiter", "/"],
+		["regex-flags", "im"]
+	]],
+	["punctuation", ";"]
+]
+
+----------------------------------------------------
+
+Checks for regex inclusion in JavaScript.

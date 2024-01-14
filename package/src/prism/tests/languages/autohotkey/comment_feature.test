@@ -1,0 +1,38 @@
+;foo
+; bar
+
+nota;comment
+
+; comments break strings
+" ;"
+
+/*
+0
+*/
+/*1*/
+	  */
+/*
+1 ;
+2 */
+foo
+
+----------------------------------------------------
+
+[
+	["comment", ";foo"],
+	["comment", "; bar"],
+
+	"\n\nnota;comment\n\n",
+
+	["comment", "; comments break strings"],
+	"\n\" ",
+	["comment", ";\""],
+
+	["comment", "/*\n0\n*/"],
+	["comment", "/*1*/\n\t  */"],
+	["comment", "/*\n1 ;\n2 */\nfoo"]
+]
+
+----------------------------------------------------
+
+Checks for comments.

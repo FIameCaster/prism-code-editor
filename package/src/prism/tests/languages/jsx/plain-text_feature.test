@@ -1,0 +1,57 @@
+<div>
+	foobar for
+	<div>
+		foobar for
+	</div>
+	foobar for {i == 0 ? 42 : 0}}
+</div>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"div"
+		]],
+		["punctuation", ">"]
+	]],
+	["plain-text", "\n\tfoobar for\n\t"],
+	["tag", [
+		["tag", [
+			["punctuation", "<"],
+			"div"
+		]],
+		["punctuation", ">"]
+	]],
+	["plain-text", "\n\t\tfoobar for\n\t"],
+	["tag", [
+		["tag", [
+			["punctuation", "</"],
+			"div"
+		]],
+		["punctuation", ">"]
+	]],
+	["plain-text", "\n\tfoobar for "],
+	["punctuation", "{"],
+	"i ",
+	["operator", "=="],
+	["number", "0"],
+	["operator", "?"],
+	["number", "42"],
+	["operator", ":"],
+	["number", "0"],
+	["punctuation", "}"],
+	["plain-text", "}\n"],
+	["tag", [
+		["tag", [
+			["punctuation", "</"],
+			"div"
+		]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks that plain text inside tags is unmatched.

@@ -1,0 +1,43 @@
+-include
+define
+else
+endef
+endif
+export
+ifdef
+ifeq
+ifndef
+ifneq
+include
+override
+private
+sinclude
+undefine
+unexport
+vpath
+
+----------------------------------------------------
+
+[
+	["keyword", "-include"],
+	["keyword", "define"],
+	["keyword", "else"],
+	["keyword", "endef"],
+	["keyword", "endif"],
+	["keyword", "export"],
+	["keyword", "ifdef"],
+	["keyword", "ifeq"],
+	["keyword", "ifndef"],
+	["keyword", "ifneq"],
+	["keyword", "include"],
+	["keyword", "override"],
+	["keyword", "private"],
+	["keyword", "sinclude"],
+	["keyword", "undefine"],
+	["keyword", "unexport"],
+	["keyword", "vpath"]
+]
+
+----------------------------------------------------
+
+Checks for keywords.

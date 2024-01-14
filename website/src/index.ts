@@ -1,4 +1,4 @@
-import "./javascript"
+import "prism-code-editor/prism/languages/javascript"
 import { createEditor, editorFromPlaceholder } from "prism-code-editor"
 import "prism-code-editor/layout.css"
 import "prism-code-editor/scrollbar.css"
