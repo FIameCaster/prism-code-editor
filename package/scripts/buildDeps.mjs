@@ -6,8 +6,10 @@ const files = fs.readdirSync('./src/prism/languages')
 const depsMap = {}
 
 Promise.all(files.map(async file => {
+  const name = file.slice(0, -3)
+  depsMap[name] = []
   const code = await fs.promises.readFile('./src/prism/languages/' + file, { encoding: "utf-8" })
-  depsMap[file.slice(0, -3)] = (code.match(/import '\.\/[^.]+\.js';/g) || []).map(str => str.slice(10, -5))
+  depsMap[name] = (code.match(/import '\.\/[^.]+\.js';/g) || []).map(str => str.slice(10, -5))
 })).then(() => {
   /** @type {string} */
   const lines = []
@@ -34,5 +36,5 @@ Promise.all(files.map(async file => {
     lines.push(`\t"${file}": [${arr.join(', ')}]`)
   }
 
-	fs.promises.writeFile('./src/prism/tests/dependencies.json', `{\n${lines.join(",\n")}\n}`)
+	fs.promises.writeFile('./src/prism/tests/dependencies.json', `{\n${lines.join(",\n")}\n}\n`)
 })
