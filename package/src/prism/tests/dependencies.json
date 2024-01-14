@@ -132,7 +132,6 @@
 	"jexl": [],
 	"jolie": [],
 	"jq": [],
-	"js-extras": ["javascript"],
 	"js-templates": ["javascript"],
 	"jsdoc": ["javascript", "javadoclike", "typescript"],
 	"json": [],
