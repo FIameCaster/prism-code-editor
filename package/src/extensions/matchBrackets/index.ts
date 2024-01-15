@@ -54,28 +54,26 @@ export const matchBrackets = (rainbowBrackets = true): BracketMatcher => {
 				const type = token.type,
 					content = <string | (string | Token)[]>token.content
 
-				if (type != "regex") {
-					if (Array.isArray(content)) {
-						matchRecursive(content, position)
-					} else if ((token.alias || type) == "punctuation") {
-						let charCode = content.charCodeAt(content.length - 1),
-							isOpen = !!openingCharCodes[charCode]
-						if (isOpen || closingCharCodes[charCode]) {
-							brackets[bracketIndex] = [token, position, 0, content, isOpen]
+				if (Array.isArray(content)) {
+					matchRecursive(content, position)
+				} else if ((token.alias || type) == "punctuation") {
+					let charCode = content.charCodeAt(content.length - 1),
+						isOpen = !!openingCharCodes[charCode]
+					if (isOpen || closingCharCodes[charCode]) {
+						brackets[bracketIndex] = [token, position, 0, content, isOpen]
 
-							if (isOpen) stack.push([bracketIndex, charCode])
-							else {
-								for (let i = stack.length; i; ) {
-									let [index, charCode1] = stack[--i]
-									if (charCode - charCode1 < 3 && charCode - charCode1 > 0) {
-										pairMap[(pairMap[bracketIndex] = index)] = bracketIndex
-										brackets[bracketIndex][2] = brackets[index][2] = stack.length = i
-										break
-									}
+						if (isOpen) stack.push([bracketIndex, charCode])
+						else {
+							for (let i = stack.length; i; ) {
+								let [index, charCode1] = stack[--i]
+								if (charCode - charCode1 < 3 && charCode - charCode1 > 0) {
+									pairMap[(pairMap[bracketIndex] = index)] = bracketIndex
+									brackets[bracketIndex][2] = brackets[index][2] = stack.length = i
+									break
 								}
 							}
-							bracketIndex++
 						}
+						bracketIndex++
 					}
 				}
 			}

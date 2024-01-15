@@ -80,8 +80,8 @@ languages.regex = {
 
 			// (), (?<name>), (?'name'), (?>), (?:), (?=), (?!), (?<=), (?<!), (?is-m), (?i-m:)
 			pattern: /\((?:\?(?:<[^<>']+>|'[^<>']+'|[>:]|<?[=!]|[idmnsuxU]+(?:-[idmnsuxU]+)?:?))?/,
-			alias: 'punctuation',
 			inside: {
+				'punctuation': /^\(/,
 				'group-name': groupName
 			}
 		},

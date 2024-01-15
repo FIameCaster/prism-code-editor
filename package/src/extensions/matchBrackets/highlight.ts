@@ -14,22 +14,22 @@ import { getClosestToken } from "../../utils"
 export const highlightBracketPairs = (): Extension => ({
 	update(editor) {
 		this.update = () => {}
-		let matcher: BracketMatcher,
+		let brackets: Bracket[],
+			pairs: (number | undefined)[],
 			activeID = -1,
 			els: HTMLSpanElement[] = [],
 			selectionChange = ([start, end] = editor.getSelection()) => {
-				let newID =
-					start == end && (matcher = editor.extensions.matchBrackets!) && editor.focused
-						? closest(end) || -1
-						: -1
+				let newID = start == end && editor.focused ? closest(end) || -1 : -1
 				if (newID != activeID) {
 					toggleActive()
-
 					if (newID + 1) {
-						els = [matcher.pairs[newID]!, newID].map(
-							id => getClosestToken(editor, ".punctuation", 0, -1, matcher.brackets[id][1])!,
+						let opening = brackets[pairs[newID]!]
+						let closing = brackets[newID]
+						els = [opening, closing].map(
+							bracket => getClosestToken(editor, ".punctuation", 0, -1, bracket[1])!,
 						)
-						if (els[0].nextSibling == els[1]) {
+
+						if (els[0] != els[1] && opening[1] + opening[3].length == closing[1]) {
 							els[0].textContent += els[1].textContent!
 							els[1].textContent = ""
 							els[1] = els[0]
@@ -41,13 +41,13 @@ export const highlightBracketPairs = (): Extension => ({
 				}
 			},
 			closest = (offset: number) => {
-				for (
-					let i = 0, { brackets, pairs } = matcher, bracket: Bracket;
-					(bracket = brackets[++i]);
-
-				) {
-					if (!bracket[4] && bracket[1] > offset - 2 && brackets[pairs[i]!]?.[1] <= offset) {
-						return i
+				let matcher = editor.extensions.matchBrackets
+				if (matcher) {
+					({ brackets, pairs } = matcher)
+					for (let i = 0, bracket: Bracket; (bracket = brackets[++i]); ) {
+						if (!bracket[4] && bracket[1] > offset - 2 && brackets[pairs[i]!]?.[1] <= offset) {
+							return i
+						}
 					}
 				}
 			},

@@ -15,46 +15,83 @@
 ----------------------------------------------------
 
 [
-	["group", ["("]],
-	["group", ")"],
-
-	["group", ["(?:"]],
-	["group", ")"],
-
-	["group", ["(?>"]],
-	["group", ")"],
-
-	["group", ["(?="]],
-	["group", ")"],
-	["group", ["(?!"]],
-	["group", ")"],
-
-	["group", ["(?<="]],
-	["group", ")"],
-	["group", ["(?<!"]],
+	["group", [
+		["punctuation", "("]
+	]],
 	["group", ")"],
 
 	["group", [
-		"(?<",
-		["group-name", "name"],
-		">"]
-	],
+		["punctuation", "("],
+		"?:"
+	]],
 	["group", ")"],
 
 	["group", [
-		"(?'",
-		["group-name", "name"],
-		"'"]
-	],
+		["punctuation", "("],
+		"?>"
+	]],
 	["group", ")"],
 
-	["group", ["(?i"]],
+	["group", [
+		["punctuation", "("],
+		"?="
+	]],
 	["group", ")"],
-	["group", ["(?i:"]],
+	["group", [
+		["punctuation", "("],
+		"?!"
+	]],
 	["group", ")"],
-	["group", ["(?idmsuxU-idmsuxU"]],
+
+	["group", [
+		["punctuation", "("],
+		"?<="
+	]],
 	["group", ")"],
-	["group", ["(?idmsux-idmsux:"]],
+	["group", [
+		["punctuation", "("],
+		"?<!"
+	]],
+	["group", ")"],
+
+	["group", [
+		["punctuation", "("],
+		"?<",
+		["group-name", "name"],
+		">"
+	]],
+	["group", ")"],
+
+	["group", [
+		["punctuation", "("],
+		"?'",
+		["group-name", "name"],
+		"'"
+	]],
+	["group", ")"],
+
+	["group", [
+		["punctuation", "("],
+		"?i"
+	]],
+	["group", ")"],
+
+	["group", [
+		["punctuation", "("],
+		"?i:"
+	]],
+	["group", ")"],
+
+	["group", [
+		["punctuation", "("],
+		"?idmsuxU-idmsuxU"
+	]],
+	["group", ")"],
+
+	["group", [
+		["punctuation", "("],
+		"?idmsux-idmsux:"
+	]],
 	"X",
 	["group", ")"]
 ]

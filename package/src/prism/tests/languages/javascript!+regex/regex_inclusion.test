@@ -8,7 +8,10 @@
 		["regex-source", [
 			"a",
 			["quantifier", "+"],
-			["group", ["(?:"]],
+			["group", [
+				["punctuation", "("],
+				"?:"
+			]],
 			["char-class", [
 				["char-class-punctuation", "["],
 				["range", [

@@ -87,7 +87,9 @@
 	["regex", [
 		["regex-delimiter", "~/"],
 		["regex-source", [
-			["group", ["("]],
+			["group", [
+				["punctuation", "("]
+			]],
 			"dog",
 			["alternation", "|"],
 			"fox",
