@@ -1,15 +1,6 @@
 import { languages } from '../core.js';
 import { clone, insertBefore } from '../utils/language.js';
-
-var entity = [
-	{
-		pattern: /&[\da-z]{1,8};/i,
-		alias: 'named-entity'
-	},
-	/&#x?[\da-f]{1,8};/i
-];
-
-var specialAttr = [];
+import './xml.js';
 
 var addInlined = (tagName, lang) => ({
 	pattern: RegExp(`(<${tagName}[^>]*>)(?:<!\\[CDATA\\[(?:[^\\]]|\\](?!\\]>))*\\]\\]>|(?!<!\\[CDATA\\[)[\\s\\S])*?(?=<\\/${tagName}>)`, 'i'),
@@ -59,89 +50,14 @@ var addAttribute = (attrName, lang) => ({
 	}
 });
 
-var markup = languages.svg = languages.mathml = languages.html = languages.markup = {
-	'comment': {
-		pattern: /<!--(?:(?!<!--)[\s\S])*?-->/,
-		greedy: true
-	},
-	'prolog': {
-		pattern: /<\?[\s\S]+?\?>/,
-		greedy: true
-	},
-	'doctype': {
-		// https://www.w3.org/TR/xml/#NT-doctypedecl
-		pattern: /<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,
-		greedy: true,
-		inside: {
-			'internal-subset': {
-				pattern: /(^[^\[]*\[)[\s\S]+(?=\]>$)/,
-				lookbehind: true,
-				greedy: true,
-				inside: 'xml'
-			},
-			'string': {
-				pattern: /"[^"]*"|'[^']*'/,
-				greedy: true
-			},
-			'punctuation': /^<!|>$|[[\]]/,
-			'doctype-tag': /^DOCTYPE/i,
-			'name': /[^\s<>'"]+/
-		}
-	},
-	'cdata': {
-		pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i,
-		greedy: true
-	},
-	'tag': {
-		pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=\S))|(?=[\s/>])))+)?\s*\/?>/,
-		greedy: true,
-		inside: {
-			'tag': {
-				pattern: /^<\/?[^\s>\/]+/,
-				inside: {
-					'punctuation': /^<\/?/,
-					'namespace': /^[^:]+:/
-				}
-			},
-			'special-attr': specialAttr,
-			'attr-value': {
-				pattern: /=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)?/,
-				inside: {
-					'punctuation': [
-						{
-							pattern: /^=/,
-							alias: 'attr-equals'
-						},
-						{
-							pattern: /^(\s*)["']|["']$/,
-							lookbehind: true
-						}
-					],
-					entity
-				}
-			},
-			'punctuation': /\/?>/,
-			'attr-name': {
-				pattern: /[^\s/]+/,
-				inside: {
-					'namespace': /^[^:]+:/
-				}
-			}
-		}
-	},
-	entity,
-	'markup-bracket': {
-		pattern: /[[\](){}]/,
-		alias: 'punctuation'
-	}
-};
+var markup = languages.svg = languages.mathml = languages.html = languages.markup = clone(languages.xml);
 
-languages.rss = languages.atom = languages.ssml = languages.xml = clone(markup);
-
-specialAttr.push(
-	addAttribute('style', 'css'),
-	addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source, 'javascript')
-);
+insertBefore(markup.tag.inside, 'attr-value', {
+	'special-attr': [
+		addAttribute('style', 'css'),
+		addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source, 'javascript')
+	]
+});
 
 insertBefore(markup, 'cdata', {
 	'style': addInlined('style', 'css'),

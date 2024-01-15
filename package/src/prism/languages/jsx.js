@@ -1,6 +1,6 @@
 import { languages, Token, rest, tokenize, withoutTokenizer } from '../core.js';
 import { clone, extend, insertBefore } from '../utils/language.js';
-import './markup.js';
+import './xml.js';
 import './javascript.js';
 
 var javascript = clone(languages.js);
@@ -34,7 +34,7 @@ tagInside['comment'] = javascript['comment'];
 
 delete jsx['markup-bracket'];
 
-insertBefore(tagInside, 'special-attr', {
+insertBefore(tagInside, 'attr-value', {
 	'script': {
 		// Allow for two levels of nesting
 		pattern: re(/=\s*<BRACES>/.source),
