@@ -27,48 +27,48 @@ real foo(data real x) {
 
 ----------------------------------------------------
 
-<span class="token keyword program-block">functions</span>
+<span class="token keyword program-block keyword-functions">functions</span>
 <span class="token punctuation">{</span>
 <span class="token comment">// ... function declarations and definitions ...</span>
 <span class="token punctuation">}</span>
-<span class="token keyword program-block">data</span>
+<span class="token keyword program-block keyword-data">data</span>
 <span class="token punctuation">{</span>
 <span class="token comment">// ... declarations ...</span>
 <span class="token punctuation">}</span>
-<span class="token keyword program-block">transformed</span>
-<span class="token keyword program-block">data</span>
+<span class="token keyword program-block keyword-transformed">transformed</span>
+<span class="token keyword program-block keyword-data">data</span>
 <span class="token punctuation">{</span>
 <span class="token comment">// ... declarations ... statements ...</span>
 <span class="token punctuation">}</span>
-<span class="token keyword program-block">parameters</span>
+<span class="token keyword program-block keyword-parameters">parameters</span>
 <span class="token punctuation">{</span>
 <span class="token comment">// ... declarations ...</span>
 <span class="token punctuation">}</span>
-<span class="token keyword program-block">transformed</span>
-<span class="token keyword program-block">parameters</span>
+<span class="token keyword program-block keyword-transformed">transformed</span>
+<span class="token keyword program-block keyword-parameters">parameters</span>
 <span class="token punctuation">{</span>
 <span class="token comment">// ... declarations ... statements ...</span>
 <span class="token punctuation">}</span>
-<span class="token keyword program-block">model</span>
+<span class="token keyword program-block keyword-model">model</span>
 <span class="token punctuation">{</span>
 <span class="token comment">// ... declarations ... statements ...</span>
 <span class="token punctuation">}</span>
-<span class="token keyword program-block">generated</span>
-<span class="token keyword program-block">quantities</span>
+<span class="token keyword program-block keyword-generated">generated</span>
+<span class="token keyword program-block keyword-quantities">quantities</span>
 <span class="token punctuation">{</span>
 <span class="token comment">// ... declarations ... statements ...</span>
 <span class="token punctuation">}</span>
 
 <span class="token comment">// data-only quantifiers</span>
-<span class="token keyword">real</span>
+<span class="token keyword keyword-real">real</span>
 <span class="token function">foo</span>
 <span class="token punctuation">(</span>
-<span class="token keyword">data</span>
-<span class="token keyword">real</span>
+<span class="token keyword keyword-data">data</span>
+<span class="token keyword keyword-real">real</span>
 x
 <span class="token punctuation">)</span>
 <span class="token punctuation">{</span>
-<span class="token keyword">return</span>
+<span class="token keyword keyword-return">return</span>
 x
 <span class="token operator">^</span>
 <span class="token number">2</span>

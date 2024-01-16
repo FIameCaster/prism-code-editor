@@ -2,8 +2,8 @@ import { assert } from 'chai';
 import fs from 'fs';
 import { loadLanguages } from './prism-loader.js';
 import * as TokenStreamTransformer from './token-stream-transformer.js';
-import { getLeadingSpaces } from './util.js';
-import { languages, tokenizeText } from '../../core.js';
+import { formatHtml, getLeadingSpaces } from './util.js';
+import { highlight, languages, tokenizeText } from '../../core.js';
 
 /** 
  * * @typedef {import("./token-stream-transformer").TokenStream} TokenStream
@@ -188,29 +188,33 @@ const jsonRunner = {
 /**
  * Normalizes the given HTML by removing all leading spaces and trailing spaces. Line breaks will also be normalized
  * to enable good diffing.
+ * 
+ * @param {string} html
  */
-// function normalizeHtml(html: string) {
-// 	return html
-// 		.replace(/</g, '\n<')
-// 		.replace(/>/g, '>\n')
-// 		.replace(/[ \t]*[\r\n]\s*/g, '\n')
-// 		.trim();
-// }
-// const htmlRunner: Runner<string> = {
-// 	run(Prism, code, language) {
-// 		return Prism.highlight(code, language);
-// 	},
-// 	print(actual) {
-// 		return formatHtml(actual);
-// 	},
-// 	isEqual(actual, expected) {
-// 		return normalizeHtml(actual) === normalizeHtml(expected);
-// 	},
-// 	assertEqual(actual, expected, message) {
-// 		// We don't calculate the index of the first difference because it's difficult.
-// 		assert.deepEqual(normalizeHtml(actual), normalizeHtml(expected), message(0));
-// 	},
-// };
+function normalizeHtml(html) {
+	return html
+		.replace(/</g, '\n<')
+		.replace(/>/g, '>\n')
+		.replace(/[ \t]*[\r\n]\s*/g, '\n')
+		.trim();
+}
+
+/** @type {Runner<string>} */
+const htmlRunner = {
+	run(code, language) {
+		return highlight(code, language);
+	},
+	print(actual) {
+		return formatHtml(actual);
+	},
+	isEqual(actual, expected) {
+		return normalizeHtml(actual) === normalizeHtml(expected);
+	},
+	assertEqual(actual, expected, message) {
+		// We don't calculate the index of the first difference because it's difficult.
+		assert.deepEqual(normalizeHtml(actual), normalizeHtml(expected), message(0));
+	},
+};
 
 /**
  * Runs the given test case file and asserts the result
@@ -226,27 +230,31 @@ const jsonRunner = {
  * @param {string} filePath
  * @param {string} languageIdentifier
  * @param {"none" | "insert" | "update"} updateMode
+ * @param {() => void | undefined} beforeRun
  */
-export async function runTestCase(languageIdentifier, filePath, updateMode) {
+export async function runTestCase(languageIdentifier, filePath, updateMode, beforeRun) {
 	if (/\.html\.test$/i.test(filePath)) {
-		// await runTestCaseWithRunner(languageIdentifier, filePath, updateMode, htmlRunner, createInstance);
+		await runTestCaseWithRunner(languageIdentifier, filePath, updateMode, htmlRunner, beforeRun);
 	} else {
-		await runTestCaseWithRunner(languageIdentifier, filePath, updateMode, jsonRunner);
+		await runTestCaseWithRunner(languageIdentifier, filePath, updateMode, jsonRunner, beforeRun);
 	}
 }
 
 /**
-	 * @param {string} languageIdentifier
-	 * @param {string} filePath
-	 * @param {"none" | "insert" | "update"} updateMode
-	 * @param {Runner<T>} runner
-	 * @template T
-	 */
-export async function runTestCaseWithRunner(languageIdentifier, filePath, updateMode, runner) {
+ * @param {string} languageIdentifier
+ * @param {string} filePath
+ * @param {"none" | "insert" | "update"} updateMode
+ * @param {Runner<T>} runner
+ * @param {() => void | undefined} beforeRun
+ * @template T
+ */
+export async function runTestCaseWithRunner(languageIdentifier, filePath, updateMode, runner, beforeRun) {
 	const testCase = TestCaseFile.readFromFile(filePath);
 	const usedLanguages = parseLanguageNames(languageIdentifier);
 
 	await loadLanguages(usedLanguages.languages);
+
+	if (beforeRun) beforeRun();
 
 	// the first language is the main language to highlight
 	const actualValue = runner.run(testCase.code, usedLanguages.mainLanguage);

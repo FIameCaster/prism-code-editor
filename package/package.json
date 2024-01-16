@@ -49,6 +49,7 @@
     "dev": "vite",
     "build": "tsc && vite build && node scripts/build.mjs",
     "preview": "vite preview",
+    "regex-coverage": "mocha src/prism/tests/coverage.js",
     "test:languages": "mocha src/prism/tests/run.js",
     "test:patterns": "mocha src/prism/tests/pattern-tests.js",
     "prepublish": "tsc && vite build && node scripts/build.mjs"
@@ -60,6 +61,7 @@
     "@types/yargs": "^17.0.32",
     "chai": "^5.0.0",
     "mocha": "^10.2.0",
+    "prettier": "2.7.1",
     "refa": "0.9.1",
     "regexp-ast-analysis": "0.2.4",
     "regexpp": "^3.2.0",

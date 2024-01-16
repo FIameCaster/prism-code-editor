@@ -11,6 +11,8 @@
 <span class="token code">
 	<span class="token punctuation">```</span>
 	<span class="token code-language">html</span>
+</span>
+<span class="token code">
 	<span class="token code-block language-html">
 		<span class="token tag">
 			<span class="token tag">
@@ -36,14 +38,16 @@
 		</span>
 		<span class="token entity named-entity">&amp;amp;</span>
 	</span>
-	<span class="token punctuation">```</span>
 </span>
+<span class="token code"><span class="token punctuation">```</span></span>
 
 <span class="token code">
 	<span class="token punctuation">```</span>
 	<span class="token code-language">unknownLanguage</span>
+</span>
+<span class="token code">
 	<span class="token code-block language-unknownlanguage">
 		&lt;a href="#foo">Click me!&lt;/a> &amp;amp;
 	</span>
-	<span class="token punctuation">```</span>
 </span>
+<span class="token code"><span class="token punctuation">```</span></span>
