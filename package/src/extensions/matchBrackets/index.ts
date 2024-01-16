@@ -1,7 +1,7 @@
 /** @module match-brackets */
 
 import { Extension } from "../.."
-import { Token } from "../../prism/core"
+import { Token, TokenStream } from "../../prism"
 
 const openingCharCodes: boolean[] = []
 const closingCharCodes: boolean[] = []
@@ -34,10 +34,10 @@ export const matchBrackets = (rainbowBrackets = true): BracketMatcher => {
 	let bracketIndex: number
 	const brackets: Bracket[] = []
 	const pairMap: number[] = []
-	const matchBrackets = (obj: { tokens: (Token | string)[] }) => {
+	const matchBrackets = (tokens: TokenStream) => {
 		stack = []
 		pairMap.length = brackets.length = bracketIndex = 0
-		matchRecursive(obj.tokens, 0)
+		matchRecursive(tokens, 0)
 		if (rainbowBrackets) {
 			for (let i = 0, bracket: Bracket; (bracket = brackets[i]); ) {
 				let alias = bracket[0].alias
@@ -48,11 +48,11 @@ export const matchBrackets = (rainbowBrackets = true): BracketMatcher => {
 			}
 		}
 	}
-	const matchRecursive = (tokens: (Token | string)[], position: number) => {
+	const matchRecursive = (tokens: TokenStream, position: number) => {
 		for (let i = 0, token: string | Token; (token = tokens[i++]); ) {
 			if (typeof token != "string") {
 				const type = token.type,
-					content = <string | (string | Token)[]>token.content
+					content = token.content
 
 				if (Array.isArray(content)) {
 					matchRecursive(content, position)
@@ -87,7 +87,7 @@ export const matchBrackets = (rainbowBrackets = true): BracketMatcher => {
 			editor.extensions.matchBrackets = this
 			editor.addListener("tokenize", matchBrackets)
 			if (rainbowBrackets && editor.tokens[0]) editor.update()
-			else matchBrackets(editor)
+			else matchBrackets(editor.tokens)
 		},
 		brackets,
 		pairs: pairMap,

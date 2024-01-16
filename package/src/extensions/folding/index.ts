@@ -5,7 +5,7 @@ import { getLineBefore } from "../../utils"
 import { createTemplate, languageMap } from "../../core"
 import { BracketMatcher } from "../matchBrackets"
 import { TagMatcher } from "../matchTags"
-import { Token } from "../../prism/core"
+import { TokenStream, Token } from "../../prism"
 
 /**
  * Callback used to add extra foldable ranges to an editor.
@@ -246,18 +246,14 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
  */
 const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { language } }) => {
 	const folds: [number, number][] = []
-	const findBlockComments = (
-		tokens: (Token | string)[],
-		position: number,
-		language: string,
-	) => {
+	const findBlockComments = (tokens: TokenStream, position: number, language: string) => {
 		for (let i = 0, l = tokens.length; i < l; ) {
 			const token = <Token>tokens[i++]
 			const content = token.content
 			const length = token.length
 			const type = token.type
 			const aliasType = token.alias || type
-			if (aliasType === "comment" && numLines(value, position, position + length) > 1) {
+			if (aliasType == "comment" && numLines(value, position, position + length) > 1) {
 				let comment = languageMap[language]?.comments?.block
 				if (comment && value.indexOf(comment[0], position) == position)
 					folds.push([position + comment[0].length, position + length - comment[1].length])
@@ -265,8 +261,9 @@ const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { l
 				findBlockComments(
 					content,
 					position,
-					aliasType.indexOf("language-") ? language : (<string>aliasType).slice(9),
-				)}
+					aliasType.indexOf("language-") ? language : aliasType.slice(9),
+				)
+			}
 			position += length
 		}
 	}

@@ -1,7 +1,7 @@
 /** @module match-tags */
 
 import { Extension, PrismEditor } from ".."
-import { Token } from "../prism/core"
+import { Token, TokenStream } from "../prism"
 import { getClosestToken } from "../utils"
 
 const voidlessLangs = "xml,rss,atom,jsx,tsx".split(",")
@@ -39,12 +39,12 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 		tags: [Token, number, number, number, string, boolean][] = [],
 		stack: [number, string][],
 		tagIndex: number,
-		matchTags = (tokens: (Token | string)[], language: string) => {
+		matchTags = (tokens: TokenStream, language: string) => {
 			stack = []
 			tags.length = pairMap.length = tagIndex = 0
 			matchTagsRecursive(tokens, language, 0)
 		},
-		matchTagsRecursive = (tokens: (Token | string)[], language: string, position: number) => {
+		matchTagsRecursive = (tokens: TokenStream, language: string, position: number) => {
 			for (let i = 0, noVoidTags = voidlessLangs.includes(language), l = tokens.length; i < l; ) {
 				const token = <Token>tokens[i++],
 					content = token.content,
@@ -100,9 +100,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 			}
 		}
 
-	editor.addListener("tokenize", env => {
-		matchTags(env.tokens, env.language)
-	})
+	editor.addListener("tokenize", matchTags)
 
 	matchTags(editor.tokens, editor.options.language)
 

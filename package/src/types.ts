@@ -4,8 +4,7 @@ import { Cursor } from "./extensions/cursor"
 import { SearchWidget } from "./extensions/search"
 import { IndentGuides } from "./extensions/guides"
 import { ReadOnlyCodeFolding } from "./extensions/folding"
-import { Grammar } from "./prism/types"
-import { Token } from "./prism"
+import { TokenStream } from "./prism/types"
 
 export type EditorOptions = {
 	/** Language used for syntax highlighting. */
@@ -88,17 +87,11 @@ export interface Extension {
 	/** Function called when the extension is added or the options of the editor change. */
 	update(editor: PrismEditor, options: EditorOptions): any
 }
-export type TokenizeEnv = {
-	language: string
-	code: string
-	grammar: Grammar
-	tokens: (string | Token)[]
-}
 
 export type EditorEventMap = {
 	update: (this: PrismEditor, value: string) => any
 	selectionChange: (this: PrismEditor, selection: InputSelection, value: string) => any
-	tokenize: (this: PrismEditor, env: TokenizeEnv) => any
+	tokenize: (this: PrismEditor, tokens: TokenStream, language: string, value: string) => any
 }
 
 export interface EventHandler<EventMap extends Record<string, (...args: any) => any>> {
@@ -141,7 +134,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	/** True if the remove method has been called. */
 	readonly removed: boolean
 	/** Tokens currently displayed in the editor. */
-	readonly tokens: (Token | string)[]
+	readonly tokens: TokenStream
 	/** Object storing some of the extensions added to the editor. */
 	readonly extensions: {
 		matchBrackets?: BracketMatcher

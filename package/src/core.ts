@@ -8,8 +8,8 @@ import type {
 	Extension,
 	InputSelection,
 } from "./types"
-import { Token, highlightTokens, languages, tokenizeText } from "./prism"
-import { Grammar } from "./prism/types"
+import { highlightTokens, languages, tokenizeText } from "./prism"
+import { Grammar, TokenStream } from "./prism/types"
 
 /**
  * Creates a code editor using the specified container and options.
@@ -35,7 +35,7 @@ const createEditor = (
 		activeLineNumber: number,
 		removed = false,
 		handleSelecionChange = true,
-		tokens: (Token | string)[] = [],
+		tokens: TokenStream = [],
 		readOnly: boolean
 
 	const scrollContainer = <HTMLDivElement>editorTemplate.cloneNode(true),
@@ -90,18 +90,18 @@ const createEditor = (
 
 	const update = () => {
 		tokens = tokenizeText(value, grammar)
-		dispatchEvent("tokenize", { language, grammar, code: value, tokens })
-		const newLines = highlightTokens(tokens).split("\n"),
-			l = newLines.length
+		dispatchEvent("tokenize", tokens, language, value)
+		let newLines = highlightTokens(tokens).split("\n")
+		let l = newLines.length
 		let start = 0,
-			end1 = newLines.length,
+			end1 = l,
 			end2 = prevLines.length,
 			newHTML = ""
 		while (newLines[start] == prevLines[start] && start < end1) ++start
 		while (end1 && newLines[--end1] == prevLines[--end2]);
 
 		// This is not needed, but significantly improves performance when only one line changed
-		start == end1 && start == end2 && (lines[++start].innerHTML = newLines[start - 1] + "\n")
+		if (start == end1 && start == end2) lines[++start].innerHTML = newLines[start - 1] + "\n"
 
 		for (let i = end2 < start ? end2 : start - 1; i < end1; )
 			newHTML += `<div class="pce-line" aria-hidden="true">${newLines[++i]}\n</div>`
