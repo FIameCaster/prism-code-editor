@@ -35,8 +35,8 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
 
 		editor.addListener("selectionChange", ([start, end], value) => {
 			value = editor.focused ? value.slice(start, end) : ""
-			let offset = value.search(/\S/),
-				l = (value = value.trim()).length
+			start += value.search(/\S/)
+			let l = (value = value.trim()).length
 
 			searchAPI.search(
 				minLength > l || l > maxLength ? "" : value,
@@ -44,7 +44,7 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
 				false,
 				false,
 				undefined,
-				start + offset,
+				(mStart, mEnd) => mStart > start || mEnd <= start
 			)
 		})
 	}
