@@ -1,5 +1,6 @@
 import { defineConfig } from "vite"
 import dts from "vite-plugin-dts"
+import fs from "node:fs/promises"
 
 /** @type {Record<string, string[]} */
 const dependencyGraph = JSON.parse(await fs.readFile(new URL("./src/prism/tests/dependencies.json", import.meta.url)))

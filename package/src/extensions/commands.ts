@@ -1,7 +1,7 @@
 /** @module commands */
 
 import { EditorOptions, InputSelection, SetupExtension } from ".."
-import { ignoreTab, isMac, preventDefault, setIgnoreTab, languageMap } from "../core"
+import { isMac, preventDefault, languageMap } from "../core"
 import {
 	getLanguage,
 	insertText,
@@ -12,8 +12,14 @@ import {
 } from "../utils"
 import { addTextareaListener } from "../utils/local"
 
+let ignoreTab = false
 const clipboard = navigator.clipboard
 const mod = isMac ? 4 : 2
+/**
+ * Sets whether editors should ignore tab or use it for indentation.
+ * Users can always toggle this using Ctrl+M / Ctrl+Shift+M (Mac).
+ */
+const setIgnoreTab = (newState: boolean) => (ignoreTab = newState)
 
 /**
  * Extension that will add automatic indentation, closing of brackets,
@@ -35,7 +41,7 @@ const mod = isMac ? 4 : 2
  * automatically close based on the character before and after the cursor.
  * Defaults to ``/([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s``.
  */
-export const defaultCommands =
+const defaultCommands =
 	(
 		selfClosePairs = ['""', "''", "``", "()", "[]", "{}"],
 		selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s,
@@ -374,3 +380,5 @@ export const defaultCommands =
 			}),
 		)
 	}
+
+export { defaultCommands, setIgnoreTab, ignoreTab }

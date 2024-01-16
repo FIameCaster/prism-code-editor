@@ -316,11 +316,6 @@ const languageMap: Record<string, Language> = {}
 const editorTemplate = createTemplate(
 	'<div class="pce-wrapper"><div class="pce-overlays"><textarea spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></div></div>',
 )
-/**
- * Sets whether editors should ignore tab or use it for indentation.
- * Users can always toggle this using Ctrl+M / Ctrl+Shift+M (Mac).
- */
-const setIgnoreTab = (newState: boolean) => (ignoreTab = newState)
 
 const preventDefault = (e: Event) => {
 	e.preventDefault()
@@ -329,15 +324,13 @@ const preventDefault = (e: Event) => {
 
 const setSelection = (s?: InputSelection) => (selection = s)
 
-let ignoreTab: boolean, selectionChange: null | (() => void), selection: InputSelection | undefined
+let selectionChange: null | (() => void), selection: InputSelection | undefined
 
 document.addEventListener("selectionchange", () => selectionChange?.())
 
 export {
 	createEditor,
 	languageMap,
-	setIgnoreTab,
-	ignoreTab,
 	numLines,
 	createTemplate,
 	isMac,

@@ -6,7 +6,5 @@ export {
 	isMac,
 	isWebKit,
 	languageMap,
-	setIgnoreTab,
 	numLines,
-	ignoreTab,
 } from "./core"
