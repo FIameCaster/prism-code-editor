@@ -23,9 +23,18 @@ devDependencies:
   mocha:
     specifier: ^10.2.0
     version: 10.2.0
+  refa:
+    specifier: 0.9.1
+    version: 0.9.1
+  regexp-ast-analysis:
+    specifier: 0.2.4
+    version: 0.2.4
   regexpp:
     specifier: ^3.2.0
     version: 3.2.0
+  scslre:
+    specifier: 0.1.6
+    version: 0.1.6
   typedoc:
     specifier: ^0.25.1
     version: 0.25.1(typescript@5.1.6)
@@ -1248,6 +1257,19 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /refa@0.9.1:
+    resolution: {integrity: sha512-egU8LgFq2VXlAfUi8Jcbr5X38wEOadMFf8tCbshgcpVCYlE7k84pJOSlnvXF+muDB4igkdVMq7Z/kiNPqDT9TA==}
+    dependencies:
+      regexpp: 3.2.0
+    dev: true
+
+  /regexp-ast-analysis@0.2.4:
+    resolution: {integrity: sha512-8L7kOZQaKPxKKAwGuUZxTQtlO3WZ+tiXy4s6G6PKL6trbOXcZoumwC3AOHHFtI/xoSbNxt7jgLvCnP1UADLWqg==}
+    dependencies:
+      refa: 0.9.1
+      regexpp: 3.2.0
+    dev: true
+
   /regexpp@3.2.0:
     resolution: {integrity: sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==}
     engines: {node: '>=8'}
@@ -1308,6 +1330,14 @@ packages:
 
   /safe-buffer@5.2.1:
     resolution: {integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==}
+    dev: true
+
+  /scslre@0.1.6:
+    resolution: {integrity: sha512-JORxVRlQTfjvlOAaiQKebgFElyAm5/W8b50lgaZ0OkEnKnagJW2ufDh3xRfU75UD9z3FGIu1gL1IyR3Poa6Qmw==}
+    dependencies:
+      refa: 0.9.1
+      regexp-ast-analysis: 0.2.4
+      regexpp: 3.2.0
     dev: true
 
   /semver@7.3.8:

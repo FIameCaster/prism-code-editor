@@ -149,7 +149,6 @@ export class TestCaseFile {
 /** @type {Runner<TokenStream>} */
 const jsonRunner = {
 	run(code, language) {
-		// console.log(languages[language]?.['template-string'])
 		return tokenizeText(code, languages[language] || {})
 	},
 	print(actual) {

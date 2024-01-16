@@ -9,7 +9,6 @@ languages.erb = {
 		inside: {
 			'delimiter': {
 				pattern: /^<%=?|%>$/,
-				lookbehind: true,
 				alias: 'punctuation'
 			},
 			'ruby': {

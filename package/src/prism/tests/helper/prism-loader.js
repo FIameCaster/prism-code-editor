@@ -3,14 +3,8 @@ import { clikeComment, clikeString } from "../../utils/shared.js"
 import { embeddedIn } from "../../utils/templating.js"
 import { createT4 } from "../../utils/t4-templating.js"
 import { clone, extend, insertBefore } from "../../utils/language.js"
-import dependencyMap from "../dependencies.json" assert { "type": "json" }
-import path from "path"
+import { dependencyGraph } from "./lang-info.js"
 import fs from "fs"
-import { fileURLToPath } from "url"
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
-
-const languageDir = path.join(__dirname, "../../languages")
 
 /** @type {Map<string, Function>} */
 const cache = new Map()
@@ -42,7 +36,7 @@ const initialLangs = Object.keys(languages)
  */
 const getComponent = async name => {
 	if (cache.has(name)) return cache.get(name)
-	const file = await fs.promises.readFile(path.join(languageDir, name + ".js"), {
+	const file = await fs.promises.readFile(new URL(`../../languages/${name}.js`, import.meta.url), {
 		encoding: "utf-8",
 	})
 	const importEnd = file.search(/\n\n|\r\n?\r\n?/)
@@ -53,20 +47,19 @@ const getComponent = async name => {
 
 /** @param {string[]} langs */
 const loadLanguages = async langs => {
-	for (const key in languages) {
-		if (!initialLangs.includes(key)) delete languages[key]
-	}
-
 	/** @type {string[]} */
 	const allLanguages = []
 	for (const lang of langs) {
-		/** @type {string[]} */
-		const deps = dependencyMap[lang]
+		const deps = dependencyGraph[lang]
 		if (deps) allLanguages.push(...deps, lang)
 	}
 
-	const compoenents = await Promise.all([...new Set(allLanguages)].map(getComponent))
-	compoenents.forEach(compoenent => compoenent(...values))
+	const components = await Promise.all([...new Set(allLanguages)].map(getComponent))
+
+	for (const key in languages) {
+		if (!initialLangs.includes(key)) delete languages[key]
+	}
+	components.forEach(component => component(...values))
 }
 
 export { loadLanguages }
