@@ -3,6 +3,7 @@
 import { SetupExtension } from "../.."
 import { Bracket, BracketMatcher } from "./"
 import { getClosestToken } from "../../utils"
+import { addTextareaListener } from "../../utils/local"
 
 /**
  * Extension adding a `selectionChange` handler to highlight the closest bracket pair.
@@ -17,8 +18,9 @@ export const highlightBracketPairs = (): SetupExtension => editor => {
 		pairs: (number | undefined)[],
 		activeID = -1,
 		els: HTMLSpanElement[] = [],
-		selectionChange = ([start, end] = editor.getSelection()) => {
+		selectionChange = () => {
 			matcher ||= editor.extensions.matchBrackets
+			let [start, end] = editor.getSelection()
 			let newID = start == end && editor.focused && matcher ? closest(end) || -1 : -1
 			if (newID != activeID) {
 				toggleActive()
@@ -49,11 +51,10 @@ export const highlightBracketPairs = (): SetupExtension => editor => {
 			}
 		},
 		toggleActive = (add?: boolean) =>
-			els.forEach(el => el.classList.toggle("active-bracket", !!add)),
-		add = addEventListener.bind(editor.textarea)
+			els.forEach(el => el.classList.toggle("active-bracket", !!add))
 
-	add("blur", () => selectionChange())
-	add("focus", () => selectionChange())
+	addTextareaListener(editor, "focus", selectionChange)
+	addTextareaListener(editor, "blur", selectionChange)
 	editor.addListener("selectionChange", selectionChange)
 	editor.addListener("update", () => {
 		toggleActive()

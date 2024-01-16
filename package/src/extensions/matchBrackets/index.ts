@@ -33,7 +33,7 @@ export const matchBrackets = (rainbowBrackets = true) => {
 	let stack: [number, number][]
 	let bracketIndex: number
 	const self: BracketMatcher = editor => {
-		editor.extensions.matchBrackets = this
+		editor.extensions.matchBrackets = self
 		editor.addListener("tokenize", matchBrackets)
 		if (rainbowBrackets && editor.tokens[0]) editor.update()
 		else matchBrackets(editor.tokens)

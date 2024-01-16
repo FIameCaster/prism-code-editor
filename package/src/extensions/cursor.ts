@@ -2,7 +2,8 @@
 
 import { Extension, InputSelection, PrismEditor } from ".."
 import { createTemplate } from "../core"
-import { scrollToEl, getLineBefore } from "../utils"
+import { getLineBefore } from "../utils"
+import { addTextareaListener, scrollToEl } from "../utils/local"
 import { defaultCommands } from "./commands"
 
 /** Postion of the cursor relative to the editors overlays. */
@@ -28,7 +29,7 @@ const cursorTemplate = createTemplate(
 	"position:absolute;top:0;opacity:0;padding:inherit",
 )
 
-/** 
+/**
  * Extension which can be used to calculate the position of the cursor and scroll it into view.
  * This is used by the {@link defaultCommands} extension to keep the cursor in view while typing.
  */
@@ -60,7 +61,7 @@ export const cursorPosition = (): Cursor => {
 				cEditor = editor
 
 				editor.extensions.cursor = this
-				editor.textarea.addEventListener("beforeinput", e => {
+				addTextareaListener(editor, "beforeinput", e => {
 					shouldScroll = /history/.test(e.inputType)
 				})
 

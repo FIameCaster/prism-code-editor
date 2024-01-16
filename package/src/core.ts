@@ -12,6 +12,7 @@ import type {
 } from "./types"
 import { highlightTokens, languages, tokenizeText } from "./prism"
 import { Grammar, TokenStream } from "./prism/types"
+import { addTextareaListener } from "./utils/local"
 
 /**
  * Creates a code editor using the specified container and options.
@@ -47,7 +48,6 @@ const createEditor = (
 		lines = <HTMLCollectionOf<HTMLDivElement>>wrapper.children,
 		currentOptions = <EditorOptions>{ language: "text" },
 		currentExtensions = new Set(extensions),
-		addTextareaListener = addEventListener.bind(textarea),
 		listeners: {
 			[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
 		} = {
@@ -61,7 +61,7 @@ const createEditor = (
 						newLine.classList.add("active-line")
 						activeLine = newLine
 					}
-					overlays.classList.toggle("pce-no-selection", start == end)
+					updateClassName()
 				},
 			]),
 		}
@@ -73,9 +73,7 @@ const createEditor = (
 		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
 
 		updateExtensions()
-		scrollContainer.className = `prism-code-editor language-${language}${
-			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
-		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""}`
+		updateClassName()
 
 		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
 		if (isNewGrammar || value != textarea.value) {
@@ -114,10 +112,9 @@ const createEditor = (
 			lines[++i].setAttribute("data-line", <any>i)
 		scrollContainer.style.setProperty("--number-width", Math.ceil(Math.log10(l + 1)) + 0.001 + "ch")
 
-		handleSelecionChange = true
 		dispatchEvent("update", value)
-		dispatchSelection()
-		setTimeout(setTimeout, 0, () => (handleSelecionChange = true))
+		dispatchSelection(true)
+		setTimeout(() => (handleSelecionChange = true))
 
 		prevLines = newLines
 		handleSelecionChange = false
@@ -133,6 +130,14 @@ const createEditor = (
 				if (!newExtensions) currentExtensions.delete(extension)
 			}
 		})
+	}
+
+	const updateClassName = ([start, end] = getInputSelection()) => {
+		scrollContainer.className = `prism-code-editor language-${language}${
+			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
+		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${
+			start == end ? "no" : "has"
+		}-selection ${focused() ? " pce-focus" : ""}`
 	}
 
 	const getInputSelection = () =>
@@ -153,6 +158,7 @@ const createEditor = (
 		isWebKit &&
 		!focused() &&
 		addTextareaListener(
+			self,
 			"focus",
 			e => (e.relatedTarget ? (<HTMLElement>e.relatedTarget).focus() : textarea.blur()),
 			{ once: true },
@@ -221,31 +227,33 @@ const createEditor = (
 		},
 	}
 
-	addTextareaListener("keydown", e => {
+	addTextareaListener(self, "keydown", e => {
 		keyCommandMap[e.key]?.(e, getInputSelection(), value) && preventDefault(e)
 	})
 
-	addTextareaListener("beforeinput", e => {
+	addTextareaListener(self, "beforeinput", e => {
 		if (
 			readOnly ||
 			(e.inputType == "insertText" && inputCommandMap[e.data!]?.(e, getInputSelection(), value))
 		)
 			preventDefault(e)
 	})
-	addTextareaListener("input", () => {
+	addTextareaListener(self, "input", () => {
 		if (value != textarea.value) {
 			value = textarea.value
 			update()
 		}
 	})
-	addTextareaListener("blur", () => {
+	addTextareaListener(self, "blur", () => {
 		selectionChange = null
+		updateClassName()
 	})
-	addTextareaListener("focus", () => {
+	addTextareaListener(self, "focus", () => {
 		selectionChange = dispatchSelection
+		updateClassName()
 	})
 	// For browsers that support selectionchange on textareas
-	addTextareaListener("selectionchange", e => {
+	addTextareaListener(self, "selectionchange", e => {
 		dispatchSelection()
 		preventDefault(e)
 	})

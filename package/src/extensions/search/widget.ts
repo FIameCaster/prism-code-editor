@@ -1,6 +1,7 @@
 import { InputSelection, SetupExtension } from "../.."
 import { isChrome, isMac, createTemplate, preventDefault } from "../../core"
 import { regexEscape, getLines, getModifierCode } from "../../utils"
+import { addTextareaListener } from "../../utils/local"
 import { createReplaceAPI } from "./replace"
 
 const template = createTemplate(
@@ -116,7 +117,7 @@ export const searchWidget = (): SearchWidget => {
 				isOpen = true
 				if (marginTop == null) prevMargin = marginTop = getStyleValue(wrapper, "marginTop")
 				editor.addListener("update", input)
-				textarea.addEventListener("beforeinput", beforeinput)
+				addTextareaListener(editor, "beforeinput", beforeinput)
 				container.style.display = "flex"
 				updateMargin()
 				resize()
@@ -221,7 +222,7 @@ export const searchWidget = (): SearchWidget => {
 		inSelectionEl.title = `Find in Selection${shortcut}L)`
 		replaceAllEl.title = `(${isMac ? "Cmd" : "Ctrl+Alt"}+Enter)`
 
-		textarea.addEventListener("keydown", keydown)
+		addTextareaListener(editor, "keydown", keydown)
 
 		// Patches a bug where Chrome lies about the textarea's selection
 		isChrome &&

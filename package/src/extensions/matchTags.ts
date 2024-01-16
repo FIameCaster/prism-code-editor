@@ -3,6 +3,7 @@
 import { PrismEditor, SetupExtension } from ".."
 import { Token, TokenStream } from "../prism"
 import { getClosestToken } from "../utils"
+import { addTextareaListener } from "../utils/local"
 
 const voidlessLangs = "xml,rss,atom,jsx,tsx".split(",")
 const voidTags = "area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr".split(",")
@@ -199,6 +200,6 @@ export const highlightTagPunctuation =
 			}
 		}
 		editor.addListener("selectionChange", selectionChange)
-		editor.textarea.addEventListener("focus", selectionChange)
-		editor.textarea.addEventListener("blur", selectionChange)
+		addTextareaListener(editor, "focus", selectionChange)
+		addTextareaListener(editor, "blur", selectionChange)
 	}

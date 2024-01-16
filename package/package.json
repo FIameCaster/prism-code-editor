@@ -16,7 +16,7 @@
     "./code-folding.css": "./dist/folding.css",
     "./scrollbar.css": "./dist/scrollbar.css",
     "./setups": "./dist/setups/index.js",
-    "./utils": "./dist/utils.js",
+    "./utils": "./dist/utils/index.js",
     "./layout.css": "./dist/layout.css",
     "./rtl-layout.css": "./dist/rtl-layout.css",
     "./themes/*.css": "./dist/themes/*.css",

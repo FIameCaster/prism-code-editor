@@ -10,6 +10,7 @@ import {
 	regexEscape,
 	getModifierCode,
 } from "../utils"
+import { addTextareaListener } from "../utils/local"
 
 const clipboard = navigator.clipboard
 const mod = isMac ? 4 : 2
@@ -41,7 +42,7 @@ export const defaultCommands =
 	): SetupExtension =>
 	(editor, options) => {
 		let prevCopy: string
-		const { textarea, keyCommandMap, inputCommandMap, getSelection } = editor
+		const { keyCommandMap, inputCommandMap, getSelection } = editor
 
 		const getIndent = ({ insertSpaces = true, tabSize }: EditorOptions) =>
 			[insertSpaces ? " " : "\t", insertSpaces ? tabSize || 2 : 1] as const
@@ -243,7 +244,7 @@ export const defaultCommands =
 				}
 			}
 
-		textarea.addEventListener("keydown", e => {
+		addTextareaListener(editor, "keydown", e => {
 			const code = getModifierCode(e),
 				keyCode = e.keyCode
 
@@ -354,7 +355,7 @@ export const defaultCommands =
 			}
 		})
 		;(["copy", "cut", "paste"] as const).forEach(type =>
-			textarea.addEventListener(type, e => {
+			addTextareaListener(editor, type, e => {
 				const [start, end] = getSelection()
 				if (start == end && clipboard) {
 					const [[line], start1, end1] = getLines(editor.value, start, end)

@@ -1,6 +1,8 @@
 import { defineConfig } from "vite"
 import dts from "vite-plugin-dts"
-import dependencyMap from "./src/prism/tests/dependencies.json" assert { "type": "json" }
+
+/** @type {Record<string, string[]} */
+const dependencyGraph = JSON.parse(await fs.readFile(new URL("./src/prism/tests/dependencies.json", import.meta.url)))
 
 const entries = {
 	index: "src/index.ts",
@@ -24,12 +26,12 @@ const entries = {
 	"rtl-layout": "src/rtl-layout.css",
 	layout: "src/layout.css",
 	"themes/index": "src/themes/index.ts",
-	utils: "src/utilsExport.ts",
+	"utils/index": "src/utils/index.ts",
 	'prism/index': "src/prism/index.ts",
 	"prism/utils/index": "src/prism/utils/index.ts",
 }
 
-for (const name in dependencyMap) 
+for (const name in dependencyGraph) 
 	entries[`prism/languages/${name}`] = `src/prism/languages/${name}.js`
 
 for (const theme of [

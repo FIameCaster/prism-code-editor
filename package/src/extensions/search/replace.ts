@@ -1,5 +1,6 @@
 import { PrismEditor } from "../.."
-import { insertText, scrollToEl } from "../../utils"
+import { insertText } from "../../utils"
+import { addTextareaListener, scrollToEl } from "../../utils/local"
 import { SearchAPI, createSearchAPI } from "./search"
 
 /**
@@ -34,7 +35,7 @@ export interface ReplaceAPI extends SearchAPI {
 
 /** Function adding both search and replace functionality to an editor. */
 const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
-	const { getSelection, textarea } = editor,
+	const getSelection = editor.getSelection,
 		search = createSearchAPI(editor),
 		closest = () => {
 			const caretPos = getSelection()[0],
@@ -79,11 +80,11 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 				removeHighlight = () => {
 					currentLine?.classList.remove("match-highlight")
 					currentMatch?.classList.remove("match")
-					textarea.removeEventListener("focus", removeHighlight!)
+					editor.textarea.removeEventListener("focus", removeHighlight!)
 					removeHighlight = null
 				}
 				editor.setSelection(...match)
-				textarea.addEventListener("focus", removeHighlight)
+				addTextareaListener(editor, "focus", removeHighlight)
 				currentLine = editor.activeLine!
 				currentLine.classList.add("match-highlight")
 				currentMatch = <HTMLSpanElement>search.container.children[index]
@@ -133,14 +134,7 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 				newValue += i ? value.slice(matches[i - 1][1], matchStart) + str : str
 			}
 
-			insertText(
-				editor,
-				newValue,
-				matches[0][0],
-				matches[l - 1][1],
-				newStart,
-				newEnd,
-			)
+			insertText(editor, newValue, matches[0][0], matches[l - 1][1], newStart, newEnd)
 		},
 		destroy() {
 			removeHighlight?.()

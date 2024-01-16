@@ -39,7 +39,7 @@
 	padding: 0 var(--_pse) 0 var(--padding-left);
 }
 
-.pce-no-selection > :focus {
+.pce-no-selection textarea:focus {
 	z-index: 1;
 }
 
@@ -80,7 +80,7 @@
 
 .pce-overlays,
 div.pce-overlays > *,
-.pce-no-selection ~ .active-line::after,
+.pce-no-selection .active-line::after,
 .active-line.match-highlight::after {
 	content: "";
 	position: absolute;
