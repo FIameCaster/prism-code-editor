@@ -1,6 +1,6 @@
 /** @module match-tags */
 
-import { Extension, PrismEditor } from ".."
+import { PrismEditor, SetupExtension } from ".."
 import { Token, TokenStream } from "../prism"
 import { getClosestToken } from "../utils"
 
@@ -20,14 +20,6 @@ export interface TagMatcher {
 	readonly tags: [Token, number, number, number, string, boolean][]
 	/** Array mapping the index of a tag to the index of its matching tag. */
 	readonly pairs: (number | undefined)[]
-}
-
-export interface TagHighlighter extends Extension {
-	/**
-	 * The tag matcher used by the extension.
-	 * This property is only present after the extension is added to an editor.
-	 */
-	matcher?: TagMatcher
 }
 
 /**
@@ -123,53 +115,48 @@ const getClosestTagIndex = (pos: number, tags: TagMatcher["tags"]) => {
  *
  * This extension can safely be added dynamically to an editor.
  */
-export const matchTags = (): TagHighlighter => ({
-	update(editor) {
-		this.update = () => {}
-		let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
-		const { tags, pairs } = (this.matcher = editor.extensions.matchTags || createTagMatcher(editor))
-		const highlight = (remove?: boolean) =>
-			[openEl, closeEl].forEach(el => {
-				el && el.classList.toggle("active-tagname", !remove)
-			})
+export const matchTags = (): SetupExtension => editor => {
+	let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
+	const { tags, pairs } = editor.extensions.matchTags || createTagMatcher(editor)
+	const highlight = (remove?: boolean) =>
+		[openEl, closeEl].forEach(el => {
+			el && el.classList.toggle("active-tagname", !remove)
+		})
 
-		const selectionChange = () => {
-			let [start, end] = editor.getSelection()
-			let newEl1: HTMLSpanElement
-			let newEl2: HTMLSpanElement
-			if (start == end && editor.focused) {
-				let index = getClosestTagIndex(start, tags)!
-				let tag = tags[index]
+	editor.addListener("selectionChange", ([start, end]) => {
+		let newEl1: HTMLSpanElement
+		let newEl2: HTMLSpanElement
+		if (start == end && editor.focused) {
+			let index = getClosestTagIndex(start, tags)!
+			let tag = tags[index]
 
-				if (tag && tag[4]) {
-					const tag1 = getClosestToken(editor, ".tag>.tag", -tag[2], 0)
-					const otherIndex = pairs[index]!
+			if (tag && tag[4]) {
+				const tag1 = getClosestToken(editor, ".tag>.tag", -tag[2], 0)
+				const otherIndex = pairs[index]!
 
-					if (tag1 && otherIndex + 1) {
-						const tag2 = getClosestToken(editor, ".tag>.tag", 0, 0, tags[otherIndex][1])!
-						;[newEl1, newEl2] = [tag1, tag2].map(el => {
-							let children = el.childNodes
-							let child = children[1]
-							if (children[2] || (<Text>child).data) {
-								child = document.createElement("span")
-								;(<HTMLElement>child).append(...[].slice.call(children, 1))
-								el.append(child)
-							}
-							return <HTMLSpanElement>child
-						})
-					}
+				if (tag1 && otherIndex + 1) {
+					const tag2 = getClosestToken(editor, ".tag>.tag", 0, 0, tags[otherIndex][1])!
+					;[newEl1, newEl2] = [tag1, tag2].map(el => {
+						let children = el.childNodes
+						let child = children[1]
+						if (children[2] || (<Text>child).data) {
+							child = document.createElement("span")
+							;(<HTMLElement>child).append(...[].slice.call(children, 1))
+							el.append(child)
+						}
+						return <HTMLSpanElement>child
+					})
 				}
 			}
-			if (openEl != newEl1!) {
-				highlight(true)
-				openEl = newEl1!
-				closeEl = newEl2!
-				highlight()
-			}
 		}
-		editor.addListener("selectionChange", selectionChange)
-	},
-})
+		if (openEl != newEl1!) {
+			highlight(true)
+			openEl = newEl1!
+			closeEl = newEl2!
+			highlight()
+		}
+	})
+}
 
 /**
  * Extension that highlights `<` and `>` punctuation in XML tags.
@@ -177,14 +164,11 @@ export const matchTags = (): TagHighlighter => ({
  * @param alwaysHighlight If true, the punctuation will always be highlighted when the cursor
  * is inside a tag. If not it will only be highlighted when the cursor is on the punctuation.
  */
-export const highlightTagPunctuation = (
-	className: string,
-	alwaysHighlight?: boolean,
-): TagHighlighter => ({
-	update(editor) {
-		this.update = () => {}
+export const highlightTagPunctuation =
+	(className: string, alwaysHighlight?: boolean): SetupExtension =>
+	editor => {
 		let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
-		const { tags } = (this.matcher = editor.extensions.matchTags || createTagMatcher(editor))
+		const { tags } = editor.extensions.matchTags || createTagMatcher(editor)
 		const getPunctuation = (pos?: number) => getClosestToken(editor, ".tag>.punctuation", 0, 0, pos)
 		const highlight = (remove?: boolean) =>
 			[openEl, closeEl].forEach(el => {
@@ -217,5 +201,4 @@ export const highlightTagPunctuation = (
 		editor.addListener("selectionChange", selectionChange)
 		editor.textarea.addEventListener("focus", selectionChange)
 		editor.textarea.addEventListener("blur", selectionChange)
-	},
-})
+	}

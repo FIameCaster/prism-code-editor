@@ -88,6 +88,12 @@ export interface Extension {
 	update(editor: PrismEditor, options: EditorOptions): any
 }
 
+export interface SetupExtension {
+	(editor: PrismEditor, options: EditorOptions): any
+}
+
+export type EditorExtension = Extension | SetupExtension
+
 export type EditorEventMap = {
 	update: (this: PrismEditor, value: string) => any
 	selectionChange: (this: PrismEditor, selection: InputSelection, value: string) => any
@@ -161,7 +167,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	 */
 	setSelection(start: number, end?: number, direction?: "backward" | "forward" | "none"): void
 	/** Adds extensions to the editor and calls their update methods. */
-	addExtensions(...extensions: Extension[]): void
+	addExtensions(...extensions: EditorExtension[]): void
 	/** Removes the editor from the DOM and marks the editor as removed. */
 	remove(): void
 }

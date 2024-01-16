@@ -7,6 +7,8 @@ import type {
 	EditorEventMap,
 	Extension,
 	InputSelection,
+	EditorExtension,
+	SetupExtension,
 } from "./types"
 import { highlightTokens, languages, tokenizeText } from "./prism"
 import { Grammar, TokenStream } from "./prism/types"
@@ -24,7 +26,7 @@ import { Grammar, TokenStream } from "./prism/types"
 const createEditor = (
 	container?: ParentNode | string,
 	options?: Partial<EditorOptions>,
-	...extensions: Extension[]
+	...extensions: EditorExtension[]
 ): PrismEditor => {
 	let language: string,
 		grammar: Grammar,
@@ -70,7 +72,7 @@ const createEditor = (
 		const isNewGrammar = grammar != (grammar = languages[language])
 		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
 
-		currentExtensions.forEach(extension => extension.update(self, currentOptions))
+		updateExtensions()
 		scrollContainer.className = `prism-code-editor language-${language}${
 			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
 		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""}`
@@ -91,6 +93,7 @@ const createEditor = (
 	const update = () => {
 		tokens = tokenizeText(value, grammar)
 		dispatchEvent("tokenize", tokens, language, value)
+
 		let newLines = highlightTokens(tokens).split("\n")
 		let l = newLines.length
 		let start = 0,
@@ -118,6 +121,18 @@ const createEditor = (
 
 		prevLines = newLines
 		handleSelecionChange = false
+	}
+
+	const updateExtensions = (newExtensions?: EditorExtension[]) => {
+		;(newExtensions || currentExtensions).forEach(extension => {
+			if ((<Extension>extension).update) {
+				;(<Extension>extension).update(self, currentOptions)
+				if (newExtensions) currentExtensions.add(extension)
+			} else {
+				;(<SetupExtension>extension)(self, currentOptions)
+				if (!newExtensions) currentExtensions.delete(extension)
+			}
+		})
 	}
 
 	const getInputSelection = () =>
@@ -192,12 +207,7 @@ const createEditor = (
 			dispatchSelection(true)
 		},
 		addExtensions(...extensions) {
-			extensions.forEach(extension => {
-				if (!currentExtensions.has(extension)) {
-					currentExtensions.add(extension)
-					extension.update(self, currentOptions)
-				}
-			})
+			updateExtensions(extensions)
 		},
 		addListener<T extends keyof EditorEventMap>(name: T, handler: EditorEventMap[T]) {
 			;(listeners[name] ||= new Set<any>()).add(handler)

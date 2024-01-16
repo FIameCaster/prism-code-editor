@@ -1,12 +1,12 @@
 /** @module match-brackets */
 
-import { Extension } from "../.."
+import { SetupExtension } from "../.."
 import { Token, TokenStream } from "../../prism"
 
 const openingCharCodes: boolean[] = []
 const closingCharCodes: boolean[] = []
 
-export interface BracketMatcher extends Extension {
+export interface BracketMatcher extends SetupExtension {
 	/**
 	 * Array of tuples containing in the following order:
 	 * - The bracket's `Token`
@@ -29,11 +29,19 @@ export type Bracket = [Token, number, number, string, boolean]
  *
  * Without rainbow brackets, this extension can be added dynamically with no side effects.
  */
-export const matchBrackets = (rainbowBrackets = true): BracketMatcher => {
+export const matchBrackets = (rainbowBrackets = true) => {
 	let stack: [number, number][]
 	let bracketIndex: number
-	const brackets: Bracket[] = []
-	const pairMap: number[] = []
+	const self: BracketMatcher = editor => {
+		editor.extensions.matchBrackets = this
+		editor.addListener("tokenize", matchBrackets)
+		if (rainbowBrackets && editor.tokens[0]) editor.update()
+		else matchBrackets(editor.tokens)
+	}
+	// @ts-ignore
+	const brackets: Brakcet[] = self.brackets = []
+	// @ts-ignore
+	const pairMap: number[] = self.pairs = []
 	const matchBrackets = (tokens: TokenStream) => {
 		stack = []
 		pairMap.length = brackets.length = bracketIndex = 0
@@ -81,17 +89,7 @@ export const matchBrackets = (rainbowBrackets = true): BracketMatcher => {
 		}
 	}
 
-	return {
-		update(editor) {
-			this.update = () => {}
-			editor.extensions.matchBrackets = this
-			editor.addListener("tokenize", matchBrackets)
-			if (rainbowBrackets && editor.tokens[0]) editor.update()
-			else matchBrackets(editor.tokens)
-		},
-		brackets,
-		pairs: pairMap,
-	}
+	return self
 }
 
 openingCharCodes[40] = openingCharCodes[91] = openingCharCodes[123] = true

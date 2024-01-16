@@ -1,6 +1,6 @@
 /** @module commands */
 
-import { EditorOptions, Extension, InputSelection } from ".."
+import { EditorOptions, InputSelection, SetupExtension } from ".."
 import { ignoreTab, isMac, preventDefault, setIgnoreTab, languageMap } from "../core"
 import {
 	getLanguage,
@@ -34,12 +34,12 @@ const mod = isMac ? 4 : 2
  * automatically close based on the character before and after the cursor.
  * Defaults to ``/([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s``.
  */
-export const defaultCommands = (
-	selfClosePairs = ['""', "''", "``", "()", "[]", "{}"],
-	selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s,
-): Extension => ({
-	update(editor, options) {
-		this.update = () => {}
+export const defaultCommands =
+	(
+		selfClosePairs = ['""', "''", "``", "()", "[]", "{}"],
+		selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s,
+	): SetupExtension =>
+	(editor, options) => {
 		let prevCopy: string
 		const { textarea, keyCommandMap, inputCommandMap, getSelection } = editor
 
@@ -372,5 +372,4 @@ export const defaultCommands = (
 				}
 			}),
 		)
-	},
-})
+	}
