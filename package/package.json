@@ -51,6 +51,7 @@
     "preview": "vite preview",
     "regex-coverage": "mocha src/prism/tests/coverage.js",
     "test:core": "mocha src/prism/tests/core-tests.js",
+    "test:identifiers": "mocha src/prism/tests/identifier-test.js",
     "test:languages": "mocha src/prism/tests/run.js",
     "test:patterns": "mocha src/prism/tests/pattern-tests.js",
     "prepublish": "tsc && vite build && node scripts/build.mjs"

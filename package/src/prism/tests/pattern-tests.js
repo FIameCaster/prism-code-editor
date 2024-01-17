@@ -9,10 +9,10 @@ import { analyse } from 'scslre';
 import { isPotentiallyZeroLength, isZeroLength, getEffectiveMaximumRepetition, hasSomeDescendant } from 'regexp-ast-analysis';
 import { languages } from '../core.js';
 import { language } from './helper/args.js';
-import { dependencyGraph, optionals } from './helper/lang-info.js';
+import { optionals } from './helper/lang-info.js';
 
-for (const lang in dependencyGraph) {
-	if (language && lang !== language || !(lang in optionals)) {
+for (const lang in optionals) {
+	if (language && lang !== language) {
 		continue;
 	}
 
