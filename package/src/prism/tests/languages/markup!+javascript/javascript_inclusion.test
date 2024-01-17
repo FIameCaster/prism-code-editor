@@ -19,13 +19,11 @@ let foo = '</script>';
 
 [
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"script"
-		]],
+		["punctuation", "<"],
+		["tag", ["script"]],
 		["attr-name", ["type"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			"text/javascript",
 			["punctuation", "\""]
@@ -40,18 +38,14 @@ let foo = '</script>';
 		]]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"script"
-		]],
+		["punctuation", "</"],
+		["tag", ["script"]],
 		["punctuation", ">"]
 	]],
 
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"script"
-		]],
+		["punctuation", "<"],
+		["tag", ["script"]],
 		["punctuation", ">"]
 	]],
 	["script", [
@@ -60,21 +54,17 @@ let foo = '</script>';
 		]]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"script"
-		]],
+		["punctuation", "</"],
+		["tag", ["script"]],
 		["punctuation", ">"]
 	]],
 
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"script"
-		]],
+		["punctuation", "<"],
+		["tag", ["script"]],
 		["attr-name", ["type"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			"application/javascript",
 			["punctuation", "\""]
@@ -105,43 +95,35 @@ let foo = '</script>';
 		]]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"script"
-		]],
+		["punctuation", "</"],
+		["tag", ["script"]],
 		["punctuation", ">"]
 	]],
 
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"foo"
-		]],
-		["special-attr", [
-			["attr-name", "onclick"],
-			["attr-value", [
-				["punctuation", "="],
-				["punctuation", "\""],
-				["value", [
-					["keyword", "this"],
-					["punctuation", "."],
-					["property-access", ["textContent"]],
-					["operator", "="],
-					["string", "'Clicked!'"]
-				]],
-				["punctuation", "\""]
-			]]
+		["punctuation", "<"],
+		["tag", ["foo"]],
+		["attr-name", ["onclick"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-javascript", [
+				["keyword", "this"],
+				["punctuation", "."],
+				["property-access", ["textContent"]],
+				["operator", "="],
+				["string", "'Clicked!'"]
+			]],
+			["punctuation", "\""]
 		]],
 		["punctuation", ">"]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"foo"
-		]],
+		["punctuation", "<"],
+		["tag", ["foo"]],
 		["attr-name", ["mouseover"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			"this.textContent='Over!'",
 			["punctuation", "\""]

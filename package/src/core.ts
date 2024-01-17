@@ -25,7 +25,7 @@ import { addTextareaListener } from "./utils/local"
  * @returns Object to interact with the created editor.
  */
 const createEditor = (
-	container?: ParentNode | string,
+	container?: ParentNode | string | null,
 	options?: Partial<EditorOptions>,
 	...extensions: EditorExtension[]
 ): PrismEditor => {
@@ -114,7 +114,7 @@ const createEditor = (
 
 		dispatchEvent("update", value)
 		dispatchSelection(true)
-		setTimeout(() => (handleSelecionChange = true))
+		setTimeout(setTimeout, 0, () => (handleSelecionChange = true))
 
 		prevLines = newLines
 		handleSelecionChange = false
@@ -276,11 +276,11 @@ const createEditor = (
 const editorFromPlaceholder = (
 	placeholder: string | HTMLElement,
 	options: Partial<EditorOptions>,
-	...extensions: Extension[]
+	...extensions: EditorExtension[]
 ) => {
 	const el = getElement(placeholder)!
 	const editor = createEditor(
-		undefined,
+		null,
 		Object.assign({ value: el.textContent }, options),
 		...extensions,
 	)

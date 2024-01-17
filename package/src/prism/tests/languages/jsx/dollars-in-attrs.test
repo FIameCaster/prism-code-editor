@@ -4,13 +4,11 @@
 
 [
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["attr-name", ["$$"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			"bar baz",
 			["punctuation", "\""]
@@ -21,5 +19,6 @@
 ]
 
 ----------------------------------------------------
+
 Checks that attribute names can contain $
 No issue filed

@@ -12,13 +12,13 @@
 
 [
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "Button"]
 		]],
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["parameter", ["e"]],
@@ -40,14 +40,14 @@
 	]],
 
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "Component"]
 		]],
 
 		["attr-name", ["data"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "["],
 
@@ -81,13 +81,13 @@
 	]],
 
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "Component"]
 		]],
 		["attr-name", ["title"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["template-string", [
 				["template-punctuation", "`"],
@@ -104,13 +104,13 @@
 	]],
 
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "Component"]
 		]],
 		["attr-name", ["title"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["template-string", [
 				["template-punctuation", "`"],

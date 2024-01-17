@@ -372,31 +372,23 @@
 	]],
 
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"tr"
-		]],
+		["punctuation", "<"],
+		["tag", ["tr"]],
 		["punctuation", ">"]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"td"
-		]],
+		["punctuation", "<"],
+		["tag", ["td"]],
 		["punctuation", ">"]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"td"
-		]],
+		["punctuation", "</"],
+		["tag", ["td"]],
 		["punctuation", ">"]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"tr"
-		]],
+		["punctuation", "</"],
+		["tag", ["tr"]],
 		["punctuation", ">"]
 	]],
 

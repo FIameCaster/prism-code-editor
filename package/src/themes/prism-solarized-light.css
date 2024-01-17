@@ -19,7 +19,7 @@
 	--editor__line-number: #53abc6;
 	--editor__bg-scrollbar: 0, 0%, 25%;
 	--editor__bg-fold: #424242;
-	--bg-guide-indent: #586e7580;
+	--bg-guide-indent: #1d333a40;
 	color-scheme: light;
 }
 
@@ -51,7 +51,9 @@
 	color: #93a1a1;
 }
 
-.token.punctuation {
+.token.punctuation,
+.token.spread,
+.token.attr-equals {
 	color: #586e75;
 }
 

@@ -1,4 +1,4 @@
-import { languages, Token, rest, tokenize, withoutTokenizer } from '../core.js';
+import { languages, Token, tokenize, withoutTokenizer } from '../core.js';
 import { clone, extend, insertBefore } from '../utils/language.js';
 import './xml.js';
 import './javascript.js';
@@ -21,40 +21,13 @@ var re = pattern => RegExp(pattern
 	.replace(/<SPREAD>/g, spread)
 );
 
-spread = re(spread).source;
-
-tag.pattern = re(
-	/<\/?(?:(?!\d)[^\s>\/=<%]+(?:<S>+(?:[^\s{*<>\/=]+(?:<S>*=\s*(?:(?:"[^"]*"|'[^']*'|[^\s{'"\/>=]+|<BRACES>)|(?=\S)))?|<SPREAD>))*<S>*\/?)?>/.source
-);
-
-tagInside['tag'].pattern = /^<\/?[^\s>/]*/;
-tagInside['attr-value'].pattern = /=\s*(?:"[^"]*"|'[^']*'|[^\s\/'">]+)?/;
-tagInside['tag'].inside['class-name'] = /^[A-Z]\w*(?:\.[A-Z]\w*)*$/;
-tagInside['comment'] = javascript['comment'];
-
-delete jsx['markup-bracket'];
-
-insertBefore(tagInside, 'attr-value', {
-	'script': {
-		// Allow for two levels of nesting
-		pattern: re(/=\s*<BRACES>/.source),
-		alias: 'language-jsx',
-		inside: {
-			'script-punctuation': {
-				pattern: /^=/,
-				alias: 'punctuation'
-			},
-			[rest]: jsx
-		},
-	},
-	'spread': {
-		pattern: RegExp(spread),
-		inside: jsx
-	}
-});
-
 var isText = token => token && (!token.type || token.type == 'plain-text');
 
+/**
+ * @param {(string | Token)[]} tokens
+ * @param {string} code
+ * @param {number} position
+ */
 var walkTokens = (tokens, code, position) => {
 	for (var i = 0, openedTags = []; i < tokens.length; i++) {
 		var token = tokens[i];
@@ -65,12 +38,12 @@ var walkTokens = (tokens, code, position) => {
 		var last, tag, start, plainText;
 
 		if (type) {
-			if (type == 'tag' && content[0].type == 'tag') {
+			if (type == 'tag' && code[position] == "<") {
 				// We found a tag, now find its kind
-				tag = code.slice(position + 1, position + content[0].length);
-				if (tag[0] == '/') {
+				tag = content[2] ? code.substr(position + content[0].length, content[1].length) : "";
+				if (code[position + 1] == '/') {
 					// Closing tag
-					if (openedTags[0] && openedTags[openedTags.length - 1][0] == tag.slice(1)) {
+					if (openedTags[0] && openedTags[openedTags.length - 1][0] == tag) {
 						// Pop matching opening tag
 						openedTags.pop();
 					}
@@ -116,5 +89,34 @@ var walkTokens = (tokens, code, position) => {
 	}
 	return tokens;
 };
+
+spread = re(spread).source;
+
+tag.pattern = re(
+	/<\/?(?:(?!\d)[^\s>/=<%]+(?:<S>+(?:[^\s{*<>/=]+(?:<S>*=<S>*(?:(?:"[^"]*"|'[^']*'|[^\s{'"/>=]+|<BRACES>)|(?=\S)))?|<SPREAD>))*<S>*\/?)?>/.source
+);
+
+tagInside['attr-value'][0].pattern = re(/(=<S>*)(?:"[^"]*"|'[^']*'|[^\s\/'">]+)/.source);
+tagInside['tag'].inside['class-name'] = /^[A-Z]\w*(?:\.[A-Z]\w*)*$/;
+
+delete jsx['markup-bracket'];
+
+insertBefore(tagInside, 'attr-value', {
+	'script': {
+		// Allow for two levels of nesting
+		pattern: re(/(=<S>*)<BRACES>/.source),
+		lookbehind: true,
+		alias: 'language-jsx',
+		inside: jsx
+	},
+	'spread': {
+		pattern: RegExp(spread),
+		inside: jsx
+	}
+});
+
+insertBefore(tagInside, 'attr-equals', {
+	'comment': jsx['comment']
+});
 
 jsx[tokenize] = (code, grammar) => walkTokens(withoutTokenizer(code, grammar), code, 0);

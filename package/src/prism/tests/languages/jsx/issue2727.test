@@ -123,22 +123,22 @@ export default function App() {
 	["punctuation", "("],
 
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "React.Fragment"]
 		]],
 		["punctuation", ">"]
 	]],
 	["plain-text", "\n\n            "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MaxMSP.Bang"]
 		]],
 
 		["attr-name", ["ariaLabel"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"set the aria-label tag",
 			["punctuation", "'"]
@@ -146,8 +146,8 @@ export default function App() {
 		["comment", "// defaults to the object name"],
 
 		["attr-name", ["ariaPressed"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -157,8 +157,8 @@ export default function App() {
 		["comment", "// default null"],
 
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["punctuation", ")"],
@@ -176,14 +176,14 @@ export default function App() {
 	]],
 	["plain-text", "\n\n            "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MaxMSP.Ezdac"]
 		]],
 
 		["attr-name", ["ariaLabel"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"set the aria-label tag",
 			["punctuation", "'"]
@@ -191,8 +191,8 @@ export default function App() {
 		["comment", "// defaults to the object name"],
 
 		["attr-name", ["value"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -202,8 +202,8 @@ export default function App() {
 		["comment", "// default false"],
 
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["parameter", ["bool"]],
@@ -223,14 +223,14 @@ export default function App() {
 	]],
 	["plain-text", "\n\n            "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MaxMSP.Message"]
 		]],
 
 		["attr-name", ["ariaLabel"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"set the aria-label tag",
 			["punctuation", "'"]
@@ -238,8 +238,8 @@ export default function App() {
 		["comment", "// defaults to the object name"],
 
 		["attr-name", ["ariaPressed"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -249,16 +249,16 @@ export default function App() {
 		["comment", "// default null"],
 
 		["attr-name", ["text"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"What does the message say?",
 			["punctuation", "'"]
 		]],
 
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["punctuation", ")"],
@@ -276,14 +276,14 @@ export default function App() {
 	]],
 	["plain-text", "\n\n            "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MaxMSP.Object"]
 		]],
 
 		["attr-name", ["inactive"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -293,8 +293,8 @@ export default function App() {
 		["comment", "// default false"],
 
 		["attr-name", ["text"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"What is the object called?",
 			["punctuation", "'"]
@@ -304,14 +304,14 @@ export default function App() {
 	]],
 	["plain-text", "\n\n            "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MaxMSP.Playbar"]
 		]],
 
 		["attr-name", ["ariaLabel"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"set the aria-label tag",
 			["punctuation", "'"]
@@ -319,8 +319,8 @@ export default function App() {
 		["comment", "// defaults to the object name"],
 
 		["attr-name", ["fidelity"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["number", "100"],
 			["punctuation", "}"]
@@ -328,8 +328,8 @@ export default function App() {
 		["comment", "// max output of slider, default 100"],
 
 		["attr-name", ["inactive"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -339,8 +339,8 @@ export default function App() {
 		["comment", "// diable user interaction, default false"],
 
 		["attr-name", ["setPlaying"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -350,8 +350,8 @@ export default function App() {
 		["comment", "// set isPlaying externally"],
 
 		["attr-name", ["value"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["number", "50"],
 			["punctuation", "}"]
@@ -359,8 +359,8 @@ export default function App() {
 		["comment", "// inital/updated state, 0 to this.props.fidelity, default 0"],
 
 		["attr-name", ["width"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["number", "200"],
 			["punctuation", "}"]
@@ -368,8 +368,8 @@ export default function App() {
 		["comment", "// width of the slider in pixels, default 200"],
 
 		["attr-name", ["isPlaying"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["parameter", ["bool"]],
@@ -385,8 +385,8 @@ export default function App() {
 		]],
 
 		["attr-name", ["onChange"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["parameter", ["i"]],
@@ -415,14 +415,14 @@ export default function App() {
 	]],
 	["plain-text", "\n\n            "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MaxMSP.RadioGroup"]
 		]],
 
 		["attr-name", ["ariaLabel"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"set the aria-label tag",
 			["punctuation", "'"]
@@ -430,8 +430,8 @@ export default function App() {
 		["comment", "// defaults to the object name"],
 
 		["attr-name", ["items"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "["],
 			["string", "'array'"],
@@ -445,8 +445,8 @@ export default function App() {
 		["comment", "// this sets the amount of radiobuttons, strings create text alongside each button"],
 
 		["attr-name", ["spacing"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["number", "24"],
 			["punctuation", "}"]
@@ -454,8 +454,8 @@ export default function App() {
 		["comment", "// the height of each button in pixels, defualt 20"],
 
 		["attr-name", ["value"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			"i",
 			["punctuation", "}"]
@@ -463,8 +463,8 @@ export default function App() {
 		["comment", "// this.props.items[i], default 0"],
 
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["parameter", ["i"]],
@@ -492,14 +492,14 @@ export default function App() {
 	]],
 	["plain-text", "\n\n            "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MaxMSP.Slider"]
 		]],
 
 		["attr-name", ["ariaLabel"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"set the aria-label tag",
 			["punctuation", "'"]
@@ -507,8 +507,8 @@ export default function App() {
 		["comment", "// defaults to the object name"],
 
 		["attr-name", ["fidelity"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["number", "100"],
 			["punctuation", "}"]
@@ -516,8 +516,8 @@ export default function App() {
 		["comment", "// max output of slider, default 100"],
 
 		["attr-name", ["length"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["number", "200"],
 			["punctuation", "}"]
@@ -525,8 +525,8 @@ export default function App() {
 		["comment", "// width of the slider in pixels, default 200"],
 
 		["attr-name", ["value"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["number", "50"],
 			["punctuation", "}"]
@@ -534,8 +534,8 @@ export default function App() {
 		["comment", "// inital/updated state, 0 to this.props.fidelity, default 0"],
 
 		["attr-name", ["onChange"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["parameter", ["i"]],
@@ -564,14 +564,14 @@ export default function App() {
 	]],
 	["plain-text", "\n\n            "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MaxMSP.TextButton"]
 		]],
 
 		["attr-name", ["ariaLabel"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"set the aria-label tag",
 			["punctuation", "'"]
@@ -579,8 +579,8 @@ export default function App() {
 		["comment", "// defaults to the object name"],
 
 		["attr-name", ["ariaPressed"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -590,8 +590,8 @@ export default function App() {
 		["comment", "// default null, for mode 'false' only"],
 
 		["attr-name", ["inactive"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -601,8 +601,8 @@ export default function App() {
 		["comment", "// diable user interaction, default false"],
 
 		["attr-name", ["mode"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -612,24 +612,24 @@ export default function App() {
 		["comment", "// true for toggle, false for bang, default false"],
 
 		["attr-name", ["text"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"What does the textbutton say?",
 			["punctuation", "'"]
 		]],
 
 		["attr-name", ["toggleText"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"What does the toggled textbutton say?",
 			["punctuation", "'"]
 		]],
 
 		["attr-name", ["value"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -641,8 +641,8 @@ export default function App() {
 		["comment", "// mode 0 onClick"],
 
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["punctuation", ")"],
@@ -659,8 +659,8 @@ export default function App() {
 		["comment", "// mode 1 onClick"],
 
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["parameter", ["bool"]],
@@ -679,14 +679,14 @@ export default function App() {
 	]],
 	["plain-text", "\n\n            "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MaxMSP.Toggle"]
 		]],
 
 		["attr-name", ["ariaLabel"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"set the aria-label tag",
 			["punctuation", "'"]
@@ -694,8 +694,8 @@ export default function App() {
 		["comment", "// defaults to the object name"],
 
 		["attr-name", ["value"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -705,8 +705,8 @@ export default function App() {
 		["comment", "// default false"],
 
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["parameter", ["bool"]],
@@ -725,14 +725,14 @@ export default function App() {
 	]],
 	["plain-text", "\n\n            "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MaxMSP.Umenu"]
 		]],
 
 		["attr-name", ["ariaLabel"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "'"],
 			"set the aria-label tag",
 			["punctuation", "'"]
@@ -740,8 +740,8 @@ export default function App() {
 		["comment", "// defaults to the object name"],
 
 		["attr-name", ["items"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "["],
 			["string", "'array'"],
@@ -754,8 +754,8 @@ export default function App() {
 		]],
 
 		["attr-name", ["outputSymbol"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["operator", "||"],
@@ -765,8 +765,8 @@ export default function App() {
 		["comment", "// true for symbol false for int, default false"],
 
 		["attr-name", ["value"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			"i",
 			["punctuation", "}"]
@@ -774,8 +774,8 @@ export default function App() {
 		["comment", "// this.props.items[i], default 0"],
 
 		["attr-name", ["width"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["number", "200"],
 			["punctuation", "}"]
@@ -783,8 +783,8 @@ export default function App() {
 		["comment", "// width of the umenu in pixels, default 100"],
 
 		["attr-name", ["onChange"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "("],
 			["parameter", ["x"]],
@@ -812,8 +812,8 @@ export default function App() {
 	]],
 	["plain-text", "\n\n        "],
 	["tag", [
+		["punctuation", "</"],
 		["tag", [
-			["punctuation", "</"],
 			["class-name", "React.Fragment"]
 		]],
 		["punctuation", ">"]

@@ -33,10 +33,12 @@ export interface TagMatcher {
  */
 export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 	let pairMap: number[] = [],
+		code: string,
 		tags: Tag[] = [],
 		stack: [number, string][],
 		tagIndex: number,
-		matchTags = (tokens: TokenStream, language: string) => {
+		matchTags = (tokens: TokenStream, language: string, value: string) => {
+			code = value
 			stack = []
 			tags.length = pairMap.length = tagIndex = 0
 			matchTagsRecursive(tokens, language, 0)
@@ -48,42 +50,39 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 					type = token.type,
 					length = token.length
 				if (Array.isArray(content)) {
-					if (type == "tag") {
-						if ((<Token>content[0]).content) {
-							const value = editor.value
-							const offset = content[0].length
-							const isClosing = value[position + 1] == "/"
-							const tagName = value.slice(position + 1 + <any>isClosing, position + offset)
-							const selfClosing =
-								length > 3 &&
-								(value[position + length - 2] == "/" || (!noVoidTags && voidTags.includes(tagName)))
+					if (type == "tag" && code[position] == "<") {
+						const isClosing = code[position + 1] == "/"
+						const tagName = content[2]
+							? code.substr(position + content[0].length, content[1].length)
+							: ""
+						const selfClosing =
+							!!tagName &&
+							(code[position + length - 2] == "/" || (!noVoidTags && voidTags.includes(tagName)))
 
-							if (content[2] && noVoidTags)
-								matchTagsRecursive(content.slice(1, -1), language, position + offset)
+						if (content[2] && noVoidTags) matchTagsRecursive(content, language, position)
 
-							if (!selfClosing) {
-								if (isClosing) {
-									for (let i = stack.length; i; ) {
-										if (tagName == stack[--i][1]) {
-											pairMap[(pairMap[tagIndex] = stack[i][0])] = tagIndex
-											stack.length = i
-											i = 0
-										}
+						if (!selfClosing) {
+							if (isClosing) {
+								for (let i = stack.length; i; ) {
+									if (tagName == stack[--i][1]) {
+										pairMap[(pairMap[tagIndex] = stack[i][0])] = tagIndex
+										stack.length = i
+										i = 0
 									}
-								} else {
-									stack.push([tagIndex, tagName])
 								}
+							} else {
+								stack.push([tagIndex, tagName])
 							}
-
-							tags[tagIndex++] = [
-								token,
-								position,
-								position + length,
-								tagName,
-								isClosing,
-								selfClosing,
-							]
 						}
+
+						tags[tagIndex++] = [
+							token,
+							position,
+							position + length,
+							tagName,
+							isClosing,
+							selfClosing,
+						]
 					} else {
 						let lang = token.alias || type
 						matchTagsRecursive(
@@ -99,7 +98,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 
 	editor.addListener("tokenize", matchTags)
 
-	matchTags(editor.tokens, editor.options.language)
+	matchTags(editor.tokens, editor.options.language, editor.value)
 
 	return (editor.extensions.matchTags = {
 		tags,
@@ -136,21 +135,12 @@ export const matchTags = (): SetupExtension => editor => {
 			let tag = tags[index]
 
 			if (tag && tag[3]) {
-				const tag1 = getClosestToken(editor, ".tag>.tag", -1 - <any>tag[4], 0)
+				const tag1 = getClosestToken(editor, ".tag>.tag")
 				const otherIndex = pairs[index]!
 
 				if (tag1 && otherIndex + 1) {
-					const tag2 = getClosestToken(editor, ".tag>.tag", 0, 0, tags[otherIndex][1])!
-					;[newEl1, newEl2] = [tag1, tag2].map(el => {
-						let children = el.childNodes
-						let child = children[1]
-						if (children[2] || (<Text>child).data) {
-							child = document.createElement("span")
-							;(<HTMLElement>child).append(...[].slice.call(children, 1))
-							el.append(child)
-						}
-						return <HTMLSpanElement>child
-					})
+					newEl1 = tag1
+					newEl2 = getClosestToken(editor, ".tag>.tag", 0, 0, tags[otherIndex][1] + 2)!
 				}
 			}
 		}
@@ -189,8 +179,7 @@ export const highlightTagPunctuation =
 
 				if (
 					tag &&
-					(alwaysHighlight ||
-						((end <= tag[1] + <any>tag[4] || end > 1 + tag[1] + <any>tag[4] + tag[3].length) && getPunctuation()))
+					(alwaysHighlight || (!getClosestToken(editor, ".tag>.tag") && getPunctuation()))
 				) {
 					newEl1 = getPunctuation(tag[1])!
 					newEl2 = getPunctuation(tag[2] - 1)!

@@ -15,13 +15,11 @@ class Test extends Component {
 	" myDivElement ",
 	["operator", "="],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["attr-name", ["className"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			"foo",
 			["punctuation", "\""]
@@ -34,13 +32,13 @@ class Test extends Component {
 	" myElement ",
 	["operator", "="],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "MyComponent"]
 		]],
 		["attr-name", ["someProperty"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["punctuation", "}"]
@@ -50,10 +48,8 @@ class Test extends Component {
 	["punctuation", ";"],
 
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["spread", [
 			["punctuation", "{"],
 			["operator", "..."],
@@ -64,13 +60,13 @@ class Test extends Component {
 	]],
 
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "Tree.TreeNode.Item"]
 		]],
 		["attr-name", ["leaf"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["boolean", "true"],
 			["punctuation", "}"]
@@ -78,8 +74,8 @@ class Test extends Component {
 		["punctuation", ">"]
 	]],
 	["tag", [
+		["punctuation", "</"],
 		["tag", [
-			["punctuation", "</"],
 			["class-name", "Tree.TreeNode.Item"]
 		]],
 		["punctuation", ">"]
@@ -98,13 +94,11 @@ class Test extends Component {
 
 	["keyword", "return"],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"p"
-		]],
+		["punctuation", "<"],
+		["tag", ["p"]],
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["keyword", "this"],
 			["punctuation", "."],
@@ -115,10 +109,8 @@ class Test extends Component {
 	]],
 	["plain-text", "Hello world."],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"p"
-		]],
+		["punctuation", "</"],
+		["tag", ["p"]],
 		["punctuation", ">"]
 	]],
 	["punctuation", ";"],

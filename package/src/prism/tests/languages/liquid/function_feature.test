@@ -329,13 +329,11 @@
 		["delimiter", "}}"]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"img"
-		]],
+		["punctuation", "<"],
+		["tag", ["img"]],
 		["attr-name", ["src"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			"https://www.gravatar.com/avatar/",
 			["liquid", [

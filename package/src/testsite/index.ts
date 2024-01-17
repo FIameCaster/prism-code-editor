@@ -33,7 +33,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	tabs = wrapper.querySelectorAll(".tab"),
 	errorEl = <HTMLDivElement>wrapper.querySelector(".error")!,
 	errorMessage = <HTMLPreElement>errorEl.lastElementChild,
-	createEditorWrapper = (container: ParentNode, options: EditorOptions) =>
+	createEditorWrapper = (container: ParentNode | null, options: EditorOptions) =>
 		createEditor(
 			container,
 			options,
@@ -162,13 +162,14 @@ runBtn.onclick = () => {
 	let newEditor: PrismEditor
 	try {
 		// Creating a new editor instead of
-		newEditor = createEditorWrapper(wrapper, options)
+		newEditor = createEditorWrapper(null, options)
 	} catch (error) {
 		errorEl.removeAttribute("aria-hidden")
 		errorMessage.textContent = <string>error
 		return
 	}
 
+	wrapper.append(newEditor.scrollContainer)
 	editor1.remove()
 	editor1 = newEditor
 	toggleActive()

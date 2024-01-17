@@ -4,13 +4,13 @@
 
 [
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "Child"]
 		]],
 		["attr-name", ["options"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "{"],
 			["literal-property", "track"],

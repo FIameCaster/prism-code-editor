@@ -45,32 +45,24 @@ languages.rss = languages.atom = languages.ssml = languages.xml = {
 		pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=\S))|(?=[\s/>])))+)?\s*\/?>/,
 		greedy: true,
 		inside: {
+			'punctuation': /^<\/?|\/?>$/,
 			'tag': {
-				pattern: /^<\/?[^\s>\/]+/,
+				pattern: /^[^\s/]+/,
 				inside: {
-					'punctuation': /^<\/?/,
 					'namespace': /^[^:]+:/
 				}
 			},
-			'attr-value': {
-				pattern: /=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+)?/,
+			'attr-value': [{
+				pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,
+				lookbehind: true,
 				inside: {
-					'punctuation': [
-						{
-							pattern: /^=/,
-							alias: 'attr-equals'
-						},
-						{
-							pattern: /^(\s*)["']|["']$/,
-							lookbehind: true
-						}
-					],
-					'entity': entity
+					'punctuation': /^["']|["']$/,
+					entity
 				}
-			},
-			'punctuation': /\/?>/,
+			}],
+			'attr-equals': /=/,
 			'attr-name': {
-				pattern: /[^\s/]+/,
+				pattern: /\S+/,
 				inside: {
 					'namespace': /^[^:]+:/
 				}

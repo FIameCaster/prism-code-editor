@@ -81,12 +81,14 @@ var inlineValue = {
 		'csharp': cs
 	}
 };
+
+var attrValue = cshtml.tag.inside['attr-value'][2];
 // var brackets = cshtml['markup-bracket'];
 
 // delete cshtml['markup-bracket'];
 // cshtml['markup-bracket'] = brackets;
 cshtml.tag.pattern = RegExp(/<\/?/.source + tagContent);
-cshtml.tag.inside['attr-value'].pattern = RegExp(/=\s*/.source + tagAttrValue);
+attrValue.pattern = RegExp(/(=\s*)/.source + tagAttrValue);
 
 insertBefore(csharpWithHtml, 'string', {
 	'html': {
@@ -96,7 +98,7 @@ insertBefore(csharpWithHtml, 'string', {
 	}
 });
 
-insertBefore(cshtml.tag.inside['attr-value'].inside, 'punctuation', { 'value': inlineValue });
+insertBefore(attrValue.inside, 'punctuation', { 'value': inlineValue });
 
 insertBefore(cshtml, 'prolog', {
 	'razor-comment': {

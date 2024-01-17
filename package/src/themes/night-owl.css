@@ -67,7 +67,6 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 
 .token.keyword,
 .token.punctuation,
-.tag .token.script-punctuation,
 .token.literal-property,
 .token.operator,
 .token.atrule .rule,
@@ -78,6 +77,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 
 [class*="language-"],
 .language-css .punctuation,
+.token.spread,
 .language-markdown .code.keyword,
 .language-markdown .url .content {
 	color: #d6deeb;
@@ -124,7 +124,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #d3423e;
 }
 
-.tag .punctuation,
+.token.tag > .punctuation,
 .doctype .punctuation,
 .selector .combinator,
 .selector .operator,
@@ -141,6 +141,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.attr-value > .punctuation {
 	color: #d9f5dd;
 }
+
 .token.attr-name,
 .doctype .name,
 .token.variable,

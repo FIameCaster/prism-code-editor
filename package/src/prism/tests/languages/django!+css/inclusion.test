@@ -10,10 +10,8 @@ a {
 
 [
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"style"
-		]],
+		["punctuation", "<"],
+		["tag", ["style"]],
 		["punctuation", ">"]
 	]],
 	["style", [
@@ -47,10 +45,8 @@ a {
 		]]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"style"
-		]],
+		["punctuation", "</"],
+		["tag", ["style"]],
 		["punctuation", ">"]
 	]]
 ]

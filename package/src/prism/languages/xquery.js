@@ -56,9 +56,14 @@ var xquery = languages.xquery = extend('markup', {
 });
 
 var tag = xquery.tag;
-var attrValue = tag.inside['attr-value'];
+var attrValue = tag.inside['attr-value'][2];
 var isText = token => token && (!token.type || token.type == 'plain-text');
 
+/**
+ * @param {(string | Token)[]} tokens
+ * @param {string} code
+ * @param {number} position
+ */
 var walkTokens = (tokens, code, position) => {
 	for (var i = 0, openedTags = []; i < tokens.length; i++) {
 		var token = tokens[i];
@@ -69,12 +74,12 @@ var walkTokens = (tokens, code, position) => {
 		var last, tag, start, plainText;
 
 		if (type && type != 'comment') {
-			if (type == 'tag' && content[0].type == 'tag') {
+			if (type == 'tag' && code[position] == "<") {
 				// We found a tag, now find its kind
-				tag = code.slice(position + 1, position + content[0].length);
-				if (tag[0] == '/') {
+				tag = code.substr(position + content[0].length, content[1].length);
+				if (code[position + 1] == '/') {
 					// Closing tag
-					if (openedTags[0] && openedTags[openedTags.length - 1][0] == tag.slice(1)) {
+					if (openedTags[0] && openedTags[openedTags.length - 1][0] == tag) {
 						// Pop matching opening tag
 						openedTags.pop();
 					}
@@ -122,8 +127,7 @@ var walkTokens = (tokens, code, position) => {
 };
 
 tag.pattern = /<\/?(?!\d)[^\s>\/=$<%]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/;
-attrValue.pattern = /=(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\1)[^\\])*\1|[^\s'">=]+)/;
-attrValue.inside['punctuation'] = /^="|"$/;
+attrValue.pattern = /(=)(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\2)[^\\])*\2|[^\s'">=]+)/;
 attrValue.inside['expression'] = {
 	// Allow for two levels of nesting
 	pattern: /\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}/,

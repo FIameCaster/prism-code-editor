@@ -5,15 +5,11 @@
 
 [
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"img"
-		]],
-		["attr-name", [
-			"src"
-		]],
+		["punctuation", "<"],
+		["tag", ["img"]],
+		["attr-name", ["src"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			["django", [
 				["delimiter", "{{"],
@@ -25,26 +21,22 @@
 			]],
 			["punctuation", "\""]
 		]],
-		["attr-name", [
-			"alt"
-		]],
+		["attr-name", ["alt"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			"Company Logo",
 			["punctuation", "\""]
 		]],
 		["punctuation", ">"]
 	]],
+
 	["tag", [
-		["tag", [
-			["punctuation", "<"], "a"
-		]],
-		["attr-name", [
-			"href"
-		]],
+		["punctuation", "<"],
+		["tag", ["a"]],
+		["attr-name", ["href"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			["django", [
 				["delimiter", "{{"],
@@ -60,10 +52,8 @@
 	]],
 	"Administration",
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"a"
-		]],
+		["punctuation", "</"],
+		["tag", ["a"]],
 		["punctuation", ">"]
 	]]
 ]

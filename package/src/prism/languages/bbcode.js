@@ -1,31 +1,20 @@
 import { languages } from '../core.js';
 
-languages.bbcode = {
+languages.shortcode = languages.bbcode = {
 	'tag': {
 		pattern: /\[\/?[^\s=\]]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'"\]=]+))?(?:\s+[^\s=\]]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'"\]=]+))*\s*\]/,
 		inside: {
-			'tag': {
-				pattern: /^\[\/?[^\s=\]]+/,
-				inside: {
-					'punctuation': /^\[\/?/
-				}
-			},
+			'punctuation': /^\[\/?|\]$/,
+			'tag': /^[^\s=\]]+/,
 			'attr-value': {
-				pattern: /=\s*(?:"[^"]*"|'[^']*'|[^\s'"\]=]+)/,
+				pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s'"\]=]+)/,
+				lookbehind: true,
 				inside: {
-					'punctuation': [
-						/^=/,
-						{
-							pattern: /^(\s*)["']|["']$/,
-							lookbehind: true
-						}
-					]
+					'punctuation': /^["']|["']$/,
 				}
 			},
-			'punctuation': /\]/,
-			'attr-name': /[^\s=\]]+/
+			'attr-equals': /=/,
+			'attr-name': /\S+/
 		}
 	}
 };
-
-languages.shortcode = languages.bbcode;

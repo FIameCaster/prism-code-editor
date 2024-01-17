@@ -55,7 +55,9 @@
 }
 
 [class*="language-"],
-.token.punctuation {
+.token.punctuation,
+.token.spread,
+.token.attr-equals {
 	color: #f8f8f2;
 }
 

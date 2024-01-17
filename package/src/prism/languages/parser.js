@@ -69,7 +69,7 @@ var parser = languages.parser = extend('markup', {
 	'punctuation': punctuation
 });
 
-insertBefore(parser['tag'].inside['attr-value'].inside, 'punctuation', {
+insertBefore(parser['tag'].inside['attr-value'][2].inside, 'punctuation', {
 	'expression': expression,
 	'keyword': keyword,
 	'variable': variable,

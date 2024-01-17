@@ -32,13 +32,11 @@
 		["delimiter", "}"]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["attr-name", ["class"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			"{$foo}",
 			["punctuation", "\""]
@@ -56,10 +54,8 @@
 	"/if",
 	["markup-bracket", "}"],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"div"
-		]],
+		["punctuation", "</"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 

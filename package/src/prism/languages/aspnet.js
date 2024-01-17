@@ -40,9 +40,7 @@ pageDirectiveInside[rest] = tag.inside;
 tag.pattern = /<(?!%)\/?[^\s>\/]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/;
 
 // match directives of attribute value foo="<% Bar %>"
-insertBefore(tag.inside['attr-value'].inside, 'punctuation', {
-	'directive': directive
-});
+tag.inside['attr-value'][2].inside['directive'] = directive;
 
 insertBefore(aspnet, 'comment', {
 	'asp-comment': {

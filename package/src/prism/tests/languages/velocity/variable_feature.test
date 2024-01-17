@@ -158,13 +158,11 @@ $\\\!foo
 	]],
 
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"input"
-		]],
+		["punctuation", "<"],
+		["tag", ["input"]],
 		["attr-name", ["value"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			["variable", ["$email"]],
 			["punctuation", "\""]
@@ -173,13 +171,11 @@ $\\\!foo
 	]],
 
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"input"
-		]],
+		["punctuation", "<"],
+		["tag", ["input"]],
 		["attr-name", ["value"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			["variable", [
 				"$!",

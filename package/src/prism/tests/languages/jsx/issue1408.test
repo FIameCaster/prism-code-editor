@@ -4,13 +4,11 @@
 
 [
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["attr-name", ["style"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "{"],
 			["literal-property", "marginLeft"],

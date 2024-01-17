@@ -46,7 +46,8 @@
 	--bg-guide-indent: #ededed3d;
 }
 
-[class*="language-"] {
+[class*="language-"],
+.token.spread {
 	color: #fff;
 }
 
@@ -111,7 +112,8 @@
 
 .token.tag,
 .token.attr-name,
-.tag > .token.punctuation {
+.tag > .token.punctuation,
+.token.attr-equals {
 	color: #ad895c;
 }
 

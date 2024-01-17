@@ -7,10 +7,8 @@ ___SOY1___{$foo}
 
 [
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 	["soy", [
@@ -19,20 +17,17 @@ ___SOY1___{$foo}
 		["delimiter", "}"]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"div"
-		]],
+		["punctuation", "</"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
+
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["attr-name", ["class"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			["soy", [
 				["delimiter", "{"],
@@ -43,9 +38,10 @@ ___SOY1___{$foo}
 		]],
 		["punctuation", ">"]
 	]],
+
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			"h",
 			["soy", [
 				["delimiter", "{"],
@@ -55,6 +51,7 @@ ___SOY1___{$foo}
 		]],
 		["punctuation", ">"]
 	]],
+
 	"\n___SOY1___",
 	["soy", [
 		["delimiter", "{"],

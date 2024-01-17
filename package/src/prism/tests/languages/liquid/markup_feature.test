@@ -6,13 +6,11 @@
 
 [
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"a"
-		]],
+		["punctuation", "<"],
+		["tag", ["a"]],
 		["attr-name", ["href"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			["liquid", [
 				["delimiter", "{{"],
@@ -25,21 +23,17 @@
 	]],
 	"link",
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"a"
-		]],
+		["punctuation", "</"],
+		["tag", ["a"]],
 		["punctuation", ">"]
 	]],
 
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["attr-name", ["class"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			"foo",
 			["punctuation", "\""]
@@ -47,10 +41,8 @@
 		["punctuation", ">"]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"div"
-		]],
+		["punctuation", "</"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]]
 ]

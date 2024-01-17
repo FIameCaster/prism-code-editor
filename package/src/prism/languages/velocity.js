@@ -1,8 +1,8 @@
 import { languages, rest } from '../core.js';
-import { extend, insertBefore } from '../utils/language.js';
+import { clone, insertBefore } from '../utils/language.js';
 import './markup.js';
 
-var vel = languages.velocity = extend('markup', {});
+var vel = languages.velocity = clone(languages.html);
 
 var variable = {
 	pattern: /(^|[^\\](?:\\\\)*)\$!?(?:[a-z][\w-]*(?:\([^)]*\))?(?:\.[a-z][\w-]*(?:\([^)]*\))?|\[[^\]]+\])*|\{[^}]+\})/i,
@@ -71,4 +71,4 @@ insertBefore(vel, 'comment', {
 	'variable': variable
 });
 
-vel['tag'].inside['attr-value'].inside[rest] = vel;
+vel['tag'].inside['attr-value'][2].inside[rest] = vel;

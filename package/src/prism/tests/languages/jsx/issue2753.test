@@ -28,16 +28,14 @@ const Test = () => {
 	["punctuation", "("],
 
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 	["plain-text", "\n           "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "Button"]
 		]],
 		["spread", [
@@ -54,28 +52,28 @@ const Test = () => {
 	]],
 	["plain-text", "\n               Click (Wrong Highlighting)\n           "],
 	["tag", [
+		["punctuation", "</"],
 		["tag", [
-			["punctuation", "</"],
 			["class-name", "Button"]
 		]],
 		["punctuation", ">"]
 	]],
 	["plain-text", "\n           "],
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "Button"]
 		]],
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			"onClick",
 			["punctuation", "}"]
 		]],
 		["attr-name", ["disabled"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			"disabled",
 			["punctuation", "}"]
@@ -84,18 +82,16 @@ const Test = () => {
 	]],
 	["plain-text", "\n               Click (Correct highlighting)\n           "],
 	["tag", [
+		["punctuation", "</"],
 		["tag", [
-			["punctuation", "</"],
 			["class-name", "Button"]
 		]],
 		["punctuation", ">"]
 	]],
 	["plain-text", "\n       "],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"div"
-		]],
+		["punctuation", "</"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 

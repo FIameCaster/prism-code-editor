@@ -10,26 +10,20 @@
 
 [
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 	["plain-text", "\n\tfoobar for\n\t"],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 	["plain-text", "\n\t\tfoobar for\n\t"],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"div"
-		]],
+		["punctuation", "</"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 	["plain-text", "\n\tfoobar for "],
@@ -44,10 +38,8 @@
 	["punctuation", "}"],
 	["plain-text", "}\n"],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"div"
-		]],
+		["punctuation", "</"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]]
 ]

@@ -47,7 +47,8 @@
 	--bg-guide-indent: #38322f66;
 }
 
-[class*="language-"] {
+[class*="language-"],
+.token.spread {
 	color: #000;
 }
 
@@ -58,7 +59,8 @@
 	color: #708090;
 }
 
-.token.punctuation {
+.token.punctuation,
+.token.attr-equals {
 	color: #999;
 }
 

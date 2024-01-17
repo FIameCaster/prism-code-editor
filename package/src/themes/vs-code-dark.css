@@ -59,6 +59,8 @@
 }
 
 .token.punctuation,
+.token.attr-equals,
+.token.spread,
 .token.operator,
 .token.combinator,
 .token.plain-text {
@@ -134,27 +136,20 @@
 	color: #d7ba7d;
 }
 
-.tag > .token.punctuation,
-.doctype .token.punctuation,
+.token.tag > .punctuation,
+.token.doctype .punctuation,
 .token.cdata {
 	color: #808080;
 }
 
 .token.attr-value,
-.token.attr-value .token.punctuation {
+.token.attr-value > .punctuation,
+.token.color {
 	color: #ce9178;
-}
-
-.token.attr-value .token.punctuation.attr-equals {
-	color: #d4d4d4;
 }
 
 .token.namespace {
 	color: #4ec9b0;
-}
-
-.token.color {
-	color: #ce9178;
 }
 
 .token.constant {

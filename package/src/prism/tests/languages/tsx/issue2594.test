@@ -40,18 +40,14 @@ export default function Form() {
 	["punctuation", "{"],
 	["keyword", "return"],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 	["plain-text", "a + b"],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"div"
-		]],
+		["punctuation", "</"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 	["punctuation", "}"],
@@ -77,18 +73,14 @@ export default function Form() {
 	["punctuation", "{"],
 	["keyword", "return"],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"div"
-		]],
+		["punctuation", "<"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 	["plain-text", "a + b"],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"div"
-		]],
+		["punctuation", "</"],
+		["tag", ["div"]],
 		["punctuation", ">"]
 	]],
 	["punctuation", "}"],
@@ -175,13 +167,11 @@ export default function Form() {
 	["punctuation", "("],
 
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"form"
-		]],
+		["punctuation", "<"],
+		["tag", ["form"]],
 		["attr-name", ["onSubmit"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			"handleSubmit",
 			["punctuation", "}"]
@@ -190,20 +180,18 @@ export default function Form() {
 	]],
 	["plain-text", "\n      "],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"input"
-		]],
+		["punctuation", "<"],
+		["tag", ["input"]],
 		["attr-name", ["onChange"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			"handleChange",
 			["punctuation", "}"]
 		]],
 		["attr-name", ["placeholder"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			"Name",
 			["punctuation", "\""]
@@ -212,13 +200,11 @@ export default function Form() {
 	]],
 	["plain-text", "\n      "],
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"button"
-		]],
+		["punctuation", "<"],
+		["tag", ["button"]],
 		["attr-name", ["onClick"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			"handleClick",
 			["punctuation", "}"]
@@ -226,18 +212,14 @@ export default function Form() {
 		["punctuation", ">"]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"button"
-		]],
+		["punctuation", "</"],
+		["tag", ["button"]],
 		["punctuation", ">"]
 	]],
 	["plain-text", "\n    "],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"form"
-		]],
+		["punctuation", "</"],
+		["tag", ["form"]],
 		["punctuation", ">"]
 	]],
 

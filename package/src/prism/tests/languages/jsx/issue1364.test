@@ -4,13 +4,13 @@
 
 [
 	["tag", [
+		["punctuation", "<"],
 		["tag", [
-			["punctuation", "<"],
 			["class-name", "CodeView"]
 		]],
 		["attr-name", ["title"]],
+		["attr-equals", "="],
 		["script", [
-			["script-punctuation", "="],
 			["punctuation", "{"],
 			["punctuation", "{"],
 			["punctuation", "}"],

@@ -53,7 +53,10 @@
 
 [class*="language-"],
 .token.punctuation,
-.token.entity {
+.token.entity,
+.token.attr-equals,
+.token.spread,
+.language-css .token.property {
 	color: #abb2bf;
 }
 
@@ -107,7 +110,8 @@
 .token.attr-value,
 .token.string.url,
 .token.attr-value > .punctuation,
-.token.code-snippet.code {
+.token.code-snippet.code,
+.token.token.interpolation-punctuation {
 	color: #98c379;
 }
 
@@ -128,19 +132,10 @@
 
 /* Language overrides */
 
-.token.attr-value > .attr-equals,
-.language-css .property {
-	color: #abb2bf;
-}
-
 .language-css .token.important,
 .token.atrule .token.rule,
 .language-markdown .italic {
 	color: #c678dd;
-}
-
-.token.token.interpolation-punctuation {
-	color: #be5046;
 }
 
 .language-json .token.keyword-null,

@@ -51,105 +51,135 @@ baz
 	["punctuation", "{|"],
 	["punctuation", "|"], "Foo\nbar\n\nbaz\n",
 	["punctuation", "|"],
-	["emphasis", [["punctuation", "''"], ["italic", "Foobar"], ["punctuation", "''"]]],
+	["emphasis", [
+		["punctuation", "''"],
+		["italic", "Foobar"],
+		["punctuation", "''"]
+	]],
 	["punctuation", "|}"],
 
 	["punctuation", "{|"],
-	["punctuation", "|"], " Foo ",
-	["punctuation", "||"], " Bar ",
-	["punctuation", "||"], " Baz\n",
+
+	["punctuation", "|"],
+	" Foo ",
+	["punctuation", "||"],
+	" Bar ",
+	["punctuation", "||"],
+	" Baz\n",
+
 	["punctuation", "|-"],
-	["punctuation", "|"], " Baz ",
-	["punctuation", "||"], " Bar ",
-	["punctuation", "||"], " Foo\n",
+
+	["punctuation", "|"],
+	" Baz ",
+	["punctuation", "||"],
+	" Bar ",
+	["punctuation", "||"],
+	" Foo\n",
+
 	["punctuation", "|}"],
 
 	["punctuation", "{|"],
+
 	["punctuation", "!"],
 	["table-tag", [
-		["special-attr", [
-			["attr-name", "style"],
-			["attr-value", [
-				["punctuation", "="],
-				["punctuation", "\""],
-				["value", [
-					["property", "text-align"],
-					["punctuation", ":"],
-					"left",
-					["punctuation", ";"]
-				]],
-				["punctuation", "\""]
-			]]
+		["attr-name", ["style"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-css", [
+				["property", "text-align"],
+				["punctuation", ":"],
+				"left",
+				["punctuation", ";"]
+			]],
+			["punctuation", "\""]
 		]],
 		["table-bar", "|"]
-	]], " Foo\n",
-	["punctuation", "!"], " Bar\n",
-	["punctuation", "!"], " Baz\n",
+	]],
+	" Foo\n",
+
+	["punctuation", "!"],
+	" Bar\n",
+
+	["punctuation", "!"],
+	" Baz\n",
+
 	["punctuation", "|-"],
-	["punctuation", "|"], " foo\n",
-	["punctuation", "|"], " bar\n",
-	["punctuation", "|"], " baz\n",
+
+	["punctuation", "|"],
+	" foo\n",
+
+	["punctuation", "|"],
+	" bar\n",
+
+	["punctuation", "|"],
+	" baz\n",
+
 	["punctuation", "|}"],
 
 	["punctuation", "{|"],
+
 	["punctuation", "!"],
 	["table-tag", [
-		["special-attr", [
-			["attr-name", "style"],
-			["attr-value", [
-				["punctuation", "="],
-				["punctuation", "\""],
-				["value", [
-					["property", "color"],
-					["punctuation", ":"],
-					"red",
-					["punctuation", ";"]
-				]],
-				["punctuation", "\""]
-			]]
+		["attr-name", ["style"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-css", [
+				["property", "color"],
+				["punctuation", ":"],
+				"red",
+				["punctuation", ";"]
+			]],
+			["punctuation", "\""]
 		]],
 		["table-bar", "|"]
-	]], " Foo ",
+	]],
+	" Foo ",
 	["punctuation", "!!"],
 	["table-tag", [
-		["special-attr", [
-			["attr-name", "style"],
-			["attr-value", [
-				["punctuation", "="],
-				["punctuation", "\""],
-				["value", [
-					["property", "color"],
-					["punctuation", ":"],
-					"blue",
-					["punctuation", ";"]
-				]],
-				["punctuation", "\""]
-			]]
+		["attr-name", ["style"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-css", [
+				["property", "color"],
+				["punctuation", ":"],
+				"blue",
+				["punctuation", ";"]
+			]],
+			["punctuation", "\""]
 		]],
 		["table-bar", "|"]
-	]], " Bar ",
-	["punctuation", "!!"], " Baz\n",
+	]],
+	" Bar ",
+	["punctuation", "!!"],
+	" Baz\n",
+
 	["punctuation", "|-"],
-	["punctuation", "|"], " foo ",
+
+	["punctuation", "|"],
+	" foo ",
 	["punctuation", "||"],
 	["table-tag", [
-		["special-attr", [
-			["attr-name", "style"],
-			["attr-value", [
-				["punctuation", "="],
-				["punctuation", "\""],
-				["value", [
-					["property", "font-weight"],
-					["punctuation", ":"],
-					"bold",
-					["punctuation", ";"]
-				]],
-				["punctuation", "\""]
-			]]
+		["attr-name", ["style"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-css", [
+				["property", "font-weight"],
+				["punctuation", ":"],
+				"bold",
+				["punctuation", ";"]
+			]],
+			["punctuation", "\""]
 		]],
 		["table-bar", "|"]
-	]], " bar ",
-	["punctuation", "||"], " baz\n",
+	]],
+	" bar ",
+	["punctuation", "||"],
+	" baz\n",
+
 	["punctuation", "|}"]
 ]
 

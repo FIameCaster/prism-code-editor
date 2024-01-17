@@ -6,13 +6,11 @@ ${ "{}foo${bar}" }
 
 [
 	["tag", [
-		["tag", [
-			["punctuation", "<"],
-			"a"
-		]],
+		["punctuation", "<"],
+		["tag", ["a"]],
 		["attr-name", ["href"]],
+		["attr-equals", "="],
 		["attr-value", [
-			["punctuation", "="],
 			["punctuation", "\""],
 			["ftl-interpolation", [
 				["punctuation", "${"],
@@ -29,10 +27,8 @@ ${ "{}foo${bar}" }
 		["punctuation", "}"]
 	]],
 	["tag", [
-		["tag", [
-			["punctuation", "</"],
-			"a"
-		]],
+		["punctuation", "</"],
+		["tag", ["a"]],
 		["punctuation", ">"]
 	]],
 
