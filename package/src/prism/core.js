@@ -6,8 +6,8 @@
  */
 
 var plainTextGrammar = {};
-var rest = Symbol.for('rest');
-var tokenize = Symbol.for('tokenize');
+var rest = Symbol();
+var tokenize = Symbol();
 
 var resolve = id => typeof id == 'string' ? languages[id] : id;
 
