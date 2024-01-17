@@ -8,20 +8,24 @@ import { addTextareaListener } from "../utils/local"
 const voidlessLangs = "xml,rss,atom,jsx,tsx".split(",")
 const voidTags = "area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr".split(",")
 
+export type Tag = [Token, number, number, string, boolean, boolean]
+
 export interface TagMatcher {
 	/**
 	 * Array of tuples containing in the following order:
 	 * - The tag's `Token`
 	 * - Its starting position
-	 * - Its leftmost punctuation length
 	 * - Its ending position
 	 * - Its tag name
+	 * - Whether it's an opening tag
 	 * - Whether it's self-closing
 	 */
-	readonly tags: [Token, number, number, number, string, boolean][]
+	readonly tags: Tag[]
 	/** Array mapping the index of a tag to the index of its matching tag. */
 	readonly pairs: (number | undefined)[]
 }
+
+// [0,1,3,4,2,5]
 
 /**
  * Function that adds tag matching to the editor.
@@ -29,7 +33,7 @@ export interface TagMatcher {
  */
 export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 	let pairMap: number[] = [],
-		tags: [Token, number, number, number, string, boolean][] = [],
+		tags: Tag[] = [],
 		stack: [number, string][],
 		tagIndex: number,
 		matchTags = (tokens: TokenStream, language: string) => {
@@ -51,8 +55,8 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 							const isClosing = value[position + 1] == "/"
 							const tagName = value.slice(position + 1 + <any>isClosing, position + offset)
 							const selfClosing =
-								value[position + length - 2] == "/" ||
-								(!noVoidTags && voidTags.includes(<string>tagName))
+								length > 3 &&
+								(value[position + length - 2] == "/" || (!noVoidTags && voidTags.includes(tagName)))
 
 							if (content[2] && noVoidTags)
 								matchTagsRecursive(content.slice(1, -1), language, position + offset)
@@ -74,9 +78,9 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 							tags[tagIndex++] = [
 								token,
 								position,
-								1 + <any>isClosing,
 								position + length,
 								tagName,
+								isClosing,
 								selfClosing,
 							]
 						}
@@ -104,7 +108,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 }
 
 const getClosestTagIndex = (pos: number, tags: TagMatcher["tags"]) => {
-	for (let i = 0, l = tags.length; i < l; i++) if (tags[i][1] <= pos && tags[i][3] >= pos) return i
+	for (let i = 0, l = tags.length; i < l; i++) if (tags[i][1] <= pos && tags[i][2] >= pos) return i
 }
 
 /**
@@ -131,8 +135,8 @@ export const matchTags = (): SetupExtension => editor => {
 			let index = getClosestTagIndex(start, tags)!
 			let tag = tags[index]
 
-			if (tag && tag[4]) {
-				const tag1 = getClosestToken(editor, ".tag>.tag", -tag[2], 0)
+			if (tag && tag[3]) {
+				const tag1 = getClosestToken(editor, ".tag>.tag", -1 - <any>tag[4], 0)
 				const otherIndex = pairs[index]!
 
 				if (tag1 && otherIndex + 1) {
@@ -186,10 +190,10 @@ export const highlightTagPunctuation =
 				if (
 					tag &&
 					(alwaysHighlight ||
-						((end < tag[1] + tag[2] || end > tag[1] + tag[2] + tag[4].length) && getPunctuation()))
+						((end <= tag[1] + <any>tag[4] || end > 1 + tag[1] + <any>tag[4] + tag[3].length) && getPunctuation()))
 				) {
 					newEl1 = getPunctuation(tag[1])!
-					newEl2 = getPunctuation(tag[3] - 1)!
+					newEl2 = getPunctuation(tag[2] - 1)!
 				}
 			}
 			if (openEl != newEl1! || closeEl != newEl2!) {

@@ -1,7 +1,7 @@
 import { CommentTokens } from ".."
 import { languageMap } from "../core"
 import { Bracket, BracketMatcher } from "../extensions/matchBrackets"
-import { TagMatcher } from "../extensions/matchTags"
+import { Tag, TagMatcher } from "../extensions/matchTags"
 import { getClosestToken } from "../utils"
 import { clikeIndent, isBracketPair } from "./patterns"
 
@@ -15,18 +15,18 @@ const inJsxContext = (
 	{ brackets, pairs: bracketPairs }: BracketMatcher,
 	position: number,
 ) => {
-	for (let i = tags.length, tag: TagMatcher["tags"][0], min = 0; (tag = tags[--i]); ) {
-		if (tag[3] > position && tag[1] < position) min = tag[1]
+	for (let i = tags.length, tag: Tag, min = 0; (tag = tags[--i]); ) {
+		if (tag[2] > position && tag[1] < position) min = tag[1]
 		else if (
-			tag[2] < 2 &&
+			!tag[4] &&
 			!tag[5] &&
 			tag[1] >= min &&
-			tag[3] <= position &&
+			tag[2] <= position &&
 			!(tags[pairs[i]!]?.[1] < position)
 		) {
 			for (let i = brackets.length, bracket: Bracket; (bracket = brackets[--i]); ) {
 				if (
-					bracket[1] >= tag[3] &&
+					bracket[1] >= tag[2] &&
 					bracket[1] < position &&
 					bracket[3] == "{" &&
 					!(brackets[bracketPairs[i]!]?.[1] < position)

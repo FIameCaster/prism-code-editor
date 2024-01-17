@@ -183,8 +183,8 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 		if (matchTags) {
 			let { tags, pairs } = matchTags
 			for (let i = 0, j: number, l = pairs.length; i < l; i++) {
-				if ((j = pairs[i]!) > i && numLines(value, tags[i][3], tags[j][1]) > 1) {
-					folds.push([tags[i][3], tags[j][1]])
+				if ((j = pairs[i]!) > i && numLines(value, tags[i][2], tags[j][1]) > 1) {
+					folds.push([tags[i][2], tags[j][1]])
 				}
 			}
 		}
