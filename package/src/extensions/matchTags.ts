@@ -17,8 +17,8 @@ export interface TagMatcher {
 	 * - Its starting position
 	 * - Its ending position
 	 * - Its tag name
-	 * - Whether it's an opening tag
-	 * - Whether it's self-closing
+	 * - Whether it's an closing tag
+	 * - Whether it isn't self-closing
 	 */
 	readonly tags: Tag[]
 	/** Array mapping the index of a tag to the index of its matching tag. */
@@ -55,13 +55,13 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 						const tagName = content[2]
 							? code.substr(position + content[0].length, content[1].length)
 							: ""
-						const selfClosing =
-							!!tagName &&
-							(code[position + length - 2] == "/" || (!noVoidTags && voidTags.includes(tagName)))
+						const notSelfClosing =
+							!tagName ||
+							(code[position + length - 2] != "/" && (noVoidTags || !voidTags.includes(tagName)))
 
 						if (content[2] && noVoidTags) matchTagsRecursive(content, language, position)
 
-						if (!selfClosing) {
+						if (notSelfClosing) {
 							if (isClosing) {
 								for (let i = stack.length; i; ) {
 									if (tagName == stack[--i][1]) {
@@ -81,7 +81,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 							position + length,
 							tagName,
 							isClosing,
-							selfClosing,
+							notSelfClosing,
 						]
 					} else {
 						let lang = token.alias || type

@@ -3,10 +3,14 @@ import { languageMap } from "../core"
 import { Bracket, BracketMatcher } from "../extensions/matchBrackets"
 import { Tag, TagMatcher } from "../extensions/matchTags"
 import { getClosestToken } from "../utils"
-import { clikeIndent, isBracketPair } from "./patterns"
+import { autoCloseTags, clikeIndent, isBracketPair } from "./patterns"
 
-const openingTag =
-	/(?:^|[^\w$])<(?:(?!\d)([^\s>\/=<%]+)(?:(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)+(?:[^\s{*<>\/=]+(?:(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)*=\s*(?:"[^"]*"|'[^']*'|[^\s{'"\/>=]+|(?:\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\})))?|(?:\{(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\.{3}(?:[^{}]|(?:\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\}))*\})))*(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)*)?>[ \t]*$/
+const openingTag = RegExp(
+	/(?:^|[^\w$])<(?:(?!\d)([^\s>/=<%]+)(?:<S>+(?:[^\s{*<>/=]+(?:<S>*=<S>*(?:"[^"]*"|'[^']*'|[^\s{'"/>=]+|(?:\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\})))?|(?:\{<S>*\.{3}(?:[^{}]|(?:\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\}))*\})))*<S>*)?>[ \t]*$/.source.replace(
+		/<S>/g,
+		/(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)/.source,
+	),
+)
 
 const closingTag = /^<\/(?!\d)[^\s>\/=<%]*\s*>/
 
@@ -19,7 +23,7 @@ const inJsxContext = (
 		if (tag[2] > position && tag[1] < position) min = tag[1]
 		else if (
 			!tag[4] &&
-			!tag[5] &&
+			tag[5] &&
 			tag[1] >= min &&
 			tag[2] <= position &&
 			!(tags[pairs[i]!]?.[1] < position)
@@ -65,7 +69,6 @@ languageMap.jsx = languageMap.tsx = {
 			(openingTag.test(value.slice(0, start)) && closingTag.test(value.slice(end))),
 	],
 	autoCloseTags([start, end], value) {
-		const match = start == end && (value.slice(0, start) + ">").match(openingTag)
-		return match ? `</${match[1] || ""}>` : ""
+		return autoCloseTags(this, start, end, value, openingTag)
 	},
 }
