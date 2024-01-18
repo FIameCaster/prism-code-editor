@@ -18,7 +18,7 @@ const getLines = (text: string, start: number, end = start) =>
 	[
 		text
 			.slice(
-				(start = text.lastIndexOf("\n", start - 1) + 1),
+				(start = start ? text.lastIndexOf("\n", start - 1) + 1 : 0),
 				(end = (end = text.indexOf("\n", end)) + 1 ? end : text.length),
 			)
 			.split("\n"),
