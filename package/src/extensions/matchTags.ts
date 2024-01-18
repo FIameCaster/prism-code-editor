@@ -56,14 +56,14 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 							const offset = content[0].length
 							const isClosing = value[position + 1] == "/"
 							const tagName = value.slice(position + 1 + <any>isClosing, position + offset)
-							const selfClosing =
-								value[position + length - 2] == "/" ||
-								(!noVoidTags && voidTags.includes(<string>tagName))
+							const notSelfClosing =
+								!tagName ||
+								(value[position + length - 2] != "/" && (noVoidTags || !voidTags.includes(tagName)))
 
 							if (content[2] && noVoidTags)
 								matchTagsRecursive(content.slice(1, -1), language, position + offset)
 
-							if (!selfClosing) {
+							if (notSelfClosing) {
 								if (isClosing) {
 									for (let i = stack.length; i; ) {
 										if (tagName == stack[--i][1]) {
@@ -83,7 +83,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 								1 + <any>isClosing,
 								position + length,
 								tagName,
-								selfClosing,
+								!notSelfClosing,
 							]
 						}
 					} else {
