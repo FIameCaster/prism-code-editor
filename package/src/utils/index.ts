@@ -20,7 +20,7 @@ const getLines = (text: string, start: number, end = start) =>
 	[
 		text
 			.slice(
-				(start = text.lastIndexOf("\n", start - 1) + 1),
+				(start = start ? text.lastIndexOf("\n", start - 1) + 1 : 0),
 				(end = (end = text.indexOf("\n", end)) + 1 ? end : text.length),
 			)
 			.split("\n"),
@@ -37,7 +37,7 @@ const getLines = (text: string, start: number, end = start) =>
  * @param marginLeft How far ahead of the token the cursor can be. Defaults to 0.
  * @param marginRight How far behind the token the cursor can be. Defaults to `marginLeft`.
  * @param position Position to search in. Defaults to `selectionStart`.
- * @returns A span element if one's found and null if not.
+ * @returns A span element if one's found or undefined if not.
  * @example
  * This will return a string token if the cursor
  * is at least 1 character inside a string token
@@ -64,7 +64,6 @@ const getClosestToken = (
 		if (len <= length + marginRight && len + token.textContent!.length >= length - marginLeft)
 			return token
 	}
-	return null
 }
 
 /**
@@ -89,16 +88,14 @@ const getLanguage = (editor: PrismEditor, position?: number) =>
  * @param newCursorEnd New ending position for the cursor. Defaults to `newCursorStart`.
  */
 const insertText = (
-	editor: PrismEditor,
+	{ textarea, getSelection, value, focused, options }: PrismEditor,
 	text: string,
 	start?: number | null,
 	end?: number | null,
 	newCursorStart?: number | null,
 	newCursorEnd?: number | null,
 ) => {
-	const { textarea, getSelection, value, focused } = editor
-
-	if (editor.options.readOnly) return
+	if (options.readOnly) return
 	focused || textarea.focus()
 	const selection =
 		newCursorStart != null

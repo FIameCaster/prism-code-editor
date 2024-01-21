@@ -222,7 +222,7 @@ const defaultCommands =
 				if ((code & 0b111) == 1) {
 					if (code == 1) {
 						// Moving lines
-						const newStart = i ? start : value.lastIndexOf("\n", start - 1)
+						const newStart = i ? start : start ? value.lastIndexOf("\n", start - 1) : -1
 						const newEnd = i ? value.indexOf("\n", end) + 1 : end
 						if (newStart > -1 && newEnd > 0) {
 							const [lines, start1, end1] = getLines(value, newStart, newEnd),
