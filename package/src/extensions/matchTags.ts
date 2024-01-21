@@ -1,6 +1,6 @@
 /** @module match-tags */
 
-import { PrismEditor, SetupExtension } from ".."
+import { PrismEditor, BasicExtension } from ".."
 import { Token, TokenStream } from "../prism"
 import { getClosestToken } from "../utils"
 import { addTextareaListener } from "../utils/local"
@@ -126,7 +126,7 @@ const getClosestTagIndex = (pos: number, tags: TagMatcher["tags"]) => {
  *
  * This extension can safely be added dynamically to an editor.
  */
-export const matchTags = (): SetupExtension => editor => {
+export const matchTags = (): BasicExtension => editor => {
 	let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
 	const { tags, pairs } = editor.extensions.matchTags || createTagMatcher(editor)
 	const highlight = (remove?: boolean) =>
@@ -167,7 +167,7 @@ export const matchTags = (): SetupExtension => editor => {
  * is inside a tag. If not it will only be highlighted when the cursor is on the punctuation.
  */
 export const highlightTagPunctuation =
-	(className: string, alwaysHighlight?: boolean): SetupExtension =>
+	(className: string, alwaysHighlight?: boolean): BasicExtension =>
 	editor => {
 		let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
 		const { tags } = editor.extensions.matchTags || createTagMatcher(editor)

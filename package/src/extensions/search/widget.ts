@@ -1,4 +1,4 @@
-import { InputSelection, SetupExtension } from "../.."
+import { InputSelection, BasicExtension } from "../.."
 import { isChrome, isMac, createTemplate, preventDefault } from "../../core"
 import { regexEscape, getLines, getModifierCode } from "../../utils"
 import { addTextareaListener } from "../../utils/local"
@@ -16,7 +16,7 @@ const toggleAttr = (el: Element, name: string) =>
 const getStyleValue = <T extends keyof CSSStyleDeclaration>(el: HTMLElement, prop: T) =>
 	parseFloat(<string>getComputedStyle(el)[prop])
 
-export interface SearchWidget extends SetupExtension {
+export interface SearchWidget extends BasicExtension {
 	/** The search widget's outer element. */
 	readonly element: HTMLDivElement
 	/**

@@ -1,12 +1,12 @@
 /** @module match-brackets */
 
-import { SetupExtension } from "../.."
+import { BasicExtension } from "../.."
 import { Token, TokenStream } from "../../prism"
 
 const openingCharCodes: boolean[] = []
 const closingCharCodes: boolean[] = []
 
-export interface BracketMatcher extends SetupExtension {
+export interface BracketMatcher extends BasicExtension {
 	/**
 	 * Array of tuples containing in the following order:
 	 * - The bracket's `Token`

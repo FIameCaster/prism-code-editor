@@ -5,10 +5,8 @@ import type {
 	Language,
 	InputCommandCallback,
 	EditorEventMap,
-	Extension,
 	InputSelection,
 	EditorExtension,
-	SetupExtension,
 } from "./types"
 import { highlightTokens, languages, tokenizeText } from "./prism"
 import { Grammar, TokenStream } from "./prism/types"
@@ -122,11 +120,11 @@ const createEditor = (
 
 	const updateExtensions = (newExtensions?: EditorExtension[]) => {
 		;(newExtensions || currentExtensions).forEach(extension => {
-			if ((<Extension>extension).update) {
-				;(<Extension>extension).update(self, currentOptions)
+			if (typeof extension == "object") {
+				extension.update(self, currentOptions)
 				if (newExtensions) currentExtensions.add(extension)
 			} else {
-				;(<SetupExtension>extension)(self, currentOptions)
+				extension(self, currentOptions)
 				if (!newExtensions) currentExtensions.delete(extension)
 			}
 		})

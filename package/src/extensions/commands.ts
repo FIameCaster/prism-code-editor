@@ -1,6 +1,6 @@
 /** @module commands */
 
-import { EditorOptions, InputSelection, SetupExtension } from ".."
+import { EditorOptions, InputSelection, BasicExtension } from ".."
 import { isMac, preventDefault, languageMap } from "../core"
 import {
 	getLanguage,
@@ -45,7 +45,7 @@ const defaultCommands =
 	(
 		selfClosePairs = ['""', "''", "``", "()", "[]", "{}"],
 		selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s,
-	): SetupExtension =>
+	): BasicExtension =>
 	(editor, options) => {
 		let prevCopy: string
 		const { keyCommandMap, inputCommandMap, getSelection } = editor

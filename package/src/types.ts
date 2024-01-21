@@ -46,7 +46,7 @@ export type Language = {
 	 * @param value Current code in the editor.
 	 * @returns The comment tokens that should be used for this command.
 	 */
-	getComments?: (editor: PrismEditor, position: number, value: string) => CommentTokens
+	getComments?(editor: PrismEditor, position: number, value: string): CommentTokens
 	/**
 	 * Callbacks controlling the automatic indentation on new lines.
 	 * First function should return whether indentation should be increased.
@@ -88,16 +88,16 @@ export interface Extension {
 	update(editor: PrismEditor, options: EditorOptions): any
 }
 
-export interface SetupExtension {
+export interface BasicExtension {
 	(editor: PrismEditor, options: EditorOptions): any
 }
 
-export type EditorExtension = Extension | SetupExtension
+export type EditorExtension = Extension | BasicExtension
 
 export type EditorEventMap = {
-	update: (this: PrismEditor, value: string) => any
-	selectionChange: (this: PrismEditor, selection: InputSelection, value: string) => any
-	tokenize: (this: PrismEditor, tokens: TokenStream, language: string, value: string) => any
+	update(this: PrismEditor, value: string): any
+	selectionChange(this: PrismEditor, selection: InputSelection, value: string): any
+	tokenize(this: PrismEditor, tokens: TokenStream, language: string, value: string): any
 }
 
 export interface EventHandler<EventMap extends Record<string, (...args: any) => any>> {

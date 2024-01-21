@@ -1,7 +1,7 @@
-import { SetupExtension } from "../.."
+import { BasicExtension } from "../.."
 import { SearchAPI, SearchFilter, createSearchAPI } from "./search"
 
-export interface SelectionMatchHighlighter extends SetupExtension {
+export interface SelectionMatchHighlighter extends BasicExtension {
 	/**
 	 * Search API used by the extension.
 	 * Can be used get the position of the matches for example.

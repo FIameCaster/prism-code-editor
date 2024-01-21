@@ -1,6 +1,6 @@
 /** @module highlight-brackets */
 
-import { SetupExtension } from "../.."
+import { BasicExtension } from "../.."
 import { Bracket, BracketMatcher } from "./"
 import { getClosestToken } from "../../utils"
 import { addTextareaListener } from "../../utils/local"
@@ -12,7 +12,7 @@ import { addTextareaListener } from "../../utils/local"
  *
  * The `.active-bracket` CSS selector can be used to highlight the brackets.
  */
-export const highlightBracketPairs = (): SetupExtension => editor => {
+export const highlightBracketPairs = (): BasicExtension => editor => {
 	let brackets: Bracket[],
 		matcher: BracketMatcher | undefined,
 		pairs: (number | undefined)[],
