@@ -5,7 +5,7 @@ import { languages } from '../core.js';
 // 1C:Enterprise
 // https://github.com/Diversus23/
 //
-languages.bsl = {
+languages.oscript = languages.bsl = {
 	'comment': /\/\/.*/,
 	'string': [
 		// Строки
@@ -73,5 +73,3 @@ languages.bsl = {
 		}
 	]
 };
-
-languages.oscript = languages['bsl'];

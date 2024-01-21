@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 import { clikeComment } from '../utils/shared.js';
 
 // https://www.json.org/json-en.html
-languages.json = {
+languages.webmanifest = languages.json = {
 	'property': {
 		pattern: /(^|[^\\])"(?:\\.|[^\\"\n])*"(?=\s*:)/,
 		lookbehind: true,
@@ -23,5 +23,3 @@ languages.json = {
 		alias: 'keyword'
 	}
 };
-
-languages.webmanifest = languages.json;

@@ -5,7 +5,7 @@ import { languages } from '../core.js';
  *
  * @type {string}
  */
-var nonId = /\s\x00-\x1f\x22-\x2f\x3a-\x3f\x5b-\x5e\x60\x7b-\x7e/.source;
+var nonId = /\s\0-\x1f\x22-\/\x3a-\x3f\[-\x5e\x60\x7b-\x7e/.source;
 
 /**
  * Surround a regular expression for IDs with patterns for non-ID sequences.
@@ -49,7 +49,7 @@ languages.kum = languages.kumir = {
 
 	'type': [
 		{
-			pattern: wrapId(/(^|[<nonId>])(?:вещ|лит|лог|сим|цел)(?:\x20*таб)?(?=[<nonId>]|$)/),
+			pattern: wrapId(/(^|[<nonId>])(?:вещ|лит|лог|сим|цел)(?: *таб)?(?=[<nonId>]|$)/),
 			lookbehind: true,
 			alias: 'builtin'
 		},
@@ -66,14 +66,14 @@ languages.kum = languages.kumir = {
 	 * "НАЗНАЧИТЬ", "Фввод", and "Фвывод" are not reserved words.
 	 */
 	'keyword': {
-		pattern: wrapId(/(^|[<nonId>])(?:алг|арг(?:\x20*рез)?|ввод|ВКЛЮЧИТЬ|вс[её]|выбор|вывод|выход|дано|для|до|дс|если|иначе|исп|использовать|кон(?:(?:\x20+|_)исп)?|кц(?:(?:\x20+|_)при)?|надо|нач|нс|нц|от|пауза|пока|при|раза?|рез|стоп|таб|то|утв|шаг)(?=[<nonId>]|$)/),
+		pattern: wrapId(/(^|[<nonId>])(?:алг|арг(?: *рез)?|ввод|ВКЛЮЧИТЬ|вс[её]|выбор|вывод|выход|дано|для|до|дс|если|иначе|исп|использовать|кон(?:(?: +|_)исп)?|кц(?:(?: +|_)при)?|надо|нач|нс|нц|от|пауза|пока|при|раза?|рез|стоп|таб|то|утв|шаг)(?=[<nonId>]|$)/),
 		lookbehind: true
 	},
 
 	/** Should be performed after searching for reserved words. */
 	'name': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: wrapId(/(^|[<nonId>])[^\d<nonId>][^<nonId>]*(?:\x20+[^<nonId>]+)*(?=[<nonId>]|$)/),
+		pattern: wrapId(/(^|[<nonId>])[^\d<nonId>][^<nonId>]*(?: +[^<nonId>]+)*(?=[<nonId>]|$)/),
 		lookbehind: true
 	},
 

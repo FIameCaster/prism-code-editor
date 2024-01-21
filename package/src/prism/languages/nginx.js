@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-var variable = /\$(?:\w[a-z\d]*(?:_[^\x00-\x1F\s"'\\()$]*)?|\{[^}\s"'\\]+\})/i;
+var variable = /\$(?:\w[a-z\d]*(?:_[^\0-\x1F\s"'\\()$]*)?|\{[^}\s"'\\]+\})/i;
 
 languages.nginx = {
 	'comment': {

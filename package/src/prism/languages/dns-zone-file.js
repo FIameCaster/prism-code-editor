@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages['dns-zone-file'] = {
+languages['dns-zone'] = languages['dns-zone-file'] = {
 	'comment': /;.*/,
 	'string': {
 		pattern: /"(?:\\.|[^"\\\n])*"/,
@@ -31,5 +31,3 @@ languages['dns-zone-file'] = {
 	},
 	'punctuation': /[()]/
 };
-
-languages['dns-zone'] = languages['dns-zone-file'];

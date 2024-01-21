@@ -10,8 +10,8 @@ var properties = `(?:${tag.source}(?:[ \t]+${anchorOrAlias.source})?|${anchorOrA
 // https://yaml.org/spec/1.2/spec.html#ns-plain(n,c)
 // This is a simplified version that doesn't support "#" and multiline keys
 // All these long scarry character classes are simplified versions of YAML's characters
-var plainKey = /(?:[^\s\x00-\x08\x0e-\x1f!"#%&'*,\-:>?@[\]`{|}\x7f-\x84\x86-\x9f\ud800-\udfff\ufffe\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*/.source
-	.replace(/<PLAIN>/g, /[^\s\x00-\x08\x0e-\x1f,[\]{}\x7f-\x84\x86-\x9f\ud800-\udfff\ufffe\uffff]/.source);
+var plainKey = /(?:[^\s\0-\x08\x0e-\x1f!"#%&'*,\-:>?@[\]`{|}\x7f-\x84\x86-\x9f\ud800-\udfff\ufffe\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*/.source
+	.replace(/<PLAIN>/g, /[^\s\0-\x08\x0e-\x1f,[\]{}\x7f-\x84\x86-\x9f\ud800-\udfff\ufffe\uffff]/.source);
 var string = /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/.source;
 
 /**

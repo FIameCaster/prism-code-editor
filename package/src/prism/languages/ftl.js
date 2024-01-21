@@ -7,7 +7,7 @@ import './markup.js';
 // FTL expression with 4 levels of nesting supported
 var FTL_EXPR = /[^<()"']|\((?:<expr>)*\)|<(?!#--)|<#--(?:[^-]|-(?!->))*-->|"(?:[^\\"]|\\.)*"|'(?:[^\\']|\\.)*'/.source;
 var exprReplace = /<expr>/g;
-FTL_EXPR = FTL_EXPR.replace(exprReplace, FTL_EXPR).replace(exprReplace, FTL_EXPR).replace(exprReplace, /[^\s\S]/.source);
+FTL_EXPR = FTL_EXPR.replace(exprReplace, FTL_EXPR).replace(exprReplace, FTL_EXPR).replace(exprReplace, '[]');
 
 var interpolationInside = {
 	'interpolation-punctuation': {

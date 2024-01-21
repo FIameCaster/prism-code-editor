@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages.renpy = {
+languages.rpy = languages.renpy = {
 	'comment': /#.+/,
 
 	'string': {
@@ -24,5 +24,3 @@ languages.renpy = {
 
 	'punctuation': /[{}[\];(),.:]/
 };
-
-languages.rpy = languages.renpy;

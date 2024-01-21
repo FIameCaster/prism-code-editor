@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages.gettext = {
+languages.po = languages.gettext = {
 	'comment': [
 		{
 			pattern: /# .*/,
@@ -41,5 +41,3 @@ languages.gettext = {
 	'number': /\b\d+\b/,
 	'punctuation': /[\[\]]/
 };
-
-languages.po = languages.gettext;

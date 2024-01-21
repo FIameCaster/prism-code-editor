@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages.turtle = {
+languages.trig = languages.turtle = {
 	'comment': {
 		pattern: /#.*/,
 		greedy: true
@@ -18,7 +18,7 @@ languages.turtle = {
 		greedy: true
 	},
 	'url': {
-		pattern: /<(?:[^\x00-\x20<>"{}|^`\\]|\\(?:u[\da-fA-F]{4}|U[\da-fA-F]{8}))*>/,
+		pattern: /<(?:[^\0- <>"{}|^`\\]|\\(?:u[\da-fA-F]{4}|U[\da-fA-F]{8}))*>/,
 		greedy: true,
 		inside: {
 			'punctuation': /[<>]/
@@ -53,4 +53,3 @@ languages.turtle = {
 		}
 	}
 };
-languages.trig = languages['turtle'];

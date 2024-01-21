@@ -1,18 +1,19 @@
-import { languages, rest } from '../core.js';
+import { languages } from '../core.js';
 
-languages.inform7 = {
+var substitutionInside = {
+	'delimiter': {
+		pattern: /\[|\]/,
+		alias: 'punctuation'
+	}
+};
+
+var inform7 = languages.inform7 = {
 	'string': {
 		pattern: /"[^"]*"/,
 		inside: {
 			'substitution': {
 				pattern: /\[[^\[\]]+\]/,
-				inside: {
-					'delimiter': {
-						pattern: /\[|\]/,
-						alias: 'punctuation'
-					}
-					// See rest below
-				}
+				inside: substitutionInside
 			}
 		}
 	},
@@ -55,9 +56,9 @@ languages.inform7 = {
 	'punctuation': /[.,:;(){}]/
 };
 
-languages.inform7['string'].inside['substitution'].inside[rest] = languages.inform7;
-// We don't want the remaining text in the substitution to be highlighted as the string.
-languages.inform7['string'].inside['substitution'].inside[rest].text = {
-	pattern: /\S(?:\s*\S)*/,
-	alias: 'comment'
-};
+Object.assign(substitutionInside, inform7, {
+	'text': {
+		pattern: /\S(?:\s*\S)*/,
+		alias: 'comment'
+	}
+});

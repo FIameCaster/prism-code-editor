@@ -1,5 +1,5 @@
 import { languages, tokenizeText, tokenize, withoutTokenizer } from '../core.js';
-import { extend, insertBefore } from '../utils/language.js';
+import { clone, insertBefore } from '../utils/language.js';
 import './markup.js';
 
 // Allow only one line break
@@ -19,7 +19,7 @@ var createInline = pattern => RegExp(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern.so
 var tableCell = /(?:\\.|``(?:[^`\n]|`(?!`))+``|`[^`\n]+`|[^\\|\n`])+/.source;
 var tableRow = /\|?__(?:\|__)+\|?(?:\n|(?![\s\S]))/.source.replace(/__/g, tableCell);
 var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?\n/.source;
-var markdown = languages.markdown = languages.md = extend('markup', {});
+var markdown = languages.markdown = languages.md = clone(languages.html);
 
 insertBefore(markdown, 'prolog', {
 	'front-matter-block': {

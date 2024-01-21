@@ -19,7 +19,7 @@ var nested = (pattern, depthLog2) => {
 		pattern = pattern.replace(/<self>/g, () => '(?:' + pattern + ')');
 	}
 	return pattern
-		.replace(/<self>/g, '[^\\s\\S]')
+		.replace(/<self>/g, '[]')
 		.replace(/<str>/g, `(?:${stringLike})`)
 		.replace(/<comment>/g, `(?:${commentLike})`);
 }

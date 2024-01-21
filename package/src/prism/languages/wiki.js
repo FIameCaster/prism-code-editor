@@ -2,7 +2,7 @@ import { languages, rest } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
 import './markup.js';
 
-var tagInside = languages.html.tag.inside
+var tagInside = languages.html.tag.inside;
 
 insertBefore(
 	languages.wiki = extend('html', {

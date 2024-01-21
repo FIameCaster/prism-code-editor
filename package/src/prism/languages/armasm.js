@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages.armasm = {
+languages['arm-asm'] = languages.armasm = {
 	'comment': {
 		pattern: /;.*/,
 		greedy: true
@@ -47,5 +47,3 @@ languages.armasm = {
 	'operator': /<>|<<|>>|&&|\|\||[=!<>/]=?|[+\-*%#?&|^]|:[A-Z]+:/,
 	'punctuation': /[()[\],]/
 };
-
-languages['arm-asm'] = languages.armasm;

@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages['linker-script'] = {
+languages['ld'] = languages['linker-script'] = {
 	'comment': {
 		pattern: /(^|\s)\/\*[\s\S]*?(?:$|\*\/)/,
 		lookbehind: true,
@@ -28,5 +28,3 @@ languages['linker-script'] = {
 	'operator': />>=?|<<=?|->|\+\+|--|&&|\|\||::|[?:~]|[-+*/%&|^!=<>]=?/,
 	'punctuation': /[(){},;]/
 };
-
-languages['ld'] = languages['linker-script'];

@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages['excel-formula'] = {
+languages['xlsx'] = languages['xls'] = languages['excel-formula'] = {
 	'comment': {
 		pattern: /(\bN\(\s*)"(?:[^"]|"")*"(?=\s*\))/i,
 		lookbehind: true,
@@ -64,5 +64,3 @@ languages['excel-formula'] = {
 	'operator': /[-+*/^%=&,]|<[=>]?|>=?/,
 	'punctuation': /[[\]();{}|]/
 };
-
-languages['xlsx'] = languages['xls'] = languages['excel-formula'];

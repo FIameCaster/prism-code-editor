@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages.ignore = {
+languages.npmignore = languages.hgignore = languages.gitignore = languages.ignore = {
 	// https://git-scm.com/docs/gitignore
 	'comment': /^#.*/m,
 	'entry': {
@@ -16,7 +16,3 @@ languages.ignore = {
 		}
 	}
 };
-
-languages.gitignore = languages.ignore;
-languages.hgignore = languages.ignore;
-languages.npmignore = languages.ignore;

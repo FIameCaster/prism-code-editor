@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages.supercollider = {
+languages.sclang = languages.supercollider = {
 	'comment': {
 		pattern: /\/\/.*|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\*\//,
 		greedy: true
@@ -34,5 +34,3 @@ languages.supercollider = {
 	'operator': /\.{2,3}|#(?![[{])|&&|[!=]==?|\+>>|\+{1,3}|-[->]|=>|>>|\?\?|@\|?@|\|(?:@|[!=]=)?\||!\?|<[!=>]|\*{1,2}|<{2,3}\*?|[-!%&/<>?@|=`]/,
 	'punctuation': /[{}()[\].:,;]|#[[{]/
 };
-
-languages.sclang = languages.supercollider;

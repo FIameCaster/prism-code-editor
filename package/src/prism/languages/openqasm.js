@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 // https://qiskit.github.io/openqasm/grammar/index.html
 
-languages.openqasm = {
+languages.qasm = languages.openqasm = {
 	'comment': /\/\*[\s\S]*?\*\/|\/\/.*/,
 	'string': {
 		pattern: /"[^"\n\t]*"|'[^'\n\t]*'/,
@@ -21,5 +21,3 @@ languages.openqasm = {
 	'operator': /->|>>=?|<<=?|&&|\|\||\+\+|--|[!=<>&|~^+\-*/%]=?|@/,
 	'punctuation': /[(){}\[\];,:.]/
 };
-
-languages.qasm = languages.openqasm;

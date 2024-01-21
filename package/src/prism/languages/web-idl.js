@@ -5,7 +5,7 @@ var type = `(?:\\b(?:unsigned\\s+)?long\\s+long(?![\\w-])|\\b(?:unrestricted|uns
 
 var typeInside = {};
 
-languages['web-idl'] = {
+var webIdl = languages['webidl'] = languages['web-idl'] = {
 	'comment': {
 		pattern: /\/\/.*|\/\*[\s\S]*?\*\//,
 		greedy: true
@@ -83,10 +83,6 @@ languages['web-idl'] = {
 	'punctuation': /[(){}[\].,;]/
 };
 
-for (var key in languages['web-idl']) {
-	if (key !== 'class-name') {
-		typeInside[key] = languages['web-idl'][key];
-	}
-}
+Object.assign(typeInside, webIdl);
 
-languages['webidl'] = languages['web-idl'];
+delete typeInside['class-name'];

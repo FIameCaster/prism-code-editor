@@ -20,8 +20,8 @@ languages.livescript = {
 					'interpolation-punctuation': {
 						pattern: /^#\{|\}$/,
 						alias: 'variable'
-					}
-					// See rest below
+					},
+					[rest]: 'livescript'
 				}
 			},
 			'string': /[\s\S]+/
@@ -105,5 +105,3 @@ languages.livescript = {
 	],
 	'punctuation': /[(){}\[\]|.,:;`]/
 };
-
-languages.livescript['interpolated-string'].inside['interpolation'].inside[rest] = languages.livescript;

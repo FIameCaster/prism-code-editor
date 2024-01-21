@@ -11,7 +11,7 @@ var jsExpr = /(?:[^\\()[\]{}"'/]|<string>|\/(?![*/])|<comment>|\(<expr>*\)|\[<ex
 for (var i = 0; i < 2; i++) {
 	jsExpr = jsExpr.replace(/<expr>/g, jsExpr);
 }
-jsExpr = jsExpr.replace(/<expr>/g, '[^\\s\\S]');
+jsExpr = jsExpr.replace(/<expr>/g, '[]');
 
 
 languages.qml = {

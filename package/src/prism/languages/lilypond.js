@@ -7,7 +7,7 @@ var schemeExpression = /\((?:[^();"#\\]|\\[\s\S]|;.*(?!.)|"(?:[^"\\]|\\.)*"|#(?:
 for (var i = 0; i < 5; i++) {
 	schemeExpression = schemeExpression.replace(/<expr>/g, schemeExpression);
 }
-schemeExpression = schemeExpression.replace(/<expr>/g, /[^\s\S]/.source);
+schemeExpression = schemeExpression.replace(/<expr>/g, '[]');
 
 var inside = {
 	pattern: /[\s\S]+/,

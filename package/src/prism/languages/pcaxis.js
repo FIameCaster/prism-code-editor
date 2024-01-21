@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages.pcaxis = {
+languages.px = languages.pcaxis = {
 	'string': /"[^"]*"/,
 	'keyword': {
 		pattern: /((?:^|;)\s*)[-A-Z\d]+(?:\s*\[[-\w]+\])?(?:\s*\("[^"]*"(?:,\s*"[^"]*")*\))?(?=\s*=)/,
@@ -51,5 +51,3 @@ languages.pcaxis = {
 	},
 	'boolean': /NO|YES/,
 };
-
-languages.px = languages.pcaxis;

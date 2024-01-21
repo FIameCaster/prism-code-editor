@@ -26,8 +26,7 @@ var operator = /<?=>|\?\?=?|\.{3}|\??->|[!=]=?=?|::|\*\*=?|--|\+\+|&&|\|\||<<|>>
 var punctuation = /[{}\[\](),:;]/;
 var stringInterpolation = {
 	pattern: /\{\$(?:\{(?:\{[^{}]+\}|[^{}]+)\}|[^{}])+\}|(^|[^\\{])\$+(?:\w+(?:\[[^\n\[\]]+\]|->\w+)?)/,
-	lookbehind: true,
-	inside: 'php'
+	lookbehind: true
 };
 var string = [
 	{
@@ -79,7 +78,7 @@ var string = [
 	}
 ];
 
-var php = {
+var php = stringInterpolation.inside = {
 	'delimiter': {
 		pattern: /\?>$|^<\?(?:php(?=\s)|=)?/i,
 		alias: 'important'

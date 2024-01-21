@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import { clikeString } from '../utils/shared.js';
 
-languages.unrealscript = {
+languages.uc = languages.uscript = languages.unrealscript = {
 	'comment': /\/\/.*|\/\*[\s\S]*?\*\//,
 	'string': clikeString(),
 	'category': {
@@ -38,5 +38,3 @@ languages.unrealscript = {
 	'operator': />>|<<|--|\+\+|\*\*|[-+*/~!=<>$@]=?|&&?|\|\|?|\^\^?|[?:%]|\b(?:ClockwiseFrom|Cross|Dot)\b/,
 	'punctuation': /[()[\]{};,.]/
 };
-
-languages.uc = languages.uscript = languages.unrealscript;

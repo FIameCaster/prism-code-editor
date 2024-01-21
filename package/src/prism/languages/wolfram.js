@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages.wolfram = {
+languages.nb = languages.wl = languages.mathematica = languages.wolfram = {
 	'comment': // Allow one level of nesting - note: regex taken from applescipt
 		/\(\*(?:\(\*(?:[^*]|\*(?!\)))*\*\)|(?!\(\*)[\s\S])*?\*\)/,
 	'string': {
@@ -25,7 +25,3 @@ languages.wolfram = {
 	'operator': /\/\.|;|=\.|\^=|\^:=|:=|<<|>>|<\||\|>|:>|\|->|->|<-|@@@|@@|@|\/@|=!=|===|==|=|\+|-|\[\/-+%=\]=?|!=|\*\*?=?|\/\/?=?|<[<=>]?|>[=>]?|[&|^~]/,
 	'punctuation': /[{}[\];(),.:]/
 };
-
-languages.mathematica = languages.wolfram;
-languages.wl = languages.wolfram;
-languages.nb = languages.wolfram;

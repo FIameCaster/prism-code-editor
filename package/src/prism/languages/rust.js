@@ -16,7 +16,7 @@ for (var i = 0; i < 2; i++) {
 	// support 4 levels of nested comments
 	multilineComment = multilineComment.replace(/<self>/g, multilineComment);
 }
-multilineComment = multilineComment.replace(/<self>/g, '[^\\s\\S]');
+multilineComment = multilineComment.replace(/<self>/g, '[]');
 
 paramsInside[rest] = languages.rust = {
 	'comment': {

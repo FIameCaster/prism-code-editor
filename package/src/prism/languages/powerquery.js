@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 // https://docs.microsoft.com/en-us/powerquery-m/power-query-m-language-specification
 
-languages.powerquery = {
+languages.mscript = languages.pq = languages.powerquery = {
 	'comment': {
 		pattern: /\/\*[\s\S]*?\*\/|\/\/.*/,
 		greedy: true
@@ -51,6 +51,3 @@ languages.powerquery = {
 	'operator': /[-+*\/&?@^]|<(?:=>?|>)?|>=?|=>?|\.\.\.?/,
 	'punctuation': /[,;\[\](){}]/
 };
-
-languages.pq = languages['powerquery'];
-languages.mscript = languages['powerquery'];

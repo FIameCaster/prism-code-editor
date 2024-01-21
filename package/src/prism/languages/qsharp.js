@@ -31,7 +31,7 @@ var nested = (pattern, depthLog2) => {
 	for (var i = 0; i < depthLog2; i++) {
 		pattern = pattern.replace(/<<self>>/g, `(?:${pattern})`);
 	}
-	return pattern.replace(/<<self>>/g, '[^\\s\\S]');
+	return pattern.replace(/<<self>>/g, '[]');
 }
 
 // https://docs.microsoft.com/en-us/azure/quantum/user-guide/language/typesystem/

@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages.haskell = {
+languages.hs = languages.haskell = {
 	'comment': {
 		pattern: /(^|[^-!#$%*+=?&@|~.:<>^\\\/])(?:--(?:(?=.)[^-!#$%*+=?&@|~.:<>^\\\/].*|$)|\{-[\s\S]*?-\})/m,
 		lookbehind: true
@@ -64,5 +64,3 @@ languages.haskell = {
 	},
 	'punctuation': /[{}[\];(),.:]/
 };
-
-languages.hs = languages.haskell;

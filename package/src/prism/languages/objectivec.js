@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 import { extend } from '../utils/language.js';
 import './c.js';
 
-languages.objectivec = extend('c', {
+languages.objc = languages.objectivec = extend('c', {
 	'string': {
 		pattern: /@?"(?:\\[\s\S]|[^"\\\n])*"/,
 		greedy: true
@@ -11,6 +11,4 @@ languages.objectivec = extend('c', {
 	'operator': /-[->]?|\+\+?|!=?|<<?=?|>>?=?|==?|&&?|\|\|?|[~^%?*\/@]/
 });
 
-delete languages.objectivec['class-name'];
-
-languages.objc = languages.objectivec;
+delete languages.objc['class-name'];
