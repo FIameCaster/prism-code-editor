@@ -20,6 +20,14 @@ export interface BracketMatcher extends SetupExtension {
 	readonly pairs: (number | undefined)[]
 }
 
+/**
+ * Tuple containing in the following order:
+ * - The bracket's `Token`
+ * - Its starting position
+ * - Its level of nesting
+ * - Its text content
+ * - Whether it's an opening bracket
+ */
 export type Bracket = [Token, number, number, string, boolean]
 
 /**

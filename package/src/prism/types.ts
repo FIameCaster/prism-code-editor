@@ -1,7 +1,7 @@
-import type { tokenize, rest, Token } from "./core"
+import { tokenize, rest, Token } from "./core"
 
 /**
- * A token stream is an array of strings and {@link Token Token} objects.
+ * A token stream is an array of strings and {@link Token} objects.
  *
  * Token streams have to fulfill a few properties that are assumed by most functions (mostly internal ones) that process
  * them.
@@ -69,8 +69,7 @@ export interface GrammarToken {
 	 */
 	greedy?: boolean
 	/**
-	 * An optional alias.
-	 * Multiple aliases are separated by spaces.
+	 * An optional alias. Multiple aliases are separated by spaces.
 	 */
 	alias?: TokenName
 	/**
@@ -93,12 +92,20 @@ export interface GrammarToken {
 	readonly exec?: never
 }
 
+/**
+ * A custom tokenizer for a grammar.
+ * 
+ * @see {@link tokenize} symbol for more info.
+ * 
+ * @param code A string with the code this grammar needs to tokenize.
+ * @param grammar The grammar with the custom tokenizer
+ * @returns A token stream representing the matched code.
+ */
+export type CustomTokenizer = (code: string, grammar: Grammar) => TokenStream
+
 export type GrammarTokens = Partial<Record<TokenName, RegExp | GrammarToken | (RegExp | GrammarToken)[]>>
-export interface GrammarSymbols {
-	/**
-	 * An optional grammar object that will be appended to this grammar.
-	 */
+export type GrammarSymbols = {
 	[rest]?: Grammar | string | null
-	[tokenize]?: (code: string, grammar: Grammar) => TokenStream
+	[tokenize]?: CustomTokenizer | null
 }
 export type Grammar = GrammarTokens & GrammarSymbols

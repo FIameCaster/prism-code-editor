@@ -1,5 +1,3 @@
-/** @module utils */
-
 import { PrismEditor } from ".."
 import { numLines, isChrome, isWebKit, setSelection } from "../core"
 

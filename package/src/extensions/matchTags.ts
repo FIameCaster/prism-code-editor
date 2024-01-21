@@ -8,6 +8,15 @@ import { addTextareaListener } from "../utils/local"
 const voidlessLangs = "xml,rss,atom,jsx,tsx".split(",")
 const voidTags = "area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr".split(",")
 
+/**
+ * Tuple containing in the following order:
+ * - The tag's `Token`
+ * - Its starting position
+ * - Its ending position
+ * - Its tag name
+ * - Whether it's a closing tag
+ * - Whether it isn't self-closing
+ */
 export type Tag = [Token, number, number, string, boolean, boolean]
 
 export interface TagMatcher {
@@ -17,15 +26,13 @@ export interface TagMatcher {
 	 * - Its starting position
 	 * - Its ending position
 	 * - Its tag name
-	 * - Whether it's an closing tag
+	 * - Whether it's a closing tag
 	 * - Whether it isn't self-closing
 	 */
 	readonly tags: Tag[]
 	/** Array mapping the index of a tag to the index of its matching tag. */
 	readonly pairs: (number | undefined)[]
 }
-
-// [0,1,3,4,2,5]
 
 /**
  * Function that adds tag matching to the editor.

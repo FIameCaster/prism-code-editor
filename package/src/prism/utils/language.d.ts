@@ -1,6 +1,9 @@
 import type { Grammar, GrammarTokens, TokenName, TokenStream } from "../types"
 
-/** Creates a deep clone of the given grammar definition. */
+/**
+ * Creates a deep clone of the given grammar definition.
+ * @param grammar Grammar object you want to clone.
+ */
 export declare const clone: (grammar: Grammar) => Grammar
 
 /**
@@ -8,11 +11,10 @@ export declare const clone: (grammar: Grammar) => Grammar
  *
  * ## Usage
  *
- * This helper method makes it easy to modify existing grammars. For example, the CSS language definition
- * not only defines CSS highlighting for CSS documents, but also needs to define highlighting for CSS embedded
- * in HTML through `<style>` elements. To do this, it needs to modify `Prism.languages.markup` and add the
- * appropriate tokens. However, `Prism.languages.markup` is a regular JavaScript object literal, so if you do
- * this:
+ * This helper method makes it easy to modify existing grammars. For example, the markup language definition
+ * defines highlighting for CSS embedded in HTML through `<style>` elements. To do this, it needs to modify
+ * `languages.markup` and add the appropriate tokens. However, `languages.markup` is a regular JavaScript
+ * object literal, so if you do this:
  *
  * ```js
  * markup.style = {
@@ -21,13 +23,13 @@ export declare const clone: (grammar: Grammar) => Grammar
  * ```
  *
  * then the `style` token will be added (and processed) at the end. `insertBefore` allows you to insert tokens
- * before existing tokens. For the CSS example above, you would use it like this:
+ * before existing tokens. For the markup example above, you would use it like this:
  *
  * ```js
  * insertBefore(markup, 'cdata', {
- *     'style': {
- *         // token
- *     }
+ *   'style': {
+ *     // token
+ *   }
  * });
  * ```
  *
@@ -40,8 +42,8 @@ export declare const clone: (grammar: Grammar) => Grammar
  *
  * ```js
  * insertBefore(markup, 'comment', {
- *     'comment': markup.comment,
- *     // tokens after 'comment'
+ *   'comment': markup.comment,
+ *   // tokens after 'comment'
  * });
  * ```
  *
@@ -74,12 +76,12 @@ export declare const insertBefore: (
  * @param reDef The new tokens to append.
  * @returns The new language created.
  * @example
- * Prism.languages['css-with-colors'] = Prism.languages.extend('css', {
- *     // Prism.languages.css already has a 'comment' token, so this token will overwrite CSS' 'comment' token
- *     // at its original position
- *     'comment': { ... },
- *     // CSS doesn't have a 'color' token, so this token will be appended
- *     'color': /\b(?:red|green|blue)\b/
+ * languages['css-with-colors'] = extend('css', {
+ *   // languages.css already has a 'comment' token, so this token will overwrite CSS' 'comment' token
+ *   // at its original position
+ *   'comment': { ... },
+ *   // CSS doesn't have a 'color' token, so this token will be appended
+ *   'color': /\b(?:red|green|blue)\b/
  * });
  */
 export declare const extend: (id: string, reDef?: Grammar) => Grammar
