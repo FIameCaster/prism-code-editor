@@ -53,14 +53,14 @@ export type Language = {
 	 * Second function should return whether to add an extra line after the cursor.
 	 */
 	autoIndent?: [
-		((this: PrismEditor, selection: InputSelection, value: string) => boolean)?,
-		((this: PrismEditor, selection: InputSelection, value: string) => boolean)?,
+		((selection: InputSelection, value: string, editor: PrismEditor) => boolean)?,
+		((selection: InputSelection, value: string, editor: PrismEditor) => boolean)?,
 	]
 	/**
 	 * Function called when the user types `>`. Intended to auto close tags.
 	 * @returns string which will get inserted behind the cursor.
 	 */
-	autoCloseTags?(this: PrismEditor, selection: InputSelection, value: string): string | undefined
+	autoCloseTags?(selection: InputSelection, value: string, editor: PrismEditor): string | undefined
 }
 
 /**

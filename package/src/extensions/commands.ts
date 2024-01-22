@@ -152,11 +152,7 @@ const defaultCommands =
 		})
 
 		inputCommandMap[">"] = (e, selection, value) => {
-			const closingTag = languageMap[getLanguage(editor)]?.autoCloseTags?.call(
-				editor,
-				selection,
-				value,
-			)
+			const closingTag = languageMap[getLanguage(editor)]?.autoCloseTags?.(selection, value, editor)
 			if (closingTag) {
 				insertText(editor, ">" + closingTag, null, null, selection[0] + 1)
 				preventDefault(e)
@@ -182,8 +178,8 @@ const defaultCommands =
 					autoIndent = languageMap[getLanguage(editor)]?.autoIndent,
 					indenationCount =
 						Math.floor(getLineBefore(value, selection[0]).search(/\S|$/) / tabSize) * tabSize,
-					extraIndent = autoIndent?.[0]?.call(editor, selection, value) ? tabSize : 0,
-					extraLine = autoIndent?.[1]?.call(editor, selection, value),
+					extraIndent = autoIndent?.[0]?.(selection, value, editor) ? tabSize : 0,
+					extraLine = autoIndent?.[1]?.(selection, value, editor),
 					newText =
 						"\n" +
 						indentChar.repeat(indenationCount + extraIndent) +
@@ -252,10 +248,10 @@ const defaultCommands =
 
 		addTextareaListener(editor, "keydown", e => {
 			const code = getModifierCode(e),
-				keyCode = e.keyCode
+				keyCode = e.keyCode,
+				[start, end, dir] = getSelection()
 
 			if (code == mod && (keyCode == 221 || keyCode == 219)) {
-				const [start, end] = getSelection()
 				indent(
 					keyCode == 219,
 					...getLines(editor.value, start, end),
@@ -263,13 +259,14 @@ const defaultCommands =
 					end,
 					...getIndent(options),
 				)
-			} else if (code == (isMac ? 0b1010 : 0b0010) && keyCode == 77) {
+				return scroll()
+			}
+			if (code == (isMac ? 0b1010 : 0b0010) && keyCode == 77) {
 				setIgnoreTab(!ignoreTab)
 				preventDefault(e)
 			} else if ((e.code == "Backslash" && code == mod) || (keyCode == 65 && code == 9)) {
 				const value = editor.value,
 					isBlock = code == 9,
-					[start, end] = getSelection(),
 					position = isBlock ? start : value.lastIndexOf("\n", start - 1) + 1,
 					language = languageMap[getLanguage(editor, position)] || {},
 					{ line, block } =
@@ -346,7 +343,6 @@ const defaultCommands =
 				}
 			} else if (code == 8 + mod && keyCode == 75) {
 				const value = editor.value,
-					[start, end, dir] = getSelection(),
 					[lines, start1, end1] = getLines(value, start, end),
 					column = dir == "forward" ? end - end1 + lines.pop()!.length : start - start1,
 					newLineLen = getLines(value, end1 + 1)[0][0].length
@@ -357,7 +353,7 @@ const defaultCommands =
 					end1 + <any>!start1,
 					start1 + Math.min(column, newLineLen),
 				)
-				scroll()
+				return scroll()
 			}
 		})
 		;(["copy", "cut", "paste"] as const).forEach(type =>

@@ -19,7 +19,7 @@ languageMap.xml =
 					isBracketPair.test(value[start - 1] + value[end]) ||
 					(xmlOpeningTag.test(value.slice(0, start)) && xmlClosingTag.test(value.slice(end))),
 			],
-			autoCloseTags([start, end], value) {
-				return autoCloseTags(this, start, end, value, xmlOpeningTag)
+			autoCloseTags: ([start, end], value, editor) => {
+				return autoCloseTags(editor, start, end, value, xmlOpeningTag)
 			},
 		}

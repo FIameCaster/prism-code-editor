@@ -68,7 +68,7 @@ languageMap.jsx = languageMap.tsx = {
 			isBracketPair.test(value[start - 1] + value[end]) ||
 			(openingTag.test(value.slice(0, start)) && closingTag.test(value.slice(end))),
 	],
-	autoCloseTags([start, end], value) {
-		return autoCloseTags(this, start, end, value, openingTag)
+	autoCloseTags: ([start, end], value, editor) => {
+		return autoCloseTags(editor, start, end, value, openingTag)
 	},
 }

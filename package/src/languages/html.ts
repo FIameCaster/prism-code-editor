@@ -19,7 +19,7 @@ languageMap.markup =
 					isBracketPair.test(value[start - 1] + value[end]) ||
 					(isOpening(value.slice(0, start)) && xmlClosingTag.test(value.slice(end))),
 			],
-			autoCloseTags([start, end], value) {
-				return autoCloseTags(this, start, end, value, xmlOpeningTag, voidTags)
+			autoCloseTags: ([start, end], value, editor) => {
+				return autoCloseTags(editor, start, end, value, xmlOpeningTag, voidTags)
 			},
 		}
