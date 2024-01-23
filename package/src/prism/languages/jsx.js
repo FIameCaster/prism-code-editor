@@ -1,16 +1,8 @@
 import { languages, Token, tokenize, withoutTokenizer } from '../core.js';
-import { clone, extend, insertBefore } from '../utils/language.js';
-import './xml.js';
+import { clone, insertBefore } from '../utils/language.js';
 import './javascript.js';
 
-var javascript = clone(languages.js);
-var jsx = languages.jsx = extend('xml', javascript);
-var tag = jsx.tag;
-var tagInside = tag.inside;
-
-var space = /(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)/.source;
-var braces = /(?:\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\})/.source;
-var spread = /(?:\{<S>*\.{3}(?:[^{}]|<BRACES>)*\})/.source;
+var jsx = languages.jsx = clone(languages.js);
 
 /**
  * @param {string} pattern
@@ -20,6 +12,10 @@ var re = pattern => RegExp(pattern
 	.replace(/<BRACES>/g, braces)
 	.replace(/<SPREAD>/g, spread)
 );
+
+var space = /(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)/.source;
+var braces = /(?:\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\})/.source;
+var spread = re(/(?:\{<S>*\.{3}(?:[^{}]|<BRACES>)*\})/.source).source;
 
 var isText = token => token && (!token.type || token.type == 'plain-text');
 
@@ -90,33 +86,49 @@ var walkTokens = (tokens, code, position) => {
 	return tokens;
 };
 
-spread = re(spread).source;
-
-tag.pattern = re(
-	/<\/?(?:(?!\d)[^\s>/=<%]+(?:<S>+(?:[^\s{*<>/=]+(?:<S>*=<S>*(?:(?:"[^"]*"|'[^']*'|[^\s{'"/>=]+|<BRACES>)|(?=\S)))?|<SPREAD>))*<S>*\/?)?>/.source
-);
-
-tagInside['attr-value'][0].pattern = re(/(=<S>*)(?:"[^"]*"|'[^']*'|[^\s\/'">]+)/.source);
-tagInside['tag'].inside['class-name'] = /^[A-Z]\w*(?:\.[A-Z]\w*)*$/;
-
-delete jsx['markup-bracket'];
-
-insertBefore(tagInside, 'attr-value', {
-	'script': {
-		// Allow for two levels of nesting
-		pattern: re(/(=<S>*)<BRACES>/.source),
-		lookbehind: true,
-		alias: 'language-jsx',
-		inside: jsx
-	},
-	'spread': {
-		pattern: RegExp(spread),
-		inside: jsx
+insertBefore(jsx, 'regex', {
+	'tag': {
+		pattern: re(
+			/<\/?(?:(?!\d)[^\s>/=<%]+(?:<S>+(?:[^\s{*<>/=]+(?:<S>*=<S>*(?:(?:"[^"]*"|'[^']*'|[^\s{'"/>=]+|<BRACES>)|(?=\S)))?|<SPREAD>))*<S>*\/?)?>/.source
+		),
+		greedy: true,
+		inside: {
+			'punctuation': /^<\/?|\/?>$/,
+			'tag': {
+				pattern: /^[^\s/]+/,
+				inside: {
+					'namespace': /^[^:]+:/,
+					'class-name': /^[A-Z]\w*(?:\.[A-Z]\w*)*$/
+				}
+			},
+			'script': {
+				// Allow for two levels of nesting
+				pattern: re(/(=<S>*)<BRACES>/.source),
+				lookbehind: true,
+				alias: 'language-jsx',
+				inside: jsx
+			},
+			'spread': {
+				pattern: RegExp(spread),
+				inside: jsx
+			},
+			'attr-value': {
+				pattern: re(/(=<S>*)(?:"[^"]*"|'[^']*'|[^\s/]+)/.source),
+				lookbehind: true,
+				inside: {
+					'punctuation': /^["']|["']$/
+				}
+			},
+			'comment': jsx['comment'],
+			'attr-equals': /=/,
+			'attr-name': {
+				pattern: /\S+/,
+				inside: {
+					'namespace': /^[^:]+:/
+				}
+			}
+		}
 	}
-});
-
-insertBefore(tagInside, 'attr-equals', {
-	'comment': jsx['comment']
 });
 
 jsx[tokenize] = (code, grammar) => walkTokens(withoutTokenizer(code, grammar), code, 0);

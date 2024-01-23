@@ -42,18 +42,18 @@ languages.rss = languages.atom = languages.ssml = languages.xml = {
 		greedy: true
 	},
 	'tag': {
-		pattern: /<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=\S))|(?=[\s/>])))+)?\s*\/?>/,
+		pattern: /<\/?(?!\d)[^\s>/=$<%]+(?:\s(?:\s*[^\s>/=]+(?:\s*=\s*(?:(?:"[^"]*"|'[^']*'|[^\s'"=>]+(?=[\s>]))|(?=\S))|(?=[\s/>])))+)?\s*\/?>/,
 		greedy: true,
 		inside: {
 			'punctuation': /^<\/?|\/?>$/,
 			'tag': {
-				pattern: /^[^\s/]+/,
+				pattern: /^\S+/,
 				inside: {
 					'namespace': /^[^:]+:/
 				}
 			},
 			'attr-value': [{
-				pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s'">=]+)/,
+				pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s'"=]+)/,
 				lookbehind: true,
 				inside: {
 					'punctuation': /^["']|["']$/,
