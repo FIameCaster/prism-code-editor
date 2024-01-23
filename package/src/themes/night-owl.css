@@ -69,6 +69,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.punctuation,
 .token.literal-property,
 .token.operator,
+.token.token.anchor,
 .token.atrule .rule,
 .language-css .important,
 .language-markdown .italic * {
@@ -93,6 +94,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 }
 
 .token.number,
+.regex .escape,
 .token.tag .class-name {
 	color: #f78c6c;
 }
@@ -130,8 +132,14 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .selector .operator,
 .token.attr-equals,
 .token.property-access,
+.token.quantifier,
+.token.alternation,
 .language-markdown .url .markup-bracket {
 	color: #7fdbca;
+}
+
+.language-regex {
+	color: #5ca7e4;
 }
 
 .selector .id {
@@ -158,6 +166,9 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.function,
 .token.keyword-undefined,
 .token.function .maybe-class-name,
+.token.regex .punctuation,
+.token.char-class,
+.token.token.char-set,
 .token.title.important,
 .token.title > .punctuation,
 .language-markdown .url .variable {
@@ -198,6 +209,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	font-style: normal;
 }
 
+.token.alternation,
 .token.keyword-this,
 .token.keyword-null,
 .token.keyword-undefined {

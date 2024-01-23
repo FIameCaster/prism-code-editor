@@ -133,6 +133,8 @@
 
 .token.doctype .name,
 .token.property,
+.token.anchor,
+.token.alternation,
 .token.attr-name {
 	color: #e50000;
 }
@@ -169,8 +171,9 @@
 }
 
 .token.regex,
+.token.regex .punctuation,
 .language-regex,
-.token.char-set.class-name,
+.token.char-set,
 .token.char-class .operator {
 	color: #811f3f;
 }
