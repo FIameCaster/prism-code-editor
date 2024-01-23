@@ -67,7 +67,7 @@ insertBefore(
 			lookbehind: true,
 			inside: {
 				'code': {
-					pattern: /^([\t ]*(?:\*\s*)?)\S.*$/m,
+					pattern: /^([\t ]*(?:\*[ \t]*|(?!\*)))\S.*$/m,
 					lookbehind: true,
 					inside: javascript,
 					alias: 'language-javascript'

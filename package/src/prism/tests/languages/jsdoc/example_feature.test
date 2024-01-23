@@ -1,5 +1,6 @@
 /**
  * @example
+ * 
  * // returns 3
  * globalNS.method(5, 15);
  */
@@ -11,7 +12,7 @@
 	["keyword", "@example"],
 
 	["example", [
-		"* ",
+		"* \n * ",
 		["code", [
 			["comment", "// returns 3"]
 		]],
