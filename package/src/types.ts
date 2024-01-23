@@ -9,19 +9,19 @@ import { TokenStream } from "./prism/types"
 export type EditorOptions = {
 	/** Language used for syntax highlighting. */
 	language: string
-	/** Tabsize for the editor. Defaults to `2`. */
+	/** Tabsize for the editor. @default 2 */
 	tabSize?: number | undefined
-	/** Whether the editor should insert spaces for indentation. Defaults to `true`. */
+	/** Whether the editor should insert spaces for indentation. @default true */
 	insertSpaces?: boolean | undefined
-	/** Whether line numbers should be shown. Defaults to `true`. */
+	/** Whether line numbers should be shown. @default true */
 	lineNumbers?: boolean | undefined
-	/** Whether the editor should be read only. Defaults to `false`. */
+	/** Whether the editor should be read only. @default false */
 	readOnly?: boolean | undefined
-	/** Whether the editor should have word wrap. Defaults to `false`. */
+	/** Whether the editor should have word wrap. @default false */
 	wordWrap?: boolean | undefined
 	/** Initial code to display in the editor. */
 	value: string
-	/** @experimental Whether the editor uses right to left directionality. Defaults to `false`. */
+	/** @experimental Whether the editor uses right to left directionality. @default false */
 	rtl?: boolean
 	/** Function called when the code of the editor changes. */
 	onUpdate?: EditorEventMap["update"] | null
