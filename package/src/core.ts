@@ -70,6 +70,7 @@ const createEditor = (
 		const isNewGrammar = grammar != (grammar = languages[language])
 		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
 
+		readOnly = !!currentOptions.readOnly
 		updateExtensions()
 		updateClassName()
 
@@ -81,7 +82,6 @@ const createEditor = (
 			textarea.selectionEnd = 0
 			update()
 		}
-		overlays.classList.toggle("pce-readonly", (readOnly = !!currentOptions.readOnly))
 		textarea.inputMode = readOnly ? "none" : ""
 		textarea.setAttribute("aria-readonly", <any>readOnly)
 	}
@@ -135,7 +135,7 @@ const createEditor = (
 			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
 		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${
 			start == end ? "no" : "has"
-		}-selection ${focused() ? " pce-focus" : ""}`
+		}-selection ${focused() ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
 	}
 
 	const getInputSelection = () =>
@@ -158,7 +158,11 @@ const createEditor = (
 		addTextareaListener(
 			self,
 			"focus",
-			e => (e.relatedTarget ? (<HTMLElement>e.relatedTarget).focus() : textarea.blur()),
+			e => {
+				let relatedTarget = <HTMLElement>e.relatedTarget
+				if (relatedTarget) relatedTarget.focus()
+				else textarea.blur()
+			},
 			{ once: true },
 		)
 
