@@ -58,7 +58,7 @@ export const editor = createEditor(
   indentGuides(),
   matchBrackets(),
 )
-  
+
 import('./extensions')`,
 
 	`// extensions.ts
