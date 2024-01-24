@@ -278,7 +278,7 @@ export const searchWidget = (): SearchWidget => {
 	}
 
 	const container = <HTMLDivElement>template.cloneNode(true),
-		// @ts-ignore
+		// @ts-expect-error
 		search = (self.element = <HTMLDivElement>container.firstChild),
 		[toggle, div] = <[HTMLButtonElement, HTMLDivElement]>(<unknown>search.children),
 		rows = div.children,

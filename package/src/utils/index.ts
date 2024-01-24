@@ -140,7 +140,7 @@ const insertText = (
  * ```
  */
 const getModifierCode = (
-	e: KeyboardEvent, // @ts-ignore
+	e: KeyboardEvent, // @ts-expect-error
 ): number => e.altKey + e.ctrlKey * 2 + e.metaKey * 4 + e.shiftKey * 8
 
 export {

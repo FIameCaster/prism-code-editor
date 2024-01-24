@@ -12,7 +12,7 @@ var ts = languages.ts = languages.typescript = extend('js', {
 
 insertBefore(ts, 'arrow', {
 	'builtin': /\b(?:Array|Function|Promise|any|boolean|never|number|string|symbol|unknown)\b/
-})
+});
 
 // The keywords TypeScript adds to JavaScript
 ts.keyword.push(
@@ -42,7 +42,7 @@ insertBefore(ts, 'function', {
 				pattern: /^@/,
 				alias: 'operator'
 			},
-			'function': /^[\s\S]+/
+			'function': /.+/
 		}
 	},
 	'generic-function': {

@@ -46,9 +46,9 @@ export const matchBrackets = (rainbowBrackets = true) => {
 		if (rainbowBrackets && editor.tokens[0]) editor.update()
 		else matchBrackets(editor.tokens)
 	}
-	// @ts-ignore
-	const brackets: Brakcet[] = self.brackets = []
-	// @ts-ignore
+	// @ts-expect-error
+	const brackets: Bracket[] = self.brackets = []
+	// @ts-expect-error
 	const pairMap: number[] = self.pairs = []
 	const matchBrackets = (tokens: TokenStream) => {
 		stack = []
@@ -66,6 +66,7 @@ export const matchBrackets = (rainbowBrackets = true) => {
 	}
 	const matchRecursive = (tokens: TokenStream, position: number) => {
 		for (let i = 0, token: string | Token; (token = tokens[i++]); ) {
+			let length = token.length
 			if (typeof token != "string") {
 				const type = token.type,
 					content = token.content
@@ -73,7 +74,7 @@ export const matchBrackets = (rainbowBrackets = true) => {
 				if (Array.isArray(content)) {
 					matchRecursive(content, position)
 				} else if ((token.alias || type) == "punctuation") {
-					let charCode = content.charCodeAt(content.length - 1),
+					let charCode = content.charCodeAt(length - 1),
 						isOpen = !!openingCharCodes[charCode]
 					if (isOpen || closingCharCodes[charCode]) {
 						brackets[bracketIndex] = [token, position, 0, content, isOpen]
@@ -93,7 +94,7 @@ export const matchBrackets = (rainbowBrackets = true) => {
 					}
 				}
 			}
-			position += token.length
+			position += length
 		}
 	}
 

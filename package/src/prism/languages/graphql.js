@@ -81,7 +81,7 @@ languages.graphql = {
 		 */
 		var isNotTokenType = types => {
 			for (var i = 0; i < types.length; i++) {
-				if (validTokens[currentIndex + i]?.type != types[i]) {
+				if (!validTokens[currentIndex + i] || validTokens[currentIndex + i].type != types[i]) {
 					return true;
 				}
 			}

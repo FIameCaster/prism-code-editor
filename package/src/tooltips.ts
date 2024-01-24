@@ -80,7 +80,6 @@ export const addOverscroll = (editor: PrismEditor) => {
 
 /** Removes the ability to scroll past the last line in the editor. */
 export const removeOverscroll = (editor: PrismEditor) => {
-	const el = editor.scrollContainer
-	observer && observer.unobserve(el)
-	el.querySelector<HTMLDivElement>(".pce-wrapper")!.style.paddingBottom = ""
+	observer && observer.unobserve(editor.scrollContainer)
+	editor.wrapper.style.paddingBottom = ""
 }

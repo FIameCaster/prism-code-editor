@@ -94,7 +94,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 						let lang = token.alias || type
 						matchTagsRecursive(
 							content,
-							lang.indexOf("language-") ? language : (<string>lang).slice(9),
+							lang.indexOf("language-") ? language : lang.slice(9),
 							position,
 						)
 					}

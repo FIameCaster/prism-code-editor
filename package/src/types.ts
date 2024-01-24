@@ -19,7 +19,7 @@ export type EditorOptions = {
 	readOnly?: boolean | undefined
 	/** Whether the editor should have word wrap. @default false */
 	wordWrap?: boolean | undefined
-	/** Initial code to display in the editor. */
+	/** Code to display in the editor. */
 	value: string
 	/** @experimental Whether the editor uses right to left directionality. @default false */
 	rtl?: boolean
@@ -37,7 +37,7 @@ export type CommentTokens = {
 }
 
 export type Language = {
-	/** Comment tokens used by the language */
+	/** Comment tokens used by the language. */
 	comments?: CommentTokens
 	/**
 	 * Method called when a user executes a comment toggling command.

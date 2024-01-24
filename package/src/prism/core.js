@@ -1,9 +1,4 @@
-/**
- * Prism: Lightweight, robust, elegant syntax highlighting
- *
- * @license MIT <https://opensource.org/licenses/MIT>
- * @author Lea Verou <https://lea.verou.me>
- */
+// Slimmed down Prism core with most high level functions removed
 
 var plainTextGrammar = {};
 var rest = Symbol();
@@ -285,9 +280,8 @@ var matchGrammar = (text, tokenList, grammar, startNode, startPos, rematch) => {
  */
 var addAfter = (list, node, value) => {
 	// assumes that node != list.tail && values.length >= 0
-	var next = node.next;
 	list.length++;
-	return node.next = next.prev = { value, prev: node, next };
+	return node.next = node.next.prev = { value, prev: node, next: node.next };
 }
 
 /**

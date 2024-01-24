@@ -82,17 +82,17 @@ export const indentGuides = (): IndentGuides => {
 		for (let prevIndent = 0, emptyPos = -1, i = 0, p = 0; ; i++) {
 			const last = i == l,
 				indent = last ? 0 : (indentLevels[i] = getIndentCount(lines[i]))
-			if (indent == -1) {
-				if (emptyPos == -1) emptyPos = i
+			if (indent < 0) {
+				if (emptyPos < 0) emptyPos = i
 			} else {
 				for (let j = indent; j < prevIndent; j++) {
 					// Updating height of the closed lines
-					stack[j][1] = (emptyPos > -1 && (j > indent || last) ? emptyPos : i) - stack[j][0]
+					stack[j][1] = (emptyPos < 0 || (j == indent && !last) ? i : emptyPos) - stack[j][0]
 				}
 				for (let j = prevIndent; j < indent; ) {
 					// Adding new indentation lines
 					results[p++] = stack[j] = [
-						emptyPos == -1 || j > prevIndent ? i : emptyPos,
+						emptyPos < 0 || j > prevIndent ? i : emptyPos,
 						0,
 						j++ * tabSize,
 					]
@@ -109,7 +109,7 @@ export const indentGuides = (): IndentGuides => {
 	const getIndentCount = (text: string) => {
 		let l = text.search(/\S/),
 			result = 0
-		if (l == -1) return -1
+		if (l < 0) return l
 		for (let i = 0; i < l; ) {
 			result += text[i++] == "\t" ? tabSize - (result % tabSize) : 1
 		}

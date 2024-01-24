@@ -24,9 +24,7 @@ export declare const rest: unique symbol
  * custom tokenizer since the latter will call the custom tokenizer again leading to infinite recursion.
  * 
  * @example
- * A custom tokenizer will often look more or less like this:
- * 
- * ```javascript
+ * // A custom tokenizer will often look more or less like this:
  * const myGrammar = {
  *   // some tokens ...
  *   [tokenize](code, grammar) {
@@ -35,7 +33,6 @@ export declare const rest: unique symbol
  *     return tokens;
  *   }
  * };
- * ```
  */
 export declare const tokenize: unique symbol
 

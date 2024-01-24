@@ -4,8 +4,8 @@ import { TagMatcher } from "../extensions/matchTags"
 const clikeIndent = /[([{][^\n)\]}]*$|[^.\s]\s*\bcase.+?:[ \t]*$/,
 	isBracketPair = /\[]|\(\)|{}/,
 	xmlOpeningTag =
-		/<(?![!\d])([^\s>\/=$<%]+)(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*>[ \t]*$/,
-	xmlClosingTag = /^<\/(?!\d)[^\s>\/=$<%]+\s*>/,
+		/<(?![!\d])([^\s>/=$<%]+)(?:\s(?:\s*[^\s>/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*>[ \t]*$/,
+	xmlClosingTag = /^<\/(?!\d)[^\s>/=$<%]+\s*>/,
 	openBracket = /[([{][^\n)\]}]*$/
 
 const hasMatchingClosingTag = (

@@ -35,6 +35,7 @@ const createEditor = (
 		value = "",
 		activeLineNumber: number,
 		removed = false,
+		focused = false,
 		handleSelecionChange = true,
 		tokens: TokenStream = [],
 		readOnly: boolean
@@ -135,13 +136,11 @@ const createEditor = (
 			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
 		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${
 			start == end ? "no" : "has"
-		}-selection ${focused() ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
+		}-selection ${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
 	}
 
 	const getInputSelection = () =>
 		selection || [textarea.selectionStart, textarea.selectionEnd, textarea.selectionDirection]
-
-	const focused = () => selectionChange == dispatchSelection
 
 	const keyCommandMap: Record<string, KeyCommandCallback | null> = {
 		Escape() {
@@ -154,7 +153,7 @@ const createEditor = (
 	// Safari focuses the textarea if you change its selection or value programmatically
 	const focusRelatedTarget = () =>
 		isWebKit &&
-		!focused() &&
+		!focused &&
 		addTextareaListener(
 			self,
 			"focus",
@@ -170,9 +169,9 @@ const createEditor = (
 		name: T,
 		...args: Parameters<EditorEventMap[T]>
 	) => {
-		// @ts-ignore
+		// @ts-expect-error
 		for (const handler of listeners[name] || []) handler.apply(self, args)
-		// @ts-ignore
+		// @ts-expect-error
 		currentOptions[`on${name[0].toUpperCase()}${name.slice(1)}`]?.apply(self, args)
 	}
 
@@ -195,7 +194,7 @@ const createEditor = (
 		},
 		options: currentOptions,
 		get focused() {
-			return focused()
+			return focused
 		},
 		get removed() {
 			return removed
@@ -248,10 +247,12 @@ const createEditor = (
 	})
 	addTextareaListener(self, "blur", () => {
 		selectionChange = null
+		focused = false
 		updateClassName()
 	})
 	addTextareaListener(self, "focus", () => {
 		selectionChange = dispatchSelection
+		focused = true
 		updateClassName()
 	})
 	// For browsers that support selectionchange on textareas

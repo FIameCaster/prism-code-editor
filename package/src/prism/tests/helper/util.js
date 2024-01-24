@@ -101,11 +101,11 @@ export function parseRegex(regex) {
 
 /** @param {string} string */
 export function getLeadingSpaces(string) {
-	return /^\s*/.exec(string)?.[0] ?? '';
+	return (/^\s*/.exec(string) || [''])[0];
 }
 /** @param {string} string */
 export function getTrailingSpaces(string) {
-	return /\s*$/.exec(string)?.[0] ?? '';
+	return (/\s*$/.exec(string) || [''])[0];
 }
 
 /**
