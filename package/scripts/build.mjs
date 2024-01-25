@@ -32,6 +32,20 @@ for (const entry of entries) {
 }
 
 fs.writeFile("dist/themes/index.js", themeMod)
-
 fs.copyFile("../readme.md", "readme.md")
 fs.copyFile("../LICENSE", "LICENSE")
+
+const dummyModule = `/** Used for autocompletion, *don't* import this. */
+declare const _: never;
+export default _;`
+
+;["dist/prism/languages/", "dist/languages/"].forEach(path => {
+	fs.readdir(path).then(entries =>
+		entries.forEach(entry => {
+			if (entry.slice(-2) == "js") {
+				const name = entry.slice(0, -3)
+				fs.writeFile(path + name + ".d.ts", dummyModule)
+			}
+		}),
+	)
+})
