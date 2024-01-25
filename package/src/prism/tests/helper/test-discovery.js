@@ -1,3 +1,5 @@
+// https://github.com/PrismJS/prism/blob/v1.29.0/tests/helper/test-discovery.js
+
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

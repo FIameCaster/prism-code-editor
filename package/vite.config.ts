@@ -65,6 +65,7 @@ const simpleRegexMinifier: Plugin = {
 		str.replace(/\[\\s\\S\]/g, "[^]")
 
 		// inline-regex-source plugin used by Prism's build system
+		// https://github.com/PrismJS/prism/blob/v1.29.0/gulpfile.js/index.js#L33
 		str.replace(
 			/\/((?:[^\n\r[\\\/]|\\.|\[(?:[^\n\r\\\]]|\\.)*\])+)\/\s*\.\s*source\b/g,
 			(m, source: string) => {

@@ -1,3 +1,6 @@
+// Prism's coverage tests with minor changes
+// https://github.com/PrismJS/prism/blob/v1.29.0/tests/coverage.js
+
 import { assert } from 'chai';
 import { loadLanguages } from './helper/prism-loader.js';
 import { runTestCase } from './helper/test-case.js';

@@ -1,3 +1,6 @@
+// Prism's greedy core test
+// https://github.com/PrismJS/prism/blob/v1.29.0/tests/core/greedy.js
+
 'use-strict';
 
 import { assert } from 'chai';

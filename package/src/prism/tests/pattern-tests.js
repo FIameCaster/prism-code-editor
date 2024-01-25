@@ -1,3 +1,6 @@
+// Prism's patterns tests with minor changes
+// https://github.com/PrismJS/prism/blob/v1.29.0/tests/pattern-tests.js
+
 'use strict';
 
 import { assert } from 'chai';

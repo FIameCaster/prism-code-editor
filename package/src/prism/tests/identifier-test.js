@@ -1,3 +1,6 @@
+// Prism's identifier-test with minor changes
+// https://github.com/PrismJS/prism/blob/v1.29.0/tests/identifier-test.js
+
 import { assert } from 'chai';
 import { loadLanguages } from './helper/prism-loader.js';
 import { prettyprint } from './helper/token-stream-transformer.js';

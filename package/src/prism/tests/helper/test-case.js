@@ -1,3 +1,5 @@
+// https://github.com/PrismJS/prism/blob/v1.29.0/tests/helper/test-case.js
+
 import { assert } from 'chai';
 import fs from 'fs';
 import { loadLanguages } from './prism-loader.js';

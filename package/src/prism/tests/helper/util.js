@@ -1,3 +1,5 @@
+// https://github.com/PrismJS/prism/blob/v1.29.0/tests/helper/util.js
+
 import { RegExpParser } from 'regexpp';
 import * as Prettier from 'prettier';
 
@@ -30,18 +32,14 @@ export function BFS(start, callback) {
 		const newToVisit = [];
 
 		for (const path of toVisit) {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const obj = path[path.length - 1].value;
 			if (!visited.has(obj)) {
 				visited.add(obj);
 
 				for (const key in obj) {
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 					const value = obj[key];
 
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 					path.push({ key, value });
-					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 					callback(path, obj);
 
 					if (Array.isArray(value) || Object.prototype.toString.call(value) === '[object Object]') {
@@ -101,11 +99,11 @@ export function parseRegex(regex) {
 
 /** @param {string} string */
 export function getLeadingSpaces(string) {
-	return (/^\s*/.exec(string) || [''])[0];
+	return /^\s*/.exec(string)[0];
 }
 /** @param {string} string */
 export function getTrailingSpaces(string) {
-	return (/\s*$/.exec(string) || [''])[0];
+	return /\s*$/.exec(string)[0];
 }
 
 /**

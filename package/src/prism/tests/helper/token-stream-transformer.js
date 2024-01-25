@@ -1,3 +1,5 @@
+// https://github.com/PrismJS/prism/blob/v1.29.0/tests/helper/token-stream-transformer.js
+
 import { getLeadingSpaces, getTrailingSpaces } from './util.js';
 
 /**
