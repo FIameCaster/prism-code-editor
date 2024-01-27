@@ -30,7 +30,8 @@ languages.regex = {
 		lookbehind: true,
 		inside: {
 			'char-class-punctuation': {
-				pattern: /^\[|\]$/,
+				pattern: /^.|.$/,
+				greedy: true,
 				alias: 'punctuation'
 			},
 			'char-class-negation': {

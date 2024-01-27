@@ -1,10 +1,10 @@
-import { tokenizeText, Token, resolve, withoutTokenizer } from "../core.js"
+import { tokenizeText, Token, resolve, withoutTokenizer } from "../core.js";
 
 var getPlaceholder = id => `___PH${id}___`;
 
 var embeddedIn = hostGrammar => (code, templateGrammar) => {
 	var host = resolve(hostGrammar);
-	var hostCode = code
+	var hostCode = code;
 	var tokenStack = [];
 
 	if (templateGrammar) {
@@ -52,15 +52,14 @@ var embeddedIn = hostGrammar => (code, templateGrammar) => {
 				var index = s.indexOf(placeholder);
 				if (index + 1) {
 					++j;
-					
+
 					var replacement = [t];
 					var len = placeholder.length;
 					var after = s.slice(index + len);
-					var k = 0;
+					for (var k = 0; k < p; ) parents[k++].length += t.length - len;
 					if (index) replacement.unshift(s.slice(0, index));
 					if (after) replacement.push(...walkTokens([after]));
-					while (k < p) parents[k++].length += t.length - len;
-					
+
 					if (content) {
 						token.content = replacement;
 					} else {

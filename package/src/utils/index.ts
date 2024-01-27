@@ -97,18 +97,20 @@ const insertText = (
 	focused || textarea.focus()
 	const selection =
 		newCursorStart != null
-			? setSelection([newCursorStart, newCursorEnd ?? newCursorStart, getSelection()[2]])
+			? ([newCursorStart, newCursorEnd ?? newCursorStart, getSelection()[2]] as const)
 			: 0
 	if (start != null) textarea.setSelectionRange(start, end ?? start)
+
+	// Bug inserting new lines at the end if the editor ends with an empty line
+	const avoidBug = isChrome && !value[getSelection()[1]] && /^$|\n$/.test(value) && /\n$/.test(text)
+
+	if (selection) setSelection(selection)
 
 	// Only Safari dispatches a beforeinput event
 	isWebKit || textarea.dispatchEvent(new InputEvent("beforeinput", { data: text }))
 
 	// Inserting escaped HTML in Chrome and Safari instead for much better performance
 	if (isChrome || isWebKit) {
-		// Bug inserting new lines at the end if the editor ends with an empty line
-		const avoidBug =
-			isChrome && !value[textarea.selectionEnd] && /^$|\n$/.test(value) && /\n$/.test(text)
 		if (avoidBug) {
 			// This means the last new line won't be inserted if there's
 			// no selection, but that's less annoying than the bug.

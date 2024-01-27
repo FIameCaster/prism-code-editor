@@ -72,10 +72,12 @@ const createEditor = (
 		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
 
 		readOnly = !!currentOptions.readOnly
-		updateExtensions()
+		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
+		textarea.inputMode = readOnly ? "none" : ""
+		textarea.setAttribute("aria-readonly", <any>readOnly)
 		updateClassName()
 
-		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
+		updateExtensions()
 		if (isNewGrammar || value != textarea.value) {
 			focusRelatedTarget()
 			textarea.value = value
@@ -83,8 +85,6 @@ const createEditor = (
 			textarea.selectionEnd = 0
 			update()
 		}
-		textarea.inputMode = readOnly ? "none" : ""
-		textarea.setAttribute("aria-readonly", <any>readOnly)
 	}
 
 	const update = () => {
@@ -208,9 +208,9 @@ const createEditor = (
 		setOptions,
 		update,
 		getSelection: getInputSelection,
-		setSelection(start, end, direction) {
+		setSelection(start, end = start, direction) {
 			focusRelatedTarget()
-			textarea.setSelectionRange(start, end ?? start, direction)
+			textarea.setSelectionRange(start, end, direction)
 			dispatchSelection(true)
 		},
 		addExtensions(...extensions) {

@@ -96,7 +96,7 @@ insertBefore(markdown, 'prolog', {
 					var [, codeLang, , codeBlock] = tokens;
 					var language;
 
-					if (codeBlock && codeBlock.type && codeLang.type) {
+					if (tokens[5]) {
 						language = (/[a-z][\w-]*/i.exec(
 							codeLang.content.replace(/\b#/g, 'sharp').replace(/\b\+\+/g, 'pp')
 						) || [''])[0].toLowerCase();
@@ -239,9 +239,7 @@ insertBefore(markdown, 'prolog', {
 			'content': {
 				pattern: /(^\[)[^\]]+(?=\])/,
 				lookbehind: true,
-				inside: {
-					'markup-bracket': markdown['markup-bracket']
-				}
+				inside: {} // see below
 			},
 			'variable': {
 				pattern: /(^\][ \t]?\[)[^\]]+(?=\]$)/,
@@ -261,7 +259,7 @@ insertBefore(markdown, 'prolog', {
 });
 
 ['url', 'bold', 'italic', 'strike'].forEach(token => {
-	['url', 'bold', 'italic', 'strike', 'code-snippet'].forEach(inside => {
+	['url', 'bold', 'italic', 'strike', 'code-snippet', 'markup-bracket'].forEach(inside => {
 		if (token != inside) {
 			markdown[token].inside.content.inside[inside] = markdown[inside];
 		}

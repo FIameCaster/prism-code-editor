@@ -53,7 +53,7 @@ insertBefore(chaiscript, 'string', {
 					'interpolation-expression': {
 						pattern: /(..)[\s\S]+(?=.)/,
 						lookbehind: true,
-						inside: languages.chaiscript
+						inside: chaiscript
 					},
 					'interpolation-punctuation': {
 						pattern: /.+/,

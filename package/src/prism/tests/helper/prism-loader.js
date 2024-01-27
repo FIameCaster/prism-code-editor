@@ -40,9 +40,9 @@ const getComponent = async name => {
 		encoding: "utf-8",
 	})
 	const importEnd = file.search(/\n\n|\r\n?\r\n?/)
-	const compoenent = new Function(...args, file.slice(importEnd))
-	cache.set(name, compoenent)
-	return compoenent
+	const component = new Function(...args, file.slice(importEnd))
+	cache.set(name, component)
+	return component
 }
 
 /** @param {string[]} langs */
