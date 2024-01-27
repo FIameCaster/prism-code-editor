@@ -81,7 +81,7 @@ export type InputCommandCallback = (
 	selection: InputSelection,
 	value: string,
 ) => void | boolean
-export type InputSelection = readonly [number, number, "forward" | "backward" | "none"]
+export type InputSelection = [number, number, "forward" | "backward" | "none"]
 
 export interface Extension {
 	/** Function called when the extension is added or the options of the editor change. */

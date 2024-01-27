@@ -173,11 +173,12 @@ const defaultCommands =
 		keyCommandMap.Enter = (e, selection, value) => {
 			const code = getModifierCode(e) & 7
 			if (!code || code == mod) {
-				if (code) selection = <any>Array(2).fill(getLines(value, selection[1], selection[1])[2])
+				if (code) selection[0] = selection[1] = getLines(value, selection[1])[2]
 				const [indentChar, tabSize] = getIndent(options),
+					[start, end] = selection,
 					autoIndent = languageMap[getLanguage(editor)]?.autoIndent,
 					indenationCount =
-						Math.floor(getLineBefore(value, selection[0]).search(/\S|$/) / tabSize) * tabSize,
+						Math.floor(getLineBefore(value, start).search(/\S|$/) / tabSize) * tabSize,
 					extraIndent = autoIndent?.[0]?.(selection, value, editor) ? tabSize : 0,
 					extraLine = autoIndent?.[1]?.(selection, value, editor),
 					newText =
@@ -185,14 +186,8 @@ const defaultCommands =
 						indentChar.repeat(indenationCount + extraIndent) +
 						(extraLine ? "\n" + indentChar.repeat(indenationCount) : "")
 
-				if (newText[1] || selection[1] < value.length) {
-					insertText(
-						editor,
-						newText,
-						selection[0],
-						selection[1],
-						selection[0] + indenationCount + extraIndent + 1,
-					)
+				if (newText[1] || value[end]) {
+					insertText(editor, newText, start, end, start + indenationCount + extraIndent + 1)
 					return scroll()
 				}
 			}

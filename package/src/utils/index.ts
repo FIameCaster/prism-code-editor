@@ -1,4 +1,4 @@
-import { PrismEditor } from ".."
+import { InputSelection, PrismEditor } from ".."
 import { numLines, isChrome, isWebKit, setSelection } from "../core"
 
 /** Escapes all special regex characters with a backslash and returns the escaped string. */
@@ -95,10 +95,8 @@ const insertText = (
 ) => {
 	if (options.readOnly) return
 	focused || textarea.focus()
-	const selection =
-		newCursorStart != null
-			? ([newCursorStart, newCursorEnd ?? newCursorStart, getSelection()[2]] as const)
-			: 0
+	const selection: InputSelection | 0 =
+		newCursorStart != null ? [newCursorStart, newCursorEnd ?? newCursorStart, getSelection()[2]] : 0
 	if (start != null) textarea.setSelectionRange(start, end ?? start)
 
 	// Bug inserting new lines at the end if the editor ends with an empty line
