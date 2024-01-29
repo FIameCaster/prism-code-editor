@@ -35,9 +35,10 @@ fs.writeFile("dist/themes/index.js", themeMod)
 fs.copyFile("../readme.md", "readme.md")
 fs.copyFile("../LICENSE", "LICENSE")
 
-const dummyModule = `/** Used for autocompletion, *don't* import this. */
+const dummyModule = `/** Used for autocompletion, **don't** import this. */
 declare const _: never;
-export default _;`
+export default _;
+`
 
 ;["dist/prism/languages/", "dist/languages/"].forEach(path => {
 	fs.readdir(path).then(entries =>

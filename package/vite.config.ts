@@ -34,6 +34,8 @@ const entries = {
 	"utils/index": "src/utils/index.ts",
 	"prism/index": "src/prism/index.ts",
 	"prism/utils/index": "src/prism/utils/index.ts",
+	"prism/languages/index": "src/prism/languages/index.js",
+	"prism/languages/common": "src/prism/languages/common.js",
 }
 
 for (const name in dependencyGraph)
@@ -103,5 +105,14 @@ export default defineConfig({
 		},
 		target: ["es2020", "safari14"],
 	},
-	plugins: [dts(), simpleRegexMinifier],
+	plugins: [
+		dts({
+			beforeWriteFile(filePath) {
+				if (filePath.includes("languages/patterns")) {
+					return false
+				}
+			},
+		}),
+		simpleRegexMinifier,
+	],
 })
