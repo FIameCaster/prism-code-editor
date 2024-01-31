@@ -1,5 +1,4 @@
 import { languages, rest } from '../core.js';
-import { insertBefore } from '../utils/language.js';
 import { clikeComment, clikeString } from '../utils/shared.js';
 
 var js = {};
@@ -60,7 +59,7 @@ languages.js = languages.javascript = Object.assign(js, {
 		}
 	],
 	'regex': {
-		pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:[^\]\\\n]|\\.)*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}|(?:\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\n,.;:})\]]|\/\/))/,
+		pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:[^\]\\\n]|\\.)*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}|(?:\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\n,.;:+?/&|<>^*%!={}}())[\]-]))/,
 		lookbehind: true,
 		greedy: true,
 		inside: {
