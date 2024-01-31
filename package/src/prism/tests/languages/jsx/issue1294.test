@@ -15,7 +15,7 @@ export default () => (
 	["keyword", "default"],
 	["punctuation", "("],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "("],
 
 	["tag", [

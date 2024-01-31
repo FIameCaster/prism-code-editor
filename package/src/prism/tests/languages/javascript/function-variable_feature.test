@@ -63,13 +63,13 @@ a = function () {}, b = () => {}
 	["punctuation", "("],
 	["parameter", ["x"]],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	" x\n",
 
 	["function-variable", ["fooBar"]],
 	["operator", "="],
 	["parameter", ["x"]],
-	["arrow", "=>"],
+	["operator", "=>"],
 	" x\n",
 
 	["function-variable", ["fooBar"]],
@@ -81,14 +81,14 @@ a = function () {}, b = () => {}
 		" y"
 	]],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	" x\n",
 
 	["function-variable", ["ಠ_ಠ"]],
 	["operator", "="],
 	["punctuation", "("],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"],
 
@@ -104,7 +104,7 @@ a = function () {}, b = () => {}
 		["number", "2"]
 	]],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"],
 
@@ -162,7 +162,7 @@ a = function () {}, b = () => {}
 		" y"
 	]],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"],
 
@@ -178,7 +178,7 @@ a = function () {}, b = () => {}
 	["operator", "="],
 	["punctuation", "("],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"]
 ]

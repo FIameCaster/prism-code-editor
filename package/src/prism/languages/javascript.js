@@ -24,7 +24,7 @@ languages.js = languages.javascript = Object.assign(js, {
 				pattern: /^`|`$/,
 				alias: 'string'
 			},
-			interpolation: {
+			'interpolation': {
 				pattern: /((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/,
 				lookbehind: true,
 				inside: {
@@ -45,19 +45,6 @@ languages.js = languages.javascript = Object.assign(js, {
 		alias: 'property'
 	},
 	'string': clikeString(),
-	'class-name': [
-		{
-			pattern: /(\b(?:class|extends|implements|instanceof|interface|new)\s+)(?!\d)(?:(?!\s)[$\w.\\\xA0-\uFFFF])+/,
-			lookbehind: true,
-			inside: {
-				punctuation: /[.\\]/
-			}
-		},
-		{
-			pattern: /(^|[^$\w\xA0-\uFFFF]|\s)(?![\da-z])(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\.(?:constructor|prototype)\b)/,
-			lookbehind: true
-		}
-	],
 	'regex': {
 		pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:[^\]\\\n]|\\.)*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}|(?:\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\n,.;:+?/&|<>^*%!={}}())[\]-]))/,
 		lookbehind: true,
@@ -72,6 +59,19 @@ languages.js = languages.javascript = Object.assign(js, {
 			}
 		}
 	},
+	'class-name': [
+		{
+			pattern: /(\b(?:class|extends|implements|instanceof|interface|new)\s+)(?!\d)(?:(?!\s)[$\w.\xA0-\uFFFF])+/,
+			lookbehind: true,
+			inside: {
+				'punctuation': /\./
+			}
+		},
+		{
+			pattern: /(^|[^$\w\xA0-\uFFFF]|\s)(?![\da-z])(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\.(?:constructor|prototype)\b)/,
+			lookbehind: true
+		}
+	],
 	// This must be declared before keyword because we use "function" inside the look-forward
 	'function-variable': {
 		pattern: /#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+)\s*=>))/,
@@ -124,11 +124,13 @@ languages.js = languages.javascript = Object.assign(js, {
 		lookbehind: true,
 		alias: 'property'
 	},
-	'arrow': {
-		pattern: /=>/,
-		alias: 'operator'
-	},
-	'operator': /--|\+\+|(?:\*\*|&&|\|\||[!=]=?|<<|>>>?|[-+*/%&|^<>]|\?\?)=?|\.{3}|\?(?!\.)|~|:/,
+	'operator': [
+		{
+			pattern: /=>/,
+			alias: 'arrow'
+		},
+		/--|\+\+|(?:\*\*|&&|\|\||[!=]=?|<<|>>>?|[-+*/%&|^<>]|\?\?)=?|\.{3}|\?(?!\.)|~|:/
+	],
 	'property-access': {
 		pattern: /(\.\s*)#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+/,
 		lookbehind: true,

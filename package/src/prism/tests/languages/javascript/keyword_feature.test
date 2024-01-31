@@ -145,7 +145,7 @@ assert.equal(foo, bar);
 
 	["keyword", "async"],
 	["parameter", ["a"]],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"],
 
@@ -159,7 +159,7 @@ assert.equal(foo, bar);
 		"c"
 	]],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"],
 

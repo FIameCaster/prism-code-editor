@@ -13,7 +13,7 @@ bar = () : string => {}
 	["punctuation", ")"],
 	["operator", ":"],
 	["type", "number"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"],
 
@@ -23,7 +23,7 @@ bar = () : string => {}
 	["punctuation", ")"],
 	["operator", ":"],
 	["type", "string"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"]
 ]

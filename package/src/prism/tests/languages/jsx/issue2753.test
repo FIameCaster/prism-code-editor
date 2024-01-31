@@ -21,7 +21,7 @@ const Test = () => {
 	["operator", "="],
 	["punctuation", "("],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 
 	["keyword", "return"],

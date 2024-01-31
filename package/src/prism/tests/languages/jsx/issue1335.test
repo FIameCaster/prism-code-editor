@@ -23,7 +23,7 @@
 			["punctuation", "("],
 			["parameter", ["e"]],
 			["punctuation", ")"],
-			["arrow", "=>"],
+			["operator", "=>"],
 			["keyword", "this"],
 			["punctuation", "."],
 			["function", ["setState"]],

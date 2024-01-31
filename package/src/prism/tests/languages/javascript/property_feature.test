@@ -126,7 +126,7 @@ switch(foo) {
 	["operator", ":"],
 	["punctuation", "("],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["number", "0"],
 	["punctuation", ","],
 

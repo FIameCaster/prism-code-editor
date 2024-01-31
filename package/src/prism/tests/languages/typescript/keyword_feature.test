@@ -164,7 +164,7 @@ import type *, {}
 
 	["keyword", "async"],
 	" a ",
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"],
 
@@ -176,7 +176,7 @@ import type *, {}
 	["punctuation", ","],
 	"c",
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"],
 

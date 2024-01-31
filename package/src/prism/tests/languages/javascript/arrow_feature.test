@@ -6,13 +6,13 @@ a => a;
 [
 	["punctuation", "("],
 	["punctuation", ")"],
-	["arrow", "=>"],
+	["operator", "=>"],
 	["punctuation", "{"],
 	["punctuation", "}"],
 	["punctuation", ";"],
 
 	["parameter", ["a"]],
-	["arrow", "=>"],
+	["operator", "=>"],
 	" a",
 	["punctuation", ";"]
 ]

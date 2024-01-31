@@ -38,7 +38,7 @@
 	["operator", "="],
 	["operator", "=="],
 	["operator", "==="],
-	["arrow", "=>"],
+	["operator", "=>"],
 
 	["operator", "!"],
 	["operator", "!="],
@@ -58,8 +58,8 @@
 	["operator", "**"],
 	["operator", "*="],
 	["operator", "**="],
-
 	["operator", "/"],
+
 	["operator", "/="],
 	["operator", "~"],
 
