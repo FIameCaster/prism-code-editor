@@ -88,7 +88,7 @@ insertBefore(markdown, 'prolog', {
 			pattern: /^```[\s\S]*?^```$/m,
 			greedy: true,
 			inside: {
-				'punctuation': /^```/m,
+				'punctuation': /^```+|```$/,
 				'code-language': /^.+/,
 				'code-block': /(?!^)[\s\S]+(?=\n)/,
 				[tokenize](code, grammar) {
@@ -167,7 +167,7 @@ insertBefore(markdown, 'prolog', {
 				lookbehind: true
 			},
 			'string': /(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,
-			'punctuation': /^[\[\]!:]|[<>]/
+			'punctuation': /^[[\]!:]|[<>]/
 		},
 		alias: 'url'
 	},
