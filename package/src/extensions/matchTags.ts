@@ -42,16 +42,17 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 	let pairMap: number[] = [],
 		code: string,
 		tags: Tag[] = [],
-		stack: [number, string][],
 		tagIndex: number,
 		matchTags = (tokens: TokenStream, language: string, value: string) => {
 			code = value
-			stack = []
 			tags.length = pairMap.length = tagIndex = 0
 			matchTagsRecursive(tokens, language, 0)
 		},
 		matchTagsRecursive = (tokens: TokenStream, language: string, position: number) => {
-			for (let i = 0, noVoidTags = voidlessLangs.includes(language), l = tokens.length; i < l; ) {
+			let noVoidTags = voidlessLangs.includes(language)
+			let stack: [number, string][] = []
+			let sp = 0
+			for (let i = 0, l = tokens.length; i < l; ) {
 				const token = <Token>tokens[i++],
 					content = token.content,
 					type = token.type,
@@ -70,15 +71,14 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 
 						if (notSelfClosing) {
 							if (isClosing) {
-								for (let i = stack.length; i; ) {
+								for (let i = sp; i; ) {
 									if (tagName == stack[--i][1]) {
-										pairMap[(pairMap[tagIndex] = stack[i][0])] = tagIndex
-										stack.length = i
+										pairMap[(pairMap[tagIndex] = stack[(sp = i)][0])] = tagIndex
 										i = 0
 									}
 								}
 							} else {
-								stack.push([tagIndex, tagName])
+								stack[sp++] = [tagIndex, tagName]
 							}
 						}
 
@@ -107,10 +107,10 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 
 	matchTags(editor.tokens, editor.options.language, editor.value)
 
-	return (editor.extensions.matchTags = {
+	return {
 		tags,
 		pairs: pairMap,
-	})
+	}
 }
 
 const getClosestTagIndex = (pos: number, tags: TagMatcher["tags"]) => {
@@ -128,7 +128,7 @@ const getClosestTagIndex = (pos: number, tags: TagMatcher["tags"]) => {
  */
 export const matchTags = (): BasicExtension => editor => {
 	let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
-	const { tags, pairs } = editor.extensions.matchTags || createTagMatcher(editor)
+	const { tags, pairs } = (editor.extensions.matchTags ||= createTagMatcher(editor))
 	const highlight = (remove?: boolean) =>
 		[openEl, closeEl].forEach(el => {
 			el && el.classList.toggle("active-tagname", !remove)
@@ -170,7 +170,7 @@ export const highlightTagPunctuation =
 	(className: string, alwaysHighlight?: boolean): BasicExtension =>
 	editor => {
 		let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
-		const { tags } = editor.extensions.matchTags || createTagMatcher(editor)
+		const { tags } = (editor.extensions.matchTags ||= createTagMatcher(editor))
 		const getPunctuation = (pos?: number) => getClosestToken(editor, ".tag>.punctuation", 0, 0, pos)
 		const highlight = (remove?: boolean) =>
 			[openEl, closeEl].forEach(el => {

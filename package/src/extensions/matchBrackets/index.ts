@@ -38,7 +38,6 @@ export type Bracket = [Token, number, number, string, boolean]
  * Without rainbow brackets, this extension can be added dynamically with no side effects.
  */
 export const matchBrackets = (rainbowBrackets = true) => {
-	let stack: [number, number][]
 	let bracketIndex: number
 	const self: BracketMatcher = editor => {
 		editor.extensions.matchBrackets = self
@@ -47,11 +46,10 @@ export const matchBrackets = (rainbowBrackets = true) => {
 		else matchBrackets(editor.tokens)
 	}
 	// @ts-expect-error
-	const brackets: Bracket[] = self.brackets = []
+	const brackets: Bracket[] = (self.brackets = [])
 	// @ts-expect-error
-	const pairMap: number[] = self.pairs = []
+	const pairMap: number[] = (self.pairs = [])
 	const matchBrackets = (tokens: TokenStream) => {
-		stack = []
 		pairMap.length = brackets.length = bracketIndex = 0
 		matchRecursive(tokens, 0)
 		if (rainbowBrackets) {
@@ -65,7 +63,10 @@ export const matchBrackets = (rainbowBrackets = true) => {
 		}
 	}
 	const matchRecursive = (tokens: TokenStream, position: number) => {
-		for (let i = 0, token: string | Token; (token = tokens[i++]); ) {
+		let stack: [number, number][] = []
+		let sp = 0
+		let token: string | Token
+		for (let i = 0; (token = tokens[i++]); ) {
 			let length = token.length
 			if (typeof token != "string") {
 				const type = token.type,
@@ -79,14 +80,14 @@ export const matchBrackets = (rainbowBrackets = true) => {
 					if (isOpen || closingCharCodes[charCode]) {
 						brackets[bracketIndex] = [token, position, 0, content, isOpen]
 
-						if (isOpen) stack.push([bracketIndex, charCode])
+						if (isOpen) stack[sp++] = [bracketIndex, charCode]
 						else {
-							for (let i = stack.length; i; ) {
+							for (let i = sp; i; ) {
 								let [index, charCode1] = stack[--i]
 								if (charCode - charCode1 < 3 && charCode - charCode1 > 0) {
 									pairMap[(pairMap[bracketIndex] = index)] = bracketIndex
-									brackets[bracketIndex][2] = brackets[index][2] = stack.length = i
-									break
+									brackets[bracketIndex][2] = brackets[index][2] = sp = i
+									i = 0
 								}
 							}
 						}
