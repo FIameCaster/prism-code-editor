@@ -29,7 +29,7 @@ var par = '(\\()';
 var endpar = '(?=\\))';
 // End the pattern with look-ahead space
 var space = '(?=\\s)';
-var nestedPar = /(?:[^()]|\((?:[^()]|\((?:[^()]|\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\))*\))*\))*/.source;
+var nestedPar = /(?:[^()]|\((?:[^()]|\((?:[^()]|\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\))*\))*\))/.source;
 
 var language = {
 	// Three or four semicolons are considered a heading.
@@ -102,7 +102,7 @@ var language = {
 		}
 	},
 	defun: {
-		pattern: RegExp(`${par}(?:cl-)?(?:defmacro|defun\\*?)\\s+${symbol}\\s+\\(${nestedPar}\\)`),
+		pattern: RegExp(`${par}(?:cl-)?(?:defmacro|defun\\*?)\\s+${symbol}\\s+\\(${nestedPar}*\\)`),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -135,7 +135,7 @@ var language = {
 	},
 	punctuation: [
 		// open paren, brackets, and close paren
-		/(?:['`,]?\(|[)\[\]])/,
+		/(?:['`,]?\(|[)[\]])/,
 		// cons
 		{
 			pattern: /(\s)\.(?=\s)/,
@@ -147,7 +147,7 @@ var language = {
 var arg = {
 	'lisp-marker': RegExp(marker),
 	'varform': {
-		pattern: RegExp(`\\(${symbol}\\s+(?=\\S)${nestedPar}\\)`),
+		pattern: RegExp(`\\(${symbol}\\s+(?=\\S)${nestedPar}*\\)`),
 		inside: language
 	},
 	'argument': {
@@ -161,7 +161,7 @@ var arg = {
 var forms = '\\S+(?:\\s+\\S+)*';
 
 var arglist = {
-	pattern: RegExp(par + nestedPar + endpar),
+	pattern: RegExp(par + nestedPar + "+" + endpar),
 	lookbehind: true,
 	inside: {
 		'rest-vars': {

@@ -33,8 +33,6 @@
 		["keyword", "defun"],
 		["function", "foo"],
 		["punctuation", "("],
-		["arguments", [
-		]],
 		["punctuation", ")"]
 	]],
 	["punctuation", ")"],
@@ -153,8 +151,6 @@
 		["keyword", "defun"],
 		["function", "defabc"],
 		["punctuation", "("],
-		["arguments", [
-		]],
 		["punctuation", ")"]
 	]],
 	["punctuation", ")"],

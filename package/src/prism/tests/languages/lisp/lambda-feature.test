@@ -4,8 +4,27 @@
 ----------------------------------------------------
 
 [
-	["punctuation","("],["lambda",[["keyword","lambda"],["punctuation","("],["arguments",[]],["punctuation",")"]]],["punctuation","("],["punctuation",")"],["punctuation",")"],
-	["punctuation","("],["lambda",[["keyword","lambda"],["punctuation","("],["arguments",[]],["punctuation",")"]]],["punctuation","("],["car","foo"]," bar",["punctuation",")"],["punctuation",")"]
+	["punctuation", "("],
+	["lambda", [
+		["keyword", "lambda"],
+		["punctuation", "("],
+		["punctuation", ")"]
+	]],
+	["punctuation", "("],
+	["punctuation", ")"],
+	["punctuation", ")"],
+
+	["punctuation", "("],
+	["lambda", [
+		["keyword", "lambda"],
+		["punctuation", "("],
+		["punctuation", ")"]
+	]],
+	["punctuation", "("],
+	["car", "foo"],
+	" bar",
+	["punctuation", ")"],
+	["punctuation", ")"]
 ]
 
 ----------------------------------------------------

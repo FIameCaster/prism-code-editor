@@ -43,7 +43,7 @@ languages.tsconfig = languages.typoscript = {
 		}
 	],
 	'string': {
-		pattern: /^([^=]*=[< ]?)(?:(?!\]\n).)*/,
+		pattern: /^([^=]*=[< ]?)[^\]\n]+/,
 		lookbehind: true,
 		inside: {
 			'function': /\{\$.*\}/, // constants include
