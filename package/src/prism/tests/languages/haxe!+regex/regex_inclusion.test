@@ -88,8 +88,6 @@
 		["regex-delimiter", "~/"],
 		["regex-source", [
 			["group", "("],
-			["group", [
-			]],
 			"dog",
 			["alternation", "|"],
 			"fox",
