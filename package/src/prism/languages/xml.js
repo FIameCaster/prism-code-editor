@@ -23,18 +23,14 @@ languages.rss = languages.atom = languages.ssml = languages.xml = {
 		greedy: true,
 		inside: {
 			'internal-subset': {
-				pattern: /(^[^\[]*\[)[\s\S]+(?=\]>$)/,
+				pattern: /(\[)[\s\S]+(?=\]\s*>$)/,
 				lookbehind: true,
-				greedy: true,
 				inside: 'xml'
 			},
-			'string': {
-				pattern: /"[^"]*"|'[^']*'/,
-				greedy: true
-			},
-			'punctuation': /^<!|>$|[[\]]/,
+			'string': /"[^"]*"|'[^']*'/,
+			'punctuation': /^<!|[>[\]]/,
 			'doctype-tag': /^DOCTYPE/i,
-			'name': /[^\s<>'"]+/
+			'name': /\S+/
 		}
 	},
 	'cdata': {
@@ -42,7 +38,7 @@ languages.rss = languages.atom = languages.ssml = languages.xml = {
 		greedy: true
 	},
 	'tag': {
-		pattern: /<\/?(?!\d)[^\s>/=$<%]+(?:\s(?:\s*[^\s>/=]+(?:\s*=\s*(?:(?:"[^"]*"|'[^']*'|[^\s'"=>]+(?=[\s>]))|(?=\S))|(?=[\s/>])))+)?\s*\/?>/,
+		pattern: /<\/?(?!\d)[^\s>/=$<%]+(?:\s(?:\s*[^\s>/=]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s'"=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*\/?>/,
 		greedy: true,
 		inside: {
 			'punctuation': /^<\/?|\/?>$/,

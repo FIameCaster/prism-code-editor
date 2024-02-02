@@ -65,7 +65,7 @@ var isText = token => token && (!token.type || token.type == 'plain-text');
  * @param {number} position
  */
 var walkTokens = (tokens, code, position) => {
-	for (var i = 0, openedTags = []; i < tokens.length; i++) {
+	for (var i = 0, openedTags = [], l = 0; i < tokens.length; i++) {
 		var token = tokens[i];
 		var length = token.length;
 		var content = token.content;
@@ -74,25 +74,25 @@ var walkTokens = (tokens, code, position) => {
 		var last, tag, start, plainText;
 
 		if (type && type != 'comment') {
-			if (type == 'tag' && code[position] == "<") {
+			if (type == 'tag' && code[position] == '<') {
 				// We found a tag, now find its kind
 				tag = code.substr(position + content[0].length, content[1].length);
 				if (code[position + 1] == '/') {
 					// Closing tag
-					if (openedTags[0] && openedTags[openedTags.length - 1][0] == tag) {
+					if (l && openedTags[l - 1][0] == tag) {
 						// Pop matching opening tag
-						openedTags.pop();
+						l--;
 					}
 				} else {
 					if (code[position + length - 2] != '/') {
 						// Opening tag
-						openedTags.push([tag, 0]);
+						openedTags[l++] = [tag, 0];
 					}
 				}
-			} else if (openedTags[0] && type == 'punctuation') {
-				last = openedTags[openedTags.length - 1];
-				if (content == "{" && code[position - 1] != "{" && code[position + 1] != "{") last[1]++;
-				else if (last[1] && content == "}") last[1]--;
+			} else if (l && type == 'punctuation') {
+				last = openedTags[l - 1];
+				if (content == '{' && code[position - 1] != '{' && code[position + 1] != '{') last[1]++;
+				else if (last[1] && content == '}') last[1]--;
 				else {
 					notTagNorBrace = true;
 				}
@@ -100,7 +100,7 @@ var walkTokens = (tokens, code, position) => {
 				notTagNorBrace = true;
 			}
 		}
-		if (notTagNorBrace && openedTags[0] && !openedTags[openedTags.length - 1][1]) {
+		if (notTagNorBrace && l && !openedTags[l - 1][1]) {
 			// Here we are inside a tag, and not inside an XQuery expression.
 			// That's plain text: drop any tokens matched.
 			start = position;
