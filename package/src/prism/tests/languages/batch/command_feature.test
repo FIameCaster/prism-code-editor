@@ -21,9 +21,7 @@ IF "%~1" NEQ "" (SET %~1=%new%) ELSE (echo.%new%)
 [
 	["command", [
 		["keyword", "FOR"],
-		["parameter", [
-			"/l"
-		]],
+		["parameter", ["/l"]],
 		["variable", "%%a"],
 		["keyword", "in"],
 		["punctuation", "("],
@@ -46,20 +44,14 @@ IF "%~1" NEQ "" (SET %~1=%new%) ELSE (echo.%new%)
 
 	["command", [
 		["keyword", "FOR"],
-		["parameter", [
-			"/F"
-		]],
+		["parameter", ["/F"]],
 		["variable", "%%A"],
 		" IN ('TYPE ",
 		["string", "\"%InFile%\""],
 		["operator", "^"],
 		"|find ",
-		["parameter", [
-			"/v"
-		]],
-		["parameter", [
-			"/c"
-		]],
+		["parameter", ["/v"]],
+		["parameter", ["/c"]],
 		["string", "\"\""],
 		"'"
 	]],
@@ -96,16 +88,12 @@ IF "%~1" NEQ "" (SET %~1=%new%) ELSE (echo.%new%)
 
 	["command", [
 		["keyword", "EXIT"],
-		["parameter", [
-			"/b"
-		]]
+		["parameter", ["/b"]]
 	]],
 
 	["command", [
 		["keyword", "set"],
-		["parameter", [
-			"/a"
-		]],
+		["parameter", ["/a"]],
 		["variable", "ProgressCnt"],
 		["operator", "+="],
 		["number", "1"]

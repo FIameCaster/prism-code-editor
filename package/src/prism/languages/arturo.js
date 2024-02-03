@@ -17,7 +17,7 @@ var createLanguageString = (lang, pattern = lang) => ({
 	}
 });
 
-languages.arturo = {
+languages.art = languages.arturo = {
 	'comment': {
 		pattern: /;.*/,
 		greedy: true
@@ -92,5 +92,3 @@ languages.arturo = {
 
 	'boolean': /\b(?:false|maybe|true)\b/
 };
-
-languages.art = languages['arturo'];

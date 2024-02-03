@@ -3,23 +3,25 @@ import { languages, rest } from '../core.js';
 var string = /(?:"(?:\\[\s\S]|[^"\\\n])*"|'(?:\\[\s\S]|[^'\\\n])*')/;
 var stringSrc = string.source;
 
-var css = languages.css = {
+var atruleInside = {
+	'rule': /^@[\w-]+/,
+	'selector-function-argument': {
+		pattern: /(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,
+		lookbehind: true,
+		alias: 'selector'
+	},
+	'keyword': {
+		pattern: /(^|[^\w-])(?:and|not|only|or)(?![\w-])/,
+		lookbehind: true
+	}
+	// See rest below
+};
+
+atruleInside[rest] = languages.css = {
 	'comment': /\/\*[\s\S]*?\*\//,
 	'atrule': {
 		pattern: RegExp(`@[\\w-](?:[^;{\\s"']|\\s+(?!\\s)|${stringSrc})*?(?:;|(?=\\s*\\{))`),
-		inside: {
-			'rule': /^@[\w-]+/,
-			'selector-function-argument': {
-				pattern: /(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,
-				lookbehind: true,
-				alias: 'selector'
-			},
-			'keyword': {
-				pattern: /(^|[^\w-])(?:and|not|only|or)(?![\w-])/,
-				lookbehind: true
-			}
-			// See rest below
-		}
+		inside: atruleInside
 	},
 	'url': {
 		// https://drafts.csswg.org/css-values-3/#urls
@@ -53,5 +55,3 @@ var css = languages.css = {
 	},
 	'punctuation': /[(){};:,]/
 };
-
-css['atrule'].inside[rest] = css;

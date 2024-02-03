@@ -18,7 +18,7 @@ var v = interpolationExpr.inside = languages.v = extend('clike', {
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\{2})*)\$(?:\{[^{}]*\}|\w+(?:\.\w+(?:\([^\(\)]*\))?|\[[^\[\]]+\])*)/,
+				pattern: /((?:^|[^\\])(?:\\{2})*)\$(?:\{[^{}]*\}|\w+(?:\.\w+(?:\([^\(\)]*\))?|\[[^[\]]+\])*)/,
 				lookbehind: true,
 				inside: {
 					'interpolation-variable': {
@@ -57,7 +57,7 @@ insertBefore(v, 'operator', {
 		lookbehind: true,
 		alias: 'annotation',
 		inside: {
-			'punctuation': /[\[\]]/,
+			'punctuation': /[[\]]/,
 			'keyword': /\w+/
 		}
 	},

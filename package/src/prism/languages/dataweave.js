@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment } from '../utils/shared.js';
 
 languages.dataweave = {
 	'url': /\b[A-Za-z]+:\/\/[\w/:.?=&-]+|\burn:[\w:.?=&-]+/,
@@ -26,5 +26,5 @@ languages.dataweave = {
 	'number': /-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
 	'punctuation': /[{}[\];(),.:@]/,
 	'operator': /<<|>>|->|[<>~=]=?|!=|--?-?|\+\+?|!|\?/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 };

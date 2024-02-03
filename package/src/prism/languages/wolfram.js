@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 languages.nb = languages.wl = languages.mathematica = languages.wolfram = {
 	'comment': // Allow one level of nesting - note: regex taken from applescipt
@@ -23,5 +24,5 @@ languages.nb = languages.wl = languages.mathematica = languages.wolfram = {
 	'boolean': /\b(?:False|True)\b/,
 	'number': /(?:\b(?=\d)|\B(?=\.))(?:0[bo])?(?:(?:\d|0x[\da-f])[\da-f]*(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?j?\b/i,
 	'operator': /\/\.|;|=\.|\^=|\^:=|:=|<<|>>|<\||\|>|:>|\|->|->|<-|@@@|@@|@|\/@|=!=|===|==|=|\+|-|\[\/-+%=\]=?|!=|\*\*?=?|\/\/?=?|<[<=>]?|>[=>]?|[&|^~]/,
-	'punctuation': /[{}[\];(),.:]/
+	'punctuation': clikePunctuation
 };

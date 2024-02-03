@@ -25,7 +25,7 @@ var nested = (pattern, depthLog2) => {
 }
 
 var round = nested(/\((?:[^()'"@/]|<str>|<comment>|<self>)*\)/.source, 2);
-var square = nested(/\[(?:[^\[\]'"@/]|<str>|<comment>|<self>)*\]/.source, 1);
+var square = nested(/\[(?:[^[\]'"@/]|<str>|<comment>|<self>)*\]/.source, 1);
 var curly = nested(/\{(?:[^{}'"@/]|<str>|<comment>|<self>)*\}/.source, 2);
 var angle = nested(/<(?:[^<>'"@/]|<comment>|<self>)*>/.source, 1);
 
@@ -83,10 +83,7 @@ var inlineValue = {
 };
 
 var attrValue = cshtml.tag.inside['attr-value'][2];
-// var brackets = cshtml['markup-bracket'];
 
-// delete cshtml['markup-bracket'];
-// cshtml['markup-bracket'] = brackets;
 cshtml.tag.pattern = RegExp(/<\/?/.source + tagContent);
 attrValue.pattern = RegExp(/(=\s*)/.source + tagAttrValue);
 

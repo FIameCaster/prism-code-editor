@@ -1,9 +1,10 @@
 import { languages } from '../core.js';
+import { clikeComment, clikePunctuation } from '../utils/shared.js';
 
 // https://qiskit.github.io/openqasm/grammar/index.html
 
 languages.qasm = languages.openqasm = {
-	'comment': /\/\*[\s\S]*?\*\/|\/\/.*/,
+	'comment': clikeComment(),
 	'string': {
 		pattern: /"[^"\n\t]*"|'[^'\n\t]*'/,
 		greedy: true
@@ -19,5 +20,5 @@ languages.qasm = languages.openqasm = {
 		lookbehind: true
 	},
 	'operator': /->|>>=?|<<=?|&&|\|\||\+\+|--|[!=<>&|~^+\-*/%]=?|@/,
-	'punctuation': /[(){}\[\];,:.]/
+	'punctuation': clikePunctuation
 };

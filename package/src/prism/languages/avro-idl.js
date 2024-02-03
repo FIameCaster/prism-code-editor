@@ -1,13 +1,11 @@
 import { languages } from '../core.js';
+import { clikeComment } from '../utils/shared.js';
 
 // GitHub: https://github.com/apache/avro
 // Docs: https://avro.apache.org/docs/current/idl.html
 
-languages['avro-idl'] = {
-	'comment': {
-		pattern: /\/\/.*|\/\*[\s\S]*?\*\//,
-		greedy: true
-	},
+languages.avdl =languages['avro-idl'] = {
+	'comment': clikeComment(),
 	'string': {
 		pattern: /(^|[^\\])"(?:[^\n"\\]|\\.)*"/,
 		lookbehind: true,
@@ -46,7 +44,5 @@ languages['avro-idl'] = {
 	],
 
 	'operator': /=/,
-	'punctuation': /[()\[\]{}<>.:,;-]/
+	'punctuation': /[()[\]{}<>.:,;-]/
 };
-
-languages.avdl = languages['avro-idl'];

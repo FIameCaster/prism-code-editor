@@ -1,9 +1,10 @@
 import { languages } from '../core.js';
+import { clikeComment, clikePunctuation } from '../utils/shared.js';
 
 // based on https://github.com/microsoft/AL/blob/master/grammar/alsyntax.tmlanguage
 
 languages.al = {
-	'comment': /\/\/.*|\/\*[\s\S]*?\*\//,
+	'comment': clikeComment(),
 	'string': {
 		pattern: /'(?:''|[^'\n])*'(?!')|"(?:""|[^"\n])*"(?!")/,
 		greedy: true
@@ -23,5 +24,5 @@ languages.al = {
 	'variable': /\b(?:Curr(?:FieldNo|Page|Report)|x?Rec|RequestOptionsPage)\b/,
 	'class-name': /\b(?:automation|biginteger|bigtext|blob|boolean|byte|char|clienttype|code|completiontriggererrorlevel|connectiontype|database|dataclassification|datascope|date|dateformula|datetime|decimal|defaultlayout|dialog|dictionary|dotnetassembly|dotnettypedeclaration|duration|errorinfo|errortype|executioncontext|executionmode|fieldclass|fieldref|fieldtype|file|filterpagebuilder|guid|httpclient|httpcontent|httpheaders|httprequestmessage|httpresponsemessage|instream|integer|joker|jsonarray|jsonobject|jsontoken|jsonvalue|keyref|list|moduledependencyinfo|moduleinfo|none|notification|notificationscope|objecttype|option|outstream|pageresult|record|recordid|recordref|reportformat|securityfilter|sessionsettings|tableconnectiontype|tablefilter|testaction|testfield|testfilterfield|testpage|testpermissions|testrequestpage|text|textbuilder|textconst|textencoding|time|transactionmodel|transactiontype|variant|verbosity|version|view|views|webserviceactioncontext|webserviceactionresultcode|xmlattribute|xmlattributecollection|xmlcdata|xmlcomment|xmldeclaration|xmldocument|xmldocumenttype|xmlelement|xmlnamespacemanager|xmlnametable|xmlnode|xmlnodelist|xmlprocessinginstruction|xmlreadoptions|xmltext|xmlwriteoptions)\b/i,
 	'operator': /\.\.|:[=:]|[-+*/]=?|<>|[<>]=?|=|\b(?:and|div|mod|not|or|xor)\b/i,
-	'punctuation': /[()\[\]{}:.;,]/
+	'punctuation': clikePunctuation
 };

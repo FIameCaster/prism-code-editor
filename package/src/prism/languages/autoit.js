@@ -28,9 +28,9 @@ languages.autoit = {
 	'function': /\b\w+(?=\()/,
 	// Variables and macros
 	'variable': /[$@]\w+/,
-	'keyword': /\b(?:Case|Const|Continue(?:Case|Loop)|Default|Dim|Do|Else(?:If)?|End(?:Func|If|Select|Switch|With)|Enum|Exit(?:Loop)?|For|Func|Global|If|In|Local|Next|Null|ReDim|Select|Static|Step|Switch|Then|To|Until|Volatile|WEnd|While|With)\b/i,
+	'keyword': /\b(?:case|const|continue(?:case|loop)|default|dim|do|else(?:if)?|end(?:func|if|select|switch|with)|enum|exit(?:loop)?|for|func|global|if|in|local|next|null|redim|select|static|step|switch|then|to|until|volatile|wend|while|with)\b/i,
 	'number': /\b(?:0x[\da-f]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/i,
-	'boolean': /\b(?:False|True)\b/i,
-	'operator': /<[=>]?|[-+*\/=&>]=?|[?^]|\b(?:And|Not|Or)\b/i,
+	'boolean': /\b(?:false|true)\b/i,
+	'operator': /<[=>]?|[-+*\/=&>]=?|[?^]|\b(?:and|not|or)\b/i,
 	'punctuation': /[\[\]().,:]/
 };

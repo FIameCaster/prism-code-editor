@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment, clikeNumber, clikePunctuation } from '../utils/shared.js';
 
 languages.haxe = {
 	'comment': clikeComment(),
@@ -64,12 +64,12 @@ languages.haxe = {
 	},
 	// The final look-ahead prevents highlighting of keywords if expressions such as "haxe.macro.Expr"
 	'keyword': /\bthis\b|\b(?:abstract|as|break|case|cast|catch|class|continue|default|do|dynamic|else|enum|extends|extern|final|for|from|function|if|implements|import|in|inline|interface|macro|new|null|operator|overload|override|package|private|public|return|static|super|switch|throw|to|try|typedef|untyped|using|var|while)(?!\.)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'function': {
 		pattern: /\b[a-z_]\w*(?=\s*(?:<[^<>]*>\s*)?\()/i,
 		greedy: true
 	},
-	'number': /\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,
+	'number': clikeNumber,
 	'operator': /\.{3}|\+\+|--|&&|\|\||->|=>|(?:<<?|>{1,3}|[-+*/%!=&|^])=?|[?:~]/,
-	'punctuation': /[{}[\];(),.:]/
+	'punctuation': clikePunctuation
 };

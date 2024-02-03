@@ -121,7 +121,7 @@ choiceStyleInside[rest] = message.inside = languages['icu-message-format'] = {
 						lookbehind: true
 					},
 					'arg-style-text': {
-						pattern: RegExp(/(^\s*,\s*(?=\S))/.source + nested(/(?:[^{}']|'[^']*'|\{(?:<SELF>)?\})+/.source, 8) + '$'),
+						pattern: RegExp(/(^\s*,\s*(?!\s))/.source + nested(/(?:[^{}']|'[^']*'|\{(?:<SELF>)?\})+/.source, 8) + '$'),
 						lookbehind: true,
 						alias: 'string'
 					},

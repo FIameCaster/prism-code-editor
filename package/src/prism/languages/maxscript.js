@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 var keywords = /\b(?:about|and|animate|as|at|attributes|by|case|catch|collect|continue|coordsys|do|else|exit|fn|for|from|function|global|if|in|local|macroscript|mapped|max|not|of|off|on|or|parameters|persistent|plugin|rcmenu|return|rollout|set|struct|then|throw|to|tool|try|undo|utility|when|where|while|with)\b/i;
 
@@ -39,7 +40,7 @@ languages.maxscript = {
 	},
 
 	'keyword': keywords,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 
 	'time': {
 		pattern: /(^|[^\w.])(?:(?:(?:\d+(?:\.\d*)?|\.\d+)(?:[eEdD][+-]\d+|[LP])?[msft])+|\d+:\d+(?:\.\d*)?)(?![\w.:])/,
@@ -61,5 +62,5 @@ languages.maxscript = {
 	},
 
 	'operator': /[-+*/<>=!]=?|[&^?]|#(?!\()/,
-	'punctuation': /[()\[\]{}.:,;]|#(?=\()|\\$/m
+	'punctuation': /[()[\]{}.:,;]|#(?=\()|\\$/m
 };

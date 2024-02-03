@@ -26,7 +26,7 @@ languages.apl = {
 		pattern: /←/,
 		alias: 'keyword'
 	},
-	'punctuation': /[\[;\]()◇⋄]/,
+	'punctuation': /[[;\]()◇⋄]/,
 	'dfn': {
 		pattern: /[{}⍺⍵⍶⍹∇⍫:]/,
 		alias: 'builtin'

@@ -1,4 +1,4 @@
-import { languages, rest } from '../core.js';
+import { languages } from '../core.js';
 
 var attributes = {
 	pattern: /(^[ \t]*)\[(?!\[)(?:(["'$`])(?:(?!\2)[^\\]|\\.)*\2|\[(?:[^\[\]\\]|\\.)*\]|[^\[\]\\"'$`]|\\.)*\]/m,
@@ -26,7 +26,7 @@ var attributes = {
 	}
 };
 
-var asciidoc = languages.asciidoc = {
+var asciidoc = languages.adoc = languages.asciidoc = {
 	'comment-block': {
 		pattern: /^(\/{4,})$[\s\S]*?^\1/m,
 		alias: 'comment'
@@ -126,7 +126,7 @@ var asciidoc = languages.asciidoc = {
 	'macro': {
 		pattern: /\b[a-z\d][a-z\d-]*::?(?:[^\s\[\]]*\[(?:[^\]\\"']|(["'])(?:(?!\1)[^\\]|\\.)*\1|\\.)*\])/,
 		inside: {
-			'function': /^[a-z\d-]+(?=:)/,
+			'function': /^[^:]+/,
 			'punctuation': /^::?/,
 			'attributes': {
 				pattern: /(?:\[(?:[^\]\\"']|(["'])(?:(?!\1)[^\\]|\\.)*\1|\\.)*\])/,
@@ -200,25 +200,23 @@ var asciidoc = languages.asciidoc = {
 
 // Allow some nesting. There is no recursion though, so cloning should not be needed.
 
-var copyFromAsciiDoc = keys => {
+var copyFromAsciiDoc = (keys, obj) => {
 	keys = keys.split(' ');
+	obj = obj.inside;
 
-	for (var i = 0, o = {}, l = keys.length; i < l; i++) {
-		o[keys[i]] = asciidoc[keys[i]];
+	for (var i = 0, l = keys.length; i < l; i++) {
+		obj[keys[i]] = asciidoc[keys[i]];
 	}
-	return o;
 }
 
-attributes.inside['interpreted'].inside[rest] = copyFromAsciiDoc('macro inline replacement entity');
+copyFromAsciiDoc('macro inline replacement entity', attributes.inside['interpreted']);
 
-asciidoc['passthrough-block'].inside[rest] = copyFromAsciiDoc('macro');
+copyFromAsciiDoc('macro', asciidoc['passthrough-block']);
 
-asciidoc['literal-block'].inside[rest] = copyFromAsciiDoc('callout');
+copyFromAsciiDoc('callout', asciidoc['literal-block']);
 
-asciidoc['table'].inside[rest] = copyFromAsciiDoc('comment-block passthrough-block literal-block other-block list-punctuation indented-block comment title attribute-entry attributes hr page-break admonition list-label callout macro inline replacement entity line-continuation');
+copyFromAsciiDoc('comment-block passthrough-block literal-block other-block list-punctuation indented-block comment title attribute-entry attributes hr page-break admonition list-label callout macro inline replacement entity line-continuation', asciidoc['table']);
 
-asciidoc['other-block'].inside[rest] = copyFromAsciiDoc('table list-punctuation indented-block comment attribute-entry attributes hr page-break admonition list-label macro inline replacement entity line-continuation');
+copyFromAsciiDoc('table list-punctuation indented-block comment attribute-entry attributes hr page-break admonition list-label macro inline replacement entity line-continuation', asciidoc['other-block']);
 
-asciidoc['title'].inside[rest] = copyFromAsciiDoc('macro inline replacement entity');
-
-languages.adoc = asciidoc;
+copyFromAsciiDoc('macro inline replacement entity', asciidoc['title']);

@@ -41,5 +41,5 @@ languages.tcl = {
 		lookbehind: true
 	},
 	'operator': /!=?|\*\*?|==|&&?|\|\|?|<[=<]?|>[=>]?|[-+~\/%?^]|\b(?:eq|in|ne|ni)\b/,
-	'punctuation': /[{}()\[\]]/
+	'punctuation': /[{}()[\]]/
 };

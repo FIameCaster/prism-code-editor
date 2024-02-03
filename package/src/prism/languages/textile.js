@@ -24,7 +24,7 @@ var modifierTokens = {
 		alias: 'attr-value'
 	},
 	'lang': {
-		pattern: /(\[)[^\[\]]+(?=\])/,
+		pattern: /(\[)[^[\]]+(?=\])/,
 		lookbehind: true,
 		alias: 'attr-value'
 	},
@@ -162,7 +162,7 @@ var textile = languages.textile = extend('markup', {
 						pattern: /(^\])\S+$/,
 						lookbehind: true
 					},
-					'punctuation': /[\[\]]/
+					'punctuation': /[[\]]/
 				}
 			},
 

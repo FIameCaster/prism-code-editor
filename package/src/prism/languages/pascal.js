@@ -63,7 +63,7 @@ languages.objectpascal = asm.inside = languages.pascal = {
 			lookbehind: true
 		}
 	],
-	'punctuation': /\(\.|\.\)|[()\[\]:;,.]/
+	'punctuation': /\(\.|\.\)|[()[\]:;,.]/
 };
 
 asm.inside = extend('pascal', {

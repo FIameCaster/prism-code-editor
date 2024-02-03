@@ -1,7 +1,8 @@
 import { languages } from '../core.js';
+import { clikeComment } from '../utils/shared.js';
 
 languages.aql = {
-	'comment': /\/\/.*|\/\*[\s\S]*?\*\//,
+	'comment': clikeComment(),
 	'property': {
 		pattern: /([{,]\s*)(?:(?!\d)\w+|(["'´`])(?:(?!\2)[^\\\n]|\\.)*\2)(?=\s*:)/,
 		lookbehind: true,

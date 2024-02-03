@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 languages.erlang = {
 	'comment': /%.+/,
@@ -14,7 +15,7 @@ languages.erlang = {
 		pattern: /'(?:\\.|[^\\'\n])+'/,
 		alias: 'atom'
 	},
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'keyword': /\b(?:after|begin|case|catch|end|fun|if|of|receive|try|when)\b/,
 	'number': [
 		/\$\\?./,

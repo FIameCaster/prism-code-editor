@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 languages.psl = {
 	'comment': {
@@ -33,5 +34,5 @@ languages.psl = {
 	'function': /\b[_a-z]\w*\b(?=\s*\()/i,
 	'number': /\b(?:0x[0-9a-f]+|\d+(?:\.\d+)?)\b/i,
 	'operator': /--|\+\+|&&=?|\|\|=?|<<=?|>>=?|[=!]~|[-+*/%&|^!=<>]=?|\.|[:?]/,
-	'punctuation': /[(){}\[\];,]/
+	'punctuation': clikePunctuation
 };

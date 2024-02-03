@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 languages.sclang = languages.supercollider = {
 	'comment': {
@@ -21,7 +22,7 @@ languages.sclang = languages.supercollider = {
 	},
 
 	'keyword': /\b(?:_|arg|classvar|const|nil|var|while)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 
 	'label': {
 		pattern: /\b[a-z_]\w*(?=\s*:)/,

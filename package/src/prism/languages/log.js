@@ -89,14 +89,14 @@ languages.log = {
 	},
 
 	'file-path': {
-		pattern: /\b[a-z]:[\\/][^\s|,;:(){}\[\]"']+|(^|[\s:\[\](>|])\.{0,2}\/\w[^\s|,;:(){}\[\]"']*/i,
+		pattern: /\b[a-z]:[\\/][^\s|,;:(){}[\]"']+|(^|[\s:[\](>|])\.{0,2}\/\w[^\s|,;:(){}[\]"']*/i,
 		lookbehind: true,
 		greedy: true,
 		alias: 'string'
 	},
 
 	'date': {
-		pattern: /\b\d{4}[-/]\d{2}[-/]\d{2}(?:T(?=\d{1,2}:)|(?=\s\d{1,2}:))|\b\d{1,4}[-/ ](?:\d{1,2}|Apr|Aug|Dec|Feb|Jan|Jul|Jun|Mar|May|Nov|Oct|Sep)[-/ ]\d{2,4}T?\b|\b(?:(?:Fri|Mon|Sat|Sun|Thu|Tue|Wed)(?:\s{1,2}(?:Apr|Aug|Dec|Feb|Jan|Jul|Jun|Mar|May|Nov|Oct|Sep))?|Apr|Aug|Dec|Feb|Jan|Jul|Jun|Mar|May|Nov|Oct|Sep)\s{1,2}\d{1,2}\b/i,
+		pattern: /\b\d{4}[-/]\d{2}[-/]\d{2}(?:T(?=\d{1,2}:)|(?=\s\d{1,2}:))|\b\d{1,4}[-/ ](?:\d{1,2}|apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)[-/ ]\d{2,4}T?\b|\b(?:(?:fri|mon|sat|sun|thu|tue|wed)(?:\s{1,2}(?:apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep))?|apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)\s{1,2}\d{1,2}\b/i,
 		alias: 'number'
 	},
 	'time': {
@@ -111,5 +111,5 @@ languages.log = {
 	},
 
 	'operator': /[;:?<=>~/@!$%&+\-|^(){}*#]/,
-	'punctuation': /[\[\].,]/
+	'punctuation': /[[\].,]/
 };

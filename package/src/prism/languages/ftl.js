@@ -1,4 +1,5 @@
 import { languages, rest, tokenize } from '../core.js';
+import { boolean, clikePunctuation } from '../utils/shared.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 
@@ -37,7 +38,7 @@ var ftl = interpolationInside[rest] = {
 		}
 	],
 	'keyword': /\b(?:as)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'builtin-function': {
 		pattern: /((?:^|[^?])\?\s*)\w+/,
 		lookbehind: true,
@@ -46,7 +47,7 @@ var ftl = interpolationInside[rest] = {
 	'function': /\b\w+(?=\s*\()/,
 	'number': /\b\d+(?:\.\d+)?\b/,
 	'operator': /\.\.[<*!]?|->|--|\+\+|&&|\|\||\?{1,2}|[-+*/%!=<>]=?|\b(?:gt|gte|lt|lte)\b/,
-	'punctuation': /[,;.:()[\]{}]/
+	'punctuation': clikePunctuation
 };
 
 languages.ftl = {

@@ -8,9 +8,9 @@ languages.editorconfig = {
 		lookbehind: true,
 		alias: 'selector',
 		inside: {
-			'regex': /\\\\[\[\]{},!?.*]/, // Escape special characters with '\\'
+			'regex': /\\\\[[\]{},!?.*]/, // Escape special characters with '\\'
 			'operator': /[!?]|\.\.|\*{1,2}/,
-			'punctuation': /[\[\]{},]/
+			'punctuation': /[[\]{},]/
 		}
 	},
 	'key': {

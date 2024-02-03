@@ -17,5 +17,5 @@ languages.prolog = {
 	'number': /\b\d+(?:\.\d*)?/,
 	// Custom operators are allowed
 	'operator': /[:\\=><\-?*@\/;+^|!$.]+|\b(?:is|mod|not|xor)\b/,
-	'punctuation': /[(){}\[\],]/
+	'punctuation': /[(){}[\],]/
 };

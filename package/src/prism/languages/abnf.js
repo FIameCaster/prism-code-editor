@@ -8,7 +8,7 @@ languages.abnf = {
 		pattern: /(?:%[is])?"[^"\n]*"/,
 		greedy: true,
 		inside: {
-			'punctuation': /^%[is]/
+			'punctuation': /^%./
 		}
 	},
 	'range': {

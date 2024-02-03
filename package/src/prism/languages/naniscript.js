@@ -1,6 +1,6 @@
 import { languages, tokenize, withoutTokenizer } from '../core.js';
 
-var expressionDef = /\{[^\n\[\]{}]*\}/;
+var expressionDef = /\{[^\n[\]{}]*\}/;
 
 var params = {
 	'quoted-string': {
@@ -99,14 +99,14 @@ languages.nani = languages.naniscript = {
 		alias: 'punctuation',
 		inside: {
 			// \{ ... \} ... \[ ... \] ... \"
-			'escaped-char': /\\[{}\[\]"]/,
+			'escaped-char': /\\[{}[\]"]/,
 			'expression': {
 				pattern: expressionDef,
 				greedy: true,
 				alias: 'selector'
 			},
 			'inline-command': {
-				pattern: /\[[\t ]*\w[^\n\[\]]*\]/,
+				pattern: /\[[\t ]*\w[^\n[\]]*\]/,
 				greedy: true,
 				alias: 'function',
 				inside: {
@@ -120,7 +120,7 @@ languages.nani = languages.naniscript = {
 						lookbehind: true,
 						alias: 'name',
 					},
-					'start-stop-char': /[\[\]]/,
+					'start-stop-char': /[[\]]/,
 				}
 			}
 		}

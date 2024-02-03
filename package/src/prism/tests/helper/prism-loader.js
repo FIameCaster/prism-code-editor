@@ -1,5 +1,5 @@
 import { languages, rest, tokenize, tokenizeText, withoutTokenizer, Token } from "../../core.js"
-import { clikeComment, clikeString } from "../../utils/shared.js"
+import { clikeComment, clikeString, clikeNumber, clikePunctuation, boolean } from "../../utils/shared.js"
 import { embeddedIn } from "../../utils/templating.js"
 import { createT4 } from "../../utils/t4-templating.js"
 import { clone, extend, insertBefore } from "../../utils/language.js"
@@ -18,6 +18,9 @@ const imports = {
 	withoutTokenizer,
 	clikeComment,
 	clikeString,
+	clikeNumber,
+	clikePunctuation,
+	boolean,
 	embeddedIn,
 	createT4,
 	clone,

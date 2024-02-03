@@ -1,5 +1,5 @@
 import { languages, tokenize } from '../core.js';
-import { clikeString } from '../utils/shared.js';
+import { boolean, clikeString } from '../utils/shared.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 
@@ -48,7 +48,7 @@ languages.soy = {
 				inside: {
 					'string': string,
 					'number': numberPattern,
-					'punctuation': /[\[\].?]/
+					'punctuation': /[[\].?]/
 				}
 			},
 			'string': string,
@@ -59,10 +59,10 @@ languages.soy = {
 					lookbehind: true
 				}
 			],
-			'boolean': /\b(?:false|true)\b/,
+			'boolean': boolean,
 			'number': numberPattern,
 			'operator': /\?:?|<=?|>=?|==?|!=|[+*/%-]|\b(?:and|not|or)\b/,
-			'punctuation': /[{}()\[\]|.,:]/
+			'punctuation': /[{}()[\]|.,:]/
 		}
 	},
 	[tokenize]: embeddedIn('html')

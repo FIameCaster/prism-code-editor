@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 languages.smalltalk = {
 	'comment': {
@@ -30,11 +31,11 @@ languages.smalltalk = {
 		}
 	},
 	'keyword': /\b(?:new|nil|self|super)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'number': [
 		/\d+r-?[\dA-Z]+(?:\.[\dA-Z]+)?(?:e-?\d+)?/,
 		/\b\d+(?:\.\d+)?(?:e-?\d+)?/
 	],
 	'operator': /[<=]=?|:=|~[~=]|\/\/?|\\\\|>[>=]?|[!^+\-*&|,@]/,
-	'punctuation': /[.;:?\[\](){}]/
+	'punctuation': /[.;:?[\](){}]/
 };

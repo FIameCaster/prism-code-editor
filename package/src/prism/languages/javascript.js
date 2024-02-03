@@ -1,5 +1,5 @@
 import { languages, rest } from '../core.js';
-import { clikeComment, clikeString } from '../utils/shared.js';
+import { boolean, clikeComment, clikeString } from '../utils/shared.js';
 
 var js = {};
 
@@ -107,7 +107,7 @@ languages.js = languages.javascript = Object.assign(js, {
 			lookbehind: true
 		}
 	],
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	// Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
 	'function': {
 		pattern: /#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,

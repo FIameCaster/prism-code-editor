@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 var orgType = /\b(?:(?:col|row)?vector|matrix|scalar)\b/.source;
 var type = /\bvoid\b|<org>|\b(?:complex|numeric|pointer(?:\s*\([^()]*\))?|real|string|(?:class|struct)\s+\w+|transmorphic)(?:\s*<org>)?/.source
@@ -42,5 +43,5 @@ languages.mata = {
 	'function': /\b[a-z_]\w*(?=\s*\()/i,
 
 	'operator': /\.\.|\+\+|--|&&|\|\||:?(?:[!=<>]=|[+\-*/^<>&|:])|[!?=\\#’`']/,
-	'punctuation': /[()[\]{},;.]/
+	'punctuation': clikePunctuation
 };

@@ -1,4 +1,5 @@
 import { languages, tokenize } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 
@@ -36,7 +37,7 @@ languages.jinja2 = languages.django = {
 			'number': /\b\d+(?:\.\d+)?\b/,
 			'boolean': /[Ff]alse|[Nn]one|[Tt]rue/,
 			'variable': /\b\w+\b/,
-			'punctuation': /[{}[\](),.:;]/
+			'punctuation': clikePunctuation
 		}
 	},
 	[tokenize]: embeddedIn('html')

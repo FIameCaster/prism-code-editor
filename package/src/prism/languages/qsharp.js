@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 /**
  * Replaces all placeholders "<<n>>" of given pattern with the n-th replacement (zero based).
@@ -97,7 +98,7 @@ languages.qs = languages.qsharp = {
 		},
 	],
 	'keyword': keywords,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'function': /\b\w+(?=\()/,
 	'range': {
 		pattern: /\.\./,

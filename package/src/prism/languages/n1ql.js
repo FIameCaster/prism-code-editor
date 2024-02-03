@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 // https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/index.html
 
@@ -22,5 +23,5 @@ languages.n1ql = {
 	'boolean': /\b(?:FALSE|TRUE)\b/i,
 	'number': /(?:\b\d+\.|\B\.)\d+e[+\-]?\d+\b|\b\d+(?:\.\d*)?|\B\.\d+\b/i,
 	'operator': /[-+*\/%]|!=|==?|\|\||<[>=]?|>=?|\b(?:AND|ANY|ARRAY|BETWEEN|CASE|ELSE|END|EVERY|EXISTS|FIRST|IN|LIKE|NOT|OR|THEN|VALUED|WHEN|WITHIN)\b/i,
-	'punctuation': /[;[\](),.{}:]/
+	'punctuation': clikePunctuation
 };

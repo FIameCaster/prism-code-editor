@@ -84,7 +84,7 @@ languages.kum = languages.kumir = {
 	},
 
 	/** Should be performed after searching for words. */
-	'punctuation': /:=|[(),:;\[\]]/,
+	'punctuation': /:=|[(),:;[\]]/,
 
 	/**
 	 * Should be performed after searching for

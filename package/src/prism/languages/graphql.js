@@ -1,4 +1,5 @@
 import { languages, tokenize, withoutTokenizer } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 languages.graphql = {
 	'comment': /#.*/,
@@ -19,7 +20,7 @@ languages.graphql = {
 		greedy: true
 	},
 	'number': /(?:\B-|\b)\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'variable': /\$[a-z_]\w*/i,
 	'directive': {
 		pattern: /@[a-z_]\w*/i,
@@ -58,7 +59,7 @@ languages.graphql = {
 	'operator': /[!=|&]|\.{3}/,
 	'property-query': /\w+(?=\s*\()/,
 	'object': /\w+(?=\s*\{)/,
-	'punctuation': /[!(){}\[\]:=,]/,
+	'punctuation': /[!(){}[\]:=,]/,
 	'property': /\w+/,
 	[tokenize](code, grammar) {
 		var tokens = withoutTokenizer(code, grammar);

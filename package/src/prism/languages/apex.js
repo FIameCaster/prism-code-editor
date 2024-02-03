@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikeComment, clikePunctuation, clikeString } from '../utils/shared.js';
 import './clike.js';
 import './sql.js';
 
@@ -16,8 +17,8 @@ var classNameInside = {
 };
 
 languages.apex = {
-	'comment': languages.clike.comment,
-	'string': languages.clike.string,
+	'comment': clikeComment(),
+	'string': clikeString(),
 	'sql': {
 		pattern: /((?:[=,({:]|\breturn)\s*)\[[^\[\]]*\]/i,
 		lookbehind: true,
@@ -60,5 +61,5 @@ languages.apex = {
 
 	'number': /(?:\B\.\d+|\b\d+(?:\.\d+|L)?)\b/i,
 	'operator': /[!=](?:==?)?|\?\.?|&&|\|\||--|\+\+|[-+*/^&|]=?|:|<<?=?|>{1,3}=?/,
-	'punctuation': /[()\[\]{};,.]/
+	'punctuation': clikePunctuation
 };

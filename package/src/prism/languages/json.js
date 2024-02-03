@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment } from '../utils/shared.js';
 
 // https://www.json.org/json-en.html
 languages.webmanifest = languages.json = {
@@ -15,9 +15,9 @@ languages.webmanifest = languages.json = {
 	},
 	'comment': clikeComment(),
 	'number': /-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
-	'punctuation': /[{}[\],]/,
 	'operator': /:/,
-	'boolean': /\b(?:false|true)\b/,
+	'punctuation': /[{}[\],]/,
+	'boolean': boolean,
 	'null': {
 		pattern: /\bnull\b/,
 		alias: 'keyword'

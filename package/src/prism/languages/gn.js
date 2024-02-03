@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 // https://gn.googlesource.com/gn/+/refs/heads/main/docs/reference.md#grammar
 
@@ -34,7 +35,7 @@ expression.inside = languages.gni = languages.gn = {
 	},
 
 	'keyword': /\b(?:else|if)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'builtin-function': {
 		// a few functions get special highlighting to improve readability
 		pattern: /\b(?:assert|defined|foreach|import|pool|print|template|tool|toolchain)(?=\s*\()/i,

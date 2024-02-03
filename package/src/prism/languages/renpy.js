@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 languages.rpy = languages.renpy = {
 	'comment': /#.+/,
@@ -22,5 +23,5 @@ languages.rpy = languages.renpy = {
 
 	'operator': /[-+%=]=?|!=|\*\*?=?|\/\/?=?|<[<=>]?|>[=>]?|[&|^~]|\b(?:and|at|not|or|with)\b/,
 
-	'punctuation': /[{}[\];(),.:]/
+	'punctuation': clikePunctuation
 };

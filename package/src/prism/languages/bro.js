@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeString } from '../utils/shared.js';
+import { clikeString, clikeNumber, clikePunctuation } from '../utils/shared.js';
 
 languages.bro = {
 
@@ -31,7 +31,7 @@ languages.bro = {
 
 	'operator': /--|\+\+|&&?|::|\|\|?|[!=<>+-]=?|\??\$|[?\/*~^%]/,
 
-	'number': /\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,
+	'number': clikeNumber,
 
-	'punctuation': /[{}[\];(),.:]/
+	'punctuation': clikePunctuation
 };

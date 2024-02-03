@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean, clikePunctuation } from '../utils/shared.js';
 
 languages.gdscript = {
 	'comment': /#.*/,
@@ -23,7 +24,7 @@ languages.gdscript = {
 		/\b(?:INF|NAN|PI|TAU)\b/
 	],
 	'constant': /\b[A-Z][A-Z_\d]*\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'operator': /->|:=|&&|\|\||<<|>>|[-+*/%&|!<>=]=?|[~^]/,
-	'punctuation': /[.:,;()[\]{}]/
+	'punctuation': clikePunctuation
 };

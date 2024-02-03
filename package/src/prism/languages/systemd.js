@@ -11,7 +11,7 @@ languages.systemd = {
 	'comment': comment,
 
 	'section': {
-		pattern: /^\[[^\n\[\]]*\](?=[ \t]*$)/m,
+		pattern: /^\[[^\n[\]]*\](?=[ \t]*$)/m,
 		greedy: true,
 		inside: {
 			'punctuation': /^\[|\]$/,

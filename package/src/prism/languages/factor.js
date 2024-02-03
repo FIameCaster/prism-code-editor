@@ -43,7 +43,7 @@ var factor = {
 		alias: 'number',
 		inside: {
 			'variable': /\\\S/,
-			'keyword': /[+?*\[\]^$(){}.|]/,
+			'keyword': /[+?*[\]^$(){}.|]/,
 			'operator': {
 				pattern: /(\/)[idmsr]+(?:-[idmsr]+)?/,
 				lookbehind: true
@@ -300,7 +300,7 @@ var factor = {
 };
 
 var escape = str =>
-	(str + '').replace(/([.?*+\^$\[\]\\(){}|\-])/g, '\\$1');
+	(str + '').replace(/([.?*+\^$[\]\\(){}|\-])/g, '\\$1');
 
 var arrToWordsRegExp = arr =>
 	RegExp(

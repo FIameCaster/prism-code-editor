@@ -25,5 +25,5 @@ languages.dax = {
 	},
 	'number': /\b\d+(?:\.\d*)?|\B\.\d+\b/,
 	'operator': /:=|[-+*\/=^]|&&?|\|\||<(?:=>?|<|>)?|>[>=]?|\b(?:IN|NOT)\b/i,
-	'punctuation': /[;\[\](){}`,.]/
+	'punctuation': /[;[\](){}`,.]/
 };

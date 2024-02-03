@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean, clikePunctuation } from '../utils/shared.js';
 
 // https://www.gap-system.org/Manuals/doc/ref/chap4.html
 // https://www.gap-system.org/Manuals/doc/ref/chap27.html
@@ -35,7 +36,7 @@ gap.inside = languages.gap = {
 	},
 
 	'keyword': /\b(?:Assert|Info|IsBound|QUIT|TryNextMethod|Unbind|and|atomic|break|continue|do|elif|else|end|fi|for|function|if|in|local|mod|not|od|or|quit|readonly|readwrite|rec|repeat|return|then|until|while)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 
 	'function': /\b[a-z_]\w*(?=\s*\()/i,
 
@@ -49,5 +50,5 @@ gap.inside = languages.gap = {
 		alias: 'punctuation'
 	},
 	'operator': /->|[-+*/^~=!]|<>|[<>]=?|:=|\.\./,
-	'punctuation': /[()[\]{},;.:]/
+	'punctuation': clikePunctuation
 };

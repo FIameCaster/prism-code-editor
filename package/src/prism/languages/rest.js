@@ -181,7 +181,7 @@ languages.rest = {
 
 	'link': [
 		{
-			pattern: /\[[^\[\]]+\]_(?=[\s\-.,:;!?\\\/'")\]}]|$)/,
+			pattern: /\[[^[\]]+\]_(?=[\s\-.,:;!?\\/'")\]}]|$)/,
 			alias: 'string',
 			inside: {
 				'punctuation': /^\[|\]_$/

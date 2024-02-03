@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 var content = {
 	pattern: /[\s\S]+/
@@ -42,7 +43,7 @@ content.inside = languages.jq = {
 		alias: 'property'
 	},
 	'keyword': /\b(?:as|break|catch|def|elif|else|end|foreach|if|import|include|label|module|modulemeta|null|reduce|then|try|while)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'number': /(?:\b\d+\.|\B\.)?\b\d+(?:[eE][+-]?\d+)?\b/,
 
 	'operator': [
@@ -56,7 +57,7 @@ content.inside = languages.jq = {
 		pattern: /\b[a-z_]\w*(?=\s*\()/i,
 		alias: 'function'
 	},
-	'punctuation': /::|[()\[\]{},:;]|\.(?=\s*[\[\w$])/,
+	'punctuation': /::|[()[\]{},:;]|\.(?=\s*[\[\w$])/,
 	'dot': {
 		pattern: /\./,
 		alias: 'important'

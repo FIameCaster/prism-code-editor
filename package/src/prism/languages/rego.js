@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean, clikePunctuation } from '../utils/shared.js';
 
 // https://www.openpolicyagent.org/docs/latest/policy-reference/
 
@@ -16,7 +17,7 @@ languages.rego = {
 	},
 
 	'keyword': /\b(?:as|default|else|import|not|null|package|set(?=\s*\()|some|with)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 
 	'function': {
 		pattern: /\b[a-z_]\w*\b(?:\s*\.\s*\b[a-z_]\w*\b)*(?=\s*\()/i,
@@ -28,5 +29,5 @@ languages.rego = {
 
 	'number': /-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
 	'operator': /[-+*/%|&]|[<>:=]=?|!=|\b_\b/,
-	'punctuation': /[,;.\[\]{}()]/
+	'punctuation': clikePunctuation
 };

@@ -17,7 +17,7 @@ languages.coq = {
 	'attribute': [
 		{
 			pattern: RegExp(
-				/#\[(?:[^\[\]("]|"(?:[^"]|"")*"(?!")|\((?!\*)|<comment>)*\]/.source
+				/#\[(?:[^[\]("]|"(?:[^"]|"")*"(?!")|\((?!\*)|<comment>)*\]/.source
 					.replace(/<comment>/g, commentSource)
 			),
 			greedy: true,
@@ -48,5 +48,5 @@ languages.coq = {
 		alias: 'punctuation'
 	},
 	'operator': /\/\\|\\\/|\.{2,3}|:{1,2}=|\*\*|[-=]>|<(?:->?|[+:=>]|<:)|>(?:=|->)|\|[-|]?|[-!%&*+/<=>?@^~']/,
-	'punctuation': /\.\(|`\(|@\{|`\{|\{\||\[=|:>|[:.,;(){}\[\]]/
+	'punctuation': /\.\(|`[({]|@\{|\{\||\[=|:>|[:.,;(){}[\]]/
 };

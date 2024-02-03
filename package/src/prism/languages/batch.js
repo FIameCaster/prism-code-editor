@@ -55,7 +55,7 @@ languages.batch = {
 			pattern: /((?:^|[&()])[ \t]*)else\b/im,
 			lookbehind: true,
 			inside: {
-				'keyword': /^else\b/i
+				'keyword': /.+/
 			}
 		},
 		{
@@ -80,7 +80,7 @@ languages.batch = {
 			pattern: /((?:^|[&(])[ \t]*@?)\w+\b(?:"(?:[\\"]"|[^"])*"(?!")|[^"^&)\n]|\^[\s\S])*/m,
 			lookbehind: true,
 			inside: {
-				'keyword': /^\w+\b/,
+				'keyword': /^\w+/,
 				'string': string,
 				'parameter': parameter,
 				'label': {

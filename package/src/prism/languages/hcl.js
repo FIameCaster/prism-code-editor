@@ -61,5 +61,5 @@ languages.hcl = {
 	},
 	'number': /\b0x[\da-f]+\b|\b\d+(?:\.\d*)?(?:e[+-]?\d+)?/i,
 	'boolean': /\b(?:false|true)\b/i,
-	'punctuation': /[=\[\]{}]/,
+	'punctuation': /[=[\]{}]/,
 };

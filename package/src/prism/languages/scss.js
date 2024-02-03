@@ -1,9 +1,10 @@
 import { languages, rest } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
+import { boolean, clikeComment } from '../utils/shared.js';
 import './css.js';
 
 var scss = languages.scss = extend('css', {
-	'comment': /\/\*[\s\S]*?\*\/|\/\/.*/,
+	'comment': clikeComment(),
 	'atrule': {
 		pattern: /@[\w-](?:\([^()]+\)|[^()\s]|\s+(?!\s))*?(?=\s+[{;])/,
 		inside: {
@@ -22,7 +23,7 @@ var scss = languages.scss = extend('css', {
 	// this one was hard to do, so please be careful if you edit this one :)
 	'selector': {
 		// Initial look-ahead is used to prevent matching of blank selectors
-		pattern: /(?=\S)[^@;{}()]?(?:[^@;{}()\s]|\s+(?!\s)|#\{\$[-\w]+\})+(?=\s*\{(?:\}|\s|[^}][^:{}]*[:{][^}]))/,
+		pattern: /(?!\s)[^@;{}()]?(?:[^@;{}()\s]|\s+(?!\s)|#\{\$[-\w]+\})+(?=\s*\{(?:\}|\s|[^}][^:{}]*[:{][^}]))/,
 		inside: {
 			'parent': {
 				pattern: /&/,
@@ -68,7 +69,7 @@ insertBefore(scss, 'function', {
 		pattern: /\B!(?:default|optional)\b/i,
 		alias: 'keyword'
 	},
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'null': {
 		pattern: /\bnull\b/,
 		alias: 'keyword'

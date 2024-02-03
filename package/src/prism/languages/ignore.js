@@ -9,7 +9,7 @@ languages.npmignore = languages.hgignore = languages.gitignore = languages.ignor
 		inside: {
 			'operator': /^!|\*\*?|\?/,
 			'regex': {
-				pattern: /(^|[^\\])\[[^\[\]]*\]/,
+				pattern: /(^|[^\\])\[[^[\]]*\]/,
 				lookbehind: true
 			},
 			'punctuation': /\//

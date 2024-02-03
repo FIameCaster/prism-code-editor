@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 languages.hs = languages.haskell = {
 	'comment': {
@@ -62,5 +63,5 @@ languages.hs = languages.haskell = {
 			'punctuation': /\./
 		}
 	},
-	'punctuation': /[{}[\];(),.:]/
+	'punctuation': clikePunctuation
 };

@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
+import { clikeComment } from '../utils/shared.js';
 import './css.js';
 
 /* FIXME :
@@ -12,7 +13,7 @@ import './css.js';
 
 insertBefore(
 	languages.less = extend('css', {
-		'comment': /\/\/.*|\/\*[\s\S]*?\*\//,
+		'comment': clikeComment(),
 		'atrule': {
 			pattern: /@[\w-](?:\((?:[^(){}]|\([^(){}]*\))*\)|[^(){};\s]|\s+(?!\s))*?(?=\s*\{)/,
 			inside: {

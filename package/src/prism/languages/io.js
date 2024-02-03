@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 languages.io = {
 	'comment': {
@@ -19,5 +20,5 @@ languages.io = {
 	'boolean': /\b(?:false|nil|true)\b/,
 	'number': /\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e-?\d+)?/i,
 	'operator': /[=!*/%+\-^&|]=|>>?=?|<<?=?|:?:?=|\+\+?|--?|\*\*?|\/\/?|%|\|\|?|&&?|\b(?:and|not|or|return)\b|@@?|\?\??|\.\./,
-	'punctuation': /[{}[\];(),.:]/
+	'punctuation': clikePunctuation
 };

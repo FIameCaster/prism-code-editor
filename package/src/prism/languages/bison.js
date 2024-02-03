@@ -2,7 +2,7 @@ import { languages, rest } from '../core.js';
 import { clone, insertBefore } from '../utils/language.js';
 import './c.js';
 
-insertBefore(languages.bison = clone(languages.c), 'comment', {
+languages.bison = Object.assign({
 	'bison': {
 		// This should match all the beginning of the file
 		// including the prologue(s), the bison declarations and
@@ -38,4 +38,4 @@ insertBefore(languages.bison = clone(languages.c), 'comment', {
 			'punctuation': /%[%?]|[|:;\[\]<>]/
 		}
 	}
-});
+}, clone(languages.c));

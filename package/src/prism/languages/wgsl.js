@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment } from '../utils/shared.js';
 
 languages.wgsl = {
 	'comment': clikeComment(),
@@ -36,7 +36,7 @@ languages.wgsl = {
 	},
 	'class-name': /\b(?:[A-Z][A-Za-z0-9]*)\b/,
 	'bool-literal': {
-		pattern: /\b(?:false|true)\b/,
+		pattern: boolean,
 		alias: 'boolean',
 	},
 	'hex-int-literal': {

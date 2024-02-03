@@ -72,7 +72,7 @@ var elixir = languages.elixir = {
 			lookbehind: true
 		}
 	],
-	'punctuation': /<<|>>|[.,%\[\]{}()]/
+	'punctuation': /<<|>>|[.,%[\]{}()]/
 };
 
 elixir.string.forEach(o => {

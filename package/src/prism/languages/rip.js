@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 languages.rip = {
 	'comment': {
@@ -7,7 +8,7 @@ languages.rip = {
 	},
 
 	'char': {
-		pattern: /\B`[^\s`'",.:;#\/\\()<>\[\]{}]\b/,
+		pattern: /\B`[^\s`'",.:;#\/\\()<>[\]{}]\b/,
 		greedy: true
 	},
 	'string': {
@@ -25,16 +26,16 @@ languages.rip = {
 
 	'builtin': /@|\bSystem\b/,
 
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 
 	'date': /\b\d{4}-\d{2}-\d{2}\b/,
 	'time': /\b\d{2}:\d{2}:\d{2}\b/,
 	'datetime': /\b\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\b/,
 
-	'symbol': /:[^\d\s`'",.:;#\/\\()<>\[\]{}][^\s`'",.:;#\/\\()<>\[\]{}]*/,
+	'symbol': /:[^\d\s`'",.:;#\/\\()<>[\]{}][^\s`'",.:;#\/\\()<>[\]{}]*/,
 	'number': /[+-]?\b(?:\d+\.\d+|\d+)\b/,
 
-	'punctuation': /(?:\.{2,3})|[`,.:;=\/\\()<>\[\]{}]/,
+	'punctuation': /(?:\.{2,3})|[`,.:;=\/\\()<>[\]{}]/,
 
-	'reference': /[^\d\s`'",.:;#\/\\()<>\[\]{}][^\s`'",.:;#\/\\()<>\[\]{}]*/
+	'reference': /[^\d\s`'",.:;#\/\\()<>[\]{}][^\s`'",.:;#\/\\()<>[\]{}]*/
 };

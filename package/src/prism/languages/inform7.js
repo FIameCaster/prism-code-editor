@@ -12,13 +12,13 @@ var inform7 = languages.inform7 = {
 		pattern: /"[^"]*"/,
 		inside: {
 			'substitution': {
-				pattern: /\[[^\[\]]+\]/,
+				pattern: /\[[^[\]]+\]/,
 				inside: substitutionInside
 			}
 		}
 	},
 	'comment': {
-		pattern: /\[[^\[\]]+\]/,
+		pattern: /\[[^[\]]+\]/,
 		greedy: true
 	},
 	'title': {

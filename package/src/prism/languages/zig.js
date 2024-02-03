@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean, clikePunctuation } from '../utils/shared.js';
 
 var keyword = /\b(?:align|allowzero|and|anyframe|anytype|asm|async|await|break|cancel|catch|comptime|const|continue|defer|else|enum|errdefer|error|export|extern|fn|for|if|inline|linksection|nakedcc|noalias|nosuspend|null|or|orelse|packed|promise|pub|resume|return|stdcallcc|struct|suspend|switch|test|threadlocal|try|undefined|union|unreachable|usingnamespace|var|volatile|while)\b/;
 
@@ -83,7 +84,7 @@ languages.zig = {
 	'keyword': keyword,
 	'function': /\b(?!\d)\w+(?=\s*\()/,
 	'number': /\b(?:0b[01]+|0o[0-7]+|0x[a-fA-F\d]+(?:\.[a-fA-F\d]*)?(?:[pP][+-]?[a-fA-F\d]+)?|\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'operator': /\.[*?]|\.{2,3}|[-=]>|\*\*|\+\+|\|\||(?:<<|>>|[-+*]%|[-+*/%^&|<>!=])=?|[?~]/,
-	'punctuation': /[.:,;(){}[\]]/
+	'punctuation': clikePunctuation
 };

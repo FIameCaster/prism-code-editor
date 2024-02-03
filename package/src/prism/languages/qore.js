@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 languages.qore = {
 	'comment': /\/\*[\s\S]*?\*\/|\/\/.*|#.*/,
@@ -22,6 +23,6 @@ languages.qore = {
 		pattern: /(^|[^.])(?:\+[+=]?|-[-=]?|[!=](?:==?|~)?|>>?=?|<(?:=>?|<=?)?|&[&=]?|\|[|=]?|[*\/%^]=?|[~?])/,
 		lookbehind: true
 	},
-	'punctuation': /[{}[\];(),.:]/,
+	'punctuation': clikePunctuation,
 	'variable': /\$(?!\d)\w+\b/
 };

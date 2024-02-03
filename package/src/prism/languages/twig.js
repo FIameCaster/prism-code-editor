@@ -38,7 +38,7 @@ languages.twig = {
 				},
 				/[=<>]=?|!=|\*\*?|\/\/?|\?:?|[-+~%|]/
 			],
-			'punctuation': /[()\[\]{}:.,]/
+			'punctuation': /[()[\]{}:.,]/
 		}
 	},
 	[tokenize]: embeddedIn('html')

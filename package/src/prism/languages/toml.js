@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 /**
  * @param {string} pattern
@@ -40,6 +41,6 @@ languages.toml = {
 		}
 	],
 	'number': /(?:\b0(?:x[\da-zA-Z]+(?:_[\da-zA-Z]+)*|o[0-7]+(?:_[0-7]+)*|b[10]+(?:_[10]+)*))\b|[-+]?\b\d+(?:_\d+)*(?:\.\d+(?:_\d+)*)?(?:[eE][+-]?\d+(?:_\d+)*)?\b|[-+]?\b(?:inf|nan)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'punctuation': /[.,=[\]{}]/
 };

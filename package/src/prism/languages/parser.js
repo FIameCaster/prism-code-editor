@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
+import { boolean } from '../utils/shared.js';
 import './markup.js';
 
 var keyword = {
@@ -28,11 +29,11 @@ var func = {
 };
 
 var escape = {
-	pattern: /\^(?:[$^;@()\[\]{}"':]|#[a-f\d]*)/i,
+	pattern: /\^(?:[$^;@()[\]{}"':]|#[a-f\d]*)/i,
 	alias: 'builtin'
 };
 
-var punctuation = /[\[\](){};]/;
+var punctuation = /[[\](){};]/;
 
 var expression = {
 	// Allow for 3 levels of depth
@@ -47,7 +48,7 @@ var expression = {
 		'keyword': keyword,
 		'variable': variable,
 		'function': func,
-		'boolean': /\b(?:false|true)\b/,
+		'boolean': boolean,
 		'number': /\b(?:0x[a-f\d]+|\d+(?:\.\d*)?(?:e[+-]?\d+)?)\b/i,
 		'escape': escape,
 		'operator': /[~+*\/\\%]|!(?:\|\|?|=)?|&&?|\|\|?|==|<[<=]?|>[>=]?|-[fd]?|\b(?:def|eq|ge|gt|in|is|le|lt|ne)\b/,

@@ -8,7 +8,7 @@ languages['visual-basic'] = {
 		}
 	},
 	'directive': {
-		pattern: /#(?:Const|Else|ElseIf|End|ExternalChecksum|ExternalSource|If|Region)(?:\b_[ \t]*\n|.)+/i,
+		pattern: /#(?:const|else|elseif|end|externalchecksum|externalSource|if|region)(?:\b_[ \t]*\n|.)+/i,
 		alias: 'property',
 		greedy: true
 	},
@@ -21,8 +21,8 @@ languages['visual-basic'] = {
 		alias: 'number'
 	},
 	'number': /(?:(?:\b\d+(?:\.\d+)?|\.\d+)(?:E[+-]?\d+)?|&[HO][\dA-F]+)(?:[FRD]|U?[ILS])?/i,
-	'boolean': /\b(?:False|Nothing|True)\b/i,
-	'keyword': /\b(?:AddHandler|AddressOf|Alias|And(?:Also)?|As|Boolean|ByRef|Byte|ByVal|Call|Case|Catch|C(?:Bool|Byte|Char|Date|Dbl|Dec|Int|Lng|Obj|SByte|Short|Sng|Str|Type|UInt|ULng|UShort)|Char|Class|Const|Continue|Currency|Date|Decimal|Declare|Default|Delegate|Dim|DirectCast|Do|Double|Each|Else(?:If)?|End(?:If)?|Enum|Erase|Error|Event|Exit|Finally|For|Friend|Function|Get(?:Type|XMLNamespace)?|Global|GoSub|GoTo|Handles|If|Implements|Imports|In|Inherits|Integer|Interface|Is|IsNot|Let|Lib|Like|Long|Loop|Me|Mod|Module|Must(?:Inherit|Override)|My(?:Base|Class)|Namespace|Narrowing|New|Next|Not(?:Inheritable|Overridable)?|Object|Of|On|Operator|Option(?:al)?|Or(?:Else)?|Out|Overloads|Overridable|Overrides|ParamArray|Partial|Private|Property|Protected|Public|RaiseEvent|ReadOnly|ReDim|RemoveHandler|Resume|Return|SByte|Select|Set|Shadows|Shared|short|Single|Static|Step|Stop|String|Structure|Sub|SyncLock|Then|Throw|To|Try|TryCast|Type|TypeOf|U(?:Integer|Long|Short)|Until|Using|Variant|Wend|When|While|Widening|With(?:Events)?|WriteOnly|Xor)\b/i,
+	'boolean': /\b(?:false|nothing|true)\b/i,
+	'keyword': /\b(?:addhandler|addressof|alias|and(?:also)?|as|boolean|byref|byte|byval|call|case|catch|c(?:bool|byte|char|date|dbl|dec|int|lng|obj|sbyte|short|sng|str|type|uint|ulng|ushort)|char|class|const|continue|currency|date|decimal|declare|default|delegate|dim|directcast|do|double|each|else(?:if)?|end(?:if)?|enum|erase|error|event|exit|finally|for|friend|function|get(?:type|xmlnamespace)?|global|gosub|goto|handles|if|implements|imports|in|inherits|integer|interface|is|isnot|let|lib|like|long|loop|me|mod|module|must(?:inherit|override)|my(?:base|class)|namespace|narrowing|new|next|not(?:inheritable|overridable)?|object|of|on|operator|option(?:al)?|or(?:else)?|out|overloads|overridable|overrides|paramarray|partial|private|property|protected|public|raiseevent|readonly|redim|removehandler|resume|return|sbyte|select|set|shadows|shared|short|single|static|step|stop|string|structure|sub|synclock|then|throw|to|try|trycast|type|typeof|u(?:integer|long|short)|until|using|variant|wend|when|while|widening|with(?:events)?|writeonly|xor)\b/i,
 	'operator': /[+\-*/\\^<=>&#@$%!]|\b_(?=[ \t]*\n)/,
 	'punctuation': /[{}().,:?]/
 };

@@ -26,5 +26,5 @@ languages.oz = {
 	'variable': /`(?:[^`\\]|\\.)+`/,
 	'attr-name': /\b\w+(?=[ \t]*:(?![:=]))/,
 	'operator': /:(?:=|::?)|<[-:=]?|=(?:=|<?:?)|>=?:?|\\=:?|!!?|[|#+\-*\/,~^@]|\b(?:andthen|div|mod|orelse)\b/,
-	'punctuation': /[\[\](){}.:;?]/
+	'punctuation': /[[\](){}.:;?]/
 };

@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment, clikeString } from '../utils/shared.js';
+import { clikeComment, clikeString, clikeNumber, boolean, clikePunctuation } from '../utils/shared.js';
 
 languages.clike = {
 	'comment': clikeComment(),
@@ -12,9 +12,9 @@ languages.clike = {
 		}
 	},
 	'keyword': /\b(?:break|catch|continue|do|else|finally|for|function|if|in|instanceof|new|null|return|throw|try|while)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'function': /\b\w+(?=\()/,
-	'number': /\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,
+	'number': clikeNumber,
 	'operator': /[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,
-	'punctuation': /[{}[\];(),.:]/
+	'punctuation': clikePunctuation
 };

@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean, clikePunctuation } from '../utils/shared.js';
 
 // https://wren.io/
 
@@ -81,12 +82,12 @@ languages.wren = {
 		alias: 'keyword'
 	},
 	'keyword': /\b(?:as|break|class|construct|continue|else|for|foreign|if|import|in|is|return|static|super|this|var|while)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'number': /\b(?:0x[\da-f]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/i,
 
 	// Functions can be Class.method()
 	'function': /\b[a-z_]\w*(?=\s*[({])/i,
 
 	'operator': /<<|>>|[=!<>]=?|&&|\|\||[-+*/%~^&|?:]|\.{2,3}/,
-	'punctuation': /[\[\](){}.,;]/
+	'punctuation': clikePunctuation
 };

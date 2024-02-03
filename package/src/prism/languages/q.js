@@ -44,5 +44,5 @@ languages.q = {
 		pattern: /(?:\B\.\B|\b[01]:|<[=>]?|>=?|[:+\-*%,!?~=|$&#@^]):?|\b_\b:?/,
 		alias: 'operator'
 	},
-	'punctuation': /[(){}\[\];.]/
+	'punctuation': /[(){}[\];.]/
 };

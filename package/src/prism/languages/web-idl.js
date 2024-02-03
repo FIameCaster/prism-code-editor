@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean, clikeComment } from '../utils/shared.js';
 
 var id = /(?:\B-|\b_|\b)[A-Za-z][\w-]*(?![\w-])/.source;
 var type = `(?:\\b(?:unsigned\\s+)?long\\s+long(?![\\w-])|\\b(?:unrestricted|unsigned)\\s+[a-z]+(?![\\w-])|(?!(?:unrestricted|unsigned)\\b)${id}(?:\\s*<(?:[^<>]|<[^<>]*>)*>)?)(?:\\s*\\?)?`;
@@ -6,10 +7,7 @@ var type = `(?:\\b(?:unsigned\\s+)?long\\s+long(?![\\w-])|\\b(?:unrestricted|uns
 var typeInside = {};
 
 var webIdl = languages['webidl'] = languages['web-idl'] = {
-	'comment': {
-		pattern: /\/\/.*|\/\*[\s\S]*?\*\//,
-		greedy: true
-	},
+	'comment': clikeComment(),
 	'string': {
 		pattern: /"[^"]*"/,
 		greedy: true
@@ -73,7 +71,7 @@ var webIdl = languages['webidl'] = languages['web-idl'] = {
 		// type keywords
 		/\b(?:any|bigint|boolean|byte|double|float|iterable|long|maplike|object|octet|record|sequence|setlike|short|symbol|undefined|unsigned|void)\b/
 	],
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 
 	'number': {
 		pattern: /(^|[^\w-])-?(?:0x[0-9a-f]+|(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?|NaN|Infinity)(?![\w-])/i,

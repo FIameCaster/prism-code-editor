@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 languages.vhdl = {
 	'comment': /--.+/,
@@ -24,5 +25,5 @@ languages.vhdl = {
 	// decimal, based, physical, and exponential numbers supported
 	'number': /'[01uxzwlh-]'|\b(?:\d+#[\da-f_.]+#|\d[\d_.]*)(?:e[-+]?\d+)?/i,
 	'operator': /[<>]=?|:=|[-+*/&=]|\b(?:abs|and|mod|nand|nor|not|or|rem|rol|ror|sla|sll|sra|srl|xnor|xor)\b/i,
-	'punctuation': /[{}[\];(),.:]/
+	'punctuation': clikePunctuation
 };

@@ -1,4 +1,5 @@
 import { languages, tokenize } from '../core.js';
+import { boolean } from '../utils/shared.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 
@@ -13,7 +14,7 @@ languages.mustache = languages.hbs = languages.handlebars = {
 			},
 			'string': /(["'])(?:\\.|(?!\1)[^\\\n])*\1/,
 			'number': /\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][+-]?\d+)?/,
-			'boolean': /\b(?:false|true)\b/,
+			'boolean': boolean,
 			'block': {
 				pattern: /^(\s*(?:~\s*)?)[#\/]\S+?(?=\s*(?:~\s*)?$|\s)/,
 				lookbehind: true,

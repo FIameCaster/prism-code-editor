@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages.awk = {
+languages.gawk = languages.awk = {
 	'hashbang': {
 		pattern: /^#!.*/,
 		greedy: true,
@@ -30,5 +30,3 @@ languages.awk = {
 	'operator': /--|\+\+|!?~|>&|>>|<<|(?:\*\*|[<>!=+\-*/%^])=?|&&|\|[|&]|[?:]/,
 	'punctuation': /[()[\]{},;]/
 };
-
-languages.gawk = languages.awk;

@@ -53,5 +53,5 @@ languages.trickle = languages.troy = languages.tremor = {
 		alias: 'punctuation'
 	},
 	'operator': /[-+*\/%~!^]=?|=[=>]?|&[&=]?|\|[|=]?|<<?=?|>>?>?=?|(?:absent|and|not|or|present|xor)\b/,
-	'punctuation': /::|[;\[\]()\{\},.:]/,
+	'punctuation': /::|[;[\](){},.:]/,
 };

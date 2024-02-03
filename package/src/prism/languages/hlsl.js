@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
 import { extend } from '../utils/language.js';
+import { boolean } from '../utils/shared.js';
 import './c.js';
 
 languages.hlsl = extend('c', {
@@ -20,5 +21,5 @@ languages.hlsl = extend('c', {
 	],
 	// https://docs.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-appendix-grammar#floating-point-numbers
 	'number': /(?:(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[eE][+-]?\d+)?|\b0x[\da-fA-F]+)[fFhHlLuU]?\b/,
-	'boolean': /\b(?:false|true)\b/
+	'boolean': boolean
 });

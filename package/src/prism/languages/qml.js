@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikeComment } from '../utils/shared.js';
 import './javascript.js';
 
 var jsString = /"(?:\\.|[^\\"\n])*"|'(?:\\.|[^\\'\n])*'/.source;
@@ -15,10 +16,7 @@ jsExpr = jsExpr.replace(/<expr>/g, '[]');
 
 
 languages.qml = {
-	'comment': {
-		pattern: /\/\/.*|\/\*[\s\S]*?\*\//,
-		greedy: true
-	},
+	'comment': clikeComment(),
 	'javascript-function': {
 		pattern: RegExp(/((?:^|;)[ \t]*)function\s+(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\s*\(<js>*\)\s*\{<js>*\}/.source.replace(/<js>/g, jsExpr), 'm'),
 		lookbehind: true,

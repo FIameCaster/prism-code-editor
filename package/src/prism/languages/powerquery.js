@@ -1,12 +1,10 @@
 import { languages } from '../core.js';
+import { boolean, clikeComment } from '../utils/shared.js';
 
 // https://docs.microsoft.com/en-us/powerquery-m/power-query-m-language-specification
 
 languages.mscript = languages.pq = languages.powerquery = {
-	'comment': {
-		pattern: /\/\*[\s\S]*?\*\/|\/\/.*/,
-		greedy: true
-	},
+	'comment': clikeComment(),
 	'quoted-identifier': {
 		pattern: /#"(?:[^"\n]|"")*"(?!")/,
 		greedy: true
@@ -34,7 +32,7 @@ languages.mscript = languages.pq = languages.powerquery = {
 		/\b(?:Any|Binary|Date|DateTime|DateTimeZone|Duration|Function|Int16|Int32|Int64|Int8|List|Logical|None|Number|Record|Table|Text|Time)\.Type\b/,
 		/\bnull\b/
 	],
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'keyword': /\b(?:and|as|each|else|error|if|in|is|let|meta|not|nullable|optional|or|otherwise|section|shared|then|try|type)\b|#(?:binary|date|datetime|datetimezone|duration|infinity|nan|sections|shared|table|time)\b/,
 	'function': {
 		pattern: /(^|[^#\w.])[a-z_][\w.]*(?=\s*\()/i,
@@ -49,5 +47,5 @@ languages.mscript = languages.pq = languages.powerquery = {
 		lookbehind: true
 	},
 	'operator': /[-+*\/&?@^]|<(?:=>?|>)?|>=?|=>?|\.\.\.?/,
-	'punctuation': /[,;\[\](){}]/
+	'punctuation': /[,;[\](){}]/
 };

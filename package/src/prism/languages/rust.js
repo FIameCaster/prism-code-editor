@@ -1,4 +1,5 @@
 import { languages, rest } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 var multilineComment = /\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|<self>)*\*\//.source;
 var string = {
@@ -29,7 +30,7 @@ paramsInside[rest] = languages.rust = {
 		greedy: true
 	},
 	'attribute': {
-		pattern: /#!?\[(?:[^\[\]"]|"(?:\\[\s\S]|[^\\"])*")*\]/,
+		pattern: /#!?\[(?:[^[\]"]|"(?:\\[\s\S]|[^\\"])*")*\]/,
 		greedy: true,
 		alias: 'attr-name',
 		inside: {
@@ -106,7 +107,7 @@ paramsInside[rest] = languages.rust = {
 
 	// Hex, oct, bin, dec numbers with visual separators and type suffix
 	'number': /\b(?:0x[\dA-Fa-f](?:_?[\dA-Fa-f])*|0o[0-7](?:_?[0-7])*|0b[01](?:_?[01])*|(?:(?:\d(?:_?\d)*)?\.)?\d(?:_?\d)*(?:[Ee][+-]?\d+)?)(?:_?(?:f32|f64|[iu](?:8|16|32|64|size)?))?\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'punctuation': /->|\.\.=|\.{1,3}|::|[{}[\];(),:]/,
 	'operator': /[-+*\/%!^]=?|=[=>]?|&[&=]?|\|[|=]?|<<?=?|>>?=?|[@?]/
 };

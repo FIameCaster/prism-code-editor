@@ -32,7 +32,7 @@ insertBefore(crystal, 'string-literal', {
 				alias: 'class-name'
 			},
 			'args': {
-				pattern: /\S(?:[\s\S]*\S)?/,
+				pattern: /\S(?:.*\S)?/,
 				inside: crystal
 			},
 		}
@@ -41,7 +41,7 @@ insertBefore(crystal, 'string-literal', {
 		pattern: /\{(?:\{.*?\}|%.*?%)\}/,
 		inside: {
 			'content': {
-				pattern: /^(..)[\s\S]+(?=..)/,
+				pattern: /^(..).+(?=..)/,
 				lookbehind: true,
 				inside: crystal
 			},

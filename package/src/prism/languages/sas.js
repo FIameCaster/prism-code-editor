@@ -34,7 +34,7 @@ var string = {
 	greedy: true
 };
 
-var punctuation = /[$%@.(){}\[\];,\\]/;
+var punctuation = /[$%@.(){}[\];,\\]/;
 
 var func = {
 	pattern: /%?\b\w+(?=\()/,
@@ -94,7 +94,7 @@ var submitStatement = {
 	alias: 'keyword'
 };
 
-var actionSets = /aStore|accessControl|aggregation|audio|autotune|bayesianNetClassifier|bioMedImage|boolRule|builtins|cardinality|cdm|clustering|conditionalRandomFields|configuration|copula|countreg|dataDiscovery|dataPreprocess|dataSciencePilot|dataStep|decisionTree|deduplication|deepLearn|deepNeural|deepRnn|ds2|ecm|entityRes|espCluster|explainModel|factmac|fastKnn|fcmpact|fedSql|freqTab|gVarCluster|gam|gleam|graphSemiSupLearn|hiddenMarkovModel|hyperGroup|ica|image|iml|kernalPca|langModel|ldaTopic|loadStreams|mbc|mixed|mlTools|modelPublishing|network|neuralNet|nmf|nonParametricBayes|nonlinear|optNetwork|optimization|panel|pca|percentile|phreg|pls|qkb|qlim|quantreg|recommend|regression|reinforcementLearn|robustPca|ruleMining|sampling|sandwich|sccasl|search(?:Analytics)?|sentimentAnalysis|sequence|session(?:Prop)?|severity|simSystem|simple|smartData|sparkEmbeddedProcess|sparseML|spatialreg|spc|stabilityMonitoring|svDataDescription|svm|table|text(?:Filters|Frequency|Mining|Parse|Rule(?:Develop|Score)|Topic|Util)|timeData|transpose|tsInfo|tsReconcile|uniTimeSeries|varReduce/.source;
+var actionSets = /astore|accesscontrol|aggregation|audio|autotune|bayesiannetclassifier|biomedimage|boolrule|builtins|cardinality|cdm|clustering|conditionalrandomfields|configuration|copula|countreg|datadiscovery|datapreprocess|datasciencepilot|datastep|decisiontree|deduplication|deeplearn|deepneural|deeprnn|ds2|ecm|entityres|espcluster|explainmodel|factmac|fastknn|fcmpact|fedsql|freqtab|gvarcluster|gam|gleam|graphsemisuplearn|hiddenmarkovmodel|hypergroup|ica|image|iml|kernalpca|langmodel|ldatopic|loadstreams|mbc|mixed|mltools|modelpublishing|network|neuralnet|nmf|nonparametricbayes|nonlinear|optnetwork|optimization|panel|pca|percentile|phreg|pls|qkb|qlim|quantreg|recommend|regression|reinforcementlearn|robustpca|rulemining|sampling|sandwich|sccasl|search(?:analytics)?|sentimentanalysis|sequence|session(?:prop)?|severity|simsystem|simple|smartdata|sparkembeddedprocess|sparseml|spatialreg|spc|stabilitymonitoring|svdatadescription|svm|table|text(?:filters|frequency|mining|parse|rule(?:develop|score)|topic|util)|timedata|transpose|tsinfo|tsreconcile|unitimeseries|varreduce/.source;
 
 var casActions = {
 	pattern: RegExp(/(^|\s)(?:action\s+)?(?:<act>)\.[a-z]+\b[^;]+/.source.replace(/<act>/g, actionSets), 'i'),

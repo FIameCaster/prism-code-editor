@@ -56,5 +56,5 @@ languages.gv = languages.dot = {
 		inside: IDInside
 	},
 	'operator': /[=:]|-[->]/,
-	'punctuation': /[\[\]{};,]/
+	'punctuation': /[[\]{};,]/
 };

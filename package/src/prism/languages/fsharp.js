@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean, clikePunctuation } from '../utils/shared.js';
 
 languages.fsharp = {
 	'comment': {
@@ -49,7 +50,7 @@ languages.fsharp = {
 		}
 	},
 	'keyword': /\b(?:let|return|use|yield)(?:!\B|\b)|\b(?:abstract|and|as|asr|assert|atomic|base|begin|break|checked|class|component|const|constraint|constructor|continue|default|delegate|do|done|downcast|downto|eager|elif|else|end|event|exception|extern|external|false|finally|fixed|for|fun|function|functor|global|if|in|include|inherit|inline|interface|internal|land|lazy|lor|lsl|lsr|lxor|match|member|method|mixin|mod|module|mutable|namespace|new|not|null|object|of|open|or|override|parallel|private|process|protected|public|pure|rec|sealed|select|sig|static|struct|tailcall|then|to|trait|true|try|type|upcast|val|virtual|void|volatile|when|while|with)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'function': /\b\w+(?=\()/,
 	'number': [
 		/\b0x[\da-fA-F]+(?:LF|lf|un)?\b/,
@@ -62,5 +63,5 @@ languages.fsharp = {
 		pattern: /\b[_a-z]\w*(?=\s*\{)/i,
 		alias: 'keyword'
 	},
-	'punctuation': /[{}[\];(),.:]/
+	'punctuation': clikePunctuation
 };

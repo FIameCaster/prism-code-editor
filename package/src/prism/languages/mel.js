@@ -1,14 +1,12 @@
 import { languages } from '../core.js';
+import { clikeComment } from '../utils/shared.js';
 
 var statement = {
 	pattern: /[\s\S]+/
 }
 
 statement.inside = languages.mel = {
-	'comment': {
-		pattern: /\/\/.*|\/\*[\s\S]*?\*\//,
-		greedy: true
-	},
+	'comment': clikeComment(),
 	'code': {
 		pattern: /`(?:\\.|[^\\`])*`/,
 		greedy: true,
@@ -43,5 +41,5 @@ statement.inside = languages.mel = {
 		alias: 'punctuation'
 	},
 	'operator': /\+[+=]?|-[-=]?|&&|\|\||[<>]=?|[*\/!=]=?|[%^]/,
-	'punctuation': /[.,:;?\[\](){}]/
+	'punctuation': /[.,:;?[\](){}]/
 };

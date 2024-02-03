@@ -8,4 +8,10 @@ var clikeString = () => ({
 	greedy: true
 });
 
-export { clikeComment, clikeString }
+var clikeNumber = /\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i;
+
+var clikePunctuation = /[{}[\];(),.:]/;
+
+var boolean = /\b(?:false|true)\b/;
+
+export { clikeComment, clikeString, clikeNumber, boolean, clikePunctuation }

@@ -1,9 +1,10 @@
 import { languages } from '../core.js';
+import { boolean, clikeComment } from '../utils/shared.js';
 
 languages.yang = {
 	// https://tools.ietf.org/html/rfc6020#page-34
 	// http://www.yang-central.org/twiki/bin/view/Main/YangExamples
-	'comment': /\/\*[\s\S]*?\*\/|\/\/.*/,
+	'comment': clikeComment(),
 	'string': {
 		pattern: /"(?:[^\\"]|\\.)*"|'[^']*'/,
 		greedy: true
@@ -16,7 +17,7 @@ languages.yang = {
 		pattern: /(\s)[a-z_][\w.-]*(?=:)/i,
 		lookbehind: true
 	},
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'operator': /\+/,
 	'punctuation': /[{};:]/
 };

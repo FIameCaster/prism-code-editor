@@ -13,5 +13,5 @@ languages.ichigojam = {
 	'function': /\b(?:ABS|ANA|ASC|BIN|BTN|DEC|END|FREE|HELP|HEX|I2CR|I2CW|IN|INKEY|LEN|LINE|PEEK|RND|SCR|SOUND|STR|TICK|USR|VER|VPEEK|ZER)(?:\$|\b)/i,
 	'label': /(?:\B@\S+)/,
 	'operator': /<[=>]?|>=?|\|\||&&|[+\-*\/=|&^~!]|\b(?:AND|NOT|OR)\b/i,
-	'punctuation': /[\[,;:()\]]/
+	'punctuation': /[[,;:()\]]/
 };

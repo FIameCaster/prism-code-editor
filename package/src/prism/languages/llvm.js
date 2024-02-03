@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 languages.llvm = {
 	'comment': /;.*/,
@@ -6,7 +7,7 @@ languages.llvm = {
 		pattern: /"[^"]*"/,
 		greedy: true,
 	},
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'variable': /[%@!#](?:(?!\d)(?:[-$.\w]|\\[a-f\d]{2})+|\d+)/i,
 	'label': /(?!\d)(?:[-$.\w]|\\[a-f\d]{2})+:/i,
 	'type': {

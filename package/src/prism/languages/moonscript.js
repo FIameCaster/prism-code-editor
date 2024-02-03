@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 var moonscript = {
 	pattern: /[\s\S]+/
@@ -48,7 +49,7 @@ moonscript.inside = languages.moon = languages.moonscript = {
 			'punctuation': /\./
 		}
 	},
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'number': /(?:\B\.\d+|\b\d+\.\d+|\b\d+(?=[eE]))(?:[eE][-+]?\d+)?\b|\b(?:0x[a-fA-F\d]+|\d+)(?:U?LL)?\b/,
 	'operator': /\.{3}|[-=]>|~=|(?:[-+*/%<>!=]|\.\.)=?|[:#^]|\b(?:and|or)\b=?|\b(?:not)\b/,
 	'punctuation': /[.,()[\]{}\\]/

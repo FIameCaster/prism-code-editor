@@ -44,7 +44,7 @@ var pascaligo = languages.pascaligo = {
 		/\b\d+(?:\.\d+)?(?:e[+-]?\d+)?(?:mtz|n)?/i
 	],
 	'operator': /->|=\/=|\.\.|\*\*|:=|<[<=>]?|>[>=]?|[+\-*\/]=?|[@^=|]|\b(?:and|mod|or)\b/,
-	'punctuation': /\(\.|\.\)|[()\[\]:;,.{}]/
+	'punctuation': /\(\.|\.\)|[()[\]:;,.{}]/
 };
 
 var classNameInside = ['comment', 'keyword', 'builtin', 'operator', 'punctuation'].reduce((accum, key) => {

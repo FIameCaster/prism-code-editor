@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 languages.xojo = {
 	'comment': {
-		pattern: /(?:'|\/\/|Rem\b).+/i,
+		pattern: /(?:'|\/\/|rem\b).+/i,
 		greedy: true
 	},
 	'string': {
@@ -14,10 +14,10 @@ languages.xojo = {
 		/&[bchou][a-z\d]+/i
 	],
 	'directive': {
-		pattern: /#(?:Else|ElseIf|Endif|If|Pragma)\b/i,
+		pattern: /#(?:else|elseif|endif|if|pragma)\b/i,
 		alias: 'property'
 	},
-	'keyword': /\b(?:AddHandler|App|Array|As(?:signs)?|Auto|Boolean|Break|By(?:Ref|Val)|Byte|Call|Case|Catch|CFStringRef|CGFloat|Class|Color|Const|Continue|CString|Currency|CurrentMethodName|Declare|Delegate|Dim|Do(?:uble|wnTo)?|Each|Else(?:If)?|End|Enumeration|Event|Exception|Exit|Extends|False|Finally|For|Function|Get|GetTypeInfo|Global|GOTO|If|Implements|In|Inherits|Int(?:8|16|32|64|eger|erface)?|Lib|Loop|Me|Module|Next|Nil|Object|Optional|OSType|ParamArray|Private|Property|Protected|PString|Ptr|Raise(?:Event)?|ReDim|RemoveHandler|Return|Select(?:or)?|Self|Set|Shared|Short|Single|Soft|Static|Step|String|Sub|Super|Text|Then|To|True|Try|Ubound|UInt(?:8|16|32|64|eger)?|Until|Using|Var(?:iant)?|Wend|While|WindowPtr|WString)\b/i,
-	'operator': /<[=>]?|>=?|[+\-*\/\\^=]|\b(?:AddressOf|And|Ctype|IsA?|Mod|New|Not|Or|WeakAddressOf|Xor)\b/i,
+	'keyword': /\b(?:addhandler|app|array|as(?:signs)?|auto|boolean|break|by(?:ref|val)|byte|call|case|catch|cfstringref|cgfloat|class|color|const|continue|cstring|currency|currentmethodname|declare|delegate|dim|do(?:uble|wnto)?|each|else(?:if)?|end|enumeration|event|exception|exit|extends|false|finally|for|function|get|gettypeinfo|global|goto|if|implements|in|inherits|int(?:8|16|32|64|eger|erface)?|lib|loop|me|module|next|nil|object|optional|ostype|paramarray|private|property|protected|pstring|ptr|raise(?:event)?|redim|removehandler|return|select(?:or)?|self|set|shared|short|single|soft|static|step|string|sub|super|text|then|to|true|try|ubound|uint(?:8|16|32|64|eger)?|until|using|var(?:iant)?|wend|while|windowptr|wstring)\b/i,
+	'operator': /<[=>]?|>=?|[+\-*\/\\^=]|\b(?:addressof|and|ctype|isa?|mod|new|not|or|weakaddressof|xor)\b/i,
 	'punctuation': /[.,;:()]/
 };

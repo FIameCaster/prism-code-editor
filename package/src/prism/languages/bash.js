@@ -27,7 +27,7 @@ var insideString = {
 				// If there is a $ sign at the beginning highlight $(( and )) as variable
 				'variable': [
 					{
-						pattern: /(^\$\(\([\s\S]+)\)\)/,
+						pattern: /(^\$[\s\S]+)../,
 						lookbehind: true
 					},
 					/^\$\(\(/
@@ -53,7 +53,7 @@ var insideString = {
 			greedy: true,
 			inside: {
 				'operator': /:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,
-				'punctuation': /[\[\]]/,
+				'punctuation': /[[\]]/,
 				'environment': {
 					pattern: RegExp('(\\{)' + envVars),
 					lookbehind: true,
@@ -223,4 +223,4 @@ var inside = insideString.variable[1].inside;
 	'operator',
 	'punctuation',
 	'number'
-].forEach(copied => inside[copied] = bash[copied])
+].forEach(copied => inside[copied] = bash[copied]);

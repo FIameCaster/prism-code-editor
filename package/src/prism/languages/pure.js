@@ -58,5 +58,5 @@ Object.assign(pure, {
 	// eslint-disable-next-line no-misleading-character-class
 	'operator': /(?:[!"#$%&'*+,\-.\/:<=>?@\\^`|~\xa1-\xbf\xd7-\xf7\u20d0-\u2bff]|\b_+\b)+|\b(?:and|div|mod|not|or)\b/,
 	// FIXME: How can we prevent | and , to be highlighted as operator when they are used alone?
-	'punctuation': /[(){}\[\];,|]/
+	'punctuation': /[(){}[\];,|]/
 });

@@ -1,4 +1,5 @@
 import { languages, rest } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 var interpolation = [
 	{
@@ -40,7 +41,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 			alias: 'string',
 			inside: {
 				// Matches the end tag
-				'punctuation': /(?=\S).*\S(?= *$)/,
+				'punctuation': /(?!\s).*\S(?= *$)/,
 				// See interpolation below
 				'interpolation': interpolation
 			}
@@ -53,7 +54,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 			alias: 'string',
 			inside: {
 				// Matches the end tag
-				'punctuation': /(?=\S).*\S(?= *$)/
+				'punctuation': /(?!\s).*\S(?= *$)/
 			}
 		},
 		// Matches the start tag of heredoc strings
@@ -120,7 +121,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 		/\b(?:contain|debug|err|fail|include|info|notice|realize|require|tag|warning)\b|\b(?!\d)\w+(?=\()/
 	],
 	'number': /\b(?:0x[a-f\d]+|\d+(?:\.\d+)?(?:e-?\d+)?)\b/i,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	// Includes words reserved for future use
 	'keyword': /\b(?:application|attr|case|class|consumes|default|define|else|elsif|function|if|import|inherits|node|private|produces|type|undef|unless)\b/,
 	'datatype': {
@@ -128,5 +129,5 @@ interpolation[0].inside[rest] = languages.puppet = {
 		alias: 'symbol'
 	},
 	'operator': /=[=~>]?|![=~]?|<(?:<\|?|[=~|-])?|>[>=]?|->?|~>|\|>?>?|[*\/%+?]|\b(?:and|in|or)\b/,
-	'punctuation': /[\[\]{}().,;]|:+/
+	'punctuation': /[[\]{}().,;]|:+/
 };

@@ -5,7 +5,7 @@ import './csharp.js';
 
 var pageDirectiveInside = {
 	'page-directive': {
-		pattern: /<%\s*@\s*(?:Assembly|Control|Implements|Import|Master(?:Type)?|OutputCache|Page|PreviousPageType|Reference|Register)?|%>/i,
+		pattern: /<%\s*@\s*(?:assembly|control|implements|import|master(?:type)?|outputcache|page|previouspagetype|reference|register)?|%>/i,
 		alias: 'tag'
 	}
 }

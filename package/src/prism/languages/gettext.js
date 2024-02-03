@@ -39,5 +39,5 @@ languages.po = languages.gettext = {
 	},
 	'keyword': /^msg(?:ctxt|id|id_plural|str)\b/m,
 	'number': /\b\d+\b/,
-	'punctuation': /[\[\]]/
+	'punctuation': /[[\]]/
 };

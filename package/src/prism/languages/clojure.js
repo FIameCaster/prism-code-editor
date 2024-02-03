@@ -12,7 +12,7 @@ languages.clojure = {
 	},
 	'char': /\\\w+/,
 	'symbol': {
-		pattern: /(^|[\s()\[\]{},])::?[\w*+!?'<>=/.-]+/,
+		pattern: /(^|[\s()[\]{},])::?[\w*+!?'<>=/.-]+/,
 		lookbehind: true
 	},
 	'keyword': {
@@ -29,5 +29,5 @@ languages.clojure = {
 		lookbehind: true
 	},
 	'operator': /[#@^`~]/,
-	'punctuation': /[{}\[\](),]/
+	'punctuation': /[{}[\](),]/
 };

@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment, clikePunctuation } from '../utils/shared.js';
 
 // based loosely upon: https://github.com/Azure/bicep/blob/main/src/textmate/bicep.tmlanguage
 languages.bicep = {
@@ -51,7 +51,7 @@ languages.bicep = {
 		alias: 'class-name'
 	},
 
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	// https://github.com/Azure/bicep/blob/114a3251b4e6e30082a58729f19a8cc4e374ffa6/src/textmate/bicep.tmlanguage#L184
 	'keyword': /\b(?:existing|for|if|in|module|null|output|param|resource|targetScope|var)\b/,
 
@@ -60,5 +60,5 @@ languages.bicep = {
 
 	'number': /(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:E[+-]?\d+)?/i,
 	'operator': /--|\+\+|\*\*=?|=>|&&=?|\|\|=?|[!=]==|<<=?|>>>?=?|[-+*/%&|^!=<>]=?|\.{3}|\?\?=?|\?\.?|[~:]/,
-	'punctuation': /[{}[\];(),.:]/,
+	'punctuation': clikePunctuation,
 };

@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 var keywords = /\b(?:abstype|and|andalso|as|case|datatype|do|else|end|eqtype|exception|fn|fun|functor|handle|if|in|include|infix|infixr|let|local|nonfix|of|op|open|orelse|raise|rec|sharing|sig|signature|struct|structure|then|type|val|where|while|with|withtype)\b/i;
 
@@ -55,5 +56,5 @@ class0.inside = languages.smlnj = languages.sml = {
 
 	'boolean': /\b(?:false|true)\b/i,
 	'operator': /\.{3}|:[>=:]|=>?|->|[<>]=?|[!+\-*/^#|@~]/,
-	'punctuation': /[(){}\[\].:,;]/
+	'punctuation': clikePunctuation
 };

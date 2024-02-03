@@ -1,5 +1,5 @@
 import { languages, rest } from '../core.js';
-import { clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment } from '../utils/shared.js';
 
 languages.res = languages.rescript = {
 	'comment': clikeComment(),
@@ -39,7 +39,7 @@ languages.res = languages.rescript = {
 		lookbehind: true,
 	},
 	'number': /(?:\b0x(?:[\da-f]+(?:\.[\da-f]*)?|\.[\da-f]+)(?:p[+-]?\d+)?|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)[ful]{0,4}/i,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'attr-value': /[A-Za-z]\w*(?==)/,
 	'constant': {
 		pattern: /(\btype\s+)[a-z]\w*/,

@@ -1,5 +1,6 @@
 import { languages, rest } from '../core.js';
 import { clone, insertBefore } from '../utils/language.js';
+import { boolean } from '../utils/shared.js';
 import './markup.js';
 
 var vel = languages.velocity = clone(languages.html);
@@ -16,7 +17,7 @@ var velocity = {
 		greedy: true
 	},
 	'number': /\b\d+\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'operator': /[=!<>]=?|[+*/%-]|&&|\|\||\.\.|\b(?:eq|g[et]|l[et]|n(?:e|ot))\b/,
 	'punctuation': /[(){}[\]:,.]/
 };

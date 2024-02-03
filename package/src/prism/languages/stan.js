@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 // https://mc-stan.org/docs/2_28/reference-manual/bnf-grammars.html
 
@@ -51,8 +52,8 @@ expression.inside = languages.stan = {
 	],
 	'function': /\b[a-z]\w*(?=\s*\()/i,
 	'number': /(?:\b\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\B\.\d+(?:_\d+)*)(?:E[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 
 	'operator': /<-|\.[*/]=?|\|\|?|&&|[!=<>+\-*/]=?|['^%~?:]/,
-	'punctuation': /[()\[\]{},;]/
+	'punctuation': /[()[\]{},;]/
 };

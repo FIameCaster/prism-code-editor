@@ -1,4 +1,5 @@
 import { languages, tokenize, tokenizeText } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 
@@ -23,9 +24,8 @@ var constant = [
 ];
 var number = /\b0b[01]+(?:_[01]+)*\b|\b0o[0-7]+(?:_[0-7]+)*\b|\b0x[\da-f]+(?:_[\da-f]+)*\b|(?:\b\d+(?:_\d+)*\.?(?:\d+(?:_\d+)*)?|\B\.\d+)(?:e[+-]?\d+)?/i;
 var operator = /<?=>|\?\?=?|\.{3}|\??->|[!=]=?=?|::|\*\*=?|--|\+\+|&&|\|\||<<|>>|[?~]|[/^|%*&<>.+-]=?/;
-var punctuation = /[{}\[\](),:;]/;
 var stringInterpolation = {
-	pattern: /\{\$(?:\{(?:\{[^{}]+\}|[^{}]+)\}|[^{}])+\}|(^|[^\\{])\$+(?:\w+(?:\[[^\n\[\]]+\]|->\w+)?)/,
+	pattern: /\{\$(?:\{(?:\{[^{}]+\}|[^{}]+)\}|[^{}])+\}|(^|[^\\{])\$+(?:\w+(?:\[[^\n[\]]+\]|->\w+)?)/,
 	lookbehind: true
 };
 var string = [
@@ -122,7 +122,7 @@ var php = stringInterpolation.inside = {
 					'constant': constant,
 					'number': number,
 					'operator': operator,
-					'punctuation': punctuation
+					'punctuation': clikePunctuation
 				}
 			},
 			'delimiter': {
@@ -316,7 +316,7 @@ var php = stringInterpolation.inside = {
 	},
 	'number': number,
 	'operator': operator,
-	'punctuation': punctuation
+	'punctuation': clikePunctuation
 };
 
 var embedded = embeddedIn('html');

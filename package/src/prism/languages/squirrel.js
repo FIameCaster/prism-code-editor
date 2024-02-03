@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean, clikePunctuation } from '../utils/shared.js';
 
 languages.squirrel = {
 	'comment': {
@@ -24,7 +25,7 @@ languages.squirrel = {
 		}
 	},
 	'keyword': /\b(?:__FILE__|__LINE__|base|break|case|catch|class|clone|const|constructor|continue|default|delete|else|enum|extends|for|foreach|function|if|in|instanceof|local|null|resume|return|static|switch|this|throw|try|typeof|while|yield)\b/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'function': /\b\w+(?=\()/,
 	'number': /\b(?:0x[0-9a-fA-F]+|\d+(?:\.(?:\d+|[eE][+-]?\d+))?)\b/,
 	'attribute-punctuation': {
@@ -36,5 +37,5 @@ languages.squirrel = {
 		alias: 'operator'
 	},
 	'operator': /\+\+|--|<=>|<[-<]|>>>?|&&?|\|\|?|[-+*/%!=<>]=?|[~^]|::?/,
-	'punctuation': /[(){}\[\],;.]/
+	'punctuation': clikePunctuation
 };

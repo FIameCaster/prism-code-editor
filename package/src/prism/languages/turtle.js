@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { boolean } from '../utils/shared.js';
 
 languages.trig = languages.turtle = {
 	'comment': {
@@ -41,7 +42,7 @@ languages.trig = languages.turtle = {
 	},
 	'number': /[+-]?\b\d+(?:\.\d*)?(?:e[+-]?\d+)?/i,
 	'punctuation': /[{}.,;()[\]]|\^\^/,
-	'boolean': /\b(?:false|true)\b/,
+	'boolean': boolean,
 	'keyword': [
 		/(?:\ba|@prefix|@base)\b|=/,
 		/\b(?:base|graph|prefix)\b/i

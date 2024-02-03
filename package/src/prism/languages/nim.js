@@ -42,5 +42,5 @@ languages.nim = {
 		pattern: /(^|[({\[](?=\.\.)|(?![({\[]\.).)(?:(?:[=+\-*\/<>@$~&%|!?^:\\]|\.\.|\.(?![)}\]]))+|\b(?:and|div|in|is|isnot|mod|not|notin|of|or|shl|shr|xor)\b)/m,
 		lookbehind: true
 	},
-	'punctuation': /[({\[]\.|\.[)}\]]|[`(){}\[\],:]/
+	'punctuation': /[({[]\.|\.[)}\]]|[`(){}[\],:]/
 };

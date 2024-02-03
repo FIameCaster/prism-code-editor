@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 languages.cypher = {
 	// https://neo4j.com/docs/cypher-manual/current/syntax/comments/
@@ -34,5 +35,5 @@ languages.cypher = {
 	'number': /\b(?:0x[\da-fA-F]+|\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)\b/,
 	// https://neo4j.com/docs/cypher-manual/current/syntax/operators/
 	'operator': /:|<--?|--?>?|<>|=~?|[<>]=?|[+*/%^|]|\.\.\.?/,
-	'punctuation': /[()[\]{},;.]/
+	'punctuation': clikePunctuation
 };

@@ -1,10 +1,8 @@
 import { languages } from '../core.js';
+import { clikeComment } from '../utils/shared.js';
 
 languages.verilog = {
-	'comment': {
-		pattern: /\/\/.*|\/\*[\s\S]*?\*\//,
-		greedy: true
-	},
+	'comment': clikeComment(),
 	'string': {
 		pattern: /"(?:\\[\s\S]|[^"\\\n])*"/,
 		greedy: true
