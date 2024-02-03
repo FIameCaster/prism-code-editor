@@ -24,33 +24,25 @@ var tokenizeText = (text, grammar) => (grammar[tokenize] || withoutTokenizer)(te
  * @param {any} grammar 
  */
 var withoutTokenizer = (text, grammar) => {
-	var head = {};
-	var tail = { prev: head };
-	var tokenList = {
-		head, tail, length: 0
-	};
-	var restGrammar = resolve(grammar[rest]);
+	var startNode = [text];
+	var restGrammar;
 	var array = [], i = 0;
-	head.next = tail;
-	if (restGrammar) {
-		Object.assign(grammar, restGrammar);
+	while (restGrammar = resolve(grammar[rest])) {
 		delete grammar[rest];
+		Object.assign(grammar, restGrammar);
 	}
 
-	addAfter(tokenList, head, text);
-	matchGrammar(text, tokenList, grammar, head, 0);
-	
-	while ((head = head.next) != tail) {
-		array[i++] = head.value;
-	}
+	matchGrammar(text, grammar, startNode, 0);
+
+	while (array[i++] = startNode[0], startNode = startNode[1]);
 	return array;
 }
 
 var closingTag = "</span>";
-var openingTags;
-var closingTags;
+var openingTags = "";
+var closingTags = "";
 
-var stringifyAll = tokens => {
+var highlightTokens = tokens => {
 	var str = "", l = tokens.length, i = 0;
 	while (i < l) str += stringify(tokens[i++]);
 	return str;
@@ -74,7 +66,7 @@ var stringify = token => {
 		return opening + contentStr + closingTag;
 	}
 
-	if (typeof token != 'string') return stringifyAll(token);
+	if (typeof token != 'string') return highlightTokens(token);
 
 	token = token.replace(/&/g, "&amp;").replace(/</g, "&lt;");
 	if (closingTags && token.includes("\n")) {
@@ -83,205 +75,132 @@ var stringify = token => {
 	return token;
 }
 
-var highlightTokens = tokens => {
-	openingTags = "";
-	closingTags = "";
-	return stringifyAll(tokens);
-}
-
 var highlight = (text, ref) => highlightTokens(tokenizeText(text, resolve(ref)));
 
 /**
- * @param {RegExp} pattern
  * @param {string} text
- * @param {boolean} lookbehind
- * @param {number} pos
- * @returns {RegExpExecArray | null}
- */
-var matchPattern = (pattern, text, lookbehind, pos) => {
-	pattern.lastIndex = pos;
-	var match = pattern.exec(text);
-	if (match && lookbehind && match[1]) {
-		// change the match to remove the text matched by the Prism lookbehind group
-		var lookbehindLength = match[1].length;
-		match.index += lookbehindLength;
-		match[0] = match[0].slice(lookbehindLength);
-	}
-	return match;
-}
-
-/**
- * @typedef LinkedListNode
- * @property {string | Token} value
- * @property {LinkedListNode | null} prev The previous node.
- * @property {LinkedListNode | null} next The next node.
- */
-
-/**
- * @typedef LinkedList
- * @property {LinkedListNode | null} head
- * @property {LinkedListNode | null} tail
- * @property {number} length
- */
-
-/**
- * @param {string} text
- * @param {LinkedList} tokenList
  * @param {any} grammar
  * @param {LinkedListNode} startNode
  * @param {number} startPos
- * @param {RematchOptions} [rematch]
- * @returns {void}
+ * @param {[string, number, number]} rematch
+ * @returns {number | undefined}
  * @private
- *
- * @typedef {{ t: string, i: number, r: number }} RematchOptions
+ * 
+ * @typedef {[string | Token, LinkedListNode?]} LinkedListNode
  */
-var matchGrammar = (text, tokenList, grammar, startNode, startPos, rematch) => {
+var matchGrammar = (text, grammar, startNode, startPos, rematch) => {
 	for (var token in grammar) {
 		if (grammar[token]) for (var j = 0, p = grammar[token], patterns = Array.isArray(p) ? p : [p]; j < patterns.length; ++j) {
-			if (rematch && rematch.i == j && rematch.t == token) {
+			if (rematch && rematch[0] == token && rematch[1] == j) {
 				return;
 			}
 
+			var currentNode = startNode;
+			var pos = startPos;
 			var patternObj = patterns[j];
+			/** @type {RegExp} */
+			var pattern = patternObj.pattern || patternObj;
 			var inside = resolve(patternObj.inside);
 			var lookbehind = patternObj.lookbehind;
 			var greedy = patternObj.greedy;
 			var alias = patternObj.alias;
 
-			/** @type {RegExp} */
-			var pattern = patternObj.pattern || patternObj;
 			if (greedy && !pattern.global) {
 				// Without the global flag, lastIndex won't work
 				pattern = patternObj.pattern = RegExp(pattern.source, 'g' + pattern.flags);
 			}
-			
-			for ( // iterate the token list and keep track of the current token/string position
-				var currentNode = startNode.next, pos = startPos;
-				currentNode != tokenList.tail && (!rematch || pos < rematch.r);
-				pos += currentNode.value.length, currentNode = currentNode.next
-			) {
-				var str = currentNode.value;
 
-				if (tokenList.length > text.length) {
-					// Something went terribly wrong, ABORT, ABORT!
-					return;
-				}
+			for ( // iterate the token list and keep track of the current token/string position
+				;
+				currentNode && (!rematch || pos < rematch[2]);
+				pos += currentNode[0].length, currentNode = currentNode[1]
+			) {
+				var str = currentNode[0];
+				var removeCount = 0;
+				var match, lookbehindLength;
 
 				if (str instanceof Token) {
 					continue;
 				}
 
-				var removeCount = 1; // this is the to parameter of removeBetween
-				var match;
+				pattern.lastIndex = greedy ? pos : 0;
+				match = pattern.exec(greedy ? text : str);
+
+				if (match && lookbehind && match[1]) {
+					// change the match to remove the text matched by the Prism lookbehind group
+					lookbehindLength = match[1].length;
+					match.index += lookbehindLength;
+					match[0] = match[0].slice(lookbehindLength);
+				}
 
 				if (greedy) {
-					match = matchPattern(pattern, text, lookbehind, pos);
-					if (!match || match.index >= text.length) {
+					if (!match) {
 						break;
 					}
 
-					var from = match.index;
-					var to = from + match[0].length;
+					if (match[0]) {
+						// find the node that contains the match
+						for (
+							var from = match.index, to = from + match[0].length, l;
+							from >= pos + (l = currentNode[0].length);
+							currentNode = currentNode[1], pos += l
+						);
 
-					// find the node that contains the match
-					while (from >= (pos += currentNode.value.length)) {
-						currentNode = currentNode.next;
-					}
-					// adjust pos
-					pos -= currentNode.value.length;
+						// the current node is a Token, then the match starts inside another Token, which is invalid
+						if (currentNode[0] instanceof Token) {
+							continue;
+						}
 
-					// the current node is a Token, then the match starts inside another Token, which is invalid
-					if (currentNode.value instanceof Token) {
-						continue;
-					}
+						// find the last node which is affected by this match
+						for (
+							var k = currentNode, p = pos;
+							(p += k[0].length) < to;
+							k = k[1], removeCount++
+						);
 
-					// find the last node which is affected by this match
-					for (
-						var k = currentNode, p = pos;
-						k != tokenList.tail && (p < to || typeof k.value == 'string');
-						k = k.next
-					) {
-						removeCount++;
-						p += k.value.length;
+						// replace with the new match
+						str = text.slice(pos, p);
+						match.index -= pos;
 					}
-					removeCount--;
-
-					// replace with the new match
-					str = text.slice(pos, p);
-					match.index -= pos;
-				} else {
-					match = matchPattern(pattern, str, lookbehind, 0);
-					if (!match) {
-						continue;
-					}
+				}
+				if (!(match && match[0])) {
+					continue;
 				}
 
 				// eslint-disable-next-line no-redeclare
 				var from = match.index;
 				var matchStr = match[0];
-				var before = str.slice(0, from);
 				var after = str.slice(from + matchStr.length);
 				var reach = pos + str.length;
-				var removeFrom = currentNode.prev;
+				var newToken = new Token(token, inside ? tokenizeText(matchStr, inside) : matchStr, matchStr, alias);
+				var next = currentNode, i = 0;
+				var nestedRematch;
 
-				if (rematch && reach > rematch.r) {
-					rematch.r = reach;
-				}
-
-				if (before) {
-					removeFrom = addAfter(tokenList, removeFrom, before);
-					pos += before.length;
-				}
-
-				var next = removeFrom.next, i = 0;
-				for (; i < removeCount && next != tokenList.tail; i++) {
-					next = next.next;
-				}
-				removeFrom.next = next;
-				next.prev = removeFrom;
-				tokenList.length -= i;
-				
-				currentNode = addAfter(
-					tokenList,
-					removeFrom,
-					new Token(token, inside ? tokenizeText(matchStr, inside) : matchStr, matchStr, alias)
-				);
+				while (next = next[1], i++ < removeCount);
 
 				if (after) {
-					addAfter(tokenList, currentNode, after);
-				}
+					if (!next || next[0] instanceof Token) next = [after, next];
+					else next[0] = after + next[0];
+				};
 
-				if (removeCount > 1) {
+				pos += from;
+				currentNode[0] = from ? str.slice(0, from) : newToken;
+
+				if (from) currentNode = currentNode[1] = [newToken, next];
+				else currentNode[1] = next;
+
+				if (removeCount) {
 					// at least one Token object was removed, so we have to do some rematching
 					// this can only happen if the current pattern is greedy
 
-					/** @type {RematchOptions} */
-					var nestedRematch = {t: token, i: j, r: reach};
-					matchGrammar(text, tokenList, grammar, currentNode.prev, pos, nestedRematch);
-
-					// the reach might have been extended because of the rematching
-					if (rematch && nestedRematch.r > rematch.r) {
-						rematch.r = nestedRematch.r;
-					}
+					matchGrammar(text, grammar, currentNode, pos, nestedRematch = [token, j, reach]);
+					reach = nestedRematch[2];
 				}
+
+				if (rematch && reach > rematch[2]) rematch[2] = reach;
 			}
 		}
 	}
-}
-
-/**
- * Adds a new node with the given value to the list.
- *
- * @param {LinkedList} list
- * @param {LinkedListNode} node
- * @param {string | Token} value
- * @returns {LinkedListNode} The added node.
- */
-var addAfter = (list, node, value) => {
-	// assumes that node != list.tail && values.length >= 0
-	list.length++;
-	return node.next = node.next.prev = { value, prev: node, next: node.next };
 }
 
 /**
