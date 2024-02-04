@@ -55,7 +55,8 @@ var stringify = token => {
 		var prevOpening = openingTags;
 		var prevClosing = closingTags;
 		var opening = `<span class="token ${
-			type + (alias ? ' ' + alias : '') + (type == 'keyword' ? ' keyword-' + content : '')
+			type + (alias ? ' ' + alias : '') + 
+			(type == 'keyword' && typeof content == 'string' ? ' keyword-' + content : '')
 		}">`;
 
 		closingTags += closingTag;
