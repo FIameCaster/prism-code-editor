@@ -1,6 +1,8 @@
-import fs from "node:fs"
+import fs from "node:fs/promises"
 
-const files = fs.readdirSync(new URL("../src/prism/languages", import.meta.url))
+const files = (await fs.readdir(new URL("../src/prism/languages", import.meta.url))).filter(
+	name => name != "common.js" && name != "index.js",
+)
 
 /** @type {Record<string, string[]>} */
 const depsMap = {}
@@ -9,10 +11,9 @@ Promise.all(
 	files.map(async file => {
 		const name = file.slice(0, -3)
 		depsMap[name] = []
-		const code = await fs.promises.readFile(
-			new URL("../src/prism/languages/" + file, import.meta.url),
-			{ encoding: "utf-8" },
-		)
+		const code = await fs.readFile(new URL("../src/prism/languages/" + file, import.meta.url), {
+			encoding: "utf-8",
+		})
 		depsMap[name] = (code.match(/import '\.\/[^.]+\.js';/g) || []).map(str => str.slice(10, -5))
 	}),
 ).then(() => {
@@ -33,7 +34,7 @@ Promise.all(
 		return deps
 	}
 
-	for (let file in depsMap) {
+	for (const file in depsMap) {
 		const arr = []
 		for (const dep of addDeps(file, new Set())) {
 			arr.push(`"${dep}"`)
@@ -41,5 +42,8 @@ Promise.all(
 		lines.push(`\t"${file}": [${arr.join(", ")}]`)
 	}
 
-	fs.promises.writeFile("./src/prism/tests/dependencies.json", `{\n${lines.join(",\n")}\n}\n`)
+	fs.writeFile(
+		new URL("../src/prism/tests/dependencies.json", import.meta.url),
+		`{\n${lines.join(",\n")}\n}\n`,
+	)
 })

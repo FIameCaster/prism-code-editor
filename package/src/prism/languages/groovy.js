@@ -1,6 +1,5 @@
 import { languages } from '../core.js';
-import { extend, insertBefore } from '../utils/language.js';
-import './clike.js';
+import { boolean, clikeComment } from '../utils/shared.js';
 
 var expression = {
 	pattern: /[\s\S]+/
@@ -18,47 +17,48 @@ var interpolation = {
 	}
 };
 
-var groovy = expression.inside = languages.groovy = extend('clike', {
-	'string': {
-		// https://groovy-lang.org/syntax.html#_dollar_slashy_string
-		pattern: /'''(?:[^\\]|\\[\s\S])*?'''|'(?:\\.|[^\\'\n])*'/,
-		greedy: true
-	},
-	'keyword': /\b(?:abstract|as|assert|boolean|break|byte|case|catch|char|class|const|continue|def|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|in|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|trait|transient|try|void|volatile|while)\b/,
-	'number': /\b(?:0b[01_]+|0x[\da-f_]+(?:\.[\da-f_p\-]+)?|[\d_]+(?:\.[\d_]+)?(?:e[+-]?\d+)?)[glidf]?\b/i,
-	'operator': {
-		pattern: /(^|[^.])(?:~|==?~?|\?[.:]?|\*(?:[.=]|\*=?)?|\.[@&]|\.\.<|\.\.(?!\.)|-[-=>]?|\+[+=]?|!=?|<(?:<=?|=>?)?|>(?:>>?=?|=)?|&[&=]?|\|[|=]?|\/=?|\^=?|%=?)/,
-		lookbehind: true
-	},
-	'punctuation': /\.+|[{}[\];(),:$]/
-});
-
-insertBefore(groovy, 'string', {
+expression.inside = languages.groovy = {
+	'comment': clikeComment(),
 	'shebang': {
-		pattern: /#!.+/,
+		pattern: /#!.+/g,
 		alias: 'comment',
 		greedy: true
 	},
 	'interpolation-string': {
 		// TODO: Slash strings (e.g. /foo/) can contain line breaks but this will cause a lot of trouble with
 		// simple division (see JS regex), so find a fix maybe?
-		pattern: /"""(?:[^\\]|\\[\s\S])*?"""|(["/])(?:\\.|(?!\1)[^\\\n])*\1|\$\/(?:[^/$]|\$(?:[/$]|(?![/$]))|\/(?!\$))*\/\$/,
+		pattern: /"""(?:[^\\]|\\[\s\S])*?"""|(["/])(?:\\.|(?!\1)[^\\\n])*\1|\$\/(?:[^/$]|\$(?:[/$]|(?![/$]))|\/(?!\$))*\/\$/g,
 		greedy: true,
 		inside: {
 			'interpolation': interpolation,
 			'string': /[\s\S]+/
 		}
-	}
-});
-
-insertBefore(groovy, 'punctuation', {
-	'spock-block': /\b(?:and|cleanup|expect|given|setup|then|when|where):/
-});
-
-insertBefore(groovy, 'function', {
+	},
+	'string': {
+		// https://groovy-lang.org/syntax.html#_dollar_slashy_string
+		pattern: /'''(?:[^\\]|\\[\s\S])*?'''|'(?:\\.|[^\\'\n])*'/g,
+		greedy: true
+	},
+	'class-name': {
+		pattern: /(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,
+		lookbehind: true,
+		inside: {
+			'punctuation': /[.\\]/
+		}
+	},
+	'keyword': /\b(?:abstract|as|assert|boolean|break|byte|case|catch|char|class|const|continue|def|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|in|instanceof|int|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throw|throws|trait|transient|try|void|volatile|while)\b/,
+	'boolean': boolean,
 	'annotation': {
 		pattern: /(^|[^.])@\w+/,
 		lookbehind: true,
 		alias: 'punctuation'
-	}
-});
+	},
+	'function': /\b\w+(?=\()/,
+	'number': /\b(?:0b[01_]+|0x[\da-f_]+(?:\.[\da-f_p\-]+)?|[\d_]+(?:\.[\d_]+)?(?:e[+-]?\d+)?)[glidf]?\b/i,
+	'operator': {
+		pattern: /(^|[^.])(?:~|==?~?|\?[.:]?|\*(?:[.=]|\*=?)?|\.[@&]|\.\.<|\.\.(?!\.)|-[-=>]?|\+[+=]?|!=?|<(?:<=?|=>?)?|>(?:>>?=?|=)?|&[&=]?|\|[|=]?|\/=?|\^=?|%=?)/,
+		lookbehind: true
+	},
+	'spock-block': /\b(?:and|cleanup|expect|given|setup|then|when|where):/,
+	'punctuation': /\.+|[{}[\];(),:$]/
+};
