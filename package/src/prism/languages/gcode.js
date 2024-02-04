@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.gcode = {
 	'comment': /;.*|\B\(.*?\)\B/,
 	'string': {
-		pattern: /"(?:""|[^"])*"/,
+		pattern: /"(?:""|[^"])*"/g,
 		greedy: true
 	},
 	'keyword': /\b[GM]\d+(?:\.\d+)?\b/,

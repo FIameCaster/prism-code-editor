@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 
 var string = {
-	pattern: /"(?:`[\s\S]|[^`"])*"/,
+	pattern: /"(?:`[\s\S]|[^`"])*"/g,
 	greedy: true
 };
 
@@ -13,7 +13,7 @@ var powershell = languages.powershell = {
 	'string': [
 		string,
 		{
-			pattern: /'(?:[^']|'')*'/,
+			pattern: /'(?:[^']|'')*'/g,
 			greedy: true
 		}
 	],

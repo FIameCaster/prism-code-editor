@@ -11,7 +11,7 @@ languages.tap = {
 	'version': /TAP version \d+/i,
 	'plan': /\b\d+\.\.\d+(?: +#.*)?/,
 	'subtest': {
-		pattern: /# Subtest(?:: .*)?/,
+		pattern: /# Subtest(?:: .*)?/g,
 		greedy: true
 	},
 	'punctuation': /[{}]/,

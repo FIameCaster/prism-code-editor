@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.r = {
 	'comment': /#.*/,
 	'string': {
-		pattern: /(['"])(?:\\.|(?!\1)[^\\\n])*\1/,
+		pattern: /(['"])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 	'percent-operator': {

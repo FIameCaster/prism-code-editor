@@ -8,12 +8,12 @@ import { languages } from '../core.js';
 languages.log = {
 	'string': {
 		// Single-quoted strings must not be confused with plain text. E.g. Can't isn't Susan's Chris' toy
-		pattern: /"(?:[^"\\\n]|\\.)*"|'(?![st] | \w)(?:[^'\\\n]|\\.)*'/,
+		pattern: /"(?:[^"\\\n]|\\.)*"|'(?![st] | \w)(?:[^'\\\n]|\\.)*'/g,
 		greedy: true,
 	},
 
 	'exception': {
-		pattern: /(^|[^\w.])[a-z][\w.]*(?:Error|Exception):.*(?:\n[ \t]*(?:at[ \t].+|\.{3}.*|Caused by:.*))+(?:\n[ \t]*\.{3} .*)?/,
+		pattern: /(^|[^\w.])[a-z][\w.]*(?:Error|Exception):.*(?:\n[ \t]*(?:at[ \t].+|\.{3}.*|Caused by:.*))+(?:\n[ \t]*\.{3} .*)?/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-javastacktrace',
@@ -89,7 +89,7 @@ languages.log = {
 	},
 
 	'file-path': {
-		pattern: /\b[a-z]:[\\/][^\s|,;:(){}[\]"']+|(^|[\s:[\](>|])\.{0,2}\/\w[^\s|,;:(){}[\]"']*/i,
+		pattern: /\b[a-z]:[\\/][^\s|,;:(){}[\]"']+|(^|[\s:[\](>|])\.{0,2}\/\w[^\s|,;:(){}[\]"']*/gi,
 		lookbehind: true,
 		greedy: true,
 		alias: 'string'

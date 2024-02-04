@@ -15,7 +15,7 @@ var inner = /(?:\\.|[^\\\n]|\n(?!\n))/.source;
  * @param {RegExp} pattern
  * @returns {RegExp}
  */
-var createInline = pattern => RegExp(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern.source.replace(/<inner>/g, inner)})`);
+var createInline = pattern => RegExp(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern.source.replace(/<inner>/g, inner)})`, 'g');
 var tableCell = /(?:\\.|``(?:[^`\n]|`(?!`))+``|`[^`\n]+`|[^\\|\n`])+/.source;
 var tableRow = /\|?__(?:\|__)+\|?(?:\n|(?![\s\S]))/.source.replace(/__/g, tableCell);
 var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?\n/.source;
@@ -23,7 +23,7 @@ var markdown = languages.markdown = languages.md = clone(languages.html);
 
 insertBefore(markdown, 'prolog', {
 	'front-matter-block': {
-		pattern: /(^(?:\s*\n)?)---(?!.)[\s\S]*?\n---(?!.)/,
+		pattern: /(^(?:\s*\n)?)---(?!.)[\s\S]*?\n---(?!.)/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -85,7 +85,7 @@ insertBefore(markdown, 'prolog', {
 			// ```optional language
 			// code block
 			// ```
-			pattern: /^```[\s\S]*?^```$/m,
+			pattern: /^```[\s\S]*?^```$/mg,
 			greedy: true,
 			inside: {
 				'punctuation': /^```+|```$/,
@@ -222,7 +222,7 @@ insertBefore(markdown, 'prolog', {
 	'code-snippet': {
 		// `code`
 		// ``code``
-		pattern: /(^|[^\\`])(?:``[^`\n]+(?:`[^`\n]+)*``(?!`)|`[^`\n]+`(?!`))/,
+		pattern: /(^|[^\\`])(?:``[^`\n]+(?:`[^`\n]+)*``(?!`)|`[^`\n]+`(?!`))/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'code keyword'

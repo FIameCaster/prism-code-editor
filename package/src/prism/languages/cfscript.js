@@ -15,7 +15,7 @@ var cfc = languages.cfc = languages.cfscript = extend('clike', {
 			}
 		},
 		{
-			pattern: /\/\/.*/,
+			pattern: /\/\/.*/g,
 			greedy: true
 		}
 	],

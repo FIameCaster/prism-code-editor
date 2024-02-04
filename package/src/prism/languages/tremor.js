@@ -25,7 +25,7 @@ languages.trickle = languages.troy = languages.tremor = {
 		}
 	},
 	'extractor': {
-		pattern: /\b[a-z_]\w*\|(?:[^\n\\|]|\\[\s\S])*\|/i,
+		pattern: /\b[a-z_]\w*\|(?:[^\n\\|]|\\[\s\S])*\|/gi,
 		greedy: true,
 		inside: {
 			'regex': {
@@ -37,7 +37,7 @@ languages.trickle = languages.troy = languages.tremor = {
 		}
 	},
 	'identifier': {
-		pattern: /`[^`]*`/,
+		pattern: /`[^`]*`/g,
 		greedy: true
 	},
 

@@ -35,7 +35,7 @@ insertBefore(markupLatte.tag.inside, 'attr-value', {
 
 languages.latte = {
 	'latte-comment': {
-		pattern: /\{\*[\s\S]*?\*\}/,
+		pattern: /\{\*[\s\S]*?\*\}/g,
 		greedy: true,
 		alias: 'comment'
 	},

@@ -11,7 +11,7 @@ languages.oscript = languages.bsl = {
 		// Строки
 		// Strings
 		{
-			pattern: /"(?:[^"]|"")*"(?!")/,
+			pattern: /"(?:[^"]|"")*"(?!")/g,
 			greedy: true
 		},
 		// Дата и время
@@ -47,29 +47,21 @@ languages.oscript = languages.bsl = {
 			pattern: /\b(?:and|not|or)\b/i
 		}
 	],
-	'punctuation': /\(\.|\.\)|[()\[\]:;,.]/,
-	'directive': [
-		// Теги препроцессора вида &Клиент, &Сервер, ...
-		// Preprocessor tags of the type &Client, &Server, ...
-		{
-			pattern: /^([ \t]*)&.*/m,
-			lookbehind: true,
-			greedy: true,
-			alias: 'important'
-		},
-		// Инструкции препроцессора вида:
-		// #Если Сервер Тогда
-		// ...
-		// #КонецЕсли
-		// Preprocessor instructions of the form:
-		// #If Server Then
-		// ...
-		// #EndIf
-		{
-			pattern: /^([ \t]*)#.*/gm,
-			lookbehind: true,
-			greedy: true,
-			alias: 'important'
-		}
-	]
+	'punctuation': /\(\.|\.\)|[()[\]:;,.]/,
+	// Теги препроцессора вида &Клиент, &Сервер, ...
+	// Preprocessor tags of the type &Client, &Server, ...
+	// Инструкции препроцессора вида:
+	// #Если Сервер Тогда
+	// ...
+	// #КонецЕсли
+	// Preprocessor instructions of the form:
+	// #If Server Then
+	// ...
+	// #EndIf
+	'directive': {
+		pattern: /^([ \t]*)[&#].*/gm,
+		lookbehind: true,
+		greedy: true,
+		alias: 'important'
+	}
 };

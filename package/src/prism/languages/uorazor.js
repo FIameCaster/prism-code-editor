@@ -2,17 +2,17 @@ import { languages } from '../core.js';
 
 languages.uorazor = {
 	'comment-hash': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		alias: 'comment',
 		greedy: true
 	},
 	'comment-slash': {
-		pattern: /\/\/.*/,
+		pattern: /\/\/.*/g,
 		alias: 'comment',
 		greedy: true
 	},
 	'string': {
-		pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/,
+		pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/g,
 		inside: {
 			'punctuation': /^['"]|['"]$/
 		},

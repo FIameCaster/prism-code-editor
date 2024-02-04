@@ -9,11 +9,11 @@ var expression = {
 
 expression.inside = languages.gni = languages.gn = {
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 	'string-literal': {
-		pattern: /(^|[^\\"])"(?:[^\n"\\]|\\.)*"/,
+		pattern: /(^|[^\\"])"(?:[^\n"\\]|\\.)*"/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {

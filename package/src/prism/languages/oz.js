@@ -2,15 +2,15 @@ import { languages } from '../core.js';
 
 languages.oz = {
 	'comment': {
-		pattern: /\/\*[\s\S]*?\*\/|%.*/,
+		pattern: /\/\*[\s\S]*?\*\/|%.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:[^"\\]|\\[\s\S])*"/,
+		pattern: /"(?:[^"\\]|\\[\s\S])*"/g,
 		greedy: true
 	},
 	'atom': {
-		pattern: /'(?:[^'\\]|\\[\s\S])*'/,
+		pattern: /'(?:[^'\\]|\\[\s\S])*'/g,
 		greedy: true,
 		alias: 'builtin'
 	},

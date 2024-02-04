@@ -5,7 +5,7 @@ var coreRules = '(?:ALPHA|BIT|CHAR|CR|CRLF|CTL|DIGIT|DQUOTE|HEXDIG|HTAB|LF|LWSP|
 languages.abnf = {
 	'comment': /;.*/,
 	'string': {
-		pattern: /(?:%[is])?"[^"\n]*"/,
+		pattern: /(?:%[is])?"[^"\n]*"/g,
 		greedy: true,
 		inside: {
 			'punctuation': /^%./

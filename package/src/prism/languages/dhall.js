@@ -15,7 +15,7 @@ expression.inside = languages.dhall = {
 	//   \{-(?:[^-{]|-(?!\})|\{(?!-)|<SELF>)*-\}
 	'comment': /--.*|\{-(?:[^-{]|-(?!\})|\{(?!-)|\{-(?:[^-{]|-(?!\})|\{(?!-))*-\})*-\}/,
 	'string': {
-		pattern: /"(?:[^"\\]|\\.)*"|''(?:[^']|'(?!')|'''|''\$\{)*''(?!'|\$)/,
+		pattern: /"(?:[^"\\]|\\.)*"|''(?:[^']|'(?!')|'''|''\$\{)*''(?!'|\$)/g,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -28,17 +28,17 @@ expression.inside = languages.dhall = {
 		}
 	},
 	'label': {
-		pattern: /`[^`]*`/,
+		pattern: /`[^`]*`/g,
 		greedy: true
 	},
 	'url': {
 		// https://github.com/dhall-lang/dhall-lang/blob/5fde8ef1bead6fb4e999d3c1ffe7044cd019d63a/standard/dhall.abnf#L596
-		pattern: /\bhttps?:\/\/[\w.:%!$&'*+;=@~-]+(?:\/[\w.:%!$&'*+;=@~-]*)*(?:\?[/?\w.:%!$&'*+;=@~-]*)?/,
+		pattern: /\bhttps?:\/\/[\w.:%!$&'*+;=@~-]+(?:\/[\w.:%!$&'*+;=@~-]*)*(?:\?[/?\w.:%!$&'*+;=@~-]*)?/g,
 		greedy: true
 	},
 	'env': {
 		// https://github.com/dhall-lang/dhall-lang/blob/5fde8ef1bead6fb4e999d3c1ffe7044cd019d63a/standard/dhall.abnf#L661
-		pattern: /\benv:(?:(?!\d)\w+|"(?:[^"\\=]|\\.)*")/,
+		pattern: /\benv:(?:(?!\d)\w+|"(?:[^"\\=]|\\.)*")/g,
 		greedy: true,
 		inside: {
 			'function': /^env/,

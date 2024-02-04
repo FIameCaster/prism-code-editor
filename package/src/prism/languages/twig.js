@@ -4,12 +4,12 @@ import './markup.js';
 
 languages.twig = {
 	'twig-comment': {
-		pattern: /\{#[\s\S]*?#\}/,
+		pattern: /\{#[\s\S]*?#\}/g,
 		greedy: true,
 		alias: 'comment'
 	},
 	'twig': {
-		pattern: /\{(?:#[\s\S]*?#|%[\s\S]*?%|\{[\s\S]*?\})\}/,
+		pattern: /\{(?:#[\s\S]*?#|%[\s\S]*?%|\{[\s\S]*?\})\}/g,
 		greedy: true,
 		inside: {
 			'tag-name': {

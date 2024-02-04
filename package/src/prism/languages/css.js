@@ -1,6 +1,6 @@
 import { languages, rest } from '../core.js';
 
-var string = /(?:"(?:\\[\s\S]|[^"\\\n])*"|'(?:\\[\s\S]|[^'\\\n])*')/;
+var string = /(?:"(?:\\[\s\S]|[^"\\\n])*"|'(?:\\[\s\S]|[^'\\\n])*')/g;
 var stringSrc = string.source;
 
 var atruleInside = {
@@ -25,7 +25,7 @@ atruleInside[rest] = languages.css = {
 	},
 	'url': {
 		// https://drafts.csswg.org/css-values-3/#urls
-		pattern: RegExp(`\\burl\\((?:${stringSrc}|(?:[^\\\\\n()"']|\\\\[\\s\\S])*)\\)`, 'i'),
+		pattern: RegExp(`\\burl\\((?:${stringSrc}|(?:[^\\\\\n()"']|\\\\[\\s\\S])*)\\)`, 'gi'),
 		greedy: true,
 		inside: {
 			'function': /^url/i,

@@ -6,7 +6,7 @@ var comment = clikeComment();
 languages.sqf = {
 	'comment': comment,
 	'macro': {
-		pattern: /(^[ \t]*)#[a-z](?:[^\n\\]|\\[\s\S])*/im,
+		pattern: /(^[ \t]*)#[a-z](?:[^\n\\]|\\[\s\S])*/img,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property',
@@ -19,7 +19,7 @@ languages.sqf = {
 		}
 	},
 	'string': {
-		pattern: /"(?:(?:"")?[^"])*"(?!")|'(?:[^'])*'/,
+		pattern: /"(?:(?:"")?[^"])*"(?!")|'(?:[^'])*'/g,
 		greedy: true
 	},
 	'keyword': /\b(?:breakout|breakto|call|case|catch|default|do|echo|else|execfsm|execvm|exitwith|for|foreach|foreachmember|foreachmemberagent|foreachmemberteam|from|goto|if|nil|preprocessfile|preprocessfilelinenumbers|private|scopename|spawn|step|switch|then|throw|to|try|while|with)\b/i,

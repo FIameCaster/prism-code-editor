@@ -9,21 +9,21 @@ languages.wren = {
 	'comment': {
 		// support 3 levels of nesting
 		// regex: \/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|<self>)*\*\/
-		pattern: /\/\/.*|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*))*\*\/)*\*\/)*\*\//,
+		pattern: /\/\/.*|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*))*\*\/)*\*\/)*\*\//g,
 		greedy: true
 	},
 
 	// Triple quoted strings are multiline but cannot have interpolation (raw strings)
 	// Based on prism-python.js
 	'triple-quoted-string': {
-		pattern: /"""[\s\S]*?"""/,
+		pattern: /"""[\s\S]*?"""/g,
 		greedy: true,
 		alias: 'string'
 	},
 
 	'string-literal': {
 		// A single quote string is multiline and can have interpolation (similar to JS backticks ``)
-		pattern: /(^|[^\\"])"(?:[^\\"%]|\\[\s\S]|%(?!\()|%\((?:[^()]|\((?:[^()]|\([^)]*\))*\))*\))*"/,
+		pattern: /(^|[^\\"])"(?:[^\\"%]|\\[\s\S]|%(?!\()|%\((?:[^()]|\((?:[^()]|\([^)]*\))*\))*\))*"/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -49,7 +49,7 @@ languages.wren = {
 
 	// #!/usr/bin/env wren on the first line
 	'hashbang': {
-		pattern: /^#!\/.+/,
+		pattern: /^#!\/.+/g,
 		greedy: true,
 		alias: 'comment'
 	},

@@ -6,12 +6,12 @@ languages.perl = {
 	'comment': [
 		{
 			// POD
-			pattern: /(^\s*)=\w[\s\S]*?=cut.*/m,
+			pattern: /(^\s*)=\w[\s\S]*?=cut.*/mg,
 			lookbehind: true,
 			greedy: true
 		},
 		{
-			pattern: /(^|[^\\$])#.*/,
+			pattern: /(^|[^\\$])#.*/g,
 			lookbehind: true,
 			greedy: true
 		}
@@ -45,7 +45,7 @@ languages.perl = {
 		// the same line from being highlighted as regex.
 		// This does not support multi-line regex.
 		{
-			pattern: /\/(?:[^\/\\\n]|\\.)*\/[msixpodualngc]*(?=\s*(?:$|[\n,.;})&|\-+*~<>!?^]|(?:and|cmp|eq|ge|gt|le|lt|ne|not|or|x|xor)\b))/,
+			pattern: /\/(?:[^\/\\\n]|\\.)*\/[msixpodualngc]*(?=\s*(?:$|[\n,.;})&|\-+*~<>!?^]|(?:and|cmp|eq|ge|gt|le|lt|ne|not|or|x|xor)\b))/g,
 			greedy: true
 		}
 	],

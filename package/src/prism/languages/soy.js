@@ -8,16 +8,16 @@ var string = clikeString();
 
 languages.soy = {
 	'ignore-literal': {
-		pattern: /(\{literal\})[\s\S]*?(?=\{\/literal\})/,
+		pattern: /(\{literal\})[\s\S]*?(?=\{\/literal\})/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'soy': {
-		pattern: /\{\{.+?\}\}|\{.+?\}|\s\/\/.*|\/\*[\s\S]*?\*\//,
+		pattern: /\{\{.+?\}\}|\{.+?\}|\s\/\/.*|\/\*[\s\S]*?\*\//g,
 		greedy: true,
 		inside: {
 			'comment': {
-				pattern: /\/\*[\s\S]*?\*\/|(\s)\/\/.*/,
+				pattern: /\/\*[\s\S]*?\*\/|(\s)\/\/.*/g,
 				lookbehind: true,
 				greedy: true
 			},

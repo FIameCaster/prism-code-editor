@@ -15,7 +15,7 @@ expression.inside = languages.stan = {
 	'string': {
 		// String literals can contain spaces and any printable ASCII characters except for " and \
 		// https://mc-stan.org/docs/2_24/reference-manual/print-statements-section.html#string-literals
-		pattern: /"[ \x21\x23-[\]-\x7E]*"/,
+		pattern: /"[ \x21\x23-[\]-\x7E]*"/g,
 		greedy: true
 	},
 	'directive': {

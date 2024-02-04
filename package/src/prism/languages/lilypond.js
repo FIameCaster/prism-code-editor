@@ -17,7 +17,7 @@ var inside = {
 inside.inside = languages.ly = languages.lilypond = {
 	'comment': /%(?:(?!\{).*|\{[\s\S]*?%\})/,
 	'embedded-scheme': {
-		pattern: RegExp(/(^|[=\s])#(?:"(?:[^"\\]|\\.)*"|[^\s()"]*(?:[^\s()]|<expr>))/.source.replace(/<expr>/g, schemeExpression), 'm'),
+		pattern: RegExp(/(^|[=\s])#(?:"(?:[^"\\]|\\.)*"|[^\s()"]*(?:[^\s()]|<expr>))/.source.replace(/<expr>/g, schemeExpression), 'mg'),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -26,7 +26,7 @@ inside.inside = languages.ly = languages.lilypond = {
 				alias: 'language-scheme',
 				inside: {
 					'embedded-lilypond': {
-						pattern: /#\{[\s\S]*?#\}/,
+						pattern: /#\{[\s\S]*?#\}/g,
 						greedy: true,
 						inside: {
 							'punctuation': /^#\{|#\}$/,
@@ -40,7 +40,7 @@ inside.inside = languages.ly = languages.lilypond = {
 		}
 	},
 	'string': {
-		pattern: /"(?:[^"\\]|\\.)*"/,
+		pattern: /"(?:[^"\\]|\\.)*"/g,
 		greedy: true
 	},
 	'class-name': {

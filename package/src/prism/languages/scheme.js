@@ -8,15 +8,15 @@ languages.scheme = {
 	// (only 1 level of nesting is supported)
 	'comment': /;.*|#;\s*(?:\((?:[^()]|\([^()]*\))*\)|\[(?:[^[\]]|\[[^[\]]*\])*\])|#\|(?:[^#|]|#(?!\|)|\|(?!#)|#\|(?:[^#|]|#(?!\|)|\|(?!#))*\|#)*\|#/,
 	'string': {
-		pattern: /"(?:[^"\\]|\\.)*"/,
+		pattern: /"(?:[^"\\]|\\.)*"/g,
 		greedy: true
 	},
 	'symbol': {
-		pattern: /'[^()[\]#'\s]+/,
+		pattern: /'[^()[\]#'\s]+/g,
 		greedy: true
 	},
 	'char': {
-		pattern: /#\\(?:[ux][a-fA-F\d]+\b|[-a-zA-Z]+\b|[\uD800-\uDBFF][\uDC00-\uDFFF]|\S)/,
+		pattern: /#\\(?:[ux][a-fA-F\d]+\b|[-a-zA-Z]+\b|[\uD800-\uDBFF][\uDC00-\uDFFF]|\S)/g,
 		greedy: true
 	},
 	'lambda-parameter': [
@@ -95,7 +95,7 @@ languages.scheme = {
 		lookbehind: true
 	},
 	'identifier': {
-		pattern: /(^|[()[\]\s])\|(?:[^\\|]|\\.)*\|(?=[()[\]\s]|$)/,
+		pattern: /(^|[()[\]\s])\|(?:[^\\|]|\\.)*\|(?=[()[\]\s]|$)/g,
 		lookbehind: true,
 		greedy: true
 	},

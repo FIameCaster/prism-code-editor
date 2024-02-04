@@ -4,18 +4,18 @@ languages.sql = {
 	'comment': /\/\*[\s\S]*?\*\/|(?:--|\/\/|#).*/,
 	'variable': [
 		{
-			pattern: /@(["'`])(?:\\[\s\S]|(?!\1)[^\\])+\1/,
+			pattern: /@(["'`])(?:\\[\s\S]|(?!\1)[^\\])+\1/g,
 			greedy: true
 		},
 		/@[\w.$]+/
 	],
 	'string': {
-		pattern: /(^|[^@\\])("|')(?:\\[\s\S]|(?!\2)[^\\]|\2\2)*\2/,
+		pattern: /(^|[^@\\])("|')(?:\\[\s\S]|(?!\2)[^\\]|\2\2)*\2/g,
 		greedy: true,
 		lookbehind: true
 	},
 	'identifier': {
-		pattern: /(^|[^@\\])`(?:\\[\s\S]|[^`\\]|``)*`/,
+		pattern: /(^|[^@\\])`(?:\\[\s\S]|[^`\\]|``)*`/g,
 		greedy: true,
 		lookbehind: true,
 		inside: {

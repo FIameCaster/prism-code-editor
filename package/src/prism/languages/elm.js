@@ -3,17 +3,17 @@ import { languages } from '../core.js';
 languages.elm = {
 	'comment': /--.*|\{-[\s\S]*?-\}/,
 	'char': {
-		pattern: /'(?:[^\\'\n]|\\(?:[abfnrtv\\']|\d+|x[0-9a-fA-F]+|u\{[0-9a-fA-F]+\}))'/,
+		pattern: /'(?:[^\\'\n]|\\(?:[abfnrtv\\']|\d+|x[0-9a-fA-F]+|u\{[0-9a-fA-F]+\}))'/g,
 		greedy: true
 	},
 	'string': [
 		{
 			// Multiline strings are wrapped in triple ". Quotes may appear unescaped.
-			pattern: /"""[\s\S]*?"""/,
+			pattern: /"""[\s\S]*?"""/g,
 			greedy: true
 		},
 		{
-			pattern: /"(?:[^\\"\n]|\\.)*"/,
+			pattern: /"(?:[^\\"\n]|\\.)*"/g,
 			greedy: true
 		}
 	],

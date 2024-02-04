@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.nevod = {
 	'comment': /\/\/.*|(?:\/\*[\s\S]*?(?:\*\/|$))/,
 	'string': {
-		pattern: /(?:"(?:""|[^"])*"(?!")|'(?:''|[^'])*'(?!'))!?\*?/,
+		pattern: /(?:"(?:""|[^"])*"(?!")|'(?:''|[^'])*'(?!'))!?\*?/g,
 		greedy: true,
 		inside: {
 			'string-attrs': /!$|!\*$|\*$/,

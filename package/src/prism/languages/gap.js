@@ -11,7 +11,7 @@ var gap = {
 
 gap.inside = languages.gap = {
 	'shell': {
-		pattern: /^gap>[\s\S]*?(?=^gap>|$(?![\s\S]))/m,
+		pattern: /^gap>[\s\S]*?(?=^gap>|$(?![\s\S]))/mg,
 		greedy: true,
 		inside: {
 			'gap': gap,
@@ -20,11 +20,11 @@ gap.inside = languages.gap = {
 	},
 
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\'"])(?:'(?:[^\n\\']|\\.){1,10}'|"(?:[^\n\\"]|\\.)*"(?!")|"""[\s\S]*?""")/,
+		pattern: /(^|[^\\'"])(?:'(?:[^\n\\']|\\.){1,10}'|"(?:[^\n\\"]|\\.)*"(?!")|"""[\s\S]*?""")/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {

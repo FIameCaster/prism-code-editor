@@ -4,7 +4,7 @@ import { boolean } from '../utils/shared.js';
 var swift = languages.swift = {
 	'comment': {
 		// Nested comments are supported up to 2 levels
-		pattern: /\/\/.*|\/\*(?:[^/*]|\/(?!\*)|\*(?!\/)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\*\//,
+		pattern: /\/\/.*|\/\*(?:[^/*]|\/(?!\*)|\*(?!\/)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\*\//g,
 		greedy: true
 	},
 	'string-literal': [

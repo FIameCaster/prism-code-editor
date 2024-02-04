@@ -24,12 +24,12 @@ insertBefore(tt2, 'keyword', {
 
 insertBefore(tt2, 'string', {
 	'single-quoted-string': {
-		pattern: /'[^\\']*(?:\\[\s\S][^\\']*)*'/,
+		pattern: /'[^\\']*(?:\\[\s\S][^\\']*)*'/g,
 		greedy: true,
 		alias: 'string'
 	},
 	'double-quoted-string': {
-		pattern: /"[^\\"]*(?:\\[\s\S][^\\"]*)*"/,
+		pattern: /"[^\\"]*(?:\\[\s\S][^\\"]*)*"/g,
 		greedy: true,
 		alias: 'string',
 		inside: {

@@ -30,7 +30,7 @@ var comment = {
 };
 
 var string = {
-	pattern: RegExp(stringPattern),
+	pattern: RegExp(stringPattern, 'g'),
 	greedy: true
 };
 

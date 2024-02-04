@@ -12,7 +12,7 @@ delete firestore['class-name'];
 
 insertBefore(firestore, 'keyword', {
 	'path': {
-		pattern: /(^|[\s(),])(?:\/(?:[\w\xA0-\uFFFF]+|\{[\w\xA0-\uFFFF]+(?:=\*\*)?\}|\$\([\w\xA0-\uFFFF.]+\)))+/,
+		pattern: /(^|[\s(),])(?:\/(?:[\w\xA0-\uFFFF]+|\{[\w\xA0-\uFFFF]+(?:=\*\*)?\}|\$\([\w\xA0-\uFFFF.]+\)))+/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {

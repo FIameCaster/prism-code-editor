@@ -14,12 +14,12 @@ var expression = {
 
 expression.inside = languages.cue = {
 	'comment': {
-		pattern: /\/\/.*/,
+		pattern: /\/\/.*/g,
 		greedy: true
 	},
 	'string-literal': {
 		// eslint-disable-next-line regexp/strict
-		pattern: RegExp(/(^|[^#"'\\])(#*)/.source + stringLiteral + /(?!["'])\2/.source),
+		pattern: RegExp(/(^|[^#"'\\])(#*)/.source + stringLiteral + /(?!["'])\2/.source, 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -27,12 +27,12 @@ expression.inside = languages.cue = {
 			// but we can't look back. So instead, we will use a lookahead, go to the end of the string, and
 			// capture the hashes at the end of the string.
 			'escape': {
-				pattern: /(?=[\s\S]*["'](#*)$)\\\1(?:U[a-fA-F0-9]{1,8}|u[a-fA-F0-9]{1,4}|x[a-fA-F0-9]{1,2}|\d{2,3}|[^(])/,
+				pattern: /(?=[\s\S]*["'](#*)$)\\\1(?:U[a-fA-F0-9]{1,8}|u[a-fA-F0-9]{1,4}|x[a-fA-F0-9]{1,2}|\d{2,3}|[^(])/g,
 				greedy: true,
 				alias: 'string'
 			},
 			'interpolation': {
-				pattern: /(?=[\s\S]*["'](#*)$)\\\1\([^()]*\)/,
+				pattern: /(?=[\s\S]*["'](#*)$)\\\1\([^()]*\)/g,
 				greedy: true,
 				inside: {
 					'punctuation': /^\\#*\(|\)$/,

@@ -10,7 +10,7 @@ var clone = (o, visited = new Map) => {
 			copy[key] = clone(o[key], visited);
 		}
 		if (o[rest]) copy[rest] = clone(o[rest], visited);
-		if (o[tokenize]) copy[tokenize] = clone(o[tokenize], visited);
+		if (o[tokenize]) copy[tokenize] = o[tokenize];
 	}
 	else if (t == "Array") {
 		visited.set(o, copy = []);

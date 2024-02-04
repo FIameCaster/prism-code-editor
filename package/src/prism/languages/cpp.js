@@ -25,7 +25,7 @@ var cpp = languages.cpp = extend('c', {
 	],
 	'keyword': keyword,
 	'number': {
-		pattern: /(?:\b0b[01']+|\b0x(?:[\da-f']+(?:\.[\da-f']*)?|\.[\da-f']+)(?:p[+-]?[\d']+)?|(?:\b[\d']+(?:\.[\d']*)?|\B\.[\d']+)(?:e[+-]?[\d']+)?)[ful]{0,4}/i,
+		pattern: /(?:\b0b[01']+|\b0x(?:[\da-f']+(?:\.[\da-f']*)?|\.[\da-f']+)(?:p[+-]?[\d']+)?|(?:\b[\d']+(?:\.[\d']*)?|\B\.[\d']+)(?:e[+-]?[\d']+)?)[ful]{0,4}/gi,
 		greedy: true
 	},
 	'operator': />>=?|<<=?|->|--|\+\+|&&|\|\||[?:~]|<=>|[-+*/%&|^!=<>]=?|\b(?:and|and_eq|bitand|bitor|not|not_eq|or|or_eq|xor|xor_eq)\b/,
@@ -37,7 +37,7 @@ insertBefore(cpp, 'string', {
 		// https://en.cppreference.com/w/cpp/language/modules
 		pattern: RegExp(
 			`(\\b(?:import|module)\\s+)(?:"(?:\\\\[\\s\\S]|[^"\\\\\n])*"|<[^<>\n]*>|<mod>(?:\\s*:\\s*<mod>)?|:\\s*<mod>)`
-				.replace(/<mod>/g, `\\b(?!${keyword.source})\\w+(?:\\s*\\.\\s*\\w+)*\\b`)
+				.replace(/<mod>/g, `\\b(?!${keyword.source})\\w+(?:\\s*\\.\\s*\\w+)*\\b`), 'g'
 		),
 		lookbehind: true,
 		greedy: true,
@@ -48,7 +48,7 @@ insertBefore(cpp, 'string', {
 		}
 	},
 	'raw-string': {
-		pattern: /R"([^()\\ ]{0,16})\([\s\S]*?\)\1"/,
+		pattern: /R"([^()\\ ]{0,16})\([\s\S]*?\)\1"/g,
 		alias: 'string',
 		greedy: true
 	}
@@ -81,7 +81,7 @@ insertBefore(cpp, 'class-name', {
 	// the base clause is an optional list of parent classes
 	// https://en.cppreference.com/w/cpp/language/class
 	'base-clause': {
-		pattern: /(\b(?:class|struct)\s+\w+\s*:\s*)[^;{}"'\s]+(?:\s+[^;{}"'\s]+)*(?=\s*[;{])/,
+		pattern: /(\b(?:class|struct)\s+\w+\s*:\s*)[^;{}"'\s]+(?:\s+[^;{}"'\s]+)*(?=\s*[;{])/g,
 		lookbehind: true,
 		greedy: true,
 		inside: baseClauseInside

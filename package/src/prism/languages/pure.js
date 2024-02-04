@@ -4,7 +4,7 @@ import { insertBefore } from '../utils/language.js';
 // https://agraef.github.io/pure-docs/pure.html#lexical-matters
 
 var inlineLang = {
-	pattern: /%<[\s\S]+?%>/,
+	pattern: /%<[\s\S]+?%>/g,
 	greedy: true,
 	inside: {
 		'lang': {
@@ -40,7 +40,7 @@ inlineLanguages.forEach(lang => {
 Object.assign(pure, {
 	'inline-lang': inlineLang,
 	'string': {
-		pattern: /"(?:\\.|[^"\\\n])*"/,
+		pattern: /"(?:\\.|[^"\\\n])*"/g,
 		greedy: true
 	},
 	'number': {

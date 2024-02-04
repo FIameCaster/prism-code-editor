@@ -19,12 +19,12 @@ var createLanguageString = (lang, pattern = lang) => ({
 
 languages.art = languages.arturo = {
 	'comment': {
-		pattern: /;.*/,
+		pattern: /;.*/g,
 		greedy: true
 	},
 
 	'character': {
-		pattern: /`.`/,
+		pattern: /`.`/g,
 		alias: 'char',
 		greedy: true
 	},
@@ -32,12 +32,12 @@ languages.art = languages.arturo = {
 	'number': /\b\d+(?:\.\d+(?:\.\d+(?:-[\w+-]+)?)?)?\b/,
 
 	'string': {
-		pattern: /"(?:[^"\\\n]|\\.)*"/,
+		pattern: /"(?:[^"\\\n]|\\.)*"/g,
 		greedy: true
 	},
 
 	'regex': {
-		pattern: /\{\/.*?\/\}/,
+		pattern: /\{\/.*?\/\}/g,
 		greedy: true
 	},
 
@@ -49,7 +49,7 @@ languages.art = languages.arturo = {
 	'sh-string': createLanguageString('shell', 'sh'),
 
 	'multistring': {
-		pattern: /».*|\{:[\s\S]*?:\}|\{[\s\S]*?\}|^-{6}$[\s\S]*/m,
+		pattern: /».*|\{:[\s\S]*?:\}|\{[\s\S]*?\}|^-{6}$[\s\S]*/mg,
 		alias: 'string',
 		greedy: true
 	},

@@ -4,7 +4,7 @@ import './clike.js';
 
 var chaiscript = languages.chaiscript = extend('clike', {
 	'string': {
-		pattern: /(^|[^\\])'(?:[^'\\]|\\[\s\S])*'/,
+		pattern: /(^|[^\\])'(?:[^'\\]|\\[\s\S])*'/g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -23,7 +23,7 @@ var chaiscript = languages.chaiscript = extend('clike', {
 	'keyword': /\b(?:attr|auto|break|case|catch|class|continue|def|default|else|finally|for|fun|global|if|return|switch|this|try|var|while)\b/,
 	'number': [
 		{
-			pattern: /(?:\b0b[01']+|\b0x(?:[\da-f']+(?:\.[\da-f']*)?|\.[\da-f']+)(?:p[+-]?[\d']+)?|(?:\b[\d']+(?:\.[\d']*)?|\B\.[\d']+)(?:e[+-]?[\d']+)?)[ful]{0,4}/i,
+			pattern: /(?:\b0b[01']+|\b0x(?:[\da-f']+(?:\.[\da-f']*)?|\.[\da-f']+)(?:p[+-]?[\d']+)?|(?:\b[\d']+(?:\.[\d']*)?|\B\.[\d']+)(?:e[+-]?[\d']+)?)[ful]{0,4}/gi,
 			greedy: true
 		},
 		/\b(?:Infinity|NaN)\b/
@@ -42,7 +42,7 @@ insertBefore(chaiscript, 'operator', {
 
 insertBefore(chaiscript, 'string', {
 	'string-interpolation': {
-		pattern: /(^|[^\\])"(?:[^"$\\]|\\[\s\S]|\$(?!\{)|\$\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*"/,
+		pattern: /(^|[^\\])"(?:[^"$\\]|\\[\s\S]|\$(?!\{)|\$\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*"/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {

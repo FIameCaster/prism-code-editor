@@ -11,12 +11,12 @@ languages.vbnet = extend('basic', {
 			}
 		},
 		{
-			pattern: /'.*/,
+			pattern: /'.*/g,
 			greedy: true
 		}
 	],
 	'string': {
-		pattern: /(^|[^"])"(?:""|[^"])*"(?!")/,
+		pattern: /(^|[^"])"(?:""|[^"])*"(?!")/g,
 		lookbehind: true,
 		greedy: true
 	},

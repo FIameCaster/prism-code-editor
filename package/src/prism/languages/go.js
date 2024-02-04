@@ -4,11 +4,11 @@ import { clikeComment, clikePunctuation } from '../utils/shared.js';
 languages.go = {
 	'comment': clikeComment(),
 	'char': {
-		pattern: /'(?:\\.|[^'\\\n]){0,10}'/,
+		pattern: /'(?:\\.|[^'\\\n]){0,10}'/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:\\.|[^"\\\n])*"|`[^`]*`/,
+		pattern: /(^|[^\\])"(?:\\.|[^"\\\n])*"|`[^`]*`/g,
 		lookbehind: true,
 		greedy: true
 	},

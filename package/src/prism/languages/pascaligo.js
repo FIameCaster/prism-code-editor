@@ -8,7 +8,7 @@ var type = /(?:\b\w+(?:<braces>)?|<braces>)/.source.replace(/<braces>/g, braces)
 var pascaligo = languages.pascaligo = {
 	'comment': /\(\*[\s\S]+?\*\)|\/\/.*/,
 	'string': {
-		pattern: /(["'`])(?:\\[\s\S]|(?!\1)[^\\])*\1|\^[a-z]/i,
+		pattern: /(["'`])(?:\\[\s\S]|(?!\1)[^\\])*\1|\^[a-z]/gi,
 		greedy: true
 	},
 	'class-name': [

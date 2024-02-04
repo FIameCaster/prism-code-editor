@@ -3,11 +3,11 @@ import { languages } from '../core.js';
 // Copied from https://github.com/jeluard/prism-clojure
 languages.clojure = {
 	'comment': {
-		pattern: /;.*/,
+		pattern: /;.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:[^"\\]|\\.)*"/,
+		pattern: /"(?:[^"\\]|\\.)*"/g,
 		greedy: true
 	},
 	'char': /\\\w+/,

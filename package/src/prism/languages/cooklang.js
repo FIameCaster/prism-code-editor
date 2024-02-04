@@ -42,12 +42,9 @@ var amount_group_impl = {
 
 
 languages.cooklang = {
-	'comment': {
-		// [- comment -]
-		// -- comment
-		pattern: /\[-[\s\S]*?-\]|--.*/,
-		greedy: true,
-	},
+	// [- comment -]
+	// -- comment
+	'comment': /\[-[\s\S]*?-\]|--.*/,
 	'meta': { // >> key: value
 		pattern: />>.*:.*/,
 		inside: {

@@ -10,12 +10,12 @@ var constant = [
 		alias: 'boolean'
 	},
 	{
-		pattern: /(::\s*)\b[a-z_]\w*\b(?!\s*\()/i,
+		pattern: /(::\s*)\b[a-z_]\w*\b(?!\s*\()/gi,
 		greedy: true,
 		lookbehind: true,
 	},
 	{
-		pattern: /(\b(?:case|const)\s+)\b[a-z_]\w*(?=\s*[;=])/i,
+		pattern: /(\b(?:case|const)\s+)\b[a-z_]\w*(?=\s*[;=])/gi,
 		greedy: true,
 		lookbehind: true,
 	},
@@ -30,7 +30,7 @@ var stringInterpolation = {
 };
 var string = [
 	{
-		pattern: /<<<'([^']+)'\n(?:.*\n)*?\1;/,
+		pattern: /<<<'([^']+)'\n(?:.*\n)*?\1;/g,
 		alias: 'nowdoc-string',
 		greedy: true,
 		inside: {
@@ -44,7 +44,7 @@ var string = [
 		}
 	},
 	{
-		pattern: /<<<(?:"([^"]+)"\n(?:.*\n)*?\1;|([a-z_]\w*)\n(?:.*\n)*?\2;)/i,
+		pattern: /<<<(?:"([^"]+)"\n(?:.*\n)*?\1;|([a-z_]\w*)\n(?:.*\n)*?\2;)/gi,
 		alias: 'heredoc-string',
 		greedy: true,
 		inside: {
@@ -59,17 +59,17 @@ var string = [
 		}
 	},
 	{
-		pattern: /`(?:\\[\s\S]|[^\\`])*`/,
+		pattern: /`(?:\\[\s\S]|[^\\`])*`/g,
 		alias: 'backtick-quoted-string',
 		greedy: true
 	},
 	{
-		pattern: /'(?:\\[\s\S]|[^\\'])*'/,
+		pattern: /'(?:\\[\s\S]|[^\\'])*'/g,
 		alias: 'single-quoted-string',
 		greedy: true
 	},
 	{
-		pattern: /"(?:\\[\s\S]|[^\\"])*"/,
+		pattern: /"(?:\\[\s\S]|[^\\"])*"/g,
 		alias: 'double-quoted-string',
 		greedy: true,
 		inside: {
@@ -84,7 +84,7 @@ var php = stringInterpolation.inside = {
 		alias: 'important'
 	},
 	'doc-comment': {
-		pattern: /\/\*\*(?!\/)[\s\S]*?\*\//,
+		pattern: /\/\*\*(?!\/)[\s\S]*?\*\//g,
 		greedy: true,
 		alias: 'comment',
 		inside: 'phpdoc'
@@ -92,7 +92,7 @@ var php = stringInterpolation.inside = {
 	'comment': comment,
 	'string': string,
 	'attribute': {
-		pattern: /#\[(?:[^"'\/#]|\/(?![*/])|\/\/.*$|#(?!\[).*$|\/\*(?:[^*]|\*(?!\/))*\*\/|"(?:\\[\s\S]|[^\\"])*"|'(?:\\[\s\S]|[^\\'])*')+\](?=\s*[a-z$#])/im,
+		pattern: /#\[(?:[^"'\/#]|\/(?![*/])|\/\/.*$|#(?!\[).*$|\/\*(?:[^*]|\*(?!\/))*\*\/|"(?:\\[\s\S]|[^\\"])*"|'(?:\\[\s\S]|[^\\'])*')+\](?=\s*[a-z$#])/img,
 		greedy: true,
 		inside: {
 			'attribute-content': {
@@ -104,13 +104,13 @@ var php = stringInterpolation.inside = {
 					'string': string,
 					'attribute-class-name': [
 						{
-							pattern: /([^:]|^)\b[a-z_]\w*(?!\\)\b/i,
+							pattern: /([^:]|^)\b[a-z_]\w*(?!\\)\b/gi,
 							alias: 'class-name',
 							greedy: true,
 							lookbehind: true
 						},
 						{
-							pattern: /([^:]|^)(?:\\?\b[a-z_]\w*)+/i,
+							pattern: /([^:]|^)(?:\\?\b[a-z_]\w*)+/gi,
 							alias: 'class-name class-name-fully-qualified',
 							greedy: true,
 							lookbehind: true,
@@ -151,42 +151,42 @@ var php = stringInterpolation.inside = {
 	},
 	'keyword': [
 		{
-			pattern: /(\(\s*)\b(?:array|bool|boolean|float|int|integer|object|string)\b(?=\s*\))/i,
+			pattern: /(\(\s*)\b(?:array|bool|boolean|float|int|integer|object|string)\b(?=\s*\))/gi,
 			alias: 'type-casting',
 			greedy: true,
 			lookbehind: true
 		},
 		{
-			pattern: /([(,?]\s*)\b(?:array(?!\s*\()|bool|callable|(?:false|null)(?=\s*\|)|float|int|iterable|mixed|object|self|static|string)\b(?=\s*\$)/i,
+			pattern: /([(,?]\s*)\b(?:array(?!\s*\()|bool|callable|(?:false|null)(?=\s*\|)|float|int|iterable|mixed|object|self|static|string)\b(?=\s*\$)/gi,
 			alias: 'type-hint',
 			greedy: true,
 			lookbehind: true
 		},
 		{
-			pattern: /(\)\s*:\s*(?:\?\s*)?)\b(?:array(?!\s*\()|bool|callable|(?:false|null)(?=\s*\|)|float|int|iterable|mixed|never|object|self|static|string|void)\b/i,
+			pattern: /(\)\s*:\s*(?:\?\s*)?)\b(?:array(?!\s*\()|bool|callable|(?:false|null)(?=\s*\|)|float|int|iterable|mixed|never|object|self|static|string|void)\b/gi,
 			alias: 'return-type',
 			greedy: true,
 			lookbehind: true
 		},
 		{
-			pattern: /\b(?:array(?!\s*\()|bool|float|int|iterable|mixed|object|string|void)\b/i,
+			pattern: /\b(?:array(?!\s*\()|bool|float|int|iterable|mixed|object|string|void)\b/gi,
 			alias: 'type-declaration',
 			greedy: true
 		},
 		{
-			pattern: /(\|\s*)(?:false|null)\b|\b(?:false|null)(?=\s*\|)/i,
+			pattern: /(\|\s*)(?:false|null)\b|\b(?:false|null)(?=\s*\|)/gi,
 			alias: 'type-declaration',
 			greedy: true,
 			lookbehind: true
 		},
 		{
-			pattern: /\b(?:parent|self|static)(?=\s*::)/i,
+			pattern: /\b(?:parent|self|static)(?=\s*::)/gi,
 			alias: 'static-context',
 			greedy: true
 		},
 		{
 			// yield from
-			pattern: /(\byield\s+)from\b/i,
+			pattern: /(\byield\s+)from\b/gi,
 			lookbehind: true
 		},
 		// `class` is always a keyword unlike other keywords
@@ -206,21 +206,21 @@ var php = stringInterpolation.inside = {
 	},
 	'class-name': [
 		{
-			pattern: /(\b(?:extends|implements|instanceof|new(?!\s+self|\s+static))\s+|\bcatch\s*\()\b[a-z_]\w*(?!\\)\b/i,
+			pattern: /(\b(?:extends|implements|instanceof|new(?!\s+self|\s+static))\s+|\bcatch\s*\()\b[a-z_]\w*(?!\\)\b/gi,
 			greedy: true,
 			lookbehind: true
 		},
 		{
-			pattern: /(\|\s*)\b[a-z_]\w*(?!\\)\b/i,
+			pattern: /(\|\s*)\b[a-z_]\w*(?!\\)\b/gi,
 			greedy: true,
 			lookbehind: true
 		},
 		{
-			pattern: /\b[a-z_]\w*(?!\\)\b(?=\s*\|)/i,
+			pattern: /\b[a-z_]\w*(?!\\)\b(?=\s*\|)/gi,
 			greedy: true
 		},
 		{
-			pattern: /(\|\s*)(?:\\?\b[a-z_]\w*)+\b/i,
+			pattern: /(\|\s*)(?:\\?\b[a-z_]\w*)+\b/gi,
 			alias: 'class-name-fully-qualified',
 			greedy: true,
 			lookbehind: true,
@@ -229,7 +229,7 @@ var php = stringInterpolation.inside = {
 			}
 		},
 		{
-			pattern: /(?:\\?\b[a-z_]\w*)+\b(?=\s*\|)/i,
+			pattern: /(?:\\?\b[a-z_]\w*)+\b(?=\s*\|)/gi,
 			alias: 'class-name-fully-qualified',
 			greedy: true,
 			inside: {
@@ -237,7 +237,7 @@ var php = stringInterpolation.inside = {
 			}
 		},
 		{
-			pattern: /(\b(?:extends|implements|instanceof|new(?!\s+self\b|\s+static\b))\s+|\bcatch\s*\()(?:\\?\b[a-z_]\w*)+\b(?!\\)/i,
+			pattern: /(\b(?:extends|implements|instanceof|new(?!\s+self\b|\s+static\b))\s+|\bcatch\s*\()(?:\\?\b[a-z_]\w*)+\b(?!\\)/gi,
 			alias: 'class-name-fully-qualified',
 			greedy: true,
 			lookbehind: true,
@@ -246,12 +246,12 @@ var php = stringInterpolation.inside = {
 			}
 		},
 		{
-			pattern: /\b[a-z_]\w*(?=\s*\$)/i,
+			pattern: /\b[a-z_]\w*(?=\s*\$)/gi,
 			alias: 'type-declaration',
 			greedy: true
 		},
 		{
-			pattern: /(?:\\?\b[a-z_]\w*)+(?=\s*\$)/i,
+			pattern: /(?:\\?\b[a-z_]\w*)+(?=\s*\$)/gi,
 			alias: 'class-name-fully-qualified type-declaration',
 			greedy: true,
 			inside: {
@@ -259,12 +259,12 @@ var php = stringInterpolation.inside = {
 			}
 		},
 		{
-			pattern: /\b[a-z_]\w*(?=\s*::)/i,
+			pattern: /\b[a-z_]\w*(?=\s*::)/gi,
 			alias: 'static-context',
 			greedy: true
 		},
 		{
-			pattern: /(?:\\?\b[a-z_]\w*)+(?=\s*::)/i,
+			pattern: /(?:\\?\b[a-z_]\w*)+(?=\s*::)/gi,
 			alias: 'class-name-fully-qualified static-context',
 			greedy: true,
 			inside: {
@@ -272,13 +272,13 @@ var php = stringInterpolation.inside = {
 			}
 		},
 		{
-			pattern: /([(,?]\s*)[a-z_]\w*(?=\s*\$)/i,
+			pattern: /([(,?]\s*)[a-z_]\w*(?=\s*\$)/gi,
 			alias: 'type-hint',
 			greedy: true,
 			lookbehind: true
 		},
 		{
-			pattern: /([(,?]\s*)(?:\\?\b[a-z_]\w*)+(?=\s*\$)/i,
+			pattern: /([(,?]\s*)(?:\\?\b[a-z_]\w*)+(?=\s*\$)/gi,
 			alias: 'class-name-fully-qualified type-hint',
 			greedy: true,
 			lookbehind: true,
@@ -287,13 +287,13 @@ var php = stringInterpolation.inside = {
 			}
 		},
 		{
-			pattern: /(\)\s*:\s*(?:\?\s*)?)\b[a-z_]\w*(?!\\)\b/i,
+			pattern: /(\)\s*:\s*(?:\?\s*)?)\b[a-z_]\w*(?!\\)\b/gi,
 			alias: 'return-type',
 			greedy: true,
 			lookbehind: true
 		},
 		{
-			pattern: /(\)\s*:\s*(?:\?\s*)?)(?:\\?\b[a-z_]\w*)+\b(?!\\)/i,
+			pattern: /(\)\s*:\s*(?:\?\s*)?)(?:\\?\b[a-z_]\w*)+\b(?!\\)/gi,
 			alias: 'class-name-fully-qualified return-type',
 			greedy: true,
 			lookbehind: true,

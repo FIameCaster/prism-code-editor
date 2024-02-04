@@ -2,15 +2,15 @@ import { languages } from '../core.js';
 
 languages.monkey = {
 	'comment': {
-		pattern: /^#Rem\s[\s\S]*?^#End|'.+/im,
+		pattern: /^#Rem\s[\s\S]*?^#End|'.+/img,
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^"\n]*"/,
+		pattern: /"[^"\n]*"/g,
 		greedy: true,
 	},
 	'preprocessor': {
-		pattern: /(^[ \t]*)#.+/m,
+		pattern: /(^[ \t]*)#.+/mg,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property'

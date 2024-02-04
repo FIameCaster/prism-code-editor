@@ -21,7 +21,7 @@ var replace = (pattern, replacements) =>
  * @returns {RegExp}
  */
 var re = (pattern, replacements, flags) =>
-	RegExp(replace(pattern, replacements), flags || '');
+	RegExp(replace(pattern, replacements), flags);
 
 /**
  * Creates a nested pattern where all occurrences of the string `<<self>>` are replaced with the pattern itself.
@@ -78,12 +78,12 @@ var verbatimString = /@"(?:""|\\[\s\S]|[^\\"])*"(?!")/.source;
 var cs = languages.dotnet = languages.cs = languages.csharp = extend('clike', {
 	'string': [
 		{
-			pattern: re(/(^|[^$\\])<<0>>/.source, [verbatimString]),
+			pattern: re(/(^|[^$\\])<<0>>/.source, [verbatimString], 'g'),
 			lookbehind: true,
 			greedy: true
 		},
 		{
-			pattern: re(/(^|[^@$\\])<<0>>/.source, [regularString]),
+			pattern: re(/(^|[^@$\\])<<0>>/.source, [regularString], 'g'),
 			lookbehind: true,
 			greedy: true
 		}
@@ -229,14 +229,14 @@ insertBefore(cs, 'class-name', {
 		lookbehind: true,
 		inside: {
 			'record-arguments': {
-				pattern: re(/(^(?!new\s*\()<<0>>\s*)<<1>>/.source, [genericName, nestedRound]),
+				pattern: re(/(^(?!new\s*\()<<0>>\s*)<<1>>/.source, [genericName, nestedRound], 'g'),
 				lookbehind: true,
 				greedy: true,
 				inside: cs
 			},
 			'keyword': keywords,
 			'class-name': {
-				pattern: RegExp(typeExpression),
+				pattern: RegExp(typeExpression, 'g'),
 				greedy: true,
 				inside: typeInside
 			},
@@ -303,7 +303,7 @@ insertBefore(cs, 'class-name', {
 	'attribute': {
 		// Attributes
 		// [Foo], [Foo(1), Bar(2, Prop = "foo")], [return: Foo(1), Bar(2)], [assembly: Foo(Bar)]
-		pattern: re(/((?:^|[^\s\w>)?])\s*\[\s*)(?:<<0>>\s*:\s*)?<<1>>(?:\s*,\s*<<1>>)*(?=\s*\])/.source, [attrTarget, attr]),
+		pattern: re(/((?:^|[^\s\w>)?])\s*\[\s*)(?:<<0>>\s*:\s*)?<<1>>(?:\s*,\s*<<1>>)*(?=\s*\])/.source, [attrTarget, attr], 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -329,20 +329,20 @@ insertBefore(cs, 'class-name', {
 insertBefore(cs, 'string', {
 	'interpolation-string': [
 		{
-			pattern: re(/(^|[^\\])(?:\$@|@\$)"(?:""|\\[\s\S]|\{\{|<<0>>|[^\\{"])*"/.source, [mInterpolation]),
+			pattern: re(/(^|[^\\])(?:\$@|@\$)"(?:""|\\[\s\S]|\{\{|<<0>>|[^\\{"])*"/.source, [mInterpolation], 'g'),
 			lookbehind: true,
 			greedy: true,
 			inside: createInterpolationInside(mInterpolation, mInterpolationRound),
 		},
 		{
-			pattern: re(/(^|[^@\\])\$"(?:\\.|\{\{|<<0>>|[^\\"{])*"/.source, [sInterpolation]),
+			pattern: re(/(^|[^@\\])\$"(?:\\.|\{\{|<<0>>|[^\\"{])*"/.source, [sInterpolation], 'g'),
 			lookbehind: true,
 			greedy: true,
 			inside: createInterpolationInside(sInterpolation, sInterpolationRound),
 		}
 	],
 	'char': {
-		pattern: RegExp(character),
+		pattern: RegExp(character, 'g'),
 		greedy: true
 	}
 });

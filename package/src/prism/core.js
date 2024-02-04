@@ -38,12 +38,12 @@ var withoutTokenizer = (text, grammar) => {
 	return array;
 }
 
-var closingTag = "</span>";
-var openingTags = "";
-var closingTags = "";
+var closingTag = '</span>';
+var openingTags = '';
+var closingTags = '';
 
 var highlightTokens = tokens => {
-	var str = "", l = tokens.length, i = 0;
+	var str = '', l = tokens.length, i = 0;
 	while (i < l) str += stringify(tokens[i++]);
 	return str;
 }
@@ -55,7 +55,7 @@ var stringify = token => {
 		var prevOpening = openingTags;
 		var prevClosing = closingTags;
 		var opening = `<span class="token ${
-			type + (alias ? " " + alias : "") + (type == 'keyword' ? " keyword-" + content : "")
+			type + (alias ? ' ' + alias : '') + (type == 'keyword' ? ' keyword-' + content : '')
 		}">`;
 
 		closingTags += closingTag;
@@ -68,9 +68,9 @@ var stringify = token => {
 
 	if (typeof token != 'string') return highlightTokens(token);
 
-	token = token.replace(/&/g, "&amp;").replace(/</g, "&lt;");
-	if (closingTags && token.includes("\n")) {
-		return token.replace(/\n/g, closingTags + "\n" + openingTags);
+	token = token.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+	if (closingTags && token.includes('\n')) {
+		return token.replace(/\n/g, closingTags + '\n' + openingTags);
 	}
 	return token;
 }
@@ -102,13 +102,8 @@ var matchGrammar = (text, grammar, startNode, startPos, rematch) => {
 			var pattern = patternObj.pattern || patternObj;
 			var inside = resolve(patternObj.inside);
 			var lookbehind = patternObj.lookbehind;
-			var greedy = patternObj.greedy;
+			var greedy = patternObj.greedy && pattern.global;
 			var alias = patternObj.alias;
-
-			if (greedy && !pattern.global) {
-				// Without the global flag, lastIndex won't work
-				pattern = patternObj.pattern = RegExp(pattern.source, 'g' + pattern.flags);
-			}
 
 			for ( // iterate the token list and keep track of the current token/string position
 				;

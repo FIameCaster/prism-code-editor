@@ -19,7 +19,7 @@ var replace = (pattern, replacements) =>
  * @param {string} [flags]
  * @returns {RegExp}
  */
-var re = (pattern, replacements, flags) => RegExp(replace(pattern, replacements), flags || '');
+var re = (pattern, replacements, flags) => RegExp(replace(pattern, replacements), flags);
 
 /**
  * Creates a nested pattern where all occurrences of the string `<<self>>` are replaced with the pattern itself.
@@ -57,7 +57,7 @@ var interpolationExpr = nested(replace(/\{(?:[^"{}]|<<0>>|<<self>>)*\}/.source, 
 languages.qs = languages.qsharp = {
 	'comment': /\/\/.*/,
 	'interpolation-string': {
-		pattern: re(/\$"(?:\\.|<<0>>|[^\\"{])*"/.source, [interpolationExpr]),
+		pattern: re(/\$"(?:\\.|<<0>>|[^\\"{])*"/.source, [interpolationExpr], 'g'),
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -77,7 +77,7 @@ languages.qs = languages.qsharp = {
 	},
 	'string': [
 		{
-			pattern: re(/(^|[^$\\])<<0>>/.source, [regularString]),
+			pattern: re(/(^|[^$\\])<<0>>/.source, [regularString], 'g'),
 			lookbehind: true,
 			greedy: true
 		}

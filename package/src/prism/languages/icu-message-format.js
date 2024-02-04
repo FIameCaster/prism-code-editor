@@ -12,10 +12,10 @@ var nested = (source, level) => {
 	return "[]";
 }
 
-var stringPattern = /'[{}:=,](?:[^']|'')*'(?!')/;
+var stringPattern = /'[{}:=,](?:[^']|'')*'(?!')/g;
 
 var escape = {
-	pattern: /''/,
+	pattern: /''/g,
 	greedy: true,
 	alias: 'operator'
 };
@@ -62,7 +62,7 @@ var nestedMessage = {
 
 choiceStyleInside[rest] = message.inside = languages['icu-message-format'] = {
 	'argument': {
-		pattern: RegExp(argumentSource),
+		pattern: RegExp(argumentSource, 'g'),
 		greedy: true,
 		inside: {
 			'content': {

@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.cmake = {
 	'comment': /#.*/,
 	'string': {
-		pattern: /"(?:[^\\"]|\\.)*"/,
+		pattern: /"(?:[^\\"]|\\.)*"/g,
 		greedy: true,
 		inside: {
 			'interpolation': {

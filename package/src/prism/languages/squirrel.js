@@ -3,16 +3,16 @@ import { boolean, clikePunctuation } from '../utils/shared.js';
 
 languages.squirrel = {
 	'comment': {
-		pattern: /\/\*[\s\S]*?(?:\*\/|$)|(?:\/\/|#).*/,
+		pattern: /\/\*[\s\S]*?(?:\*\/|$)|(?:\/\/|#).*/g,
 		greedy: true
 	},
 	'char': {
-		pattern: /(^|[^\\"'])'(?:[^\\']|\\(?:[xuU][0-9a-fA-F]{0,8}|[\s\S]))'/,
+		pattern: /(^|[^\\"'])'(?:[^\\']|\\(?:[xuU][0-9a-fA-F]{0,8}|[\s\S]))'/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\"'@])(?:@"(?:[^"]|"")*"(?!")|"(?:[^\\\n"]|\\.)*")/,
+		pattern: /(^|[^\\"'@])(?:@"(?:[^"]|"")*"(?!")|"(?:[^\\\n"]|\\.)*")/g,
 		lookbehind: true,
 		greedy: true
 	},

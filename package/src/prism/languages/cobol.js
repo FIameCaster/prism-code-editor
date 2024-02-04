@@ -2,17 +2,17 @@ import { languages } from '../core.js';
 
 languages.cobol = {
 	'comment': {
-		pattern: /\*>.*|(^[ \t]*)\*.*/m,
+		pattern: /\*>.*|(^[ \t]*)\*.*/mg,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /[xzgn]?(?:"(?:[^\n"]|"")*"(?!")|'(?:[^\n']|'')*'(?!'))/i,
+		pattern: /[xzgn]?(?:"(?:[^\n"]|"")*"(?!")|'(?:[^\n']|'')*'(?!'))/ig,
 		greedy: true
 	},
 
 	'level': {
-		pattern: /(^[ \t]*)\d+\b/m,
+		pattern: /(^[ \t]*)\d+\b/mg,
 		lookbehind: true,
 		greedy: true,
 		alias: 'number'

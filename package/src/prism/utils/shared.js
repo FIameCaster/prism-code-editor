@@ -1,10 +1,10 @@
 var clikeComment = () => ({
-	pattern: /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)/,
+	pattern: /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)/g,
 	greedy: true
 });
 
 var clikeString = () => ({
-	pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/,
+	pattern: /(["'])(?:\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/g,
 	greedy: true
 });
 

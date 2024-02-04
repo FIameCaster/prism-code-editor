@@ -2,11 +2,11 @@ import { languages } from '../core.js';
 
 languages.keepalived = {
 	'comment': {
-		pattern: /[#!].*/,
+		pattern: /[#!].*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])(["'])(?:\\[\s\S]|(?!\2)[^\\\n])*\2/,
+		pattern: /(^|[^\\])(["'])(?:\\[\s\S]|(?!\2)[^\\\n])*\2/g,
 		lookbehind: true,
 		greedy: true
 	},

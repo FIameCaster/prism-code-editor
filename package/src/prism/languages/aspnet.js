@@ -37,7 +37,7 @@ insertBefore(aspnet, 'markup-bracket', {
 pageDirectiveInside[rest] = tag.inside;
 
 // Regexp copied from prism-markup, with a negative look-ahead added
-tag.pattern = /<(?!%)\/?[^\s>\/]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/;
+tag.pattern = /<(?!%)\/?[^\s>\/]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/g;
 
 // match directives of attribute value foo="<% Bar %>"
 tag.inside['attr-value'][2].inside['directive'] = directive;

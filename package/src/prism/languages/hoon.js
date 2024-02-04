@@ -2,11 +2,11 @@ import { languages } from '../core.js';
 
 languages.hoon = {
 	'comment': {
-		pattern: /::.*/,
+		pattern: /::.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/,
+		pattern: /"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g,
 		greedy: true
 	},
 	'constant': /%(?:\.[ny]|[\w-]+)/,

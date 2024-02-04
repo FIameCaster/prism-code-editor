@@ -8,11 +8,11 @@ import { clikePunctuation } from '../utils/shared.js';
  */
 languages.nsis = {
 	'comment': {
-		pattern: /\/\*[\s\S]*?\*\/|[#;].*/,
+		pattern: /\/\*[\s\S]*?\*\/|[#;].*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/,
+		pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 	'keyword': {

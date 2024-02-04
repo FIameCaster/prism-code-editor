@@ -5,7 +5,7 @@ var content = {
 	pattern: /[\s\S]+/
 };
 var interpolation = /\\\((?:[^()]|\([^()]*\))*\)/.source;
-var string = RegExp(/(^|[^\\])"(?:[^"\n\\]|\\[^\n(]|__)*"/.source.replace(/__/g, interpolation));
+var string = /(^|[^\\])"(?:[^"\n\\]|\\[^\n(]|__)*"/.source.replace(/__/g, interpolation);
 var stringInterpolation = {
 	'interpolation': {
 		pattern: RegExp(/((?:^|[^\\])(?:\\{2})*)/.source + interpolation),
@@ -20,13 +20,13 @@ var stringInterpolation = {
 content.inside = languages.jq = {
 	'comment': /#.*/,
 	'property': {
-		pattern: RegExp(string.source + /(?=\s*:(?!:))/.source),
+		pattern: RegExp(string + /(?=\s*:(?!:))/.source, 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: stringInterpolation
 	},
 	'string': {
-		pattern: string,
+		pattern: RegExp(string, 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: stringInterpolation

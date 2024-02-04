@@ -9,23 +9,23 @@ var insertKey = pattern =>
 
 languages.toml = {
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 	'table': {
-		pattern: RegExp(insertKey(/(^[\t ]*\[\s*(?:\[\s*)?)__(?:\s*\.\s*__)*(?=\s*\])/.source), 'm'),
+		pattern: RegExp(insertKey(/(^[\t ]*\[\s*(?:\[\s*)?)__(?:\s*\.\s*__)*(?=\s*\])/.source), 'mg'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'class-name'
 	},
 	'key': {
-		pattern: RegExp(insertKey(/(^[\t ]*|[{,]\s*)__(?:\s*\.\s*__)*(?=\s*=)/.source), 'm'),
+		pattern: RegExp(insertKey(/(^[\t ]*|[{,]\s*)__(?:\s*\.\s*__)*(?=\s*=)/.source), 'mg'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'property'
 	},
 	'string': {
-		pattern: /"""(?:\\[\s\S]|[^\\])*?"""|'''[\s\S]*?'''|'[^'\n]*'|"(?:\\.|[^\\"\n])*"/,
+		pattern: /"""(?:\\[\s\S]|[^\\])*?"""|'''[\s\S]*?'''|'[^'\n]*'|"(?:\\.|[^\\"\n])*"/g,
 		greedy: true
 	},
 	'date': [

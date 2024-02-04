@@ -21,7 +21,7 @@ var insideString = {
 	'variable': [
 		// [0]: Arithmetic Environment
 		{
-			pattern: /\$?\(\([\s\S]+?\)\)/,
+			pattern: /\$?\(\([\s\S]+?\)\)/g,
 			greedy: true,
 			inside: {
 				// If there is a $ sign at the beginning highlight $(( and )) as variable
@@ -41,7 +41,7 @@ var insideString = {
 		},
 		// [1]: Command Substitution
 		{
-			pattern: /\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/,
+			pattern: /\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/g,
 			greedy: true,
 			inside: {
 				'variable': /^\$\(|^`|\)$|`$/
@@ -49,7 +49,7 @@ var insideString = {
 		},
 		// [2]: Brace expansion
 		{
-			pattern: /\$\{[^}]+\}/,
+			pattern: /\$\{[^}]+\}/g,
 			greedy: true,
 			inside: {
 				'operator': /:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,
@@ -122,7 +122,7 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
 	'string': [
 		// Support for Here-documents https://en.wikipedia.org/wiki/Here_document
 		{
-			pattern: /((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?\n\2/,
+			pattern: /((?:^|[^<])<<-?\s*)(\w+)\s[\s\S]*?\n\2/g,
 			lookbehind: true,
 			greedy: true,
 			inside: insideString
@@ -130,7 +130,7 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
 		// Here-document with quotes around the tag
 		// → No expansion (so no “inside”).
 		{
-			pattern: /((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?\n\3/,
+			pattern: /((?:^|[^<])<<-?\s*)(["'])(\w+)\2\s[\s\S]*?\n\3/g,
 			lookbehind: true,
 			greedy: true,
 			inside: {
@@ -140,20 +140,20 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
 		// “Normal” string
 		{
 			// https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
-			pattern: /(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/,
+			pattern: /(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/g,
 			lookbehind: true,
 			greedy: true,
 			inside: insideString
 		},
 		{
 			// https://www.gnu.org/software/bash/manual/html_node/Single-Quotes.html
-			pattern: /(^|[^$\\])'[^']*'/,
+			pattern: /(^|[^$\\])'[^']*'/g,
 			lookbehind: true,
 			greedy: true
 		},
 		{
 			// https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html
-			pattern: /\$'(?:[^'\\]|\\[\s\S])*'/,
+			pattern: /\$'(?:[^'\\]|\\[\s\S])*'/g,
 			greedy: true,
 			inside: {
 				'entity': insideString.entity

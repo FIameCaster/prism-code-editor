@@ -15,7 +15,7 @@ languages.fortran = {
 		}
 	},
 	'comment': {
-		pattern: /!.*/,
+		pattern: /!.*/g,
 		greedy: true
 	},
 	'boolean': /\.(?:FALSE|TRUE)\.(?:_\w+)?/i,

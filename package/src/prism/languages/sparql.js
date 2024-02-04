@@ -6,7 +6,7 @@ insertBefore(
 	languages.rq = languages.sparql = extend('turtle', {
 		'boolean': /\b(?:false|true)\b/i,
 		'variable': {
-			pattern: /[?$]\w+/,
+			pattern: /[?$]\w+/g,
 			greedy: true
 		},
 	}),

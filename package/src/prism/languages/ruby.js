@@ -24,12 +24,12 @@ var interpolation = {
 
 interpolationContent.inside = languages.rb = languages.ruby = {
 	'comment': {
-		pattern: /#.*|^=begin\s[\s\S]*?^=end/m,
+		pattern: /#.*|^=begin\s[\s\S]*?^=end/mg,
 		greedy: true
 	},
 	'string-literal': [
 		{
-			pattern: RegExp(/%[qQiIwWs]?/.source + percentExpression),
+			pattern: RegExp(/%[qQiIwWs]?/.source + percentExpression, 'g'),
 			greedy: true,
 			inside: {
 				'interpolation': interpolation,
@@ -37,7 +37,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /("|')(?:#\{[^}]+\}|#(?!\{)|\\[\s\S]|(?!\1)[^\\#\n])*\1/,
+			pattern: /("|')(?:#\{[^}]+\}|#(?!\{)|\\[\s\S]|(?!\1)[^\\#\n])*\1/g,
 			greedy: true,
 			inside: {
 				'interpolation': interpolation,
@@ -45,7 +45,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /<<[-~]?([a-z_]\w*)\n(?:.*\n)*?[\t ]*\1/i,
+			pattern: /<<[-~]?([a-z_]\w*)\n(?:.*\n)*?[\t ]*\1/gi,
 			alias: 'heredoc-string',
 			greedy: true,
 			inside: {
@@ -61,7 +61,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /<<[-~]?'([a-z_]\w*)'\n(?:.*\n)*?[\t ]*\1/i,
+			pattern: /<<[-~]?'([a-z_]\w*)'\n(?:.*\n)*?[\t ]*\1/gi,
 			alias: 'heredoc-string',
 			greedy: true,
 			inside: {
@@ -78,7 +78,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 	],
 	'command-literal': [
 		{
-			pattern: RegExp(/%x/.source + percentExpression),
+			pattern: RegExp(/%x/.source + percentExpression, 'g'),
 			greedy: true,
 			inside: {
 				'interpolation': interpolation,
@@ -89,7 +89,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /`(?:#\{[^}]+\}|#(?!\{)|\\[\s\S]|[^\\`#\n])*`/,
+			pattern: /`(?:#\{[^}]+\}|#(?!\{)|\\[\s\S]|[^\\`#\n])*`/g,
 			greedy: true,
 			inside: {
 				'interpolation': interpolation,
@@ -109,7 +109,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 	},
 	'regex-literal': [
 		{
-			pattern: RegExp(`%r${percentExpression}[egimnosux]{0,6}`),
+			pattern: RegExp(`%r${percentExpression}[egimnosux]{0,6}`, 'g'),
 			greedy: true,
 			inside: {
 				'interpolation': interpolation,
@@ -117,7 +117,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /(^|[^/])\/(?!\/)(?:\[[^\n\]]+\]|\\.|[^[/\\\n])+\/[egimnosux]{0,6}(?=\s*(?:$|[\n,.;})#]))/,
+			pattern: /(^|[^/])\/(?!\/)(?:\[[^\n\]]+\]|\\.|[^[/\\\n])+\/[egimnosux]{0,6}(?=\s*(?:$|[\n,.;})#]))/g,
 			lookbehind: true,
 			greedy: true,
 			inside: {
@@ -129,12 +129,12 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 	'variable': /[@$]+[a-zA-Z_]\w*(?:[?!]|\b)/,
 	'symbol': [
 		{
-			pattern: RegExp(/(^|[^:]):/.source + symbolName),
+			pattern: RegExp(/(^|[^:]):/.source + symbolName, 'g'),
 			lookbehind: true,
 			greedy: true
 		},
 		{
-			pattern: RegExp(/([\n{(,][ \t]*)/.source + symbolName + /(?=:(?!:))/.source),
+			pattern: RegExp(/([\n{(,][ \t]*)/.source + symbolName + /(?=:(?!:))/.source, 'g'),
 			lookbehind: true,
 			greedy: true
 		},

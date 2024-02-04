@@ -18,7 +18,7 @@ var inform7 = languages.inform7 = {
 		}
 	},
 	'comment': {
-		pattern: /\[[^[\]]+\]/,
+		pattern: /\[[^[\]]+\]/g,
 		greedy: true
 	},
 	'title': {

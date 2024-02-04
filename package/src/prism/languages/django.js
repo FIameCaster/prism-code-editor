@@ -18,7 +18,7 @@ languages.jinja2 = languages.django = {
 				alias: 'punctuation'
 			},
 			'string': {
-				pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/,
+				pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/g,
 				greedy: true
 			},
 			'filter': {

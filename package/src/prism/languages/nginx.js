@@ -4,17 +4,17 @@ var variable = /\$(?:\w[a-z\d]*(?:_[^\0-\x1F\s"'\\()$]*)?|\{[^}\s"'\\]+\})/i;
 
 languages.nginx = {
 	'comment': {
-		pattern: /(^|[\s{};])#.*/,
+		pattern: /(^|[\s{};])#.*/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'directive': {
-		pattern: /(^|\s)\w(?:[^;{}"'\\\s]|\\.|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\s+(?:#.*(?!.)|(?![#\s])))*?(?=\s*[;{])/,
+		pattern: /(^|\s)\w(?:[^;{}"'\\\s]|\\.|"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|\s+(?:#.*(?!.)|(?![#\s])))*?(?=\s*[;{])/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'string': {
-				pattern: /((?:^|[^\\])(?:\\\\)*)(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/,
+				pattern: /((?:^|[^\\])(?:\\\\)*)(?:"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g,
 				lookbehind: true,
 				greedy: true,
 				inside: {
@@ -26,12 +26,12 @@ languages.nginx = {
 				}
 			},
 			'comment': {
-				pattern: /(\s)#.*/,
+				pattern: /(\s)#.*/g,
 				lookbehind: true,
 				greedy: true
 			},
 			'keyword': {
-				pattern: /^\S+/,
+				pattern: /^\S+/g,
 				greedy: true
 			},
 

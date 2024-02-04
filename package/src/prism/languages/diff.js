@@ -33,7 +33,7 @@ for (var name in PREFIXES) {
 		alias: prefix != name ? prefix : name == 'diff' ? 'bold' : undefined,
 		inside: {
 			'prefix': {
-				pattern: RegExp('^[' + PREFIXES[name] + ']', 'm'),
+				pattern: RegExp('^[' + PREFIXES[name] + ']', 'mg'),
 				greedy: true,
 				alias: prefix
 			}

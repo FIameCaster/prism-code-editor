@@ -5,20 +5,20 @@ import { boolean } from '../utils/shared.js';
 
 languages.ocaml = {
 	'comment': {
-		pattern: /\(\*[\s\S]*?\*\)/,
+		pattern: /\(\*[\s\S]*?\*\)/g,
 		greedy: true
 	},
 	'char': {
-		pattern: /'(?:[^\\\n']|\\(?:.|[ox]?[0-9a-f]{1,3}))'/i,
+		pattern: /'(?:[^\\\n']|\\(?:.|[ox]?[0-9a-f]{1,3}))'/gi,
 		greedy: true
 	},
 	'string': [
 		{
-			pattern: /"(?:\\[\s\S]|[^\\\n"])*"/,
+			pattern: /"(?:\\[\s\S]|[^\\\n"])*"/g,
 			greedy: true
 		},
 		{
-			pattern: /\{([a-z_]*)\|[\s\S]*?\|\1\}/,
+			pattern: /\{([a-z_]*)\|[\s\S]*?\|\1\}/g,
 			greedy: true
 		}
 	],

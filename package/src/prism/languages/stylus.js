@@ -16,11 +16,11 @@ var comment = clikeComment();
 var inside = {
 	'comment': comment,
 	'url': {
-		pattern: /\burl\((["']?).*?\1\)/i,
+		pattern: /\burl\((["']?).*?\1\)/ig,
 		greedy: true
 	},
 	'string': {
-		pattern: /("|')(?:(?!\1)[^\\\n]|\\[\s\S])*\1/,
+		pattern: /("|')(?:(?!\1)[^\\\n]|\\[\s\S])*\1/g,
 		greedy: true
 	},
 	'interpolation': null, // See below

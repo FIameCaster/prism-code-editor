@@ -22,11 +22,11 @@ var ftl = interpolationInside[rest] = {
 	'string': [
 		{
 			// raw string
-			pattern: /\br("|')(?:(?!\1)[^\\]|\\.)*\1/,
+			pattern: /\br("|')(?:(?!\1)[^\\]|\\.)*\1/g,
 			greedy: true
 		},
 		{
-			pattern: RegExp(/("|')(?:(?!\1|\$\{)[^\\]|\\.|\$\{(?:(?!\})(?:<expr>))*\})*\1/.source.replace(exprReplace, FTL_EXPR)),
+			pattern: RegExp(/("|')(?:(?!\1|\$\{)[^\\]|\\.|\$\{(?:(?!\})(?:<expr>))*\})*\1/.source.replace(exprReplace, FTL_EXPR), 'g'),
 			greedy: true,
 			inside: {
 				'interpolation': {
@@ -52,7 +52,7 @@ var ftl = interpolationInside[rest] = {
 
 languages.ftl = {
 	'ftl-comment': {
-		pattern: /<#--[\s\S]*?-->/,
+		pattern: /<#--[\s\S]*?-->/g,
 		greedy: true,
 		alias: 'comment'
 	},

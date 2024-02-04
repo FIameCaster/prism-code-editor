@@ -4,7 +4,7 @@ import { boolean, clikeComment, clikePunctuation } from '../utils/shared.js';
 languages.jolie = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /(^|[^\\])"(?:\\[\s\S]|[^"\\])*"/,
+		pattern: /(^|[^\\])"(?:\\[\s\S]|[^"\\])*"/g,
 		lookbehind: true,
 		greedy: true
 	},

@@ -25,7 +25,7 @@ var className = {
 
 languages.java = {
 	'doc-comment': {
-		pattern: /\/\*\*(?!\/)[\s\S]*?(?:\*\/|$)/,
+		pattern: /\/\*\*(?!\/)[\s\S]*?(?:\*\/|$)/g,
 		greedy: true,
 		alias: 'comment',
 		inside: 'javadoc'
@@ -33,16 +33,16 @@ languages.java = {
 	'comment': clikeComment(),
 	'triple-quoted-string': {
 		// http://openjdk.java.net/jeps/355#Description
-		pattern: /"""[ \t]*\n(?:(?:"|"")?(?:\\.|[^"\\]))*"""/,
+		pattern: /"""[ \t]*\n(?:(?:"|"")?(?:\\.|[^"\\]))*"""/g,
 		greedy: true,
 		alias: 'string'
 	},
 	'char': {
-		pattern: /'(?:\\.|[^'\\\n]){1,6}'/,
+		pattern: /'(?:\\.|[^'\\\n]){1,6}'/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:\\.|[^"\\\n])*"/,
+		pattern: /(^|[^\\])"(?:\\.|[^"\\\n])*"/g,
 		lookbehind: true,
 		greedy: true
 	},

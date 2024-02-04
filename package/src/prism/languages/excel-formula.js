@@ -2,12 +2,12 @@ import { languages } from '../core.js';
 
 languages['xlsx'] = languages['xls'] = languages['excel-formula'] = {
 	'comment': {
-		pattern: /(\bN\(\s*)"(?:[^"]|"")*"(?=\s*\))/i,
+		pattern: /(\bN\(\s*)"(?:[^"]|"")*"(?=\s*\))/gi,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:[^"]|"")*"(?!")/,
+		pattern: /"(?:[^"]|"")*"(?!")/g,
 		greedy: true
 	},
 	'reference': {
@@ -20,7 +20,7 @@ languages['xlsx'] = languages['xls'] = languages['excel-formula'] = {
 		// '[Sales.xlsx]Jan sales'!B2:B5
 		// 'D:\Reports\[Sales.xlsx]Jan sales'!B2:B5
 
-		pattern: /(?:'[^']*'|(?:[^\s()[\]{}<>*?"';,$&]*\[[^^\s()[\]{}<>*?"']+\])?\w+)!/,
+		pattern: /(?:'[^']*'|(?:[^\s()[\]{}<>*?"';,$&]*\[[^^\s()[\]{}<>*?"']+\])?\w+)!/g,
 		greedy: true,
 		alias: 'string',
 		inside: {

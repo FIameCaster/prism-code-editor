@@ -20,7 +20,7 @@ var interpolation = {
 
 var gradle = expression.inside = languages.gradle = extend('clike', {
 	'string': {
-		pattern: /'''(?:[^\\]|\\[\s\S])*?'''|'(?:\\.|[^\\'\n])*'/,
+		pattern: /'''(?:[^\\]|\\[\s\S])*?'''|'(?:\\.|[^\\'\n])*'/g,
 		greedy: true,
 	},
 	'keyword':
@@ -36,13 +36,13 @@ var gradle = expression.inside = languages.gradle = extend('clike', {
 
 insertBefore(gradle, 'string', {
 	'shebang': {
-		pattern: /#!.+/,
+		pattern: /#!.+/g,
 		alias: 'comment',
 		greedy: true,
 	},
 	'interpolation-string': {
 		pattern:
-			/"""(?:[^\\]|\\[\s\S])*?"""|(["/])(?:\\.|(?!\1)[^\\\n])*\1|\$\/(?:[^/$]|\$(?:[/$]|(?![/$]))|\/(?!\$))*\/\$/,
+			/"""(?:[^\\]|\\[\s\S])*?"""|(["/])(?:\\.|(?!\1)[^\\\n])*\1|\$\/(?:[^/$]|\$(?:[/$]|(?![/$]))|\/(?!\$))*\/\$/g,
 		greedy: true,
 		inside: {
 			'interpolation': interpolation,

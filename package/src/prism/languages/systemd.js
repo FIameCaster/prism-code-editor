@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 
 var comment = {
-	pattern: /^[;#].*/m,
+	pattern: /^[;#].*/mg,
 	greedy: true
 };
 
@@ -11,7 +11,7 @@ languages.systemd = {
 	'comment': comment,
 
 	'section': {
-		pattern: /^\[[^\n[\]]*\](?=[ \t]*$)/m,
+		pattern: /^\[[^\n[\]]*\](?=[ \t]*$)/mg,
 		greedy: true,
 		inside: {
 			'punctuation': /^\[|\]$/,
@@ -23,7 +23,7 @@ languages.systemd = {
 	},
 
 	'key': {
-		pattern: /^[^\s=]+(?=[ \t]*=)/m,
+		pattern: /^[^\s=]+(?=[ \t]*=)/mg,
 		greedy: true,
 		alias: 'attr-name'
 	},
@@ -49,7 +49,7 @@ languages.systemd = {
 			'punctuation': /\\$/m,
 
 			'boolean': {
-				pattern: /^(?:false|no|off|on|true|yes)$/,
+				pattern: /^(?:false|no|off|on|true|yes)$/g,
 				greedy: true
 			}
 		}

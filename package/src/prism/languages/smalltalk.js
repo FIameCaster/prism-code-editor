@@ -3,15 +3,15 @@ import { boolean } from '../utils/shared.js';
 
 languages.smalltalk = {
 	'comment': {
-		pattern: /"(?:""|[^"])*"/,
+		pattern: /"(?:""|[^"])*"/g,
 		greedy: true
 	},
 	'char': {
-		pattern: /\$./,
+		pattern: /\$./g,
 		greedy: true
 	},
 	'string': {
-		pattern: /'(?:''|[^'])*'/,
+		pattern: /'(?:''|[^'])*'/g,
 		greedy: true
 	},
 	'symbol': /#[\da-z]+|#(?:-|([+\/\\*~<>=@%|&?!])\1?)|#(?=\()/i,

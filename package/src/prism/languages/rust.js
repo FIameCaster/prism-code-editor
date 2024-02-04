@@ -3,7 +3,7 @@ import { boolean } from '../utils/shared.js';
 
 var multilineComment = /\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|<self>)*\*\//.source;
 var string = {
-	pattern: /b?"(?:\\[\s\S]|[^\\"])*"|b?r(#*)"(?:[^"]|"(?!\1))*"\1/,
+	pattern: /b?"(?:\\[\s\S]|[^\\"])*"|b?r(#*)"(?:[^"]|"(?!\1))*"\1/g,
 	greedy: true
 };
 var paramsInside = {
@@ -21,16 +21,16 @@ multilineComment = multilineComment.replace(/<self>/g, '[]');
 
 paramsInside[rest] = languages.rust = {
 	'comment': {
-		pattern: RegExp("//.*|" + multilineComment),
+		pattern: RegExp("//.*|" + multilineComment, 'g'),
 		greedy: true
 	},
 	'string': string,
 	'char': {
-		pattern: /b?'(?:\\(?:x[0-7][\da-fA-F]|u\{(?:[\da-fA-F]_*){1,6}\}|.)|[^\\\n\t'])'/,
+		pattern: /b?'(?:\\(?:x[0-7][\da-fA-F]|u\{(?:[\da-fA-F]_*){1,6}\}|.)|[^\\\n\t'])'/g,
 		greedy: true
 	},
 	'attribute': {
-		pattern: /#!?\[(?:[^[\]"]|"(?:\\[\s\S]|[^\\"])*")*\]/,
+		pattern: /#!?\[(?:[^[\]"]|"(?:\\[\s\S]|[^\\"])*")*\]/g,
 		greedy: true,
 		alias: 'attr-name',
 		inside: {
@@ -40,7 +40,7 @@ paramsInside[rest] = languages.rust = {
 
 	// Closure params should not be confused with bitwise OR |
 	'closure-params': {
-		pattern: /([=(,:]\s*|\bmove\s*)\|[^|]*\||\|[^|]*\|(?=\s*(?:\{|->))/,
+		pattern: /([=(,:]\s*|\bmove\s*)\|[^|]*\||\|[^|]*\|(?=\s*(?:\{|->))/g,
 		lookbehind: true,
 		greedy: true,
 		inside: paramsInside

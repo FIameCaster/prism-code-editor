@@ -10,14 +10,14 @@ languages.odin = {
 	 * @author edukisto
 	 */
 	'comment': {
-		pattern: /\/\/.*|#!.*|\/\*(?:[^/*]|\/(?!\*)|\*(?!\/)|\/\*(?:\*(?!\/)|[^*])*(?:\*\/|$))*(?:\*\/|$)/,
+		pattern: /\/\/.*|#!.*|\/\*(?:[^/*]|\/(?!\*)|\*(?!\/)|\/\*(?:\*(?!\/)|[^*])*(?:\*\/|$))*(?:\*\/|$)/g,
 		greedy: true
 	},
 	/**
 	 * Should be found before strings because of '"'"- and '`'`-like sequences.
 	 */
 	'char': {
-		pattern: /'(?:\\(?:.|[0Uux][0-9A-Fa-f]{1,6})|[^\n'\\])'/,
+		pattern: /'(?:\\(?:.|[0Uux][0-9A-Fa-f]{1,6})|[^\n'\\])'/g,
 		greedy: true,
 		inside: {
 			'symbol': escapes
@@ -26,11 +26,11 @@ languages.odin = {
 
 	'string': [
 		{
-			pattern: /`[^`]*`/,
+			pattern: /`[^`]*`/g,
 			greedy: true
 		},
 		{
-			pattern: /"(?:\\.|[^\n"\\])*"/,
+			pattern: /"(?:\\.|[^\n"\\])*"/g,
 			greedy: true,
 			inside: {
 				'symbol': escapes

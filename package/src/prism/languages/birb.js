@@ -5,7 +5,7 @@ import './clike.js';
 insertBefore(
 	languages.birb = extend('clike', {
 		'string': {
-			pattern: /r?("|')(?:\\.|(?!\1)[^\\])*\1/,
+			pattern: /r?("|')(?:\\.|(?!\1)[^\\])*\1/g,
 			greedy: true
 		},
 		'class-name': [
@@ -20,7 +20,7 @@ insertBefore(
 	}),
 	'function', {
 		'metadata': {
-			pattern: /<\w+>/,
+			pattern: /<\w+>/g,
 			greedy: true,
 			alias: 'symbol'
 		}

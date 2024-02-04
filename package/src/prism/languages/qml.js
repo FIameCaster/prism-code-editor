@@ -2,11 +2,7 @@ import { languages } from '../core.js';
 import { clikeComment } from '../utils/shared.js';
 import './javascript.js';
 
-var jsString = /"(?:\\.|[^\\"\n])*"|'(?:\\.|[^\\'\n])*'/.source;
-var jsComment = /\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\//.source;
-
-var jsExpr = /(?:[^\\()[\]{}"'/]|<string>|\/(?![*/])|<comment>|\(<expr>*\)|\[<expr>*\]|\{<expr>*\}|\\[\s\S])/
-	.source.replace(/<string>/g, jsString).replace(/<comment>/g, jsComment);
+var jsExpr = /(?:[^\\()[\]{}"'/]|"(?:\\.|[^\\"\n])*"|'(?:\\.|[^\\'\n])*'|\/(?![*/])|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/|\(<expr>*\)|\[<expr>*\]|\{<expr>*\}|\\[\s\S])/.source;
 
 // the pattern will blow up, so only a few iterations
 for (var i = 0; i < 2; i++) {
@@ -18,7 +14,7 @@ jsExpr = jsExpr.replace(/<expr>/g, '[]');
 languages.qml = {
 	'comment': clikeComment(),
 	'javascript-function': {
-		pattern: RegExp(/((?:^|;)[ \t]*)function\s+(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\s*\(<js>*\)\s*\{<js>*\}/.source.replace(/<js>/g, jsExpr), 'm'),
+		pattern: RegExp(/((?:^|;)[ \t]*)function\s+(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\s*\(<js>*\)\s*\{<js>*\}/.source.replace(/<js>/g, jsExpr), 'mg'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-javascript',
@@ -43,14 +39,14 @@ languages.qml = {
 		}
 	],
 	'javascript-expression': {
-		pattern: RegExp(/(:[ \t]*)(?![\s;}[])(?:(?!$|[;}])<js>)+/.source.replace(/<js>/g, jsExpr), 'm'),
+		pattern: RegExp(/(:[ \t]*)(?![\s;}[])(?:(?!$|[;}])<js>)+/.source.replace(/<js>/g, jsExpr), 'mg'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-javascript',
 		inside: languages.js
 	},
 	'string': {
-		pattern: /"(?:\\.|[^\\"\n])*"/,
+		pattern: /"(?:\\.|[^\\"\n])*"/g,
 		greedy: true
 	},
 	'keyword': /\b(?:as|import|on)\b/,

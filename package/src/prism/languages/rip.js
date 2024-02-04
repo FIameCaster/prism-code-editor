@@ -3,21 +3,21 @@ import { boolean } from '../utils/shared.js';
 
 languages.rip = {
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 
 	'char': {
-		pattern: /\B`[^\s`'",.:;#\/\\()<>[\]{}]\b/,
+		pattern: /\B`[^\s`'",.:;#\/\\()<>[\]{}]\b/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/,
+		pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 
 	'regex': {
-		pattern: /(^|[^/])\/(?!\/)(?:\[[^\n\]]*\]|\\.|[^/\\\n\[])+\/(?=\s*(?:$|[\n,.;})]))/,
+		pattern: /(^|[^/])\/(?!\/)(?:\[[^\n\]]*\]|\\.|[^/\\\n\[])+\/(?=\s*(?:$|[\n,.;})]))/g,
 		lookbehind: true,
 		greedy: true
 	},

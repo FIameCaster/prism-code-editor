@@ -4,7 +4,7 @@ import { languages } from '../core.js';
 
 languages['go-mod'] = languages['go-module'] = {
 	'comment': {
-		pattern: /\/\/.*/,
+		pattern: /\/\/.*/g,
 		greedy: true
 	},
 	'version': {

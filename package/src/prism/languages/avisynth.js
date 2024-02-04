@@ -6,7 +6,7 @@ var replace = (pattern, replacements) =>
 		replacements[+index]
 	);
 
-var re = (pattern, replacements, flags = '') =>
+var re = (pattern, replacements, flags) =>
 	RegExp(replace(pattern, replacements), flags);
 
 var types = 'bool|clip|float|int|string|val';
@@ -14,7 +14,7 @@ var allinternals = 'is(?:bool|clip|float|int|string)|defined|(?:(?:internal)?fun
 
 languages.avs = languages.avisynth = {
 	'comment': {
-		pattern: /#.*|\/\*[\s\S]*?(?:\*\/|$)|\[\*(?:[^\[*]|\[(?!\*)|\*(?!\])|\[\*(?:[^\[*]|\[(?!\*)|\*(?!\]))*\*\])*\*\]/,
+		pattern: /#.*|\/\*[\s\S]*?(?:\*\/|$)|\[\*(?:[^\[*]|\[(?!\*)|\*(?!\])|\[\*(?:[^\[*]|\[(?!\*)|\*(?!\]))*\*\])*\*\]/g,
 		greedy: true
 	},
 	// Handle before strings because optional arguments are surrounded by double quotes
@@ -41,12 +41,12 @@ languages.avs = languages.avisynth = {
 	'string': [
 		{
 			// triple double-quoted
-			pattern: /"""[\s\S]*?"""/,
+			pattern: /"""[\s\S]*?"""/g,
 			greedy: true,
 		},
 		{
 			// single double-quoted
-			pattern: /"(?:\\[\s\S]|[^"\\\n])*"/,
+			pattern: /"(?:\\[\s\S]|[^"\\\n])*"/g,
 			greedy: true,
 			inside: {
 				'constant': {

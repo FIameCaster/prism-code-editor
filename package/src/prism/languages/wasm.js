@@ -4,12 +4,12 @@ languages.wasm = {
 	'comment': [
 		/\(;[\s\S]*?;\)/,
 		{
-			pattern: /;;.*/,
+			pattern: /;;.*/g,
 			greedy: true
 		}
 	],
 	'string': {
-		pattern: /"(?:\\[\s\S]|[^"\\])*"/,
+		pattern: /"(?:\\[\s\S]|[^"\\])*"/g,
 		greedy: true
 	},
 	'keyword': [

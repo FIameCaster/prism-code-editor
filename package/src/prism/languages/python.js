@@ -14,11 +14,11 @@ var inside = {
 
 inside[rest] = languages.py = languages.python = {
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 	'string-interpolation': {
-		pattern: /(?:f|fr|rf)(?:("""|''')[\s\S]*?\1|("|')(?:\\.|(?!\2)[^\\\n])*\2)/i,
+		pattern: /(?:f|fr|rf)(?:("""|''')[\s\S]*?\1|("|')(?:\\.|(?!\2)[^\\\n])*\2)/gi,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -31,12 +31,12 @@ inside[rest] = languages.py = languages.python = {
 		}
 	},
 	'triple-quoted-string': {
-		pattern: /(?:[rub]|br|rb)?("""|''')[\s\S]*?\1/i,
+		pattern: /(?:[rub]|br|rb)?("""|''')[\s\S]*?\1/gi,
 		greedy: true,
 		alias: 'string'
 	},
 	'string': {
-		pattern: /(?:[rub]|br|rb)?("|')(?:\\.|(?!\1)[^\\\n])*\1/i,
+		pattern: /(?:[rub]|br|rb)?("|')(?:\\.|(?!\1)[^\\\n])*\1/gi,
 		greedy: true
 	},
 	'function': {

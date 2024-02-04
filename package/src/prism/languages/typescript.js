@@ -4,7 +4,7 @@ import './javascript.js';
 
 var ts = languages.ts = languages.typescript = extend('js', {
 	'class-name': {
-		pattern: /(\b(?:class|extends|implements|instanceof|interface|new|type)\s+)(?!keyof\b)(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?:\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)?/,
+		pattern: /(\b(?:class|extends|implements|instanceof|interface|new|type)\s+)(?!keyof\b)(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?:\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)?/g,
 		lookbehind: true,
 		greedy: true
 	}
@@ -43,7 +43,7 @@ insertBefore(ts, 'function', {
 	},
 	'generic-function': {
 		// e.g. foo<T extends "bar" | "baz">( ...
-		pattern: /#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>(?=\s*\()/,
+		pattern: /#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>(?=\s*\()/g,
 		greedy: true,
 		inside: {
 			'function': /^#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+/,

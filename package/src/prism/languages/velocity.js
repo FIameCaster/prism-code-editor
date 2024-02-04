@@ -13,7 +13,7 @@ var variable = {
 var velocity = {
 	'variable': variable,
 	'string': {
-		pattern: /"[^"]*"|'[^']*'/,
+		pattern: /"[^"]*"|'[^']*'/g,
 		greedy: true
 	},
 	'number': /\b\d+\b/,
@@ -35,7 +35,7 @@ variable.inside = {
 
 insertBefore(vel, 'comment', {
 	'unparsed': {
-		pattern: /(^|[^\\])#\[\[[\s\S]*?\]\]#/,
+		pattern: /(^|[^\\])#\[\[[\s\S]*?\]\]#/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -44,13 +44,13 @@ insertBefore(vel, 'comment', {
 	},
 	'velocity-comment': [
 		{
-			pattern: /(^|[^\\])#\*[\s\S]*?\*#/,
+			pattern: /(^|[^\\])#\*[\s\S]*?\*#/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'comment'
 		},
 		{
-			pattern: /(^|[^\\])##.*/,
+			pattern: /(^|[^\\])##.*/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'comment'

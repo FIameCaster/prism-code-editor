@@ -4,12 +4,12 @@ import './markup.js';
 
 var xquery = languages.xquery = extend('markup', {
 	'xquery-comment': {
-		pattern: /\(:[\s\S]*?:\)/,
+		pattern: /\(:[\s\S]*?:\)/g,
 		greedy: true,
 		alias: 'comment'
 	},
 	'string': {
-		pattern: /(["'])(?:\1\1|(?!\1)[\s\S])*\1/,
+		pattern: /(["'])(?:\1\1|(?!\1)[\s\S])*\1/g,
 		greedy: true
 	},
 	'extension': {
@@ -126,7 +126,7 @@ var walkTokens = (tokens, code, position) => {
 	return tokens;
 };
 
-tag.pattern = /<\/?(?!\d)[^\s>\/=$<%]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/;
+tag.pattern = /<\/?(?!\d)[^\s>\/=$<%]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/g;
 attrValue.pattern = /(=)(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\2)[^\\])*\2|[^\s'">=]+)/;
 attrValue.inside['expression'] = {
 	// Allow for two levels of nesting

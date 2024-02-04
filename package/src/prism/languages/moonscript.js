@@ -9,11 +9,11 @@ moonscript.inside = languages.moon = languages.moonscript = {
 	'comment': /--.*/,
 	'string': [
 		{
-			pattern: /'[^']*'|\[(=*)\[[\s\S]*?\]\1\]/,
+			pattern: /'[^']*'|\[(=*)\[[\s\S]*?\]\1\]/g,
 			greedy: true
 		},
 		{
-			pattern: /"[^"]*"/,
+			pattern: /"[^"]*"/g,
 			greedy: true,
 			inside: {
 				'interpolation': {

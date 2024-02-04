@@ -8,7 +8,7 @@ var statement = {
 statement.inside = languages.mel = {
 	'comment': clikeComment(),
 	'code': {
-		pattern: /`(?:\\.|[^\\`])*`/,
+		pattern: /`(?:\\.|[^\\`])*`/g,
 		greedy: true,
 		alias: 'italic',
 		inside: {
@@ -20,7 +20,7 @@ statement.inside = languages.mel = {
 		}
 	},
 	'string': {
-		pattern: /"(?:\\.|[^\\"\n])*"/,
+		pattern: /"(?:\\.|[^\\"\n])*"/g,
 		greedy: true
 	},
 	'variable': /\$\w+/,
@@ -31,7 +31,7 @@ statement.inside = languages.mel = {
 	},
 	'keyword': /\b(?:break|case|continue|default|do|else|float|for|global|if|in|int|matrix|proc|return|string|switch|vector|while)\b/,
 	'function': {
-		pattern: /((?:^|[{;])[ \t]*)[a-z_]\w*\b(?!\s*(?:\.(?!\.)|[[{=]))|\b[a-z_]\w*(?=[ \t]*\()/im,
+		pattern: /((?:^|[{;])[ \t]*)[a-z_]\w*\b(?!\s*(?:\.(?!\.)|[[{=]))|\b[a-z_]\w*(?=[ \t]*\()/img,
 		lookbehind: true,
 		greedy: true
 	},

@@ -20,7 +20,7 @@ var string = /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/.source;
  * @param {string} [flags]
  * @returns {RegExp}
  */
-var createValuePattern = (value, flags = 'm') => RegExp(
+var createValuePattern = (value, flags) => RegExp(
 	/([:\-,[{]\s*(?:\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\]|\}|(?:\n\s*)?#))/.source
 		.replace(/<<prop>>/g, () => properties).replace(/<<value>>/g, value),
 	flags
@@ -37,7 +37,7 @@ languages.yml = languages.yaml = {
 	'key': {
 		pattern: RegExp(/((?:^|[:\-,[{\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\s*:\s)/.source
 			.replace(/<<prop>>/g, () => properties)
-			.replace(/<<key>>/g, '(?:' + plainKey + '|' + string + ')')),
+			.replace(/<<key>>/g, '(?:' + plainKey + '|' + string + ')'), 'g'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'atrule'
@@ -48,7 +48,7 @@ languages.yml = languages.yaml = {
 		alias: 'important'
 	},
 	'datetime': {
-		pattern: createValuePattern(/\d{4}-\d\d?-\d\d?(?:[tT]|[ \t]+)\d\d?:\d{2}:\d{2}(?:\.\d*)?(?:[ \t]*(?:Z|[-+]\d\d?(?::\d{2})?))?|\d{4}-\d{2}-\d{2}|\d\d?:\d{2}(?::\d{2}(?:\.\d*)?)?/.source),
+		pattern: createValuePattern(/\d{4}-\d\d?-\d\d?(?:[tT]|[ \t]+)\d\d?:\d{2}:\d{2}(?:\.\d*)?(?:[ \t]*(?:Z|[-+]\d\d?(?::\d{2})?))?|\d{4}-\d{2}-\d{2}|\d\d?:\d{2}(?::\d{2}(?:\.\d*)?)?/.source, 'm'),
 		lookbehind: true,
 		alias: 'number'
 	},
@@ -63,7 +63,7 @@ languages.yml = languages.yaml = {
 		alias: 'important'
 	},
 	'string': {
-		pattern: createValuePattern(string),
+		pattern: createValuePattern(string, 'mg'),
 		lookbehind: true,
 		greedy: true
 	},

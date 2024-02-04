@@ -5,7 +5,7 @@ import { languages } from '../core.js';
 languages.ichigojam = {
 	'comment': /(?:\B'|REM).*/i,
 	'string': {
-		pattern: /"(?:""|[!#$%&'()*,\/:;<=>?^\w +\-.])*"/,
+		pattern: /"(?:""|[!#$%&'()*,\/:;<=>?^\w +\-.])*"/g,
 		greedy: true
 	},
 	'number': /\B#[0-9A-F]+|\B`[01]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:E[+-]?\d+)?/i,

@@ -48,7 +48,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 		},
 		// Matches the content of an unquoted heredoc string (no interpolation)
 		{
-			pattern: /(@\(([^"\n\/):]+)(?:\/[nrts$uL]*)?\).*\n)(?:.*\n)*?[ \t]*(?:\|[ \t]*)?(?:-[ \t]*)?\2/,
+			pattern: /(@\(([^"\n\/):]+)(?:\/[nrts$uL]*)?\).*\n)(?:.*\n)*?[ \t]*(?:\|[ \t]*)?(?:-[ \t]*)?\2/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',
@@ -70,13 +70,13 @@ interpolation[0].inside[rest] = languages.puppet = {
 		}
 	],
 	'multiline-comment': {
-		pattern: /\/\*[\s\S]*?\*\//,
+		pattern: /\/\*[\s\S]*?\*\//g,
 		greedy: true,
 		alias: 'comment'
 	},
 	'regex': {
 		// Must be prefixed with the keyword "node" or a non-word char
-		pattern: /((?:\bnode\s+|[~=\(\[\{,]\s*|[=+]>\s*|^\s*))\/(?:[^\/\\]|\\[\s\S])+\/(?:[imx]+\b|\B)/,
+		pattern: /((?:\bnode\s+|[~=\(\[\{,]\s*|[=+]>\s*|^\s*))\/(?:[^\/\\]|\\[\s\S])+\/(?:[imx]+\b|\B)/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -90,12 +90,12 @@ interpolation[0].inside[rest] = languages.puppet = {
 		}
 	},
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true,
 	},
 	'string': {
 		// Allow for one nested level of double quotes inside interpolation
-		pattern: /(["'])(?:\$\{(?:[^'"}]|(["'])(?:(?!\2)[^\\]|\\[\s\S])*\2)+\}|\$(?!\{)|(?!\1)[^\\$]|\\[\s\S])*\1/,
+		pattern: /(["'])(?:\$\{(?:[^'"}]|(["'])(?:(?!\2)[^\\]|\\[\s\S])*\2)+\}|\$(?!\{)|(?!\1)[^\\$]|\\[\s\S])*\1/g,
 		greedy: true,
 		inside: {
 			'double-quoted': {

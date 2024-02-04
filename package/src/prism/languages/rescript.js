@@ -4,11 +4,11 @@ import { boolean, clikeComment } from '../utils/shared.js';
 languages.res = languages.rescript = {
 	'comment': clikeComment(),
 	'char': {
-		pattern: /'(?:[^\n\\]|\\(?:.|\w+))'/,
+		pattern: /'(?:[^\n\\]|\\(?:.|\w+))'/g,
 		greedy: true
 	},
 	'template-string': {
-		pattern: /`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}|(?!\$\{)[^\\`])*`/,
+		pattern: /`(?:\\[\s\S]|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}|(?!\$\{)[^\\`])*`/g,
 		greedy: true,
 		inside: {
 			'template-punctuation': {
@@ -30,7 +30,7 @@ languages.res = languages.rescript = {
 		}
 	},
 	'string': {
-		pattern: /"(?:\\[\s\S]|[^\\\n"])*"/,
+		pattern: /"(?:\\[\s\S]|[^\\\n"])*"/g,
 		greedy: true
 	},
 	'class-name': /\b[A-Z]\w*|@[a-z.]*|#[A-Za-z]\w*|#\d/,

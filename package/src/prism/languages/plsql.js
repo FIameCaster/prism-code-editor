@@ -5,7 +5,7 @@ import './sql.js';
 insertBefore(
 	languages.plsql = extend('sql', {
 		'comment': {
-			pattern: /\/\*[\s\S]*?\*\/|--.*/,
+			pattern: /\/\*[\s\S]*?\*\/|--.*/g,
 			greedy: true
 		},
 		// https://docs.oracle.com/en/database/oracle/oracle-database/21/lnpls/plsql-reserved-words-keywords.html

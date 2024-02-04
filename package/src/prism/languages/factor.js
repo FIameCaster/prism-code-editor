@@ -12,7 +12,7 @@ var factor = {
 		// ! single-line exclamation point comments with whitespace after/around the !
 		// /* comment */, /* comment*/
 		// ![[ comment ]] , ![===[ comment]===]
-		pattern: /(^|\s)(?:! .*|!$|\/\*\s[\s\S]*?\*\/(?=\s|$)|!\[(={0,6})\[\s[\s\S]*?\]\2\](?=\s|$))/,
+		pattern: /(^|\s)(?:! .*|!$|\/\*\s[\s\S]*?\*\/(?=\s|$)|!\[(={0,6})\[\s[\s\S]*?\]\2\](?=\s|$))/g,
 		greedy: true,
 		lookbehind: true,
 		inside: comment_inside
@@ -58,7 +58,7 @@ var factor = {
 
 	// SBUF" asd", URL" ://...", P" /etc/"
 	'custom-string': {
-		pattern: /(^|\s)[A-Z0-9\-]+"\s(?:\\\S|[^"\\])*"/,
+		pattern: /(^|\s)[A-Z0-9\-]+"\s(?:\\\S|[^"\\])*"/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'string',
@@ -70,7 +70,7 @@ var factor = {
 	'multiline-string': [
 		{
 			// STRING: name \n content \n ; -> CONSTANT: name "content" (symbol)
-			pattern: /(^|\s)STRING:\s+\S+\n.*\n\s*;(?=\s|$)/,
+			pattern: /(^|\s)STRING:\s+\S+\n.*\n\s*;(?=\s|$)/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',
@@ -86,7 +86,7 @@ var factor = {
 		},
 		{
 			// HEREDOC: marker \n content \n marker ; -> "content" (immediate)
-			pattern: /(^|\s)HEREDOC:\s+\S+\n.*\n\s*\S+(?=\s|$)/,
+			pattern: /(^|\s)HEREDOC:\s+\S+\n.*\n\s*\S+(?=\s|$)/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',
@@ -94,7 +94,7 @@ var factor = {
 		},
 		{
 			// [[ string ]], [==[ string]==]
-			pattern: /(^|\s)\[(={0,6})\[\s[\s\S]*?\]\2\](?=\s|$)/,
+			pattern: /(^|\s)\[(={0,6})\[\s[\s\S]*?\]\2\](?=\s|$)/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',
@@ -225,7 +225,7 @@ var factor = {
 	},
 
 	'colon-syntax': {
-		pattern: /(^|\s)(?:[A-Z0-9\-]+#?)?:{1,2}\s+(?:;\S+|(?!;)\S+)(?=\s|$)/,
+		pattern: /(^|\s)(?:[A-Z0-9\-]+#?)?:{1,2}\s+(?:;\S+|(?!;)\S+)(?=\s|$)/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'function'
@@ -293,7 +293,7 @@ var factor = {
 		this is fine for a regex-only implementation.
 	*/
 	'string': {
-		pattern: /"(?:\\\S|[^"\\])*"/,
+		pattern: /"(?:\\\S|[^"\\])*"/g,
 		greedy: true,
 		inside: string_inside
 	}

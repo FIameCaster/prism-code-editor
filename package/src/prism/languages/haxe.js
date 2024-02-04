@@ -4,7 +4,7 @@ import { boolean, clikeComment, clikeNumber, clikePunctuation } from '../utils/s
 languages.haxe = {
 	'comment': clikeComment(),
 	'string-interpolation': {
-		pattern: /'(?:[^'\\]|\\[\s\S])*'/,
+		pattern: /'(?:[^'\\]|\\[\s\S])*'/g,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -26,11 +26,11 @@ languages.haxe = {
 	},
 	'string': {
 		// Strings can be multi-line
-		pattern: /"(?:[^"\\]|\\[\s\S])*"/,
+		pattern: /"(?:[^"\\]|\\[\s\S])*"/g,
 		greedy: true
 	},
 	'regex': {
-		pattern: /~\/(?:[^\/\\\n]|\\.)+\/[a-z]*/,
+		pattern: /~\/(?:[^\/\\\n]|\\.)+\/[a-z]*/g,
 		greedy: true,
 		inside: {
 			'regex-flags': /\w+$/,
@@ -66,7 +66,7 @@ languages.haxe = {
 	'keyword': /\bthis\b|\b(?:abstract|as|break|case|cast|catch|class|continue|default|do|dynamic|else|enum|extends|extern|final|for|from|function|if|implements|import|in|inline|interface|macro|new|null|operator|overload|override|package|private|public|return|static|super|switch|throw|to|try|typedef|untyped|using|var|while)(?!\.)\b/,
 	'boolean': boolean,
 	'function': {
-		pattern: /\b[a-z_]\w*(?=\s*(?:<[^<>]*>\s*)?\()/i,
+		pattern: /\b[a-z_]\w*(?=\s*(?:<[^<>]*>\s*)?\()/gi,
 		greedy: true
 	},
 	'number': clikeNumber,

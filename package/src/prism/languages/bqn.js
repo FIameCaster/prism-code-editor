@@ -2,21 +2,21 @@ import { languages } from '../core.js';
 
 languages.bqn = {
 	'shebang': {
-		pattern: /^#![ \t]*\/.*/,
+		pattern: /^#![ \t]*\/.*/g,
 		alias: 'important',
 		greedy: true
 	},
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 	'string-literal': {
-		pattern: /"(?:[^"]|"")*"/,
+		pattern: /"(?:[^"]|"")*"/g,
 		greedy: true,
 		alias: 'string'
 	},
 	'character-literal': {
-		pattern: /'(?:[\s\S]|[\uD800-\uDBFF][\uDC00-\uDFFF])'/,
+		pattern: /'(?:[\s\S]|[\uD800-\uDBFF][\uDC00-\uDFFF])'/g,
 		greedy: true,
 		alias: 'char'
 	},

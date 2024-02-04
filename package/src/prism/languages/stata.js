@@ -13,18 +13,18 @@ var expression = {
 expression.inside = languages.stata = {
 	'comment': [
 		{
-			pattern: /(^[ \t]*)\*.*/m,
+			pattern: /(^[ \t]*)\*.*/mg,
 			lookbehind: true,
 			greedy: true
 		},
 		{
-			pattern: /(^|\s)\/\/.*|\/\*[\s\S]*?\*\//,
+			pattern: /(^|\s)\/\/.*|\/\*[\s\S]*?\*\//g,
 			lookbehind: true,
 			greedy: true
 		}
 	],
 	'string-literal': {
-		pattern: /"[^"\n]*"|[‘`']".*?"[’`']/,
+		pattern: /"[^"\n]*"|[‘`']".*?"[’`']/g,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -39,21 +39,21 @@ expression.inside = languages.stata = {
 	},
 
 	'mata': {
-		pattern: /(^[ \t]*mata[ \t]*:)[\s\S]+?(?=^end\b)/m,
+		pattern: /(^[ \t]*mata[ \t]*:)[\s\S]+?(?=^end\b)/mg,
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-mata',
 		inside: languages.mata
 	},
 	'java': {
-		pattern: /(^[ \t]*java[ \t]*:)[\s\S]+?(?=^end\b)/m,
+		pattern: /(^[ \t]*java[ \t]*:)[\s\S]+?(?=^end\b)/mg,
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-java',
 		inside: languages.java
 	},
 	'python': {
-		pattern: /(^[ \t]*python[ \t]*:)[\s\S]+?(?=^end\b)/m,
+		pattern: /(^[ \t]*python[ \t]*:)[\s\S]+?(?=^end\b)/mg,
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-python',
@@ -62,7 +62,7 @@ expression.inside = languages.stata = {
 
 
 	'command': {
-		pattern: /(^[ \t]*(?:\.[ \t]+)?(?:(?:bayes|bootstrap|by|bysort|capture|collect|fmm|fp|frame|jackknife|mfp|mi|nestreg|noisily|permute|quietly|rolling|simulate|statsby|stepwise|svy|version|xi)\b[^:\n]*:[ \t]*|(?:capture|noisily|quietly|version)[ \t]+)?)[a-zA-Z]\w*/m,
+		pattern: /(^[ \t]*(?:\.[ \t]+)?(?:(?:bayes|bootstrap|by|bysort|capture|collect|fmm|fp|frame|jackknife|mfp|mi|nestreg|noisily|permute|quietly|rolling|simulate|statsby|stepwise|svy|version|xi)\b[^:\n]*:[ \t]*|(?:capture|noisily|quietly|version)[ \t]+)?)[a-zA-Z]\w*/mg,
 		lookbehind: true,
 		greedy: true,
 		alias: 'keyword'

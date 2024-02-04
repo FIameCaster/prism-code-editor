@@ -5,14 +5,14 @@ var js = {};
 
 languages.js = languages.javascript = Object.assign(js, {
 	'doc-comment': {
-		pattern: /\/\*\*(?!\/)[\s\S]*?(?:\*\/|$)/,
+		pattern: /\/\*\*(?!\/)[\s\S]*?(?:\*\/|$)/g,
 		greedy: true,
 		alias: 'comment',
 		inside: 'jsdoc'
 	},
 	'comment': clikeComment(),
 	'hashbang': {
-		pattern: /^#!.*/,
+		pattern: /^#!.*/g,
 		greedy: true,
 		alias: 'comment'
 	},
@@ -39,14 +39,14 @@ languages.js = languages.javascript = Object.assign(js, {
 		}
 	},
 	'string-property': {
-		pattern: /((?:^|[,{])[ \t]*)(["'])(?:\\[\s\S]|(?!\2)[^\\\n])*\2(?=\s*:)/m,
+		pattern: /((?:^|[,{])[ \t]*)(["'])(?:\\[\s\S]|(?!\2)[^\\\n])*\2(?=\s*:)/mg,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property'
 	},
 	'string': clikeString(),
 	'regex': {
-		pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:[^\]\\\n]|\\.)*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}|(?:\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\n,.;:+?/&|<>^*%!={}}())[\]-]))/,
+		pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:[^\]\\\n]|\\.)*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}|(?:\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.|\[(?:[^[\]\\\n]|\\.)*\])*\])*\]|\\.|[^/\\\[\n])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[\n,.;:+?/&|<>^*%!={}}())[\]-]))/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {

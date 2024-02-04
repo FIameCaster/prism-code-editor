@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 languages.mermaid = {
 	'comment': {
-		pattern: /%%.*/,
+		pattern: /%%.*/g,
 		greedy: true
 	},
 
@@ -17,7 +17,7 @@ languages.mermaid = {
 	},
 
 	'inter-arrow-label': {
-		pattern: /([^<>ox.=-])(?:-[-.]|==)(?![<>ox.=-])[ \t]*(?:"[^"\n]*"|[^\s".=-](?:[^\n.=-]*[^\s.=-])?)[ \t]*(?:\.+->?|--+[->]|==+[=>])(?![<>ox.=-])/,
+		pattern: /([^<>ox.=-])(?:-[-.]|==)(?![<>ox.=-])[ \t]*(?:"[^"\n]*"|[^\s".=-](?:[^\n.=-]*[^\s.=-])?)[ \t]*(?:\.+->?|--+[->]|==+[=>])(?![<>ox.=-])/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -71,7 +71,7 @@ languages.mermaid = {
 	],
 
 	'label': {
-		pattern: /(^|[^|<])\|(?:[^\n"|]|"[^"\n]*")+\|/,
+		pattern: /(^|[^|<])\|(?:[^\n"|]|"[^"\n]*")+\|/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property'
@@ -82,7 +82,7 @@ languages.mermaid = {
 		alias: 'string'
 	},
 	'string': {
-		pattern: /"[^"\n]*"/,
+		pattern: /"[^"\n]*"/g,
 		greedy: true
 	},
 
@@ -94,12 +94,12 @@ languages.mermaid = {
 	'keyword': [
 		// This language has both case-sensitive and case-insensitive keywords
 		{
-			pattern: /(^[ \t]*)(?:action|callback|class|classDef|classDiagram|click|direction|erDiagram|flowchart|gantt|gitGraph|graph|journey|link|linkStyle|pie|requirementDiagram|sequenceDiagram|stateDiagram|stateDiagram-v2|style|subgraph)(?![\w$-])/m,
+			pattern: /(^[ \t]*)(?:action|callback|class|classDef|classDiagram|click|direction|erDiagram|flowchart|gantt|gitGraph|graph|journey|link|linkStyle|pie|requirementDiagram|sequenceDiagram|stateDiagram|stateDiagram-v2|style|subgraph)(?![\w$-])/mg,
 			lookbehind: true,
 			greedy: true
 		},
 		{
-			pattern: /(^[ \t]*)(?:activate|alt|and|as|autonumber|deactivate|else|end(?:[ \t]+note)?|loop|opt|par|participant|rect|state|note[ \t]+(?:over|(?:left|right)[ \t]+of))(?![\w$-])/im,
+			pattern: /(^[ \t]*)(?:activate|alt|and|as|autonumber|deactivate|else|end(?:[ \t]+note)?|loop|opt|par|participant|rect|state|note[ \t]+(?:over|(?:left|right)[ \t]+of))(?![\w$-])/img,
 			lookbehind: true,
 			greedy: true
 		}

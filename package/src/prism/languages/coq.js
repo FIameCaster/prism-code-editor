@@ -2,6 +2,11 @@ import { languages } from '../core.js';
 
 // https://github.com/coq/coq
 
+var string = {
+	pattern: /"(?:[^"]|"")*"(?!")/g,
+	greedy: true
+};
+
 var commentSource = /\(\*(?:[^(*]|\((?!\*)|\*(?!\))|<self>)*\*\)/.source;
 for (var i = 0; i < 2; i++) {
 	commentSource = commentSource.replace(/<self>/g, commentSource);
@@ -10,25 +15,17 @@ commentSource = commentSource.replace(/<self>/g, '[]');
 
 languages.coq = {
 	'comment': RegExp(commentSource),
-	'string': {
-		pattern: /"(?:[^"]|"")*"(?!")/,
-		greedy: true
-	},
+	'string': string,
 	'attribute': [
 		{
 			pattern: RegExp(
-				/#\[(?:[^[\]("]|"(?:[^"]|"")*"(?!")|\((?!\*)|<comment>)*\]/.source
-					.replace(/<comment>/g, commentSource)
+				/#\[(?:[^[\]("]|"(?:[^"]|"")*"(?!")|\((?!\*)|<comment>)*\]/.source.replace(/<comment>/g, commentSource), 'g'
 			),
 			greedy: true,
 			alias: 'attr-name',
 			inside: {
 				'comment': RegExp(commentSource),
-				'string': {
-					pattern: /"(?:[^"]|"")*"(?!")/,
-					greedy: true
-				},
-
+				'string': string,
 				'operator': /=/,
 				'punctuation': /^#\[|\]$|[,()]/
 			}

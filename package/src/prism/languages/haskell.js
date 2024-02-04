@@ -11,7 +11,7 @@ languages.hs = languages.haskell = {
 		alias: 'string'
 	},
 	'string': {
-		pattern: /"(?:[^\\"]|\\(?:\S|\s+\\))*"/,
+		pattern: /"(?:[^\\"]|\\(?:\S|\s+\\))*"/g,
 		greedy: true
 	},
 	'keyword': /\b(?:case|class|data|deriving|do|else|if|in|infixl|infixr|instance|let|module|newtype|of|primitive|then|type|where)\b/,
@@ -33,7 +33,7 @@ languages.hs = languages.haskell = {
 	'operator': [
 		{
 			// infix operator
-			pattern: /`(?:[A-Z][\w']*\.)*[_a-z][\w']*`/,
+			pattern: /`(?:[A-Z][\w']*\.)*[_a-z][\w']*`/g,
 			greedy: true
 		},
 		{

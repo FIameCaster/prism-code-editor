@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 
 var comment = {
-	pattern: /(^[ \t]*| {2}|\t)#.*/m,
+	pattern: /(^[ \t]*| {2}|\t)#.*/mg,
 	lookbehind: true,
 	greedy: true
 };

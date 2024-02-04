@@ -6,7 +6,7 @@ import { clikeComment, clikePunctuation } from '../utils/shared.js';
 languages.qasm = languages.openqasm = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /"[^"\n\t]*"|'[^'\n\t]*'/,
+		pattern: /"[^"\n\t]*"|'[^'\n\t]*'/g,
 		greedy: true
 	},
 

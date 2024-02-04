@@ -4,7 +4,7 @@ import { boolean } from '../utils/shared.js';
 languages.erlang = {
 	'comment': /%.+/,
 	'string': {
-		pattern: /"(?:\\.|[^\\"\n])*"/,
+		pattern: /"(?:\\.|[^\\"\n])*"/g,
 		greedy: true
 	},
 	'quoted-function': {

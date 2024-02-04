@@ -3,18 +3,18 @@ import { clikePunctuation } from '../utils/shared.js';
 
 var char = {
 	// https://en.cppreference.com/w/c/language/character_constant
-	pattern: /'(?:\\[\s\S]|[^'\\\n]){0,32}'/,
+	pattern: /'(?:\\[\s\S]|[^'\\\n]){0,32}'/g,
 	greedy: true
 };
 
 var comment = {
-	pattern: /\/\/(?:[^\n\\]|\\\n?)*|\/\*[\s\S]*?(?:\*\/|$)/,
+	pattern: /\/\/(?:[^\n\\]|\\\n?)*|\/\*[\s\S]*?(?:\*\/|$)/g,
 	greedy: true
 };
 
 var string = {
 	// https://en.cppreference.com/w/c/language/string_literal
-	pattern: /"(?:\\[\s\S]|[^"\\\n])*"/,
+	pattern: /"(?:\\[\s\S]|[^"\\\n])*"/g,
 	greedy: true
 };
 
@@ -28,7 +28,7 @@ var c = macroExpression.inside = languages.c = {
 	'macro': {
 		// allow for multiline macro definitions
 		// spaces after the # character compile fine with gcc
-		pattern: /(^[\t ]*)#\s*[a-z](?:[^\n\\/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|\\[\s\S])*/im,
+		pattern: /(^[\t ]*)#\s*[a-z](?:[^\n\\/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|\\[\s\S])*/img,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property',

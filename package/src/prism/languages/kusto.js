@@ -3,11 +3,11 @@ import { clikePunctuation } from '../utils/shared.js';
 
 languages.kusto = {
 	'comment': {
-		pattern: /\/\/.*/,
+		pattern: /\/\/.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /```[\s\S]*?```|[hH]?(?:"(?:[^\n\\"]|\\.)*"|'(?:[^\n\\']|\\.)*'|@(?:"[^\n"]*"|'[^\n']*'))/,
+		pattern: /```[\s\S]*?```|[hH]?(?:"(?:[^\n\\"]|\\.)*"|'(?:[^\n\\']|\\.)*'|@(?:"[^\n"]*"|'[^\n']*'))/g,
 		greedy: true
 	},
 

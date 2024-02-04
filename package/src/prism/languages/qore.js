@@ -5,7 +5,7 @@ languages.qore = {
 	'comment': /\/\*[\s\S]*?\*\/|\/\/.*|#.*/,
 	// Overridden to allow unescaped multi-line strings
 	'string': {
-		pattern: /("|')(?:\\[\s\S]|(?!\1)[^\\])*\1/,
+		pattern: /("|')(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
 		greedy: true
 	},
 	'class-name': {

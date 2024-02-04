@@ -5,7 +5,7 @@ languages.livescript = {
 	'interpolated-string': {
 		/* Look-behind and look-ahead prevents wrong behavior of the greedy pattern
 		* forcing it to match """-quoted string when it would otherwise match "-quoted first. */
-		pattern: /(^|[^"])("""|")(?:\\[\s\S]|(?!\2)[^\\])*\2(?!")/,
+		pattern: /(^|[^"])("""|")(?:\\[\s\S]|(?!\2)[^\\])*\2(?!")/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -29,25 +29,25 @@ languages.livescript = {
 	},
 	'string': [
 		{
-			pattern: /('''|')(?:\\[\s\S]|(?!\1)[^\\])*\1/,
+			pattern: /('''|')(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
 			greedy: true
 		},
 		{
-			pattern: /<\[[\s\S]*?\]>/,
+			pattern: /<\[[\s\S]*?\]>/g,
 			greedy: true
 		},
 		/\\[^\s,;\])}]+/
 	],
 	'regex': [
 		{
-			pattern: /\/\/(?:\[[^\n\]]*\]|\\.|(?!\/\/)[^\\\[])+\/\/[gimyu]{0,5}/,
+			pattern: /\/\/(?:\[[^\n\]]*\]|\\.|(?!\/\/)[^\\\[])+\/\/[gimyu]{0,5}/g,
 			greedy: true,
 			inside: {
 				'comment': /#.*/,
 			}
 		},
 		{
-			pattern: /\/(?:\[[^\n\]]*\]|\\.|[^/\\\n\[])+\/[gimyu]{0,5}/,
+			pattern: /\/(?:\[[^\n\]]*\]|\\.|[^/\\\n\[])+\/[gimyu]{0,5}/g,
 			greedy: true
 		}
 	],

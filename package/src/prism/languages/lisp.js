@@ -40,7 +40,7 @@ var language = {
 	},
 	comment: /;.*/,
 	string: {
-		pattern: /"(?:[^"\\]|\\.)*"/,
+		pattern: /"(?:[^"\\]|\\.)*"/g,
 		greedy: true,
 		inside: {
 			argument: /[-A-Z]+(?=[.,\s])/,
@@ -102,7 +102,7 @@ var language = {
 		}
 	},
 	defun: {
-		pattern: RegExp(`${par}(?:cl-)?(?:defmacro|defun\\*?)\\s+${symbol}\\s+\\(${nestedPar}*\\)`),
+		pattern: RegExp(`${par}(?:cl-)?(?:defmacro|defun\\*?)\\s+${symbol}\\s+\\(${nestedPar}*\\)`, 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -118,7 +118,7 @@ var language = {
 		}
 	},
 	lambda: {
-		pattern: RegExp(par + 'lambda\\s+\\(\\s*(?:&?' + symbol + '(?:\\s+&?' + symbol + ')*\\s*)?\\)'),
+		pattern: RegExp(par + 'lambda\\s+\\(\\s*(?:&?' + symbol + '(?:\\s+&?' + symbol + ')*\\s*)?\\)', 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: {

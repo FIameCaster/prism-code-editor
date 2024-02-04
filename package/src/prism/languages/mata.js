@@ -7,11 +7,11 @@ var type = /\bvoid\b|<org>|\b(?:complex|numeric|pointer(?:\s*\([^()]*\))?|real|s
 
 languages.mata = {
 	'comment': {
-		pattern: /\/\/.*|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\*\//,
+		pattern: /\/\/.*|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\*\//g,
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^"\n]*"|[‘`']".*?"[’`']/,
+		pattern: /"[^"\n]*"|[‘`']".*?"[’`']/g,
 		greedy: true
 	},
 

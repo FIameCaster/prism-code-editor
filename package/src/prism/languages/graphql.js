@@ -4,7 +4,7 @@ import { boolean } from '../utils/shared.js';
 languages.graphql = {
 	'comment': /#.*/,
 	'description': {
-		pattern: /(?:"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\"\n])*")(?=\s*[a-z_])/i,
+		pattern: /(?:"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\"\n])*")(?=\s*[a-z_])/gi,
 		greedy: true,
 		alias: 'string',
 		inside: {
@@ -16,7 +16,7 @@ languages.graphql = {
 		}
 	},
 	'string': {
-		pattern: /"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\"\n])*"/,
+		pattern: /"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\"\n])*"/g,
 		greedy: true
 	},
 	'number': /(?:\B-|\b)\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
@@ -27,7 +27,7 @@ languages.graphql = {
 		alias: 'function'
 	},
 	'attr-name': {
-		pattern: /\b[a-z_]\w*(?=\s*(?:\((?:[^()"]|"(?:\\.|[^\\"\n])*")*\))?:)/i,
+		pattern: /\b[a-z_]\w*(?=\s*(?:\((?:[^()"]|"(?:\\.|[^\\"\n])*")*\))?:)/gi,
 		greedy: true
 	},
 	'atom-input': {
@@ -71,7 +71,7 @@ languages.graphql = {
 		 * @type {Token[]}
 		 */
 		var validTokens = tokens.filter(({type}) => type && type != 'comment' && type != 'scalar');
-
+		var l = validTokens.length;
 		var currentIndex = 0;
 
 		/**
@@ -82,7 +82,7 @@ languages.graphql = {
 		 */
 		var isNotTokenType = types => {
 			for (var i = 0; i < types.length; i++) {
-				if (!validTokens[currentIndex + i] || validTokens[currentIndex + i].type != types[i]) {
+				if (currentIndex + i == l || validTokens[currentIndex + i].type != types[i]) {
 					return true;
 				}
 			}
@@ -102,7 +102,7 @@ languages.graphql = {
 		var findClosingBracket = (open, close) => {
 			var stackHeight = 1;
 
-			for (var i = currentIndex; i < validTokens.length; i++) {
+			for (var i = currentIndex; i < l; i++) {
 				var token = validTokens[i];
 				var content = token.content;
 
@@ -116,7 +116,7 @@ languages.graphql = {
 			}
 		}
 
-		for (; currentIndex < validTokens.length;) {
+		while (currentIndex < l) {
 			var startToken = validTokens[currentIndex++];
 
 			// add special aliases for mutation tokens

@@ -21,7 +21,7 @@ var interpolationPattern = templateString.inside.interpolation.pattern;
  * createTemplate('css', /\bcss/.source);
  */
 var createTemplate = (language, tag) => ({
-	pattern: RegExp('((?:' + tag + ')\\s*)' + templateLiteralPattern),
+	pattern: RegExp('((?:' + tag + ')\\s*)' + templateLiteralPattern, 'g'),
 	lookbehind: true,
 	greedy: true,
 	inside: {

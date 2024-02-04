@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 languages.neon = {
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 	'datetime': {
@@ -29,7 +29,7 @@ languages.neon = {
 		alias: 'keyword'
 	},
 	'string': {
-		pattern: /(^|[[{(=:,\s])(?:('''|""")\n(?:(?:[^\n]|\n(?![\t ]*\2))*\n)?[\t ]*\2|'[^'\n]*'|"(?:\\.|[^\\"\n])*")/,
+		pattern: /(^|[[{(=:,\s])(?:('''|""")\n(?:(?:[^\n]|\n(?![\t ]*\2))*\n)?[\t ]*\2|'[^'\n]*'|"(?:\\.|[^\\"\n])*")/g,
 		lookbehind: true,
 		greedy: true
 	},

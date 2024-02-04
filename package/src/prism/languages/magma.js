@@ -3,14 +3,14 @@ import { boolean, clikeComment } from '../utils/shared.js';
 
 languages.magma = {
 	'output': {
-		pattern: /^(>.*\n)(?!>)(?:.+|\n(?!>).*)(?:\n(?!>).*)*/m,
+		pattern: /^(>.*\n)(?!>)(?:.+|\n(?!>).*)(?:\n(?!>).*)*/mg,
 		lookbehind: true,
 		greedy: true
 	},
 
 	'comment': clikeComment(),
 	'string': {
-		pattern: /(^|[^\\"])"(?:[^\n\\"]|\\.)*"/,
+		pattern: /(^|[^\\"])"(?:[^\n\\"]|\\.)*"/g,
 		lookbehind: true,
 		greedy: true
 	},

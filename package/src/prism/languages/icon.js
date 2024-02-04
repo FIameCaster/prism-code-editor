@@ -4,7 +4,7 @@ import { clikePunctuation } from '../utils/shared.js';
 languages.icon = {
 	'comment': /#.*/,
 	'string': {
-		pattern: /(["'])(?:(?!\1)[^\\\n_]|\\.|_(?!\1)[\s\S])*\1/,
+		pattern: /(["'])(?:(?!\1)[^\\\n_]|\\.|_(?!\1)[\s\S])*\1/g,
 		greedy: true
 	},
 	'number': /\b(?:\d+r[a-z\d]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b|\.\d+\b/i,

@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.matlab = {
 	'comment': /%\{[\s\S]*?\}%|%.+/,
 	'string': {
-		pattern: /\B'(?:''|[^'\n])*'/,
+		pattern: /\B'(?:''|[^'\n])*'/g,
 		greedy: true
 	},
 	// FIXME We could handle imaginary numbers as a whole

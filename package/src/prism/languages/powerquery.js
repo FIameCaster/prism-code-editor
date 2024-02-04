@@ -6,11 +6,11 @@ import { boolean, clikeComment } from '../utils/shared.js';
 languages.mscript = languages.pq = languages.powerquery = {
 	'comment': clikeComment(),
 	'quoted-identifier': {
-		pattern: /#"(?:[^"\n]|"")*"(?!")/,
+		pattern: /#"(?:[^"\n]|"")*"(?!")/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(?:#!)?"(?:[^"\n]|"")*"(?!")/,
+		pattern: /(?:#!)?"(?:[^"\n]|"")*"(?!")/g,
 		greedy: true
 	},
 	'constant': [

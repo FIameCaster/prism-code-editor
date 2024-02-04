@@ -3,11 +3,11 @@ import { boolean } from '../utils/shared.js';
 
 languages.trig = languages.turtle = {
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 	'multiline-string': {
-		pattern: /"""(?:(?:""?)?(?:[^"\\]|\\.))*"""|'''(?:(?:''?)?(?:[^'\\]|\\.))*'''/,
+		pattern: /"""(?:(?:""?)?(?:[^"\\]|\\.))*"""|'''(?:(?:''?)?(?:[^'\\]|\\.))*'''/g,
 		greedy: true,
 		alias: 'string',
 		inside: {
@@ -15,11 +15,11 @@ languages.trig = languages.turtle = {
 		}
 	},
 	'string': {
-		pattern: /"(?:[^\\"\n]|\\.)*"|'(?:[^\\'\n]|\\.)*'/,
+		pattern: /"(?:[^\\"\n]|\\.)*"|'(?:[^\\'\n]|\\.)*'/g,
 		greedy: true
 	},
 	'url': {
-		pattern: /<(?:[^\0- <>"{}|^`\\]|\\(?:u[\da-fA-F]{4}|U[\da-fA-F]{8}))*>/,
+		pattern: /<(?:[^\0- <>"{}|^`\\]|\\(?:u[\da-fA-F]{4}|U[\da-fA-F]{8}))*>/g,
 		greedy: true,
 		inside: {
 			'punctuation': /[<>]/

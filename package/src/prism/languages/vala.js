@@ -4,12 +4,12 @@ import { boolean, clikeComment, clikePunctuation, clikeString } from '../utils/s
 languages.vala = {
 	'comment': clikeComment(),
 	'raw-string': {
-		pattern: /"""[\s\S]*?"""/,
+		pattern: /"""[\s\S]*?"""/g,
 		greedy: true,
 		alias: 'string'
 	},
 	'template-string': {
-		pattern: /@"[\s\S]*?"/,
+		pattern: /@"[\s\S]*?"/g,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -61,7 +61,7 @@ languages.vala = {
 		}
 	],
 	'regex': {
-		pattern: /\/(?:\[(?:[^\]\\\n]|\\.)*\]|\\.|[^/\\[\n])+\/[imsx]{0,4}(?=\s*(?:$|[\n,.;})\]]))/,
+		pattern: /\/(?:\[(?:[^\]\\\n]|\\.)*\]|\\.|[^/\\[\n])+\/[imsx]{0,4}(?=\s*(?:$|[\n,.;})\]]))/g,
 		greedy: true,
 		inside: {
 			'regex-flags': /\w+$/,

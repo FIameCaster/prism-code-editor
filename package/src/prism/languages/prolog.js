@@ -3,12 +3,12 @@ import { languages } from '../core.js';
 languages.prolog = {
 	// Syntax depends on the implementation
 	'comment': {
-		pattern: /\/\*[\s\S]*?\*\/|%.*/,
+		pattern: /\/\*[\s\S]*?\*\/|%.*/g,
 		greedy: true
 	},
 	// Depending on the implementation, strings may allow escaped newlines and quote-escape
 	'string': {
-		pattern: /(["'])(?:\1\1|\\[\s\S]|(?!\1)[^\\\n])*\1(?!\1)/,
+		pattern: /(["'])(?:\1\1|\\[\s\S]|(?!\1)[^\\\n])*\1(?!\1)/g,
 		greedy: true
 	},
 	'builtin': /\b(?:fx|fy|xf[xy]?|yfx?)\b/,

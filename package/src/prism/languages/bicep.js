@@ -10,24 +10,24 @@ languages.bicep = {
 			lookbehind: true
 		},
 		{
-			pattern: /(\n[ \t]*)'(?:\\.|\$(?!\{)|[^'\\\n$])*'(?=[ \t]*:)/,
+			pattern: /(\n[ \t]*)'(?:\\.|\$(?!\{)|[^'\\\n$])*'(?=[ \t]*:)/g,
 			lookbehind: true,
 			greedy: true
 		}
 	],
 	'string': [
 		{
-			pattern: /'''[^'][\s\S]*?'''/,
+			pattern: /'''[^'][\s\S]*?'''/g,
 			greedy: true
 		},
 		{
-			pattern: /(^|[^\\'])'(?:\\.|\$(?!\{)|[^'\\\n$])*'/,
+			pattern: /(^|[^\\'])'(?:\\.|\$(?!\{)|[^'\\\n$])*'/g,
 			lookbehind: true,
 			greedy: true,
 		}
 	],
 	'interpolated-string': {
-		pattern: /(^|[^\\'])'(?:\\.|\$(?:(?!\{)|\{[^{}\n]*\})|[^'\\\n$])*'/,
+		pattern: /(^|[^\\'])'(?:\\.|\$(?:(?!\{)|\{[^{}\n]*\})|[^'\\\n$])*'/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {

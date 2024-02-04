@@ -4,7 +4,7 @@ import { boolean, clikePunctuation } from '../utils/shared.js';
 languages.gdscript = {
 	'comment': /#.*/,
 	'string': {
-		pattern: /@?(?:("|')(?:(?!\1)[^\n\\]|\\[\s\S])*\1(?!"|')|"""(?:[^\\]|\\[\s\S])*?""")/,
+		pattern: /@?(?:("|')(?:(?!\1)[^\n\\]|\\[\s\S])*\1(?!"|')|"""(?:[^\\]|\\[\s\S])*?""")/g,
 		greedy: true
 	},
 	'class-name': {

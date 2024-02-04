@@ -6,7 +6,7 @@ import { clikeComment, clikePunctuation } from '../utils/shared.js';
 languages.al = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /'(?:''|[^'\n])*'(?!')|"(?:""|[^"\n])*"(?!")/,
+		pattern: /'(?:''|[^'\n])*'(?!')|"(?:""|[^"\n])*"(?!")/g,
 		greedy: true
 	},
 	'function': {

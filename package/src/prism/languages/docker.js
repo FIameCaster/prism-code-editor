@@ -8,15 +8,16 @@ var spaceAfterBackSlash = /\\\n(?:\s|\\\n|#.*(?!.))*(?![\s#]|\\\n)/.source;
 var space = /(?:[ \t]+(?![ \t])(?:<SP_BS>)?|<SP_BS>)/.source
 	.replace(/<SP_BS>/g, spaceAfterBackSlash);
 
-var string = /"(?:[^"\\\n]|\\[\s\S])*"|'(?:[^'\\\n]|\\[\s\S])*'/.source;
-var option = /--[\w-]+=(?:<STR>|(?!["'])(?:[^\s\\]|\\.)+)/.source.replace(/<STR>/g, string);
+var string = /"(?:[^"\\\n]|\\[\s\S])*"|'(?:[^'\\\n]|\\[\s\S])*'/g;
+var stringSrc = string.source;
+var option = /--[\w-]+=(?:<STR>|(?!["'])(?:[^\s\\]|\\.)+)/.source.replace(/<STR>/g, stringSrc);
 
 var stringRule = {
-	pattern: RegExp(string),
+	pattern: string,
 	greedy: true
 };
 var commentRule = {
-	pattern: /(^[ \t]*)#.*/m,
+	pattern: /(^[ \t]*)#.*/mg,
 	lookbehind: true,
 	greedy: true
 };
@@ -33,12 +34,12 @@ var re = (source, flags) =>
 
 languages.dockerfile = languages.docker = {
 	'instruction': {
-		pattern: /(^[ \t]*)(?:ADD|ARG|CMD|COPY|ENTRYPOINT|ENV|EXPOSE|FROM|HEALTHCHECK|LABEL|MAINTAINER|ONBUILD|RUN|SHELL|STOPSIGNAL|USER|VOLUME|WORKDIR)(?=\s)(?:\\.|[^\n\\])*(?:\\$(?:\s|#.*$)*(?![\s#])(?:\\.|[^\n\\])*)*/im,
+		pattern: /(^[ \t]*)(?:ADD|ARG|CMD|COPY|ENTRYPOINT|ENV|EXPOSE|FROM|HEALTHCHECK|LABEL|MAINTAINER|ONBUILD|RUN|SHELL|STOPSIGNAL|USER|VOLUME|WORKDIR)(?=\s)(?:\\.|[^\n\\])*(?:\\$(?:\s|#.*$)*(?![\s#])(?:\\.|[^\n\\])*)*/img,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'options': {
-				pattern: re(/(^(?:ONBUILD<SP>)?\w+<SP>)<OPT>(?:<SP><OPT>)*/.source, 'i'),
+				pattern: re(/(^(?:ONBUILD<SP>)?\w+<SP>)<OPT>(?:<SP><OPT>)*/.source, 'gi'),
 				lookbehind: true,
 				greedy: true,
 				inside: {
@@ -60,24 +61,24 @@ languages.dockerfile = languages.docker = {
 			'keyword': [
 				{
 					// https://docs.docker.com/engine/reference/builder/#healthcheck
-					pattern: re(/(^(?:ONBUILD<SP>)?HEALTHCHECK<SP>(?:<OPT><SP>)*)(?:CMD|NONE)\b/.source, 'i'),
+					pattern: re(/(^(?:ONBUILD<SP>)?HEALTHCHECK<SP>(?:<OPT><SP>)*)(?:CMD|NONE)\b/.source, 'gi'),
 					lookbehind: true,
 					greedy: true
 				},
 				{
 					// https://docs.docker.com/engine/reference/builder/#from
-					pattern: re(/(^(?:ONBUILD<SP>)?FROM<SP>(?:<OPT><SP>)*(?!--)[^ \t\\]+<SP>)AS/.source, 'i'),
+					pattern: re(/(^(?:ONBUILD<SP>)?FROM<SP>(?:<OPT><SP>)*(?!--)[^ \t\\]+<SP>)AS/.source, 'gi'),
 					lookbehind: true,
 					greedy: true
 				},
 				{
 					// https://docs.docker.com/engine/reference/builder/#onbuild
-					pattern: re(/(^ONBUILD<SP>)\w+/.source, 'i'),
+					pattern: re(/(^ONBUILD<SP>)\w+/.source, 'gi'),
 					lookbehind: true,
 					greedy: true
 				},
 				{
-					pattern: /^\w+/,
+					pattern: /^\w+/g,
 					greedy: true
 				}
 			],

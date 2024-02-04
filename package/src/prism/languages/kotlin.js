@@ -40,7 +40,7 @@ interpolationInside.expression.inside = languages.kts = languages.kt = languages
 	],
 	'char': {
 		// https://kotlinlang.org/spec/expressions.html#character-literals
-		pattern: /'(?:[^'\\\n]|\\(?:.|u[a-fA-F0-9]{0,4}))'/,
+		pattern: /'(?:[^'\\\n]|\\(?:.|u[a-fA-F0-9]{0,4}))'/g,
 		greedy: true
 	},
 	'comment': clikeComment(),
@@ -60,11 +60,11 @@ interpolationInside.expression.inside = languages.kts = languages.kt = languages
 	},
 	'function': [
 		{
-			pattern: /(?:`[^\n`]+`|\b\w+)(?=\s*\()/,
+			pattern: /(?:`[^\n`]+`|\b\w+)(?=\s*\()/g,
 			greedy: true
 		},
 		{
-			pattern: /(\.)(?:`[^\n`]+`|\w+)(?=\s*\{)/,
+			pattern: /(\.)(?:`[^\n`]+`|\w+)(?=\s*\{)/g,
 			lookbehind: true,
 			greedy: true
 		}

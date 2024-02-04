@@ -5,7 +5,7 @@ languages.nb = languages.wl = languages.mathematica = languages.wolfram = {
 	'comment': // Allow one level of nesting - note: regex taken from applescipt
 		/\(\*(?:\(\*(?:[^*]|\*(?!\)))*\*\)|(?!\(\*)[\s\S])*?\*\)/,
 	'string': {
-		pattern: /"(?:\\.|[^"\\\n])*"/,
+		pattern: /"(?:\\.|[^"\\\n])*"/g,
 		greedy: true
 	},
 	'keyword': /\b(?:Abs|AbsArg|Accuracy|Block|Do|For|Function|If|Manipulate|Module|Nest|NestList|None|Return|Switch|Table|Which|While)\b/,

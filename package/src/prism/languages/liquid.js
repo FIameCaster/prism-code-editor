@@ -4,7 +4,7 @@ import './markup.js';
 
 languages.liquid = {
 	'ignore-raw': {
-		pattern: /(\{%-?\s*raw\b[^\}]*\})[\s\S]*?(?=\{%-?\s*endraw\b[^\}]*\})/,
+		pattern: /(\{%-?\s*raw\b[^\}]*\})[\s\S]*?(?=\{%-?\s*endraw\b[^\}]*\})/g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -21,7 +21,7 @@ languages.liquid = {
 				alias: 'punctuation'
 			},
 			'string': {
-				pattern: /"[^"]*"|'[^']*'/,
+				pattern: /"[^"]*"|'[^']*'/g,
 				greedy: true
 			},
 			'keyword': /\b(?:as|assign|break|(?:end)?(?:capture|case|comment|for|form|if|paginate|raw|style|tablerow|unless)|continue|cycle|decrement|echo|else|elsif|in|include|increment|limit|liquid|offset|range|render|reversed|section|when|with)\b/,

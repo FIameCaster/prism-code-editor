@@ -5,22 +5,22 @@ languages.cypher = {
 	// https://neo4j.com/docs/cypher-manual/current/syntax/comments/
 	'comment': /\/\/.*/,
 	'string': {
-		pattern: /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/,
+		pattern: /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/g,
 		greedy: true
 	},
 	'class-name': {
-		pattern: /(:\s*)(?:\w+|`(?:[^`\\\n])*`)(?=\s*[{):])/,
+		pattern: /(:\s*)(?:\w+|`(?:[^`\\\n])*`)(?=\s*[{):])/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'relationship': {
-		pattern: /(-\[\s*(?:\w+\s*|`(?:[^`\\\n])*`\s*)?:\s*|\|\s*:\s*)(?:\w+|`(?:[^`\\\n])*`)/,
+		pattern: /(-\[\s*(?:\w+\s*|`(?:[^`\\\n])*`\s*)?:\s*|\|\s*:\s*)(?:\w+|`(?:[^`\\\n])*`)/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property'
 	},
 	'identifier': {
-		pattern: /`(?:[^`\\\n])*`/,
+		pattern: /`(?:[^`\\\n])*`/g,
 		greedy: true
 	},
 

@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.hcl = {
 	'comment': /(?:\/\/|#).*|\/\*[\s\S]*?(?:\*\/|$)/,
 	'heredoc': {
-		pattern: /<<-?(\w+\b)[\s\S]*?^[ \t]*\1/m,
+		pattern: /<<-?(\w+\b)[\s\S]*?^[ \t]*\1/mg,
 		greedy: true,
 		alias: 'string'
 	},
@@ -35,7 +35,7 @@ languages.hcl = {
 		/"(?:\\[\s\S]|[^\\"])+"(?=\s*[:=])/,
 	],
 	'string': {
-		pattern: /"(?:[^\\$"]|\\[\s\S]|\$(?:(?=")|\$+(?!\$)|[^"${])|\$\{(?:[^{}"]|"(?:[^\\"]|\\[\s\S])*")*\})*"/,
+		pattern: /"(?:[^\\$"]|\\[\s\S]|\$(?:(?=")|\$+(?!\$)|[^"${])|\$\{(?:[^{}"]|"(?:[^\\"]|\\[\s\S])*")*\})*"/g,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -50,7 +50,7 @@ languages.hcl = {
 					'keyword': /\b(?:count|data|local|module|path|self|terraform|var)\b/i,
 					'function': /\w+(?=\()/,
 					'string': {
-						pattern: /"(?:\\[\s\S]|[^\\"])*"/,
+						pattern: /"(?:\\[\s\S]|[^\\"])*"/g,
 						greedy: true,
 					},
 					'number': /\b0x[\da-f]+\b|\b\d+(?:\.\d*)?(?:e[+-]?\d+)?/i,

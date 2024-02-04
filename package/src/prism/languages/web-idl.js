@@ -9,7 +9,7 @@ var typeInside = {};
 var webIdl = languages['webidl'] = languages['web-idl'] = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /"[^"]*"/,
+		pattern: /"[^"]*"/g,
 		greedy: true
 	},
 

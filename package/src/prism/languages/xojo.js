@@ -2,11 +2,11 @@ import { languages } from '../core.js';
 
 languages.xojo = {
 	'comment': {
-		pattern: /(?:'|\/\/|rem\b).+/i,
+		pattern: /(?:'|\/\/|rem\b).+/gi,
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:""|[^"])*"/,
+		pattern: /"(?:""|[^"])*"/g,
 		greedy: true
 	},
 	'number': [

@@ -14,7 +14,7 @@ languages.autoit = {
 		lookbehind: true
 	},
 	'string': {
-		pattern: /(["'])(?:\1\1|(?!\1)[^\n])*\1/,
+		pattern: /(["'])(?:\1\1|(?!\1)[^\n])*\1/g,
 		greedy: true,
 		inside: {
 			'variable': /([%$@])\w+\1/

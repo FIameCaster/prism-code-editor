@@ -21,24 +21,24 @@ var withID = (source, flags) =>
 
 languages.gv = languages.dot = {
 	'comment': {
-		pattern: /\/\/.*|\/\*[\s\S]*?\*\/|^#.*/m,
+		pattern: /\/\/.*|\/\*[\s\S]*?\*\/|^#.*/mg,
 		greedy: true
 	},
 	'graph-name': {
-		pattern: withID(/(\b(?:digraph|graph|subgraph)[ \t\n]+)<ID>/.source, 'i'),
+		pattern: withID(/(\b(?:digraph|graph|subgraph)[ \t\n]+)<ID>/.source, 'gi'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'class-name',
 		inside: IDInside
 	},
 	'attr-value': {
-		pattern: withID(/(=[ \t\n]*)<ID>/.source),
+		pattern: withID(/(=[ \t\n]*)<ID>/.source, 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: IDInside
 	},
 	'attr-name': {
-		pattern: withID(/([\[;, \t\n])<ID>(?=[ \t\n]*=)/.source),
+		pattern: withID(/([\[;, \t\n])<ID>(?=[ \t\n]*=)/.source, 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: IDInside
@@ -50,7 +50,7 @@ languages.gv = languages.dot = {
 		alias: 'builtin'
 	},
 	'node': {
-		pattern: withID(/(^|[^-.\w\x80-\uFFFF\\])<ID>/.source),
+		pattern: withID(/(^|[^-.\w\x80-\uFFFF\\])<ID>/.source, 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: IDInside

@@ -4,7 +4,7 @@ import { clikeComment } from '../utils/shared.js';
 languages.verilog = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /"(?:\\[\s\S]|[^"\\\n])*"/,
+		pattern: /"(?:\\[\s\S]|[^"\\\n])*"/g,
 		greedy: true
 	},
 	'kernel-function': {

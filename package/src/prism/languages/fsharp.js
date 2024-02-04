@@ -3,11 +3,11 @@ import { boolean, clikePunctuation } from '../utils/shared.js';
 
 languages.fsharp = {
 	'comment': {
-		pattern: /\/\/.*|\(\*(?!\))[\s\S]*?\*\)/,
+		pattern: /\/\/.*|\(\*(?!\))[\s\S]*?\*\)/g,
 		greedy: true
 	},
 	'annotation': {
-		pattern: /\[<.+?>\]/,
+		pattern: /\[<.+?>\]/g,
 		greedy: true,
 		inside: {
 			'punctuation': /^\[<|>\]$/,
@@ -22,11 +22,11 @@ languages.fsharp = {
 		}
 	},
 	'char': {
-		pattern: /'(?:[^\\']|\\(?:.|\d{3}|x[a-fA-F\d]{2}|u[a-fA-F\d]{4}|U[a-fA-F\d]{8}))'B?/,
+		pattern: /'(?:[^\\']|\\(?:.|\d{3}|x[a-fA-F\d]{2}|u[a-fA-F\d]{4}|U[a-fA-F\d]{8}))'B?/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(?:"""[\s\S]*?"""|@"(?:""|[^"])*"|"(?:\\[\s\S]|[^\\"])*")B?/,
+		pattern: /(?:"""[\s\S]*?"""|@"(?:""|[^"])*"|"(?:\\[\s\S]|[^\\"])*")B?/g,
 		greedy: true
 	},
 	'class-name': {

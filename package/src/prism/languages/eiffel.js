@@ -5,17 +5,17 @@ languages.eiffel = {
 	'string': [
 		// Aligned-verbatim-strings
 		{
-			pattern: /"([^[]*)\[[\s\S]*?\]\1"/,
+			pattern: /"([^[]*)\[[\s\S]*?\]\1"/g,
 			greedy: true
 		},
 		// Non-aligned-verbatim-strings
 		{
-			pattern: /"([^{]*)\{[\s\S]*?\}\1"/,
+			pattern: /"([^{]*)\{[\s\S]*?\}\1"/g,
 			greedy: true
 		},
 		// Single-line string
 		{
-			pattern: /"(?:%(?:(?!\n)\s)*\n\s*%|%\S|[^%"\n])*"/,
+			pattern: /"(?:%(?:(?!\n)\s)*\n\s*%|%\S|[^%"\n])*"/g,
 			greedy: true
 		}
 	],

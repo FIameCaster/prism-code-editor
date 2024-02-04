@@ -8,12 +8,12 @@ languages['visual-basic'] = {
 		}
 	},
 	'directive': {
-		pattern: /#(?:const|else|elseif|end|externalchecksum|externalSource|if|region)(?:\b_[ \t]*\n|.)+/i,
+		pattern: /#(?:const|else|elseif|end|externalchecksum|externalSource|if|region)(?:\b_[ \t]*\n|.)+/gi,
 		alias: 'property',
 		greedy: true
 	},
 	'string': {
-		pattern: /\$?["“”](?:["“”]{2}|[^"“”])*["“”]C?/i,
+		pattern: /\$?["“”](?:["“”]{2}|[^"“”])*["“”]C?/gi,
 		greedy: true
 	},
 	'date': {

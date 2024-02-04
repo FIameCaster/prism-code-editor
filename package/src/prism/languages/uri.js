@@ -4,7 +4,7 @@ import { languages } from '../core.js';
 
 languages.url = languages.uri = {
 	'scheme': {
-		pattern: /^[a-z][a-z0-9+.-]*:/im,
+		pattern: /^[a-z][a-z0-9+.-]*:/img,
 		greedy: true,
 		inside: {
 			'scheme-delimiter': /:$/
@@ -20,7 +20,7 @@ languages.url = languages.uri = {
 		pattern: /\?[\w\-.~!$&'()*+,;=%:@/?]*/,
 		inside: {
 			'query-delimiter': {
-				pattern: /^\?/,
+				pattern: /^\?/g,
 				greedy: true
 			},
 			'pair-delimiter': /[&;]/,

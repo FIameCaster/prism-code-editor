@@ -59,7 +59,7 @@ languages.promql = {
 				alias: 'attr-name',
 			},
 			'label-value': {
-				pattern: /(["'`])(?:\\[\s\S]|(?!\1)[^\\])*\1/,
+				pattern: /(["'`])(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
 				greedy: true,
 				alias: 'attr-value',
 			},

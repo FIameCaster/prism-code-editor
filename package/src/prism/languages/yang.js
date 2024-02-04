@@ -6,7 +6,7 @@ languages.yang = {
 	// http://www.yang-central.org/twiki/bin/view/Main/YangExamples
 	'comment': clikeComment(),
 	'string': {
-		pattern: /"(?:[^\\"]|\\.)*"|'[^']*'/,
+		pattern: /"(?:[^\\"]|\\.)*"|'[^']*'/g,
 		greedy: true
 	},
 	'keyword': {

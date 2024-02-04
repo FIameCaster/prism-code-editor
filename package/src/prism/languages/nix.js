@@ -9,11 +9,11 @@ var interpolation = {
 
 interpolation.inside = languages.nix = {
 	'comment': {
-		pattern: /\/\*[\s\S]*?\*\/|#.*/,
+		pattern: /\/\*[\s\S]*?\*\/|#.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:[^"\\]|\\[\s\S])*"|''(?:(?!'')[\s\S]|''(?:'|\\|\$\{))*''/,
+		pattern: /"(?:[^"\\]|\\[\s\S])*"|''(?:(?!'')[\s\S]|''(?:'|\\|\$\{))*''/g,
 		greedy: true,
 		inside: {
 			'interpolation': interpolation

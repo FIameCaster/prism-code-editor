@@ -16,7 +16,7 @@ var class0 = {
 				/(?:'[\w']*|<LONG-ID>|\((?:[^()]|\([^()]*\))*\)|\{(?:[^{}]|\{[^{}]*\})*\})(?:\s+<LONG-ID>)*/.source
 			)
 			.replace(/<LONG-ID>/g, `(?!${keywords.source})[a-z\\d_][\\w'.]*`),
-		'i'
+		'gi'
 	),
 	lookbehind: true,
 	greedy: true
@@ -26,7 +26,7 @@ class0.inside = languages.smlnj = languages.sml = {
 	// allow one level of nesting
 	'comment': /\(\*(?:[^*(]|\*(?!\))|\((?!\*)|\(\*(?:[^*(]|\*(?!\))|\((?!\*))*\*\))*\*\)/,
 	'string': {
-		pattern: /#?"(?:[^"\\]|\\.)*"/,
+		pattern: /#?"(?:[^"\\]|\\.)*"/g,
 		greedy: true
 	},
 

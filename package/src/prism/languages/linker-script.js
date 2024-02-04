@@ -2,12 +2,12 @@ import { languages } from '../core.js';
 
 languages['ld'] = languages['linker-script'] = {
 	'comment': {
-		pattern: /(^|\s)\/\*[\s\S]*?(?:$|\*\/)/,
+		pattern: /(^|\s)\/\*[\s\S]*?(?:$|\*\/)/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'identifier': {
-		pattern: /"[^"\n]*"/,
+		pattern: /"[^"\n]*"/g,
 		greedy: true
 	},
 

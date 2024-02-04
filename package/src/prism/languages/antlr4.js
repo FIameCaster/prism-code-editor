@@ -4,11 +4,11 @@ import { clikeComment } from '../utils/shared.js';
 languages.antlr4 = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /'(?:\\.|[^\\'\n])*'/,
+		pattern: /'(?:\\.|[^\\'\n])*'/g,
 		greedy: true
 	},
 	'character-class': {
-		pattern: /\[(?:\\.|[^\\\]\n])*\]/,
+		pattern: /\[(?:\\.|[^\\\]\n])*\]/g,
 		greedy: true,
 		alias: 'regex',
 		inside: {
@@ -22,7 +22,7 @@ languages.antlr4 = {
 		}
 	},
 	'action': {
-		pattern: /\{(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*\}/,
+		pattern: /\{(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*\}/g,
 		greedy: true,
 		inside: {
 			'content': /(?!^)[\s\S]+(?=.)/,

@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.tcl = {
 	'comment': /#.*/,
 	'string': {
-		pattern: /"(?:[^"\\\n]|\\[\s\S])*"/,
+		pattern: /"(?:[^"\\\n]|\\[\s\S])*"/g,
 		greedy: true
 	},
 	'variable': [

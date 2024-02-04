@@ -72,7 +72,7 @@ var cs = {
 };
 
 var inlineValue = {
-	pattern: RegExp(/(^|[^@])/.source + inlineCs),
+	pattern: RegExp(/(^|[^@])/.source + inlineCs, 'g'),
 	lookbehind: true,
 	greedy: true,
 	alias: 'variable',
@@ -84,12 +84,12 @@ var inlineValue = {
 
 var attrValue = cshtml.tag.inside['attr-value'][2];
 
-cshtml.tag.pattern = RegExp(/<\/?/.source + tagContent);
+cshtml.tag.pattern = RegExp(/<\/?/.source + tagContent, 'g');
 attrValue.pattern = RegExp(/(=\s*)/.source + tagAttrValue);
 
 insertBefore(csharpWithHtml, 'string', {
 	'html': {
-		pattern: RegExp(tagRegion),
+		pattern: RegExp(tagRegion, 'g'),
 		greedy: true,
 		inside: cshtml
 	}
@@ -99,7 +99,7 @@ insertBefore(attrValue.inside, 'punctuation', { 'value': inlineValue });
 
 insertBefore(cshtml, 'prolog', {
 	'razor-comment': {
-		pattern: /@\*[\s\S]*?\*@/,
+		pattern: /@\*[\s\S]*?\*@/g,
 		greedy: true,
 		alias: 'comment'
 	},
@@ -110,7 +110,7 @@ insertBefore(cshtml, 'prolog', {
 				round
 			}\\s*${curly}|do\\s*${curly}\\s*while\\s*${round}(?:\\s*;)?|try\\s*${curly}\\s*catch\\s*${round}\\s*${curly}\\s*finally\\s*${
 				curly
-			}|if\\s*${round}\\s*${curly}(?:\\s*else(?:\\s+if\\s*${round})?\\s*${curly})*|helper\\s+\\w+\\s*${round}\\s*${curly})`
+			}|if\\s*${round}\\s*${curly}(?:\\s*else(?:\\s+if\\s*${round})?\\s*${curly})*|helper\\s+\\w+\\s*${round}\\s*${curly})`, 'g'
 		),
 		lookbehind: true,
 		greedy: true,
@@ -121,7 +121,7 @@ insertBefore(cshtml, 'prolog', {
 	},
 
 	'directive': {
-		pattern: /^([ \t]*)@(?:addTagHelper|attribute|implements|inherits|inject|layout|model|namespace|page|preservewhitespace|removeTagHelper|section|tagHelperPrefix|using)(?=\s).*/m,
+		pattern: /^([ \t]*)@(?:addTagHelper|attribute|implements|inherits|inject|layout|model|namespace|page|preservewhitespace|removeTagHelper|section|tagHelperPrefix|using)(?=\s).*/mg,
 		lookbehind: true,
 		greedy: true,
 		inside: {

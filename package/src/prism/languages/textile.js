@@ -6,7 +6,7 @@ import './markup.js';
  * @param {string} source
  * @param {string} [flags]
  */
-var withModifier = (source, flags = '') => RegExp(
+var withModifier = (source, flags) => RegExp(
 	source
 		.replace(/<MOD>/g, '(?:\\([^|()\n]+\\)|\\[[^\\]\n]+\\]|\\{[^}\n]+\\})')
 		.replace(/<PAR>/g, '(?:\\)|\\((?![^|()\n]+\\)))'),
@@ -257,7 +257,7 @@ var nestedPatterns = {
 };
 
 // Only allow alpha-numeric HTML tags, not XML tags
-textile.tag.pattern = /<\/?(?!\d)[a-z0-9]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/i;
+textile.tag.pattern = /<\/?(?!\d)[a-z0-9]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/gi;
 
 // Allow some nesting
 var phraseInlineInside = phraseInside['inline'].inside;

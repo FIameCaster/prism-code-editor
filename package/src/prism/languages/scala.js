@@ -4,12 +4,12 @@ import './java.js';
 
 var scala = languages.scala = extend('java', {
 	'triple-quoted-string': {
-		pattern: /"""[\s\S]*?"""/,
+		pattern: /"""[\s\S]*?"""/g,
 		greedy: true,
 		alias: 'string'
 	},
 	'string': {
-		pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/,
+		pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 	'keyword': /<-|=>|\b(?:abstract|case|catch|class|def|derives|do|else|enum|extends|extension|final|finally|for|forSome|given|if|implicit|import|infix|inline|lazy|match|new|null|object|opaque|open|override|package|private|protected|return|sealed|self|super|this|throw|trait|transparent|try|type|using|val|var|while|with|yield)\b/,
@@ -20,21 +20,21 @@ var scala = languages.scala = extend('java', {
 
 insertBefore(scala, 'triple-quoted-string', {
 	'string-interpolation': {
-		pattern: /\b[a-z]\w*(?:"""(?:[^$]|\$(?:[^{]|\{(?:[^{}]|\{[^{}]*\})*\}))*?"""|"(?:[^$"\n]|\$(?:[^{]|\{(?:[^{}]|\{[^{}]*\})*\}))*")/i,
+		pattern: /\b[a-z]\w*(?:"""(?:[^$]|\$(?:[^{]|\{(?:[^{}]|\{[^{}]*\})*\}))*?"""|"(?:[^$"\n]|\$(?:[^{]|\{(?:[^{}]|\{[^{}]*\})*\}))*")/ig,
 		greedy: true,
 		inside: {
 			'id': {
-				pattern: /^\w+/,
+				pattern: /^\w+/g,
 				greedy: true,
 				alias: 'function'
 			},
 			'escape': {
-				pattern: /\\\$"|\$[$"]/,
+				pattern: /\\\$"|\$[$"]/g,
 				greedy: true,
 				alias: 'symbol'
 			},
 			'interpolation': {
-				pattern: /\$(?:\w+|\{(?:[^{}]|\{[^{}]*\})*\})/,
+				pattern: /\$(?:\w+|\{(?:[^{}]|\{[^{}]*\})*\})/g,
 				greedy: true,
 				inside: {
 					'punctuation': /^\$\{?|\}$/,

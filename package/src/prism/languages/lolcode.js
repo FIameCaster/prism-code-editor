@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.lolcode = {
 	'comment': /\bOBTW\s[\s\S]*?\sTLDR\b|\bBTW.+/,
 	'string': {
-		pattern: /"(?::.|[^":])*"/,
+		pattern: /"(?::.|[^":])*"/g,
 		inside: {
 			'variable': /:\{[^}]+\}/,
 			'symbol': [

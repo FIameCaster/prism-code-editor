@@ -21,12 +21,12 @@ languages.kum = languages.kumir = {
 	'comment': /\|.*/,
 
 	'prolog': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 
 	'string': {
-		pattern: /"[^\n"]*"|'[^\n']*'/,
+		pattern: /"[^\n"]*"|'[^\n']*'/g,
 		greedy: true
 	},
 

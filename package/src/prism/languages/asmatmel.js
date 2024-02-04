@@ -2,11 +2,11 @@ import { languages } from '../core.js';
 
 languages.asmatmel = {
 	'comment': {
-		pattern: /;.*/,
+		pattern: /;.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(["'`])(?:\\.|(?!\1)[^\\\n])*\1/,
+		pattern: /(["'`])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 

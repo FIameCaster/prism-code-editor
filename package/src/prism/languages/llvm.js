@@ -4,7 +4,7 @@ import { boolean } from '../utils/shared.js';
 languages.llvm = {
 	'comment': /;.*/,
 	'string': {
-		pattern: /"[^"]*"/,
+		pattern: /"[^"]*"/g,
 		greedy: true,
 	},
 	'boolean': boolean,

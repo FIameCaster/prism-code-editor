@@ -5,16 +5,16 @@ import './markup.js';
 
 languages.eta = languages.ejs = {
 	'ejs-comment': {
-		pattern: /<%#[\s\S]*?%>/,
+		pattern: /<%#[\s\S]*?%>/g,
 		greedy: true,
 		alias: 'comment'
 	},
 	'escape': {
-		pattern: /<%%|%%>/,
+		pattern: /<%%|%%>/g,
 		greedy: true
 	},
 	'ejs': {
-		pattern: /<%[^%#][\s\S]*?%>/,
+		pattern: /<%[^%#][\s\S]*?%>/g,
 		greedy: true,
 		inside: {
 			'delimiter': {

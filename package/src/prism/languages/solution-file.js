@@ -11,11 +11,11 @@ var guid = {
 
 languages['solution-file'] = {
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^"\n]*"|'[^'\n]*'/,
+		pattern: /"[^"\n]*"|'[^'\n]*'/g,
 		greedy: true,
 		inside: {
 			'guid': guid
@@ -27,7 +27,7 @@ languages['solution-file'] = {
 		//   EndBar
 		//   Prop = TRUE
 		// EndFoo
-		pattern: /^([ \t]*)(?:([A-Z]\w*)\b(?=.*\n(?:\1[ \t].*\n)*\1End\2(?=[ \t]*$))|End[A-Z]\w*(?=[ \t]*$))/m,
+		pattern: /^([ \t]*)(?:([A-Z]\w*)\b(?=.*\n(?:\1[ \t].*\n)*\1End\2(?=[ \t]*$))|End[A-Z]\w*(?=[ \t]*$))/mg,
 		lookbehind: true,
 		greedy: true,
 		alias: 'keyword'

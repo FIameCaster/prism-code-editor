@@ -7,28 +7,28 @@ import { clikeComment } from '../utils/shared.js';
 languages.avdl =languages['avro-idl'] = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /(^|[^\\])"(?:[^\n"\\]|\\.)*"/,
+		pattern: /(^|[^\\])"(?:[^\n"\\]|\\.)*"/g,
 		lookbehind: true,
 		greedy: true
 	},
 
 	'annotation': {
-		pattern: /@(?:[$\w.-]|`[^\n`]+`)+/,
+		pattern: /@(?:[$\w.-]|`[^\n`]+`)+/g,
 		greedy: true,
 		alias: 'function'
 	},
 	'function-identifier': {
-		pattern: /`[^\n`]+`(?=\s*\()/,
+		pattern: /`[^\n`]+`(?=\s*\()/g,
 		greedy: true,
 		alias: 'function'
 	},
 	'identifier': {
-		pattern: /`[^\n`]+`/,
+		pattern: /`[^\n`]+`/g,
 		greedy: true
 	},
 
 	'class-name': {
-		pattern: /(\b(?:enum|error|protocol|record|throws)\b\s+)[$\w]+/,
+		pattern: /(\b(?:enum|error|protocol|record|throws)\b\s+)[$\w]+/g,
 		lookbehind: true,
 		greedy: true
 	},

@@ -8,23 +8,23 @@ import { extend } from '../utils/language.js';
 */
 
 var asm = {
-	pattern: /(\basm\b)[\s\S]+?(?=\bend\s*[;[])/i,
+	pattern: /(\basm\b)[\s\S]+?(?=\bend\s*[;[])/gi,
 	lookbehind: true,
 	greedy: true
 }
 
 languages.objectpascal = asm.inside = languages.pascal = {
 	'directive': {
-		pattern: /\{\$[\s\S]*?\}/,
+		pattern: /\{\$[\s\S]*?\}/g,
 		greedy: true,
 		alias: 'marco property'
 	},
 	'comment': {
-		pattern: /\(\*[\s\S]*?\*\)|\{[\s\S]*?\}|\/\/.*/,
+		pattern: /\(\*[\s\S]*?\*\)|\{[\s\S]*?\}|\/\/.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(?:'(?:''|[^'\n])*'(?!')|#[&$%]?[a-f\d]+)+|\^[a-z]/i,
+		pattern: /(?:'(?:''|[^'\n])*'(?!')|#[&$%]?[a-f\d]+)+|\^[a-z]/gi,
 		greedy: true
 	},
 	'asm': asm,

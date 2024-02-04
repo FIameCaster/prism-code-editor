@@ -20,7 +20,7 @@ languages.pbfasm = languages.purebasic = {
 		inside: {
 			'comment': /;.*/,
 			'string': {
-				pattern: /(["'`])(?:\\.|(?!\1)[^\\\n])*\1/,
+				pattern: /(["'`])(?:\\.|(?!\1)[^\\\n])*\1/g,
 				greedy: true
 			},
 			// Anonymous label references, i.e.: jmp @b

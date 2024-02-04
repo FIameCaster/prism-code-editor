@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages['splunk-spl'] = {
 	'comment': /`comment\("(?:\\.|[^\\"])*"\)`/,
 	'string': {
-		pattern: /"(?:\\.|[^\\"])*"/,
+		pattern: /"(?:\\.|[^\\"])*"/g,
 		greedy: true
 	},
 	// https://docs.splunk.com/Documentation/Splunk/7.3.0/SearchReference/ListOfSearchCommands

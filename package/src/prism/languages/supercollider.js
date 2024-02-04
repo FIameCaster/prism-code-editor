@@ -3,20 +3,20 @@ import { boolean } from '../utils/shared.js';
 
 languages.sclang = languages.supercollider = {
 	'comment': {
-		pattern: /\/\/.*|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\*\//,
+		pattern: /\/\/.*|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\*\//g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:[^"\\]|\\[\s\S])*"/,
+		pattern: /(^|[^\\])"(?:[^"\\]|\\[\s\S])*"/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'char': {
-		pattern: /\$(?:[^\\\n]|\\.)/,
+		pattern: /\$(?:[^\\\n]|\\.)/g,
 		greedy: true
 	},
 	'symbol': {
-		pattern: /(^|[^\\])'(?:[^'\\]|\\[\s\S])*'|\\\w+/,
+		pattern: /(^|[^\\])'(?:[^'\\]|\\[\s\S])*'|\\\w+/g,
 		lookbehind: true,
 		greedy: true
 	},

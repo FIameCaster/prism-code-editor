@@ -1,6 +1,6 @@
 import { languages, tokenize, withoutTokenizer } from '../core.js';
 
-var expressionDef = /\{[^\n[\]{}]*\}/;
+var expressionDef = /\{[^\n[\]{}]*\}/g;
 
 var params = {
 	'quoted-string': {
@@ -18,7 +18,7 @@ var params = {
 			alias: 'selector',
 		},
 		{
-			pattern: /([\t ])\S+/,
+			pattern: /([\t ])\S+/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'operator',
@@ -35,15 +35,15 @@ var params = {
  * @returns {boolean}
  */
 var isBadLine = input => {
-	for (var brackets = '[]{}', stack = [], i = 0, l = input.length; i < l; ) {
+	for (var brackets = '[]{}', stack = [], s = 0, i = 0, l = input.length; i < l; ) {
 		var bracketsIndex = brackets.indexOf(input[i++]);
 		if (bracketsIndex + 1) {
 			if (bracketsIndex % 2) {
-				if (stack.pop() != bracketsIndex) return true;
-			} else stack.push(bracketsIndex + 1);
+				if (stack[--s] != bracketsIndex) return true;
+			} else stack[s++] = bracketsIndex + 1;
 		}
 	}
-	return stack.length;
+	return s;
 }
 
 languages.nani = languages.naniscript = {
@@ -106,7 +106,7 @@ languages.nani = languages.naniscript = {
 				alias: 'selector'
 			},
 			'inline-command': {
-				pattern: /\[[\t ]*\w[^\n[\]]*\]/,
+				pattern: /\[[\t ]*\w[^\n[\]]*\]/g,
 				greedy: true,
 				alias: 'function',
 				inside: {

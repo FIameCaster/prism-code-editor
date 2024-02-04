@@ -2,21 +2,21 @@ import { languages } from '../core.js';
 
 languages.gawk = languages.awk = {
 	'hashbang': {
-		pattern: /^#!.*/,
+		pattern: /^#!.*/g,
 		greedy: true,
 		alias: 'comment'
 	},
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:[^\\"\n]|\\.)*"/,
+		pattern: /(^|[^\\])"(?:[^\\"\n]|\\.)*"/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'regex': {
-		pattern: /((?:^|[^\w\s)])\s*)\/(?:[^\/\\\n]|\\.)*\//,
+		pattern: /((?:^|[^\w\s)])\s*)\/(?:[^\/\\\n]|\\.)*\//g,
 		lookbehind: true,
 		greedy: true
 	},

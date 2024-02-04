@@ -3,18 +3,18 @@ import { clikePunctuation } from '../utils/shared.js';
 
 languages.psl = {
 	'comment': {
-		pattern: /#.*/,
+		pattern: /#.*/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:\\.|[^\\"])*"/,
+		pattern: /"(?:\\.|[^\\"])*"/g,
 		greedy: true,
 		inside: {
 			'symbol': /\\[ntrbA-Z"\\]/
 		}
 	},
 	'heredoc-string': {
-		pattern: /<<<([a-zA-Z_]\w*)\n(?:.*\n)*?\1\b/,
+		pattern: /<<<([a-zA-Z_]\w*)\n(?:.*\n)*?\1\b/g,
 		alias: 'string',
 		greedy: true
 	},
@@ -27,7 +27,7 @@ languages.psl = {
 		alias: 'builtin-function'
 	},
 	'foreach-variable': {
-		pattern: /(\bforeach\s+(?:(?:\w+\b|"(?:\\.|[^\\"])*")\s+){0,2})[_a-zA-Z]\w*(?=\s*\()/,
+		pattern: /(\bforeach\s+(?:(?:\w+\b|"(?:\\.|[^\\"])*")\s+){0,2})[_a-zA-Z]\w*(?=\s*\()/g,
 		lookbehind: true,
 		greedy: true
 	},

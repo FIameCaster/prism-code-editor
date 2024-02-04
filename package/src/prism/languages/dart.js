@@ -26,7 +26,7 @@ var className = {
 languages.dart = {
 	'comment': clikeComment(),
 	'string-literal': {
-		pattern: /r?(?:("""|''')[\s\S]*?\1|(["'])(?:\\.|(?!\2)[^\\\n])*\2(?!\2))/,
+		pattern: /r?(?:("""|''')[\s\S]*?\1|(["'])(?:\\.|(?!\2)[^\\\n])*\2(?!\2))/g,
 		greedy: true,
 		inside: {
 			'interpolation': {

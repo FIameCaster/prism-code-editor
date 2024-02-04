@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.warpscript = {
 	'comment': /#.*|\/\/.*|\/\*[\s\S]*?\*\//,
 	'string': {
-		pattern: /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|<'(?:[^\\']|'(?!>)|\\.)*'>/,
+		pattern: /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'|<'(?:[^\\']|'(?!>)|\\.)*'>/g,
 		greedy: true
 	},
 	'variable': /\$\S+/,

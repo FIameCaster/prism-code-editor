@@ -5,15 +5,15 @@ import { clikePunctuation } from '../utils/shared.js';
 
 languages.n1ql = {
 	'comment': {
-		pattern: /\/\*[\s\S]*?(?:$|\*\/)|--.*/,
+		pattern: /\/\*[\s\S]*?(?:$|\*\/)|--.*/g,
 		greedy: true,
 	},
 	'string': {
-		pattern: /(["'])(?:\\[\s\S]|(?!\1)[^\\]|\1\1)*\1/,
+		pattern: /(["'])(?:\\[\s\S]|(?!\1)[^\\]|\1\1)*\1/g,
 		greedy: true,
 	},
 	'identifier': {
-		pattern: /`(?:\\[\s\S]|[^\\`]|``)*`/,
+		pattern: /`(?:\\[\s\S]|[^\\`]|``)*`/g,
 		greedy: true,
 	},
 	'parameter': /\$[\w.]+/,

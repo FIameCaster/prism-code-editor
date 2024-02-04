@@ -13,7 +13,7 @@ var d = languages.d = extend('clike', {
 			greedy: true
 		},
 		{
-			pattern: /\bq\{(?:\{[^{}]*\}|[^{}])*\}/,
+			pattern: /\bq\{(?:\{[^{}]*\}|[^{}])*\}/g,
 			greedy: true,
 			alias: 'token-string'
 		}

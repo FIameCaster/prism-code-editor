@@ -2,15 +2,15 @@ import { languages } from '../core.js';
 
 languages.keyman = {
 	'comment': {
-		pattern: /\bc .*/i,
+		pattern: /\bc .*/gi,
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^"\n]*"|'[^'\n]*'/,
+		pattern: /"[^"\n]*"|'[^'\n]*'/g,
 		greedy: true
 	},
 	'virtual-key': {
-		pattern: /\[\s*(?:(?:ALT|CAPS|CTRL|LALT|LCTRL|NCAPS|RALT|RCTRL|SHIFT)\s+)*(?:[TKU]_[\w?]+|[A-E]\d\d?|"[^"\n]*"|'[^'\n]*')\s*\]/i,
+		pattern: /\[\s*(?:(?:ALT|CAPS|CTRL|LALT|LCTRL|NCAPS|RALT|RCTRL|SHIFT)\s+)*(?:[TKU]_[\w?]+|[A-E]\d\d?|"[^"\n]*"|'[^'\n]*')\s*\]/gi,
 		greedy: true,
 		alias: 'function' // alias for styles
 	},

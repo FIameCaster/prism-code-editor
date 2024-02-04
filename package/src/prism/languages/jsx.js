@@ -7,10 +7,11 @@ var jsx = languages.jsx = clone(languages.js);
 /**
  * @param {string} pattern
  */
-var re = pattern => RegExp(pattern
+var re = (pattern, flags) => RegExp(pattern
 	.replace(/<S>/g, space)
 	.replace(/<BRACES>/g, braces)
-	.replace(/<SPREAD>/g, spread)
+	.replace(/<SPREAD>/g, spread),
+	flags
 );
 
 var space = /(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)/.source;
@@ -89,7 +90,7 @@ var walkTokens = (tokens, code, position) => {
 insertBefore(jsx, 'regex', {
 	'tag': {
 		pattern: re(
-			/<\/?(?:(?!\d)[^\s>/=<%]+(?:<S>+(?:[^\s{*<>/=]+(?:<S>*=<S>*(?!\s)(?:"[^"]*"|'[^']*'|[^\s{'"/>=]+|<BRACES>)?)?|<SPREAD>))*<S>*\/?)?>/.source
+			/<\/?(?:(?!\d)[^\s>/=<%]+(?:<S>+(?:[^\s{*<>/=]+(?:<S>*=<S>*(?!\s)(?:"[^"]*"|'[^']*'|[^\s{'"/>=]+|<BRACES>)?)?|<SPREAD>))*<S>*\/?)?>/.source, 'g'
 		),
 		greedy: true,
 		inside: {

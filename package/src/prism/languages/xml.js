@@ -10,16 +10,16 @@ var entity = [
 
 languages.rss = languages.atom = languages.ssml = languages.xml = {
 	'comment': {
-		pattern: /<!--(?:(?!<!--)[\s\S])*?-->/,
+		pattern: /<!--(?:(?!<!--)[\s\S])*?-->/g,
 		greedy: true
 	},
 	'prolog': {
-		pattern: /<\?[\s\S]+?\?>/,
+		pattern: /<\?[\s\S]+?\?>/g,
 		greedy: true
 	},
 	'doctype': {
 		// https://www.w3.org/TR/xml/#NT-doctypedecl
-		pattern: /<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/i,
+		pattern: /<!DOCTYPE(?:[^>"'[\]]|"[^"]*"|'[^']*')+(?:\[(?:[^<"'\]]|"[^"]*"|'[^']*'|<(?!!--)|<!--(?:[^-]|-(?!->))*-->)*\]\s*)?>/gi,
 		greedy: true,
 		inside: {
 			'internal-subset': {
@@ -34,11 +34,11 @@ languages.rss = languages.atom = languages.ssml = languages.xml = {
 		}
 	},
 	'cdata': {
-		pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i,
+		pattern: /<!\[CDATA\[[\s\S]*?\]\]>/gi,
 		greedy: true
 	},
 	'tag': {
-		pattern: /<\/?(?!\d)[^\s>/=$<%]+(?:\s(?:\s*[^\s>/=]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s'"=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*\/?>/,
+		pattern: /<\/?(?!\d)[^\s>/=$<%]+(?:\s(?:\s*[^\s>/=]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s'"=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*\/?>/g,
 		greedy: true,
 		inside: {
 			'punctuation': /^<\/?|\/?>$/,

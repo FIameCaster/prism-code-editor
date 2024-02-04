@@ -11,7 +11,7 @@ var addLang = (grammar, lang) => {
 };
 
 var addInlined = (tagName, lang) => ({
-	pattern: RegExp(`(<${tagName}[^>]*>)(?:<!\\[CDATA\\[(?:[^\\]]|\\](?!\\]>))*\\]\\]>|(?!<!\\[CDATA\\[)[\\s\\S])*?(?=<\\/${tagName}>)`, 'i'),
+	pattern: RegExp(`(<${tagName}[^>]*>)(?:<!\\[CDATA\\[(?:[^\\]]|\\](?!\\]>))*\\]\\]>|(?!<!\\[CDATA\\[)[\\s\\S])*?(?=<\\/${tagName}>)`, 'gi'),
 	lookbehind: true,
 	greedy: true,
 	inside: addLang({
