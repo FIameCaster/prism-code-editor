@@ -103,12 +103,13 @@ const createEditor = (
 		// This is not needed, but significantly improves performance when only one line changed
 		if (start == end1 && start == end2) lines[++start].innerHTML = newLines[start - 1] + "\n"
 
-		for (let i = end2 < start ? end2 : start - 1; i < end1; )
-			newHTML += `<div class="pce-line" aria-hidden="true">${newLines[++i]}\n</div>`
-		for (let i = end1 < start ? end1 : start - 1; i < end2; i++) lines[start + 1].remove()
-		if (newHTML) lines[start].insertAdjacentHTML("afterend", newHTML)
-		for (let i = end1 < start ? end1 + 1 : start; i < l; )
-			lines[++i].setAttribute("data-line", <any>i)
+		let insertStart = end2 < start ? end2 : start - 1
+		let i = insertStart
+
+		while (i < end1) newHTML += `<div class="pce-line" aria-hidden="true">${newLines[++i]}\n</div>`
+		for (i = end1 < start ? end1 : start - 1; i < end2; i++) lines[start + 1].remove()
+		if (newHTML) lines[insertStart + 1].insertAdjacentHTML("afterend", newHTML)
+		for (i = insertStart + 1; i < l; ) lines[++i].setAttribute("data-line", <any>i)
 		scrollContainer.style.setProperty("--number-width", Math.ceil(Math.log10(l + 1)) + 0.001 + "ch")
 
 		dispatchEvent("update", value)
