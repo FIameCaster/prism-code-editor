@@ -13,7 +13,7 @@ const template = createTemplate(
 const toggleAttr = (el: Element, name: string) =>
 	el.setAttribute(name, <any>(el.getAttribute(name) == "false"))
 
-const getStyleValue = <T extends keyof CSSStyleDeclaration>(el: HTMLElement, prop: T) =>
+const getStyleValue = (el: HTMLElement, prop: keyof CSSStyleDeclaration) =>
 	parseFloat(<string>getComputedStyle(el)[prop])
 
 export interface SearchWidget extends BasicExtension {

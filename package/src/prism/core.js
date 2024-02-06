@@ -14,14 +14,14 @@ var languages = {
 };
 
 /**
- * @param {string} text 
- * @param {any} grammar 
+ * @param {string} text
+ * @param {any} grammar
  */
 var tokenizeText = (text, grammar) => (grammar[tokenize] || withoutTokenizer)(text, grammar);
 
 /**
- * @param {string} text 
- * @param {any} grammar 
+ * @param {string} text
+ * @param {any} grammar
  */
 var withoutTokenizer = (text, grammar) => {
 	var startNode = [text];
@@ -55,7 +55,7 @@ var stringify = token => {
 		var prevOpening = openingTags;
 		var prevClosing = closingTags;
 		var opening = `<span class="token ${
-			type + (alias ? ' ' + alias : '') + 
+			type + (alias ? ' ' + alias : '') +
 			(type == 'keyword' && typeof content == 'string' ? ' keyword-' + content : '')
 		}">`;
 
@@ -86,7 +86,7 @@ var highlight = (text, ref) => highlightTokens(tokenizeText(text, resolve(ref)))
  * @param {[string, number, number]} rematch
  * @returns {number | undefined}
  * @private
- * 
+ *
  * @typedef {[string | Token, LinkedListNode?]} LinkedListNode
  */
 var matchGrammar = (text, grammar, startNode, startPos, rematch) => {
@@ -96,8 +96,6 @@ var matchGrammar = (text, grammar, startNode, startPos, rematch) => {
 				return;
 			}
 
-			var currentNode = startNode;
-			var pos = startPos;
 			var patternObj = patterns[j];
 			/** @type {RegExp} */
 			var pattern = patternObj.pattern || patternObj;
@@ -107,7 +105,7 @@ var matchGrammar = (text, grammar, startNode, startPos, rematch) => {
 			var alias = patternObj.alias;
 
 			for ( // iterate the token list and keep track of the current token/string position
-				;
+				var currentNode = startNode, pos = startPos;
 				currentNode && (!rematch || pos < rematch[2]);
 				pos += currentNode[0].length, currentNode = currentNode[1]
 			) {

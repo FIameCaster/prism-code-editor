@@ -64,7 +64,7 @@ const simpleRegexMinifier: Plugin = {
 	name: "simple-regex-minifier",
 	renderChunk(code) {
 		const str = new MagicString(code)
-		str.replace(/\[\\s\\S\]/g, "[^]")
+		str.replace(/\[\\\\?s\\\\?S\]/g, "[^]")
 
 		// inline-regex-source plugin used by Prism's build system
 		// https://github.com/PrismJS/prism/blob/v1.29.0/gulpfile.js/index.js#L33

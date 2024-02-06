@@ -13,7 +13,7 @@ export declare const rest: unique symbol
  * 
  * For example the markdown code block grammar uses a custom tokenizer to highlight code blocks.
  * This custom tokenizer first tokenizes the code as normal, then finds the language of the code block.
- * If that language has a registered grammar, the content of the block is tokenized using
+ * If that language has a registered grammar, the content of the code block is tokenized using
  * that language's grammar.
  * 
  * @see {@link CustomTokenizer} for the type definition of a custom tokenizer.

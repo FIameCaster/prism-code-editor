@@ -68,9 +68,11 @@ const createEditor = (
 	const setOptions = (options: Partial<EditorOptions>) => {
 		;({ language, value = "" } = Object.assign(currentOptions, { value }, options))
 
-		const isNewGrammar = grammar != (grammar = languages[language])
-		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
+		const newGrammar = languages[language]
+		const isNewGrammar = grammar != newGrammar
+		if (!newGrammar) throw Error(`Language '${language}' has no grammar.`)
 
+		grammar = newGrammar
 		readOnly = !!currentOptions.readOnly
 		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
 		textarea.inputMode = readOnly ? "none" : ""
@@ -110,7 +112,7 @@ const createEditor = (
 		for (i = end1 < start ? end1 : start - 1; i < end2; i++) lines[start + 1].remove()
 		if (newHTML) lines[insertStart + 1].insertAdjacentHTML("afterend", newHTML)
 		for (i = insertStart + 1; i < l; ) lines[++i].setAttribute("data-line", <any>i)
-		scrollContainer.style.setProperty("--number-width", Math.ceil(Math.log10(l + 1)) + 0.001 + "ch")
+		scrollContainer.style.setProperty("--number-width", Math.ceil(Math.log10(l + 1)) + ".001ch")
 
 		dispatchEvent("update", value)
 		dispatchSelection(true)
