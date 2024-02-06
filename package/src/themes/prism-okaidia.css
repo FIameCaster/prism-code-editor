@@ -83,6 +83,7 @@
 .token.selector,
 .token.attr-name,
 .token.string,
+.token.string-property,
 .token.char,
 .token.builtin,
 .token.inserted {
@@ -110,6 +111,7 @@
 }
 
 .token.regex,
+.language-regex,
 .token.important {
 	color: #fd971f;
 }

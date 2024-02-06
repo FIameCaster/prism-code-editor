@@ -110,8 +110,7 @@
 }
 
 .token.function,
-.token.alternation,
-.token.function .maybe-class-name {
+.token.alternation {
 	color: #dcdcaa;
 }
 

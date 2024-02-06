@@ -138,7 +138,8 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #7fdbca;
 }
 
-.language-regex {
+.language-regex,
+.token.regex-flags {
 	color: #5ca7e4;
 }
 
@@ -166,7 +167,6 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.function,
 .token.keyword-undefined,
 .token.function .maybe-class-name,
-.token.regex .punctuation,
 .token.char-class,
 .token.token.char-set,
 .token.title.important,
@@ -243,7 +243,8 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #ff1212cc;
 }
 
-.token.markup-bracket {
+.token.markup-bracket,
+.token.regex .punctuation {
 	color: inherit;
 }
 

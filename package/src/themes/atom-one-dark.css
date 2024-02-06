@@ -61,6 +61,8 @@
 }
 
 .token.keyword,
+.token.token.anchor,
+.token.regex-flags,
 .selector .punctuation,
 .selector .combinator,
 .selector .operator,
@@ -68,11 +70,19 @@
 	color: #c678dd;
 }
 
+.token.class-name,
+.token.maybe-class-name {
+	color: #e5c07b;
+}
+
 .token.attr-name,
 .doctype .name,
 .selector .class,
 .selector .pseudo-element,
 .selector .pseudo-class,
+.token.regex .escape,
+.token.char-class,
+.token.char-set,
 .token.boolean,
 .token.constant,
 .token.number,
@@ -81,11 +91,6 @@
 .token.keyword-null,
 .token.keyword-undefined {
 	color: #d19a66;
-}
-
-.token.class-name,
-.token.maybe-class-name {
-	color: #e5c07b;
 }
 
 .token.property,
@@ -106,7 +111,7 @@
 .token.string,
 .token.char,
 .token.inserted,
-.token.regex,
+.token.string-property,
 .token.attr-value,
 .token.string.url,
 .token.attr-value > .punctuation,
@@ -123,8 +128,14 @@
 }
 
 .token.url,
+.token.regex,
+.language-regex,
+.token.char-class .operator,
+.token.alternation,
+.token.quantifier,
 .token.hexcode,
 .token.keyword-get,
+.token.keyword-set,
 .token.builtin,
 .token.operator {
 	color: #56b6c2;
@@ -206,7 +217,8 @@
 	color: #ff1212cc;
 }
 
-.token.markup-bracket {
+.token.markup-bracket,
+.token.regex .punctuation {
 	color: inherit;
 }
 

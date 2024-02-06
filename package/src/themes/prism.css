@@ -107,6 +107,7 @@
 }
 
 .token.regex,
+.language-regex,
 .token.important,
 .token.variable {
 	color: #e90;
