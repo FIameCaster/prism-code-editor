@@ -7,13 +7,13 @@ Check out [the demos](https://prism-code-editor.netlify.app) and the [API Docume
 
 ## Why?
 
-There are multiple fully featured code editors for the web such as Monaco, Ace and CodeMirror. While these are awesome, they have a large footprint and are likely overkill for code examples, forms or small playgrounds where you won't display large documents.
+There are multiple fully featured code editors for the web such as Monaco, Ace and CodeMirror. While these are awesome, they have a large footprint and are likely overkill for code examples, forms, playgrounds or anywhere you won't display large documents.
 
 ## How?
 
 This library overlays syntax highlighted code over a `<textarea>`. Libraries like [CodeFlask](https://github.com/kazzkiq/CodeFlask), [react-simple-code-editor](https://github.com/react-simple-code-editor/react-simple-code-editor) and many others have been doing this for years, but this library offers some distinct advantages:
 
-- It patches Prism's core, so it no longer relies on global variables and strips away unneeded methods making it less than 40% the size.
+- It uses a trimmed Prism's core less than ⅓ the size that no longer relies on global variables.
 - It re-exports Prism's languages that now automatically import their required dependencies and embedded languages are resolved at runtime.
 - It splits the highlighted code into lines. This makes it easy to add line numbers, highlight a line and only update changed lines in the DOM for efficient updates.
 - The core is light as a feather with a wide array of [extensions](#extensions) you can choose from and multiple events to listen to.
@@ -24,6 +24,8 @@ This library overlays syntax highlighted code over a `<textarea>`. Libraries lik
 - [Basic usage](#basic-usage)
 - [Advanced usage](#advanced-usage)
 - [Importing Prism](#importing-prism)
+  - [Importing grammars](#importing-grammars)
+- [Usage with Node.js](#usage-with-node.js)
 - [Examples](#examples)
 - [Extensions](#extensions)
   - [Importing extensions](#importing-extensions)
@@ -59,7 +61,7 @@ These setups are very cumbersome to customize and are therefore only recommended
 ```javascript
 import { minimalEditor, basicEditor, fullEditor, readonlyEditor } from "prism-code-editor/setups"
 // Importing Prism grammars
-import "prism-code-editor/grammars/markup"
+import "prism-code-editor/prism/languages/markup"
 
 const editor = fullEditor(
   "#editor",
@@ -77,9 +79,9 @@ With little effort, you can fully customize which extensions are added and how t
 
 ```javascript
 // index.ts
-import "prism-code-editor/grammars/markup"
-import "prism-code-editor/grammars/css-extras"
-import "prism-code-editor/grammars/js-extras"
+import "prism-code-editor/prism/languages/markup"
+import "prism-code-editor/prism/languages/css-extras"
+import "prism-code-editor/prism/languages/javascript"
 
 import { createEditor } from "prism-code-editor"
 import { matchBrackets } from "prism-code-editor/match-brackets"
@@ -97,7 +99,7 @@ export const editor = createEditor(
   matchBrackets(),
 )
   
-import('./extensions')
+import("./extensions")
 ```
 
 To minimize your main JavaScript bundle, you can dynamically import all extensions *(but some probably shouldn't be)*.
@@ -131,11 +133,69 @@ editor.addExtensions(
 
 ## Importing Prism
 
-If you want access to the patched Prism core to add your own languages for example, just import it.
+If you want to add your own language to Prism or perform syntax highlighting outside of an editor, this is where to import from:
 
 ```javascript
-import { Prism } from "prism-code-editor"
+import {
+  // Functions
+  highlight,
+  highlightTokens,
+  tokenizeText,
+  withoutTokenizer,
+  // Record storing loaded languages
+  languages,
+  // Symbols used in grammars
+  tokenize,
+  rest,
+  // Token class
+  Token
+} from "prism-code-editor/prism"
+
+// Utilities used by grammars
+import {
+  clone, insertBefore, extend, embeddedIn
+} from "prism-code-editor/prism/utils"
+
+// To add your own language, just mutate the languages record
+languages["my-language"] = {
+  // ...
+}
 ```
+
+For more information about these exports, read the [API documentation](https://prism-code-editor.netlify.app/api/modules/prism).
+
+**Note:** CRLF and CR line breaks are not supported. So before highlighting, you might need to normalize line breaks using something like `text.replace(/\r\n?/g, "\n")`.
+
+### Importing grammars
+
+As you might've seen from the examples, prism grammars are imported from `prism-code-editor/prism/languages/*`. Importing a grammar will automatically register it through side effects. If you're importing multiple grammars, import order usually won't matter. The exception comes when grammars modify other grammars. Take this example:
+
+```javascript
+import "prism-code-editor/prism/languages/typescript"
+import "prism-code-editor/prism/languages/js-templates"
+```
+
+This won't add `js-templates` features to `typescript` because it extended `javascript` before `js-templates` was added. Swapping the import order fixes the issue.
+
+If you need access to many languages, you can import the following entry points:
+
+- `prism-code-editor/prism/languages` for all languages (~190kB)
+- `prism-code-editor/prism/languages/common` for [42 common languages](https://github.com/FIameCaster/prism-code-editor/tree/main/src/prism/languages/common.js) (~30kB)
+
+Take this simple markdown editor as an example. Here, only the markdown grammar is required initially. The common languages are dynamically imported and once they load, the editor is updated, which will highlight all markdown code blocks.
+
+```javascript
+import "prism-code-editor/prism/languages/markdown"
+import { createEditor } from "prism-code-editor"
+
+const editor = createEditor("#editor", { language: "markdown" })
+
+import("prism-code-editor/prism/languages/common").then(() => editor.update())
+```
+
+## Usage with Node.js
+
+The entry points `prism-code-editor/prism`, `prism-code-editor/prism/utils` and the grammars from `prism-code-editor/prism/languages/*` can all run on Node.js for those who want to generate HTML with it.
 
 ## Examples
 
@@ -167,7 +227,7 @@ The default commands extension includes:
 - Automatic closing of brackets, quotes, and tags
 - Automatic indentation and indentation with Tab key
 
-Along with the following commands:
+And it includes these commands:
 
 - Alt+ArrowUp/Down: Move line up/down
 - Shift+Alt+ArrowUp/Down: Copy line up/down
@@ -225,6 +285,22 @@ const myExtension = (): MyExtension => {
 
 You can also write a class with an update method if that's preferred.
 
+You can also use a plain function as an extension. This function won't be called when the editor's options change.
+
+```typescript
+import { BasicExtension, createEditor } from "prism-code-editor"
+
+const myExtension = (): BasicExtension => {
+  return (editor, options) => {
+    // This won't be called when the options change
+  }
+}
+
+createEditor("#editor", {}, (editor, options) => {
+  // This will be called before the first render
+})
+```
+
 ## Handling Tab
 
 If you're adding the default commands to your editor, the tab key is used for indentation. If this isn't wanted, you can change the behavior. 
@@ -232,7 +308,7 @@ If you're adding the default commands to your editor, the tab key is used for in
 Users can at any time toggle tab capturing with Ctrl+M / Ctrl+Shift+M (Mac).
 
 ```javascript
-import { setIgnoreTab } from "prism-code-editor"
+import { setIgnoreTab } from "prism-code-editor/commands"
 setIgnoreTab(true)
 ```
 
@@ -265,7 +341,7 @@ import "prism-code-editor/scrollbar.css"
 You can change the color of the scrollbar thumb using the custom property `--editor__bg-scrollbar`. Different alphas will be set based on the state of the scrollbar thumb.
 
 ```css
-.prism-editor {
+.prism-code-editor {
   /* Values are: Hue, saturation, lightness */
   --editor__bg-scrollbar: 210, 10%, 40%;
 }
@@ -276,6 +352,14 @@ You can change the color of the scrollbar thumb using the custom property `--edi
 If you're not using any of the setups, the styles aren't scoped using a shadow root, which makes them easy to change. If you want to change color, background, font, line-height or similar, you can do it on `.prism-code-editor` with CSS.
 
 Default padding is `0.75em` left/right and `0.5em` top/bottom. If you want to change it, you can use the custom property `--padding-inline` for left/right. Padding top and bottom can changed by changing the margin on `.pce-wrapper`.
+
+There are many classes added to `.prism-code-editor` you can use to style the editor based on its state:
+
+- `pce-has-selection` if the textarea has a selection, and `pce-no-selection` if not
+- `pce-focus` if the textarea is focused
+- `show-line-numbers` if line numbers are enabled
+- `pce-wrap` if word wrap is enabled, and `pce-nowrap` if not
+- `pce-readonly` if the editor is read-only
 
 #### Creating a theme
 
@@ -301,7 +385,7 @@ import "prism-code-editor/languages/jsx"
 import "prism-code-editor/languages/python"
 ```
 
-The clike language will work with many languages including JavaScript, Java, C++, C# and C.
+The clike language will work with many languages including JavaScript, Java, C++, C#, and C.
 
 Alternatively, you can import all language behavior at the expense of your bundle size.
 
@@ -459,9 +543,11 @@ Once you start approaching 1000 LOC, the editor will start slowing down on most 
 
 This has been tested to work in the latest desktop and mobile versions of both Safari, Chrome, and Firefox. It should work in slightly older browsers too, but there will be many bugs present in browsers that don't support `beforeinput` events.
 
-This library does not support any Prism plugins due to only running the `before-tokenize` and `after-tokenize` hooks. Behavior identical to the [Highlight Keywords](https://prismjs.com/plugins/highlight-keywords/) plugin is included.
+This library does not support any Prism plugins since Prism hooks have been removed. Behavior identical to the [Highlight Keywords](https://prismjs.com/plugins/highlight-keywords/) plugin is included.
 
-Prism's own languages rely on global variables, so you'll have to define `window.Prism` before you can import them. Don't do this and import languages from `prism-code-editor/grammars/*` instead.
+Some grammars have had small changes, most notably markup tags' grammar. So Prism themes will work to style the tokens, but there can be som slight differences.
+
+PrismJS automatically adds the global regex flag to the pattern of greedy tokens. This has been removed, so if you're using your own Prism grammars, you might have to add the global flag to the greedy tokens. 
 
 ## Credits
 
