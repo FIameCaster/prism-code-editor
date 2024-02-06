@@ -1,19 +1,16 @@
 import { createEditor, EditorOptions, PrismEditor } from ".."
 import { defaultCommands } from "../extensions/commands"
 import { copyButton } from "../extensions/copyButton"
-import "../prism/languages/markup"
 import "../prism/languages/js-templates"
+import "../prism/languages/jsdoc"
 import "../prism/languages/css-extras"
 import "../prism/languages/markdown"
 import "../prism/languages/regex"
-import "../prism/languages/jsdoc"
-import "../prism/languages/tsx"
-import "../prism/languages/python"
 import "../extensions/copyButton/copy.css"
 import "../extensions/folding/folding.css"
 import { cursorPosition } from "../extensions/cursor"
 import { indentGuides } from "../extensions/guides"
-import guides from "../extensions/guides.ts?raw"
+import guides from "../prism/core?raw"
 import readme from "/readme.md?raw"
 import { matchBrackets } from "../extensions/matchBrackets"
 import { highlightBracketPairs } from "../extensions/matchBrackets/highlight"
@@ -68,9 +65,6 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 </html>`
 
 let currentOptions = `const code = '${startCode.replace(/\n/g, "\\n")}'
-
-// Languages available in this example include:
-// javascript, html, css, markdown, xml, jsx, python, typescript and tsx
 
 const options = {
   language: 'html',
@@ -208,3 +202,6 @@ addOverscroll(editor)
 document.querySelector<HTMLElement>("button.btn")!.onclick = () => {
 	editor2.extensions.searchWidget!.open()
 }
+
+// @ts-expect-error
+setTimeout(() => import("../prism/languages"), 500)
