@@ -288,6 +288,19 @@ option {
 	height: min(59.4rem, 100vh - 16rem);
 }
 
+.tooltip {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--widget__bg);
+  padding: 0.4em;
+  border: 1px solid var(--widget__border);
+  border-radius: 0.4em;
+  position: sticky;
+  left: 0.5em;
+  right: 0;
+  white-space: normal;
+  word-break: normal;
+}
+
 @media (prefers-color-scheme: dark) {
 	:root {
 		--bg: #0d1117;

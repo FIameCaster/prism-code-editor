@@ -23,7 +23,7 @@ import { cursorPosition } from "prism-code-editor/cursor"
 import { markdownFolding, readOnlyCodeFolding } from "prism-code-editor/code-folding"
 import { matchTags } from "prism-code-editor/match-tags"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
-import { addOverscroll } from "prism-code-editor/tooltips"
+import { addOverscroll, addTooltip } from "prism-code-editor/tooltips"
 
 import { EditorOptions, PrismEditor, createEditor, editorFromPlaceholder } from "prism-code-editor"
 import { getClosestToken } from "prism-code-editor/utils"
@@ -131,6 +131,19 @@ const observer = new IntersectionObserver(entries =>
 				addWordHighlight(editor, index < 3)
 			}
 			if (index == 8) {
+				const tooltip = document.createElement("div")
+				const [show, hide] = addTooltip(editor, tooltip, false)
+				const textarea = editor.textarea
+
+				tooltip.className = "tooltip"
+				tooltip.textContent = "Cannot edit read-only editor."
+
+				textarea.addEventListener("beforeinput", () => show(), true)
+
+				// Hiding the tooltip when a user moves the cursor or clicks on the textarea
+				editor.options.onSelectionChange = hide
+				textarea.addEventListener("click", hide)
+
 				editor.addExtensions(readOnlyCodeFolding(markdownFolding))
 				addOverscroll(editor)
 			}
