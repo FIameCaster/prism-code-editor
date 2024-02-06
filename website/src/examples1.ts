@@ -30,7 +30,7 @@ basicUsage = `import {
   minimalEditor, basicEditor,
   fullEditor, readonlyEditor
 } from "prism-code-editor/setups"
-import "prism-code-editor/grammars/javascript"
+import "prism-code-editor/prism/languages/javascript"
 
 const editor = basicEditor(
   "#editor",
