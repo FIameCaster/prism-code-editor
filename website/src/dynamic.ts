@@ -1,3 +1,4 @@
+import "./async.css"
 import "prism-code-editor/search.css"
 import "prism-code-editor/copy-button.css"
 import "prism-code-editor/code-folding.css"
