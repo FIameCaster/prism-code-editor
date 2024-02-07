@@ -137,6 +137,6 @@ export declare const highlightTokens: (tokens: TokenStream) => string
  * @param ref Either a grammar object or a language name used to index {@link languages}. The resolved
  * grammar is then used to highlight the text.
  */
-export declare const highlight: (text: string, ref: Grammar | string) => string
+export declare const highlightText: (text: string, ref: Grammar | string) => string
 
 export declare const resolve: (ref: string | null | undefined | Grammar) => Grammar | undefined

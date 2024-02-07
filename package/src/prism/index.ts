@@ -1,5 +1,5 @@
 export {
-	highlight,
+	highlightText,
 	highlightTokens,
 	languages,
 	tokenize,

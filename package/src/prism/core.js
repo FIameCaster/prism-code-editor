@@ -76,7 +76,7 @@ var stringify = token => {
 	return token;
 }
 
-var highlight = (text, ref) => highlightTokens(tokenizeText(text, resolve(ref)));
+var highlightText = (text, ref) => highlightTokens(tokenizeText(text, resolve(ref)));
 
 /**
  * @param {string} text
@@ -222,5 +222,5 @@ export {
 	withoutTokenizer,
 	resolve,
 	highlightTokens,
-	highlight
+	highlightText
 }

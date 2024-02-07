@@ -5,7 +5,7 @@ import fs from 'fs';
 import { loadLanguages } from './prism-loader.js';
 import * as TokenStreamTransformer from './token-stream-transformer.js';
 import { formatHtml, getLeadingSpaces } from './util.js';
-import { highlight, languages, tokenizeText } from '../../core.js';
+import { highlightText, languages, tokenizeText } from '../../core.js';
 
 /** 
  * * @typedef {import("./token-stream-transformer").TokenStream} TokenStream
@@ -204,7 +204,7 @@ function normalizeHtml(html) {
 /** @type {Runner<string>} */
 const htmlRunner = {
 	run(code, language) {
-		return highlight(code, language);
+		return highlightText(code, language);
 	},
 	print(actual) {
 		return formatHtml(actual);

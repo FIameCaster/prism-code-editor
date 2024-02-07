@@ -138,7 +138,7 @@ If you want to add your own language to Prism or perform syntax highlighting out
 ```javascript
 import {
   // Functions
-  highlight,
+  highlightText,
   highlightTokens,
   tokenizeText,
   withoutTokenizer,
