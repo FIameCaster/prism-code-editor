@@ -2,14 +2,14 @@ import { CommentTokens } from ".."
 import { languageMap } from "../core"
 import { Bracket, BracketMatcher } from "../extensions/matchBrackets"
 import { Tag, TagMatcher } from "../extensions/matchTags"
+import { re } from "../prism/utils/shared"
 import { getClosestToken } from "../utils"
 import { autoCloseTags, clikeIndent, isBracketPair } from "./patterns"
 
-const openingTag = RegExp(
-	/(?:^|[^\w$])<(?:(?!\d)([^\s>/=<%]+)(?:<S>+(?:[^\s{*<>/=]+(?:<S>*=<S>*(?:"[^"]*"|'[^']*'|[^\s{'"/>=]+|\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\}))?|\{<S>*\.{3}(?:[^{}]|\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\})*\}))*<S>*)?>[ \t]*$/.source.replace(
-		/<S>/g,
-		/(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)/.source,
-	),
+const openingTag = re(
+	/(?:^|[^\w$])<(?:(?!\d)([^\s>/=<%]+)(?:<<0>>+(?:[^\s{*<>/=]+(?:<<0>>*=<<0>>*(?:"[^"]*"|'[^']*'|[^\s{'"/>=]+|\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\}))?|\{<<0>>*\.{3}(?:[^{}]|\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\})*\}))*<<0>>*)?>[ \t]*$/
+		.source,
+	[/(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)/.source],
 )
 
 const closingTag = /^<\/(?!\d)[^\s>/=<%]*\s*>/

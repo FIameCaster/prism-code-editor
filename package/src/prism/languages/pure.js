@@ -1,44 +1,45 @@
 import { languages, rest } from '../core.js';
-import { insertBefore } from '../utils/language.js';
+import { re } from '../utils/shared.js';
 
 // https://agraef.github.io/pure-docs/pure.html#lexical-matters
 
-var inlineLang = {
-	pattern: /%<[\s\S]+?%>/g,
-	greedy: true,
-	inside: {
-		'lang': {
-			pattern: /(^%< *)-\*-.+?-\*-/,
-			lookbehind: true,
-			alias: 'comment'
-		},
-		'delimiter': {
-			pattern: /^%<.*|%>$/,
-			alias: 'punctuation'
-		},
-		[rest]: 'c'
-	}
-};
+/** @param {string} lang */
+var inside = lang => ({
+	'lang': {
+		pattern: /(^%< *)-\*-.+?-\*-/,
+		lookbehind: true,
+		alias: 'comment'
+	},
+	'delimiter': {
+		pattern: /^%<.*|%>$/,
+		alias: 'punctuation'
+	},
+	[rest]: lang
+});
 
 var pure = languages.pure = {
 	'comment': /#!.+|\/\/.*|\/\*[\s\S]*?\*\//
 };
 
 var inlineLanguages = [
-	'c', 'c++', 'fortran'
+	'c', 'c\\+\\+', 'fortran'
 ];
-var inlineLanguageRe = /%< *-\*- *<lang>\d* *-\*-[\s\S]+?%>/.source;
+var inlineLanguageRe = /%< *-\*- *<<0>>\d* *-\*-[\s\S]+?%>/.source;
 
 inlineLanguages.forEach(lang => {
-	var alias = lang.replace(/\+/g, 'p');
+	var alias = lang.length == 5 ? 'cpp' : lang;
 	pure['inline-lang-' + alias] = {
-		pattern: RegExp(inlineLanguageRe.replace('<lang>', lang.replace(/\+/g, '\\+')), 'i'),
-		inside: Object.assign({}, inlineLang.inside, { [rest]: alias })
+		pattern: re(inlineLanguageRe, [lang], 'i'),
+		inside: inside(alias)
 	};
 });
 
 Object.assign(pure, {
-	'inline-lang': inlineLang,
+	'inline-lang': {
+		pattern: /%<[\s\S]+?%>/g,
+		greedy: true,
+		inside: inside('c')
+	},
 	'string': {
 		pattern: /"(?:\\.|[^"\\\n])*"/g,
 		greedy: true

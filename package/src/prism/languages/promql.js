@@ -1,38 +1,8 @@
 import { languages } from '../core.js';
 
-// PromQL Aggregation Operators
-// (https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators)
-var aggregations = [
-	'sum',
-	'min',
-	'max',
-	'avg',
-	'group',
-	'stddev',
-	'stdvar',
-	'count',
-	'count_values',
-	'bottomk',
-	'topk',
-	'quantile'
-];
-
 // PromQL vector matching + the by and without clauses
 // (https://prometheus.io/docs/prometheus/latest/querying/operators/#vector-matching)
-var vectorMatching = [
-	'on',
-	'ignoring',
-	'group_right',
-	'group_left',
-	'by',
-	'without',
-];
-
-// PromQL offset modifier
-// (https://prometheus.io/docs/prometheus/latest/querying/basics/#offset-modifier)
-var offsetModifier = ['offset'];
-
-var keywords = aggregations.concat(vectorMatching, offsetModifier);
+var vectorMatching = 'on|ignoring|group_right|group_left|by|without';
 
 languages.promql = {
 	'comment': {
@@ -41,7 +11,7 @@ languages.promql = {
 	},
 	'vector-match': {
 		// Match the comma-separated label lists inside vector matching:
-		pattern: new RegExp('((?:' + vectorMatching.join('|') + ')\\s*)\\([^)]*\\)'),
+		pattern: RegExp('((?:' + vectorMatching + ')\\s*)\\([^)]*\\)'),
 		lookbehind: true,
 		inside: {
 			'label-key': {
@@ -88,7 +58,7 @@ languages.promql = {
 			},
 		},
 	],
-	'keyword': new RegExp('\\b(?:' + keywords.join('|') + ')\\b', 'i'),
+	'keyword': RegExp('\\b(?:sum|min|max|avg|group|stddev|stdvar|count|count_values|bottomk|topk|quantile|' + vectorMatching + '|offset)\\b', 'i'),
 	'function': /\b[a-z_]\w*(?=\s*\()/i,
 	'number': /[-+]?(?:(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e[-+]?\d+)?\b|\b(?:0x[0-9a-f]+|nan|inf)\b)/i,
 	'operator': /[\^*/%+-]|==|!=|<=|<|>=|>|\b(?:and|or|unless)\b/i,

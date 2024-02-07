@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { re } from '../utils/shared.js';
 
 var comment = {
 	pattern: /(^[ \t]*| {2}|\t)#.*/mg,
@@ -35,7 +36,7 @@ var createSection = (name, inside) => {
 	extendecInside['comment'] = comment;
 
 	return {
-		pattern: RegExp(/^ ?\*{3}[ \t]*<name>[ \t]*\*{3}(?:.|\n(?!\*{3}))*/.source.replace(/<name>/g, name), 'im'),
+		pattern: re(/^ ?\*{3}[ \t]*<<0>>[ \t]*\*{3}(?:.|\n(?!\*{3}))*/.source, [name], 'im'),
 		alias: 'section',
 		inside: extendecInside
 	};

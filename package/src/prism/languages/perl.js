@@ -2,6 +2,8 @@ import { languages } from '../core.js';
 
 var brackets = /(?:\((?:[^()\\]|\\[\s\S])*\)|\{(?:[^{}\\]|\\[\s\S])*\}|\[(?:[^[\]\\]|\\[\s\S])*\]|<(?:[^<>\\]|\\[\s\S])*>)/.source;
 
+var a = '(?![a-zA-Z0-9])\\s*(?:([^a-zA-Z0-9\\s{([<])(?:(?!\\1)[^\\\\]|\\\\[\\s\\S])*\\1|([a-zA-Z0-9])(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2';
+
 languages.perl = {
 	'comment': [
 		{
@@ -19,14 +21,14 @@ languages.perl = {
 	// TODO Could be nice to handle Heredoc too.
 	'string': {
 		pattern: RegExp(
-			`\\b(?:q|qq|qw|qx)(?![a-zA-Z0-9])\\s*(?:([^a-zA-Z0-9\\s{(\\[<])(?:(?!\\1)[^\\\\]|\\\\[\\s\\S])*\\1|([a-zA-Z0-9])(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2|${brackets})|("|\`)(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3|'(?:[^'\\\\\n]|\\\\.)*'`, 'g'
+			`\\b(?:q|qq|qw|qx)${a}|${brackets})|("|\`)(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3|'(?:[^'\\\\\n]|\\\\.)*'`, 'g'
 		),
 		greedy: true
 	},
 	'regex': [
 		{
 			pattern: RegExp(
-				`\\b(?:m|qr)(?![a-zA-Z0-9])\\s*(?:([^a-zA-Z0-9\\s{(\\[<])(?:(?!\\1)[^\\\\]|\\\\[\\s\\S])*\\1|([a-zA-Z0-9])(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2|${brackets})[msixpodualngc]*`, 'g'
+				`\\b(?:m|qr)${a}|${brackets})[msixpodualngc]*`, 'g'
 			),
 			greedy: true
 		},
@@ -34,7 +36,7 @@ languages.perl = {
 		// The lookbehinds prevent -s from breaking
 		{
 			pattern: RegExp(
-				`(^|[^-])\\b(?:s|tr|y)(?![a-zA-Z0-9])\\s*(?:([^a-zA-Z0-9\\s{(\\[<])(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2|([a-zA-Z0-9])(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3|${brackets}\\s*${brackets})[msixpodualngcer]*`, 'g'
+				`(^|[^-])\\b(?:s|tr|y)(?![a-zA-Z0-9])\\s*(?:([^a-zA-Z0-9\\s{([<])(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2|([a-zA-Z0-9])(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3|${brackets}\\s*${brackets})[msixpodualngcer]*`, 'g'
 			),
 			lookbehind: true,
 			greedy: true

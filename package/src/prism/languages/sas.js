@@ -1,4 +1,5 @@
 import { languages, rest } from '../core.js';
+import { re } from '../utils/shared.js';
 
 var stringPattern = /(?:"(?:""|[^"])*"(?!")|'(?:''|[^'])*'(?!'))/.source;
 
@@ -97,10 +98,10 @@ var submitStatement = {
 var actionSets = /astore|accesscontrol|aggregation|audio|autotune|bayesiannetclassifier|biomedimage|boolrule|builtins|cardinality|cdm|clustering|conditionalrandomfields|configuration|copula|countreg|datadiscovery|datapreprocess|datasciencepilot|datastep|decisiontree|deduplication|deeplearn|deepneural|deeprnn|ds2|ecm|entityres|espcluster|explainmodel|factmac|fastknn|fcmpact|fedsql|freqtab|gvarcluster|gam|gleam|graphsemisuplearn|hiddenmarkovmodel|hypergroup|ica|image|iml|kernalpca|langmodel|ldatopic|loadstreams|mbc|mixed|mltools|modelpublishing|network|neuralnet|nmf|nonparametricbayes|nonlinear|optnetwork|optimization|panel|pca|percentile|phreg|pls|qkb|qlim|quantreg|recommend|regression|reinforcementlearn|robustpca|rulemining|sampling|sandwich|sccasl|search(?:analytics)?|sentimentanalysis|sequence|session(?:prop)?|severity|simsystem|simple|smartdata|sparkembeddedprocess|sparseml|spatialreg|spc|stabilitymonitoring|svdatadescription|svm|table|text(?:filters|frequency|mining|parse|rule(?:develop|score)|topic|util)|timedata|transpose|tsinfo|tsreconcile|unitimeseries|varreduce/.source;
 
 var casActions = {
-	pattern: RegExp(/(^|\s)(?:action\s+)?(?:<act>)\.[a-z]+\b[^;]+/.source.replace(/<act>/g, actionSets), 'i'),
+	pattern: re(/(^|\s)(?:action\s+)?(?:<<0>>)\.[a-z]+\b[^;]+/.source, [actionSets], 'i'),
 	lookbehind: true,
 	inside: {
-		'keyword': RegExp(/(?:<act>)\.[a-z]+\b/.source.replace(/<act>/g, actionSets), 'i'),
+		'keyword': re(/(?:<<0>>)\.[a-z]+\b/.source, [actionSets], 'i'),
 		'action': {
 			pattern: /(?:action)/i,
 			alias: 'keyword'
@@ -138,7 +139,7 @@ languages.sas = {
 		lookbehind: true,
 		inside: {
 			'sql': {
-				pattern: RegExp(/^[ \t]*(?:select|alter\s+table|(?:create|describe|drop)\s+(?:index|table(?:\s+constraints)?|view)|create\s+unique\s+index|insert\s+into|update)(?:<str>|[^;"'])+;/.source.replace(/<str>/g, stringPattern), 'im'),
+				pattern: re(/^[ \t]*(?:select|alter\s+table|(?:create|describe|drop)\s+(?:index|table(?:\s+constraints)?|view)|create\s+unique\s+index|insert\s+into|update)(?:<<0>>|[^;"'])+;/.source, [stringPattern], 'im'),
 				alias: 'language-sql',
 				inside: 'sql'
 			},
@@ -161,7 +162,7 @@ languages.sas = {
 		inside: {
 			'comment': comment,
 			'groovy': {
-				pattern: RegExp(/(^[ \t]*submit(?:\s+(?:load|norun|parseonly))?)(?:<str>|[^"'])+?(?=endsubmit;)/.source.replace(/<str>/g, stringPattern), 'im'),
+				pattern: re(/(^[ \t]*submit(?:\s+(?:load|norun|parseonly))?)(?:<<0>>|[^"'])+?(?=endsubmit;)/.source, [stringPattern], 'im'),
 				lookbehind: true,
 				alias: 'language-groovy',
 				inside: 'groovy'
@@ -182,7 +183,7 @@ languages.sas = {
 		inside: {
 			'comment': comment,
 			'lua': {
-				pattern: RegExp(/(^[ \t]*submit(?:\s+(?:load|norun|parseonly))?)(?:<str>|[^"'])+?(?=endsubmit;)/.source.replace(/<str>/g, stringPattern), 'im'),
+				pattern: re(/(^[ \t]*submit(?:\s+(?:load|norun|parseonly))?)(?:<<0>>|[^"'])+?(?=endsubmit;)/.source, [stringPattern], 'im'),
 				lookbehind: true,
 				alias: 'language-lua',
 				inside: 'lua'
@@ -236,7 +237,7 @@ languages.sas = {
 	},
 
 	'proc-args': {
-		pattern: RegExp(/(^proc\s+\w+\s+)(?!\s)(?:[^;"']|<str>)+;/.source.replace(/<str>/g, stringPattern), 'im'),
+		pattern: re(/(^proc\s+\w+\s+)(?!\s)(?:[^;"']|<<0>>)+;/.source, [stringPattern], 'im'),
 		lookbehind: true,
 		inside: args
 	},

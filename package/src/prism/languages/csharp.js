@@ -1,41 +1,7 @@
 import { languages } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
+import { nested, re, replace } from '../utils/shared.js';
 import './clike.js';
-
-/**
- * Replaces all placeholders "<<n>>" of given pattern with the n-th replacement (zero based).
- *
- * Note: This is a simple text based replacement. Be careful when using backreferences!
- *
- * @param {string} pattern the given pattern.
- * @param {string[]} replacements a list of replacement which can be inserted into the given pattern.
- * @returns {string} the pattern with all placeholders replaced with their corresponding replacements.
- * @example replace(/a<<0>>a/.source, [/b+/.source]) === /a(?:b+)a/.source
- */
-var replace = (pattern, replacements) => 
-	pattern.replace(/<<(\d+)>>/g, (m, index) => `(?:${replacements[+index]})`);
-/**
- * @param {string} pattern
- * @param {string[]} replacements
- * @param {string} [flags]
- * @returns {RegExp}
- */
-var re = (pattern, replacements, flags) =>
-	RegExp(replace(pattern, replacements), flags);
-
-/**
- * Creates a nested pattern where all occurrences of the string `<<self>>` are replaced with the pattern itself.
- *
- * @param {string} pattern
- * @param {number} depthLog2
- * @returns {string}
- */
-var nested = (pattern, depthLog2) => {
-	for (var i = 0; i < depthLog2; i++) {
-		pattern = pattern.replace(/<<self>>/g, `(?:${pattern})`);
-	}
-	return pattern.replace(/<<self>>/g, '[]');
-}
 
 var keywordsToPattern = words => `\\b(?:${words})\\b`;
 
@@ -52,8 +18,8 @@ var nonTypeKeywords = keywordsToPattern(typeDeclarationKeyword + '|' + contextua
 var nonContextualKeywords = keywordsToPattern(typeKeyword + '|' + typeDeclarationKeyword + '|' + otherKeyword);
 
 // types
-var generic = nested(/<(?:[^<>;=+\-*/%&|^]|<<self>>)*>/.source, 2); // the idea behind the other forbidden characters is to prevent false positives. Same for tupleElement.
-var nestedRound = nested(/\((?:[^()]|<<self>>)*\)/.source, 2);
+var generic = nested(/<(?:[^<>;=+\-*/%&|^]|<self>)*>/.source, 2); // the idea behind the other forbidden characters is to prevent false positives. Same for tupleElement.
+var nestedRound = nested(/\((?:[^()]|<self>)*\)/.source, 2);
 var name = /@?\b[A-Za-z_]\w*\b/.source;
 var genericName = replace(/<<0>>(?:\s*<<1>>)?/.source, [name, generic]);
 var identifier = replace(/(?!<<0>>)<<1>>(?:\s*\.\s*<<1>>)*/.source, [nonTypeKeywords, genericName]);
@@ -261,7 +227,7 @@ insertBefore(cs, 'class-name', {
 // attributes
 var regularStringOrCharacter = regularString + '|' + character;
 var regularStringCharacterOrComment = replace(/\/(?![*/])|\/\/[^\n]*\n|\/\*(?:[^*]|\*(?!\/))*\*\/|<<0>>/.source, [regularStringOrCharacter]);
-var roundExpression = nested(replace(/[^"'/()]|<<0>>|\(<<self>>*\)/.source, [regularStringCharacterOrComment]), 2);
+var roundExpression = nested(replace(/[^"'/()]|<<0>>|\(<self>*\)/.source, [regularStringCharacterOrComment]), 2);
 
 // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/#attribute-targets
 var attrTarget = /\b(?:assembly|event|field|method|module|param|property|return|type)\b/.source;
@@ -270,10 +236,10 @@ var attr = replace(/<<0>>(?:\s*\(<<1>>*\))?/.source, [identifier, roundExpressio
 // string interpolation
 var formatString = /:[^}\n]+/.source;
 // multi line
-var mInterpolationRound = nested(replace(/[^"'/()]|<<0>>|\(<<self>>*\)/.source, [regularStringCharacterOrComment]), 2);
+var mInterpolationRound = nested(replace(/[^"'/()]|<<0>>|\(<self>*\)/.source, [regularStringCharacterOrComment]), 2);
 var mInterpolation = replace(/\{(?!\{)(?:(?![}:])<<0>>)*<<1>>?\}/.source, [mInterpolationRound, formatString]);
 // single line
-var sInterpolationRound = nested(replace(/[^"'/()]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|<<0>>|\(<<self>>*\)/.source, [regularStringOrCharacter]), 2);
+var sInterpolationRound = nested(replace(/[^"'/()]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|<<0>>|\(<self>*\)/.source, [regularStringOrCharacter]), 2);
 var sInterpolation = replace(/\{(?!\{)(?:(?![}:])<<0>>)*<<1>>?\}/.source, [sInterpolationRound, formatString]);
 
 var createInterpolationInside = (interpolation, interpolationRound) => ({

@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { re } from '../utils/shared.js';
 import './ruby.js';
 
 var haml = languages.haml = {
@@ -24,7 +25,7 @@ var haml = languages.haml = {
 	]
 };
 
-var filter_pattern = '(^[\\t ]*):{{name}}(?:\\n(?:\\1[\\t ].+|\\s*?$))+';
+var filter_pattern = '(^[\\t ]*):<<0>>(?:\\n(?:\\1[\\t ].+|\\s*?$))+';
 
 // Non exhaustive list of available filters and associated languages
 [
@@ -40,7 +41,7 @@ var filter_pattern = '(^[\\t ]*):{{name}}(?:\\n(?:\\1[\\t ].+|\\s*?$))+';
 ].forEach(filter => {
 	var language = filter == 'coffee' ? 'coffeescript' : filter;
 	haml['filter-' + filter] = {
-		pattern: RegExp(filter_pattern.replace('{{name}}', filter), 'm'),
+		pattern: re(filter_pattern, [filter], 'm'),
 		lookbehind: true,
 		inside: {
 			'filter-name': {

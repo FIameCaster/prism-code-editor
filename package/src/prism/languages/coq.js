@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { nested, re } from '../utils/shared.js';
 
 // https://github.com/coq/coq
 
@@ -7,20 +8,14 @@ var string = {
 	greedy: true
 };
 
-var commentSource = /\(\*(?:[^(*]|\((?!\*)|\*(?!\))|<self>)*\*\)/.source;
-for (var i = 0; i < 2; i++) {
-	commentSource = commentSource.replace(/<self>/g, commentSource);
-}
-commentSource = commentSource.replace(/<self>/g, '[]');
+var commentSource = nested(/\(\*(?:[^(*]|\((?!\*)|\*(?!\))|<self>)*\*\)/.source, 2);
 
 languages.coq = {
 	'comment': RegExp(commentSource),
 	'string': string,
 	'attribute': [
 		{
-			pattern: RegExp(
-				/#\[(?:[^[\]("]|"(?:[^"]|"")*"(?!")|\((?!\*)|<comment>)*\]/.source.replace(/<comment>/g, commentSource), 'g'
-			),
+			pattern: re(/#\[(?:[^[\]("]|"(?:[^"]|"")*"(?!")|\((?!\*)|<<0>>)*\]/.source, [commentSource], 'g'),
 			greedy: true,
 			alias: 'attr-name',
 			inside: {

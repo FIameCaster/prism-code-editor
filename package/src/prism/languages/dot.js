@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { re } from '../utils/shared.js';
 
 var ID = /(?:(?!d)[\w\x80-\uFFFF]+|-?(?:\.\d+|\d+(?:\.\d*)?)|"[^"\\]*(?:\\[\s\S][^"\\]*)*"|<(?:[^<>]|(?!<!--)<(?:[^<>"']|"[^"]*"|'[^']*')+>|<!--(?:[^-]|-(?!->))*-->)*>)/.source;
 
@@ -11,34 +12,26 @@ var IDInside = {
 	}
 };
 
-/**
- * @param {string} source
- * @param {string} flags
- * @returns {RegExp}
- */
-var withID = (source, flags) =>
-	RegExp(source.replace(/<ID>/g, ID), flags);
-
 languages.gv = languages.dot = {
 	'comment': {
 		pattern: /\/\/.*|\/\*[\s\S]*?\*\/|^#.*/mg,
 		greedy: true
 	},
 	'graph-name': {
-		pattern: withID(/(\b(?:digraph|graph|subgraph)[ \t\n]+)<ID>/.source, 'gi'),
+		pattern: re(/(\b(?:digraph|graph|subgraph)[ \t\n]+)<<0>>/.source, [ID], 'gi'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'class-name',
 		inside: IDInside
 	},
 	'attr-value': {
-		pattern: withID(/(=[ \t\n]*)<ID>/.source, 'g'),
+		pattern: re(/(=[ \t\n]*)<<0>>/.source, [ID], 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: IDInside
 	},
 	'attr-name': {
-		pattern: withID(/([\[;, \t\n])<ID>(?=[ \t\n]*=)/.source, 'g'),
+		pattern: re(/([\[;, \t\n])<<0>>(?=[ \t\n]*=)/.source, [ID], 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: IDInside
@@ -50,7 +43,7 @@ languages.gv = languages.dot = {
 		alias: 'builtin'
 	},
 	'node': {
-		pattern: withID(/(^|[^-.\w\x80-\uFFFF\\])<ID>/.source, 'g'),
+		pattern: re(/(^|[^-.\w\x80-\uFFFF\\])<<0>>/.source, [ID], 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: IDInside

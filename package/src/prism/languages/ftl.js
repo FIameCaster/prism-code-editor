@@ -1,14 +1,12 @@
 import { languages, rest, tokenize } from '../core.js';
-import { boolean, clikePunctuation } from '../utils/shared.js';
+import { boolean, clikePunctuation, nested, re } from '../utils/shared.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 
 // https://freemarker.apache.org/docs/dgui_template_exp.html
 
 // FTL expression with 4 levels of nesting supported
-var FTL_EXPR = /[^<()"']|\((?:<expr>)*\)|<(?!#--)|<#--(?:[^-]|-(?!->))*-->|"(?:[^\\"]|\\.)*"|'(?:[^\\']|\\.)*'/.source;
-var exprReplace = /<expr>/g;
-FTL_EXPR = FTL_EXPR.replace(exprReplace, FTL_EXPR).replace(exprReplace, FTL_EXPR).replace(exprReplace, '[]');
+var FTL_EXPR = [nested(/[^<()"']|\((?:<self>)*\)|<(?!#--)|<#--(?:[^-]|-(?!->))*-->|"(?:[^\\"]|\\.)*"|'(?:[^\\']|\\.)*'/.source, 2)];
 
 var interpolationInside = {
 	'interpolation-punctuation': {
@@ -26,11 +24,11 @@ var ftl = interpolationInside[rest] = {
 			greedy: true
 		},
 		{
-			pattern: RegExp(/("|')(?:(?!\1|\$\{)[^\\]|\\.|\$\{(?:(?!\})(?:<expr>))*\})*\1/.source.replace(exprReplace, FTL_EXPR), 'g'),
+			pattern: re(/("|')(?:(?!\1|\$\{)[^\\]|\\.|\$\{(?:(?!\})(?:<<0>>))*\})*\1/.source, FTL_EXPR, 'g'),
 			greedy: true,
 			inside: {
 				'interpolation': {
-					pattern: RegExp(/((?:^|[^\\])(?:\\\\)*)\$\{(?:(?!\})(?:<expr>))*\}/.source.replace(exprReplace, FTL_EXPR)),
+					pattern: re(/((?:^|[^\\])(?:\\\\)*)\$\{(?:(?!\})(?:<<0>>))*\}/.source, FTL_EXPR),
 					lookbehind: true,
 					inside: interpolationInside
 				}
@@ -57,7 +55,7 @@ languages.ftl = {
 		alias: 'comment'
 	},
 	'ftl-directive': {
-		pattern: RegExp(/<\/?[#@][a-zA-Z](?:<expr>)*?>/.source.replace(exprReplace, FTL_EXPR), 'gi'),
+		pattern: re(/<\/?[#@][a-zA-Z](?:<<0>>)*?>/.source, FTL_EXPR, 'gi'),
 		greedy: true,
 		inside: {
 			'punctuation': /^<\/?|\/?>$/,
@@ -73,7 +71,7 @@ languages.ftl = {
 		}
 	},
 	'ftl-interpolation': {
-		pattern: RegExp(/\$\{(?:<expr>)*?\}/.source.replace(exprReplace, FTL_EXPR), 'gi'),
+		pattern: re(/\$\{(?:<<0>>)*?\}/.source, FTL_EXPR, 'gi'),
 		greedy: true,
 		inside: {
 			'punctuation': /^\$\{|\}$/,

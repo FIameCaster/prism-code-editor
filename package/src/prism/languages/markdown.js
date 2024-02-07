@@ -1,9 +1,10 @@
 import { languages, tokenizeText, tokenize, withoutTokenizer } from '../core.js';
 import { clone, insertBefore } from '../utils/language.js';
+import { re, replace } from '../utils/shared.js';
 import './markup.js';
 
 // Allow only one line break
-var inner = /(?:\\.|[^\\\n]|\n(?!\n))/.source;
+var inner = [/(?:\\.|[^\\\n]|\n(?!\n))/.source];
 
 /**
  * This function is intended for the creation of the bold or italic pattern.
@@ -15,9 +16,9 @@ var inner = /(?:\\.|[^\\\n]|\n(?!\n))/.source;
  * @param {string} pattern
  * @returns {RegExp}
  */
-var createInline = pattern => RegExp(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern.replace(/<inner>/g, inner)})`, 'g');
+var createInline = pattern => re(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern})`, inner, 'g');
 var tableCell = /(?:\\.|``(?:[^`\n]|`(?!`))+``|`[^`\n]+`|[^\\|\n`])+/.source;
-var tableRow = /\|?__(?:\|__)+\|?(?:\n|(?![\s\S]))/.source.replace(/__/g, tableCell);
+var tableRow = replace(/\|?<<0>>(?:\|<<0>>)+\|?(?:\n|(?![\s\S]))/.source, [tableCell]);
 var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?\n/.source;
 var markdown = languages.markdown = languages.md = clone(languages.html);
 
@@ -176,7 +177,7 @@ insertBefore(markdown, 'prolog', {
 		// __strong__
 
 		// allow one nested instance of italic text using the same delimiter
-		pattern: createInline(/\b__(?:(?!_)<inner>|_(?:(?!_)<inner>)+_)+__\b|\*\*(?:(?!\*)<inner>|\*(?:(?!\*)<inner>)+\*)+\*\*/.source),
+		pattern: createInline(/\b__(?:(?!_)<<0>>|_(?:(?!_)<<0>>)+_)+__\b|\*\*(?:(?!\*)<<0>>|\*(?:(?!\*)<<0>>)+\*)+\*\*/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -193,7 +194,7 @@ insertBefore(markdown, 'prolog', {
 		// _em_
 
 		// allow one nested instance of bold text using the same delimiter
-		pattern: createInline(/\b_(?:(?!_)<inner>|__(?:(?!_)<inner>)+__)+_\b|\*(?:(?!\*)<inner>|\*\*(?:(?!\*)<inner>)+\*\*)+\*/.source),
+		pattern: createInline(/\b_(?:(?!_)<<0>>|__(?:(?!_)<<0>>)+__)+_\b|\*(?:(?!\*)<<0>>|\*\*(?:(?!\*)<<0>>)+\*\*)+\*/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -208,7 +209,7 @@ insertBefore(markdown, 'prolog', {
 		// ~~strike through~~
 		// ~strike~
 		// eslint-disable-next-line regexp/strict
-		pattern: createInline(/(~~?)(?:(?!~)<inner>)+\2/.source),
+		pattern: createInline(/(~~?)(?:(?!~)<<0>>)+\2/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -231,7 +232,7 @@ insertBefore(markdown, 'prolog', {
 		// [example](http://example.com "Optional title")
 		// [example][id]
 		// [example] [id]
-		pattern: createInline(/!?\[(?:(?!\])<inner>)+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)|[ \t]?\[(?:(?!\])<inner>)+\])/.source),
+		pattern: createInline(/!?\[(?:(?!\])<<0>>)+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)|[ \t]?\[(?:(?!\])<<0>>)+\])/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: {

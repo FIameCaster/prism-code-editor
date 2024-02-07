@@ -1,9 +1,9 @@
 import { languages } from '../core.js';
+import { re, replace } from '../utils/shared.js';
 
 // Pascaligo is a layer 2 smart contract language for the tezos blockchain
 
-var braces = /\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/.source;
-var type = /(?:\b\w+(?:<braces>)?|<braces>)/.source.replace(/<braces>/g, braces);
+var type = replace(/(?:\b\w+(?:<<0>>)?|<<0>>)/.source, [/\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/.source]);
 
 var pascaligo = languages.pascaligo = {
 	'comment': /\(\*[\s\S]+?\*\)|\/\/.*/,
@@ -13,14 +13,14 @@ var pascaligo = languages.pascaligo = {
 	},
 	'class-name': [
 		{
-			pattern: RegExp(/(\btype\s+\w+\s+is\s+)<type>/.source.replace(/<type>/g, type), 'i'),
+			pattern: re(/(\btype\s+\w+\s+is\s+)<<0>>/.source, [type], 'i'),
 			lookbehind: true
 		},
 		{
-			pattern: RegExp(/<type>(?=\s+is\b)/.source.replace(/<type>/g, type), 'i')
+			pattern: re(/<<0>>(?=\s+is\b)/.source, [type], 'i')
 		},
 		{
-			pattern: RegExp(/(:\s*)<type>/.source.replace(/<type>/g, type)),
+			pattern: re(/(:\s*)<<0>>/.source, [type]),
 			lookbehind: true
 		}
 	],

@@ -1,5 +1,18 @@
 import { languages } from '../core.js';
 
+/**
+ * Given a topologically sorted BNF grammar, this will return the RegExp source of last rule of the grammar.
+ *
+ * @param {Record<string, string>} grammar
+ */
+var SortedBNF = grammar => {
+	for (var key in grammar) {
+		grammar[key] = grammar[key].replace(/<[\w ]+>/g, key => `(?:${grammar[key]})`);
+	}
+	// return the last item
+	return RegExp(grammar[key], 'i');
+}
+
 languages.scheme = {
 	// this supports "normal" single-line comments:
 	//   ; comment
@@ -69,7 +82,7 @@ languages.scheme = {
 		// The problem with this grammar is that the resulting regex is way to complex, so we simplify by grouping all
 		// non-decimal bases together. This results in a decimal (dec) and combined binary, octal, and hexadecimal (box)
 		// pattern:
-		pattern: RegExp(SortedBNF({
+		pattern: SortedBNF({
 			'<ureal dec>': /\d+(?:\/\d+)|(?:\d+(?:\.\d*)?|\.\d+)(?:[esfdl][+-]?\d+)?/.source,
 			'<real dec>': /[+-]?<ureal dec>|[+-](?:inf|nan)\.0/.source,
 			'<imaginary dec>': /[+-](?:<ureal dec>|(?:inf|nan)\.0)?i/.source,
@@ -83,7 +96,7 @@ languages.scheme = {
 			'<num box>': /#[box](?:#[ei])?|(?:#[ei])?#[box]<complex box>/.source,
 
 			'<number>': /(^|[()[\]\s])(?:<num dec>|<num box>)(?=[()[\]\s]|$)/.source,
-		}), 'i'),
+		}),
 		lookbehind: true
 	},
 	'boolean': {
@@ -101,17 +114,3 @@ languages.scheme = {
 	},
 	'punctuation': /[()[\]']/
 };
-
-/**
- * Given a topologically sorted BNF grammar, this will return the RegExp source of last rule of the grammar.
- *
- * @param {Record<string, string>} grammar
- * @returns {string}
- */
-function SortedBNF(grammar) {
-	for (var key in grammar) {
-		grammar[key] = grammar[key].replace(/<[\w\s]+>/g, key => `(?:${grammar[key].trim()})`);
-	}
-	// return the last item
-	return grammar[key];
-}

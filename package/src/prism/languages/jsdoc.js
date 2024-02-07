@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
+import { re } from '../utils/shared.js';
 import './javascript.js';
 import './javadoclike.js';
 import './typescript.js';
@@ -43,7 +44,7 @@ insertBefore(
 		},
 		'class-name': [
 			{
-				pattern: RegExp(/(@(?:augments|class|extends|interface|memberof!?|template|this|typedef)\s+(?:<TYPE>\s+)?)[A-Z]\w*(?:\.[A-Z]\w*)*/.source.replace(/<TYPE>/g, type)),
+				pattern: re(/(@(?:augments|class|extends|interface|memberof!?|template|this|typedef)\s+(?:<<0>>\s+)?)[A-Z]\w*(?:\.[A-Z]\w*)*/.source, [type]),
 				lookbehind: true,
 				inside: {
 					'punctuation': /\./

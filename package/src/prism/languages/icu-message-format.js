@@ -1,16 +1,5 @@
 import { languages, rest } from '../core.js';
-
-/**
- * @param {string} source
- * @param {number} level
- * @returns {string}
- */
-var nested = (source, level) => {
-	if (level) {
-		return source.replace(/<SELF>/g, nested(source, level - 1));
-	}
-	return "[]";
-}
+import { nested, replace } from '../utils/shared.js';
 
 var stringPattern = /'[{}:=,](?:[^']|'')*'(?!')/g;
 
@@ -44,9 +33,7 @@ var choiceStyleInside = {
 };
 
 var argumentSource = nested(
-	/\{(?:[^{}']|'(?![{},'])|''|<STR>|<SELF>)*\}/.source
-		.replace(/<STR>/g, stringPattern.source),
-	8
+	replace(/\{(?:[^{}']|'(?![{},'])|''|<<0>>|<self>)*\}/.source, [stringPattern.source]), 3
 );
 
 var nestedMessage = {
@@ -121,7 +108,7 @@ choiceStyleInside[rest] = message.inside = languages['icu-message-format'] = {
 						lookbehind: true
 					},
 					'arg-style-text': {
-						pattern: RegExp(/(^\s*,\s*(?!\s))/.source + nested(/(?:[^{}']|'[^']*'|\{(?:<SELF>)?\})+/.source, 8) + '$'),
+						pattern: RegExp(/(^\s*,\s*(?!\s))/.source + nested(/(?:[^{}']|'[^']*'|\{(?:<self>)?\})+/.source, 3) + '$'),
 						lookbehind: true,
 						alias: 'string'
 					},

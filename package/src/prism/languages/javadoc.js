@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
 import { clone, insertBefore } from '../utils/language.js';
+import { replace } from '../utils/shared.js';
 import './markup.js';
 import './java.js';
 import './javadoclike.js';
@@ -7,7 +8,7 @@ import './javadoclike.js';
 var codeLinePattern = /(^(?:[\t ]*(?:\*\s*)*))[^*\s].*$/m;
 
 var memberReference = /#\s*\w+(?:\s*\([^()]*\))?/.source;
-var reference = /(?:\b[a-zA-Z]\w+\s*\.\s*)*\b[A-Z]\w*(?:\s*<mem>)?|<mem>/.source.replace(/<mem>/g, memberReference);
+var reference = replace(/(?:\b[a-zA-Z]\w+\s*\.\s*)*\b[A-Z]\w*(?:\s*<<0>>)?|<<0>>/.source, [memberReference]);
 
 var java = languages.java;
 var markup = languages.markup;

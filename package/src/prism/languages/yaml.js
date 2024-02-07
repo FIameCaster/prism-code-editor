@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { re, replace } from '../utils/shared.js';
 
 // https://yaml.org/spec/1.2/spec.html#c-ns-anchor-property
 // https://yaml.org/spec/1.2/spec.html#c-ns-alias-node
@@ -10,34 +11,33 @@ var properties = `(?:${tag.source}(?:[ \t]+${anchorOrAlias.source})?|${anchorOrA
 // https://yaml.org/spec/1.2/spec.html#ns-plain(n,c)
 // This is a simplified version that doesn't support "#" and multiline keys
 // All these long scarry character classes are simplified versions of YAML's characters
-var plainKey = /(?:[^\s\0-\x08\x0e-\x1f!"#%&'*,\-:>?@[\]`{|}\x7f-\x84\x86-\x9f\ud800-\udfff\ufffe\uffff]|[?:-]<PLAIN>)(?:[ \t]*(?:(?![#:])<PLAIN>|:<PLAIN>))*/.source
-	.replace(/<PLAIN>/g, /[^\s\0-\x08\x0e-\x1f,[\]{}\x7f-\x84\x86-\x9f\ud800-\udfff\ufffe\uffff]/.source);
+var plainKey = replace(
+	/(?:[^\s\0-\x08\x0e-\x1f!"#%&'*,\-:>?@[\]`{|}\x7f-\x84\x86-\x9f\ud800-\udfff\ufffe\uffff]|[?:-]<<0>>)(?:[ \t]*(?:(?![#:])<<0>>|:<<0>>))*/.source,
+	[/[^\s\0-\x08\x0e-\x1f,[\]{}\x7f-\x84\x86-\x9f\ud800-\udfff\ufffe\uffff]/.source]
+);
 var string = /"(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*'/.source;
 
 /**
- *
  * @param {string} value
  * @param {string} [flags]
- * @returns {RegExp}
  */
-var createValuePattern = (value, flags) => RegExp(
-	/([:\-,[{]\s*(?:\s<<prop>>[ \t]+)?)(?:<<value>>)(?=[ \t]*(?:$|,|\]|\}|(?:\n\s*)?#))/.source
-		.replace(/<<prop>>/g, () => properties).replace(/<<value>>/g, value),
-	flags
+var createValuePattern = (value, flags) => re(
+	/([:\-,[{]\s*(?:\s<<0>>[ \t]+)?)(?:<<1>>)(?=[ \t]*(?:$|,|\]|\}|(?:\n\s*)?#))/.source,
+	[properties, value], flags
 );
 
 languages.yml = languages.yaml = {
 	'scalar': {
-		pattern: RegExp(/([\-:]\s*(?:\s<<prop>>[ \t]+)?[|>])[ \t]*(?:(\n[ \t]+)\S.*(?:\2.+)*)/.source
-			.replace(/<<prop>>/g, () => properties)),
+		pattern: re(/([\-:]\s*(?:\s<<0>>[ \t]+)?[|>])[ \t]*(?:(\n[ \t]+)\S.*(?:\2.+)*)/.source, [properties]),
 		lookbehind: true,
 		alias: 'string'
 	},
 	'comment': /#.*/,
 	'key': {
-		pattern: RegExp(/((?:^|[:\-,[{\n?])[ \t]*(?:<<prop>>[ \t]+)?)<<key>>(?=\s*:\s)/.source
-			.replace(/<<prop>>/g, () => properties)
-			.replace(/<<key>>/g, '(?:' + plainKey + '|' + string + ')'), 'g'),
+		pattern: re(
+			/((?:^|[:\-,[{\n?])[ \t]*(?:<<0>>[ \t]+)?)<<1>>(?=\s*:\s)/.source,
+			[properties, '(?:' + plainKey + '|' + string + ')'], 'g'
+		),
 		lookbehind: true,
 		greedy: true,
 		alias: 'atrule'

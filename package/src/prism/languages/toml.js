@@ -1,11 +1,8 @@
 import { languages } from '../core.js';
-import { boolean } from '../utils/shared.js';
+import { boolean, re } from '../utils/shared.js';
 
-/**
- * @param {string} pattern
- */
-var insertKey = pattern =>
-	pattern.replace(/__/g, `(?:[\\w-]+|'[^'\n]*'|"(?:\\\\.|[^\\\\"\n])*")`);
+/** @param {string} pattern */
+var insertKey = pattern => re(pattern, [`(?:[\\w-]+|'[^'\n]*'|"(?:\\\\.|[^\\\\"\n])*")`], 'mg');
 
 languages.toml = {
 	'comment': {
@@ -13,13 +10,13 @@ languages.toml = {
 		greedy: true
 	},
 	'table': {
-		pattern: RegExp(insertKey(/(^[\t ]*\[\s*(?:\[\s*)?)__(?:\s*\.\s*__)*(?=\s*\])/.source), 'mg'),
+		pattern: insertKey(/(^[\t ]*\[\s*(?:\[\s*)?)<<0>>(?:\s*\.\s*<<0>>)*(?=\s*\])/.source),
 		lookbehind: true,
 		greedy: true,
 		alias: 'class-name'
 	},
 	'key': {
-		pattern: RegExp(insertKey(/(^[\t ]*|[{,]\s*)__(?:\s*\.\s*__)*(?=\s*=)/.source), 'mg'),
+		pattern: insertKey(/(^[\t ]*|[{,]\s*)<<0>>(?:\s*\.\s*<<0>>)*(?=\s*=)/.source),
 		lookbehind: true,
 		greedy: true,
 		alias: 'property'

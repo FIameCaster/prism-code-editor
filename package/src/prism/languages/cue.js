@@ -1,12 +1,11 @@
 import { languages } from '../core.js';
+import { re } from '../utils/shared.js';
 
 // https://cuelang.org/docs/references/spec/
 
 // eslint-disable-next-line regexp/strict
 var stringEscape = /\\(?:(?!\2)|\2(?:[^()\n]|\([^()]*\)))/.source;
-// eslint-disable-next-line regexp/strict
-var stringTypes = `"""(?:[^\\\\"]|"(?!""\\2)|<esc>)*"""|'''(?:[^\\\\']|'(?!''\\2)|<esc>)*'''|"(?:[^\\\\\n"]|"(?!\\2)|<esc>)*"|'(?:[^\\\\\n']|'(?!\\2)|<esc>)*'`;
-var stringLiteral = '(?:' + stringTypes.replace(/<esc>/g, stringEscape) + ')';
+var stringLiteral = re(`(^|[^#"'\\\\])(#*)(?:"""(?:[^\\\\"]|"(?!""\\2)|<<0>>)*"""|'''(?:[^\\\\']|'(?!''\\2)|<<0>>)*'''|"(?:[^\\\\\n"]|"(?!\\2)|<<0>>)*"|'(?:[^\\\\\n']|'(?!\\2)|<<0>>)*')(?!["'])\\2`, [stringEscape], 'g');
 
 var expression = {
 	pattern: /[\s\S]+/
@@ -19,7 +18,7 @@ expression.inside = languages.cue = {
 	},
 	'string-literal': {
 		// eslint-disable-next-line regexp/strict
-		pattern: RegExp(/(^|[^#"'\\])(#*)/.source + stringLiteral + /(?!["'])\2/.source, 'g'),
+		pattern: stringLiteral,
 		lookbehind: true,
 		greedy: true,
 		inside: {

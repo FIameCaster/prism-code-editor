@@ -1,5 +1,5 @@
 import { languages, rest } from '../core.js';
-import { insertBefore } from '../utils/language.js';
+import { re } from '../utils/shared.js';
 import './markup.js';
 import './javascript.js';
 
@@ -12,7 +12,7 @@ import './javascript.js';
 // - Add support for markup embedded in plain text
 
 var js = languages.js;
-var filter_pattern = /(^([\t ]*)):<filter_name>(?:\n(?:\2[\t ].+|\s*?$))+/.source;
+var filter_pattern = /(^([\t ]*)):<<0>>(?:\n(?:\2[\t ].+|\s*?$))+/.source;
 
 var langMap = {
 	atpl: 'twig',
@@ -53,7 +53,7 @@ var pug = languages.pug = {
 ].forEach(filter => {
 	var language = langMap[filter] || filter;
 	pug['filter-' + filter] = {
-		pattern: RegExp(filter_pattern.replace('<filter_name>', filter), 'm'),
+		pattern: re(filter_pattern, [filter], 'm'),
 		lookbehind: true,
 		inside: {
 			'filter-name': {

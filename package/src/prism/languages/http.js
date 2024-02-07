@@ -1,5 +1,4 @@
 import { languages } from '../core.js';
-import { insertBefore } from '../utils/language.js';
 
 /**
  * @param {RegExp} name
@@ -80,10 +79,7 @@ httpLanguages.forEach(contentType => {
 	var pattern = contentType[0] == 'a' && !contentType[17] ? getSuffixPattern(contentType, lang) : contentType;
 
 	http[contentType.replace('/', '-')] = {
-		pattern: RegExp(
-			'(content-type:\\s*'+ pattern + '(?:\n[\\w-].*)*\n)[^ \t\\w-][^]*',
-			'i'
-		),
+		pattern: RegExp('(content-type:\\s*'+ pattern + '(?:\n[\\w-].*)*\n)[^ \t\\w-][^]*', 'i'),
 		lookbehind: true,
 		inside: lang == 'json' ? languages.json || 'js' : lang
 	};

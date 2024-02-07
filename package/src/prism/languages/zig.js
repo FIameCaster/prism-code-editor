@@ -1,12 +1,12 @@
 import { languages } from '../core.js';
-import { boolean, clikePunctuation } from '../utils/shared.js';
+import { boolean, clikePunctuation, re, replace } from '../utils/shared.js';
 
 var keyword = /\b(?:align|allowzero|and|anyframe|anytype|asm|async|await|break|cancel|catch|comptime|const|continue|defer|else|enum|errdefer|error|export|extern|fn|for|if|inline|linksection|nakedcc|noalias|nosuspend|null|or|orelse|packed|promise|pub|resume|return|stdcallcc|struct|suspend|switch|test|threadlocal|try|undefined|union|unreachable|usingnamespace|var|volatile|while)\b/;
 
 var IDENTIFIER = '\\b(?!' + keyword.source + ')(?!\\d)\\w+\\b';
 var ALIGN = /align\s*\((?:[^()]|\([^()]*\))*\)/.source;
-var PREFIX_TYPE_OP = /(?:\?|\bpromise->|(?:\[[^[\]]*\]|\*(?!\*)|\*\*)(?:\s*<ALIGN>|\s*const\b|\s*volatile\b|\s*allowzero\b)*)/.source.replace(/<ALIGN>/g, ALIGN);
-var SUFFIX_EXPR = /(?:\bpromise\b|(?:\berror\.)?<ID>(?:\.<ID>)*(?!\s+<ID>))/.source.replace(/<ID>/g, IDENTIFIER);
+var PREFIX_TYPE_OP = replace(/(?:\?|\bpromise->|(?:\[[^[\]]*\]|\*(?!\*)|\*\*)(?:\s*<<0>>|\s*const\b|\s*volatile\b|\s*allowzero\b)*)/.source, [ALIGN]);
+var SUFFIX_EXPR = replace(/(?:\bpromise\b|(?:\berror\.)?<<0>>(?:\.<<0>>)*(?!\s+<<0>>))/.source, [IDENTIFIER]);
 var TYPE = '(?!\\s)(?:!?\\s*(?:' + PREFIX_TYPE_OP + '\\s*)*' + SUFFIX_EXPR + ')+';
 
 /*
@@ -32,7 +32,7 @@ languages.zig = {
 			pattern: /\/\/[/!].*/,
 			alias: 'doc-comment'
 		},
-		/\/{2}.*/
+		/\/\/.*/
 	],
 	'string': [
 		{
@@ -66,13 +66,13 @@ languages.zig = {
 			// const x: i32 = 9;
 			// var x: Bar;
 			// fn foo(x: bool, y: f32) void {}
-			pattern: RegExp(/(:\s*)<TYPE>(?=\s*(?:<ALIGN>\s*)?[=;,)])|<TYPE>(?=\s*(?:<ALIGN>\s*)?\{)/.source.replace(/<TYPE>/g, TYPE).replace(/<ALIGN>/g, ALIGN)),
+			pattern: re(/(:\s*)<<0>>(?=\s*(?:<<1>>\s*)?[=;,)])|<<0>>(?=\s*(?:<<1>>\s*)?\{)/.source, [TYPE, ALIGN]),
 			lookbehind: true,
 			inside: 'zig'
 		},
 		{
 			// extern fn foo(x: f64) f64; (optional alignment)
-			pattern: RegExp(/(\)\s*)<TYPE>(?=\s*(?:<ALIGN>\s*)?;)/.source.replace(/<TYPE>/g, TYPE).replace(/<ALIGN>/g, ALIGN)),
+			pattern: re(/(\)\s*)<<0>>(?=\s*(?:<<1>>\s*)?;)/.source, [TYPE, ALIGN]),
 			lookbehind: true,
 			inside: 'zig'
 		}

@@ -1,10 +1,7 @@
 import { languages } from '../core.js';
 import { boolean, clikeComment, clikeNumber, clikePunctuation } from '../utils/shared.js';
 
-var keywords = [
-	/\b(?:a?sync|yield)\b\*?/,
-	/\b(?:abstract|assert|await|break|case|catch|class|const|continue|covariant|default|deferred|do|dynamic|else|enum|export|extends|extension|external|factory|final|finally|for|get|hide|if|implements|import|in|interface|library|mixin|new|null|on|operator|part|rethrow|return|set|show|static|super|switch|this|throw|try|typedef|var|void|while|with)\b/
-];
+var keywords = /\b(?:a?sync|yield)\b\*?|\b(?:abstract|assert|await|break|case|catch|class|const|continue|covariant|default|deferred|do|dynamic|else|enum|export|extends|extension|external|factory|final|finally|for|get|hide|if|implements|import|in|interface|library|mixin|new|null|on|operator|part|rethrow|return|set|show|static|super|switch|this|throw|try|typedef|var|void|while|with)\b/;
 
 // Handles named imports, such as http.Client
 var packagePrefix = /(^|[^\w.])(?:[a-z]\w*\s*\.\s*)*(?:[A-Z]\w*\s*\.\s*)*/.source;

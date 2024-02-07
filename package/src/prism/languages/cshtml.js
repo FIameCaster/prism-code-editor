@@ -1,33 +1,16 @@
 import { languages } from '../core.js';
 import { clone, insertBefore } from '../utils/language.js';
+import { nested, replace } from '../utils/shared.js';
 import './markup.js';
 import './csharp.js';
 
 var commentLike = /\/(?![/*])|\/\/.*\n|\/\*[^*]*(?:\*(?!\/)[^*]*)*\*\//.source;
-var stringLike =
-	`@(?!")|"(?:[^\\n\\\\"]|\\\\.)*"|@"(?:[^\\\\"]|""|\\\\[\\s\\S])*"(?!")|'(?:(?:[^\\n'\\\\]|\\\\.|\\\\[Uux][\\da-fA-F]{1,8})'|(?=[^\\\\](?!')))`;
+var stringLike = `@(?!")|"(?:[^\n\\\\"]|\\\\.)*"|@"(?:[^\\\\"]|""|\\\\[\\s\\S])*"(?!")|'(?:(?:[^\n'\\\\]|\\\\.|\\\\[Uux][\\da-fA-F]{1,8})'|(?=[^\\\\](?!')))`;
 
-/**
- * Creates a nested pattern where all occurrences of the string `<<self>>` are replaced with the pattern itself.
- *
- * @param {string} pattern
- * @param {number} depthLog2
- * @returns {string}
- */
-var nested = (pattern, depthLog2) => {
-	for (var i = 0; i < depthLog2; i++) {
-		pattern = pattern.replace(/<self>/g, () => '(?:' + pattern + ')');
-	}
-	return pattern
-		.replace(/<self>/g, '[]')
-		.replace(/<str>/g, `(?:${stringLike})`)
-		.replace(/<comment>/g, `(?:${commentLike})`);
-}
-
-var round = nested(/\((?:[^()'"@/]|<str>|<comment>|<self>)*\)/.source, 2);
-var square = nested(/\[(?:[^[\]'"@/]|<str>|<comment>|<self>)*\]/.source, 1);
-var curly = nested(/\{(?:[^{}'"@/]|<str>|<comment>|<self>)*\}/.source, 2);
-var angle = nested(/<(?:[^<>'"@/]|<comment>|<self>)*>/.source, 1);
+var round = nested(replace(/\((?:[^()'"@/]|<<0>>|<<1>>|<self>)*\)/.source, [stringLike, commentLike]), 2);
+var square = nested(replace(/\[(?:[^[\]'"@/]|<<0>>|<<1>>|<self>)*\]/.source, [stringLike, commentLike]), 1);
+var curly = nested(replace(/\{(?:[^{}'"@/]|<<0>>|<<1>>|<self>)*\}/.source, [stringLike, commentLike]), 2);
+var angle = nested(replace(/<(?:[^<>'"@/]|<<0>>|<self>)*>/.source, [commentLike]), 1);
 
 var inlineCs = `@(?:await\\b\\s*)?(?:(?!await\\b)\\w+\\b|${round})(?:[?!]?\\.\\w+\\b|(?:${angle})?${round}|${square})*(?![?!\\.(\\[]|<(?!\\/))`;
 

@@ -1,13 +1,10 @@
 import { languages, rest } from '../core.js';
+import { nested, re } from '../utils/shared.js';
 import './scheme.js';
 
-var schemeExpression = /\((?:[^();"#\\]|\\[\s\S]|;.*(?!.)|"(?:[^"\\]|\\.)*"|#(?:\{(?:(?!#\})[\s\S])*#\}|[^{])|<expr>)*\)/.source;
 // allow for up to pow(2, recursivenessLog2) many levels of recursive brace expressions
 // For some reason, this can't be 4
-for (var i = 0; i < 5; i++) {
-	schemeExpression = schemeExpression.replace(/<expr>/g, schemeExpression);
-}
-schemeExpression = schemeExpression.replace(/<expr>/g, '[]');
+var schemeExpression = nested(/\((?:[^();"#\\]|\\[\s\S]|;.*(?!.)|"(?:[^"\\]|\\.)*"|#(?:\{(?:(?!#\})[\s\S])*#\}|[^{])|<self>)*\)/.source, 5);
 
 var inside = {
 	pattern: /[\s\S]+/,
@@ -17,7 +14,7 @@ var inside = {
 inside.inside = languages.ly = languages.lilypond = {
 	'comment': /%(?:(?!\{).*|\{[\s\S]*?%\})/,
 	'embedded-scheme': {
-		pattern: RegExp(/(^|[=\s])#(?:"(?:[^"\\]|\\.)*"|[^\s()"]*(?:[^\s()]|<expr>))/.source.replace(/<expr>/g, schemeExpression), 'mg'),
+		pattern: re(/(^|[=\s])#(?:"(?:[^"\\]|\\.)*"|[^\s()"]*(?:[^\s()]|<<0>>))/.source, [schemeExpression], 'mg'),
 		lookbehind: true,
 		greedy: true,
 		inside: {

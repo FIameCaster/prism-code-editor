@@ -299,13 +299,10 @@ var factor = {
 	}
 };
 
-var escape = str =>
-	(str + '').replace(/([.?*+\^$[\]\\(){}|\-])/g, '\\$1');
+/** @param {string} str */
+var escape = str => str.replace(/([.?*+\^$[\]\\(){}|\-])/g, '\\$1');
 
-var arrToWordsRegExp = arr =>
-	RegExp(
-		'(^|\\s)(?:' + arr.map(escape).join('|') + ')(?=\\s|$)'
-	);
+var arrToWordsRegExp = arr => RegExp('(^|\\s)(?:' + arr.map(escape).join('|') + ')(?=\\s|$)');
 
 var builtins = {
 	'kernel-builtin': [

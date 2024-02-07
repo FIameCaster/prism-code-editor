@@ -1,7 +1,7 @@
 import { languages, rest } from '../core.js';
-import { boolean } from '../utils/shared.js';
+import { boolean, nested } from '../utils/shared.js';
 
-var multilineComment = /\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|<self>)*\*\//.source;
+var multilineComment = nested(/\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|<self>)*\*\//.source, 2);
 var string = {
 	pattern: /b?"(?:\\[\s\S]|[^\\"])*"|b?r(#*)"(?:[^"]|"(?!\1))*"\1/g,
 	greedy: true
@@ -12,12 +12,6 @@ var paramsInside = {
 		alias: 'punctuation'
 	}
 };
-
-for (var i = 0; i < 2; i++) {
-	// support 4 levels of nested comments
-	multilineComment = multilineComment.replace(/<self>/g, multilineComment);
-}
-multilineComment = multilineComment.replace(/<self>/g, '[]');
 
 paramsInside[rest] = languages.rust = {
 	'comment': {

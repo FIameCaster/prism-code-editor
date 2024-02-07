@@ -1,11 +1,7 @@
 import { languages } from '../core.js';
 
-/**
- * @param {RegExp} reg
- * @returns {RegExp}
- */
-var value = reg =>
-	RegExp('([ \\t])(?:' + reg.source + ')(?=[\\s;]|$)', 'i');
+/** @param {RegExp} pattern */
+var value = pattern => RegExp('([ \\t])(?:' + pattern + ')(?=[\\s;]|$)', 'i');
 
 languages.csp = {
 	'directive': {
@@ -14,27 +10,27 @@ languages.csp = {
 		alias: 'property'
 	},
 	'scheme': {
-		pattern: value(/[a-z][a-z0-9.+-]*:/),
+		pattern: value(/[a-z][a-z0-9.+-]*:/.source),
 		lookbehind: true
 	},
 	'none': {
-		pattern: value(/'none'/),
+		pattern: value(/'none'/.source),
 		lookbehind: true,
 		alias: 'keyword'
 	},
 	'nonce': {
-		pattern: value(/'nonce-[-+/\w=]+'/),
+		pattern: value(/'nonce-[-+/\w=]+'/.source),
 		lookbehind: true,
 		alias: 'number'
 	},
 	'hash': {
-		pattern: value(/'sha(?:256|384|512)-[-+/\w=]+'/),
+		pattern: value(/'sha(?:256|384|512)-[-+/\w=]+'/.source),
 		lookbehind: true,
 		alias: 'number'
 	},
 	'host': {
 		pattern: value(
-			/[a-z][a-z0-9.+-]*:\/\/[^\s;,']*|\*[^\s;,']*|[a-z0-9-]+(?:\.[a-z0-9-]+)+(?::[\d*]+)?(?:\/[^\s;,']*)?/
+			/[a-z][a-z0-9.+-]*:\/\/[^\s;,']*|\*[^\s;,']*|[a-z0-9-]+(?:\.[a-z0-9-]+)+(?::[\d*]+)?(?:\/[^\s;,']*)?/.source
 		),
 		lookbehind: true,
 		alias: 'url',
@@ -44,12 +40,12 @@ languages.csp = {
 	},
 	'keyword': [
 		{
-			pattern: value(/'unsafe-[a-z-]+'/),
+			pattern: value(/'unsafe-[a-z-]+'/.source),
 			lookbehind: true,
 			alias: 'unsafe'
 		},
 		{
-			pattern: value(/'[a-z-]+'/),
+			pattern: value(/'[a-z-]+'/.source),
 			lookbehind: true,
 			alias: 'safe'
 		},
