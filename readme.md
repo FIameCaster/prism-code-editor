@@ -545,7 +545,7 @@ Once you start approaching 1000 LOC, the editor will start slowing down on most 
 
 This has been tested to work in the latest desktop and mobile versions of both Safari, Chrome, and Firefox. It should work in slightly older browsers too, but there will be many bugs present in browsers that don't support `beforeinput` events.
 
-This library does not support any Prism plugins since Prism hooks have been removed. Behavior identical to the [Highlight Keywords](https://prismjs.com/plugins/highlight-keywords/) plugin is included.
+This library does not support any Prism plugins since Prism hooks have been removed. Behavior like the [Highlight Keywords](https://prismjs.com/plugins/highlight-keywords/) plugin is included.
 
 Some grammars have had small changes, most notably markup tags' grammar. So Prism themes will work to style the tokens, but there can be som slight differences.
 
