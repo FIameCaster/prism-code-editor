@@ -1,0 +1,25 @@
+menubutton(text:'Test' underline:0)
+
+% negative example
+val:=Value
+
+----------------------------------------------------
+
+[
+	["function", "menubutton"],
+	["punctuation", "("],
+	["attr-name", "text"],
+	["punctuation", ":"],
+	["atom", "'Test'"],
+	["attr-name", "underline"],
+	["punctuation", ":"],
+	["number", "0"],
+	["punctuation", ")"],
+
+	["comment", "% negative example"],
+	"\nval", ["operator", ":="], "Value"
+]
+
+----------------------------------------------------
+
+Checks for parameter names.

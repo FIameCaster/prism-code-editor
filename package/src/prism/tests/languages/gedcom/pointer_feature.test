@@ -1,0 +1,23 @@
+@f!@
+@foo_Bar@
+@_$!"$%&'()*+,-./:;<=>?[\]^`{|}~ #foobar@
+0 @SUBMITTER@ SUBM
+1 FAMS @FAMILY@
+
+----------------------------------------------------
+
+[
+	["pointer", "@f!@"],
+	["pointer", "@foo_Bar@"],
+	["pointer", "@_$!\"$%&'()*+,-./:;<=>?[\\]^`{|}~ #foobar@"],
+	["level", "0"],
+	["pointer", "@SUBMITTER@"],
+	["record", "SUBM"],
+	["level", "1"],
+	["record", "FAMS"],
+	["line-value", [["pointer", "@FAMILY@"]]]
+]
+
+----------------------------------------------------
+
+Checks for pointers.

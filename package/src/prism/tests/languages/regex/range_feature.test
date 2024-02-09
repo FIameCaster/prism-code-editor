@@ -1,0 +1,51 @@
+[a-zA-Z0-9]
+[\xa1-Z\u00FF-\u{256}]
+[^-aaa-]
+
+----------------------------------------------------
+
+[
+	["char-class", [
+		["char-class-punctuation", "["],
+		["range", [
+			"a",
+			["range-punctuation", "-"],
+			"z"
+		]],
+		["range", [
+			"A",
+			["range-punctuation", "-"],
+			"Z"
+		]],
+		["range", [
+			"0",
+			["range-punctuation", "-"],
+			"9"
+		]],
+		["char-class-punctuation", "]"]
+	]],
+	["char-class", [
+		["char-class-punctuation", "["],
+		["range", [
+			["escape", "\\xa1"],
+			["range-punctuation", "-"],
+			"Z"
+		]],
+		["range", [
+			["escape", "\\u00FF"],
+			["range-punctuation", "-"],
+			["escape", "\\u{256}"]
+		]],
+		["char-class-punctuation", "]"]
+	]],
+	["char-class", [
+		["char-class-punctuation", "["],
+		["char-class-negation", "^"],
+		"-aaa-",
+		["char-class-punctuation", "]"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for character ranges in sets.

@@ -1,0 +1,26 @@
+<Child {...this.props}>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["class-name", "Child"]
+		]],
+		["spread", [
+			["punctuation", "{"],
+			["operator", "..."],
+			["keyword", "this"],
+			["punctuation", "."],
+			["property-access", ["props"]],
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks that spread can contain an object property.
+See #1236.

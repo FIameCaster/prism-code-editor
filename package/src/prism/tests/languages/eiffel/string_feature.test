@@ -1,0 +1,34 @@
+""
+"fo%"o"
+"foo%
+%bar"
+
+"[]"
+"[fo"o
+bar]"
+"!-[fo"o[]
+bar]!-"
+"{}"
+"{fo"o
+bar}"
+"*?{fo"o{}
+bar}*?"
+
+----------------------------------------------------
+
+[
+	["string", "\"\""],
+	["string", "\"fo%\"o\""],
+	["string", "\"foo%\n%bar\""],
+
+	["string", "\"[]\""],
+	["string", "\"[fo\"o\nbar]\""],
+	["string", "\"!-[fo\"o[]\nbar]!-\""],
+	["string", "\"{}\""],
+	["string", "\"{fo\"o\nbar}\""],
+	["string", "\"*?{fo\"o{}\nbar}*?\""]
+]
+
+----------------------------------------------------
+
+Checks for strings, multi-line strings, and aligned and non aligned verbatim strings.

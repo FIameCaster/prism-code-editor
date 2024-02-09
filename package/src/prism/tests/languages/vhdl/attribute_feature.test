@@ -1,0 +1,25 @@
+T'BASE
+T'IMAGE(X)
+A'RANGE
+A'RANGE(N)
+A'REVERSE_RANGE
+A'REVERSE_RANGE(N)
+S'DELAYED(t)
+E'INSTANCE_NAME
+
+----------------------------------------------------
+
+[
+	"T", ["attribute", "'BASE"],
+	"\nT", ["attribute", "'IMAGE"], ["punctuation", "("], "X", ["punctuation", ")"],
+	"\nA", ["attribute", "'RANGE"],
+	"\nA", ["attribute", "'RANGE"], ["punctuation", "("], "N", ["punctuation", ")"],
+	"\nA", ["attribute", "'REVERSE_RANGE"],
+	"\nA", ["attribute", "'REVERSE_RANGE"], ["punctuation", "("], "N", ["punctuation", ")"],
+	"\nS", ["attribute", "'DELAYED"],  ["punctuation", "("], "t", ["punctuation", ")"],
+	"\nE", ["attribute", "'INSTANCE_NAME"]
+]
+
+----------------------------------------------------
+
+Checks for attributes.

@@ -1,0 +1,38 @@
+datalines;
+1993 2,819 1,120 422 391 63 98
+1994 2,477 1,160 500 172 47 70
+;
+
+lines;
+foo bar baz
+;
+
+cards;
+foo
+bar
+baz
+;
+
+----------------------------------------------------
+
+[
+	["datalines", [
+		["keyword", "datalines"], ["punctuation", ";"],
+		"\n1993 2,819 1,120 422 391 63 98\n1994 2,477 1,160 500 172 47 70\n",
+		["punctuation", ";"]
+	]],
+	["datalines", [
+		["keyword", "lines"], ["punctuation", ";"],
+		"\nfoo bar baz\n",
+		["punctuation", ";"]
+	]],
+	["datalines", [
+		["keyword", "cards"], ["punctuation", ";"],
+		"\nfoo\nbar\nbaz\n",
+		["punctuation", ";"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for datalines.

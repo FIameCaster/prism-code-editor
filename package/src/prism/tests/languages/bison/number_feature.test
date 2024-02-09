@@ -1,0 +1,29 @@
+%%
+42
+0
+0xBadFace
+%%
+
+42
+0
+0xBadFace
+
+----------------------------------------------------
+
+[
+	["bison", [
+		["punctuation", "%%"],
+		["number", "42"],
+		["number", "0"],
+		["number", "0xBadFace"],
+		["punctuation", "%%"]
+	]],
+
+	["number", "42"],
+	["number", "0"],
+	["number", "0xBadFace"]
+]
+
+----------------------------------------------------
+
+Checks for numbers.

@@ -1,0 +1,33 @@
+"hi"
+"addition result: {1+2}"
+'hi'
+'contains: "'
+
+----------------------------------------------------
+
+[
+	["string-literal", [
+		["string", "\"hi\""]
+	]],
+	["string-literal", [
+		["string", "\"addition result: "],
+		["interpolation", [
+			["punctuation", "{"],
+			["number", "1"],
+			["operator", "+"],
+			["number", "2"],
+			["punctuation", "}"]
+		]],
+		["string", "\""]
+	]],
+	["string-literal", [
+		["string", "'hi'"]
+	]],
+	["string-literal", [
+		["string", "'contains: \"'"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for raw strings.

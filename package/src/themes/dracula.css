@@ -58,6 +58,7 @@ Original: https://github.com/dracula/visual-studio-code */
 
 [class*="language-"],
 .token.punctuation,
+.token.spread,
 .language-markdown .code.keyword {
 	color: #f8f8f2;
 }
@@ -75,6 +76,8 @@ Original: https://github.com/dracula/visual-studio-code */
 .token.selector,
 .token.deleted,
 .token.keyword,
+.token.quantifier.number,
+.token.token.anchor,
 .token.regex-flags,
 .token.atrule .rule,
 .token.token.interpolation-punctuation,
@@ -82,11 +85,22 @@ Original: https://github.com/dracula/visual-studio-code */
 	color: #ff79c6;
 }
 
+.token.class-name,
+.token.maybe-class-name,
+.language-css .token.function,
+.language-css .token.property,
+.language-markdown .url {
+	color: #8be9fd;
+}
+
 .token.boolean,
 .token.number,
 .token.color,
-.language-markdown .token.title,
-.token.nil {
+.token.char-set,
+.token.keyword-this,
+.token.keyword-null,
+.token.keyword-undefined,
+.language-markdown .token.title {
 	color: #bd93f9;
 }
 
@@ -100,34 +114,20 @@ Original: https://github.com/dracula/visual-studio-code */
 .token.builtin,
 .token.inserted,
 .token.function,
-.token.function .maybe-class-name,
 .doctype .name,
 .language-markdown .code-language,
 .language-markdown .code-snippet.code {
 	color: #50fa7b;
 }
 
-.token.class-name,
-.token.maybe-class-name,
-.language-css .token.function,
-.language-scss .token.function,
-.language-sass .token.function,
-.language-css .token.property,
-.language-scss .token.property,
-.language-sass .token.property,
-.language-markdown .url {
-	color: #8be9fd;
-}
-
 .token.entity,
 .token.url,
-.token.variable,
-.token.generic {
+.token.variable {
 	color: #f8f8f2;
 }
 
 .token.regex,
-.token.language-regex,
+.language-regex,
 .token.attr-value,
 .token.string,
 .token.string-property,
@@ -135,12 +135,16 @@ Original: https://github.com/dracula/visual-studio-code */
 	color: #f1fa8c;
 }
 
-.token.regex-delimiter {
+.token.regex-delimiter,
+.token.char-class .operator {
 	color: #ff5555;
 }
 
 .token.important,
 .token.parameter,
+.token.group,
+.token.regex .punctuation,
+.token.generic,
 .token.url,
 .token.atrule,
 .language-markdown .bold *,
@@ -149,6 +153,7 @@ Original: https://github.com/dracula/visual-studio-code */
 }
 
 .language-tsx .token.builtin,
+.token.char-class .punctuation,
 .language-typescript .token.builtin {
 	color: #8be9fd;
 }

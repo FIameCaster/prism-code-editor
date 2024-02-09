@@ -1,0 +1,45 @@
+* foo
++ bar
+- baz
+• foo
+‣ bar
+⁃ baz
+
+(42) foo
+(a) bar
+(xvii) baz
+
+4) foo
+h) bar
+MLCDXVI) 1666
+
+1. foo
+z. bar
+mlcdxvi. baz
+
+----------------------------------------------------
+
+[
+	["list-bullet", "*"], " foo\n",
+	["list-bullet", "+"], " bar\n",
+	["list-bullet", "-"], " baz\n",
+	["list-bullet", "•"], " foo\n",
+	["list-bullet", "‣"], " bar\n",
+	["list-bullet", "⁃"], " baz\n\n",
+
+	["list-bullet", "(42)"], " foo\n",
+	["list-bullet", "(a)"], " bar\n",
+	["list-bullet", "(xvii)"], " baz\n\n",
+
+	["list-bullet", "4)"], " foo\n",
+	["list-bullet", "h)"], " bar\n",
+	["list-bullet", "MLCDXVI)"], " 1666\n\n",
+
+	["list-bullet", "1."], " foo\n",
+	["list-bullet", "z."], " bar\n",
+	["list-bullet", "mlcdxvi."], " baz"
+]
+
+----------------------------------------------------
+
+Checks for list bullets.

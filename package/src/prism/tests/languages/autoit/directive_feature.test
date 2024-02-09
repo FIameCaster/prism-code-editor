@@ -1,0 +1,17 @@
+#NoTrayIcon
+#OnAutoItStartRegister "Example"
+#include-once
+#include <MsgBoxConstants.au3>
+
+----------------------------------------------------
+
+[
+	["directive", "#NoTrayIcon"],
+	["directive", "#OnAutoItStartRegister"], ["string", ["\"Example\""]],
+	["directive", "#include-once"],
+	["directive", "#include"], ["url", "<MsgBoxConstants.au3>"]
+]
+
+----------------------------------------------------
+
+Checks for directives.

@@ -1,0 +1,20 @@
+${true == !false}
+
+----------------------------------------------------
+
+[
+	["ftl-interpolation", [
+		["punctuation", "${"],
+		["content", [
+			["boolean", "true"],
+			["operator", "=="],
+			["operator", "!"],
+			["boolean", "false"]
+		]],
+		["punctuation", "}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for booleans.

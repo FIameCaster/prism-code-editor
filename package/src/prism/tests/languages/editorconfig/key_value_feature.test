@@ -1,0 +1,27 @@
+foo = Bar Baz
+foobar = 42
+  another_value = with_indent
+
+----------------------------------------------------
+
+[
+	["key", "foo"],
+	["value", [
+		["punctuation", "="],
+		" Bar Baz"
+	]],
+	["key", "foobar"],
+	["value", [
+		["punctuation", "="],
+		" 42"
+	]],
+	["key", "another_value"],
+	["value", [
+		["punctuation", "="],
+		" with_indent"
+	]]
+]
+
+----------------------------------------------------
+
+Checks for key/value pairs.

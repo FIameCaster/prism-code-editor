@@ -1,0 +1,48 @@
+<a href="{{ url }}">link</a>
+
+<div class="foo"></div>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["a"]],
+		["attr-name", ["href"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["liquid", [
+				["delimiter", "{{"],
+				" url ",
+				["delimiter", "}}"]
+			]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	"link",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["a"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["class"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"foo",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]]
+]

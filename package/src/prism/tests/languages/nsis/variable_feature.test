@@ -1,0 +1,15 @@
+$INTERNET_CACHE
+$LANGUAGE
+$mui.Button.Next
+
+----------------------------------------------------
+
+[
+    ["variable", "$INTERNET_CACHE"],
+    ["variable", "$LANGUAGE"],
+    ["variable", "$mui.Button.Next"]
+]
+
+----------------------------------------------------
+
+Checks for variables.

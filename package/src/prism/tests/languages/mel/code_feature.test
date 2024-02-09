@@ -1,0 +1,41 @@
+`ls -selection`
+
+$shaders = `listConnections -source true -type shadingEngine
+$listOfShapes[$whichShape]`;
+
+----------------------------------------------------
+
+[
+	["code", [
+		["delimiter", "`"],
+		["statement", [
+			["function", "ls"],
+			["flag", "-selection"]
+		]],
+		["delimiter", "`"]
+	]],
+
+	["variable", "$shaders"],
+	["operator", "="],
+	["code", [
+		["delimiter", "`"],
+		["statement", [
+			["function", "listConnections"],
+			["flag", "-source"],
+			" true ",
+			["flag", "-type"],
+			" shadingEngine\n",
+
+			["variable", "$listOfShapes"],
+			["punctuation", "["],
+			["variable", "$whichShape"],
+			["punctuation", "]"]
+		]],
+		["delimiter", "`"]
+	]],
+	["punctuation", ";"]
+]
+
+----------------------------------------------------
+
+Checks for code.

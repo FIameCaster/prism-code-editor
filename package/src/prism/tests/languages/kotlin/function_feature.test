@@ -1,0 +1,25 @@
+foo()
+foo_Bar_42()
+list.filter {}
+`function 1`()
+` !"#$%^&()*+,=?@{|}~-_`()
+list.`take 1` {}
+`make fun`()
+
+----------------------------------------------------
+
+[
+	["function", "foo"], ["punctuation", "("], ["punctuation", ")"],
+	["function", "foo_Bar_42"], ["punctuation", "("], ["punctuation", ")"],
+	"\nlist", ["punctuation", "."],
+	["function", "filter"], ["punctuation", "{"], ["punctuation", "}"],
+	["function", "`function 1`"], ["punctuation", "("], ["punctuation", ")"],
+	["function", "` !\"#$%^&()*+,=?@{|}~-_`"], ["punctuation", "("], ["punctuation", ")"],
+	"\nlist", ["punctuation", "."],
+	["function", "`take 1`"], ["punctuation", "{"], ["punctuation", "}"],
+	["function", "`make fun`"], ["punctuation", "("], ["punctuation", ")"]
+]
+
+----------------------------------------------------
+
+Checks for functions.

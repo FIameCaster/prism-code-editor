@@ -1,0 +1,133 @@
+<Button onClick={(e) => this.setState({clicked: true})} />
+<Component
+  data={[
+	{id: 0, name: 'Joe'},
+	{id: 1, name: 'Sue'},
+  ]}
+/>
+<Component title={`${name}`} />
+<Component title={`${name}'s page`} />
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["class-name", "Button"]
+		]],
+		["attr-name", ["onClick"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			["punctuation", "("],
+			["parameter", ["e"]],
+			["punctuation", ")"],
+			["operator", "=>"],
+			["keyword", "this"],
+			["punctuation", "."],
+			["function", ["setState"]],
+			["punctuation", "("],
+			["punctuation", "{"],
+			["literal-property", "clicked"],
+			["operator", ":"],
+			["boolean", "true"],
+			["punctuation", "}"],
+			["punctuation", ")"],
+			["punctuation", "}"]
+		]],
+		["punctuation", "/>"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["class-name", "Component"]
+		]],
+
+		["attr-name", ["data"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			["punctuation", "["],
+
+			["punctuation", "{"],
+			["literal-property", "id"],
+			["operator", ":"],
+			["number", "0"],
+			["punctuation", ","],
+			["literal-property", "name"],
+			["operator", ":"],
+			["string", "'Joe'"],
+			["punctuation", "}"],
+			["punctuation", ","],
+
+			["punctuation", "{"],
+			["literal-property", "id"],
+			["operator", ":"],
+			["number", "1"],
+			["punctuation", ","],
+			["literal-property", "name"],
+			["operator", ":"],
+			["string", "'Sue'"],
+			["punctuation", "}"],
+			["punctuation", ","],
+
+			["punctuation", "]"],
+			["punctuation", "}"]
+		]],
+
+		["punctuation", "/>"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["class-name", "Component"]
+		]],
+		["attr-name", ["title"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			["template-string", [
+				["template-punctuation", "`"],
+				["interpolation", [
+					["interpolation-punctuation", "${"],
+					"name",
+					["interpolation-punctuation", "}"]
+				]],
+				["template-punctuation", "`"]
+			]],
+			["punctuation", "}"]
+		]],
+		["punctuation", "/>"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["class-name", "Component"]
+		]],
+		["attr-name", ["title"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			["template-string", [
+				["template-punctuation", "`"],
+				["interpolation", [
+					["interpolation-punctuation", "${"],
+					"name",
+					["interpolation-punctuation", "}"]
+				]],
+				["string", "'s page"],
+				["template-punctuation", "`"]
+			]],
+			["punctuation", "}"]
+		]],
+		["punctuation", "/>"]
+	]]
+]
+
+----------------------------------------------------
+
+Handles nested pairs of curly braces inside tag attribute. See #1335

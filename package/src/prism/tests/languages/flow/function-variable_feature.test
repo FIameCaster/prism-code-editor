@@ -1,0 +1,33 @@
+foo = (a: number) : number => {}
+bar = () : string => {}
+
+----------------------------------------------------
+
+[
+	["function-variable", ["foo"]],
+	["operator", "="],
+	["punctuation", "("],
+	"a",
+	["operator", ":"],
+	["type", "number"],
+	["punctuation", ")"],
+	["operator", ":"],
+	["type", "number"],
+	["operator", "=>"],
+	["punctuation", "{"],
+	["punctuation", "}"],
+
+	["function-variable", ["bar"]],
+	["operator", "="],
+	["punctuation", "("],
+	["punctuation", ")"],
+	["operator", ":"],
+	["type", "string"],
+	["operator", "=>"],
+	["punctuation", "{"],
+	["punctuation", "}"]
+]
+
+----------------------------------------------------
+
+Checks for function variables containing types.

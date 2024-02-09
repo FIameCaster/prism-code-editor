@@ -1,0 +1,51 @@
+<nowiki>{{foo}} ''bar'' <baz></nowiki>
+<source>{{foo}} ''bar'' <baz></source>
+<pre>{{foo}} ''bar'' <baz></pre>
+
+----------------------------------------------------
+
+[
+	["nowiki", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["nowiki"]],
+			["punctuation", ">"]
+		]],
+		"{{foo}} ''bar'' <baz>",
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["nowiki"]],
+			["punctuation", ">"]
+		]]
+	]],
+	["nowiki", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["source"]],
+			["punctuation", ">"]
+		]],
+		"{{foo}} ''bar'' <baz>",
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["source"]],
+			["punctuation", ">"]
+		]]
+	]],
+	["nowiki", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["pre"]],
+			["punctuation", ">"]
+		]],
+		"{{foo}} ''bar'' <baz>",
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["pre"]],
+			["punctuation", ">"]
+		]]
+	]]
+]
+
+----------------------------------------------------
+
+Checks that no highlighting is done inside <nowiki>, <pre> and <source> tags.

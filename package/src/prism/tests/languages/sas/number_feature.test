@@ -1,0 +1,31 @@
+42
+3.14159
+3.2e10
+0.4e-8
+1.4E+2
+BadFacex
+0c1x
+0b0ax
+
+"3132,3334"x
+'3132,3334'x
+
+----------------------------------------------------
+
+[
+	["number", "42"],
+	["number", "3.14159"],
+	["number", "3.2e10"],
+	["number", "0.4e-8"],
+	["number", "1.4E+2"],
+	"\nBadFacex\n",
+	["number", "0c1x"],
+	["number", "0b0ax"],
+
+	["numeric-constant", "\"3132,3334\"x"],
+	["numeric-constant", "'3132,3334'x"]
+]
+
+----------------------------------------------------
+
+Checks for decimal and hexadecimal numbers.

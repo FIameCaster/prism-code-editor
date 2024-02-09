@@ -1,0 +1,28 @@
+---
+---
+
+# Title
+
+---
+normal paragraph
+
+---
+
+----------------------------------------------------
+
+[
+	["front-matter-block", [
+		["punctuation", "---"],
+		["punctuation", "---"]
+	]],
+
+	["title", [
+		["punctuation", "#"],
+		" Title"
+	]],
+
+	["hr", "---"],
+	"\nnormal paragraph\n\n",
+
+	["hr", "---"]
+]

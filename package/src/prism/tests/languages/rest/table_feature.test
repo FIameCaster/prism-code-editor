@@ -1,0 +1,64 @@
++-----+---------+
+| foo |   bar   |
++=====+=========+
+| foo |   bar   |
++-----+---------+
+
+	+---+
+	| 1 |
+	+---+
+
+=== ===
+ a   b
+=== ===
+ 1   2
+=== ===
+
+	==== ==== =====
+	   foo     bar
+	--------- -----
+	 ab   cd    e
+	==== ==== =====
+	  1    2    3
+	  4    5    6
+	==== ==== =====
+
+----------------------------------------------------
+
+[
+	["table", [
+		["punctuation", "+-----+---------+"],
+		["punctuation", "|"], " foo ", ["punctuation", "|"], "   bar   ", ["punctuation", "|"],
+		["punctuation", "+=====+=========+"],
+		["punctuation", "|"], " foo ", ["punctuation", "|"], "   bar   ", ["punctuation", "|"],
+		["punctuation", "+-----+---------+"]
+	]],
+
+	["table", [
+		["punctuation", "+---+"],
+		["punctuation", "|"], " 1 ", ["punctuation", "|"],
+		["punctuation", "+---+"]
+	]],
+
+	["table", [
+		["punctuation", "==="], ["punctuation", "==="],
+		"\n a   b\n",
+		["punctuation", "==="], ["punctuation", "==="],
+		"\n 1   2\n",
+		["punctuation", "==="], ["punctuation", "==="]
+	]],
+
+	["table", [
+		["punctuation", "===="], ["punctuation", "===="], ["punctuation", "====="],
+		"\n\t   foo     bar\n\t",
+		["punctuation", "---------"], ["punctuation", "-----"],
+		"\n\t ab   cd    e\n\t",
+		["punctuation", "===="], ["punctuation", "===="], ["punctuation", "====="],
+		"\n\t  1    2    3\n\t  4    5    6\n\t",
+		["punctuation", "===="], ["punctuation", "===="], ["punctuation", "====="]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for grid tables and simple tables.

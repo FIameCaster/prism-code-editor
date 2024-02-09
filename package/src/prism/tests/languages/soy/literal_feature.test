@@ -1,0 +1,83 @@
+{literal}{$noHighlight}{/literal}
+{$highlight}{literal}<div class="{$foo}">
+{if $bar}{$bar}{/if}</div>
+{/literal}
+{literal}/* even comments */{/literal}
+
+----------------------------------------------------
+
+[
+	["soy", [
+		["delimiter", "{"],
+		["keyword", "literal"],
+		["delimiter", "}"]
+	]],
+	["markup-bracket", "{"],
+	"$noHighlight",
+	["markup-bracket", "}"],
+	["soy", [
+		["delimiter", "{/"],
+		["keyword", "literal"],
+		["delimiter", "}"]
+	]],
+
+	["soy", [
+		["delimiter", "{"],
+		["variable", ["$highlight"]],
+		["delimiter", "}"]
+	]],
+	["soy", [
+		["delimiter", "{"],
+		["keyword", "literal"],
+		["delimiter", "}"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["class"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"{$foo}",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+
+	["markup-bracket", "{"],
+	"if $bar",
+	["markup-bracket", "}"],
+	["markup-bracket", "{"],
+	"$bar",
+	["markup-bracket", "}"],
+	["markup-bracket", "{"],
+	"/if",
+	["markup-bracket", "}"],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+
+	["soy", [
+		["delimiter", "{/"],
+		["keyword", "literal"],
+		["delimiter", "}"]
+	]],
+
+	["soy", [
+		["delimiter", "{"],
+		["keyword", "literal"],
+		["delimiter", "}"]
+	]],
+	"/* even comments */",
+	["soy", [
+		["delimiter", "{/"],
+		["keyword", "literal"],
+		["delimiter", "}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for {literal} command.

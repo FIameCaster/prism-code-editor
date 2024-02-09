@@ -5,6 +5,7 @@ import { getLineBefore } from "../../utils"
 import { createTemplate, languageMap } from "../../core"
 import { BracketMatcher } from "../matchBrackets"
 import { TagMatcher } from "../matchTags"
+import { TokenStream, Token } from "../../prism"
 
 /**
  * Callback used to add extra foldable ranges to an editor.
@@ -182,8 +183,8 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 		if (matchTags) {
 			let { tags, pairs } = matchTags
 			for (let i = 0, j: number, l = pairs.length; i < l; i++) {
-				if ((j = pairs[i]!) > i && numLines(value, tags[i][3], tags[j][1]) > 1) {
-					folds.push([tags[i][3], tags[j][1]])
+				if ((j = pairs[i]!) > i && numLines(value, tags[i][2], tags[j][1]) > 1) {
+					folds.push([tags[i][2], tags[j][1]])
 				}
 			}
 		}
@@ -245,18 +246,14 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
  */
 const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { language } }) => {
 	const folds: [number, number][] = []
-	const findBlockComments = (
-		tokens: (Prism.Token | string)[],
-		position: number,
-		language: string,
-	) => {
+	const findBlockComments = (tokens: TokenStream, position: number, language: string) => {
 		for (let i = 0, l = tokens.length; i < l; ) {
-			const token = <Prism.Token>tokens[i++]
+			const token = <Token>tokens[i++]
 			const content = token.content
 			const length = token.length
 			const type = token.type
 			const aliasType = token.alias || type
-			if (aliasType === "comment" && numLines(value, position, position + length) > 1) {
+			if (aliasType == "comment" && numLines(value, position, position + length) > 1) {
 				let comment = languageMap[language]?.comments?.block
 				if (comment && value.indexOf(comment[0], position) == position)
 					folds.push([position + comment[0].length, position + length - comment[1].length])
@@ -264,8 +261,9 @@ const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { l
 				findBlockComments(
 					content,
 					position,
-					aliasType.indexOf("language-") ? language : (<string>aliasType).slice(9),
-				)}
+					aliasType.indexOf("language-") ? language : aliasType.slice(9),
+				)
+			}
 			position += length
 		}
 	}
@@ -292,18 +290,18 @@ const markdownFolding: FoldingRangeProvider = ({ tokens, value, options: { langu
 	}
 	if (language == "markdown" || language == "md")
 		for (let i = 0, end = tokens.length - 1; ; i++) {
-			const token = <Prism.Token>tokens[i]
+			const token = <Token>tokens[i]
 			const length = token.length
 			const type = token.type
 			if (type == "code" && !token.alias) {
-				let content = <Prism.Token[]>(<Prism.Token>token).content
+				let content = <Token[]>(<Token>token).content
 				folds.push([
 					pos + content[0].length + (content[1].content || "").length,
 					pos + length - content[content.length - 1].length - 1,
 				])
 			}
 			if (type == "title") {
-				let [token1, token2] = <Prism.Token[]>(<Prism.Token>token).content
+				let [token1, token2] = <Token[]>(<Token>token).content
 				let level = token1.type ? token1.length : (<string>token2.content)[0] == "=" ? 1 : 2
 				closeTitles(level)
 				openTitles.length = level

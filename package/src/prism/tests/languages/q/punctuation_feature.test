@@ -1,0 +1,17 @@
+( ) { } [ ] ;
+
+sp.s
+
+----------------------------------------------------
+
+[
+	["punctuation", "("],
+	["punctuation", ")"],
+	["punctuation", "{"],
+	["punctuation", "}"],
+	["punctuation", "["],
+	["punctuation", "]"],
+	["punctuation", ";"],
+
+	"\n\nsp", ["punctuation", "."], "s"
+]

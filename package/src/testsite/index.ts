@@ -1,18 +1,16 @@
 import { createEditor, EditorOptions, PrismEditor } from ".."
 import { defaultCommands } from "../extensions/commands"
 import { copyButton } from "../extensions/copyButton"
-import "../grammars/markup"
-import "../grammars/js-extras"
-import "../grammars/js-templates"
-import "../grammars/css-extras"
-import "../grammars/markdown"
-import "../grammars/tsx"
-import "../grammars/python"
+import "../prism/languages/js-templates"
+import "../prism/languages/jsdoc"
+import "../prism/languages/css-extras"
+import "../prism/languages/markdown"
+import "../prism/languages/regex"
 import "../extensions/copyButton/copy.css"
 import "../extensions/folding/folding.css"
 import { cursorPosition } from "../extensions/cursor"
 import { indentGuides } from "../extensions/guides"
-import guides from "../extensions/guides.ts?raw"
+import guides from "../prism/core?raw"
 import readme from "/readme.md?raw"
 import { matchBrackets } from "../extensions/matchBrackets"
 import { highlightBracketPairs } from "../extensions/matchBrackets/highlight"
@@ -33,7 +31,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	tabs = wrapper.querySelectorAll(".tab"),
 	errorEl = <HTMLDivElement>wrapper.querySelector(".error")!,
 	errorMessage = <HTMLPreElement>errorEl.lastElementChild,
-	createEditorWrapper = (container: ParentNode, options: EditorOptions) =>
+	createEditorWrapper = (container: ParentNode | null, options: EditorOptions) =>
 		createEditor(
 			container,
 			options,
@@ -67,9 +65,6 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 </html>`
 
 let currentOptions = `const code = '${startCode.replace(/\n/g, "\\n")}'
-
-// Languages available in this example include:
-// javascript, html, css, markdown, xml, jsx, python, typescript and tsx
 
 const options = {
   language: 'html',
@@ -162,13 +157,14 @@ runBtn.onclick = () => {
 	let newEditor: PrismEditor
 	try {
 		// Creating a new editor instead of
-		newEditor = createEditorWrapper(wrapper, options)
+		newEditor = createEditorWrapper(null, options)
 	} catch (error) {
 		errorEl.removeAttribute("aria-hidden")
 		errorMessage.textContent = <string>error
 		return
 	}
 
+	wrapper.append(newEditor.scrollContainer)
 	editor1.remove()
 	editor1 = newEditor
 	toggleActive()
@@ -206,3 +202,6 @@ addOverscroll(editor)
 document.querySelector<HTMLElement>("button.btn")!.onclick = () => {
 	editor2.extensions.searchWidget!.open()
 }
+
+// @ts-expect-error
+setTimeout(() => import("../prism/languages"), 500)

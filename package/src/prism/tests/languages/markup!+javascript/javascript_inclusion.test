@@ -1,0 +1,137 @@
+<script type="text/javascript">foo()</script>
+
+<script>
+"foo bar"
+</script>
+
+<script type="application/javascript">
+var a = 0;
+<![CDATA[
+let foo = '</script>';
+]]>
+"foo"
+</script>
+
+<foo onclick="this.textContent='Clicked!'">
+<foo mouseover="this.textContent='Over!'">
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["script"]],
+		["attr-name", ["type"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"text/javascript",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["script", [
+		["language-javascript", [
+			["function", ["foo"]],
+			["punctuation", "("],
+			["punctuation", ")"]
+		]]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["script"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["script"]],
+		["punctuation", ">"]
+	]],
+	["script", [
+		["language-javascript", [
+			["string", "\"foo bar\""]
+		]]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["script"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["script"]],
+		["attr-name", ["type"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"application/javascript",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["script", [
+		["language-javascript", [
+			["keyword", "var"],
+			" a ",
+			["operator", "="],
+			["number", "0"],
+			["punctuation", ";"]
+		]],
+		["included-cdata", [
+			["cdata", "<![CDATA["],
+			["language-javascript", [
+				["keyword", "let"],
+				" foo ",
+				["operator", "="],
+				["string", "'</script>'"],
+				["punctuation", ";"]
+			]],
+			["cdata", "]]>"]
+		]],
+		["language-javascript", [
+			["string", "\"foo\""]
+		]]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["script"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["foo"]],
+		["attr-name", ["onclick"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-javascript", [
+				["keyword", "this"],
+				["punctuation", "."],
+				["property-access", ["textContent"]],
+				["operator", "="],
+				["string", "'Clicked!'"]
+			]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["foo"]],
+		["attr-name", ["mouseover"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"this.textContent='Over!'",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for Javascript usage inside Markup, using <script> tags.

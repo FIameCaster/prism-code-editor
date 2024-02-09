@@ -1,0 +1,16 @@
+// single line
+/*
+ multi
+ line
+ */
+
+----------------------------------------------------
+
+[
+	["comment", "// single line"],
+	["comment", "/*\n multi\n line\n */"]
+]
+
+----------------------------------------------------
+
+Checks for comments.

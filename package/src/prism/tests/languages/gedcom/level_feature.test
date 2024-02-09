@@ -1,0 +1,20 @@
+0 HEAD
+1 CHAR ASCII
+99 FOO bar
+
+----------------------------------------------------
+
+[
+	["level", "0"],
+	["record", "HEAD"],
+	["level", "1"],
+	["record", "CHAR"],
+	["line-value", ["ASCII"]],
+	["level", "99"],
+	["record", "FOO"],
+	["line-value", ["bar"]]
+]
+
+----------------------------------------------------
+
+Checks for levels.

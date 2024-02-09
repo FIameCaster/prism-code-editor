@@ -47,6 +47,8 @@
 [class*="language-"],
 .language-markdown .url > .operator,
 .token.punctuation,
+.token.spread,
+.token.attr-equals,
 .token.code.keyword {
 	color: #e6edf3;
 }
@@ -66,13 +68,16 @@
 .token.selector .combinator,
 .token.operator,
 .token.regex-flags,
+.token.token.anchor,
+.token.number.quantifier,
 .token.keyword {
 	color: #ff7b72;
 }
 
 .token.tag,
 .token.selector,
-.token.doctype {
+.token.doctype,
+.language-regex .escape {
 	color: #7ee787;
 }
 
@@ -94,8 +99,6 @@
 .token.pseudo-element,
 .token.attr-name,
 .language-css .token.property,
-.language-scss .token.property,
-.language-sass .token.property,
 .token.number,
 .token.color,
 .token.boolean,
@@ -103,13 +106,14 @@
 .token.title.important,
 .title.important .punctuation,
 .language-css .token.function,
-.language-scss .token.function,
-.language-sass .token.function,
 .token.code-snippet.code,
 .token.doctype .name,
 .token.property-access,
 .token.keyword-null,
 .token.keyword-this,
+.token.char-class,
+.token.char-set,
+.token.regex .punctuation,
 .language-jsx .tag > .punctuation,
 .language-tsx .tag > .punctuation {
 	color: #79c0ff;

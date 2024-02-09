@@ -1,0 +1,30 @@
+;
+; foobar
+
+#;(foo bar)
+#; (foo)
+#;[foo bar]
+#; [foo]
+
+#|
+ comment
+ #| nested comment |#
+|#
+
+----------------------------------------------------
+
+[
+	["comment", ";"],
+	["comment", "; foobar"],
+
+	["comment", "#;(foo bar)"],
+	["comment", "#; (foo)"],
+	["comment", "#;[foo bar]"],
+	["comment", "#; [foo]"],
+
+	["comment", "#|\n comment\n #| nested comment |#\n|#"]
+]
+
+----------------------------------------------------
+
+Checks for comments.

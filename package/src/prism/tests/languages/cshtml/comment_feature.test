@@ -1,0 +1,30 @@
+@{
+    /* C# comment */
+    // Another C# comment
+}
+<!-- HTML comment -->
+
+@*
+    @{
+        /* C# comment */
+        // Another C# comment
+    }
+    <!-- HTML comment -->
+*@
+
+----------------------------------------------------
+
+[
+	["block", [
+		["keyword", "@"],
+		["csharp", [
+			["punctuation", "{"],
+			["comment", "/* C# comment */"],
+			["comment", "// Another C# comment"],
+			["punctuation", "}"]
+		]]
+	]],
+	["comment", "<!-- HTML comment -->"],
+
+	["razor-comment", "@*\n    @{\n        /* C# comment */\n        // Another C# comment\n    }\n    <!-- HTML comment -->\n*@"]
+]

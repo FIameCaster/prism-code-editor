@@ -1,0 +1,17 @@
+=label foo
+bar
+=cut
+#
+# foobar
+
+----------------------------------------------------
+
+[
+	["comment", "=label foo\nbar\n=cut"],
+	["comment", "#"],
+	["comment", "# foobar"]
+]
+
+----------------------------------------------------
+
+Checks for comments.

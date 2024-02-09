@@ -27,7 +27,7 @@
 	cursor: pointer;
 }
 
-.pce-readonly > .prism-search-container > div {
+.pce-readonly .prism-search {
 	grid: auto / auto;
 }
 
@@ -219,9 +219,9 @@ button.pce-expand {
 	margin: -0.15em;
 }
 
-.pce-readonly > .prism-search-container .pce-expand,
+.pce-readonly .pce-expand,
 [aria-expanded="false"] + div .pce-replace,
-.pce-readonly > .prism-search-container .pce-replace {
+.pce-readonly .pce-replace {
 	display: none;
 }
 

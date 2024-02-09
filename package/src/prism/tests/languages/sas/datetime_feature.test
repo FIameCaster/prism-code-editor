@@ -1,0 +1,24 @@
+'1jan2013'd
+'9:25:19pm't
+'18jan2003:9:27:05am'dt
+
+* don't match the following just because of "'t";
+
+'foo'¦¦'test';
+
+----------------------------------------------------
+
+[
+	["datetime", "'1jan2013'd"],
+	["datetime", "'9:25:19pm't"],
+	["datetime", "'18jan2003:9:27:05am'dt"],
+	["comment", "* don't match the following just because of \"'t\";"],
+	["string", "'foo'"],
+	["operator", "¦¦"],
+	["string", "'test'"],
+	["punctuation", ";"]
+]
+
+----------------------------------------------------
+
+Checks for date, times and datetimes.

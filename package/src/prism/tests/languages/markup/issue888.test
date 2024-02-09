@@ -1,0 +1,16 @@
+<android.support.v7.widget.CardView>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["android.support.v7.widget.CardView"]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for tag names containing dots.
+See #888 for details.

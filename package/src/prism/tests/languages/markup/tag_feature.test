@@ -1,0 +1,67 @@
+<p></p>
+<div>dummy</div>
+<div
+> </div
+>
+<foo:bar> </foo:bar>
+<div
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	"dummy",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"], ["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "</"], ["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["namespace", "foo:"],
+			"bar"
+		]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", [
+			["namespace", "foo:"],
+			"bar"
+		]],
+		["punctuation", ">"]
+	]],
+
+	"\n<div"
+]
+
+----------------------------------------------------
+
+Checks for empty tags, tags that span multiple lines and namespaces in tag names.
+Also checks that unclosed tags (e.g. "<div") are not highlighted.

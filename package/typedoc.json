@@ -1,7 +1,7 @@
 {
   "entryPoints": [
 		"src/index.ts",
-		"src/utilsExport.ts",
+		"src/utils/index.ts",
 		"src/extensions/guides.ts",
 		"src/extensions/commands.ts",
 		"src/extensions/cursor.ts",
@@ -16,6 +16,8 @@
 		"src/extensions/folding/index.ts",
 		"src/tooltips.ts",
 		"src/themes/index.ts",
+		"src/prism/index.ts",
+		"src/prism/utils/index.ts",
 	],
   "readme": "../readme.md",
   "sort": ["kind", "instance-first", "alphabetical"],

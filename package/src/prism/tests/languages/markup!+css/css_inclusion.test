@@ -1,0 +1,112 @@
+<style type="text/css">
+foo {
+	bar: baz;
+}
+</style>
+
+<style>
+.bar { }
+<![CDATA[
+foo {
+	bar: baz;
+}
+]]>
+#foo { }
+</style>
+
+<foo style="bar:baz;">
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["style"]],
+		["attr-name", ["type"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"text/css",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["style", [
+		["language-css", [
+			["selector", "foo"],
+			["punctuation", "{"],
+
+			["property", "bar"],
+			["punctuation", ":"],
+			" baz",
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["style"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["style"]],
+		["punctuation", ">"]
+	]],
+	["style", [
+		["language-css", [
+			["selector", ".bar"],
+			["punctuation", "{"],
+			["punctuation", "}"]
+		]],
+		["included-cdata", [
+			["cdata", "<![CDATA["],
+			["language-css", [
+				["selector", "foo"],
+				["punctuation", "{"],
+
+				["property", "bar"],
+				["punctuation", ":"],
+				" baz",
+				["punctuation", ";"],
+
+				["punctuation", "}"]
+			]],
+			["cdata", "]]>"]
+		]],
+		["language-css", [
+			["selector", "#foo"],
+			["punctuation", "{"],
+			["punctuation", "}"]
+		]]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["style"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["foo"]],
+		["attr-name", ["style"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-css", [
+				["property", "bar"],
+				["punctuation", ":"],
+				"baz",
+				["punctuation", ";"]
+			]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for CSS usage inside Markup, using <style> tag and style attribute.

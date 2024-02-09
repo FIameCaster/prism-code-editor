@@ -1,0 +1,84 @@
+<#import "/libs/commons.ftl" as com>
+
+<#if a < b>
+	a is less than b
+<#elseif (a > b)>
+	a is greater than b
+<#else>
+	a is equal to by
+</#if>
+
+<@foo></@foo>
+<@foo/>
+
+----------------------------------------------------
+
+[
+	["ftl-directive", [
+		["punctuation", "<"],
+		["directive", "#import"],
+		["content", [
+			["string", ["\"/libs/commons.ftl\""]],
+			["keyword", "as"],
+			" com"
+		]],
+		["punctuation", ">"]
+	]],
+
+	["ftl-directive", [
+		["punctuation", "<"],
+		["directive", "#if"],
+		["content", [
+			" a ",
+			["operator", "<"],
+			" b"
+		]],
+		["punctuation", ">"]
+	]],
+	"\n\ta is less than b\n",
+	["ftl-directive", [
+		["punctuation", "<"],
+		["directive", "#elseif"],
+		["content", [
+			["punctuation", "("],
+			"a ",
+			["operator", ">"],
+			" b",
+			["punctuation", ")"]
+		]],
+		["punctuation", ">"]
+	]],
+	"\n\ta is greater than b\n",
+	["ftl-directive", [
+		["punctuation", "<"],
+		["directive", "#else"],
+		["punctuation", ">"]
+	]],
+	"\n\ta is equal to by\n",
+	["ftl-directive", [
+		["punctuation", "</"],
+		["directive", "#if"],
+		["punctuation", ">"]
+	]],
+
+	["ftl-directive", [
+		["punctuation", "<"],
+		["directive", "@foo"],
+		["punctuation", ">"]
+	]],
+	["ftl-directive", [
+		["punctuation", "</"],
+		["directive", "@foo"],
+		["punctuation", ">"]
+	]],
+
+	["ftl-directive", [
+		["punctuation", "<"],
+		["directive", "@foo"],
+		["punctuation", "/>"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for directive. This includes both predefined and user-defined ones.

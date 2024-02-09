@@ -1,0 +1,28 @@
+// foobar
+(**)
+(* foo
+bar *)
+
+// the next one is not a comment
+(*) (*)
+
+----------------------------------------------------
+
+[
+	["comment", "// foobar"],
+	["comment", "(**)"],
+	["comment", "(* foo\nbar *)"],
+
+	["comment", "// the next one is not a comment"],
+
+	["punctuation", "("],
+	["operator", "*"],
+	["punctuation", ")"],
+	["punctuation", "("],
+	["operator", "*"],
+	["punctuation", ")"]
+]
+
+----------------------------------------------------
+
+Checks for single-line and multi-line comments.

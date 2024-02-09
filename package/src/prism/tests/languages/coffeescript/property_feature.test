@@ -1,0 +1,15 @@
+foo:
+foo_bar :
+
+----------------------------------------------------
+
+[
+	["property", "foo"],
+	["operator", ":"],
+	["property", "foo_bar"],
+	["operator", ":"]
+]
+
+----------------------------------------------------
+
+Checks for object properties.

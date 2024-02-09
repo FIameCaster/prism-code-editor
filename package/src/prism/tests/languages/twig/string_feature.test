@@ -1,0 +1,47 @@
+{{ '' }}
+{{ "" }}
+{{ "ba\"r" }}
+{{ 'ba\'z' }}
+
+----------------------------------------------------
+
+[
+	["twig", [
+		["delimiter", "{{"],
+		["string", [
+			["punctuation", "'"],
+			["punctuation", "'"]
+		]],
+		["delimiter", "}}"]
+	]],
+	["twig", [
+		["delimiter", "{{"],
+		["string", [
+			["punctuation", "\""],
+			["punctuation", "\""]
+		]],
+		["delimiter", "}}"]
+	]],
+	["twig", [
+		["delimiter", "{{"],
+		["string", [
+			["punctuation", "\""],
+			"ba\\\"r",
+			["punctuation", "\""]
+		]],
+		["delimiter", "}}"]
+	]],
+	["twig", [
+		["delimiter", "{{"],
+		["string", [
+			["punctuation", "'"],
+			"ba\\'z",
+			["punctuation", "'"]
+		]],
+		["delimiter", "}}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for strings.

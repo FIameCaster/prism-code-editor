@@ -1,0 +1,25 @@
+<div>
+	<span>
+
+----------------------------------------------------
+
+[
+	["markup", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["div"]],
+			["punctuation", ">"]
+		]]
+	]],
+	["markup", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["span"]],
+			["punctuation", ">"]
+		]]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for Markup inside Jade.

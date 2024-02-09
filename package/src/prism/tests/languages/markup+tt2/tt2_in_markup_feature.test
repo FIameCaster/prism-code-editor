@@ -1,0 +1,76 @@
+<div>[%  foo.bar.baz  %]</div>
+<div>[%- foo.bar.baz  %]</div>
+<div>[%  foo.bar.baz -%]</div>
+<div>[%- foo.bar.baz -%]</div>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	["tt2", [
+		["delimiter", "[%"],
+		["variable", "foo.bar.baz"],
+		["delimiter", "%]"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	["tt2", [
+		["delimiter", "[%-"],
+		["variable", "foo.bar.baz"],
+		["delimiter", "%]"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	["tt2", [
+		["delimiter", "[%"],
+		["variable", "foo.bar.baz"],
+		["delimiter", "-%]"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	["tt2", [
+		["delimiter", "[%-"],
+		["variable", "foo.bar.baz"],
+		["delimiter", "-%]"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for Template Toolkit 2 inside Markup.

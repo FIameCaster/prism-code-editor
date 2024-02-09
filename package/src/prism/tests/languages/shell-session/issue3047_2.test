@@ -1,0 +1,43 @@
+$ gpg --card-status
+Reader ...........: Yubico YubiKey CCID
+Application ID ...: D*******************************
+Application type .: OpenPGP
+Version ..........: 0.0
+Manufacturer .....: Yubico
+Serial number ....: 1*******
+Name of cardholder: John Doe
+Language prefs ...: en
+Salutation .......:
+URL of public key : [not set]
+Login data .......: john@example.net
+Signature PIN ....: not forced
+Key attributes ...: ed25519 cv25519 ed25519
+Max. PIN lengths .: 127 127 127
+PIN retry counter : 3 0 3
+Signature counter : 0
+KDF setting ......: off
+UIF setting ......: Sign=on Decrypt=on Auth=on
+Signature key ....: ACE1 3F15 90C1 A8C9 D942  51E3 02ED C61B 6543 509B
+      created ....: 2021-07-21 18:44:34
+Encryption key....: 0524 00F4 8E1D 085A F3E1  61EC D463 4E0D 6E2D D8BF
+      created ....: 2021-07-21 18:44:52
+Authentication key: A27B 582F 1F62 03BA 549B  3D44 1E7B 69B2 38FF A21B
+      created ....: 2021-07-21 18:45:13
+General key info..: sub  ed25519/0x02EDC61B6543509B 2021-07-21 John Doe <john@example.net>
+sec#  ed25519/0xC2709D13BAB4763C  created: 2021-07-21  expires: never
+ssb>  ed25519/0x02EDC61B6543509B  created: 2021-07-21  expires: 2022-07-21
+                                  card-no: 0006 1*******
+ssb>  cv25519/0xD4634E0D6E2DD8BF  created: 2021-07-21  expires: 2022-07-21
+                                  card-no: 0006 1*******
+ssb>  ed25519/0x1E7B69B238FFA21B  created: 2021-07-21  expires: 2022-07-21
+                                  card-no: 0006 1*******
+
+----------------------------------------------------
+
+[
+	["command", [
+		["shell-symbol", "$"],
+		["bash", ["gpg --card-status"]]
+	]],
+	["output", "Reader ...........: Yubico YubiKey CCID\nApplication ID ...: D*******************************\nApplication type .: OpenPGP\nVersion ..........: 0.0\nManufacturer .....: Yubico\nSerial number ....: 1*******\nName of cardholder: John Doe\nLanguage prefs ...: en\nSalutation .......:\nURL of public key : [not set]\nLogin data .......: john@example.net\nSignature PIN ....: not forced\nKey attributes ...: ed25519 cv25519 ed25519\nMax. PIN lengths .: 127 127 127\nPIN retry counter : 3 0 3\nSignature counter : 0\nKDF setting ......: off\nUIF setting ......: Sign=on Decrypt=on Auth=on\nSignature key ....: ACE1 3F15 90C1 A8C9 D942  51E3 02ED C61B 6543 509B\n      created ....: 2021-07-21 18:44:34\nEncryption key....: 0524 00F4 8E1D 085A F3E1  61EC D463 4E0D 6E2D D8BF\n      created ....: 2021-07-21 18:44:52\nAuthentication key: A27B 582F 1F62 03BA 549B  3D44 1E7B 69B2 38FF A21B\n      created ....: 2021-07-21 18:45:13\nGeneral key info..: sub  ed25519/0x02EDC61B6543509B 2021-07-21 John Doe <john@example.net>\nsec#  ed25519/0xC2709D13BAB4763C  created: 2021-07-21  expires: never\nssb>  ed25519/0x02EDC61B6543509B  created: 2021-07-21  expires: 2022-07-21\n                                  card-no: 0006 1*******\nssb>  cv25519/0xD4634E0D6E2DD8BF  created: 2021-07-21  expires: 2022-07-21\n                                  card-no: 0006 1*******\nssb>  ed25519/0x1E7B69B238FFA21B  created: 2021-07-21  expires: 2022-07-21\n                                  card-no: 0006 1*******"]
+]

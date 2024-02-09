@@ -6,8 +6,5 @@ export {
 	isMac,
 	isWebKit,
 	languageMap,
-	setIgnoreTab,
 	numLines,
-	ignoreTab,
 } from "./core"
-export { Prism } from "./prismCore"

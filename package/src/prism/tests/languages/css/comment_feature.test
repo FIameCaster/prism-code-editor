@@ -1,0 +1,16 @@
+/**/
+/* foo */
+/* foo
+bar */
+
+----------------------------------------------------
+
+[
+	["comment", "/**/"],
+	["comment", "/* foo */"],
+	["comment", "/* foo\nbar */"]
+]
+
+----------------------------------------------------
+
+Checks for empty comment, single-line comment and multi-line comment.

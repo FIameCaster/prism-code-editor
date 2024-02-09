@@ -39,9 +39,9 @@ export const PrismEditorReact = forwardRef((
 }`,
 
 	`// index.ts
-import "prism-code-editor/grammars/markup"
-import "prism-code-editor/grammars/css-extras"
-import "prism-code-editor/grammars/js-extras"
+import "prism-code-editor/prism/languages/markup"
+import "prism-code-editor/prism/languages/css-extras"
+import "prism-code-editor/prism/languages/javascript"
 
 import { createEditor } from "prism-code-editor"
 import { matchBrackets } from "prism-code-editor/match-brackets"
@@ -58,7 +58,7 @@ export const editor = createEditor(
   indentGuides(),
   matchBrackets(),
 )
-  
+
 import('./extensions')`,
 
 	`// extensions.ts

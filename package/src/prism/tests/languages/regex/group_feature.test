@@ -1,0 +1,67 @@
+()
+(?:)
+(?>)
+(?=) (?!)
+(?<=) (?<!)
+
+(?<name>)
+(?'name')
+
+(?i)
+(?i:)
+(?idmsuxU-idmsuxU)
+(?idmsux-idmsux:X)
+
+----------------------------------------------------
+
+[
+	["group", "("],
+	["group", ")"],
+
+	["group", "("],
+	["group", ["?:"]],
+	["group", ")"],
+
+	["group", "("],
+	["group", ["?>"]],
+	["group", ")"],
+
+	["group", "("],
+	["group", ["?="]],
+	["group", ")"],
+	["group", "("],
+	["group", ["?!"]],
+	["group", ")"],
+
+	["group", "("],
+	["group", ["?<="]],
+	["group", ")"],
+	["group", "("],
+	["group", ["?<!"]],
+	["group", ")"],
+
+	["group", "("],
+	["group", [
+		"?<",
+		["group-name", "name"],
+		">"
+	]],
+	["group", ")"],
+
+	["group", "("],
+	["group", [
+		"?'",
+		["group-name", "name"],
+		"'"
+	]],
+	["group", ")"],
+
+	["group", "("], ["group", ["?i"]], ["group", ")"],
+	["group", "("], ["group", ["?i:"]], ["group", ")"],
+	["group", "("], ["group", ["?idmsuxU-idmsuxU"]], ["group", ")"],
+	["group", "("], ["group", ["?idmsux-idmsux:"]], "X", ["group", ")"]
+]
+
+----------------------------------------------------
+
+Checks for groups.

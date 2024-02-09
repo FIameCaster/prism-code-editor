@@ -1,0 +1,22 @@
+#!/usr/local/bin/lua
+--
+-- Foobar
+--[[Foo
+bar]]
+--[====[Foo
+bar]=====] ]===]
+baz]====]
+
+----------------------------------------------------
+
+[
+	["comment", "#!/usr/local/bin/lua"],
+	["comment", "--"],
+	["comment", "-- Foobar"],
+	["comment", "--[[Foo\nbar]]"],
+	["comment", "--[====[Foo\nbar]=====] ]===]\nbaz]====]"]
+]
+
+----------------------------------------------------
+
+Checks for comments.

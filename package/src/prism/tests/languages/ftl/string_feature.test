@@ -1,0 +1,62 @@
+<@foo (
+
+"foo'\"'
+\"\\"
+'foo\'
+'
+
+r"foo${bar}"
+r'foo${bar}'
+
+"foo${bar}"
+'foo${bar + "foo}" + '}'}'
+
+)/>
+
+----------------------------------------------------
+
+[
+	["ftl-directive", [
+		["punctuation", "<"],
+		["directive", "@foo"],
+		["content", [
+			["punctuation", "("],
+
+			["string", ["\"foo'\\\"'\n\\\"\\\\\""]],
+			["string", ["'foo\\'\n'"]],
+
+			["string", "r\"foo${bar}\""],
+			["string", "r'foo${bar}'"],
+
+			["string", [
+				"\"foo",
+				["interpolation", [
+					["interpolation-punctuation", "${"],
+					"bar",
+					["interpolation-punctuation", "}"]
+				]],
+				"\""
+			]],
+			["string", [
+				"'foo",
+				["interpolation", [
+					["interpolation-punctuation", "${"],
+					"bar ",
+					["operator", "+"],
+					["string", ["\"foo}\""]],
+					["operator", "+"],
+					["string", ["'}'"]],
+					["interpolation-punctuation", "}"]
+				]],
+				"'"
+			]],
+
+			["punctuation", ")"]
+		]],
+		["punctuation", "/>"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for strings, raw string, and string with interpolations.

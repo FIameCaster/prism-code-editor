@@ -1,0 +1,38 @@
+""
+"Fo\"obar"
+
+""""""
+"""Fo"o
+bar"""
+
+R"Raw ""string"
+
+r"Raw
+""string"
+
+fo\x8Fo"Foobar"
+
+bar"""Foo
+bar"""
+
+----------------------------------------------------
+
+[
+	["string", "\"\""],
+	["string", "\"Fo\\\"obar\""],
+
+	["string", "\"\"\"\"\"\""],
+	["string", "\"\"\"Fo\"o\nbar\"\"\""],
+
+	["string", "R\"Raw \"\"string\""],
+
+	["string", "r\"Raw\n\"\"string\""],
+
+	["string", "fo\\x8Fo\"Foobar\""],
+
+	["string", "bar\"\"\"Foo\nbar\"\"\""]
+]
+
+----------------------------------------------------
+
+Checks for strings and character literals.

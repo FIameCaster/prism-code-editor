@@ -1,0 +1,17 @@
+FALSE
+false
+TRUE
+true
+
+----------------------------------------------------
+
+[
+	["constant", "FALSE"],
+	["constant", "false"],
+	["constant", "TRUE"],
+	["constant", "true"]
+]
+
+----------------------------------------------------
+
+Checks for booleans.

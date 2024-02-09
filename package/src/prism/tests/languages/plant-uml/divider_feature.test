@@ -1,0 +1,37 @@
+== Initialization ==
+
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+== Repetition ==
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response
+
+----------------------------------------------------
+
+[
+	["divider", "== Initialization =="],
+
+	"\n\nAlice ",
+	["arrow", ["->"]],
+	" Bob",
+	["punctuation", ":"],
+	" Authentication Request\nBob ",
+	["arrow", ["-->"]],
+	" Alice",
+	["punctuation", ":"],
+	" Authentication Response\n\n",
+
+	["divider", "== Repetition =="],
+
+	"\n\nAlice ",
+	["arrow", ["->"]],
+	" Bob",
+	["punctuation", ":"],
+	" Another authentication Request\nAlice ",
+	["arrow", ["<--"]],
+	" Bob",
+	["punctuation", ":"],
+	" another authentication Response"
+]

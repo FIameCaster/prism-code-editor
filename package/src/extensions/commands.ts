@@ -1,7 +1,7 @@
 /** @module commands */
 
-import { EditorOptions, Extension, InputSelection } from ".."
-import { ignoreTab, isMac, preventDefault, setIgnoreTab, languageMap } from "../core"
+import { EditorOptions, InputSelection, BasicExtension } from ".."
+import { isMac, preventDefault, languageMap } from "../core"
 import {
 	getLanguage,
 	insertText,
@@ -10,9 +10,16 @@ import {
 	regexEscape,
 	getModifierCode,
 } from "../utils"
+import { addTextareaListener } from "../utils/local"
 
+let ignoreTab = false
 const clipboard = navigator.clipboard
 const mod = isMac ? 4 : 2
+/**
+ * Sets whether editors should ignore tab or use it for indentation.
+ * Users can always toggle this using Ctrl+M / Ctrl+Shift+M (Mac).
+ */
+const setIgnoreTab = (newState: boolean) => (ignoreTab = newState)
 
 /**
  * Extension that will add automatic indentation, closing of brackets,
@@ -34,14 +41,14 @@ const mod = isMac ? 4 : 2
  * automatically close based on the character before and after the cursor.
  * Defaults to ``/([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s``.
  */
-export const defaultCommands = (
-	selfClosePairs = ['""', "''", "``", "()", "[]", "{}"],
-	selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s,
-): Extension => ({
-	update(editor, options) {
-		this.update = () => {}
+const defaultCommands =
+	(
+		selfClosePairs = ['""', "''", "``", "()", "[]", "{}"],
+		selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s,
+	): BasicExtension =>
+	(editor, options) => {
 		let prevCopy: string
-		const { textarea, keyCommandMap, inputCommandMap, getSelection } = editor
+		const { keyCommandMap, inputCommandMap, getSelection } = editor
 
 		const getIndent = ({ insertSpaces = true, tabSize }: EditorOptions) =>
 			[insertSpaces ? " " : "\t", insertSpaces ? tabSize || 2 : 1] as const
@@ -145,11 +152,7 @@ export const defaultCommands = (
 		})
 
 		inputCommandMap[">"] = (e, selection, value) => {
-			const closingTag = languageMap[getLanguage(editor)]?.autoCloseTags?.call(
-				editor,
-				selection,
-				value,
-			)
+			const closingTag = languageMap[getLanguage(editor)]?.autoCloseTags?.(selection, value, editor)
 			if (closingTag) {
 				insertText(editor, ">" + closingTag, null, null, selection[0] + 1)
 				preventDefault(e)
@@ -170,26 +173,21 @@ export const defaultCommands = (
 		keyCommandMap.Enter = (e, selection, value) => {
 			const code = getModifierCode(e) & 7
 			if (!code || code == mod) {
-				if (code) selection = <any>Array(2).fill(getLines(value, selection[1], selection[1])[2])
+				if (code) selection[0] = selection[1] = getLines(value, selection[1])[2]
 				const [indentChar, tabSize] = getIndent(options),
+					[start, end] = selection,
 					autoIndent = languageMap[getLanguage(editor)]?.autoIndent,
 					indenationCount =
-						Math.floor(getLineBefore(value, selection[0]).search(/\S|$/) / tabSize) * tabSize,
-					extraIndent = autoIndent?.[0]?.call(editor, selection, value) ? tabSize : 0,
-					extraLine = autoIndent?.[1]?.call(editor, selection, value),
+						Math.floor(getLineBefore(value, start).search(/\S|$/) / tabSize) * tabSize,
+					extraIndent = autoIndent?.[0]?.(selection, value, editor) ? tabSize : 0,
+					extraLine = autoIndent?.[1]?.(selection, value, editor),
 					newText =
 						"\n" +
 						indentChar.repeat(indenationCount + extraIndent) +
 						(extraLine ? "\n" + indentChar.repeat(indenationCount) : "")
 
-				if (newText[1] || selection[1] < value.length) {
-					insertText(
-						editor,
-						newText,
-						selection[0],
-						selection[1],
-						selection[0] + indenationCount + extraIndent + 1,
-					)
+				if (newText[1] || value[end]) {
+					insertText(editor, newText, start, end, start + indenationCount + extraIndent + 1)
 					return scroll()
 				}
 			}
@@ -243,12 +241,12 @@ export const defaultCommands = (
 				}
 			}
 
-		textarea.addEventListener("keydown", e => {
+		addTextareaListener(editor, "keydown", e => {
 			const code = getModifierCode(e),
-				keyCode = e.keyCode
+				keyCode = e.keyCode,
+				[start, end, dir] = getSelection()
 
 			if (code == mod && (keyCode == 221 || keyCode == 219)) {
-				const [start, end] = getSelection()
 				indent(
 					keyCode == 219,
 					...getLines(editor.value, start, end),
@@ -256,13 +254,14 @@ export const defaultCommands = (
 					end,
 					...getIndent(options),
 				)
-			} else if (code == (isMac ? 0b1010 : 0b0010) && keyCode == 77) {
+				return scroll()
+			}
+			if (code == (isMac ? 0b1010 : 0b0010) && keyCode == 77) {
 				setIgnoreTab(!ignoreTab)
 				preventDefault(e)
 			} else if ((e.code == "Backslash" && code == mod) || (keyCode == 65 && code == 9)) {
 				const value = editor.value,
 					isBlock = code == 9,
-					[start, end] = getSelection(),
 					position = isBlock ? start : value.lastIndexOf("\n", start - 1) + 1,
 					language = languageMap[getLanguage(editor, position)] || {},
 					{ line, block } =
@@ -339,7 +338,6 @@ export const defaultCommands = (
 				}
 			} else if (code == 8 + mod && keyCode == 75) {
 				const value = editor.value,
-					[start, end, dir] = getSelection(),
 					[lines, start1, end1] = getLines(value, start, end),
 					column = dir == "forward" ? end - end1 + lines.pop()!.length : start - start1,
 					newLineLen = getLines(value, end1 + 1)[0][0].length
@@ -350,11 +348,11 @@ export const defaultCommands = (
 					end1 + <any>!start1,
 					start1 + Math.min(column, newLineLen),
 				)
-				scroll()
+				return scroll()
 			}
 		})
 		;(["copy", "cut", "paste"] as const).forEach(type =>
-			textarea.addEventListener(type, e => {
+			addTextareaListener(editor, type, e => {
 				const [start, end] = getSelection()
 				if (start == end && clipboard) {
 					const [[line], start1, end1] = getLines(editor.value, start, end)
@@ -372,5 +370,6 @@ export const defaultCommands = (
 				}
 			}),
 		)
-	},
-})
+	}
+
+export { defaultCommands, setIgnoreTab, ignoreTab }

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Webpage</title>
+    </head>
+    <body>
+        <ul id="navigation">
+        {% for item in navigation %}
+            <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+        {% endfor %}
+        </ul>
+
+        <h1>My Webpage</h1>
+        {{ a_variable }}
+    </body>
+</html>
+
+----------------------------------------------------
+
+[
+	["doctype", [
+		["punctuation", "<!"],
+		["doctype-tag", "DOCTYPE"],
+		["name", "html"],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["html"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["head"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["title"]],
+		["punctuation", ">"]
+	]],
+	"My Webpage",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["title"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["head"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["body"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["ul"]],
+		["attr-name", ["id"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"navigation",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+
+	["twig", [
+		["delimiter", "{%"],
+		["tag-name", "for"],
+		" item ",
+		["operator", "in"],
+		" navigation ",
+		["delimiter", "%}"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["li"]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["a"]],
+		["attr-name", ["href"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["twig", [
+				["delimiter", "{{"],
+				" item",
+				["punctuation", "."],
+				"href ",
+				["delimiter", "}}"]
+			]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["twig", [
+		["delimiter", "{{"],
+		" item",
+		["punctuation", "."],
+		"caption ",
+		["delimiter", "}}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["a"]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["li"]],
+		["punctuation", ">"]
+	]],
+
+	["twig", [
+		["delimiter", "{%"],
+		["tag-name", "endfor"],
+		["delimiter", "%}"]
+	]],
+
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["ul"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["h1"]],
+		["punctuation", ">"]
+	]],
+	"My Webpage",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["h1"]],
+		["punctuation", ">"]
+	]],
+
+	["twig", [
+		["delimiter", "{{"],
+		" a_variable ",
+		["delimiter", "}}"]
+	]],
+
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["body"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["html"]],
+		["punctuation", ">"]
+	]]
+]

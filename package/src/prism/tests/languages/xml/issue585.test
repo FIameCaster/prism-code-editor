@@ -1,0 +1,55 @@
+<Läufer>foo</Läufer>
+<tag läufer="läufer">
+<läufer:tag>baz</läufer:tag>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["Läufer"]],
+		["punctuation", ">"]
+	]],
+	"foo",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["Läufer"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["tag"]],
+		["attr-name", ["läufer"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"läufer",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["namespace", "läufer:"],
+			"tag"
+		]],
+		["punctuation", ">"]
+	]],
+	"baz",
+	["tag", [
+		["punctuation", "</"],
+		["tag", [
+			["namespace", "läufer:"],
+			"tag"
+		]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for tags, attributes and namespaces containing unicode characters.
+See #585 for details.

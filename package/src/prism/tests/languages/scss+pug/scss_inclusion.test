@@ -1,0 +1,19 @@
+:sass
+  @extend .foo;
+
+----------------------------------------------------
+
+[
+	["filter-sass", [
+		["filter-name", ":sass"],
+		["text", [
+			["keyword", "@extend"],
+			" .foo",
+			["punctuation", ";"]
+		]]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for sass filter (Scss) in pug.

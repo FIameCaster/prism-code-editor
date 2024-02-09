@@ -1,0 +1,30 @@
+Foo.prototype.bar;
+Bar.constructor;
+fooBar.prototype.bar;
+
+----------------------------------------------------
+
+[
+	["class-name", "Foo"],
+	["punctuation", "."],
+	["property-access", ["prototype"]],
+	["punctuation", "."],
+	["property-access", ["bar"]],
+	["punctuation", ";"],
+
+	["class-name", "Bar"],
+	["punctuation", "."],
+	["property-access", ["constructor"]],
+	["punctuation", ";"],
+
+	"\nfooBar",
+	["punctuation", "."],
+	["property-access", ["prototype"]],
+	["punctuation", "."],
+	["property-access", ["bar"]],
+	["punctuation", ";"]
+]
+
+----------------------------------------------------
+
+Checks for supposed function variables based on standard function invocations or modifications.

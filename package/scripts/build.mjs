@@ -1,4 +1,4 @@
-import * as fs from "node:fs"
+import * as fs from "node:fs/promises"
 
 const themes = [
 	"atom-one-dark",
@@ -15,28 +15,38 @@ const themes = [
 	"vs-code-light",
 ]
 
-const logError = err => err && console.log(err)
-
 for (const theme of themes) {
-	fs.rename(`dist/${theme}.css`, `dist/themes/${theme}.css`, logError)
+	fs.rename(`dist/${theme}.css`, `dist/themes/${theme}.css`)
 }
 
-let themeMod = fs.readFileSync("dist/themes/index.js", "utf-8")
+let themeMod = await fs.readFile("dist/themes/index.js", "utf-8")
 const regex = RegExp(`^(${themes.join("|")})(-\\w+)\.js$`)
-const entries = await fs.promises.readdir("dist", { withFileTypes: true })
+const entries = await fs.readdir("dist", { withFileTypes: true })
 
 for (const entry of entries) {
 	const match = entry.name.match(regex)
 	if (match) {
 		themeMod = themeMod.replace(match[2], "")
-		fs.rename(`dist/${entry.name}`, `dist/${match[1]}.js`, logError)
+		fs.rename(`dist/${entry.name}`, `dist/${match[1]}.js`)
 	}
 }
 
-fs.writeFile("dist/themes/index.js", themeMod, logError)
+fs.writeFile("dist/themes/index.js", themeMod)
+fs.copyFile("../readme.md", "readme.md")
+fs.copyFile("../LICENSE", "LICENSE")
 
-fs.copyFile("../readme.md", "readme.md", logError)
-fs.copyFile("../LICENSE", "LICENSE", logError)
+const dummyModule = `/** Used for autocompletion, **don't** import this. */
+declare const _: never;
+export default _;
+`
 
-const utils = fs.readFileSync("dist/utils.d.ts", "utf-8")
-fs.writeFile("dist/utils.d.ts", utils.replace(", scrollToEl", ""), logError)
+;["dist/prism/languages/", "dist/languages/"].forEach(path => {
+	fs.readdir(path).then(entries =>
+		entries.forEach(entry => {
+			if (entry.slice(-2) == "js") {
+				const name = entry.slice(0, -3)
+				fs.writeFile(path + name + ".d.ts", dummyModule)
+			}
+		}),
+	)
+})

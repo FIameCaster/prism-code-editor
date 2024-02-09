@@ -21,7 +21,6 @@
 	--editor__bg-highlight: #636e7b1a;
 	--editor__bg-selection-match: #57ab5a40;
 	--editor__line-number: #636e7b;
-	--editor__line-number-active: #adbac7;
 	--editor__bg-scrollbar: 210, 10%, 35%;
 	--editor__bg-fold: #768390;
 	--bg-guide-indent: #adbac71f;
@@ -48,6 +47,8 @@
 [class*="language-"],
 .language-markdown .url > .operator,
 .token.punctuation,
+.token.spread,
+.token.attr-equals,
 .token.code.keyword {
 	color: #adbac7;
 }
@@ -67,13 +68,16 @@
 .token.selector .combinator,
 .token.operator,
 .token.regex-flags,
+.token.token.anchor,
+.token.number.quantifier,
 .token.keyword {
 	color: #f47067;
 }
 
 .token.tag,
 .token.selector,
-.token.doctype {
+.token.doctype,
+.language-regex .escape {
 	color: #8ddb8c;
 }
 
@@ -99,8 +103,6 @@
 .token.pseudo-element,
 .token.attr-name,
 .language-css .token.property,
-.language-scss .token.property,
-.language-sass .token.property,
 .token.number,
 .token.constant,
 .token.color,
@@ -108,13 +110,14 @@
 .token.title.important,
 .title.important .punctuation,
 .language-css .token.function,
-.language-scss .token.function,
-.language-sass .token.function,
 .token.code-snippet.code,
 .token.doctype .name,
 .token.property-access,
 .token.keyword-null,
 .token.keyword-this,
+.token.char-class,
+.token.char-set,
+.token.regex .punctuation,
 .language-jsx .tag > .punctuation,
 .language-tsx .tag > .punctuation {
 	color: #6cb6ff;

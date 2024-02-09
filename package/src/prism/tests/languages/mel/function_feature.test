@@ -1,0 +1,133 @@
+foobar()
+foo_bar_42()
+foo.bar()
+
+proc animatedDuplication ()
+global proc VL_doit( )
+
+print("Semicolons separate"); print(" different statements.");
+
+float $frame = `currentTime -q`;
+string $timeFormat = `currentUnit -query -time`;
+currentUnit -time sec;
+float $time = `currentTime -q`;
+currentUnit -time $timeFormat;
+
+persp.translateX = 23.2;
+
+PolySelectConvert 3;
+setParent ..;
+duplicate;
+
+----------------------------------------------------
+
+[
+	["function", "foobar"],
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["function", "foo_bar_42"],
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	"\nfoo",
+	["punctuation", "."],
+	["function", "bar"],
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["keyword", "proc"],
+	["function", "animatedDuplication"],
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["keyword", "global"],
+	["keyword", "proc"],
+	["function", "VL_doit"],
+	["punctuation", "("],
+	["punctuation", ")"],
+
+	["function", "print"],
+	["punctuation", "("],
+	["string", "\"Semicolons separate\""],
+	["punctuation", ")"],
+	["punctuation", ";"],
+	["function", "print"],
+	["punctuation", "("],
+	["string", "\" different statements.\""],
+	["punctuation", ")"],
+	["punctuation", ";"],
+
+	["keyword", "float"],
+	["variable", "$frame"],
+	["operator", "="],
+	["code", [
+		["delimiter", "`"],
+		["statement", [
+			["function", "currentTime"],
+			["flag", "-q"]
+		]],
+		["delimiter", "`"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "string"],
+	["variable", "$timeFormat"],
+	["operator", "="],
+	["code", [
+		["delimiter", "`"],
+		["statement", [
+			["function", "currentUnit"],
+			["flag", "-query"],
+			["flag", "-time"]
+		]],
+		["delimiter", "`"]
+	]],
+	["punctuation", ";"],
+
+	["function", "currentUnit"],
+	["flag", "-time"],
+	" sec",
+	["punctuation", ";"],
+
+	["keyword", "float"],
+	["variable", "$time"],
+	["operator", "="],
+	["code", [
+		["delimiter", "`"],
+		["statement", [
+			["function", "currentTime"],
+			["flag", "-q"]
+		]],
+		["delimiter", "`"]
+	]],
+	["punctuation", ";"],
+
+	["function", "currentUnit"],
+	["flag", "-time"],
+	["variable", "$timeFormat"],
+	["punctuation", ";"],
+
+	"\n\npersp",
+	["punctuation", "."],
+	"translateX ",
+	["operator", "="],
+	["number", "23.2"],
+	["punctuation", ";"],
+
+	["function", "PolySelectConvert"],
+	["number", "3"],
+	["punctuation", ";"],
+
+	["function", "setParent"],
+	["punctuation", "."],
+	["punctuation", "."],
+	["punctuation", ";"],
+
+	["function", "duplicate"],
+	["punctuation", ";"]
+]
+
+----------------------------------------------------
+
+Checks for functions.

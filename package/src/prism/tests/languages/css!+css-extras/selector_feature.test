@@ -1,0 +1,46 @@
+foo:after {
+foo::first-letter {
+
+foo.bar.baz {
+
+foo#bar.baz {
+
+#foo > .bar:hover:after {
+
+----------------------------------------------------
+
+[
+	["selector", [
+		"foo",
+		["pseudo-element", ":after"]
+	]], ["punctuation", "{"],
+
+	["selector", [
+		"foo",
+		["pseudo-element", "::first-letter"]
+	]], ["punctuation", "{"],
+
+	["selector", [
+		"foo",
+		["class", ".bar"],
+		["class", ".baz"]
+	]], ["punctuation", "{"],
+
+	["selector", [
+		"foo",
+		["id", "#bar"],
+		["class", ".baz"]
+	]], ["punctuation", "{"],
+
+	["selector", [
+		["id", "#foo"],
+		["combinator", ">"],
+		["class", ".bar"],
+		["pseudo-class", ":hover"],
+		["pseudo-element", ":after"]
+	]], ["punctuation", "{"]
+]
+
+----------------------------------------------------
+
+Checks for pseudo-elements, pseudo-classes, classes and ids inside selectors.

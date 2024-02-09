@@ -67,9 +67,9 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 
 .token.keyword,
 .token.punctuation,
-.tag .token.script-punctuation,
 .token.literal-property,
 .token.operator,
+.token.token.anchor,
 .token.atrule .rule,
 .language-css .important,
 .language-markdown .italic * {
@@ -78,6 +78,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 
 [class*="language-"],
 .language-css .punctuation,
+.token.spread,
 .language-markdown .code.keyword,
 .language-markdown .url .content {
 	color: #d6deeb;
@@ -93,6 +94,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 }
 
 .token.number,
+.regex .escape,
 .token.tag .class-name {
 	color: #f78c6c;
 }
@@ -124,14 +126,21 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #d3423e;
 }
 
-.tag .punctuation,
+.token.tag > .punctuation,
 .doctype .punctuation,
 .selector .combinator,
 .selector .operator,
 .token.attr-equals,
 .token.property-access,
+.token.quantifier,
+.token.alternation,
 .language-markdown .url .markup-bracket {
 	color: #7fdbca;
+}
+
+.language-regex,
+.token.regex-flags {
+	color: #5ca7e4;
 }
 
 .selector .id {
@@ -141,6 +150,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.attr-value > .punctuation {
 	color: #d9f5dd;
 }
+
 .token.attr-name,
 .doctype .name,
 .token.variable,
@@ -157,6 +167,8 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.function,
 .token.keyword-undefined,
 .token.function .maybe-class-name,
+.token.char-class,
+.token.token.char-set,
 .token.title.important,
 .token.title > .punctuation,
 .language-markdown .url .variable {
@@ -197,6 +209,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	font-style: normal;
 }
 
+.token.alternation,
 .token.keyword-this,
 .token.keyword-null,
 .token.keyword-undefined {
@@ -230,7 +243,8 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #ff1212cc;
 }
 
-.token.markup-bracket {
+.token.markup-bracket,
+.token.regex .punctuation {
 	color: inherit;
 }
 

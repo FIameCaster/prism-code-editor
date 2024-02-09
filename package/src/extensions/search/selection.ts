@@ -1,7 +1,7 @@
-import { EditorEventMap, Extension, PrismEditor } from "../.."
+import { BasicExtension } from "../.."
 import { SearchAPI, SearchFilter, createSearchAPI } from "./search"
 
-export interface SelectionMatchHighlighter extends Extension {
+export interface SelectionMatchHighlighter extends BasicExtension {
 	/**
 	 * Search API used by the extension.
 	 * Can be used get the position of the matches for example.
@@ -15,22 +15,6 @@ export interface WordHighlighter extends SelectionMatchHighlighter {
 	setFilter(newFilter: SearchFilter): void
 }
 
-const extensionTemplate = (
-	className: string,
-	handler: (editor: PrismEditor, api: SearchAPI) => EditorEventMap["selectionChange"],
-): SelectionMatchHighlighter => ({
-	update(editor: PrismEditor) {
-		this.update = () => {}
-		const searchAPI = (this.api = createSearchAPI(editor)),
-			container = searchAPI.container
-
-		container.style.zIndex = <any>-1
-		container.className = className
-
-		editor.addListener("selectionChange", handler(editor, searchAPI))
-	},
-})
-
 /**
  * Extension that highlights selection matches in an editor.
  * @param caseSensitive Whether or not matches must have the same case. Defaults to false.
@@ -41,21 +25,31 @@ const extensionTemplate = (
  * 
  * The CSS-selector `.selection-matches span` can be used to style the matches.
  */
-const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLength = 200) =>
-	extensionTemplate("selection-matches", (editor, searchAPI) => ([start, end], value) => {
-		value = editor.focused ? value.slice(start, end) : ""
-		let offset = value.search(/\S/),
-			l = (value = value.trim()).length
+const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLength = 200) => {
+	const self: SelectionMatchHighlighter = editor => {
+		const searchAPI = (self.api = createSearchAPI(editor)),
+			container = searchAPI.container
 
-		searchAPI.search(
-			minLength > l || l > maxLength ? "" : value,
-			caseSensitive,
-			false,
-			false,
-			undefined,
-			start + offset,
-		)
-	})
+		container.style.zIndex = <any>-1
+		container.className = "selection-matches"
+
+		editor.addListener("selectionChange", ([start, end], value) => {
+			value = editor.focused ? value.slice(start, end) : ""
+			start += value.search(/\S/)
+			let l = (value = value.trim()).length
+
+			searchAPI.search(
+				minLength > l || l > maxLength ? "" : value,
+				caseSensitive,
+				false,
+				false,
+				undefined,
+				(mStart, mEnd) => mStart > start || mEnd <= start
+			)
+		})
+	}
+	return self
+}
 
 /**
  * Extension that highlights all instances of the word the cursor is on if there's no selection.
@@ -83,37 +77,38 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
 const highlightCurrentWord = (
 	filter?: SearchFilter,
 	includeHyphens?: (cursorPosition: number) => boolean,
-): WordHighlighter =>
-	Object.assign(
-		extensionTemplate("word-matches", (editor, searchAPI) => {
-			let noHighlight = false
-			editor.addListener("update", () => (noHighlight = true))
+) => {
+	const self: WordHighlighter = editor => {
+		let noHighlight = false
+		const searchAPI = (self.api = createSearchAPI(editor)),
+			container = searchAPI.container
 
-			return ([start, end], value) => {
-				if (start < end || !editor.focused || noHighlight) searchAPI.search("")
-				else {
-					let group = `[_$\\p{L}\\d${includeHyphens && includeHyphens(start) ? "-" : ""}]`
-					let before = value.slice(0, start).match(RegExp(group + "*$", "u"))!
-					let index = before.index!
-					let word = before[0] + value.slice(start).match(RegExp("^" + group + "*", "u"))![0]
-					searchAPI.search(
-						/^-*(\d|$)/.test(word) || (filter && !filter(index, index + word.length)) ? "" : word,
-						true,
-						true,
-						false,
-						undefined,
-						filter,
-						RegExp(group + "{2}", "u"),
-					)
-				}
-				noHighlight = false
+		container.style.zIndex = <any>-1
+		container.className = "word-matches"
+
+		editor.addListener("update", () => (noHighlight = true))
+		editor.addListener("selectionChange", ([start, end], value) => {
+			if (start < end || !editor.focused || noHighlight) searchAPI.search("")
+			else {
+				let group = `[_$\\p{L}\\d${includeHyphens && includeHyphens(start) ? "-" : ""}]`
+				let before = value.slice(0, start).match(RegExp(group + "*$", "u"))!
+				let index = before.index!
+				let word = before[0] + value.slice(start).match(RegExp("^" + group + "*", "u"))![0]
+				searchAPI.search(
+					/^-*(\d|$)/.test(word) || (filter && !filter(index, index + word.length)) ? "" : word,
+					true,
+					true,
+					false,
+					undefined,
+					filter,
+					RegExp(group + "{2}", "u"),
+				)
 			}
-		}),
-		{
-			setFilter(newFilter: SearchFilter) {
-				filter = newFilter
-			},
-		},
-	)
+			noHighlight = false
+		})
+	}
+	self.setFilter = newFilter => (filter = newFilter)
+	return self
+}
 
 export { highlightSelectionMatches, highlightCurrentWord }

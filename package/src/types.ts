@@ -1,27 +1,27 @@
-import * as Prism from "prismjs"
 import { BracketMatcher } from "./extensions/matchBrackets"
 import { TagMatcher } from "./extensions/matchTags"
 import { Cursor } from "./extensions/cursor"
 import { SearchWidget } from "./extensions/search"
 import { IndentGuides } from "./extensions/guides"
 import { ReadOnlyCodeFolding } from "./extensions/folding"
+import { TokenStream } from "./prism/types"
 
 export type EditorOptions = {
 	/** Language used for syntax highlighting. */
 	language: string
-	/** Tabsize for the editor. Defaults to `2`. */
+	/** Tabsize for the editor. @default 2 */
 	tabSize?: number | undefined
-	/** Whether the editor should insert spaces for indentation. Defaults to `true`. */
+	/** Whether the editor should insert spaces for indentation. @default true */
 	insertSpaces?: boolean | undefined
-	/** Whether line numbers should be shown. Defaults to `true`. */
+	/** Whether line numbers should be shown. @default true */
 	lineNumbers?: boolean | undefined
-	/** Whether the editor should be read only. Defaults to `false`. */
+	/** Whether the editor should be read only. @default false */
 	readOnly?: boolean | undefined
-	/** Whether the editor should have word wrap. Defaults to `false`. */
+	/** Whether the editor should have word wrap. @default false */
 	wordWrap?: boolean | undefined
-	/** Initial code to display in the editor. */
+	/** Code to display in the editor. */
 	value: string
-	/** @experimental Whether the editor uses right to left directionality. Defaults to `false`. */
+	/** @experimental Whether the editor uses right to left directionality. @default false */
 	rtl?: boolean
 	/** Function called when the code of the editor changes. */
 	onUpdate?: EditorEventMap["update"] | null
@@ -37,7 +37,7 @@ export type CommentTokens = {
 }
 
 export type Language = {
-	/** Comment tokens used by the language */
+	/** Comment tokens used by the language. */
 	comments?: CommentTokens
 	/**
 	 * Method called when a user executes a comment toggling command.
@@ -46,27 +46,23 @@ export type Language = {
 	 * @param value Current code in the editor.
 	 * @returns The comment tokens that should be used for this command.
 	 */
-	getComments?: (editor: PrismEditor, position: number, value: string) => CommentTokens
+	getComments?(editor: PrismEditor, position: number, value: string): CommentTokens
 	/**
 	 * Callbacks controlling the automatic indentation on new lines.
 	 * First function should return whether indentation should be increased.
 	 * Second function should return whether to add an extra line after the cursor.
 	 */
 	autoIndent?: [
-		((this: PrismEditor, selection: InputSelection, value: string) => boolean)?,
-		((this: PrismEditor, selection: InputSelection, value: string) => boolean)?,
+		((selection: InputSelection, value: string, editor: PrismEditor) => boolean)?,
+		((selection: InputSelection, value: string, editor: PrismEditor) => boolean)?,
 	]
 	/**
 	 * Function called when the user types `>`. Intended to auto close tags.
 	 * @returns string which will get inserted behind the cursor.
 	 */
-	autoCloseTags?(this: PrismEditor, selection: InputSelection, value: string): string | undefined
+	autoCloseTags?(selection: InputSelection, value: string, editor: PrismEditor): string | undefined
 }
 
-export type PrismType = Omit<
-	typeof Prism,
-	"highlight" | "highlightAll" | "highlightAllUnder" | "highlightElement"
->
 /**
  * Function called when a certain key is pressed.
  * If true is returned, `e.preventDefault()` and `e.stopImmediatePropagation()` is called automatically.
@@ -85,23 +81,23 @@ export type InputCommandCallback = (
 	selection: InputSelection,
 	value: string,
 ) => void | boolean
-export type InputSelection = readonly [number, number, "forward" | "backward" | "none"]
+export type InputSelection = [number, number, "forward" | "backward" | "none"]
 
 export interface Extension {
 	/** Function called when the extension is added or the options of the editor change. */
 	update(editor: PrismEditor, options: EditorOptions): any
 }
-export type TokenizeEnv = {
-	language: string
-	code: string
-	grammar: Prism.Grammar
-	tokens: (string | Prism.Token)[]
+
+export interface BasicExtension {
+	(editor: PrismEditor, options: EditorOptions): any
 }
 
+export type EditorExtension = Extension | BasicExtension
+
 export type EditorEventMap = {
-	update: (this: PrismEditor, value: string) => any
-	selectionChange: (this: PrismEditor, selection: InputSelection, value: string) => any
-	tokenize: (this: PrismEditor, env: TokenizeEnv) => any
+	update(this: PrismEditor, value: string): any
+	selectionChange(this: PrismEditor, selection: InputSelection, value: string): any
+	tokenize(this: PrismEditor, tokens: TokenStream, language: string, value: string): any
 }
 
 export interface EventHandler<EventMap extends Record<string, (...args: any) => any>> {
@@ -144,7 +140,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	/** True if the remove method has been called. */
 	readonly removed: boolean
 	/** Tokens currently displayed in the editor. */
-	readonly tokens: (Prism.Token | string)[]
+	readonly tokens: TokenStream
 	/** Object storing some of the extensions added to the editor. */
 	readonly extensions: {
 		matchBrackets?: BracketMatcher
@@ -171,7 +167,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	 */
 	setSelection(start: number, end?: number, direction?: "backward" | "forward" | "none"): void
 	/** Adds extensions to the editor and calls their update methods. */
-	addExtensions(...extensions: Extension[]): void
+	addExtensions(...extensions: EditorExtension[]): void
 	/** Removes the editor from the DOM and marks the editor as removed. */
 	remove(): void
 }

@@ -1,0 +1,45 @@
+{{ 0xBadFace }}
+{{ 42 }}
+{{ 3.14159 }}
+{{ 3e15 }}
+{{ 4.5E-4 }}
+{{ 0.2e+8 }}
+
+----------------------------------------------------
+
+[
+	["twig", [
+		["delimiter", "{{"],
+		["number", "0xBadFace"],
+		["delimiter", "}}"]
+	]],
+	["twig", [
+		["delimiter", "{{"],
+		["number", "42"],
+		["delimiter", "}}"]
+	]],
+	["twig", [
+		["delimiter", "{{"],
+		["number", "3.14159"],
+		["delimiter", "}}"]
+	]],
+	["twig", [
+		["delimiter", "{{"],
+		["number", "3e15"],
+		["delimiter", "}}"]
+	]],
+	["twig", [
+		["delimiter", "{{"],
+		["number", "4.5E-4"],
+		["delimiter", "}}"]
+	]],
+	["twig", [
+		["delimiter", "{{"],
+		["number", "0.2e+8"],
+		["delimiter", "}}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for hexadecimal and decimal numbers.

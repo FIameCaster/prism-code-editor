@@ -26,12 +26,12 @@ export interface SearchAPI {
 	 * @param str String to search for.
 	 * @param caseSensitive Whether or not the search is case sensetive.
 	 * @param wholeWord Whether or not matches must be surrounded by word boundries.
-	 * @param useRegExp If false, special characters will be escaped when creating the RegExp.
+	 * @param useRegExp If true, special characters won't be escaped when creating the RegExp.
 	 * @param selection Boundries to search between. If excluded, all the code is searched.
-	 * @param filter A function called for each match. If it returns false, the match won't be included.
-	 * Can also take an excluded position for backwards compatibility.
+	 * @param filter A function called for each match with the start and end positions of the match.
+	 * If it returns false, the match won't be included.
 	 * @param wholeWordBoundry Pattern controlling the behavior of whole word search. Best left
-	 * undefined, unless you know what you're doing Does nothing if `wholeWord` isn't set to `true`.
+	 * undefined unless you know what you're doing. Does nothing if `wholeWord` isn't set to `true`.
 	 * Defaults to `/[_\p{N}\p{L}]{2}/u`.
 	 * @returns An error message if the RegExp was invalid.
 	 */
@@ -41,7 +41,7 @@ export interface SearchAPI {
 		wholeWord?: boolean,
 		useRegExp?: boolean,
 		selection?: [number, number],
-		filter?: number | SearchFilter,
+		filter?: SearchFilter,
 		wholeWordBoundry?: RegExp,
 	): string | void
 	/** Container that all the search results are appended to. */
@@ -69,6 +69,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 		}
 
 	let regex: RegExp
+	let nodeCount = 0
 	span.append("")
 	editor.overlays.append(container)
 
@@ -78,20 +79,15 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 			if (!useRegExp) str = regexEscape(str)
 			const value = editor.value,
 				searchStr = selection ? value.slice(...selection) : value,
-				offset = selection ? selection[0] : 0,
-				flags = `gum${caseSensitive ? "" : "i"}`,
-				filterFn =
-					typeof filter == "number"
-						? (start: number, end: number) => start > filter || end <= filter
-						: filter
+				offset = selection ? selection[0] : 0
+
+			let match: RegExpExecArray | null,
+				l: number,
+				index: number,
+				i = 0
 
 			try {
-				let match: RegExpExecArray | null,
-					l: number,
-					index: number,
-					i = 0
-				matchPositions.length = 0
-				regex = RegExp(str, flags)
+				regex = RegExp(str, `gum${caseSensitive ? "" : "i"}`)
 				while ((match = regex.exec(searchStr))) {
 					l = match[0].length
 					index = match.index + offset
@@ -101,36 +97,39 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 						(testBoundary(value, index, pattern) || testBoundary(value, index + l, pattern))
 					)
 						continue
-					if (!filterFn || filterFn(index, index + l)) matchPositions[i++] = [index, index + l]
+					if (!filter || filter(index, index + l)) matchPositions[i++] = [index, index + l]
 				}
 			} catch (e) {
+				stopSearch()
 				return (<Error>e).message
-			} finally {
-				const l = Math.min(matchPositions.length * 2, 20000),
-					nodeCount = container.childNodes.length,
-					remainder = value.slice(l ? matchPositions[l / 2 - 1][1] : 0)
-
-				for (let i = nodes.length; i <= l; ) {
-					nodes[i++] = <HTMLSpanElement>span.cloneNode(true)
-					nodes[i++] = new Text()
-				}
-
-				for (let i = nodeCount - 1; i > l; ) nodes[i--].remove()
-				if (nodeCount <= l) container.append(...nodes.slice(nodeCount, l + 1))
-
-				// Diffing from bottom to top as well should be better
-				for (let i = 0, prevEnd = 0; i < l; ++i) {
-					const [start, end] = matchPositions[i / 2],
-						before = value.slice(prevEnd, start),
-						match = value.slice(start, (prevEnd = end))
-
-					if (before != nodeValues[i]) (<Text>nodes[i]).data = nodeValues[i] = before
-					if (match != nodeValues[++i]) (<Text>nodes[i].firstChild).data = nodeValues[i] = match
-				}
-
-				if (remainder != nodeValues[l]) (<Text>nodes[l]).data = nodeValues[l] = remainder
-				container.style.display = ""
 			}
+
+			if (!i) return stopSearch()
+			matchPositions.length = i
+
+			l = Math.min(i * 2, 20000)
+
+			for (let i = nodes.length; i <= l; ) {
+				nodes[i++] = <HTMLSpanElement>span.cloneNode(true)
+				nodes[i++] = new Text()
+			}
+
+			for (let i = nodeCount - 1; i > l; ) nodes[i--].remove()
+			if (nodeCount <= l) container.append(...nodes.slice(nodeCount, l + 1))
+
+			// Diffing from bottom to top as well should be better
+			for (let i = 0, prevEnd = 0; i < l; ++i) {
+				const [start, end] = matchPositions[i / 2],
+					before = value.slice(prevEnd, start),
+					match = value.slice(start, (prevEnd = end))
+
+				if (before != nodeValues[i]) (<Text>nodes[i]).data = nodeValues[i] = before
+				if (match != nodeValues[++i]) (<Text>nodes[i].firstChild).data = nodeValues[i] = match
+			}
+
+			;(<Text>nodes[l]).data = nodeValues[l] = value.slice(matchPositions[l / 2 - 1][1])
+			container.style.display = ""
+			nodeCount = l + 1
 		},
 		container,
 		get regex() {

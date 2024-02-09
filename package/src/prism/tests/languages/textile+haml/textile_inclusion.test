@@ -1,0 +1,42 @@
+:textile
+	<div></div>
+
+~
+	:textile
+		<div></div>
+
+----------------------------------------------------
+
+[
+	["filter-textile", [
+		["filter-name", ":textile"],
+		["text", [
+			["tag", [
+				["punctuation", "<"],
+				["tag", ["div"]],
+				["punctuation", ">"]
+			]],
+			["tag", [
+				["punctuation", "</"],
+				["tag", ["div"]],
+				["punctuation", ">"]
+			]]
+		]]
+	]],
+	["punctuation", "~"],
+	["filter-textile", [
+		["filter-name", ":textile"],
+		["text", [
+			["tag", [
+				["punctuation", "<"],
+				["tag", ["div"]],
+				["punctuation", ">"]
+			]],
+			["tag", [
+				["punctuation", "</"],
+				["tag", ["div"]],
+				["punctuation", ">"]
+			]]
+		]]
+	]]
+]

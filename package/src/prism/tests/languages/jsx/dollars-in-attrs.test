@@ -1,0 +1,24 @@
+<div $$="bar baz" />;
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["$$"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"bar baz",
+			["punctuation", "\""]
+		]],
+		["punctuation", "/>"]
+	]],
+	["punctuation", ";"]
+]
+
+----------------------------------------------------
+
+Checks that attribute names can contain $
+No issue filed

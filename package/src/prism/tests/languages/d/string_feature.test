@@ -1,0 +1,62 @@
+r"" x""
+r"fo\"o"c x"00 FBCD"w r"baz"d
+
+q"[fo"o
+bar]"
+q"(fo"o
+bar)"
+q"<fo"o
+bar>"
+q"{fo"o
+bar}"
+
+q"FOO
+Bar "baz"
+FOO"
+
+q"/fo"o
+bar/"
+q"|fo"o
+bar|"
+
+""
+"foo"c "bar"w "baz"d
+"fo\"o
+bar"
+`foo`
+
+q{foo}
+q{ q{bar} }
+
+----------------------------------------------------
+
+[
+	["string", "r\"\""],
+	["string", "x\"\""],
+
+	["string", "r\"fo\\\"o\"c"],
+	["string", "x\"00 FBCD\"w"],
+	["string", "r\"baz\"d"],
+
+	["string", "q\"[fo\"o\nbar]\""],
+	["string", "q\"(fo\"o\nbar)\""],
+	["string", "q\"<fo\"o\nbar>\""],
+	["string", "q\"{fo\"o\nbar}\""],
+
+	["string", "q\"FOO\nBar \"baz\"\nFOO\""],
+
+	["string", "q\"/fo\"o\nbar/\""],
+	["string", "q\"|fo\"o\nbar|\""],
+
+	["string", "\"\""],
+	["string", "\"foo\"c"], ["string", "\"bar\"w"], ["string", "\"baz\"d"],
+	["string", "\"fo\\\"o\nbar\""],
+	["string", "`foo`"],
+
+	["string", "q{foo}"],
+	["string", "q{ q{bar} }"]
+]
+
+----------------------------------------------------
+
+Checks for strings and token strings.

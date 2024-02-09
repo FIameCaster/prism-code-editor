@@ -1,0 +1,51 @@
+<div>{$foo}</div>
+<div class="{$foo}">
+___SMARTY1___{$foo}
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	["smarty", [
+		["delimiter", "{"],
+		["variable", "$foo"],
+		["delimiter", "}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["class"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["smarty", [
+				["delimiter", "{"],
+				["variable", "$foo"],
+				["delimiter", "}"]
+			]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+
+	"\n___SMARTY1___",
+	["smarty", [
+		["delimiter", "{"],
+		["variable", "$foo"],
+		["delimiter", "}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for Smarty inside Markup.

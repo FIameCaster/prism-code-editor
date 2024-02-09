@@ -1,0 +1,19 @@
+{{! foobar}}
+{{!-- foo bar baz --}}
+{{! foo
+bar }}
+{{!-- foo
+bar --}}
+
+----------------------------------------------------
+
+[
+	["handlebars", [["comment", "{{! foobar}}"]]],
+	["handlebars", [["comment", "{{!-- foo bar baz --}}"]]],
+	["handlebars", [["comment", "{{! foo\nbar }}"]]],
+	["handlebars", [["comment", "{{!-- foo\nbar --}}"]]]
+]
+
+----------------------------------------------------
+
+Checks for comments.

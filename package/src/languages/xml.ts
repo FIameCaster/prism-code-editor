@@ -1,5 +1,5 @@
 import { languageMap } from "../core"
-import { isBracketPair, openBracket, xmlClosingTag, xmlOpeningTag } from "./patterns"
+import { autoCloseTags, isBracketPair, openBracket, xmlClosingTag, xmlOpeningTag } from "./patterns"
 
 // Same as HTML, but without void tags
 languageMap.xml =
@@ -19,8 +19,7 @@ languageMap.xml =
 					isBracketPair.test(value[start - 1] + value[end]) ||
 					(xmlOpeningTag.test(value.slice(0, start)) && xmlClosingTag.test(value.slice(end))),
 			],
-			autoCloseTags([start, end], value) {
-				const match = start == end && (value.slice(0, start) + ">").match(xmlOpeningTag)
-				return match ? `</${match[1]}>` : ""
+			autoCloseTags: ([start, end], value, editor) => {
+				return autoCloseTags(editor, start, end, value, xmlOpeningTag)
 			},
 		}

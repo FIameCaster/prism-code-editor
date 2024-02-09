@@ -1,0 +1,29 @@
+'
+' Foo "bar"
+‘
+‘ Foobar
+’
+’ Foobar
+REM
+REM Foobar
+
+' multi-line _
+  comment
+
+----------------------------------------------------
+
+[
+	["comment", ["'"]],
+	["comment", ["' Foo \"bar\""]],
+	["comment", ["‘"]],
+	["comment", ["‘ Foobar"]],
+	["comment", ["’"]],
+	["comment", ["’ Foobar"]],
+	["comment", [["keyword", "REM"]]],
+	["comment", [["keyword", "REM"], " Foobar"]],
+	["comment", ["' multi-line _\n  comment"]]
+]
+
+----------------------------------------------------
+
+Checks for comments.

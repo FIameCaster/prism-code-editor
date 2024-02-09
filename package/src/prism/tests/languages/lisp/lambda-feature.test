@@ -1,0 +1,32 @@
+(lambda () ())
+(lambda () (foo bar))
+
+----------------------------------------------------
+
+[
+	["punctuation", "("],
+	["lambda", [
+		["keyword", "lambda"],
+		["punctuation", "("],
+		["punctuation", ")"]
+	]],
+	["punctuation", "("],
+	["punctuation", ")"],
+	["punctuation", ")"],
+
+	["punctuation", "("],
+	["lambda", [
+		["keyword", "lambda"],
+		["punctuation", "("],
+		["punctuation", ")"]
+	]],
+	["punctuation", "("],
+	["car", "foo"],
+	" bar",
+	["punctuation", ")"],
+	["punctuation", ")"]
+]
+
+----------------------------------------------------
+
+Checks for lambda.

@@ -1,0 +1,17 @@
+&amp;
+&thetasym;
+&#65;
+&#x41;
+&#x26f5;
+
+----------------------------------------------------
+
+<span class="token entity named-entity">&amp;amp;</span>
+<span class="token entity named-entity">&amp;thetasym;</span>
+<span class="token entity">&amp;#65;</span>
+<span class="token entity">&amp;#x41;</span>
+<span class="token entity">&amp;#x26f5;</span>
+
+----------------------------------------------------
+
+Checks for HTML/XML character entity references.

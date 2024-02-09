@@ -1,0 +1,35 @@
+<div style={{ marginLeft: `${sidePanelWidth}px` }}>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["style"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			["punctuation", "{"],
+			["literal-property", "marginLeft"],
+			["operator", ":"],
+			["template-string", [
+				["template-punctuation", "`"],
+				["interpolation", [
+					["interpolation-punctuation", "${"],
+					"sidePanelWidth",
+					["interpolation-punctuation", "}"]
+				]],
+				["string", "px"],
+				["template-punctuation", "`"]
+			]],
+			["punctuation", "}"],
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for template string with interpolation inside object inside JSX tag. See #1408

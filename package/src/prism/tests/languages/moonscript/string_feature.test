@@ -1,0 +1,51 @@
+""
+"MoonScript
+has multiline strings"
+
+"Hello, I am #{@name}!"
+
+''
+'foo
+bar'
+' #{no interpolation here} '
+
+[==[
+
+moon
+
+]==]
+[[(.-\)[^\]+$]]
+
+----------------------------------------------------
+
+[
+	["string", [
+		"\"\""
+	]],
+	["string", [
+		"\"MoonScript\nhas multiline strings\""
+	]],
+
+	["string", [
+		"\"Hello, I am ",
+		["interpolation", [
+			["interpolation-punctuation", "#{"],
+			["moonscript", [
+				["variable", "@name"]
+			]],
+			["interpolation-punctuation", "}"]
+		]],
+		"!\""
+	]],
+
+	["string", "''"],
+	["string", "'foo\nbar'"],
+	["string", "' #{no interpolation here} '"],
+
+	["string", "[==[\n\nmoon\n\n]==]"],
+	["string", "[[(.-\\)[^\\]+$]]"]
+]
+
+----------------------------------------------------
+
+Checks for strings and string interpolation.

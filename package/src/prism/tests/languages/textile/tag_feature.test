@@ -1,0 +1,16 @@
+<details></details>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["details"]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["details"]],
+		["punctuation", ">"]
+	]]
+]

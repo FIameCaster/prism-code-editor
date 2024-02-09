@@ -1,0 +1,79 @@
+import { languages } from '../core.js';
+import { extend, insertBefore } from '../utils/language.js';
+import { re } from '../utils/shared.js';
+import './javascript.js';
+import './javadoclike.js';
+import './typescript.js';
+
+var javascript = languages.js;
+
+var type = /\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})+\}/.source;
+var parameterPrefix = `(@(?:arg|argument|param|property)\\s+(?:${type}\\s+)?)`;
+
+insertBefore(
+	languages.jsdoc = extend('javadoclike', {
+		'parameter': {
+			// @param {string} foo - foo bar
+			pattern: RegExp(parameterPrefix + /(?:(?!\s)[$\w\xA0-\uFFFF.])+(?=\s|$)/.source),
+			lookbehind: true,
+			inside: {
+				'punctuation': /\./
+			}
+		}
+	}),
+	'keyword', {
+		'optional-parameter': {
+			// @param {string} [baz.foo="bar"] foo bar
+			pattern: RegExp(parameterPrefix + /\[(?:(?!\s)[$\w\xA0-\uFFFF.])+(?:=[^[\]]+)?\](?!\S)/.source),
+			lookbehind: true,
+			inside: {
+				'code': {
+					pattern: /(=)[\s\S]+(?=.)/,
+					lookbehind: true,
+					inside: javascript,
+					alias: 'language-javascript'
+				},
+				'punctuation': /[=[\]]/,
+				'parameter': {
+					pattern: /[\s\S]+/,
+					inside: {
+						'punctuation': /\./
+					}
+				}
+			}
+		},
+		'class-name': [
+			{
+				pattern: re(/(@(?:augments|class|extends|interface|memberof!?|template|this|typedef)\s+(?:<<0>>\s+)?)[A-Z]\w*(?:\.[A-Z]\w*)*/.source, [type]),
+				lookbehind: true,
+				inside: {
+					'punctuation': /\./
+				}
+			},
+			{
+				pattern: RegExp('(@[a-z]+\\s+)' + type),
+				lookbehind: true,
+				inside: {
+					'string': javascript.string,
+					'number': javascript.number,
+					'boolean': javascript.boolean,
+					'keyword': languages.ts.keyword,
+					'operator': /=>|\.{3}|[&|?:*]/,
+					'punctuation': /[.,;=<>{}()[\]]/
+				}
+			}
+		],
+		'example': {
+			pattern: /(@example\s+(?!\s))(?:[^@\s]|\s+(?!\s))+?(?=\s*(?:\*\s*)?(?:@\w|\*\/))/,
+			lookbehind: true,
+			inside: {
+				'code': {
+					pattern: /^([\t ]*(?:\*[ \t]*|(?!\*)))\S.*$/m,
+					lookbehind: true,
+					inside: javascript,
+					alias: 'language-javascript'
+				}
+			}
+		}
+	}
+);

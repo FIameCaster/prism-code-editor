@@ -1,0 +1,28 @@
+$foo
+$* $@ $# $? $$ $! $0
+${foo}
+$!!!! $????
+
+----------------------------------------------------
+
+[
+	["variable", "$foo"],
+	["variable", "$*"],
+	["variable", "$@"],
+	["variable", "$#"],
+	["variable", "$?"],
+	["variable", "$$"],
+	["variable", "$!"],
+	["variable", "$0"],
+	["variable", ["${foo}"]],
+	["variable", "$!"],
+	["operator", ["!"]],
+	["operator", ["!"]],
+	["operator", ["!"]],
+	["variable", "$?"],
+	"???"
+]
+
+----------------------------------------------------
+
+Checks for variables.

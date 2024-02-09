@@ -1,0 +1,63 @@
+""
+"Foo
+\"bar\"
+baz"
+''
+'Foo
+\'bar\'
+baz'
+'$bar ${4+2}'
+'The sum of $x and 3 is ${x + 3}'
+
+----------------------------------------------------
+
+[
+	["string", "\"\""],
+	["string", "\"Foo\n\\\"bar\\\"\nbaz\""],
+	["string-interpolation", [
+		["string", "''"]
+	]],
+	["string-interpolation", [
+		["string", "'Foo\n\\'bar\\'\nbaz'"]
+	]],
+	["string-interpolation", [
+		["string", "'"],
+		["interpolation", [
+			["interpolation-punctuation", "$"],
+			["expression", ["bar"]]
+		]],
+		["string", " "],
+		["interpolation", [
+			["interpolation-punctuation", "${"],
+			["expression", [
+				["number", "4"],
+				["operator", "+"],
+				["number", "2"]
+			]],
+			["interpolation-punctuation", "}"]
+		]],
+		["string", "'"]
+	]],
+	["string-interpolation", [
+		["string", "'The sum of "],
+		["interpolation", [
+			["interpolation-punctuation", "$"],
+			["expression", ["x"]]
+		]],
+		["string", " and 3 is "],
+		["interpolation", [
+			["interpolation-punctuation", "${"],
+			["expression", [
+				"x ",
+				["operator", "+"],
+				["number", "3"]
+			]],
+			["interpolation-punctuation", "}"]
+		]],
+		["string", "'"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for strings and string interpolation.

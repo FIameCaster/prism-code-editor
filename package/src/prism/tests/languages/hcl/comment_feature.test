@@ -1,0 +1,17 @@
+# foo bar
+// foo bar
+/*
+ * multi line
+ */
+
+----------------------------------------------------
+
+[
+	["comment", "# foo bar"],
+	["comment", "// foo bar"],
+	["comment", "/*\n * multi line\n */"]
+]
+
+----------------------------------------------------
+
+Checks for comments.

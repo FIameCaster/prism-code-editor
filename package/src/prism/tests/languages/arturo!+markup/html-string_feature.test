@@ -1,0 +1,29 @@
+{!html
+    <h1>Header</h1>
+}
+
+----------------------------------------------------
+
+[
+	["html-string", [
+		["string", "{!html"],
+		["embedded", [
+			["tag", [
+				["punctuation", "<"],
+				["tag", ["h1"]],
+				["punctuation", ">"]
+			]],
+			"Header",
+			["tag", [
+				["punctuation", "</"],
+				["tag", ["h1"]],
+				["punctuation", ">"]
+			]]
+		]],
+		["string", "}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for string literals with embedded HTML.

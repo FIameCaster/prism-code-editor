@@ -1,0 +1,39 @@
+after alias and case
+catch cond def
+defcallback
+defexception
+defimpl defmodule
+defp
+defprotocol
+defdelegate
+defmacro quote unquote
+defn defnp
+defstruct do else
+end fn for if
+import not or
+raise require rescue try
+unless use when
+
+----------------------------------------------------
+
+[
+	["keyword", "after"], ["keyword", "alias"], ["keyword", "and"], ["keyword", "case"],
+	["keyword", "catch"], ["keyword", "cond"], ["keyword", "def"],
+	["keyword", "defcallback"],
+	["keyword", "defexception"],
+	["keyword", "defimpl"], ["keyword", "defmodule"],
+	["keyword", "defp"],
+	["keyword", "defprotocol"],
+	["keyword", "defdelegate"],
+	["keyword", "defmacro"], ["keyword", "quote"], ["keyword", "unquote"],
+	["keyword", "defn"], ["keyword", "defnp"],
+	["keyword", "defstruct"], ["keyword", "do"], ["keyword", "else"],
+	["keyword", "end"], ["keyword", "fn"], ["keyword", "for"], ["keyword", "if"],
+	["keyword", "import"], ["keyword", "not"], ["keyword", "or"],
+	["keyword", "raise"], ["keyword", "require"], ["keyword", "rescue"], ["keyword", "try"],
+	["keyword", "unless"], ["keyword", "use"], ["keyword", "when"]
+]
+
+----------------------------------------------------
+
+Checks for all keywords.

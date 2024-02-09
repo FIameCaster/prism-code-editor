@@ -4,12 +4,13 @@ import type {
 	KeyCommandCallback,
 	Language,
 	InputCommandCallback,
-	TokenizeEnv,
 	EditorEventMap,
-	Extension,
 	InputSelection,
+	EditorExtension,
 } from "./types"
-import { Prism, languages } from "./prismCore"
+import { highlightTokens, languages, tokenizeText } from "./prism"
+import { Grammar, TokenStream } from "./prism/types"
+import { addTextareaListener } from "./utils/local"
 
 /**
  * Creates a code editor using the specified container and options.
@@ -22,20 +23,21 @@ import { Prism, languages } from "./prismCore"
  * @returns Object to interact with the created editor.
  */
 const createEditor = (
-	container?: ParentNode | string,
+	container?: ParentNode | string | null,
 	options?: Partial<EditorOptions>,
-	...extensions: Extension[]
+	...extensions: EditorExtension[]
 ): PrismEditor => {
 	let language: string,
-		grammar: Prism.Grammar,
+		grammar: Grammar,
 		containerEl = getElement(container),
 		prevLines: string[] = [],
 		activeLine: HTMLDivElement,
 		value = "",
 		activeLineNumber: number,
 		removed = false,
+		focused = false,
 		handleSelecionChange = true,
-		tokens: (Prism.Token | string)[] = [],
+		tokens: TokenStream = [],
 		readOnly: boolean
 
 	const scrollContainer = <HTMLDivElement>editorTemplate.cloneNode(true),
@@ -45,8 +47,6 @@ const createEditor = (
 		lines = <HTMLCollectionOf<HTMLDivElement>>wrapper.children,
 		currentOptions = <EditorOptions>{ language: "text" },
 		currentExtensions = new Set(extensions),
-		addTextareaListener = addEventListener.bind(textarea),
-		closingTag = "</span>",
 		listeners: {
 			[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
 		} = {
@@ -60,7 +60,7 @@ const createEditor = (
 						newLine.classList.add("active-line")
 						activeLine = newLine
 					}
-					overlays.classList.toggle("pce-no-selection", start == end)
+					updateClassName()
 				},
 			]),
 		}
@@ -68,15 +68,18 @@ const createEditor = (
 	const setOptions = (options: Partial<EditorOptions>) => {
 		;({ language, value = "" } = Object.assign(currentOptions, { value }, options))
 
-		const isNewGrammar = grammar != (grammar = languages[language])
-		if (!grammar) throw Error(`Language "${language}" has no grammar.`)
+		const newGrammar = languages[language]
+		const isNewGrammar = grammar != newGrammar
+		if (!newGrammar) throw Error(`Language '${language}' has no grammar.`)
 
-		currentExtensions.forEach(extension => extension.update(self, currentOptions))
-		scrollContainer.className = `prism-code-editor language-${language}${
-			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
-		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""}`
-
+		grammar = newGrammar
+		readOnly = !!currentOptions.readOnly
 		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
+		textarea.inputMode = readOnly ? "none" : ""
+		textarea.setAttribute("aria-readonly", <any>readOnly)
+		updateClassName()
+
+		updateExtensions()
 		if (isNewGrammar || value != textarea.value) {
 			focusRelatedTarget()
 			textarea.value = value
@@ -84,89 +87,63 @@ const createEditor = (
 			textarea.selectionEnd = 0
 			update()
 		}
-		overlays.classList.toggle("pce-readonly", (readOnly = !!currentOptions.readOnly))
-		textarea.inputMode = readOnly ? "none" : ""
-		textarea.setAttribute("aria-readonly", <any>readOnly)
-	}
-
-	/** Faster than `Prism.Token.stringify` since it doesn't run `wrap` hooks and can be safely split into lines. */
-	const highlight = () => {
-		let openingTags = "",
-			closingTags = "",
-			env = <TokenizeEnv>{ language, code: value, grammar }
-		Prism.hooks.run("before-tokenize", env)
-		tokens = env.tokens = Prism.tokenize(env.code, env.grammar)
-		Prism.hooks.run("after-tokenize", env)
-		dispatchEvent("tokenize", env)
-
-		const stringifyAll = (tokens: (string | Prism.Token)[]) => {
-			let str = "",
-				l = tokens.length
-			for (let i = 0; i < l; ) str += stringify(tokens[i++])
-			return str
-		}
-
-		const stringify = (token: Prism.TokenStream | Prism.Token): string => {
-			if (token instanceof Prism.Token) {
-				let { type, alias, content } = token,
-					className = alias ? " " + (typeof alias == "string" ? alias : alias.join(" ")) : "",
-					prevOpening = openingTags,
-					prevClosing = closingTags,
-					opening = `<span class="token ${
-						type + className + (type == "keyword" ? " keyword-" + content : "")
-					}">`
-
-				closingTags += closingTag
-				openingTags += opening
-				let contentStr = stringify(content)
-				openingTags = prevOpening
-				closingTags = prevClosing
-				return opening + contentStr + closingTag
-			}
-
-			return typeof token != "string"
-				? stringifyAll(token)
-				: (token = token.replace(/&/g, "&amp;").replace(/</g, "&lt;")).includes("\n") && closingTags
-				? token.replace(/\n/g, closingTags + "\n" + openingTags)
-				: token
-		}
-		return stringifyAll(tokens)
 	}
 
 	const update = () => {
-		const newLines = highlight().split("\n"),
-			l = newLines.length
+		tokens = tokenizeText(value, grammar)
+		dispatchEvent("tokenize", tokens, language, value)
+
+		let newLines = highlightTokens(tokens).split("\n")
+		let l = newLines.length
 		let start = 0,
-			end1 = newLines.length,
+			end1 = l,
 			end2 = prevLines.length,
 			newHTML = ""
 		while (newLines[start] == prevLines[start] && start < end1) ++start
 		while (end1 && newLines[--end1] == prevLines[--end2]);
 
 		// This is not needed, but significantly improves performance when only one line changed
-		start == end1 && start == end2 && (lines[++start].innerHTML = newLines[start - 1] + "\n")
+		if (start == end1 && start == end2) lines[++start].innerHTML = newLines[start - 1] + "\n"
 
-		for (let i = end2 < start ? end2 : start - 1; i < end1; )
-			newHTML += `<div class="pce-line" aria-hidden="true">${newLines[++i]}\n</div>`
-		for (let i = end1 < start ? end1 : start - 1; i < end2; i++) lines[start + 1].remove()
-		if (newHTML) lines[start].insertAdjacentHTML("afterend", newHTML)
-		for (let i = end1 < start ? end1 + 1 : start; i < l; )
-			lines[++i].setAttribute("data-line", <any>i)
-		scrollContainer.style.setProperty("--number-width", Math.ceil(Math.log10(l + 1)) + 0.001 + "ch")
+		let insertStart = end2 < start ? end2 : start - 1
+		let i = insertStart
 
-		handleSelecionChange = true
+		while (i < end1) newHTML += `<div class="pce-line" aria-hidden="true">${newLines[++i]}\n</div>`
+		for (i = end1 < start ? end1 : start - 1; i < end2; i++) lines[start + 1].remove()
+		if (newHTML) lines[insertStart + 1].insertAdjacentHTML("afterend", newHTML)
+		for (i = insertStart + 1; i < l; ) lines[++i].setAttribute("data-line", <any>i)
+		scrollContainer.style.setProperty("--number-width", Math.ceil(Math.log10(l + 1)) + ".001ch")
+
 		dispatchEvent("update", value)
-		dispatchSelection()
+		dispatchSelection(true)
 		setTimeout(setTimeout, 0, () => (handleSelecionChange = true))
 
 		prevLines = newLines
 		handleSelecionChange = false
 	}
 
+	const updateExtensions = (newExtensions?: EditorExtension[]) => {
+		;(newExtensions || currentExtensions).forEach(extension => {
+			if (typeof extension == "object") {
+				extension.update(self, currentOptions)
+				if (newExtensions) currentExtensions.add(extension)
+			} else {
+				extension(self, currentOptions)
+				if (!newExtensions) currentExtensions.delete(extension)
+			}
+		})
+	}
+
+	const updateClassName = ([start, end] = getInputSelection()) => {
+		scrollContainer.className = `prism-code-editor language-${language}${
+			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
+		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${
+			start == end ? "no" : "has"
+		}-selection ${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
+	}
+
 	const getInputSelection = () =>
 		selection || [textarea.selectionStart, textarea.selectionEnd, textarea.selectionDirection]
-
-	const focused = () => selectionChange == dispatchSelection
 
 	const keyCommandMap: Record<string, KeyCommandCallback | null> = {
 		Escape() {
@@ -179,10 +156,15 @@ const createEditor = (
 	// Safari focuses the textarea if you change its selection or value programmatically
 	const focusRelatedTarget = () =>
 		isWebKit &&
-		!focused() &&
+		!focused &&
 		addTextareaListener(
+			self,
 			"focus",
-			e => (e.relatedTarget ? (<HTMLElement>e.relatedTarget).focus() : textarea.blur()),
+			e => {
+				let relatedTarget = <HTMLElement>e.relatedTarget
+				if (relatedTarget) relatedTarget.focus()
+				else textarea.blur()
+			},
 			{ once: true },
 		)
 
@@ -190,9 +172,9 @@ const createEditor = (
 		name: T,
 		...args: Parameters<EditorEventMap[T]>
 	) => {
-		// @ts-ignore
+		// @ts-expect-error
 		for (const handler of listeners[name] || []) handler.apply(self, args)
-		// @ts-ignore
+		// @ts-expect-error
 		currentOptions[`on${name[0].toUpperCase()}${name.slice(1)}`]?.apply(self, args)
 	}
 
@@ -215,7 +197,7 @@ const createEditor = (
 		},
 		options: currentOptions,
 		get focused() {
-			return focused()
+			return focused
 		},
 		get removed() {
 			return removed
@@ -229,18 +211,13 @@ const createEditor = (
 		setOptions,
 		update,
 		getSelection: getInputSelection,
-		setSelection(start, end, direction) {
+		setSelection(start, end = start, direction) {
 			focusRelatedTarget()
-			textarea.setSelectionRange(start, end ?? start, direction)
+			textarea.setSelectionRange(start, end, direction)
 			dispatchSelection(true)
 		},
 		addExtensions(...extensions) {
-			extensions.forEach(extension => {
-				if (!currentExtensions.has(extension)) {
-					currentExtensions.add(extension)
-					extension.update(self, currentOptions)
-				}
-			})
+			updateExtensions(extensions)
 		},
 		addListener<T extends keyof EditorEventMap>(name: T, handler: EditorEventMap[T]) {
 			;(listeners[name] ||= new Set<any>()).add(handler)
@@ -254,31 +231,35 @@ const createEditor = (
 		},
 	}
 
-	addTextareaListener("keydown", e => {
+	addTextareaListener(self, "keydown", e => {
 		keyCommandMap[e.key]?.(e, getInputSelection(), value) && preventDefault(e)
 	})
 
-	addTextareaListener("beforeinput", e => {
+	addTextareaListener(self, "beforeinput", e => {
 		if (
 			readOnly ||
 			(e.inputType == "insertText" && inputCommandMap[e.data!]?.(e, getInputSelection(), value))
 		)
 			preventDefault(e)
 	})
-	addTextareaListener("input", () => {
+	addTextareaListener(self, "input", () => {
 		if (value != textarea.value) {
 			value = textarea.value
 			update()
 		}
 	})
-	addTextareaListener("blur", () => {
+	addTextareaListener(self, "blur", () => {
 		selectionChange = null
+		focused = false
+		updateClassName()
 	})
-	addTextareaListener("focus", () => {
+	addTextareaListener(self, "focus", () => {
 		selectionChange = dispatchSelection
+		focused = true
+		updateClassName()
 	})
 	// For browsers that support selectionchange on textareas
-	addTextareaListener("selectionchange", e => {
+	addTextareaListener(self, "selectionchange", e => {
 		dispatchSelection()
 		preventDefault(e)
 	})
@@ -301,11 +282,11 @@ const createEditor = (
 const editorFromPlaceholder = (
 	placeholder: string | HTMLElement,
 	options: Partial<EditorOptions>,
-	...extensions: Extension[]
+	...extensions: EditorExtension[]
 ) => {
 	const el = getElement(placeholder)!
 	const editor = createEditor(
-		undefined,
+		null,
 		Object.assign({ value: el.textContent }, options),
 		...extensions,
 	)
@@ -341,11 +322,6 @@ const languageMap: Record<string, Language> = {}
 const editorTemplate = createTemplate(
 	'<div class="pce-wrapper"><div class="pce-overlays"><textarea spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></div></div>',
 )
-/**
- * Sets whether editors should ignore tab or use it for indentation.
- * Users can always toggle this using Ctrl+M / Ctrl+Shift+M (Mac).
- */
-const setIgnoreTab = (newState: boolean) => (ignoreTab = newState)
 
 const preventDefault = (e: Event) => {
 	e.preventDefault()
@@ -354,15 +330,13 @@ const preventDefault = (e: Event) => {
 
 const setSelection = (s?: InputSelection) => (selection = s)
 
-let ignoreTab: boolean, selectionChange: null | (() => void), selection: InputSelection | undefined
+let selectionChange: null | (() => void), selection: InputSelection | undefined
 
 document.addEventListener("selectionchange", () => selectionChange?.())
 
 export {
 	createEditor,
 	languageMap,
-	setIgnoreTab,
-	ignoreTab,
 	numLines,
 	createTemplate,
 	isMac,

@@ -47,6 +47,11 @@
 	--bg-guide-indent: #eee6;
 }
 
+[class*="language-"],
+.token.spread {
+	color: #9cdcfe;
+}
+
 /* Tokens */
 .token.namespace {
 	opacity: 0.7;
@@ -59,6 +64,7 @@
 }
 
 .token.punctuation,
+.token.attr-equals,
 .token.operator,
 .token.combinator,
 .token.plain-text {
@@ -72,6 +78,10 @@
 	color: #b5cea8;
 }
 
+.token.regex,
+.language-regex,
+.token.regex .punctuation,
+.token.group,
 .token.string,
 .token.string-property.property,
 .token.char,
@@ -100,7 +110,7 @@
 }
 
 .token.function,
-.token.function .maybe-class-name {
+.token.alternation {
 	color: #dcdcaa;
 }
 
@@ -134,27 +144,20 @@
 	color: #d7ba7d;
 }
 
-.tag > .token.punctuation,
-.doctype .token.punctuation,
+.token.tag > .punctuation,
+.token.doctype .punctuation,
 .token.cdata {
 	color: #808080;
 }
 
 .token.attr-value,
-.token.attr-value .token.punctuation {
+.token.attr-value > .punctuation,
+.token.color {
 	color: #ce9178;
-}
-
-.token.attr-value .token.punctuation.attr-equals {
-	color: #d4d4d4;
 }
 
 .token.namespace {
 	color: #4ec9b0;
-}
-
-.token.color {
-	color: #ce9178;
 }
 
 .token.constant {
@@ -163,14 +166,8 @@
 
 /* Language overrides */
 
-[class*="language-"] {
-	color: #9cdcfe;
-}
-
-.token.regex,
-.language-regex,
-.token.char-set.class-name,
-.token.char-class .operator {
+.token.char-set,
+.token.regex .operator {
 	color: #d16969;
 }
 
@@ -204,9 +201,7 @@
 	color: #ce9178;
 }
 
-.token.group.punctuation,
-.token.quantifier.number,
-.token.char-class .punctuation {
+.token.quantifier {
 	color: #d7ba7d;
 }
 

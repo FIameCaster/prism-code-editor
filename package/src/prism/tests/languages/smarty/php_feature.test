@@ -1,0 +1,66 @@
+{php}
+   // including a php script directly from the template.
+   include('/path/to/display_weather.php');
+{/php}
+
+{* this template includes a {php} block that assign's the variable $varX *}
+{php}
+   global $foo, $bar;
+   if($foo == $bar){
+     echo 'This will be sent to browser';
+   }
+  // assign a variable to Smarty
+  $this->assign('varX','Toffee');
+{/php}
+{* output the variable *}
+<strong>{$varX}</strong> is my fav ice cream :-)
+
+----------------------------------------------------
+
+[
+	["smarty", [
+		["delimiter", "{"],
+		["keyword", "php"],
+		["delimiter", "}"]
+	]],
+	["embedded-php", "\n   // including a php script directly from the template.\n   include('/path/to/display_weather.php');\n"],
+	["smarty", [
+		["delimiter", "{/"],
+		["keyword", "php"],
+		["delimiter", "}"]
+	]],
+
+	["smarty-comment", "{* this template includes a {php} block that assign's the variable $varX *}"],
+
+	["smarty", [
+		["delimiter", "{"],
+		["keyword", "php"],
+		["delimiter", "}"]
+	]],
+	["embedded-php", "\n   global $foo, $bar;\n   if($foo == $bar){\n     echo 'This will be sent to browser';\n   }\n  // assign a variable to Smarty\n  $this->assign('varX','Toffee');\n"],
+	["smarty", [
+		["delimiter", "{/"],
+		["keyword", "php"],
+		["delimiter", "}"]
+	]],
+
+	["smarty-comment", "{* output the variable *}"],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["strong"]],
+		["punctuation", ">"]
+	]],
+	["smarty", [
+		["delimiter", "{"],
+		["variable", "$varX"],
+		["delimiter", "}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["strong"]],
+		["punctuation", ">"]
+	]],
+	" is my fav ice cream :-",
+	["markup-bracket", ")"]
+]

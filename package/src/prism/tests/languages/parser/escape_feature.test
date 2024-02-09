@@ -1,0 +1,66 @@
+^$
+^^
+^;
+^@
+^(
+^)
+^[
+^]
+^{
+^}
+^"
+^'
+^:
+^#
+^#20
+^#af
+^#AF
+
+^^date::now
+^$foobar
+
+<div class="foo^^bar">
+
+----------------------------------------------------
+
+[
+	["escape", "^$"],
+	["escape", "^^"],
+	["escape", "^;"],
+	["escape", "^@"],
+	["escape", "^("],
+	["escape", "^)"],
+	["escape", "^["],
+	["escape", "^]"],
+	["escape", "^{"],
+	["escape", "^}"],
+	["escape", "^\""],
+	["escape", "^'"],
+	["escape", "^:"],
+	["escape", "^#"],
+	["escape", "^#20"],
+	["escape", "^#af"],
+	["escape", "^#AF"],
+
+	["escape", "^^"], "date::now\n",
+	["escape", "^$"], "foobar\n\n",
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["class"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"foo",
+			["escape", "^^"],
+			"bar",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for escapes.

@@ -1,0 +1,125 @@
+var myDivElement = <div className="foo" />;
+var myElement = <MyComponent someProperty={true} />;
+<div {...foo} />
+<Tree.TreeNode.Item leaf={true}></Tree.TreeNode.Item>
+class Test extends Component {
+	render() {
+		return <p onClick={this.clickHandler}>Hello world.</p>;
+	}
+}
+
+----------------------------------------------------
+
+[
+	["keyword", "var"],
+	" myDivElement ",
+	["operator", "="],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["className"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"foo",
+			["punctuation", "\""]
+		]],
+		["punctuation", "/>"]
+	]],
+	["punctuation", ";"],
+
+	["keyword", "var"],
+	" myElement ",
+	["operator", "="],
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["class-name", "MyComponent"]
+		]],
+		["attr-name", ["someProperty"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			["boolean", "true"],
+			["punctuation", "}"]
+		]],
+		["punctuation", "/>"]
+	]],
+	["punctuation", ";"],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["spread", [
+			["punctuation", "{"],
+			["operator", "..."],
+			"foo",
+			["punctuation", "}"]
+		]],
+		["punctuation", "/>"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["class-name", "Tree.TreeNode.Item"]
+		]],
+		["attr-name", ["leaf"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			["boolean", "true"],
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", [
+			["class-name", "Tree.TreeNode.Item"]
+		]],
+		["punctuation", ">"]
+	]],
+
+	["keyword", "class"],
+	["class-name", ["Test"]],
+	["keyword", "extends"],
+	["class-name", ["Component"]],
+	["punctuation", "{"],
+
+	["function", ["render"]],
+	["punctuation", "("],
+	["punctuation", ")"],
+	["punctuation", "{"],
+
+	["keyword", "return"],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["attr-name", ["onClick"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			["keyword", "this"],
+			["punctuation", "."],
+			["property-access", ["clickHandler"]],
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]],
+	["plain-text", "Hello world."],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	["punctuation", ";"],
+
+	["punctuation", "}"],
+
+	["punctuation", "}"]
+]
+
+----------------------------------------------------
+
+Checks for TSX tags.

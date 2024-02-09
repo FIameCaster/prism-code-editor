@@ -1,0 +1,230 @@
+function Add1(a, b) { return <div>a + b</div> }
+
+type Bar = Foo<string>;
+
+function Add2(a, b) { return <div>a + b</div> }
+
+function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  event.preventDefault();
+}
+
+function handleChange(event: ChangeEvent<HTMLInputElement>) {
+  console.log(event.target.value);
+}
+
+function handleClick(event: MouseEvent) {
+  console.log(event.button);
+}
+
+export default function Form() {
+  return (
+    <form onSubmit={handleSubmit}>
+      <input onChange={handleChange} placeholder="Name" />
+      <button onClick={handleClick}></button>
+    </form>
+  );
+}
+
+----------------------------------------------------
+
+[
+	["keyword", "function"],
+	["function", [
+		["maybe-class-name", "Add1"]
+	]],
+	["punctuation", "("],
+	"a",
+	["punctuation", ","],
+	" b",
+	["punctuation", ")"],
+	["punctuation", "{"],
+	["keyword", "return"],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	["plain-text", "a + b"],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	["punctuation", "}"],
+
+	["keyword", "type"],
+	["class-name", ["Bar"]],
+	["operator", "="],
+	["maybe-class-name", "Foo"],
+	["operator", "<"],
+	["builtin", "string"],
+	["operator", ">"],
+	["punctuation", ";"],
+
+	["keyword", "function"],
+	["function", [
+		["maybe-class-name", "Add2"]
+	]],
+	["punctuation", "("],
+	"a",
+	["punctuation", ","],
+	" b",
+	["punctuation", ")"],
+	["punctuation", "{"],
+	["keyword", "return"],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	["plain-text", "a + b"],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+	["punctuation", "}"],
+
+	["keyword", "function"],
+	["function", ["handleSubmit"]],
+	["punctuation", "("],
+	"event",
+	["operator", ":"],
+	["maybe-class-name", "FormEvent"],
+	["operator", "<"],
+	["maybe-class-name", "HTMLFormElement"],
+	["operator", ">"],
+	["punctuation", ")"],
+	["punctuation", "{"],
+
+	"\n  event",
+	["punctuation", "."],
+	["function", ["preventDefault"]],
+	["punctuation", "("],
+	["punctuation", ")"],
+	["punctuation", ";"],
+
+	["punctuation", "}"],
+
+	["keyword", "function"],
+	["function", ["handleChange"]],
+	["punctuation", "("],
+	"event",
+	["operator", ":"],
+	["maybe-class-name", "ChangeEvent"],
+	["operator", "<"],
+	["maybe-class-name", "HTMLInputElement"],
+	["operator", ">"],
+	["punctuation", ")"],
+	["punctuation", "{"],
+
+	"\n  console",
+	["punctuation", "."],
+	["function", ["log"]],
+	["punctuation", "("],
+	"event",
+	["punctuation", "."],
+	["property-access", ["target"]],
+	["punctuation", "."],
+	["property-access", ["value"]],
+	["punctuation", ")"],
+	["punctuation", ";"],
+
+	["punctuation", "}"],
+
+	["keyword", "function"],
+	["function", ["handleClick"]],
+	["punctuation", "("],
+	"event",
+	["operator", ":"],
+	["maybe-class-name", "MouseEvent"],
+	["punctuation", ")"],
+	["punctuation", "{"],
+
+	"\n  console",
+	["punctuation", "."],
+	["function", ["log"]],
+	["punctuation", "("],
+	"event",
+	["punctuation", "."],
+	["property-access", ["button"]],
+	["punctuation", ")"],
+	["punctuation", ";"],
+
+	["punctuation", "}"],
+
+	["keyword", "export"],
+	["keyword", "default"],
+	["keyword", "function"],
+	["function", [
+		["maybe-class-name", "Form"]
+	]],
+	["punctuation", "("],
+	["punctuation", ")"],
+	["punctuation", "{"],
+
+	["keyword", "return"],
+	["punctuation", "("],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["form"]],
+		["attr-name", ["onSubmit"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			"handleSubmit",
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]],
+	["plain-text", "\n      "],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["input"]],
+		["attr-name", ["onChange"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			"handleChange",
+			["punctuation", "}"]
+		]],
+		["attr-name", ["placeholder"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"Name",
+			["punctuation", "\""]
+		]],
+		["punctuation", "/>"]
+	]],
+	["plain-text", "\n      "],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["button"]],
+		["attr-name", ["onClick"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			"handleClick",
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["button"]],
+		["punctuation", ">"]
+	]],
+	["plain-text", "\n    "],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["form"]],
+		["punctuation", ">"]
+	]],
+
+	["punctuation", ")"],
+	["punctuation", ";"],
+
+	["punctuation", "}"]
+]

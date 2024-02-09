@@ -1,0 +1,68 @@
+{% for foo in bar if baz %}{% endfor %}
+{%- if foo() -%}{%- endif -%}
+{% macro foobar() %}{% endmacro %}
+{{ foo is even or bar is odd }}
+
+----------------------------------------------------
+
+[
+	["twig", [
+		["delimiter", "{%"],
+		["tag-name", "for"],
+		" foo ",
+		["operator", "in"],
+		" bar ",
+		["keyword", "if"],
+		" baz ",
+		["delimiter", "%}"]
+	]],
+	["twig", [
+		["delimiter", "{%"],
+		["tag-name", "endfor"],
+		["delimiter", "%}"]
+	]],
+
+	["twig", [
+		["delimiter", "{%-"],
+		["tag-name", "if"],
+		" foo",
+		["punctuation", "("],
+		["punctuation", ")"],
+		["delimiter", "-%}"]
+	]],
+	["twig", [
+		["delimiter", "{%-"],
+		["tag-name", "endif"],
+		["delimiter", "-%}"]
+	]],
+
+	["twig", [
+		["delimiter", "{%"],
+		["tag-name", "macro"],
+		" foobar",
+		["punctuation", "("],
+		["punctuation", ")"],
+		["delimiter", "%}"]
+	]],
+	["twig", [
+		["delimiter", "{%"],
+		["tag-name", "endmacro"],
+		["delimiter", "%}"]
+	]],
+
+	["twig", [
+		["delimiter", "{{"],
+		" foo ",
+		["operator", "is"],
+		["keyword", "even"],
+		["operator", "or"],
+		" bar ",
+		["operator", "is"],
+		["keyword", "odd"],
+		["delimiter", "}}"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for keywords.

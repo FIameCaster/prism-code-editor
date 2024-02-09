@@ -1,0 +1,39 @@
+<script>
+	let str = `
+		<style>
+			.foo { color: blue; }
+		</style>
+	`;
+</script>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["script"]],
+		["punctuation", ">"]
+	]],
+	["script", [
+		["language-javascript", [
+			["keyword", "let"],
+			" str ",
+			["operator", "="],
+			["template-string", [
+				["template-punctuation", "`"],
+				["string", "\n\t\t<style>\n\t\t\t.foo { color: blue; }\n\t\t</style>\n\t"],
+				["template-punctuation", "`"]
+			]],
+			["punctuation", ";"]
+		]]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["script"]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for Javascript usage inside Markup, using <script> tags.

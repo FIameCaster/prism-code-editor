@@ -1,0 +1,27 @@
+/foo[bar]/igm
+//
+foo |
+[bar]*
+//igmuy
+//
+foo #bar
+[baz] # foo bar
+//
+
+----------------------------------------------------
+
+[
+	["regex", "/foo[bar]/igm"],
+	["regex", ["//\nfoo |\n[bar]*\n//igmuy"]],
+	["regex", [
+		"//\nfoo ",
+		["comment", "#bar"],
+		"\n[baz] ",
+		["comment", "# foo bar"],
+		"\n//"
+	]]
+]
+
+----------------------------------------------------
+
+Checks for regexps.

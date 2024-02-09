@@ -1,0 +1,299 @@
+@{
+    var quote = "The future depends on what you do today. - Mahatma Gandhi";
+}
+
+<p>@quote</p>
+
+@{
+    quote = "Hate cannot drive out hate, only love can do that. - Martin Luther King, Jr.";
+}
+
+<p>@quote</p>
+
+@{
+    void RenderName(string name)
+    {
+        <p>Name: <strong>@name</strong></p>
+    }
+
+    RenderName("Mahatma Gandhi");
+    RenderName("Martin Luther King, Jr.");
+}
+
+@{
+    var inCSharp = true;
+    <p>Now in HTML, was in C# @inCSharp</p>
+}
+
+@{
+    Func<dynamic, object> petTemplate = @<p>You have a pet named <strong>@item.Name</strong>.</p>;
+
+    var pets = new List<Pet>
+    {
+        new Pet { Name = "Rin Tin Tin" },
+        new Pet { Name = "Mr. Bigglesworth" },
+        new Pet { Name = "K-9" }
+    };
+}
+
+----------------------------------------------------
+
+[
+	["block", [
+		["keyword", "@"],
+		["csharp", [
+			["punctuation", "{"],
+
+			["class-name", [
+				["keyword", "var"]
+			]],
+			" quote ",
+			["operator", "="],
+			["string", "\"The future depends on what you do today. - Mahatma Gandhi\""],
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	["value", [
+		["keyword", "@"],
+		["csharp", ["quote"]]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["block", [
+		["keyword", "@"],
+		["csharp", [
+			["punctuation", "{"],
+
+			"\n    quote ",
+			["operator", "="],
+			["string", "\"Hate cannot drive out hate, only love can do that. - Martin Luther King, Jr.\""],
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	["value", [
+		["keyword", "@"],
+		["csharp", ["quote"]]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["block", [
+		["keyword", "@"],
+		["csharp", [
+			["punctuation", "{"],
+
+			["return-type", [
+				["keyword", "void"]
+			]],
+			["function", "RenderName"],
+			["punctuation", "("],
+			["class-name", [
+				["keyword", "string"]
+			]],
+			" name",
+			["punctuation", ")"],
+
+			["punctuation", "{"],
+
+			["html", [
+				["tag", [
+					["punctuation", "<"],
+					["tag", ["p"]],
+					["punctuation", ">"]
+				]],
+				"Name: ",
+				["tag", [
+					["punctuation", "<"],
+					["tag", ["strong"]],
+					["punctuation", ">"]
+				]],
+				["value", [
+					["keyword", "@"],
+					["csharp", ["name"]]
+				]],
+				["tag", [
+					["punctuation", "</"],
+					["tag", ["strong"]],
+					["punctuation", ">"]
+				]],
+				["tag", [
+					["punctuation", "</"],
+					["tag", ["p"]],
+					["punctuation", ">"]
+				]]
+			]],
+
+			["punctuation", "}"],
+
+			["function", "RenderName"],
+			["punctuation", "("],
+			["string", "\"Mahatma Gandhi\""],
+			["punctuation", ")"],
+			["punctuation", ";"],
+
+			["function", "RenderName"],
+			["punctuation", "("],
+			["string", "\"Martin Luther King, Jr.\""],
+			["punctuation", ")"],
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]]
+	]],
+
+	["block", [
+		["keyword", "@"],
+		["csharp", [
+			["punctuation", "{"],
+
+			["class-name", [
+				["keyword", "var"]
+			]],
+			" inCSharp ",
+			["operator", "="],
+			["boolean", "true"],
+			["punctuation", ";"],
+
+			["html", [
+				["tag", [
+					["punctuation", "<"],
+					["tag", ["p"]],
+					["punctuation", ">"]
+				]],
+				"Now in HTML, was in C# ",
+				["value", [
+					["keyword", "@"],
+					["csharp", ["inCSharp"]]
+				]],
+				["tag", [
+					["punctuation", "</"],
+					["tag", ["p"]],
+					["punctuation", ">"]
+				]]
+			]],
+
+			["punctuation", "}"]
+		]]
+	]],
+
+	["block", [
+		["keyword", "@"],
+		["csharp", [
+			["punctuation", "{"],
+
+			["class-name", [
+				"Func",
+				["punctuation", "<"],
+				["keyword", "dynamic"],
+				["punctuation", ","],
+				["keyword", "object"],
+				["punctuation", ">"]
+			]],
+			" petTemplate ",
+			["operator", "="],
+			["html", [
+				["delegate-operator", "@"],
+				["tag", [
+					["punctuation", "<"],
+					["tag", ["p"]],
+					["punctuation", ">"]
+				]],
+				"You have a pet named ",
+				["tag", [
+					["punctuation", "<"],
+					["tag", ["strong"]],
+					["punctuation", ">"]
+				]],
+				["value", [
+					["keyword", "@"],
+					["csharp", [
+						"item",
+						["punctuation", "."],
+						"Name"
+					]]
+				]],
+				["tag", [
+					["punctuation", "</"],
+					["tag", ["strong"]],
+					["punctuation", ">"]
+				]],
+				".",
+				["tag", [
+					["punctuation", "</"],
+					["tag", ["p"]],
+					["punctuation", ">"]
+				]]
+			]],
+			["punctuation", ";"],
+
+			["class-name", [
+				["keyword", "var"]
+			]],
+			" pets ",
+			["operator", "="],
+			["keyword", "new"],
+			["constructor-invocation", [
+				"List",
+				["punctuation", "<"],
+				"Pet",
+				["punctuation", ">"]
+			]],
+
+			["punctuation", "{"],
+
+			["keyword", "new"],
+			["constructor-invocation", ["Pet"]],
+			["punctuation", "{"],
+			" Name ",
+			["operator", "="],
+			["string", "\"Rin Tin Tin\""],
+			["punctuation", "}"],
+			["punctuation", ","],
+
+			["keyword", "new"],
+			["constructor-invocation", ["Pet"]],
+			["punctuation", "{"],
+			" Name ",
+			["operator", "="],
+			["string", "\"Mr. Bigglesworth\""],
+			["punctuation", "}"],
+			["punctuation", ","],
+
+			["keyword", "new"],
+			["constructor-invocation", ["Pet"]],
+			["punctuation", "{"],
+			" Name ",
+			["operator", "="],
+			["string", "\"K-9\""],
+			["punctuation", "}"],
+
+			["punctuation", "}"],
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]]
+	]]
+]

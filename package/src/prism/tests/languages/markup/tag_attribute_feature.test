@@ -1,0 +1,99 @@
+<div class="test" foo bar=baz>
+<div foo='bar'>
+<div class="foo
+bar
+baz">
+<div foo:bar=42>
+<div foo = 42 bar = "42">
+<div foo="=\"bar=baz/>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["class"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"test",
+			["punctuation", "\""]
+		]],
+		["attr-name", ["foo"]],
+		["attr-name", ["bar"]],
+		["attr-equals", "="],
+		["attr-value", ["baz"]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["foo"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "'"],
+			"bar",
+			["punctuation", "'"]
+		]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["class"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"foo\nbar\nbaz",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", [
+			["namespace", "foo:"],
+			"bar"
+		]],
+		["attr-equals", "="],
+		["attr-value", ["42"]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["foo"]],
+		["attr-equals", "="],
+		["attr-value", ["42"]],
+		["attr-name", ["bar"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"42",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["foo"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"=\\",
+			["punctuation", "\""]
+		]],
+		["attr-name", ["bar"]],
+		["attr-equals", "="],
+		["attr-value", ["baz"]],
+		["punctuation", "/>"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks for single-quoted, double-quoted and unquoted attributes, attributes without value and
+namespaced attributes.

@@ -1,0 +1,119 @@
+as;
+cH;
+comp;
+concurrent;
+constants;
+courier;
+cset;
+csets;
+default;
+define;
+else;
+embed;
+embedded;
+execution;
+exit;
+extender;
+for;
+foreach;
+forward;
+from;
+global;
+if;
+import;
+in;
+include;
+init;
+inputPort;
+install;
+instanceof;
+interface;
+is_defined;
+linkIn;
+linkOut;
+main;
+new;
+nullProcess;
+outputPort;
+over;
+private;
+provide;
+public;
+scope;
+sequential;
+service;
+single;
+spawn;
+synchronized;
+this;
+throw;
+throws;
+type;
+undef;
+until;
+while;
+with;
+
+----------------------------------------------------
+
+[
+	["keyword", "as"], ["punctuation", ";"],
+	["keyword", "cH"], ["punctuation", ";"],
+	["keyword", "comp"], ["punctuation", ";"],
+	["keyword", "concurrent"], ["punctuation", ";"],
+	["keyword", "constants"], ["punctuation", ";"],
+	["keyword", "courier"], ["punctuation", ";"],
+	["keyword", "cset"], ["punctuation", ";"],
+	["keyword", "csets"], ["punctuation", ";"],
+	["keyword", "default"], ["punctuation", ";"],
+	["keyword", "define"], ["punctuation", ";"],
+	["keyword", "else"], ["punctuation", ";"],
+	["keyword", "embed"], ["punctuation", ";"],
+	["keyword", "embedded"], ["punctuation", ";"],
+	["keyword", "execution"], ["punctuation", ";"],
+	["keyword", "exit"], ["punctuation", ";"],
+	["keyword", "extender"], ["punctuation", ";"],
+	["keyword", "for"], ["punctuation", ";"],
+	["keyword", "foreach"], ["punctuation", ";"],
+	["keyword", "forward"], ["punctuation", ";"],
+	["keyword", "from"], ["punctuation", ";"],
+	["keyword", "global"], ["punctuation", ";"],
+	["keyword", "if"], ["punctuation", ";"],
+	["keyword", "import"], ["punctuation", ";"],
+	["keyword", "in"], ["punctuation", ";"],
+	["keyword", "include"], ["punctuation", ";"],
+	["keyword", "init"], ["punctuation", ";"],
+	["keyword", "inputPort"], ["punctuation", ";"],
+	["keyword", "install"], ["punctuation", ";"],
+	["keyword", "instanceof"], ["punctuation", ";"],
+	["keyword", "interface"], ["punctuation", ";"],
+	["keyword", "is_defined"], ["punctuation", ";"],
+	["keyword", "linkIn"], ["punctuation", ";"],
+	["keyword", "linkOut"], ["punctuation", ";"],
+	["keyword", "main"], ["punctuation", ";"],
+	["keyword", "new"], ["punctuation", ";"],
+	["keyword", "nullProcess"], ["punctuation", ";"],
+	["keyword", "outputPort"], ["punctuation", ";"],
+	["keyword", "over"], ["punctuation", ";"],
+	["keyword", "private"], ["punctuation", ";"],
+	["keyword", "provide"], ["punctuation", ";"],
+	["keyword", "public"], ["punctuation", ";"],
+	["keyword", "scope"], ["punctuation", ";"],
+	["keyword", "sequential"], ["punctuation", ";"],
+	["keyword", "service"], ["punctuation", ";"],
+	["keyword", "single"], ["punctuation", ";"],
+	["keyword", "spawn"], ["punctuation", ";"],
+	["keyword", "synchronized"], ["punctuation", ";"],
+	["keyword", "this"], ["punctuation", ";"],
+	["keyword", "throw"], ["punctuation", ";"],
+	["keyword", "throws"], ["punctuation", ";"],
+	["keyword", "type"], ["punctuation", ";"],
+	["keyword", "undef"], ["punctuation", ";"],
+	["keyword", "until"], ["punctuation", ";"],
+	["keyword", "while"], ["punctuation", ";"],
+	["keyword", "with"], ["punctuation", ";"]
+]
+
+----------------------------------------------------
+
+Checks for all keywords.

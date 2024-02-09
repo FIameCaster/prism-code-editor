@@ -55,7 +55,9 @@
 }
 
 [class*="language-"],
-.token.punctuation {
+.token.punctuation,
+.token.spread,
+.token.attr-equals {
 	color: #f8f8f2;
 }
 
@@ -81,6 +83,7 @@
 .token.selector,
 .token.attr-name,
 .token.string,
+.token.string-property,
 .token.char,
 .token.builtin,
 .token.inserted {
@@ -108,6 +111,7 @@
 }
 
 .token.regex,
+.language-regex,
 .token.important {
 	color: #fd971f;
 }

@@ -1,0 +1,29 @@
+<Child options={{ track: true }}>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["class-name", "Child"]
+		]],
+		["attr-name", ["options"]],
+		["attr-equals", "="],
+		["script", [
+			["punctuation", "{"],
+			["punctuation", "{"],
+			["literal-property", "track"],
+			["operator", ":"],
+			["boolean", "true"],
+			["punctuation", "}"],
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]]
+]
+
+----------------------------------------------------
+
+Checks that attribute can contain an simple object.
+See #1235.

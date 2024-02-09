@@ -1,0 +1,21 @@
+// comment
+
+/**/
+/* comment */
+
+/*
+/*
+nested comment
+*/
+*/
+
+----------------------------------------------------
+
+[
+	["comment", "// comment"],
+
+	["comment", "/**/"],
+	["comment", "/* comment */"],
+
+	["comment", "/*\n/*\nnested comment\n*/\n*/"]
+]
