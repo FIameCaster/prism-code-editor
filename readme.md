@@ -3,7 +3,9 @@
 
 Lightweight, extensible code editor component for the web using [Prism](https://github.com/PrismJS/prism).
 
-Check out [the demos](https://prism-code-editor.netlify.app) and the [API Documentation](https://prism-code-editor.netlify.app/api)!
+[Demos](https://prism-code-editor.netlify.app) | [API Docs](https://prism-code-editor.netlify.app/api)
+
+Version 3 was recently released. Check [the release](https://github.com/FIameCaster/prism-code-editor/releases/tag/3.0.0) for what's changed.
 
 ## Why?
 
