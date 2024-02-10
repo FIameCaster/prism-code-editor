@@ -182,7 +182,7 @@ This won't add `js-templates` features to `typescript` because it extended `java
 If you need access to many languages, you can import the following entry points:
 
 - `prism-code-editor/prism/languages` for all languages (~190kB)
-- `prism-code-editor/prism/languages/common` for [42 common languages](https://github.com/FIameCaster/prism-code-editor/tree/main/src/prism/languages/common.js) (~30kB)
+- `prism-code-editor/prism/languages/common` for [42 common languages](https://github.com/FIameCaster/prism-code-editor/tree/main/package/src/prism/languages/common.js) (~30kB)
 
 Take this simple markdown editor as an example. Here, only the markdown grammar is required initially. The common languages are dynamically imported and once they load, the editor is updated, which will highlight all markdown code blocks.
 
@@ -365,7 +365,7 @@ There are many classes added to `.prism-code-editor` you can use to style the ed
 
 #### Creating a theme
 
-It's likely that none of the themes perfectly fit your website. A great solution is to modify one of the [included themes](https://github.com/FIameCaster/prism-code-editor/tree/main/src/themes) to better suit your website. Alternatively, you can import one of the themes and override some of the styles in your on stylesheets.
+It's likely that none of the themes perfectly fit your website. A great solution is to modify one of the [included themes](https://github.com/FIameCaster/prism-code-editor/tree/main/package/src/themes) to better suit your website. Alternatively, you can import one of the themes and override some of the styles in your on stylesheets.
 
 Below is some additional styling information:
 
