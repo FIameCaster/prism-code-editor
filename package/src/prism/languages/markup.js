@@ -11,7 +11,7 @@ var addLang = (grammar, lang) => {
 };
 
 var addInlined = (tagName, lang) => ({
-	pattern: RegExp(`(<${tagName}[^>]*>)(?:<!\\[CDATA\\[(?:[^\\]]|\\](?!\\]>))*\\]\\]>|(?!<!\\[CDATA\\[)[\\s\\S])*?(?=<\\/${tagName}>)`, 'gi'),
+	pattern: RegExp(`(<${tagName}[^>]*>)(?!</${tagName}>)(?:<!\\[CDATA\\[(?:[^\\]]|\\](?!\\]>))*\\]\\]>|(?!<!\\[CDATA\\[)[\\s\\S])+?(?=</${tagName}>)`, 'gi'),
 	lookbehind: true,
 	greedy: true,
 	inside: addLang({
@@ -25,7 +25,7 @@ var addInlined = (tagName, lang) => ({
 });
 
 var addAttribute = (attrName, lang) => ({
-	pattern: RegExp(`((?:^|["'\\s])(?:${attrName})\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s'">=]+)`, 'i'),
+	pattern: RegExp(`((?:^|["'\\s])(?:${attrName})\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s'"=]+)`, 'i'),
 	lookbehind: true,
 	inside: addLang({
 		'punctuation': /^["']|["']$/,
