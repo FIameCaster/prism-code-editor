@@ -86,10 +86,10 @@ insertBefore(markdown, 'prolog', {
 			// ```optional language
 			// code block
 			// ```
-			pattern: /^```[\s\S]*?^```$/mg,
+			pattern: /^(```+)[^`][\s\S]*?^\1`*$/mg,
 			greedy: true,
 			inside: {
-				'punctuation': /^```+|```$/,
+				'punctuation': /^```+|```+$/,
 				'code-language': /^.+/,
 				'code-block': /(?!^)[\s\S]+(?=\n)/,
 				[tokenize](code, grammar) {
