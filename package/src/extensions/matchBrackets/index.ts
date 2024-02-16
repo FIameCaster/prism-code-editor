@@ -51,7 +51,7 @@ export const matchBrackets = (rainbowBrackets = true) => {
 	const pairMap: number[] = (self.pairs = [])
 	const matchBrackets = (tokens: TokenStream) => {
 		pairMap.length = brackets.length = bracketIndex = 0
-		matchRecursive(tokens, 0)
+		matchRecursive(tokens, 0, 0)
 		if (rainbowBrackets) {
 			for (let i = 0, bracket: Bracket; (bracket = brackets[i]); ) {
 				let alias = bracket[0].alias
@@ -62,7 +62,7 @@ export const matchBrackets = (rainbowBrackets = true) => {
 			}
 		}
 	}
-	const matchRecursive = (tokens: TokenStream, position: number) => {
+	const matchRecursive = (tokens: TokenStream, position: number, level: number) => {
 		let stack: [number, number][] = []
 		let sp = 0
 		let token: string | Token
@@ -73,7 +73,7 @@ export const matchBrackets = (rainbowBrackets = true) => {
 					content = token.content
 
 				if (Array.isArray(content)) {
-					matchRecursive(content, position)
+					matchRecursive(content, position, sp + level)
 				} else if ((token.alias || type) == "punctuation") {
 					let charCode = content.charCodeAt(length - 1),
 						isOpen = !!openingCharCodes[charCode]
@@ -86,7 +86,8 @@ export const matchBrackets = (rainbowBrackets = true) => {
 								let [index, charCode1] = stack[--i]
 								if (charCode - charCode1 < 3 && charCode - charCode1 > 0) {
 									pairMap[(pairMap[bracketIndex] = index)] = bracketIndex
-									brackets[bracketIndex][2] = brackets[index][2] = sp = i
+									brackets[bracketIndex][2] = brackets[index][2] = i + level
+									sp = i
 									i = 0
 								}
 							}
