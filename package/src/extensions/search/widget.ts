@@ -1,5 +1,5 @@
 import { InputSelection, BasicExtension } from "../.."
-import { isChrome, isMac, createTemplate, preventDefault } from "../../core"
+import { isChrome, isMac, createTemplate, preventDefault, setSelection } from "../../core"
 import { regexEscape, getLines, getModifierCode } from "../../utils"
 import { addTextareaListener } from "../../utils/local"
 import { createReplaceAPI } from "./replace"
@@ -43,6 +43,7 @@ export const searchWidget = (): SearchWidget => {
 		searchSelection: [number, number] | undefined,
 		isOpen: boolean,
 		currentSelection: InputSelection,
+		prevUserSelection: InputSelection,
 		prevMargin: number,
 		selectNext = false,
 		marginTop: number
@@ -54,6 +55,7 @@ export const searchWidget = (): SearchWidget => {
 			replaceAPI = createReplaceAPI(editor)
 
 		const startSearch = (selectMatch?: boolean) => {
+			if (selectMatch) setSelection(prevUserSelection)
 			const error = replaceAPI.search(
 					findInput.value,
 					matchCase,
@@ -63,6 +65,7 @@ export const searchWidget = (): SearchWidget => {
 				),
 				index = error ? -1 : selectNext ? replaceAPI.next() : replaceAPI.closest()
 
+			setSelection()
 			current.data = <any>index + 1
 			total.data = <any>replaceAPI.matches.length
 			findContainer.classList.toggle("pce-error", !!error)
@@ -91,6 +94,10 @@ export const searchWidget = (): SearchWidget => {
 			}
 		}
 
+		const selectionChange = (selection: InputSelection) => {
+			if (editor.focused) prevUserSelection = selection
+		}
+
 		const beforeinput = () => {
 			if (searchSelection) currentSelection = selection()
 		}
@@ -117,6 +124,8 @@ export const searchWidget = (): SearchWidget => {
 				isOpen = true
 				if (marginTop == null) prevMargin = marginTop = getStyleValue(wrapper, "marginTop")
 				editor.addListener("update", input)
+				editor.addListener("selectionChange", selectionChange)
+				prevUserSelection = selection()
 				addTextareaListener(editor, "beforeinput", beforeinput)
 				container.style.display = "flex"
 				updateMargin()
@@ -131,6 +140,7 @@ export const searchWidget = (): SearchWidget => {
 				isOpen = false
 				replaceAPI.stopSearch()
 				editor.removeListener("update", input)
+				editor.removeListener("selectionChange", selectionChange)
 				textarea.removeEventListener("beforeinput", beforeinput)
 				container.style.display = "none"
 				updateMargin()
