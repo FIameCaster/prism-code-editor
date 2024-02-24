@@ -34,8 +34,7 @@ const cursorTemplate = createTemplate(
  * This is used by the {@link defaultCommands} extension to keep the cursor in view while typing.
  */
 export const cursorPosition = () => {
-	let shouldScroll = false,
-		cEditor: PrismEditor,
+	let cEditor: PrismEditor,
 		prevBefore = " ",
 		prevAfter = " "
 
@@ -51,10 +50,6 @@ export const cursorPosition = () => {
 			if (prevBefore != newBefore) before.data = prevBefore = newBefore
 			if (prevAfter != newAfter) after.data = prevAfter = newAfter
 			if (cursorContainer.parentNode != activeLine) activeLine.prepend(cursorContainer)
-			if (shouldScroll) {
-				shouldScroll = false
-				scrollIntoView()
-			}
 		},
 		scrollIntoView = () => scrollToEl(cEditor, cursor)
 
@@ -63,8 +58,8 @@ export const cursorPosition = () => {
 		cEditor = editor
 
 		editor.extensions.cursor = self
-		addTextareaListener(editor, "beforeinput", e => {
-			shouldScroll = /history/.test(e.inputType)
+		addTextareaListener(editor, "input", e => {
+			if (/history/.test((<InputEvent>e).inputType)) scrollIntoView()
 		})
 
 		if (editor.activeLine) selectionChange(editor.getSelection())

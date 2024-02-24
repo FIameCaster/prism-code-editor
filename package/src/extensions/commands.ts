@@ -1,6 +1,6 @@
 /** @module commands */
 
-import { EditorOptions, InputSelection, BasicExtension } from ".."
+import { EditorOptions, InputSelection, BasicExtension, PrismEditor } from ".."
 import { isMac, preventDefault, languageMap } from "../core"
 import {
 	getLanguage,
@@ -9,6 +9,7 @@ import {
 	getLines,
 	regexEscape,
 	getModifierCode,
+	prevSelection,
 } from "../utils"
 import { addTextareaListener } from "../utils/local"
 
@@ -372,4 +373,134 @@ const defaultCommands =
 		)
 	}
 
-export { defaultCommands, setIgnoreTab, ignoreTab }
+export interface EditHistory extends BasicExtension {
+	/** Clears the history stack. Probably necessary after changing the value of the editor. */
+	clear(): void
+	/**
+	 * Sets the active entry relative to the current entry.
+	 *
+	 * @param offset The position you want to move to relative to the current entry.
+	 *
+	 * `EditHistory.go(-1)` would be equivalent to an undo while `EditHistory.go(1)` would
+	 * be equivalent to a redo.
+	 *
+	 * If there's no entry at the specified position, the call does nothing.
+	 */
+	go(offset: number): void
+	/**
+	 * Returns whether or not there exists an entry at the specified offset relative to the
+	 * current entry.
+	 *
+	 * This method can be used to determine whether a call to {@link EditHistory.go} with the
+	 * same offset will succeed or do nothing.
+	 */
+	has(offset: number): void
+}
+
+/**
+ * History extension that overrides the undo/redo behavior of the browser.
+ *
+ * It should be noted that the history stack is not automatically cleared when the editors
+ * value is changed programmatically using {@link PrismEditor.setOptions}. Instead you can
+ * clear the stack any time using {@link EditorHistory.clear}.
+ *
+ * Once added to an editor, this extension can be accessed from `editor.extensions.history`.
+ *
+ * If you want to create a new editor with different extensions while keeping the undo/redo
+ * history of an old editor, you can! Just add the old editor's history extension instance
+ * to the new editor. Keep in mind that this will fully break the undo/redo behavior of the
+ * old editor.
+ *
+ * @param historyLimit The maximum size of the history stack. Defaults to 999.
+ */
+const editHistory = (historyLimit = 999) => {
+	let sp = 0
+	let currentEditor: PrismEditor
+	let allowMerge: boolean
+	let isTyping = false
+	let prevInputType: string
+	let isMerge: boolean
+	let textarea: HTMLTextAreaElement
+	let getSelection: PrismEditor["getSelection"]
+
+	const stack: [string, InputSelection, InputSelection?][] = []
+	const update = (index: number) => {
+		if (index >= historyLimit) {
+			index--
+			stack.shift()
+		}
+		stack.splice((sp = index), historyLimit, [currentEditor.value, getSelection()])
+	}
+	const setEditorState = (index: number) => {
+		if (stack[index]) {
+			textarea.value = stack[index][0]
+			textarea.setSelectionRange(...stack[index][index < sp ? 2 : 1]!)
+			textarea.dispatchEvent(new Event("input"))
+			currentEditor.extensions.cursor?.scrollIntoView()
+			sp = index
+			allowMerge = false
+		}
+	}
+
+	const self: EditHistory = (editor, options) => {
+		editor.extensions.history = self
+		currentEditor = editor
+		getSelection = editor.getSelection
+		textarea || update(0)
+		textarea = editor.textarea
+
+		editor.addListener("selectionChange", () => {
+			allowMerge = isTyping
+			isTyping = false
+		})
+		editor.addListener("update", () => (isTyping = true))
+
+		addTextareaListener(editor, "beforeinput", e => {
+			let data = e.data
+			let inputType = e.inputType
+			if (data == " " && inputType == "insertText") inputType = "insertSpace"
+
+			if (/history/.test(inputType)) {
+				setEditorState(sp + (inputType[7] == "U" ? -1 : 1))
+				preventDefault(e)
+			} else if (
+				!(isMerge =
+					allowMerge && prevInputType == inputType && e.isTrusted && !data?.includes("\n"))
+			) {
+				stack[sp][2] = prevSelection || getSelection()
+			}
+			prevInputType = inputType
+		})
+		addTextareaListener(editor, "input", e => {
+			if (e.isTrusted && !/history/.test((<InputEvent>e).inputType)) update(sp + <any>!isMerge)
+		})
+		addTextareaListener(editor, "keydown", e => {
+			if (!options.readOnly) {
+				const code = getModifierCode(e)
+				const keyCode = e.keyCode
+				const isUndo = code == mod && keyCode == 90
+				const isRedo =
+					(code == mod + 8 && keyCode == 90) || (!isMac && code == mod && keyCode == 89)
+				if (isUndo) {
+					setEditorState(sp - 1)
+					preventDefault(e)
+				} else if (isRedo) {
+					setEditorState(sp + 1)
+					preventDefault(e)
+				}
+			}
+		})
+	}
+
+	self.clear = () => {
+		update(0)
+		allowMerge = false
+	}
+
+	self.has = offset => sp + offset in stack
+	self.go = offset => setEditorState(sp + offset)
+
+	return self
+}
+
+export { defaultCommands, setIgnoreTab, ignoreTab, editHistory }

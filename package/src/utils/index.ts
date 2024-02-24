@@ -1,8 +1,10 @@
 import { InputSelection, PrismEditor } from ".."
 import { numLines, isChrome, isWebKit, setSelection } from "../core"
 
+let prevSelection: InputSelection | 0
+
 /** Escapes all special regex characters with a backslash and returns the escaped string. */
-const regexEscape = (str: string) => str.replace(/[$+?|.^*(){}[\]\\]/g, "\\$&")
+const regexEscape = (str: string) => str.replace(/[$+?|.^*()[\]{}\\]/g, "\\$&")
 
 /** Returns the string between the position and the last \n. */
 const getLineBefore = (text: string, position: number) =>
@@ -95,8 +97,9 @@ const insertText = (
 ) => {
 	if (options.readOnly) return
 	focused || textarea.focus()
+	prevSelection = getSelection()
 	const selection: InputSelection | 0 =
-		newCursorStart != null ? [newCursorStart, newCursorEnd ?? newCursorStart, getSelection()[2]] : 0
+		newCursorStart != null ? [newCursorStart, newCursorEnd ?? newCursorStart, prevSelection[2]] : 0
 	if (start != null) textarea.setSelectionRange(start, end ?? start)
 
 	// Bug inserting new lines at the end if the editor ends with an empty line
@@ -128,6 +131,7 @@ const insertText = (
 		textarea.setSelectionRange(...selection)
 		setSelection()
 	}
+	prevSelection = 0
 }
 
 /**
@@ -151,4 +155,5 @@ export {
 	getLanguage,
 	insertText,
 	getModifierCode,
+	prevSelection,
 }

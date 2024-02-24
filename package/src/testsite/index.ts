@@ -1,5 +1,5 @@
 import { createEditor, EditorOptions, PrismEditor } from ".."
-import { defaultCommands } from "../extensions/commands"
+import { defaultCommands, editHistory } from "../extensions/commands"
 import { copyButton } from "../extensions/copyButton"
 import "../prism/languages/js-templates"
 import "../prism/languages/jsdoc"
@@ -44,6 +44,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			highlightSelectionMatches(),
 			searchWidget(),
 			defaultCommands(),
+			editHistory(),
 		),
 	startCode = `<!DOCTYPE html>
 <html lang="en">

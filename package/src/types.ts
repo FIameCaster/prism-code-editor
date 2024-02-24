@@ -5,6 +5,7 @@ import { SearchWidget } from "./extensions/search"
 import { IndentGuides } from "./extensions/guides"
 import { ReadOnlyCodeFolding } from "./extensions/folding"
 import { TokenStream } from "./prism/types"
+import { EditHistory } from "./extensions/commands"
 
 export type EditorOptions = {
 	/** Language used for syntax highlighting. */
@@ -149,6 +150,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 		searchWidget?: SearchWidget
 		indentGuides?: IndentGuides
 		codeFold?: ReadOnlyCodeFolding
+		history?: EditHistory
 	}
 	/**
 	 * Set new options for the editor. Ommitted properties will use their previous value.
