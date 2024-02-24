@@ -1,4 +1,4 @@
-import { isChrome, PrismEditor } from ".."
+import { isChrome, PrismEditor } from "../index.js"
 
 const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
 	const style1 = editor.scrollContainer.style,

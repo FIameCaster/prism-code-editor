@@ -1,6 +1,6 @@
-import { regexEscape } from "../../utils"
-import { createTemplate } from "../../core"
-import { PrismEditor } from "../../types"
+import { regexEscape } from "../../utils/index.js"
+import { createTemplate } from "../../core.js"
+import { PrismEditor } from "../../types.js"
 
 const template = createTemplate(
 	"",

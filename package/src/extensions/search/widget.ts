@@ -1,8 +1,8 @@
-import { InputSelection, BasicExtension } from "../.."
-import { isChrome, isMac, createTemplate, preventDefault, setSelection } from "../../core"
-import { regexEscape, getLines, getModifierCode } from "../../utils"
-import { addTextareaListener } from "../../utils/local"
-import { createReplaceAPI } from "./replace"
+import { InputSelection, BasicExtension } from "../../index.js"
+import { isChrome, isMac, createTemplate, preventDefault, setSelection } from "../../core.js"
+import { regexEscape, getLines, getModifierCode } from "../../utils/index.js"
+import { addTextareaListener } from "../../utils/local.js"
+import { createReplaceAPI } from "./replace.js"
 
 const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
 

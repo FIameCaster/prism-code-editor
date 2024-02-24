@@ -1,4 +1,4 @@
-import { tokenize, rest, Token } from "./core"
+import { tokenize, rest, Token } from "./core.js"
 
 /**
  * A token stream is an array of strings and {@link Token} objects.

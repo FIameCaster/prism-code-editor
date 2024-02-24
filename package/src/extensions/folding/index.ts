@@ -1,11 +1,11 @@
 /** @module code-folding */
 
-import { Extension, PrismEditor, numLines } from "../.."
-import { getLineBefore } from "../../utils"
-import { createTemplate, languageMap } from "../../core"
-import { BracketMatcher } from "../matchBrackets"
-import { TagMatcher } from "../matchTags"
-import { TokenStream, Token } from "../../prism"
+import { Extension, PrismEditor, numLines } from "../../index.js"
+import { getLineBefore } from "../../utils/index.js"
+import { createTemplate, languageMap } from "../../core.js"
+import { BracketMatcher } from "../matchBrackets/index.js"
+import { TagMatcher } from "../matchTags.js"
+import { TokenStream, Token } from "../../prism/index.js"
 
 /**
  * Callback used to add extra foldable ranges to an editor.

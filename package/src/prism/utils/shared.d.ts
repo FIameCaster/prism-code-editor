@@ -1,4 +1,4 @@
-import { GrammarToken } from "../types";
+import { GrammarToken } from "../types.js";
 
 export declare const clikeComment: () => GrammarToken;
 export declare const clikeString: () => GrammarToken;
@@ -14,7 +14,7 @@ export declare const boolean: RegExp;
  * @param pattern the given pattern.
  * @param replacements a list of replacement which can be inserted into the given pattern.
  * @returns the pattern with all placeholders replaced with their corresponding replacements.
- * @example replace(/a<<0>>a/.source, [/b+/.source]) === /a(?:b+)a/.source
+ * @example replace(/a<0>a/.source, [/b+/.source]) === /a(?:b+)a/.source
  */
 export declare const replace: (pattern: string, replacements: string[]) => string;
 

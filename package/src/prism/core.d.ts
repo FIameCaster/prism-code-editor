@@ -1,4 +1,4 @@
-import type { Grammar, TokenName, TokenStream, GrammarToken, GrammarSymbols, CustomTokenizer } from "./types"
+import type { Grammar, TokenName, TokenStream, GrammarToken, GrammarSymbols, CustomTokenizer } from "./types.js"
 
 /**
  * The symbol used to add a grammar that will get appended to this grammar.

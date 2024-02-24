@@ -1,7 +1,7 @@
 /** @module match-brackets */
 
-import { BasicExtension } from "../.."
-import { Token, TokenStream } from "../../prism"
+import { BasicExtension } from "../../index.js"
+import { Token, TokenStream } from "../../prism/index.js"
 
 const openingCharCodes: boolean[] = []
 const closingCharCodes: boolean[] = []

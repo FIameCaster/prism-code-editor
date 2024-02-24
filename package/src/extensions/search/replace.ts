@@ -1,7 +1,7 @@
-import { PrismEditor } from "../.."
-import { insertText } from "../../utils"
-import { addTextareaListener, scrollToEl } from "../../utils/local"
-import { SearchAPI, createSearchAPI } from "./search"
+import { PrismEditor } from "../../index.js"
+import { insertText } from "../../utils/index.js"
+import { addTextareaListener, scrollToEl } from "../../utils/local.js"
+import { SearchAPI, createSearchAPI } from "./search.js"
 
 /**
  * Object with methods useful for performing a search

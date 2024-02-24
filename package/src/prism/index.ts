@@ -7,5 +7,5 @@ export {
 	tokenizeText,
 	withoutTokenizer,
 	Token,
-} from "./core"
-export * from "./types"
+} from "./core.js"
+export * from "./types.js"

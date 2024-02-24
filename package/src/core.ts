@@ -7,10 +7,9 @@ import type {
 	EditorEventMap,
 	InputSelection,
 	EditorExtension,
-} from "./types"
-import { highlightTokens, languages, tokenizeText } from "./prism"
-import { Grammar, TokenStream } from "./prism/types"
-import { addTextareaListener } from "./utils/local"
+} from "./types.js"
+import { highlightTokens, languages, tokenizeText, Grammar, TokenStream } from "./prism/index.js"
+import { addTextareaListener } from "./utils/local.js"
 
 /**
  * Creates a code editor using the specified container and options.
@@ -139,7 +138,7 @@ const createEditor = (
 			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
 		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${
 			start == end ? "no" : "has"
-		}-selection ${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
+		}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
 	}
 
 	const getInputSelection = () =>

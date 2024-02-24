@@ -1,15 +1,15 @@
-import { EditorOptions, PrismEditor, createEditor } from ".."
-import { getElement } from "../core"
-import { defaultCommands } from "../extensions/commands.ts"
-import { copyButton } from "../extensions/copyButton/index.ts"
-import { readOnlyCodeFolding } from "../extensions/folding/index.ts"
-import { indentGuides } from "../extensions/guides.ts"
-import { highlightBracketPairs } from "../extensions/matchBrackets/highlight.ts"
-import { matchBrackets } from "../extensions/matchBrackets/index.ts"
-import { matchTags } from "../extensions/matchTags.ts"
-import { highlightSelectionMatches } from "../extensions/search/selection.ts"
-import { searchWidget } from "../extensions/search/widget.ts"
-import { loadTheme } from "../themes"
+import { EditorOptions, PrismEditor, createEditor } from "../index.js"
+import { getElement } from "../core.js"
+import { defaultCommands } from "../extensions/commands.js"
+import { copyButton } from "../extensions/copyButton/index.js"
+import { readOnlyCodeFolding } from "../extensions/folding/index.js"
+import { indentGuides } from "../extensions/guides.js"
+import { highlightBracketPairs } from "../extensions/matchBrackets/highlight.js"
+import { matchBrackets } from "../extensions/matchBrackets/index.js"
+import { matchTags } from "../extensions/matchTags.js"
+import { highlightSelectionMatches } from "../extensions/search/selection.js"
+import { searchWidget } from "../extensions/search/widget.js"
+import { loadTheme } from "../themes/index.js"
 
 export type SetupOptions = Partial<EditorOptions> & { theme: string }
 
@@ -53,7 +53,7 @@ const minimalEditor = (
 	const shadow = el.shadowRoot || el.attachShadow({ mode: "open" })
 	const editor = createEditor()
 
-	Promise.all([import("./styles.ts"), loadTheme(options.theme)]).then(([style, theme]) => {
+	Promise.all([import("./styles"), loadTheme(options.theme)]).then(([style, theme]) => {
 		if (!editor.removed) {
 			addStyles(shadow, style.default)
 			addStyles(shadow, theme || "", "theme")
@@ -82,7 +82,7 @@ const basicEditor = (
 
 	const editor = minimalEditor(container, options, readyCallback)
 
-	import("../extensions/search/selection.ts").then(mod => {
+	import("../extensions/search/selection").then(mod => {
 		editor.addExtensions(mod.highlightSelectionMatches())
 	})
 

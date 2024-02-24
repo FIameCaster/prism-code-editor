@@ -1,6 +1,6 @@
 /** @module web-component */
 
-import { PrismEditor } from "./types"
+import { PrismEditor } from "./types.js"
 import {
 	SetupOptions,
 	basicEditor,
@@ -8,7 +8,7 @@ import {
 	minimalEditor,
 	readonlyEditor,
 	updateTheme,
-} from "./setups"
+} from "./setups/index.js"
 
 const attributeMap = {
 	language: [(value: string | null) => value || "text"],

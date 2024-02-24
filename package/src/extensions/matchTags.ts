@@ -1,9 +1,9 @@
 /** @module match-tags */
 
-import { PrismEditor, BasicExtension } from ".."
-import { Token, TokenStream } from "../prism"
-import { getClosestToken } from "../utils"
-import { addTextareaListener } from "../utils/local"
+import { PrismEditor, BasicExtension } from "../index.js"
+import { Token, TokenStream } from "../prism/index.js"
+import { getClosestToken } from "../utils/index.js"
+import { addTextareaListener } from "../utils/local.js"
 
 const voidlessLangs = "xml,rss,atom,jsx,tsx".split(",")
 const voidTags = "area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr".split(",")

@@ -1,7 +1,7 @@
 /** @module guides */
 
-import { createTemplate } from "../core"
-import { Extension, PrismEditor } from "../types"
+import { createTemplate } from "../core.js"
+import { Extension, PrismEditor } from "../types.js"
 
 const template = createTemplate(
 	'<div style="position:relative;display:inline-block"> </div>',

@@ -1,5 +1,5 @@
-import { BasicExtension } from "../.."
-import { SearchAPI, SearchFilter, createSearchAPI } from "./search"
+import { BasicExtension } from "../../index.js"
+import { SearchAPI, SearchFilter, createSearchAPI } from "./search.js"
 
 export interface SelectionMatchHighlighter extends BasicExtension {
 	/**

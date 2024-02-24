@@ -1,7 +1,7 @@
 /** @module commands */
 
-import { EditorOptions, InputSelection, BasicExtension, PrismEditor } from ".."
-import { isMac, preventDefault, languageMap } from "../core"
+import { EditorOptions, InputSelection, BasicExtension, PrismEditor } from "../index.js"
+import { isMac, preventDefault, languageMap } from "../core.js"
 import {
 	getLanguage,
 	insertText,
@@ -10,8 +10,8 @@ import {
 	regexEscape,
 	getModifierCode,
 	prevSelection,
-} from "../utils"
-import { addTextareaListener } from "../utils/local"
+} from "../utils/index.js"
+import { addTextareaListener } from "../utils/local.js"
 
 let ignoreTab = false
 const clipboard = navigator.clipboard

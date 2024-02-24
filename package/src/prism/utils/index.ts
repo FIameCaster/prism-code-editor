@@ -1,2 +1,2 @@
-export { clone, insertBefore, extend } from "./language"
-export { embeddedIn } from "./templating"
+export { clone, insertBefore, extend } from "./language.js"
+export { embeddedIn } from "./templating.js"

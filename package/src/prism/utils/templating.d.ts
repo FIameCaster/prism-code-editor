@@ -1,5 +1,5 @@
-import { tokenize } from ".."
-import { CustomTokenizer, Grammar, TokenStream } from "../types"
+import { tokenize } from "../index.js"
+import { CustomTokenizer, Grammar, TokenStream } from "../types.js"
 
 /**
  * Custom tokenizer for languages that are embedded in another language.

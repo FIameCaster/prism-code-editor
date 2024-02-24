@@ -1,4 +1,4 @@
-export * from "./types"
+export * from "./types.js"
 export {
 	createEditor,
 	editorFromPlaceholder,
@@ -7,4 +7,4 @@ export {
 	isWebKit,
 	languageMap,
 	numLines,
-} from "./core"
+} from "./core.js"

@@ -1,9 +1,9 @@
 /** @module highlight-brackets */
 
-import { BasicExtension } from "../.."
-import { Bracket, BracketMatcher } from "./"
-import { getClosestToken } from "../../utils"
-import { addTextareaListener } from "../../utils/local"
+import { BasicExtension } from "../../index.js"
+import { Bracket, BracketMatcher } from "./index.js"
+import { getClosestToken } from "../../utils/index.js"
+import { addTextareaListener } from "../../utils/local.js"
 
 /**
  * Extension adding a `selectionChange` handler to highlight the closest bracket pair.

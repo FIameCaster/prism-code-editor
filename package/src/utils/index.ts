@@ -1,5 +1,5 @@
-import { InputSelection, PrismEditor } from ".."
-import { numLines, isChrome, isWebKit, setSelection } from "../core"
+import { InputSelection, PrismEditor } from "../index.js"
+import { numLines, isChrome, isWebKit, setSelection } from "../core.js"
 
 let prevSelection: InputSelection | 0
 

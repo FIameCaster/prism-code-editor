@@ -1,11 +1,11 @@
-import { BracketMatcher } from "./extensions/matchBrackets"
-import { TagMatcher } from "./extensions/matchTags"
-import { Cursor } from "./extensions/cursor"
-import { SearchWidget } from "./extensions/search"
-import { IndentGuides } from "./extensions/guides"
-import { ReadOnlyCodeFolding } from "./extensions/folding"
-import { TokenStream } from "./prism/types"
-import { EditHistory } from "./extensions/commands"
+import { BracketMatcher } from "./extensions/matchBrackets/index.js"
+import { TagMatcher } from "./extensions/matchTags.js"
+import { Cursor } from "./extensions/cursor.js"
+import { SearchWidget } from "./extensions/search/widget.js"
+import { IndentGuides } from "./extensions/guides.js"
+import { ReadOnlyCodeFolding } from "./extensions/folding/index.js"
+import { TokenStream } from "./prism/types.js"
+import { EditHistory } from "./extensions/commands.js"
 
 export type EditorOptions = {
 	/** Language used for syntax highlighting. */

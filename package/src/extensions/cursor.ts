@@ -1,10 +1,10 @@
 /** @module cursor */
 
-import { BasicExtension, InputSelection, PrismEditor } from ".."
-import { createTemplate } from "../core"
-import { getLineBefore } from "../utils"
-import { addTextareaListener, scrollToEl } from "../utils/local"
-import { defaultCommands } from "./commands"
+import { BasicExtension, InputSelection, PrismEditor } from "../index.js"
+import { createTemplate } from "../core.js"
+import { getLineBefore } from "../utils/index.js"
+import { addTextareaListener, scrollToEl } from "../utils/local.js"
+import { defaultCommands } from "./commands.js"
 
 /** Postion of the cursor relative to the editors overlays. */
 export type CursorPosition = {

@@ -1,4 +1,4 @@
-import type { Grammar, GrammarTokens, TokenName, TokenStream } from "../types"
+import type { Grammar, GrammarTokens, TokenName, TokenStream } from "../types.js"
 
 /**
  * Creates a deep clone of the given grammar definition.

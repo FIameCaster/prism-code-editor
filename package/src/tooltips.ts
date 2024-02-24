@@ -1,6 +1,6 @@
-import { PrismEditor } from "."
-import { createTemplate } from "./core"
-import { cursorPosition } from "./extensions/cursor"
+import { PrismEditor } from "./index.js"
+import { createTemplate } from "./core.js"
+import { cursorPosition } from "./extensions/cursor.js"
 
 const template = /* @__PURE__ */ createTemplate(
 	"<div></div>",
