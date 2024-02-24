@@ -106,12 +106,8 @@ const fullEditor = (
 		editor.removed || addStyles(el.shadowRoot!, module.default)
 	})
 
-	import("../extensions/search/index.ts").then(mod => {
-		editor.addExtensions(mod.highlightSelectionMatches(), mod.searchWidget())
-	})
-
-	import("../extensions/matchTags.ts").then(mod => {
-		editor.addExtensions(mod.matchTags())
+	import("./full").then(mod => {
+		editor.addExtensions(...mod.full())
 	})
 
 	return editor
