@@ -4,7 +4,7 @@ import { createTemplate } from "../../core"
 import { BasicExtension } from "../../types"
 
 const template = createTemplate(
-		'<button dir="ltr" style="display:none;" class="pce-copy" aria-label="Copy"><svg width="1.2em" viewbox="0 0 48 48" overflow="visible" stroke-width="4" stroke-linecap="round" fill="none" stroke="currentColor"><rect x="16" y="16" width="30" height="30" rx="3"/><path d="M32 9V5a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v24a3 3 0 0 0 3 3h4"/></svg></button>',
+		'<button type="button" dir="ltr" style="display:none;" class="pce-copy" aria-label="Copy"><svg width="1.2em" viewbox="0 0 48 48" overflow="visible" stroke-width="4" stroke-linecap="round" fill="none" stroke="currentColor"><rect x="16" y="16" width="30" height="30" rx="3"/><path d="M32 9V5a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v24a3 3 0 0 0 3 3h4"/></svg></button>',
 		"display:flex;align-items:flex-start;justify-content:flex-end;",
 	),
 	clipboard = navigator.clipboard

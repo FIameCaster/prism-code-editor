@@ -4,8 +4,12 @@ import { regexEscape, getLines, getModifierCode } from "../../utils"
 import { addTextareaListener } from "../../utils/local"
 import { createReplaceAPI } from "./replace"
 
+const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
+
 const template = createTemplate(
-	'<div dir="ltr" class="prism-search"><button aria-expanded="false" title="Toggle Replace" class="pce-expand"></button><div spellcheck="false"><div><div class="pce-input pce-find"><input autocorrect="off" autocapitalize="off" placeholder="Find" aria-label="Find"><button class="prev-match" title="Previous Match (Shift+Enter)"></button><button class="next-match" title="Next Match (Enter)"></button><div class="search-error"></div></div><button class="pce-close" title="Close (Esc)"></button></div><div class="pce-input pce-replace"><input autocorrect="off" autocapitalize="off" placeholder="Replace" aria-label="Replace"><button title="(Enter)">Replace</button><button>All</button></div><div class="pce-options"><div class="pce-match-count">0<span> of </span>0</div><button aria-pressed="false" class="pce-regex"><span aria-hidden="true"></span></button><button aria-pressed="false"><span aria-hidden="true">Aa</span></button><button aria-pressed="false" class="pce-whole"><span aria-hidden="true">ab</span></button><button aria-pressed="false" class="pce-in-selection"></button></div></div></div>',
+	`<div dir="ltr" class="prism-search"><button aria-expanded="false" type="button" title="Toggle Replace" class="pce-expand"></button><div spellcheck="false"><div><div class="pce-input pce-find"><input autocorrect="off" autocapitalize="off" placeholder="Find" aria-label="Find"><button class="prev-match" type="button" title="Previous Match (Shift+Enter)"></button><button class="next-match" type="button" title="Next Match (Enter)"></button><div class="search-error"></div></div><button class="pce-close" type="button" title="Close (Esc)"></button></div><div class="pce-input pce-replace"><input autocorrect="off" autocapitalize="off" placeholder="Replace" aria-label="Replace"><button type="button" title="(Enter)">Replace</button><button type="button" title="(${
+		isMac ? "Cmd" : "Ctrl+Alt"
+	}+Enter)">All</button></div><div class="pce-options"><div class="pce-match-count">0<span> of </span>0</div><button aria-pressed="false" class="pce-regex" type="button" title="RegExp Search${shortcut}R)"><span aria-hidden="true"></span></button><button aria-pressed="false" type="button" title="Preserve Case${shortcut}P)"><span aria-hidden="true">Aa</span></button><button aria-pressed="false" class="pce-whole" type="button" title="Match Whole Word${shortcut}W)"><span aria-hidden="true">ab</span></button><button aria-pressed="false" class="pce-in-selection" type="button" title="Find in Selection${shortcut}L)"></button></div></div></div>`,
 	"display:none;align-items:flex-start;justify-content:flex-end;",
 	"prism-search-container",
 )
@@ -223,14 +227,6 @@ export const searchWidget = (): SearchWidget => {
 				},
 			],
 		])
-
-		const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
-
-		matchCaseEl.title = `Preserve Case${shortcut}P)`
-		wholeWordEl.title = `Match Whole Word${shortcut}W)`
-		useRegExpEl.title = `RegExp Search${shortcut}R)`
-		inSelectionEl.title = `Find in Selection${shortcut}L)`
-		replaceAllEl.title = `(${isMac ? "Cmd" : "Ctrl+Alt"}+Enter)`
 
 		addTextareaListener(editor, "keydown", keydown)
 
