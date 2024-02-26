@@ -2,9 +2,9 @@ import { languages } from '../core.js';
 import { boolean, clikeComment } from '../utils/shared.js';
 
 languages.dataweave = {
-	'url': /\b[A-Za-z]+:\/\/[\w/:.?=&-]+|\burn:[\w:.?=&-]+/,
+	'url': /\b[a-zA-Z]+:\/\/[\w/:.?=&-]+|\burn:[\w:.?=&-]+/,
 	'property': {
-		pattern: /(?:\b\w+#)?(?:"(?:\\.|[^\\"\n])*"|\b\w+)(?=\s*[:@])/g,
+		pattern: /(?:\b\w+#)?(?:"(?:\\.|[^\\\n"])*"|\b\w+)(?=\s*[:@])/g,
 		greedy: true
 	},
 	'string': {
@@ -18,13 +18,13 @@ languages.dataweave = {
 	},
 	'comment': clikeComment(),
 	'regex': {
-		pattern: /\/(?:[^\\\/\n]|\\[^\n])+\//g,
+		pattern: /\/(?:[^\\/\n]|\\[^\n])+\//g,
 		greedy: true
 	},
 	'keyword': /\b(?:and|as|at|case|do|else|fun|if|input|is|match|not|ns|null|or|output|type|unless|update|using|var)\b/,
 	'function': /\b[A-Z_]\w*(?=\s*\()/i,
 	'number': /-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
-	'punctuation': /[{}[\];(),.:@]/,
+	'punctuation': /[()[\]{}.,:;@]/,
 	'operator': /<<|>>|->|[<>~=]=?|!=|--?-?|\+\+?|!|\?/,
 	'boolean': boolean,
 };

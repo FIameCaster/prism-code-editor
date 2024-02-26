@@ -13,8 +13,8 @@ var class0 = {
 	// simpler. The difference is that if a comma is the last iteration of the loop, then the terminal must be
 	// followed by a long identifier.
 	pattern: re(
-		/((?:^|[^:]):\s*)<<0>>(?:\s*(?:(?:\*|->)\s*<<0>>|,\s*<<0>>(?:(?=\s*(?:[*,]|->))|(?!\s*(?:[*,]|->))\s+<<1>>)))*/.source,
-		[replace(/(?:'[\w']*|<<0>>|\((?:[^()]|\([^()]*\))*\)|\{(?:[^{}]|\{[^{}]*\})*\})(?:\s+<<0>>)*/.source, [longId]), longId],
+		/((?:^|[^:]):\s*)<0>(?:\s*(?:(?:\*|->)\s*<0>|,\s*<0>(?:(?=\s*(?:[*,]|->))|(?!\s*(?:[*,]|->))\s+<1>)))*/.source,
+		[replace(/(?:'[\w']*|<0>|\((?:[^()]|\([^()]*\))*\)|\{(?:[^{}]|\{[^{}]*\})*\})(?:\s+<0>)*/.source, [longId]), longId],
 		'gi'
 	),
 	lookbehind: true,
@@ -25,7 +25,7 @@ class0.inside = languages.smlnj = languages.sml = {
 	// allow one level of nesting
 	'comment': /\(\*(?:[^*(]|\*(?!\))|\((?!\*)|\(\*(?:[^*(]|\*(?!\))|\((?!\*))*\*\))*\*\)/,
 	'string': {
-		pattern: /#?"(?:[^"\\]|\\.)*"/g,
+		pattern: /#?"(?:\\.|[^\\"])*"/g,
 		greedy: true
 	},
 
@@ -47,13 +47,13 @@ class0.inside = languages.smlnj = languages.sml = {
 		lookbehind: true,
 	},
 
-	'number': /~?\b(?:\d+(?:\.\d+)?(?:e~?\d+)?|0x[\da-f]+)\b/i,
+	'number': /~?\b(?:\d+(?:\.\d+)?(?:e~?\d+)?|0x[a-f\d]+)\b/i,
 	'word': {
-		pattern: /\b0w(?:\d+|x[\da-f]+)\b/i,
+		pattern: /\b0w(?:\d+|x[a-f\d]+)\b/i,
 		alias: 'constant'
 	},
 
 	'boolean': /\b(?:false|true)\b/i,
-	'operator': /\.{3}|:[>=:]|=>?|->|[<>]=?|[!+\-*/^#|@~]/,
+	'operator': /\.{3}|:[>=:]|=>?|->|[<>]=?|[!*/^#|@~+-]/,
 	'punctuation': clikePunctuation
 };

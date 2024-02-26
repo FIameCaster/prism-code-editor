@@ -68,10 +68,10 @@ languages.batch = {
 				'parameter': parameter,
 				'variable': [
 					variable,
-					/\w+(?=(?:[*\/%+\-&^|]|<<|>>)?=)/
+					/\w+(?=(?:[*/%&^|+-]|<<|>>)?=)/
 				],
 				'number': number,
-				'operator': /[*\/%+\-&^|]=?|<<=?|>>=?|[!~_=]/,
+				'operator': /[*/%&^|+-]=?|<<=?|>>=?|[!~_=]/,
 				'punctuation': /[()',]/
 			}
 		},

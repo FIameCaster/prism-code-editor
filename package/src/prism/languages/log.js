@@ -8,7 +8,7 @@ import { languages } from '../core.js';
 languages.log = {
 	'string': {
 		// Single-quoted strings must not be confused with plain text. E.g. Can't isn't Susan's Chris' toy
-		pattern: /"(?:[^"\\\n]|\\.)*"|'(?![st] | \w)(?:[^'\\\n]|\\.)*'/g,
+		pattern: /"(?:\\.|[^\\\n"])*"|'(?![st] | \w)(?:\\.|[^\\\n'])*'/g,
 		greedy: true,
 	},
 
@@ -19,8 +19,8 @@ languages.log = {
 		alias: 'language-javastacktrace',
 		inside: languages['javastacktrace'] || {
 			'keyword': /\bat\b/,
-			'function': /[a-z_][\w$]*(?=\()/,
-			'punctuation': /[.:()]/
+			'function': /[a-z_][$\w]*(?=\()/,
+			'punctuation': /[().:]/
 		}
 	},
 
@@ -60,7 +60,7 @@ languages.log = {
 
 	'url': /\b(?:file|ftp|https?):\/\/[^\s|,;'"]*[^\s|,;'">.]/,
 	'email': {
-		pattern: /(^|\s)[-\w+.]+@[a-z][a-z0-9-]*(?:\.[a-z][a-z0-9-]*)+(?=\s)/,
+		pattern: /(^|\s)[-\w+.]+@[a-z][a-z\d-]*(?:\.[a-z][a-z\d-]*)+(?=\s)/,
 		lookbehind: true,
 		alias: 'url'
 	},
@@ -70,26 +70,26 @@ languages.log = {
 		alias: 'constant'
 	},
 	'mac-address': {
-		pattern: /\b[a-f0-9]{2}(?::[a-f0-9]{2}){5}\b/i,
+		pattern: /\b[a-f\d]{2}(?::[a-f\d]{2}){5}\b/i,
 		alias: 'constant'
 	},
 	'domain': {
-		pattern: /(^|\s)[a-z][a-z0-9-]*(?:\.[a-z][a-z0-9-]*)*\.[a-z][a-z0-9-]+(?=\s)/,
+		pattern: /(^|\s)[a-z][a-z\d-]*(?:\.[a-z][a-z\d-]*)*\.[a-z][a-z\d-]+(?=\s)/,
 		lookbehind: true,
 		alias: 'constant'
 	},
 
 	'uuid': {
-		pattern: /\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/i,
+		pattern: /\b[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}\b/i,
 		alias: 'constant'
 	},
 	'hash': {
-		pattern: /\b(?:[a-f0-9]{32}){1,2}\b/i,
+		pattern: /\b(?:[a-f\d]{32}){1,2}\b/i,
 		alias: 'constant'
 	},
 
 	'file-path': {
-		pattern: /\b[a-z]:[\\/][^\s|,;:(){}[\]"']+|(^|[\s:[\](>|])\.{0,2}\/\w[^\s|,;:(){}[\]"']*/gi,
+		pattern: /\b[a-z]:[\\/][^\s()[\]{},;:|"']+|(^|[\s:[\](>|])\.{0,2}\/\w[^\s()[\]{},;:|"']*/gi,
 		lookbehind: true,
 		greedy: true,
 		alias: 'string'
@@ -106,10 +106,10 @@ languages.log = {
 
 	'boolean': /\b(?:false|null|true)\b/i,
 	'number': {
-		pattern: /(^|[^.\w])(?:0x[a-f0-9]+|0o[0-7]+|0b[01]+|v?\d[\da-f]*(?:\.\d+)*(?:e[+-]?\d+)?[a-z]{0,3}\b)\b(?!\.\w)/i,
+		pattern: /(^|[^.\w])(?:0x[a-f\d]+|0o[0-7]+|0b[01]+|v?\d[a-f\d]*(?:\.\d+)*(?:e[+-]?\d+)?[a-z]{0,3}\b)\b(?!\.\w)/i,
 		lookbehind: true
 	},
 
-	'operator': /[;:?<=>~/@!$%&+\-|^(){}*#]/,
+	'operator': /[;:?<=>~/@!$%&|^(){}*#+-]/,
 	'punctuation': /[[\].,]/
 };

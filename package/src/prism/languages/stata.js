@@ -24,7 +24,7 @@ expression.inside = languages.stata = {
 		}
 	],
 	'string-literal': {
-		pattern: /"[^"\n]*"|[‘`']".*?"[’`']/g,
+		pattern: /"[^\n"]*"|[‘`']".*?"[’`']/g,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -62,7 +62,7 @@ expression.inside = languages.stata = {
 
 
 	'command': {
-		pattern: /(^[ \t]*(?:\.[ \t]+)?(?:(?:bayes|bootstrap|by|bysort|capture|collect|fmm|fp|frame|jackknife|mfp|mi|nestreg|noisily|permute|quietly|rolling|simulate|statsby|stepwise|svy|version|xi)\b[^:\n]*:[ \t]*|(?:capture|noisily|quietly|version)[ \t]+)?)[a-zA-Z]\w*/mg,
+		pattern: /(^[ \t]*(?:\.[ \t]+)?(?:(?:bayes|bootstrap|by|bysort|capture|collect|fmm|fp|frame|jackknife|mfp|mi|nestreg|noisily|permute|quietly|rolling|simulate|statsby|stepwise|svy|version|xi)\b[^\n:]*:[ \t]*|(?:capture|noisily|quietly|version)[ \t]+)?)[a-zA-Z]\w*/mg,
 		lookbehind: true,
 		greedy: true,
 		alias: 'keyword'
@@ -75,6 +75,6 @@ expression.inside = languages.stata = {
 	'number': /\b\d+(?:\.\d+)?\b|\B\.\d+/,
 	'function': /\b[a-z_]\w*(?=\()/i,
 
-	'operator': /\+\+|--|##?|[<>!=~]=?|[+\-*^&|/]/,
-	'punctuation': /[(){}[\],:]/
+	'operator': /\+\+|--|##?|[<>!=~]=?|[*^&|/+-]/,
+	'punctuation': /[()[\]{},:]/
 };

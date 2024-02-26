@@ -20,7 +20,7 @@ var inside = {
 		greedy: true
 	},
 	'string': {
-		pattern: /("|')(?:(?!\1)[^\\\n]|\\[\s\S])*\1/g,
+		pattern: /("|')(?:\\[\s\S]|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 	'interpolation': null, // See below
@@ -30,7 +30,7 @@ var inside = {
 		pattern: /(^|\s+)(?:(?:else|for|if|return|unless)(?=\s|$)|@[\w-]+)/,
 		lookbehind: true
 	},
-	'hexcode': /#[\da-f]{3,6}/i,
+	'hexcode': /#[a-f\d]{3,6}/i,
 	'color': [
 		/\b(?:aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|(?:dark)?(?:blue|cyan|goldenrod|gr[ae]y|green|khaki|magenta|olivegreen|orange|orchid|red|salmon|seagreen|slateblue|slategr[ae]y|turquoise|violet)|deeppink|deepskyblue|dimgr[ae]y|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|greenyellow|honeydew|hotpink|indianred|indigo|ivory|lavender|lavenderblush|lawngreen|lemonchiffon|light(?:blue|coral|cyan|goldenrodyellow|gr[ae]y|green|pink|salmon|seagreen|skyblue|slategr[ae]y|steelblue|yellow)|lime|limegreen|linen|maroon|medium(?:aquamarine|blue|orchid|purple|seagreen|slateblue|springgreen|turquoise|violetred)|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orangered|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|rosybrown|royalblue|saddlebrown|sandybrown|seashell|sienna|silver|skyblue|snow|springgreen|steelblue|tan|teal|thistle|tomato|transparent|wheat|white|whitesmoke|yellow|yellowgreen)\b/i,
 		{
@@ -43,16 +43,16 @@ var inside = {
 			}
 		}
 	],
-	'entity': /\\[\da-f]{1,8}/i,
+	'entity': /\\[a-f\d]{1,8}/i,
 	'unit': unit,
 	'boolean': boolean,
 	'operator': [
 		// We want non-word chars around "-" because it is
 		// accepted in property names.
-		/~|[+!\/%<>?=]=?|[-:]=|\*[*=]?|\.{2,3}|&&|\|\||\B-\B|\b(?:and|in|is(?: a| defined| not|nt)?|not|or)\b/
+		/~|[+!/%<>?=]=?|[-:]=|\*[*=]?|\.{2,3}|&&|\|\||\B-\B|\b(?:and|in|is(?: a| defined| not|nt)?|not|or)\b/
 	],
 	'number': number,
-	'punctuation': /[{}()[\];:,]/
+	'punctuation': /[()[\]{},:;]/
 };
 
 var interpolation = inside['interpolation'] = {
@@ -85,7 +85,7 @@ languages.stylus = {
 		}
 	},
 	'variable-declaration': {
-		pattern: /(^[ \t]*)[\w$-]+\s*.?=[ \t]*(?:\{[^{}]*\}|\S.*|$)/m,
+		pattern: /(^[ \t]*)[$\w-]+\s*.?=[ \t]*(?:\{[^{}]*\}|\S.*|$)/m,
 		lookbehind: true,
 		inside: {
 			'variable': /^\S+/,
@@ -105,7 +105,7 @@ languages.stylus = {
 	// A property/value pair cannot end with a comma or a brace
 	// It cannot have indented content unless it ended with a semicolon
 	'property-declaration': {
-		pattern: /((?:^|\{)([ \t]*))(?:[\w-]|\{[^}\n]+\})+(?:\s*:\s*|[ \t]+)(?!\s)[^{\n]*(?:;|[^{\n,]$(?!\n(?:\{|\2[ \t])))/m,
+		pattern: /((?:^|\{)([ \t]*))(?:[\w-]|\{[^\n}]+\})+(?:\s*:\s*|[ \t]+)(?!\s)[^\n{]*(?:;|[^\n{,]$(?!\n(?:\{|\2[ \t])))/m,
 		lookbehind: true,
 		inside: {
 			'property': {
@@ -123,7 +123,7 @@ languages.stylus = {
 	// It can span multiple lines.
 	// It must end with a comma or an accolade or have indented content.
 	'selector': {
-		pattern: /(^[ \t]*)(?:(?!\s)(?:[^{}\n:()]|::?[\w-]+(?:\([^)\n]*\)|(?![\w-]))|\{[^}\n]+\})+)(?:\n(?:\1(?:(?!\s)(?:[^{}\n:()]|::?[\w-]+(?:\([^)\n]*\)|(?![\w-]))|\{[^}\n]+\})+)))*(?:,$|\{|(?=\n(?:\{|\1[ \t])))/m,
+		pattern: /(^[ \t]*)(?:(?!\s)(?:[^(){}\n:]|::?[\w-]+(?:\([^\n)]*\)|(?![\w-]))|\{[^\n}]+\})+)(?:\n(?:\1(?:(?!\s)(?:[^(){}\n:]|::?[\w-]+(?:\([^\n)]*\)|(?![\w-]))|\{[^\n}]+\})+)))*(?:,$|\{|(?=\n(?:\{|\1[ \t])))/m,
 		lookbehind: true,
 		inside: {
 			'interpolation': interpolation,
@@ -136,5 +136,5 @@ languages.stylus = {
 	'string': inside.string,
 	'comment': comment,
 	'interpolation': interpolation,
-	'punctuation': /[{}()[\];:.]/
+	'punctuation': /[()[\]{}.:;]/
 };

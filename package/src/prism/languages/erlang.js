@@ -4,22 +4,22 @@ import { boolean } from '../utils/shared.js';
 languages.erlang = {
 	'comment': /%.+/,
 	'string': {
-		pattern: /"(?:\\.|[^\\"\n])*"/g,
+		pattern: /"(?:\\.|[^\\\n"])*"/g,
 		greedy: true
 	},
 	'quoted-function': {
-		pattern: /'(?:\\.|[^\\'\n])+'(?=\()/,
+		pattern: /'(?:\\.|[^\\\n'])+'(?=\()/,
 		alias: 'function'
 	},
 	'quoted-atom': {
-		pattern: /'(?:\\.|[^\\'\n])+'/,
+		pattern: /'(?:\\.|[^\\\n'])+'/,
 		alias: 'atom'
 	},
 	'boolean': boolean,
 	'keyword': /\b(?:after|begin|case|catch|end|fun|if|of|receive|try|when)\b/,
 	'number': [
 		/\$\\?./,
-		/\b\d+#[a-z0-9]+/i,
+		/\b\d+#[a-z\d]+/i,
 		/(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i
 	],
 	'function': /\b[a-z][\w@]*(?=\()/,
@@ -29,7 +29,7 @@ languages.erlang = {
 		lookbehind: true
 	},
 	'operator': [
-		/[=\/<>:]=|=[:\/]=|\+\+?|--?|[=*\/!]|\b(?:and|andalso|band|bnot|bor|bsl|bsr|bxor|div|not|or|orelse|rem|xor)\b/,
+		/[=/<>:]=|=[:/]=|\+\+?|--?|[=*/!]|\b(?:and|andalso|band|bnot|bor|bsl|bsr|bxor|div|not|or|orelse|rem|xor)\b/,
 		{
 			// We don't want to match <<
 			pattern: /(^|[^<])<(?!<)/,
@@ -42,6 +42,6 @@ languages.erlang = {
 		}
 	],
 	'atom': /\b[a-z][\w@]*/,
-	'punctuation': /[()[\]{}:;,.#|]|<<|>>/
+	'punctuation': /[()[\]{}.,:;#|]|<<|>>/
 
 };

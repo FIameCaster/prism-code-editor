@@ -7,7 +7,7 @@ languages.mermaid = {
 	},
 
 	'style': {
-		pattern: /^([ \t]*(?:classDef|linkStyle|style)[ \t]+[\w$-]+[ \t]+)\w.*[^\s;]/m,
+		pattern: /^([ \t]*(?:classDef|linkStyle|style)[ \t]+[$\w-]+[ \t]+)\w.*[^\s;]/m,
 		lookbehind: true,
 		inside: {
 			'property': /\b\w[\w-]*(?=[ \t]*:)/,
@@ -17,7 +17,7 @@ languages.mermaid = {
 	},
 
 	'inter-arrow-label': {
-		pattern: /([^<>ox.=-])(?:-[-.]|==)(?![<>ox.=-])[ \t]*(?:"[^"\n]*"|[^\s".=-](?:[^\n.=-]*[^\s.=-])?)[ \t]*(?:\.+->?|--+[->]|==+[=>])(?![<>ox.=-])/g,
+		pattern: /([^<>ox.=-])(?:-[-.]|==)(?![<>ox.=-])[ \t]*(?:"[^\n"]*"|[^\s".=-](?:[^\n.=-]*[^\s.=-])?)[ \t]*(?:\.+->?|--+[->]|==+[=>])(?![<>ox.=-])/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -71,18 +71,18 @@ languages.mermaid = {
 	],
 
 	'label': {
-		pattern: /(^|[^|<])\|(?:[^\n"|]|"[^"\n]*")+\|/g,
+		pattern: /(^|[^|<])\|(?:[^\n"|]|"[^\n"]*")+\|/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property'
 	},
 
 	'text': {
-		pattern: /(?:[(\[{]+|\b>)(?:[^\n"()[\]{}]|"[^"\n]*")+(?:[)\]}]+|>)/,
+		pattern: /(?:[(\[{]+|\b>)(?:[^\n"()[\]{}]|"[^\n"]*")+(?:[)\]}]+|>)/,
 		alias: 'string'
 	},
 	'string': {
-		pattern: /"[^"\n]*"/g,
+		pattern: /"[^\n"]*"/g,
 		greedy: true
 	},
 
@@ -94,18 +94,18 @@ languages.mermaid = {
 	'keyword': [
 		// This language has both case-sensitive and case-insensitive keywords
 		{
-			pattern: /(^[ \t]*)(?:action|callback|class|classDef|classDiagram|click|direction|erDiagram|flowchart|gantt|gitGraph|graph|journey|link|linkStyle|pie|requirementDiagram|sequenceDiagram|stateDiagram|stateDiagram-v2|style|subgraph)(?![\w$-])/mg,
+			pattern: /(^[ \t]*)(?:action|callback|class|classDef|classDiagram|click|direction|erDiagram|flowchart|gantt|gitGraph|graph|journey|link|linkStyle|pie|requirementDiagram|sequenceDiagram|stateDiagram|stateDiagram-v2|style|subgraph)(?![$\w-])/mg,
 			lookbehind: true,
 			greedy: true
 		},
 		{
-			pattern: /(^[ \t]*)(?:activate|alt|and|as|autonumber|deactivate|else|end(?:[ \t]+note)?|loop|opt|par|participant|rect|state|note[ \t]+(?:over|(?:left|right)[ \t]+of))(?![\w$-])/img,
+			pattern: /(^[ \t]*)(?:activate|alt|and|as|autonumber|deactivate|else|end(?:[ \t]+note)?|loop|opt|par|participant|rect|state|note[ \t]+(?:over|(?:left|right)[ \t]+of))(?![$\w-])/img,
 			lookbehind: true,
 			greedy: true
 		}
 	],
 
-	'entity': /#[a-z0-9]+;/,
+	'entity': /#[a-z\d]+;/,
 
 	'operator': {
 		pattern: /(\w[ \t]*)&(?=[ \t]*\w)|:::|:/,

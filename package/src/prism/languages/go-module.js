@@ -8,7 +8,7 @@ languages['go-mod'] = languages['go-module'] = {
 		greedy: true
 	},
 	'version': {
-		pattern: /(^|[\s()[\],])v\d+\.\d+\.\d+(?:[+-][-+.\w]*)?(?![^\s()[\],])/,
+		pattern: /(^|[\s()[\],])v\d+\.\d+\.\d+(?:[+-][\w.+-]*)?(?![^\s()[\],])/,
 		lookbehind: true,
 		alias: 'number'
 	},

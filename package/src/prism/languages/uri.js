@@ -4,20 +4,20 @@ import { languages } from '../core.js';
 
 languages.url = languages.uri = {
 	'scheme': {
-		pattern: /^[a-z][a-z0-9+.-]*:/img,
+		pattern: /^[a-z][a-z\d+.-]*:/img,
 		greedy: true,
 		inside: {
 			'scheme-delimiter': /:$/
 		}
 	},
 	'fragment': {
-		pattern: /#[\w\-.~!$&'()*+,;=%:@/?]*/,
+		pattern: /#[\w.~!$&'()*,;=%:@/?+-]*/,
 		inside: {
 			'fragment-delimiter': /^#/
 		}
 	},
 	'query': {
-		pattern: /\?[\w\-.~!$&'()*+,;=%:@/?]*/,
+		pattern: /\?[\w.~!$&'()*,;=%:@/?+-]*/,
 		inside: {
 			'query-delimiter': {
 				pattern: /^\?/g,
@@ -37,14 +37,14 @@ languages.url = languages.uri = {
 		}
 	},
 	'authority': {
-		pattern: /^\/\/(?:[\w\-.~!$&'()*+,;=%:]*@)?(?:\[(?:[0-9a-fA-F:.]{2,48}|v[0-9a-fA-F]+\.[\w\-.~!$&'()*+,;=]+)\]|[\w\-.~!$&'()*+,;=%]*)(?::\d*)?/m,
+		pattern: /^\/\/(?:[\w.~!$&'()*,;=%:+-]*@)?(?:\[(?:[a-fA-F\d:.]{2,48}|v[a-fA-F\d]+\.[\w.~!$&'()*,;=+-]+)\]|[\w.~!$&'()*,;=%+-]*)(?::\d*)?/m,
 		inside: {
 			'authority-delimiter': /^\/\//,
 			'user-info-segment': {
-				pattern: /^[\w\-.~!$&'()*+,;=%:]*@/,
+				pattern: /^[\w.~!$&'()*,;=%:+-]*@/,
 				inside: {
 					'user-info-delimiter': /@$/,
-					'user-info': /^[\w\-.~!$&'()*+,;=%:]+/
+					'user-info': /^[\w.~!$&'()*,;=%:+-]+/
 				}
 			},
 			'port-segment': {
@@ -71,7 +71,7 @@ languages.url = languages.uri = {
 		}
 	},
 	'path': {
-		pattern: /^[\w\-.~!$&'()*+,;=%:@/]+/m,
+		pattern: /^[\w.~!$&'()*,;=%:@/+-]+/m,
 		inside: {
 			'path-separator': /\//
 		}

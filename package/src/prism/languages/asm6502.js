@@ -12,7 +12,7 @@ languages.asm6502 = {
 		alias: 'keyword'
 	},
 	'hex-number': {
-		pattern: /#?\$[\da-f]{1,4}\b/i,
+		pattern: /#?\$[a-f\d]{1,4}\b/i,
 		alias: 'number'
 	},
 	'binary-number': {

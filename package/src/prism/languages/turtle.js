@@ -7,7 +7,7 @@ languages.trig = languages.turtle = {
 		greedy: true
 	},
 	'multiline-string': {
-		pattern: /"""(?:(?:""?)?(?:[^"\\]|\\.))*"""|'''(?:(?:''?)?(?:[^'\\]|\\.))*'''/g,
+		pattern: /"""(?:"?"?(?:\\.|[^\\"]))*"""|'''(?:'?'?(?:\\.|[^\\']))*'''/g,
 		greedy: true,
 		alias: 'string',
 		inside: {
@@ -15,18 +15,18 @@ languages.trig = languages.turtle = {
 		}
 	},
 	'string': {
-		pattern: /"(?:[^\\"\n]|\\.)*"|'(?:[^\\'\n]|\\.)*'/g,
+		pattern: /"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*'/g,
 		greedy: true
 	},
 	'url': {
-		pattern: /<(?:[^\0- <>"{}|^`\\]|\\(?:u[\da-fA-F]{4}|U[\da-fA-F]{8}))*>/g,
+		pattern: /<(?:[^\0- <>"{}|^`\\]|\\(?:u[a-fA-F\d]{4}|U[a-fA-F\d]{8}))*>/g,
 		greedy: true,
 		inside: {
 			'punctuation': /[<>]/
 		}
 	},
 	'function': {
-		pattern: /(?:(?![-.\d\xB7])[-.\w\xB7\xC0-\uFFFD]+)?:(?:(?![-.])(?:[-.:\w\xC0-\uFFFD]|%[\da-f]{2}|\\.)+)?/i,
+		pattern: /(?:(?![-.\d\xB7])[-.\w\xB7\xC0-\uFFFD]+)?:(?:(?![-.])(?:[-.:\w\xC0-\uFFFD]|%[a-f\d]{2}|\\.)+)?/i,
 		inside: {
 			'local-name': {
 				pattern: /(:)[\s\S]+/,

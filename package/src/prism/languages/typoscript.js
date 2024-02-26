@@ -23,10 +23,10 @@ languages.tsconfig = languages.typoscript = {
 	'function': [
 		{
 			// old include style
-			pattern: /<INCLUDE_TYPOSCRIPT:\s*source\s*=\s*(?:"[^"\n]*"|'[^'\n]*')\s*>/,
+			pattern: /<INCLUDE_TYPOSCRIPT:\s*source\s*=\s*(?:"[^\n"]*"|'[^\n']*')\s*>/,
 			inside: {
 				'string': {
-					pattern: /"[^"\n]*"|'[^'\n]*'/,
+					pattern: /"[^\n"]*"|'[^\n']*'/,
 					inside: {
 						'keyword': keywords,
 					},
@@ -36,9 +36,9 @@ languages.tsconfig = languages.typoscript = {
 		},
 		{
 			// new include style
-			pattern: /@import\s*(?:"[^"\n]*"|'[^'\n]*')/,
+			pattern: /@import\s*(?:"[^\n"]*"|'[^\n']*')/,
 			inside: {
-				'string': /"[^"\n]*"|'[^'\n]*'/,
+				'string': /"[^\n"]*"|'[^\n']*'/,
 			},
 		}
 	],
@@ -49,7 +49,7 @@ languages.tsconfig = languages.typoscript = {
 			'function': /\{\$.*\}/, // constants include
 			'keyword': keywords,
 			'number': /^\d+$/,
-			'punctuation': /[,|:]/,
+			'punctuation': /[,:|]/,
 		}
 	},
 	'keyword': keywords,
@@ -66,6 +66,6 @@ languages.tsconfig = languages.typoscript = {
 			'punctuation': /\./,
 		}
 	},
-	'punctuation': /[{}[\];(),.:|]/,
+	'punctuation': /[()[\]{}.,:;|]/,
 	'operator': /[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,
 };

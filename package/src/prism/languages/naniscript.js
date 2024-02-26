@@ -4,7 +4,7 @@ var expressionDef = /\{[^\n[\]{}]*\}/g;
 
 var params = {
 	'quoted-string': {
-		pattern: /"(?:[^"\\]|\\.)*"/,
+		pattern: /"(?:\\.|[^\\"])*"/,
 		alias: 'operator'
 	},
 	'command-param-id': {
@@ -99,7 +99,7 @@ languages.nani = languages.naniscript = {
 		alias: 'punctuation',
 		inside: {
 			// \{ ... \} ... \[ ... \] ... \"
-			'escaped-char': /\\[{}[\]"]/,
+			'escaped-char': /\\[[\]{}"]/,
 			'expression': {
 				pattern: expressionDef,
 				greedy: true,

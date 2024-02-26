@@ -53,7 +53,7 @@ languages.fsharp = {
 	'boolean': boolean,
 	'function': /\b\w+(?=\()/,
 	'number': [
-		/\b0x[\da-fA-F]+(?:LF|lf|un)?\b/,
+		/\b0x[a-fA-F\d]+(?:LF|lf|un)?\b/,
 		/\b0b[01]+(?:uy|y)?\b/,
 		/(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[fm]|e[+-]?\d+)?\b/i,
 		/\b\d+(?:[IlLsy]|UL|u[lsy]?)?\b/

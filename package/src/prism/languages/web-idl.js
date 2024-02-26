@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import { boolean, clikeComment } from '../utils/shared.js';
 
-var id = /(?:\B-|\b_|\b)[A-Za-z][\w-]*(?![\w-])/.source;
+var id = /(?:\B-|\b_|\b)[a-zA-Z][\w-]*(?![\w-])/.source;
 var type = `(?:\\b(?:unsigned\\s+)?long\\s+long(?![\\w-])|\\b(?:unrestricted|unsigned)\\s+[a-z]+(?![\\w-])|(?!(?:unrestricted|unsigned)\\b)${id}(?:\\s*<(?:[^<>]|<[^<>]*>)*>)?)(?:\\s*\\?)?`;
 
 var typeInside = {};
@@ -74,11 +74,11 @@ var webIdl = languages['webidl'] = languages['web-idl'] = {
 	'boolean': boolean,
 
 	'number': {
-		pattern: /(^|[^\w-])-?(?:0x[0-9a-f]+|(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?|NaN|Infinity)(?![\w-])/i,
+		pattern: /(^|[^\w-])-?(?:0x[a-f\d]+|(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?|NaN|Infinity)(?![\w-])/i,
 		lookbehind: true
 	},
 	'operator': /\.{3}|[=:?<>-]/,
-	'punctuation': /[(){}[\].,;]/
+	'punctuation': /[()[\]{}.,;]/
 };
 
 Object.assign(typeInside, webIdl);

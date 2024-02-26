@@ -4,7 +4,7 @@ import './clike.js';
 
 var sol = languages.sol = languages.solidity = extend('clike', {
 	'class-name': {
-		pattern: /(\b(?:contract|enum|interface|library|new|struct|using)\s+)(?!\d)[\w$]+/,
+		pattern: /(\b(?:contract|enum|interface|library|new|struct|using)\s+)(?!\d)[$\w]+/,
 		lookbehind: true
 	},
 	'keyword': /\b(?:_|anonymous|as|assembly|assert|break|calldata|case|constant|constructor|continue|contract|default|delete|do|else|emit|enum|event|external|for|from|function|if|import|indexed|inherited|interface|internal|is|let|library|mapping|memory|modifier|new|payable|pragma|private|public|pure|require|returns?|revert|selfdestruct|solidity|storage|struct|suicide|switch|this|throw|using|var|view|while)\b/,

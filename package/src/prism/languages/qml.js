@@ -2,13 +2,13 @@ import { languages } from '../core.js';
 import { clikeComment, nested, re } from '../utils/shared.js';
 import './javascript.js';
 
-var jsExpr = nested(/(?:[^\\()[\]{}"'/]|"(?:\\.|[^\\"\n])*"|'(?:\\.|[^\\'\n])*'|\/(?![*/])|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/|\(<self>*\)|\[<self>*\]|\{<self>*\}|\\[\s\S])/.source, 2);
+var jsExpr = nested(/(?:[^\\()[\]{}"'/]|"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*'|\/(?![*/])|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/|\(<self>*\)|\[<self>*\]|\{<self>*\}|\\[\s\S])/.source, 2);
 
 
 languages.qml = {
 	'comment': clikeComment(),
 	'javascript-function': {
-		pattern: re(/((?:^|;)[ \t]*)function\s+(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\s*\(<<0>>*\)\s*\{<<0>>*\}/.source, [jsExpr], 'mg'),
+		pattern: re(/((?:^|;)[ \t]*)function\s+(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\s*\(<0>*\)\s*\{<0>*\}/.source, [jsExpr], 'mg'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-javascript',
@@ -33,16 +33,16 @@ languages.qml = {
 		}
 	],
 	'javascript-expression': {
-		pattern: re(/(:[ \t]*)(?![\s;}[])(?:(?!$|[;}])<<0>>)+/.source, [jsExpr], 'mg'),
+		pattern: re(/(:[ \t]*)(?![\s;}[])(?:(?!$|[;}])<0>)+/.source, [jsExpr], 'mg'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-javascript',
 		inside: languages.js
 	},
 	'string': {
-		pattern: /"(?:\\.|[^\\"\n])*"/g,
+		pattern: /"(?:\\.|[^\\\n"])*"/g,
 		greedy: true
 	},
 	'keyword': /\b(?:as|import|on)\b/,
-	'punctuation': /[{}[\]:;,]/
+	'punctuation': /[[\]{},:;]/
 };

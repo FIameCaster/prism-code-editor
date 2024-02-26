@@ -6,11 +6,11 @@ languages.keyman = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^"\n]*"|'[^'\n]*'/g,
+		pattern: /"[^\n"]*"|'[^\n']*'/g,
 		greedy: true
 	},
 	'virtual-key': {
-		pattern: /\[\s*(?:(?:ALT|CAPS|CTRL|LALT|LCTRL|NCAPS|RALT|RCTRL|SHIFT)\s+)*(?:[TKU]_[\w?]+|[A-E]\d\d?|"[^"\n]*"|'[^'\n]*')\s*\]/gi,
+		pattern: /\[\s*(?:(?:ALT|CAPS|CTRL|LALT|LCTRL|NCAPS|RALT|RCTRL|SHIFT)\s+)*(?:[TKU]_[\w?]+|[A-E]\d\d?|"[^\n"]*"|'[^\n']*')\s*\]/gi,
 		greedy: true,
 		alias: 'function' // alias for styles
 	},
@@ -40,7 +40,7 @@ languages.keyman = {
 	},
 
 	// U+####, x###, d### characters and numbers
-	'number': /\b(?:U\+[\dA-F]+|d\d+|x[\da-f]+|\d+)\b/i,
+	'number': /\b(?:U\+[A-F\d]+|d\d+|x[a-f\d]+|\d+)\b/i,
 	'operator': /[+>\\$]|\.\./,
 	'punctuation': /[()=,]/
 };

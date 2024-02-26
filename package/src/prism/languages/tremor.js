@@ -1,12 +1,12 @@
 import { languages } from '../core.js';
 
-var interpolationPattern = /#\{(?:[^"{}]|\{[^{}]*\}|"(?:[^"\\\n]|\\[\s\S])*")*\}/.source;
+var interpolationPattern = /#\{(?:[^"{}]|\{[^{}]*\}|"(?:\\[\s\S]|[^\\\n"])*")*\}/.source;
 
 languages.trickle = languages.troy = languages.tremor = {
 	'comment': /\/\*[\s\S]*?\*\/|(?:--|\/\/|#).*/,
 	'interpolated-string': {
 		pattern: RegExp(
-			`(^|[^\\\\])(?:"""(?:[^"\\\\#]|\\\\[\\s\\S]|"(?!"")|#(?!\\{)|${interpolationPattern})*"""|"(?:[^"\\\\\n#]|\\\\[\\s\\S]|#(?!\\{)|${interpolationPattern})*")`, 'g'
+			`(^|[^\\\\])(?:"""(?:\\\\[\\s\\S]|[^\\\\"#]|"(?!"")|#(?!\\{)|${interpolationPattern})*"""|"(?:\\\\[\\s\\S]|[^\\\\\n"#]|#(?!\\{)|${interpolationPattern})*")`, 'g'
 		),
 		lookbehind: true,
 		greedy: true,
@@ -25,7 +25,7 @@ languages.trickle = languages.troy = languages.tremor = {
 		}
 	},
 	'extractor': {
-		pattern: /\b[a-z_]\w*\|(?:[^\n\\|]|\\[\s\S])*\|/gi,
+		pattern: /\b[a-z_]\w*\|(?:\\[\s\S]|[^\\\n|])*\|/gi,
 		greedy: true,
 		inside: {
 			'regex': {
@@ -46,12 +46,12 @@ languages.trickle = languages.troy = languages.tremor = {
 	'keyword': /\b(?:args|as|by|case|config|connect|connector|const|copy|create|default|define|deploy|drop|each|emit|end|erase|event|flow|fn|for|from|group|having|insert|into|intrinsic|let|links|match|merge|mod|move|of|operator|patch|pipeline|recur|script|select|set|sliding|state|stream|to|tumbling|update|use|when|where|window|with)\b/,
 	'boolean': /\b(?:false|null|true)\b/i,
 
-	'number': /\b(?:0b[01_]*|0x[0-9a-fA-F_]*|\d[\d_]*(?:\.\d[\d_]*)?(?:[Ee][+-]?[\d_]+)?)\b/,
+	'number': /\b(?:0b[01_]*|0x[a-fA-F\d_]*|\d[\d_]*(?:\.\d[\d_]*)?(?:[Ee][+-]?[\d_]+)?)\b/,
 
 	'pattern-punctuation': {
 		pattern: /%(?=[({[])/,
 		alias: 'punctuation'
 	},
-	'operator': /[-+*\/%~!^]=?|=[=>]?|&[&=]?|\|[|=]?|<<?=?|>>?>?=?|(?:absent|and|not|or|present|xor)\b/,
-	'punctuation': /::|[;[\](){},.:]/,
+	'operator': /[*/%~!^+-]=?|=[=>]?|&[&=]?|\|[|=]?|<<?=?|>>?>?=?|(?:absent|and|not|or|present|xor)\b/,
+	'punctuation': /::|[()[\]{}.,:;]/,
 };

@@ -61,7 +61,7 @@ languages.vala = {
 		}
 	],
 	'regex': {
-		pattern: /\/(?:\[(?:[^\]\\\n]|\\.)*\]|\\.|[^/\\[\n])+\/[imsx]{0,4}(?=\s*(?:$|[\n,.;})\]]))/g,
+		pattern: /\/(?:\[(?:\\.|[^\\\n\]])*\]|\\.|[^/\\[\n])+\/[imsx]{0,4}(?=\s*(?:$|[\n,.;})\]]))/g,
 		greedy: true,
 		inside: {
 			'regex-flags': /\w+$/,
@@ -76,8 +76,8 @@ languages.vala = {
 	'keyword': /\b(?:abstract|as|assert|async|base|bool|break|case|catch|char|class|const|construct|continue|default|delegate|delete|do|double|dynamic|else|ensures|enum|errordomain|extern|finally|float|for|foreach|get|if|in|inline|int|int16|int32|int64|int8|interface|internal|is|lock|long|namespace|new|null|out|override|owned|params|private|protected|public|ref|requires|return|set|short|signal|sizeof|size_t|ssize_t|static|string|struct|switch|this|throw|throws|try|typeof|uchar|uint|uint16|uint32|uint64|uint8|ulong|unichar|unowned|ushort|using|value|var|virtual|void|volatile|weak|while|yield)\b/i,
 	'boolean': boolean,
 	'function': /\b\w+(?=\s*\()/,
-	'number': /(?:\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)(?:f|u?l?)?/i,
-	'operator': /\+\+|--|&&|\|\||<<=?|>>=?|=>|->|~|[+\-*\/%&^|=!<>]=?|\?\??|\.{3}/,
+	'number': /(?:\b0x[a-f\d]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)(?:f|u?l?)?/i,
+	'operator': /\+\+|--|&&|\|\||<<=?|>>=?|=>|->|~|[*/%&^|!=<>+-]=?|\?\??|\.{3}/,
 	'punctuation': clikePunctuation,
-	'constant': /\b[A-Z0-9_]+\b/
+	'constant': /\b[A-Z\d_]+\b/
 };

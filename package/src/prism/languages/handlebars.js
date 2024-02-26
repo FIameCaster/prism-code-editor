@@ -13,22 +13,22 @@ languages.mustache = languages.hbs = languages.handlebars = {
 				alias: 'punctuation'
 			},
 			'string': /(["'])(?:\\.|(?!\1)[^\\\n])*\1/,
-			'number': /\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][+-]?\d+)?/,
+			'number': /\b0x[a-fA-F\d]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][+-]?\d+)?/,
 			'boolean': boolean,
 			'block': {
-				pattern: /^(\s*(?:~\s*)?)[#\/]\S+?(?=\s*(?:~\s*)?$|\s)/,
+				pattern: /^(\s*(?:~\s*)?)[#/]\S+?(?=\s*(?:~\s*)?$|\s)/,
 				lookbehind: true,
 				alias: 'keyword'
 			},
 			'brackets': {
 				pattern: /\[[^\]]+\]/,
 				inside: {
-					punctuation: /\[|\]/,
+					punctuation: /[[\]]/,
 					variable: /[\s\S]+/
 				}
 			},
-			'punctuation': /[!"#%&':()*+,.\/;<=>@\[\\\]^`{|}~]/,
-			'variable': /[^!"#%&'()*+,\/;<=>@\[\\\]^`{|}~\s]+/
+			'punctuation': /[!"#%&'()[\]{}.,:;*+/<=>@\\^`|~]/,
+			'variable': /\S+/
 		}
 	},
 	[tokenize]: embeddedIn('html')

@@ -2,10 +2,10 @@ import { languages } from '../core.js';
 
 var entity = [
 	{
-		pattern: /&[\da-z]{1,8};/i,
+		pattern: /&[a-z\d]{1,8};/i,
 		alias: 'named-entity'
 	},
-	/&#x?[\da-f]{1,8};/i
+	/&#x?[a-f\d]{1,8};/i
 ];
 
 languages.rss = languages.atom = languages.ssml = languages.xml = {
@@ -38,7 +38,7 @@ languages.rss = languages.atom = languages.ssml = languages.xml = {
 		greedy: true
 	},
 	'tag': {
-		pattern: /<\/?(?!\d)[^\s>/=$<%]+(?:\s(?:\s*[^\s>/=]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s'"=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*\/?>/g,
+		pattern: /<\/?(?!\d)[^\s/=>$<%]+(?:\s(?:\s*[^\s/=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s'"=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*\/?>/g,
 		greedy: true,
 		inside: {
 			'punctuation': /^<\/?|\/?>$/,
@@ -67,7 +67,7 @@ languages.rss = languages.atom = languages.ssml = languages.xml = {
 	},
 	'entity': entity,
 	'markup-bracket': {
-		pattern: /[[\](){}]/,
+		pattern: /[()[\]{}]/,
 		alias: 'punctuation'
 	}
 };

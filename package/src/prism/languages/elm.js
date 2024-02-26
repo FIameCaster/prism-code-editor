@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.elm = {
 	'comment': /--.*|\{-[\s\S]*?-\}/,
 	'char': {
-		pattern: /'(?:[^\\'\n]|\\(?:[abfnrtv\\']|\d+|x[0-9a-fA-F]+|u\{[0-9a-fA-F]+\}))'/g,
+		pattern: /'(?:[^\\\n']|\\(?:[abfnrtv\\']|\d+|x[a-fA-F\d]+|u\{[a-fA-F\d]+\}))'/g,
 		greedy: true
 	},
 	'string': [
@@ -13,7 +13,7 @@ languages.elm = {
 			greedy: true
 		},
 		{
-			pattern: /"(?:[^\\"\n]|\\.)*"/g,
+			pattern: /"(?:\\.|[^\\\n"])*"/g,
 			greedy: true
 		}
 	],
@@ -31,7 +31,7 @@ languages.elm = {
 	// These are builtin variables only. Constructors are highlighted later as a constant.
 	'builtin': /\b(?:abs|acos|always|asin|atan|atan2|ceiling|clamp|compare|cos|curry|degrees|e|flip|floor|fromPolar|identity|isInfinite|isNaN|logBase|max|min|negate|never|not|pi|radians|rem|round|sin|sqrt|tan|toFloat|toPolar|toString|truncate|turns|uncurry|xor)\b/,
 	// decimal integers and floating point numbers | hexadecimal integers
-	'number': /\b(?:\d+(?:\.\d+)?(?:e[+-]?\d+)?|0x[0-9a-f]+)\b/i,
+	'number': /\b(?:\d+(?:\.\d+)?(?:e[+-]?\d+)?|0x[a-f\d]+)\b/i,
 	// Most of this is needed because of the meaning of a single '.'.
 	// If it stands alone freely, it is the function composition.
 	// It may also be a separator between a module name and an identifier => no
@@ -39,9 +39,9 @@ languages.elm = {
 	// operator too.
 	// Valid operator characters in 0.18: +-/*=.$<>:&|^?%#@~!
 	// Ref: https://groups.google.com/forum/#!msg/elm-dev/0AHSnDdkSkQ/E0SVU70JEQAJ
-	'operator': /\s\.\s|[+\-/*=.$<>:&|^?%#@~!]{2,}|[+\-/*=$<>:&|^?%#@~!]/,
+	'operator': /\s\.\s|\.\.+|[/*=$<>:&|^?%#@~!+-]+/,
 	// In Elm, nearly everything is a variable, do not highlight these.
 	'hvariable': /\b(?:[A-Z]\w*\.)*[a-z]\w*\b/,
 	'constant': /\b(?:[A-Z]\w*\.)*[A-Z]\w*\b/,
-	'punctuation': /[{}[\]|(),.:]/
+	'punctuation': /[()[\]{}.,]/
 };

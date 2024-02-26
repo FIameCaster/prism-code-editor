@@ -1,23 +1,23 @@
 import { languages } from '../core.js';
 
 var attributes = {
-	pattern: /(^[ \t]*)\[(?!\[)(?:(["'$`])(?:(?!\2)[^\\]|\\.)*\2|\[(?:[^\[\]\\]|\\.)*\]|[^\[\]\\"'$`]|\\.)*\]/m,
+	pattern: /(^[ \t]*)\[(?!\[)(?:(["'$`])(?:\\.|(?!\2)[^\\])*\2|\[(?:\\.|[^\\[\]])*\]|\\.|[^\\"'[\]$`])*\]/m,
 	lookbehind: true,
 	inside: {
 		'quoted': {
-			pattern: /([$`])(?:(?!\1)[^\\]|\\.)*\1/,
+			pattern: /([$`])(?:\\.|(?!\1)[^\\])*\1/,
 			inside: {
 				'punctuation': /^[$`]|[$`]$/
 			}
 		},
 		'interpreted': {
-			pattern: /'(?:[^'\\]|\\.)*'/,
+			pattern: /'(?:\\.|[^\\'])*'/,
 			inside: {
 				'punctuation': /^'|'$/
 				// See rest below
 			}
 		},
-		'string': /"(?:[^"\\]|\\.)*"/,
+		'string': /"(?:\\.|[^\\"])*"/,
 		'variable': /\w+(?==)/,
 		'punctuation': /^\[|\]$|,/,
 		'operator': /=/,
@@ -96,7 +96,7 @@ var asciidoc = languages.adoc = languages.asciidoc = {
 		}
 	},
 	'attribute-entry': {
-		pattern: /^:[^:\n]+:(?: .*?(?: \+\n.*?)*)?$/m,
+		pattern: /^:[^\n:]+:(?: .*?(?: \+\n.*?)*)?$/m,
 		alias: 'tag'
 	},
 	'attributes': attributes,
@@ -124,12 +124,12 @@ var asciidoc = languages.adoc = languages.asciidoc = {
 		}
 	],
 	'macro': {
-		pattern: /\b[a-z\d][a-z\d-]*::?(?:[^\s\[\]]*\[(?:[^\]\\"']|(["'])(?:(?!\1)[^\\]|\\.)*\1|\\.)*\])/,
+		pattern: /\b[a-z\d][a-z\d-]*::?(?:[^\s\[\]]*\[(?:[^\]\\"']|(["'])(?:\\.|(?!\1)[^\\])*\1|\\.)*\])/,
 		inside: {
 			'function': /^[^:]+/,
 			'punctuation': /^::?/,
 			'attributes': {
-				pattern: /(?:\[(?:[^\]\\"']|(["'])(?:(?!\1)[^\\]|\\.)*\1|\\.)*\])/,
+				pattern: /(?:\[(?:[^\]\\"']|(["'])(?:\\.|(?!\1)[^\\])*\1|\\.)*\])/,
 				inside: attributes.inside
 			}
 		}
@@ -149,7 +149,7 @@ var asciidoc = languages.adoc = languages.asciidoc = {
 		Those do not have the restrictions of the constrained quotes.
 		They are, in order: __emphasis__, **strong**, ++monospace++, +++passthrough+++, ##unquoted##, $$passthrough$$, ~subscript~, ^superscript^, {attribute-reference}, [[anchor]], [[[bibliography anchor]]], <<xref>>, (((indexes))) and ((indexes))
 		 */
-		pattern: /(^|[^\\])(?:(?:\B\[(?:[^\]\\"']|(["'])(?:(?!\2)[^\\]|\\.)*\2|\\.)*\])?(?:\b_(?!\s)(?: _|[^_\\\n]|\\.)+(?:\n(?: _|[^_\\\n]|\\.)+)*_\b|\B``(?!\s).+?(?:\n.+?)*''\B|\B`(?!\s)(?:[^`'\s]|\s+\S)+['`]\B|\B(['*+#])(?!\s)(?: \3|(?!\3)[^\\\n]|\\.)+(?:\n(?: \3|(?!\3)[^\\\n]|\\.)+)*\3\B)|(?:\[(?:[^\]\\"']|(["'])(?:(?!\4)[^\\]|\\.)*\4|\\.)*\])?(?:(__|\*\*|\+\+\+?|##|\$\$|[~^]).+?(?:\n.+?)*\5|\{[^}\n]+\}|\[\[\[?.+?(?:\n.+?)*\]?\]\]|<<.+?(?:\n.+?)*>>|\(\(\(?.+?(?:\n.+?)*\)?\)\)))/m,
+		pattern: /(^|[^\\])(?:(?:\B\[(?:[^\]\\"']|(["'])(?:\\.|(?!\2)[^\\])*\2|\\.)*\])?(?:\b_(?!\s)(?: _|\\.|[^\\\n_])+(?:\n(?: _|\\.|[^\\\n_])+)*_\b|\B``(?!\s).+?(?:\n.+?)*''\B|\B`(?!\s)(?:[^`'\s]|\s+\S)+['`]\B|\B(['*+#])(?!\s)(?: \3|\\.|(?!\3)[^\\\n])+(?:\n(?: \3|\\.|(?!\3)[^\\\n])+)*\3\B)|(?:\[(?:[^\]\\"']|(["'])(?:\\.|(?!\4)[^\\])*\4|\\.)*\])?(?:(__|\*\*|\+\+\+?|##|\$\$|[~^]).+?(?:\n.+?)*\5|\{[^\n}]+\}|\[\[\[?.+?(?:\n.+?)*\]?\]\]|<<.+?(?:\n.+?)*>>|\(\(\(?.+?(?:\n.+?)*\)?\)\)))/m,
 		lookbehind: true,
 		inside: {
 			'attributes': attributes,
@@ -189,7 +189,7 @@ var asciidoc = languages.adoc = languages.asciidoc = {
 		pattern: /\((?:C|R|TM)\)/,
 		alias: 'builtin'
 	},
-	'entity': /&#?[\da-z]{1,8};/i,
+	'entity': /&#?[a-z\d]{1,8};/i,
 	'line-continuation': {
 		pattern: /(^| )\+$/m,
 		lookbehind: true,

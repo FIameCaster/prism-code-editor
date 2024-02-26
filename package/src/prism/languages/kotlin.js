@@ -26,7 +26,7 @@ interpolationInside.expression.inside = languages.kts = languages.kt = languages
 			}
 		},
 		{
-			pattern: /"(?:[^"\\\n$]|\\.|\$(?:(?!\{)|\{[^{}]*\}))*"/,
+			pattern: /"(?:\\.|[^\\\n"$]|\$(?:(?!\{)|\{[^{}]*\}))*"/,
 			alias: 'singleline',
 			inside: {
 				'interpolation': {
@@ -40,7 +40,7 @@ interpolationInside.expression.inside = languages.kts = languages.kt = languages
 	],
 	'char': {
 		// https://kotlinlang.org/spec/expressions.html#character-literals
-		pattern: /'(?:[^'\\\n]|\\(?:.|u[a-fA-F0-9]{0,4}))'/g,
+		pattern: /'(?:[^\\\n']|\\(?:.|u[a-fA-F\d]{0,4}))'/g,
 		greedy: true
 	},
 	'comment': clikeComment(),
@@ -55,7 +55,7 @@ interpolationInside.expression.inside = languages.kts = languages.kt = languages
 	},
 	'boolean': boolean,
 	'label': {
-		pattern: /\b\w+@|@\w+\b/,
+		pattern: /\b\w+@|@\w+/,
 		alias: 'symbol'
 	},
 	'function': [
@@ -69,7 +69,7 @@ interpolationInside.expression.inside = languages.kts = languages.kt = languages
 			greedy: true
 		}
 	],
-	'number': /\b(?:0[xX][\da-fA-F]+(?:_[\da-fA-F]+)*|0[bB][01]+(?:_[01]+)*|\d+(?:_\d+)*(?:\.\d+(?:_\d+)*)?(?:[eE][+-]?\d+(?:_\d+)*)?[fFL]?)\b/,
-	'operator': /\+[+=]?|-[-=>]?|==?=?|!(?:!|==?)?|[\/*%<>]=?|[?:]:?|\.\.|&&|\|\||\b(?:and|inv|or|shl|shr|ushr|xor)\b/,
+	'number': /\b(?:0[xX][a-fA-F\d]+(?:_[a-fA-F\d]+)*|0[bB][01]+(?:_[01]+)*|\d+(?:_\d+)*(?:\.\d+(?:_\d+)*)?(?:[eE][+-]?\d+(?:_\d+)*)?[fFL]?)\b/,
+	'operator': /\+[+=]?|-[-=>]?|==?=?|!(?:!|==?)?|[/*%<>]=?|[?:]:?|\.\.|&&|\|\||\b(?:and|inv|or|shl|shr|ushr|xor)\b/,
 	'punctuation': clikePunctuation
 };

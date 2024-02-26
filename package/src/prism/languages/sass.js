@@ -4,7 +4,7 @@ import './css.js';
 
 var variable = /\$[-\w]+|#\{\$[-\w]+\}/;
 var operator = [
-	/[+*\/%]|[=!]=|<=?|>=?|\b(?:and|not|or)\b/,
+	/[+*/%]|[!=]=|<=?|>=?|\b(?:and|not|or)\b/,
 	{
 		pattern: /(\s)-(?=\s)/,
 		lookbehind: true
@@ -14,7 +14,7 @@ var operator = [
 var sass = languages.sass = extend('css', {
 	// Sass comments don't need to be closed, only indented
 	'comment': {
-		pattern: /^([ \t]*)\/[\/*].*(?:\n\1[ \t].+)*/mg,
+		pattern: /^([ \t]*)\/[/*].*(?:\n\1[ \t].+)*/mg,
 		lookbehind: true,
 		greedy: true
 	}
@@ -70,7 +70,7 @@ delete sass.important;
 // what's left should be selectors
 insertBefore(sass, 'punctuation', {
 	'selector': {
-		pattern: /^([ \t]*)\S(?:,[^,\n]+|[^,\n]*)(?:,[^,\n]+)*(?:,\n\1[ \t]+\S(?:,[^,\n]+|[^,\n]*)(?:,[^,\n]+)*)*/mg,
+		pattern: /^([ \t]*)\S(?:,[^\n,]+|[^\n,]*)(?:,[^\n,]+)*(?:,\n\1[ \t]+\S(?:,[^\n,]+|[^\n,]*)(?:,[^\n,]+)*)*/mg,
 		lookbehind: true,
 		greedy: true
 	}

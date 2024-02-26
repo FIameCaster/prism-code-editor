@@ -36,15 +36,15 @@ languages.pbfasm = languages.purebasic = {
 				alias: 'fasm-label'
 			},
 			'keyword': [
-				/\b(?:extern|global)\b[^;\n]*/i,
+				/\b(?:extern|global)\b[^\n;]*/i,
 				/\b(?:CPU|DEFAULT|FLOAT)\b.*/
 			],
 			'function': {
-				pattern: /^([\t ]*!\s*)[\da-z]+(?=\s|$)/im,
+				pattern: /^([\t ]*!\s*)[a-z\d]+(?=\s|$)/im,
 				lookbehind: true
 			},
 			'function-inline': {
-				pattern: /(:\s*)[\da-z]+(?=\s)/i,
+				pattern: /(:\s*)[a-z\d]+(?=\s)/i,
 				lookbehind: true,
 				alias: 'function'
 			},
@@ -54,13 +54,13 @@ languages.pbfasm = languages.purebasic = {
 				alias: 'fasm-label'
 			},
 			'register': /\b(?:st\d|[xyz]mm\d\d?|[cdt]r\d|r\d\d?[bwd]?|[er]?[abcd]x|[abcd][hl]|[er]?(?:bp|di|si|sp)|[cdefgs]s|mm\d+)\b/i,
-			'number': /(?:\b|-|(?=\$))(?:0[hx](?:[\da-f]*\.)?[\da-f]+(?:p[+-]?\d+)?|\d[\da-f]+[hx]|\$\d[\da-f]*|0[oq][0-7]+|[0-7]+[oq]|0[by][01]+|[01]+[by]|0[dt]\d+|(?:\d+(?:\.\d+)?|\.\d+)(?:\.?e[+-]?\d+)?[dt]?)\b/i,
-			'operator': /[[\]*+\-/%<>=&|$!,.:]/
+			'number': /(?:\b|-|(?=\$))(?:0[hx](?:[a-f\d]*\.)?[a-f\d]+(?:p[+-]?\d+)?|\d[a-f\d]+[hx]|\$\d[a-f\d]*|0[oq][0-7]+|[0-7]+[oq]|0[by][01]+|[01]+[by]|0[dt]\d+|(?:\d+(?:\.\d+)?|\.\d+)(?:\.?e[+-]?\d+)?[dt]?)\b/i,
+			'operator': /[[\]*/%<>=&|$!,.:+-]/
 		}
 	},
 	'keyword': /\b(?:align|and|as|break|calldebugger|case|compilercase|compilerdefault|compilerelse|compilerelseif|compilerendif|compilerendselect|compilererror|compilerif|compilerselect|continue|data|datasection|debug|debuglevel|declare|declarec|declarecdll|declaredll|declaremodule|default|define|dim|disableasm|disabledebugger|disableexplicit|else|elseif|enableasm|enabledebugger|enableexplicit|end|enddatasection|enddeclaremodule|endenumeration|endif|endimport|endinterface|endmacro|endmodule|endprocedure|endselect|endstructure|endstructureunion|endwith|enumeration|extends|fakereturn|for|foreach|forever|global|gosub|goto|if|import|importc|includebinary|includefile|includepath|interface|macro|module|newlist|newmap|next|not|or|procedure|procedurec|procedurecdll|proceduredll|procedurereturn|protected|prototype|prototypec|read|redim|repeat|restore|return|runtime|select|shared|static|step|structure|structureunion|swap|threaded|to|until|wend|while|with|xincludefile|xor)\b/i,
 	'function': /\b\w+(?:\.\w+)?\s*(?=\()/,
-	'number': /(?:\$[\da-f]+|\b-?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)\b/i,
+	'number': /(?:\$[a-f\d]+|\b-?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)\b/i,
 	'operator': /(?:@\*?|\?|\*)\w+\$?|-[>-]?|\+\+?|!=?|<<?=?|>>?=?|==?|&&?|\|?\||[~^%?*/@]/,
 	'punctuation': clikePunctuation
 };

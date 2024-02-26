@@ -12,7 +12,7 @@ import './javascript.js';
 // - Add support for markup embedded in plain text
 
 var js = languages.js;
-var filter_pattern = /(^([\t ]*)):<<0>>(?:\n(?:\2[\t ].+|\s*?$))+/.source;
+var filter_pattern = /(^([\t ]*)):<0>(?:\n(?:\2[\t ].+|\s*?$))+/.source;
 
 var langMap = {
 	atpl: 'twig',
@@ -83,7 +83,7 @@ Object.assign(pug, {
 	},
 
 	'multiline-plain-text': {
-		pattern: /(^([\t ]*)[\w\-#.]+\.[\t ]*)(?:\n(?:\2[\t ].+|\s*?$))+/m,
+		pattern: /(^([\t ]*)[\w#.-]+\.[\t ]*)(?:\n(?:\2[\t ].+|\s*?$))+/m,
 		lookbehind: true
 	},
 	'markup': {
@@ -127,7 +127,7 @@ Object.assign(pug, {
 			inside: {
 				'keyword': /^mixin/,
 				'function': /\w+(?=\s*\(|\s*$)/,
-				'punctuation': /[(),.]/
+				'punctuation': /[().,]/
 			}
 		},
 		// Usage
@@ -150,11 +150,11 @@ Object.assign(pug, {
 	},
 
 	'plain-text': {
-		pattern: /(^[\t ]*(?!-)[\w\-#.]*[\w\-](?:(?:&[^(]+)?\([^)]+\))*\/?[\t ]).+/m,
+		pattern: /(^[\t ]*(?!-)[\w#.-]*[\w-](?:(?:&[^(]+)?\([^)]+\))*\/?[\t ]).+/m,
 		lookbehind: true
 	},
 	'tag': {
-		pattern: /(^[\t ]*)(?!-)[\w\-#.]*[\w\-](?:(?:&[^(]+)?\([^)]+\))*\/?:?/m,
+		pattern: /(^[\t ]*)(?!-)[\w#.-]*[\w-](?:(?:&[^(]+)?\([^)]+\))*\/?:?/m,
 		lookbehind: true,
 		inside: {
 			'attributes': [
@@ -176,8 +176,8 @@ Object.assign(pug, {
 				}
 			],
 			'punctuation': /:/,
-			'attr-id': /#[\w\-]+/,
-			'attr-class': /\.[\w\-]+/
+			'attr-id': /#[\w-]+/,
+			'attr-class': /\.[\w-]+/
 		}
 	},
 	'code': [
@@ -187,5 +187,5 @@ Object.assign(pug, {
 			inside: js
 		}
 	],
-	'punctuation': /[.\-!=|]+/
+	'punctuation': /[.!=|-]+/
 })

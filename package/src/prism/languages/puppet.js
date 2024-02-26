@@ -4,7 +4,7 @@ import { boolean } from '../utils/shared.js';
 var interpolation = [
 	{
 		// Allow for one nested level of braces inside interpolation
-		pattern: /(^|[^\\])\$\{(?:[^'"{}]|\{[^}]*\}|(["'])(?:(?!\2)[^\\]|\\[\s\S])*\2)+\}/,
+		pattern: /(^|[^\\])\$\{(?:[^'"{}]|\{[^}]*\}|(["'])(?:\\[\s\S]|(?!\2)[^\\])*\2)+\}/,
 		lookbehind: true,
 		inside: {
 			'short-variable': {
@@ -36,7 +36,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 	'heredoc': [
 		// Matches the content of a quoted heredoc string (subject to interpolation)
 		{
-			pattern: /(@\("([^"\n\/):]+)"(?:\/[nrts$uL]*)?\).*\n)(?:.*\n)*?[ \t]*(?:\|[ \t]*)?(?:-[ \t]*)?\2/,
+			pattern: /(@\("([^\n"/):]+)"(?:\/[nrts$uL]*)?\).*\n)(?:.*\n)*?[ \t]*(?:\|[ \t]*)?(?:-[ \t]*)?\2/,
 			lookbehind: true,
 			alias: 'string',
 			inside: {
@@ -48,7 +48,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 		},
 		// Matches the content of an unquoted heredoc string (no interpolation)
 		{
-			pattern: /(@\(([^"\n\/):]+)(?:\/[nrts$uL]*)?\).*\n)(?:.*\n)*?[ \t]*(?:\|[ \t]*)?(?:-[ \t]*)?\2/g,
+			pattern: /(@\(([^\n"/):]+)(?:\/[nrts$uL]*)?\).*\n)(?:.*\n)*?[ \t]*(?:\|[ \t]*)?(?:-[ \t]*)?\2/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',
@@ -59,7 +59,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 		},
 		// Matches the start tag of heredoc strings
 		{
-			pattern: /@\("?(?:[^"\n\/):]+)"?(?:\/[nrts$uL]*)?\)/,
+			pattern: /@\("?(?:[^\n"/):]+)"?(?:\/[nrts$uL]*)?\)/,
 			alias: 'string',
 			inside: {
 				'punctuation': {
@@ -76,13 +76,13 @@ interpolation[0].inside[rest] = languages.puppet = {
 	},
 	'regex': {
 		// Must be prefixed with the keyword "node" or a non-word char
-		pattern: /((?:\bnode\s+|[~=\(\[\{,]\s*|[=+]>\s*|^\s*))\/(?:[^\/\\]|\\[\s\S])+\/(?:[imx]+\b|\B)/g,
+		pattern: /((?:\bnode\s+|[~=\(\[\{,]\s*|[=+]>\s*|^\s*))\/(?:\\[\s\S]|[^\\/])+\/(?:[imx]+\b|\B)/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			// Extended regexes must have the x flag. They can contain single-line comments.
 			'extended-regex': {
-				pattern: /^\/(?:[^\/\\]|\\[\s\S])+\/[im]*x[im]*$/,
+				pattern: /^\/(?:\\[\s\S]|[^\\/])+\/[im]*x[im]*$/,
 				inside: {
 					'comment': /#.*/
 				}
@@ -95,7 +95,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 	},
 	'string': {
 		// Allow for one nested level of double quotes inside interpolation
-		pattern: /(["'])(?:\$\{(?:[^'"}]|(["'])(?:(?!\2)[^\\]|\\[\s\S])*\2)+\}|\$(?!\{)|(?!\1)[^\\$]|\\[\s\S])*\1/g,
+		pattern: /(["'])(?:\$\{(?:[^'"}]|(["'])(?:\\[\s\S]|(?!\2)[^\\])*\2)+\}|\$(?!\{)|\\[\s\S]|(?!\1)[^\\$])*\1/g,
 		greedy: true,
 		inside: {
 			'double-quoted': {
@@ -128,6 +128,6 @@ interpolation[0].inside[rest] = languages.puppet = {
 		pattern: /\b(?:Any|Array|Boolean|Callable|Catalogentry|Class|Collection|Data|Default|Enum|Float|Hash|Integer|NotUndef|Numeric|Optional|Pattern|Regexp|Resource|Runtime|Scalar|String|Struct|Tuple|Type|Undef|Variant)\b/,
 		alias: 'symbol'
 	},
-	'operator': /=[=~>]?|![=~]?|<(?:<\|?|[=~|-])?|>[>=]?|->?|~>|\|>?>?|[*\/%+?]|\b(?:and|in|or)\b/,
-	'punctuation': /[[\]{}().,;]|:+/
+	'operator': /=[=~>]?|![=~]?|<(?:<\|?|[=~|-])?|>[>=]?|->?|~>|\|>?>?|[*/%+?]|\b(?:and|in|or)\b/,
+	'punctuation': /[()[\]{}.,;]|:+/
 };

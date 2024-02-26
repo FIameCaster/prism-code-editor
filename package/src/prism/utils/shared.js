@@ -8,9 +8,9 @@ var clikeString = () => ({
 	greedy: true
 });
 
-var clikeNumber = /\b0x[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i;
+var clikeNumber = /\b0x[a-f\d]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i;
 
-var clikePunctuation = /[{}[\];(),.:]/;
+var clikePunctuation = /[()[\]{}.,:;]/;
 
 var boolean = /\b(?:false|true)\b/;
 
@@ -22,7 +22,7 @@ var nested = (pattern, depthLog2) => {
 }
 
 var replace = (pattern, replacements) =>
-	pattern.replace(/<<(\d+)>>/g, (m, index) => `(?:${replacements[+index]})`);
+	pattern.replace(/<(\d+)>/g, (m, index) => `(?:${replacements[+index]})`);
 
 var re = (pattern, replacements, flags) => RegExp(replace(pattern, replacements), flags);
 

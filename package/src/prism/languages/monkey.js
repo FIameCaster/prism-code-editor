@@ -6,7 +6,7 @@ languages.monkey = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^"\n]*"/g,
+		pattern: /"[^\n"]*"/g,
 		greedy: true,
 	},
 	'preprocessor': {
@@ -22,10 +22,10 @@ languages.monkey = {
 		alias: 'class-name'
 	},
 	'number': {
-		pattern: /((?:\.\.)?)(?:(?:\b|\B-\.?|\B\.)\d+(?:(?!\.\.)\.\d*)?|\$[\da-f]+)/i,
+		pattern: /((?:\.\.)?)(?:(?:\b|\B-\.?|\B\.)\d+(?:(?!\.\.)\.\d*)?|\$[a-f\d]+)/i,
 		lookbehind: true
 	},
 	'keyword': /\b(?:abstract|array|bool|case|catch|class|const|continue|default|eachin|else|elseif|end|endif|exit|extends|extern|false|field|final|float|for|forever|function|global|if|implements|import|inline|int|interface|local|method|module|new|next|null|object|private|property|public|repeat|return|select|self|step|strict|string|super|then|throw|to|true|try|until|void|wend|while)\b/i,
-	'operator': /\.\.|<[=>]?|>=?|:?=|(?:[+\-*\/&~|]|\b(?:mod|shl|shr)\b)=?|\b(?:and|not|or)\b/i,
-	'punctuation': /[.,:;()[\]]/
+	'operator': /\.\.|<[=>]?|>=?|:?=|(?:[*/&~|+-]|\b(?:mod|shl|shr)\b)=?|\b(?:and|not|or)\b/i,
+	'punctuation': /[()[\].,:;]/
 };

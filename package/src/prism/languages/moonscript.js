@@ -52,5 +52,5 @@ moonscript.inside = languages.moon = languages.moonscript = {
 	'boolean': boolean,
 	'number': /(?:\B\.\d+|\b\d+\.\d+|\b\d+(?=[eE]))(?:[eE][-+]?\d+)?\b|\b(?:0x[a-fA-F\d]+|\d+)(?:U?LL)?\b/,
 	'operator': /\.{3}|[-=]>|~=|(?:[-+*/%<>!=]|\.\.)=?|[:#^]|\b(?:and|or)\b=?|\b(?:not)\b/,
-	'punctuation': /[.,()[\]{}\\]/
+	'punctuation': /[()[\]{}.,\\]/
 };

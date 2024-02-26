@@ -8,7 +8,7 @@ import './javadoclike.js';
 var codeLinePattern = /(^(?:[\t ]*(?:\*\s*)*))[^*\s].*$/m;
 
 var memberReference = /#\s*\w+(?:\s*\([^()]*\))?/.source;
-var reference = replace(/(?:\b[a-zA-Z]\w+\s*\.\s*)*\b[A-Z]\w*(?:\s*<<0>>)?|<<0>>/.source, [memberReference]);
+var reference = replace(/(?:\b[a-zA-Z]\w+\s*\.\s*)*\b[A-Z]\w*(?:\s*<0>)?|<0>/.source, [memberReference]);
 
 var java = languages.java;
 var markup = languages.markup;
@@ -35,7 +35,7 @@ insertBefore(javadoc, 'keyword', {
 			},
 			'class-name': /\b[A-Z]\w*/,
 			'keyword': java.keyword,
-			'punctuation': /[#()[\],.]/
+			'punctuation': /[()[\].,#]/
 		}
 	},
 	'class-name': {

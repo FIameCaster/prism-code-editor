@@ -12,7 +12,7 @@ languages.agda = {
 		lookbehind: true,
 	},
 	'function': {
-		pattern: /(^[ \t]*)(?!\s)[^:\n]+(?=:)/m,
+		pattern: /(^[ \t]*)(?!\s)[^\n:]+(?=:)/m,
 		lookbehind: true,
 	},
 	'operator': {

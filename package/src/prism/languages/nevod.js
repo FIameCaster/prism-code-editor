@@ -10,25 +10,25 @@ languages.nevod = {
 		},
 	},
 	'namespace': {
-		pattern: /(@namespace\s+)[a-zA-Z0-9\-.]+(?=\s*\{)/,
+		pattern: /(@namespace\s+)[a-zA-Z\d.-]+(?=\s*\{)/,
 		lookbehind: true,
 	},
 	'pattern': {
-		pattern: /(@pattern\s+)?#?[a-zA-Z0-9\-.]+(?:\s*\(\s*(?:~\s*)?[a-zA-Z0-9\-.]+\s*(?:,\s*(?:~\s*)?[a-zA-Z0-9\-.]*)*\))?(?=\s*=)/,
+		pattern: /(@pattern\s+)?#?[a-zA-Z\d.-]+(?:\s*\(\s*(?:~\s*)?[a-zA-Z\d.-]+\s*(?:,\s*(?:~\s*)?[a-zA-Z\d.-]*)*\))?(?=\s*=)/,
 		lookbehind: true,
 		inside: {
 			'pattern-name': {
-				pattern: /^#?[a-zA-Z0-9\-.]+/,
+				pattern: /^#?[a-zA-Z\d.-]+/,
 				alias: 'class-name',
 			},
 			'fields': {
 				pattern: /\(.*\)/,
 				inside: {
 					'field-name': {
-						pattern: /[a-zA-Z0-9\-.]+/,
+						pattern: /[a-zA-Z\d.-]+/,
 						alias: 'variable',
 					},
-					'punctuation': /[,()]/,
+					'punctuation': /[(),]/,
 					'operator': {
 						pattern: /~/,
 						alias: 'field-hidden-mark',
@@ -38,16 +38,16 @@ languages.nevod = {
 		},
 	},
 	'search': {
-		pattern: /(@search\s+|#)[a-zA-Z0-9\-.]+(?:\.\*)?(?=\s*;)/,
+		pattern: /(@search\s+|#)[a-zA-Z\d.-]+(?:\.\*)?(?=\s*;)/,
 		alias: 'function',
 		lookbehind: true,
 	},
 	'keyword': /@(?:having|inside|namespace|outside|pattern|require|search|where)\b/,
 	'standard-pattern': {
-		pattern: /\b(?:Alpha|AlphaNum|Any|Blank|End|LineBreak|Num|NumAlpha|Punct|Space|Start|Symbol|Word|WordBreak)\b(?:\([a-zA-Z0-9\-.,\s+]*\))?/,
+		pattern: /\b(?:Alpha|AlphaNum|Any|Blank|End|LineBreak|Num|NumAlpha|Punct|Space|Start|Symbol|Word|WordBreak)\b(?:\([a-zA-Z\d.,\s+-]*\))?/,
 		inside: {
 			'standard-pattern-name': {
-				pattern: /^[a-zA-Z0-9\-.]+/,
+				pattern: /^[a-zA-Z\d.-]+/,
 				alias: 'builtin',
 			},
 			'quantifier': {
@@ -55,10 +55,10 @@ languages.nevod = {
 				alias: 'number',
 			},
 			'standard-pattern-attr': {
-				pattern: /[a-zA-Z0-9\-.]+/,
+				pattern: /[a-zA-Z\d.-]+/,
 				alias: 'builtin',
 			},
-			'punctuation': /[,()]/,
+			'punctuation': /[(),]/,
 		},
 	},
 	'quantifier': {
@@ -101,27 +101,27 @@ languages.nevod = {
 	],
 	'field-capture': [
 		{
-			pattern: /([a-zA-Z0-9\-.]+\s*\()\s*[a-zA-Z0-9\-.]+\s*:\s*[a-zA-Z0-9\-.]+(?:\s*,\s*[a-zA-Z0-9\-.]+\s*:\s*[a-zA-Z0-9\-.]+)*(?=\s*\))/,
+			pattern: /([a-zA-Z\d.-]+\s*\()\s*[a-zA-Z\d.-]+\s*:\s*[a-zA-Z\d.-]+(?:\s*,\s*[a-zA-Z\d.-]+\s*:\s*[a-zA-Z\d.-]+)*(?=\s*\))/,
 			lookbehind: true,
 			inside: {
 				'field-name': {
-					pattern: /[a-zA-Z0-9\-.]+/,
+					pattern: /[a-zA-Z\d.-]+/,
 					alias: 'variable',
 				},
 				'colon': /:/,
 			},
 		},
 		{
-			pattern: /[a-zA-Z0-9\-.]+\s*:/,
+			pattern: /[a-zA-Z\d.-]+\s*:/,
 			inside: {
 				'field-name': {
-					pattern: /[a-zA-Z0-9\-.]+/,
+					pattern: /[a-zA-Z\d.-]+/,
 					alias: 'variable',
 				},
 				'colon': /:/,
 			},
 		},
 	],
-	'punctuation': /[:;,()]/,
-	'name': /[a-zA-Z0-9\-.]+/
+	'punctuation': /[(),:;]/,
+	'name': /[a-zA-Z\d.-]+/
 };

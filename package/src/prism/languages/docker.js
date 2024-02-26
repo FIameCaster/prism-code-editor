@@ -6,11 +6,11 @@ import { re, replace } from '../utils/shared.js';
 
 var spaceAfterBackSlash = /\\\n(?:\s|\\\n|#.*(?!.))*(?![\s#]|\\\n)/.source;
 // At least one space, comment, or line break
-var space = replace(/(?:[ \t]+(?![ \t])(?:<<0>>)?|<<0>>)/.source, [spaceAfterBackSlash]);
+var space = replace(/(?:[ \t]+(?![ \t])<0>?|<0>)/.source, [spaceAfterBackSlash]);
 
-var string = /"(?:[^"\\\n]|\\[\s\S])*"|'(?:[^'\\\n]|\\[\s\S])*'/g;
+var string = /"(?:\\[\s\S]|[^\\\n"])*"|'(?:\\[\s\S]|[^\\\n'])*'/g;
 var stringSrc = string.source;
-var option = replace(/--[\w-]+=(?:<<0>>|(?!["'])(?:[^\s\\]|\\.)+)/.source, [stringSrc]);
+var option = replace(/--[\w-]+=(?:<0>|(?!["'])(?:\\.|[^\\\s])+)/.source, [stringSrc]);
 
 var stringRule = {
 	pattern: string,
@@ -24,12 +24,12 @@ var commentRule = {
 
 languages.dockerfile = languages.docker = {
 	'instruction': {
-		pattern: /(^[ \t]*)(?:ADD|ARG|CMD|COPY|ENTRYPOINT|ENV|EXPOSE|FROM|HEALTHCHECK|LABEL|MAINTAINER|ONBUILD|RUN|SHELL|STOPSIGNAL|USER|VOLUME|WORKDIR)(?=\s)(?:\\.|[^\n\\])*(?:\\$(?:\s|#.*$)*(?![\s#])(?:\\.|[^\n\\])*)*/img,
+		pattern: /(^[ \t]*)(?:ADD|ARG|CMD|COPY|ENTRYPOINT|ENV|EXPOSE|FROM|HEALTHCHECK|LABEL|MAINTAINER|ONBUILD|RUN|SHELL|STOPSIGNAL|USER|VOLUME|WORKDIR)(?=\s)(?:\\.|[^\\\n])*(?:\\$(?:\s|#.*$)*(?![\s#])(?:\\.|[^\\\n])*)*/img,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'options': {
-				pattern: re(/(^(?:ONBUILD<<0>>)?\w+<<0>>)<<1>>(?:<<0>><<1>>)*/.source, [space, option], 'gi'),
+				pattern: re(/(^(?:ONBUILD<0>)?\w+<0>)<1>(?:<0><1>)*/.source, [space, option], 'gi'),
 				lookbehind: true,
 				greedy: true,
 				inside: {
@@ -40,7 +40,7 @@ languages.dockerfile = languages.docker = {
 					'string': [
 						stringRule,
 						{
-							pattern: /(=)(?!["'])(?:[^\s\\]|\\.)+/,
+							pattern: /(=)(?!["'])(?:\\.|[^\\\s])+/,
 							lookbehind: true
 						}
 					],
@@ -51,19 +51,19 @@ languages.dockerfile = languages.docker = {
 			'keyword': [
 				{
 					// https://docs.docker.com/engine/reference/builder/#healthcheck
-					pattern: re(/(^(?:ONBUILD<<0>>)?HEALTHCHECK<<0>>(?:<<1>><<0>>)*)(?:CMD|NONE)\b/.source, [space, option], 'gi'),
+					pattern: re(/(^(?:ONBUILD<0>)?HEALTHCHECK<0>(?:<1><0>)*)(?:CMD|NONE)\b/.source, [space, option], 'gi'),
 					lookbehind: true,
 					greedy: true
 				},
 				{
 					// https://docs.docker.com/engine/reference/builder/#from
-					pattern: re(/(^(?:ONBUILD<<0>>)?FROM<<0>>(?:<<1>><<0>>)*(?!--)[^ \t\\]+<<0>>)AS/.source, [space, option], 'gi'),
+					pattern: re(/(^(?:ONBUILD<0>)?FROM<0>(?:<1><0>)*(?!--)[^ \t\\]+<0>)AS/.source, [space, option], 'gi'),
 					lookbehind: true,
 					greedy: true
 				},
 				{
 					// https://docs.docker.com/engine/reference/builder/#onbuild
-					pattern: re(/(^ONBUILD<<0>>)\w+/.source, [space], 'gi'),
+					pattern: re(/(^ONBUILD<0>)\w+/.source, [space], 'gi'),
 					lookbehind: true,
 					greedy: true
 				},

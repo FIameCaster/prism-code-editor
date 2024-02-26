@@ -6,11 +6,11 @@ languages.oz = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:[^"\\]|\\[\s\S])*"/g,
+		pattern: /"(?:\\[\s\S]|[^\\"])*"/g,
 		greedy: true
 	},
 	'atom': {
-		pattern: /'(?:[^'\\]|\\[\s\S])*'/g,
+		pattern: /'(?:\\[\s\S]|[^\\'])*'/g,
 		greedy: true,
 		alias: 'builtin'
 	},
@@ -22,9 +22,9 @@ languages.oz = {
 			lookbehind: true
 		}
 	],
-	'number': /\b(?:0[bx][\da-f]+|\d+(?:\.\d*)?(?:e~?\d+)?)\b|&(?:[^\\]|\\(?:\d{3}|.))/i,
-	'variable': /`(?:[^`\\]|\\.)+`/,
+	'number': /\b(?:0[bx][a-f\d]+|\d+(?:\.\d*)?(?:e~?\d+)?)\b|&(?:[^\\]|\\(?:\d{3}|.))/i,
+	'variable': /`(?:\\.|[^\\`])+`/,
 	'attr-name': /\b\w+(?=[ \t]*:(?![:=]))/,
-	'operator': /:(?:=|::?)|<[-:=]?|=(?:=|<?:?)|>=?:?|\\=:?|!!?|[|#+\-*\/,~^@]|\b(?:andthen|div|mod|orelse)\b/,
-	'punctuation': /[[\](){}.:;?]/
+	'operator': /:(?:=|::?)|<[-:=]?|=(?:=|<?:?)|>=?:?|\\=:?|!!?|[|#*/,~^@+-]|\b(?:andthen|div|mod|orelse)\b/,
+	'punctuation': /[()[\]{}.:;?]/
 };

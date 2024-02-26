@@ -5,8 +5,8 @@ languages['nand2tetris-hdl'] = {
 	'comment': clikeComment(),
 	'keyword': /\b(?:BUILTIN|CHIP|CLOCKED|IN|OUT|PARTS)\b/,
 	'boolean': boolean,
-	'function': /\b[A-Za-z][A-Za-z0-9]*(?=\()/,
+	'function': /\b[a-zA-Z][A-Za-z\d]*(?=\()/,
 	'number': /\b\d+\b/,
 	'operator': /=|\.\./,
-	'punctuation': /[{}[\];(),:]/
+	'punctuation': /[()[\]{},:;]/
 };

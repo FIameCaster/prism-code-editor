@@ -3,7 +3,7 @@ import { boolean, clikeString } from '../utils/shared.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 
-var numberPattern = /\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b|\b0x[\dA-F]+\b/;
+var numberPattern = /\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b|\b0x[A-F\d]+\b/;
 var string = clikeString();
 
 languages.soy = {
@@ -62,7 +62,7 @@ languages.soy = {
 			'boolean': boolean,
 			'number': numberPattern,
 			'operator': /\?:?|<=?|>=?|==?|!=|[+*/%-]|\b(?:and|not|or)\b/,
-			'punctuation': /[{}()[\]|.,:]/
+			'punctuation': /[()[\]{}.,:|]/
 		}
 	},
 	[tokenize]: embeddedIn('html')

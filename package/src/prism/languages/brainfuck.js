@@ -14,7 +14,7 @@ languages.brainfuck = {
 		alias: 'deleted'
 	},
 	'branching': {
-		pattern: /\[|\]/,
+		pattern: /[[\]]/,
 		alias: 'important'
 	},
 	'operator': /[.,]/,

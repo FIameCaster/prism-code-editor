@@ -5,12 +5,12 @@ import './markup.js';
 import './csharp.js';
 
 var commentLike = /\/(?![/*])|\/\/.*\n|\/\*[^*]*(?:\*(?!\/)[^*]*)*\*\//.source;
-var stringLike = `@(?!")|"(?:[^\n\\\\"]|\\\\.)*"|@"(?:[^\\\\"]|""|\\\\[\\s\\S])*"(?!")|'(?:(?:[^\n'\\\\]|\\\\.|\\\\[Uux][\\da-fA-F]{1,8})'|(?=[^\\\\](?!')))`;
+var stringLike = `@(?!")|"(?:[^\\\\\n"]|\\\\.)*"|@"(?:\\\\[\\s\\S]|[^\\\\"]|"")*"(?!")|'(?:(?:[^\\\\\n']|\\\\.|\\\\[Uux][\a-fA-F\d]{1,8})'|(?=[^\\\\](?!')))`;
 
-var round = nested(replace(/\((?:[^()'"@/]|<<0>>|<<1>>|<self>)*\)/.source, [stringLike, commentLike]), 2);
-var square = nested(replace(/\[(?:[^[\]'"@/]|<<0>>|<<1>>|<self>)*\]/.source, [stringLike, commentLike]), 1);
-var curly = nested(replace(/\{(?:[^{}'"@/]|<<0>>|<<1>>|<self>)*\}/.source, [stringLike, commentLike]), 2);
-var angle = nested(replace(/<(?:[^<>'"@/]|<<0>>|<self>)*>/.source, [commentLike]), 1);
+var round = nested(replace(/\((?:[^()'"@/]|<0>|<1>|<self>)*\)/.source, [stringLike, commentLike]), 2);
+var square = nested(replace(/\[(?:[^[\]'"@/]|<0>|<1>|<self>)*\]/.source, [stringLike, commentLike]), 1);
+var curly = nested(replace(/\{(?:[^{}'"@/]|<0>|<1>|<self>)*\}/.source, [stringLike, commentLike]), 2);
+var angle = nested(replace(/<(?:[^<>'"@/]|<0>|<self>)*>/.source, [commentLike]), 1);
 
 var inlineCs = `@(?:await\\b\\s*)?(?:(?!await\\b)\\w+\\b|${round})(?:[?!]?\\.\\w+\\b|(?:${angle})?${round}|${square})*(?![?!\\.(\\[]|<(?!\\/))`;
 
@@ -26,11 +26,11 @@ var inlineCs = `@(?:await\\b\\s*)?(?:(?!await\\b)\\w+\\b|${round})(?:[?!]?\\.\\w
 // To somewhat alleviate the problem a bit, the patterns for characters (e.g. 'a') is very permissive, it also
 // allows invalid characters to support HTML expressions like this: <p>That's it!</p>.
 
-var tagAttrInlineCs = "@(?![\\w()])|" + inlineCs;
-var tagAttrValue = `(?:"[^"@]*"|'[^'@]*'|[^\\s'"@>=]+(?=[\\s>])|["'][^"'@]*(?:(?:${tagAttrInlineCs})[^"\'@]*)+["\'])`;
+var tagAttrInlineCs = "@(?![()\\w])|" + inlineCs;
+var tagAttrValue = `(?:"[^"@]*"|'[^'@]*'|[^\\s'"@=>]+(?=[\\s>])|["'][^"'@]*(?:(?:${tagAttrInlineCs})[^"\'@]*)+["\'])`;
 
-var tagAttrs = `(?:\\s(?:\\s*[^\\s>\\/=]+(?:\\s*=\\s*${tagAttrValue}|(?=[\\s/>])))+)?`;
-var tagContent = `(?!\\d)[^\\s>\\/=$<%]+${tagAttrs}\\s*\\/?>`;
+var tagAttrs = `(?:\\s(?:\\s*[^\\s/=>]+(?:\\s*=\\s*${tagAttrValue}|(?=[\\s/>])))+)?`;
+var tagContent = `(?!\\d)[^\\s/=>$<%]+${tagAttrs}\\s*\\/?>`;
 var tagRegion = `\\B@?(?:<([a-zA-Z][\\w:]*)${tagAttrs}\\s*>(?:[^<]|<\\/?(?!\\1\\b)${tagContent}|${nested(
 	`<\\1${tagAttrs}\\s*>(?:[^<]|<\\/?(?!\\1\\b)${tagContent}|<self>)*<\\/\\1\\s*>`, 2
 )})*<\\/\\1\\s*>|<${tagContent})`

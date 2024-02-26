@@ -21,6 +21,6 @@ languages['splunk-spl'] = {
 	},
 	'number': /\b\d+(?:\.\d+)?\b/,
 	'boolean': /\b(?:f|false|t|true)\b/i,
-	'operator': /[<>=]=?|[-+*/%|]/,
+	'operator': /[<>=]=?|[*/%|+-]/,
 	'punctuation': /[()[\],]/
 };

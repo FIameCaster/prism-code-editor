@@ -61,7 +61,7 @@ var swift = languages.swift = {
 		alias: 'constant'
 	},
 	'other-directive': {
-		pattern: /#\w+\b/,
+		pattern: /#\w+/,
 		alias: 'property'
 	},
 
@@ -77,7 +77,7 @@ var swift = languages.swift = {
 	},
 	'label': {
 		// https://docs.swift.org/swift-book/LanguageGuide/ControlFlow.html#ID141
-		pattern: /\b(break|continue)\s+\w+|\b[a-zA-Z_]\w*(?=\s*:\s*(?:for|repeat|while)\b)/,
+		pattern: /\b(break|continue)\s+\w+|\b(?!\d)\w+(?=\s*:\s*(?:for|repeat|while)\b)/,
 		lookbehind: true,
 		alias: 'important'
 	},
@@ -94,7 +94,7 @@ var swift = languages.swift = {
 		pattern: /\b_\b/,
 		alias: 'keyword'
 	},
-	'number': /\b(?:[\d_]+(?:\.[\de_]+)?|0x[a-f0-9_]+(?:\.[a-f0-9p_]+)?|0b[01_]+|0o[0-7_]+)\b/i,
+	'number': /\b(?:[\d_]+(?:\.[\de_]+)?|0x[a-f\d_]+(?:\.[a-f\dp_]+)?|0b[01_]+|0o[0-7_]+)\b/i,
 
 	// A class name must start with an upper-case letter and be either 1 letter long or contain a lower-case letter.
 	'class-name': /\b[A-Z](?:[A-Z_\d]*[a-z]\w*)?\b/,
@@ -104,8 +104,8 @@ var swift = languages.swift = {
 	// Operators are generic in Swift. Developers can even create new operators (e.g. +++).
 	// https://docs.swift.org/swift-book/ReferenceManual/zzSummaryOfTheGrammar.html#ID481
 	// This regex only supports ASCII operators.
-	'operator': /[-+*/%=!<>&|^~?]+|\.[.\-+*/%=!<>&|^~?]+/,
-	'punctuation': /[{}[\]();,.:\\]/
+	'operator': /[*/%!=<>&|^~?+-]+|\.[.*/%!=<>&|^~?+-]+/,
+	'punctuation': /[()[\]{}.,:;\\]/
 };
 
 swift['string-literal'].forEach(rule => {

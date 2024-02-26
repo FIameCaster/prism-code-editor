@@ -7,12 +7,12 @@ languages.squirrel = {
 		greedy: true
 	},
 	'char': {
-		pattern: /(^|[^\\"'])'(?:[^\\']|\\(?:[xuU][0-9a-fA-F]{0,8}|[\s\S]))'/g,
+		pattern: /(^|[^\\"'])'(?:[^\\']|\\(?:[xuU][a-fA-F\d]{0,8}|[\s\S]))'/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\"'@])(?:@"(?:[^"]|"")*"(?!")|"(?:[^\\\n"]|\\.)*")/g,
+		pattern: /(^|[^\\"'@])(?:@"(?:[^"]|"")*"(?!")|"(?:\\.|[^\\\n"])*")/g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -27,7 +27,7 @@ languages.squirrel = {
 	'keyword': /\b(?:__FILE__|__LINE__|base|break|case|catch|class|clone|const|constructor|continue|default|delete|else|enum|extends|for|foreach|function|if|in|instanceof|local|null|resume|return|static|switch|this|throw|try|typeof|while|yield)\b/,
 	'boolean': boolean,
 	'function': /\b\w+(?=\()/,
-	'number': /\b(?:0x[0-9a-fA-F]+|\d+(?:\.(?:\d+|[eE][+-]?\d+))?)\b/,
+	'number': /\b(?:0x[a-fA-F\d]+|\d+(?:\.(?:\d+|[eE][+-]?\d+))?)\b/,
 	'attribute-punctuation': {
 		pattern: /<\/|\/>/,
 		alias: 'important'

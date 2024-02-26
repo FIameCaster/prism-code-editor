@@ -12,7 +12,7 @@ insertBefore(
 			alias: 'comment'
 		},
 		'heading': {
-			pattern: /^(=+)[^=\n].*?\1/m,
+			pattern: /^(=+)[^\n=].*?\1/m,
 			inside: {
 				'punctuation': /^=+|=+$/,
 				'important': /.+/
@@ -62,7 +62,7 @@ insertBefore(
 		// ! style="text-align:left;"| Item
 		// |}
 		'table-tag': {
-			pattern: /((?:^|[|!])[|!])[^|\n]+\|(?!\|)/m,
+			pattern: /((?:^|[|!])[|!])[^\n|]+\|(?!\|)/m,
 			lookbehind: true,
 			inside: {
 				'table-bar': {

@@ -1,10 +1,7 @@
 import { languages } from '../core.js';
 
-/**
- * @param {RegExp} name
- * @returns {RegExp}
- */
-var headerValueOf = name => RegExp('(^(?:' + name.source + '):[ \t]*(?![ \t]))[^]+', 'i');
+/** @param {string} name */
+var headerValueOf = name => RegExp('(^(?:' + name + '):[ \t]*(?![ \t]))[^]+', 'i');
 
 var http = languages.http = {
 	'request-line': {
@@ -90,25 +87,25 @@ http.header = {
 	inside: {
 		'header-value': [
 			{
-				pattern: headerValueOf(/Content-Security-Policy/),
+				pattern: headerValueOf(/Content-Security-Policy/.source),
 				lookbehind: true,
 				alias: 'languages-csp',
 				inside: 'csp'
 			},
 			{
-				pattern: headerValueOf(/Public-Key-Pins(?:-Report-Only)?/),
+				pattern: headerValueOf(/Public-Key-Pins(?:-Report-Only)?/.source),
 				lookbehind: true,
 				alias: 'languages-hpkp',
 				inside: 'hpkp'
 			},
 			{
-				pattern: headerValueOf(/Strict-Transport-Security/),
+				pattern: headerValueOf(/Strict-Transport-Security/.source),
 				lookbehind: true,
 				alias: 'languages-hsts',
 				inside: 'hsts'
 			},
 			{
-				pattern: headerValueOf(/[^:]+/),
+				pattern: headerValueOf(/[^:]+/.source),
 				lookbehind: true
 			}
 		],

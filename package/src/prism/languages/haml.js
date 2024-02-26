@@ -25,7 +25,7 @@ var haml = languages.haml = {
 	]
 };
 
-var filter_pattern = '(^[\\t ]*):<<0>>(?:\\n(?:\\1[\\t ].+|\\s*?$))+';
+var filter_pattern = '(^[\\t ]*):<0>(?:\\n(?:\\1[\\t ].+|\\s*?$))+';
 
 // Non exhaustive list of available filters and associated languages
 [
@@ -80,7 +80,7 @@ Object.assign(haml, {
 	},
 	'tag': {
 		// Allows for one nested group of braces
-		pattern: /(^[\t ]*)[%.#][\w\-#.]*[\w\-](?:\([^)]+\)|\{(?:\{[^}]+\}|[^{}])+\}|\[[^\]]+\])*[\/<>]*/m,
+		pattern: /(^[\t ]*)[%.#][\w#.-]*[\w-](?:\([^)]+\)|\{(?:\{[^}]+\}|[^{}])+\}|\[[^\]]+\])*[/<>]*/m,
 		lookbehind: true,
 		inside: {
 			'attributes': [
@@ -95,7 +95,7 @@ Object.assign(haml, {
 					pattern: /\([^)]+\)/,
 					inside: {
 						'attr-value': {
-							pattern: /(=\s*)(?:"(?:\\.|[^\\"\n])*"|[^)\s]+)/,
+							pattern: /(=\s*)(?:"(?:\\.|[^\\\n"])*"|[^)\s]+)/,
 							lookbehind: true
 						},
 						'attr-name': /[\w:-]+(?=\s*!?=|\s*[,)])/,
@@ -130,7 +130,7 @@ Object.assign(haml, {
 		}
 	},
 	'punctuation': {
-		pattern: /(^[\t ]*)[~=\-&!]+/m,
+		pattern: /(^[\t ]*)[~=&!-]+/m,
 		lookbehind: true
 	}
 });

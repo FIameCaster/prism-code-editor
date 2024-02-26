@@ -4,16 +4,16 @@ import { clikeComment } from '../utils/shared.js';
 languages.aql = {
 	'comment': clikeComment(),
 	'property': {
-		pattern: /([{,]\s*)(?:(?!\d)\w+|(["'´`])(?:(?!\2)[^\\\n]|\\.)*\2)(?=\s*:)/g,
+		pattern: /([{,]\s*)(?:(?!\d)\w+|(["'´`])(?:\\.|(?!\2)[^\\\n])*\2)(?=\s*:)/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /(["'])(?:(?!\1)[^\\\n]|\\.)*\1/g,
+		pattern: /(["'])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 	'identifier': {
-		pattern: /([´`])(?:(?!\1)[^\\\n]|\\.)*\1/g,
+		pattern: /([´`])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 	'variable': /@@?\w+/,
@@ -44,9 +44,9 @@ languages.aql = {
 	},
 	'number': [
 		/\b0b[01]+/i,
-		/\b0x[0-9a-f]+/i,
+		/\b0x[a-f\d]+/i,
 		/(?:\B\.\d+|\b(?:0|[1-9]\d*)(?:\.\d+)?)(?:e[+-]?\d+)?/i
 	],
-	'operator': /\*{2,}|[=!]~|[!=<>]=?|&&|\|\||[-+*/%]/,
-	'punctuation': /::|[?.:,;()[\]{}]/
+	'operator': /\*{2,}|[!=]~|[!=<>]=?|&&|\|\||[*/%+-]/,
+	'punctuation': /::|[()[\]{}.,:;?]/
 };

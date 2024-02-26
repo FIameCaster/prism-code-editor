@@ -44,7 +44,7 @@ insertBefore(
 		},
 		'class-name': [
 			{
-				pattern: re(/(@(?:augments|class|extends|interface|memberof!?|template|this|typedef)\s+(?:<<0>>\s+)?)[A-Z]\w*(?:\.[A-Z]\w*)*/.source, [type]),
+				pattern: re(/(@(?:augments|class|extends|interface|memberof!?|template|this|typedef)\s+(?:<0>\s+)?)[A-Z]\w*(?:\.[A-Z]\w*)*/.source, [type]),
 				lookbehind: true,
 				inside: {
 					'punctuation': /\./
@@ -59,7 +59,7 @@ insertBefore(
 					'boolean': javascript.boolean,
 					'keyword': languages.ts.keyword,
 					'operator': /=>|\.{3}|[&|?:*]/,
-					'punctuation': /[.,;=<>{}()[\]]/
+					'punctuation': /[()[\]{}.,;=<>]/
 				}
 			}
 		],

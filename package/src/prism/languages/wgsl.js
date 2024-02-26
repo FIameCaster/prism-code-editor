@@ -24,7 +24,7 @@ languages.wgsl = {
 		alias: 'attr-name',
 	},
 	'functions': {
-		pattern: /\b(fn\s+)[_a-zA-Z]\w*(?=[(<])/,
+		pattern: /\b(fn\s+)(?!\d)\w+(?=[(<])/,
 		lookbehind: true,
 		alias: 'function',
 	},
@@ -34,17 +34,17 @@ languages.wgsl = {
 		pattern: /\b[_a-z]\w*(?=\()/i,
 		alias: 'function',
 	},
-	'class-name': /\b(?:[A-Z][A-Za-z0-9]*)\b/,
+	'class-name': /\b(?:[A-Z][A-Za-z\d]*)\b/,
 	'bool-literal': {
 		pattern: boolean,
 		alias: 'boolean',
 	},
 	'hex-int-literal': {
-		pattern: /\b0[xX][0-9a-fA-F]+[iu]?\b(?![.pP])/,
+		pattern: /\b0[xX][a-fA-F\d]+[iu]?\b(?![.pP])/,
 		alias: 'number',
 	},
 	'hex-float-literal': {
-		pattern: /\b0[xX][0-9a-fA-F]*(?:\.[0-9a-fA-F]*)?(?:[pP][+-]?\d+[fh]?)?/,
+		pattern: /\b0[xX][a-fA-F\d]*(?:\.[a-fA-F\d]*)?(?:[pP][+-]?\d+[fh]?)?/,
 		alias: 'number'
 	},
 	'decimal-float-literal': {
@@ -56,5 +56,5 @@ languages.wgsl = {
 		alias: 'number',
 	},
 	'operator': /&&|\|\||-[->]|\+\+|>>=?|<<=?|[-+/&%|^*!=]=?|[<>]=|~/,
-	'punctuation': /[@(){}[\],;<>:.]/,
+	'punctuation': /[()[\]{}.,:;<>@]/,
 };

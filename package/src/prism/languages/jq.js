@@ -5,7 +5,7 @@ var content = {
 	pattern: /[\s\S]+/
 };
 var interpolation = /\\\((?:[^()]|\([^()]*\))*\)/.source;
-var string = /(^|[^\\])"(?:[^"\n\\]|\\[^\n(]|__)*"/.source.replace(/__/g, interpolation);
+var string = /(^|[^\\])"(?:[^\\\n"]|\\[^\n(]|__)*"/.source.replace(/__/g, interpolation);
 var stringInterpolation = {
 	'interpolation': {
 		pattern: RegExp(/((?:^|[^\\])(?:\\{2})*)/.source + interpolation),
@@ -57,7 +57,7 @@ content.inside = languages.jq = {
 		pattern: /\b[a-z_]\w*(?=\s*\()/i,
 		alias: 'function'
 	},
-	'punctuation': /::|[()[\]{},:;]|\.(?=\s*[\[\w$])/,
+	'punctuation': /::|[()[\]{},:;]|\.(?=\s*[\[$\w])/,
 	'dot': {
 		pattern: /\./,
 		alias: 'important'

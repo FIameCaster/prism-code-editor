@@ -4,7 +4,7 @@ import { boolean, clikeComment } from '../utils/shared.js';
 languages.res = languages.rescript = {
 	'comment': clikeComment(),
 	'char': {
-		pattern: /'(?:[^\n\\]|\\(?:.|\w+))'/g,
+		pattern: /'(?:[^\\\n]|\\(?:.|\w+))'/g,
 		greedy: true
 	},
 	'template-string': {
@@ -33,14 +33,14 @@ languages.res = languages.rescript = {
 		pattern: /"(?:\\[\s\S]|[^\\\n"])*"/g,
 		greedy: true
 	},
-	'class-name': /\b[A-Z]\w*|@[a-z.]*|#[A-Za-z]\w*|#\d/,
+	'class-name': /\b[A-Z]\w*|@[a-z.]*|#[a-zA-Z]\w*|#\d/,
 	'function': {
 		pattern: /[a-zA-Z]\w*(?=\()|(\.)[a-z]\w*/,
 		lookbehind: true,
 	},
-	'number': /(?:\b0x(?:[\da-f]+(?:\.[\da-f]*)?|\.[\da-f]+)(?:p[+-]?\d+)?|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)[ful]{0,4}/i,
+	'number': /(?:\b0x(?:[a-f\d]+(?:\.[a-f\d]*)?|\.[a-f\d]+)(?:p[+-]?\d+)?|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)[ful]{0,4}/i,
 	'boolean': boolean,
-	'attr-value': /[A-Za-z]\w*(?==)/,
+	'attr-value': /[a-zA-Z]\w*(?==)/,
 	'constant': {
 		pattern: /(\btype\s+)[a-z]\w*/,
 		lookbehind: true
@@ -53,6 +53,6 @@ languages.res = languages.rescript = {
 		},
 	},
 	'keyword': /\b(?:and|as|assert|begin|bool|class|constraint|do|done|downto|else|end|exception|external|float|for|fun|function|if|in|include|inherit|initializer|int|lazy|let|method|module|mutable|new|nonrec|object|of|open|or|private|rec|string|switch|then|to|try|type|when|while|with)\b/,
-	'operator': /\.{3}|:[:=]?|\|>|->|=(?:==?|>)?|<=?|>=?|[|^?'#!~`]|[+\-*\/]\.?|\b(?:asr|land|lor|lsl|lsr|lxor|mod)\b/,
-	'punctuation': /[(){}[\],;.]/
+	'operator': /\.{3}|:[:=]?|\|>|->|=(?:==?|>)?|<=?|>=?|[|^?'#!~`]|[*/+-]\.?|\b(?:asr|land|lor|lsl|lsr|lxor|mod)\b/,
+	'punctuation': /[()[\]{}.,;]/
 };

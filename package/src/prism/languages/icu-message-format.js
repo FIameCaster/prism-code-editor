@@ -33,7 +33,7 @@ var choiceStyleInside = {
 };
 
 var argumentSource = nested(
-	replace(/\{(?:[^{}']|'(?![{},'])|''|<<0>>|<self>)*\}/.source, [stringPattern.source]), 3
+	replace(/\{(?:[^{}']|'(?![{},'])|''|<0>|<self>)*\}/.source, [stringPattern.source]), 3
 );
 
 var nestedMessage = {

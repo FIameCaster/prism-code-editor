@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikePunctuation } from '../utils/shared.js';
 
 var expression = {
 	pattern: /[\s\S]+/
@@ -23,12 +24,12 @@ expression.inside = languages.brightscript = {
 		}
 	},
 	'property': {
-		pattern: /([\n{,][\t ]*)(?:(?!\d)\w+|"(?:[^"\n]|"")*"(?!"))(?=[ \t]*:)/g,
+		pattern: /([\n{,][\t ]*)(?:(?!\d)\w+|"(?:[^\n"]|"")*"(?!"))(?=[ \t]*:)/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:[^"\n]|"")*"(?!")/g,
+		pattern: /"(?:[^\n"]|"")*"(?!")/g,
 		greedy: true
 	},
 	'class-name': {
@@ -40,6 +41,6 @@ expression.inside = languages.brightscript = {
 	'function': /\b(?!\d)\w+(?=[\t ]*\()/,
 	'number': /(?:\b\d+(?:\.\d+)?(?:[ed][+-]\d+)?|&h[a-f\d]+)\b[%&!#]?/i,
 	'operator': /--|\+\+|>>=?|<<=?|<>|[-+*/\\<>]=?|[:^=?]|\b(?:and|mod|not|or)\b/i,
-	'punctuation': /[.,;()[\]{}]/,
+	'punctuation': clikePunctuation,
 	'constant': /\b(?:LINE_NUM)\b/i
 };

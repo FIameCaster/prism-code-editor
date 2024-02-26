@@ -11,12 +11,12 @@ languages.gawk = languages.awk = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:[^\\"\n]|\\.)*"/g,
+		pattern: /(^|[^\\])"(?:\\.|[^\\\n"])*"/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'regex': {
-		pattern: /((?:^|[^\w\s)])\s*)\/(?:[^\/\\\n]|\\.)*\//g,
+		pattern: /((?:^|[^\w\s)])\s*)\/(?:\\.|[^\\\n/])*\//g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -25,8 +25,8 @@ languages.gawk = languages.awk = {
 	'keyword': /\b(?:BEGIN|BEGINFILE|END|ENDFILE|break|case|continue|default|delete|do|else|exit|for|function|getline|if|in|next|nextfile|printf?|return|switch|while)\b|@(?:include|load)\b/,
 
 	'function': /\b[a-z_]\w*(?=\s*\()/i,
-	'number': /\b(?:\d+(?:\.\d+)?(?:e[+-]?\d+)?|0x[a-fA-F0-9]+)\b/,
+	'number': /\b(?:\d+(?:\.\d+)?(?:e[+-]?\d+)?|0x[a-fA-F\d]+)\b/,
 
-	'operator': /--|\+\+|!?~|>&|>>|<<|(?:\*\*|[<>!=+\-*/%^])=?|&&|\|[|&]|[?:]/,
+	'operator': /--|\+\+|!?~|>&|>>|<<|(?:\*\*|[<>!=*/%^+-])=?|&&|\|[|&]|[?:]/,
 	'punctuation': /[()[\]{},;]/
 };

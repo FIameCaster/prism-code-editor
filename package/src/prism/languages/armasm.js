@@ -6,7 +6,7 @@ languages['arm-asm'] = languages.armasm = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"(?:[^"\n]|"")*"/g,
+		pattern: /"(?:[^\n"]|"")*"/g,
 		greedy: true,
 		inside: {
 			'variable': {
@@ -16,7 +16,7 @@ languages['arm-asm'] = languages.armasm = {
 		}
 	},
 	'char': {
-		pattern: /'(?:[^'\n]{0,4}|'')'/g,
+		pattern: /'(?:[^\n']{0,4}|'')'/g,
 		greedy: true
 	},
 	'version-symbol': {
@@ -31,19 +31,19 @@ languages['arm-asm'] = languages.armasm = {
 		alias: 'property'
 	},
 	'instruction': {
-		pattern: /((?:^|(?:^|[^\\])\n)[ \t]*(?:(?:[A-Z][A-Z0-9_]*[a-z]\w*|[a-z]\w*|\d+)[ \t]+)?)\b[A-Z.]+\b/,
+		pattern: /((?:^|(?:^|[^\\])\n)[ \t]*(?:(?:[A-Z][A-Z\d_]*[a-z]\w*|[a-z]\w*|\d+)[ \t]+)?)\b[A-Z.]+\b/,
 		lookbehind: true,
 		alias: 'keyword'
 	},
 	'variable': /\$\w+/,
 
-	'number': /(?:\b[2-9]_\d+|(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e-?\d+)?|\b0(?:[fd]_|x)[0-9a-f]+|&[0-9a-f]+)\b/i,
+	'number': /(?:\b[2-9]_\d+|(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e-?\d+)?|\b0(?:[fd]_|x)[a-f\d]+|&[a-f\d]+)\b/i,
 
 	'register': {
 		pattern: /\b(?:r\d|lr)\b/,
 		alias: 'symbol'
 	},
 
-	'operator': /<>|<<|>>|&&|\|\||[=!<>/]=?|[+\-*%#?&|^]|:[A-Z]+:/,
+	'operator': /<>|<<|>>|&&|\|\||[!=<>/]=?|[*%#?&|^+-]|:[A-Z]+:/,
 	'punctuation': /[()[\],]/
 };

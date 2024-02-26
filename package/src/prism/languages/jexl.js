@@ -13,5 +13,5 @@ languages.jexl = {
 	'operator': /[<>!]=?|-|\+|&&|==|\|\|?|\/\/?|[?:*^%]/,
 	'boolean': boolean,
 	'keyword': /\bin\b/,
-	'punctuation': /[{}[\](),.]/,
+	'punctuation': /[()[\]{}.,]/,
 };

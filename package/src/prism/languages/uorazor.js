@@ -38,13 +38,13 @@ languages.uorazor = {
 	'function': /\b(?:atlist|close|closest|count|counter|counttype|dead|dex|diffhits|diffmana|diffstam|diffweight|find|findbuff|finddebuff|findlayer|findtype|findtypelist|followers|gumpexists|hidden|hits|hp|hue|human|humanoid|ingump|inlist|insysmessage|insysmsg|int|invul|lhandempty|list|listexists|mana|maxhits|maxhp|maxmana|maxstam|maxweight|monster|mounted|name|next|noto|paralyzed|poisoned|position|prev|previous|queued|rand|random|rhandempty|skill|stam|str|targetexists|timer|timerexists|varexist|warmode|weight)\b/,
 	'keyword': /\b(?:and|as|break|continue|else|elseif|endfor|endif|endwhile|for|if|loop|not|or|replay|stop|while)\b/,
 	'boolean': /\b(?:false|null|true)\b/,
-	'number': /\b0x[\dA-Fa-f]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][-+]?\d+)?/,
+	'number': /\b0x[a-fA-F\d]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][-+]?\d+)?/,
 	'operator': [
 		{
 			pattern: /(\s)(?:and|b-and|b-or|b-xor|ends with|in|is|matches|not|or|same as|starts with)(?=\s)/,
 			lookbehind: true
 		},
-		/[=<>]=?|!=|\*\*?|\/\/?|\?:?|[-+~%|]/
+		/[=<>]=?|!=|\*\*?|\/\/?|\?:?|[~%|+-]/
 	],
-	'punctuation': /[()[\]{}:.,]/
+	'punctuation': /[()[\]{}.,:]/
 };

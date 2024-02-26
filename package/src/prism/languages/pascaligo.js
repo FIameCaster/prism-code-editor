@@ -3,7 +3,7 @@ import { re, replace } from '../utils/shared.js';
 
 // Pascaligo is a layer 2 smart contract language for the tezos blockchain
 
-var type = replace(/(?:\b\w+(?:<<0>>)?|<<0>>)/.source, [/\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/.source]);
+var type = replace(/(?:\b\w+<0>?|<0>)/.source, [/\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/.source]);
 
 var pascaligo = languages.pascaligo = {
 	'comment': /\(\*[\s\S]+?\*\)|\/\/.*/,
@@ -13,14 +13,14 @@ var pascaligo = languages.pascaligo = {
 	},
 	'class-name': [
 		{
-			pattern: re(/(\btype\s+\w+\s+is\s+)<<0>>/.source, [type], 'i'),
+			pattern: re(/(\btype\s+\w+\s+is\s+)<0>/.source, [type], 'i'),
 			lookbehind: true
 		},
 		{
-			pattern: re(/<<0>>(?=\s+is\b)/.source, [type], 'i')
+			pattern: re(/<0>(?=\s+is\b)/.source, [type], 'i')
 		},
 		{
-			pattern: re(/(:\s*)<<0>>/.source, [type]),
+			pattern: re(/(:\s*)<0>/.source, [type]),
 			lookbehind: true
 		}
 	],
@@ -43,8 +43,8 @@ var pascaligo = languages.pascaligo = {
 		// Decimal
 		/\b\d+(?:\.\d+)?(?:e[+-]?\d+)?(?:mtz|n)?/i
 	],
-	'operator': /->|=\/=|\.\.|\*\*|:=|<[<=>]?|>[>=]?|[+\-*\/]=?|[@^=|]|\b(?:and|mod|or)\b/,
-	'punctuation': /\(\.|\.\)|[()[\]:;,.{}]/
+	'operator': /->|=\/=|\.\.|\*\*|:=|<[<=>]?|>[>=]?|[*/+-]=?|[@^=|]|\b(?:and|mod|or)\b/,
+	'punctuation': /\(\.|\.\)|[()[\].,:;{}]/
 };
 
 var classNameInside = ['comment', 'keyword', 'builtin', 'operator', 'punctuation'].reduce((accum, key) => {

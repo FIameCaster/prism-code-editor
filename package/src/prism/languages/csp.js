@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-/** @param {RegExp} pattern */
+/** @param {string} pattern */
 var value = pattern => RegExp('([ \\t])(?:' + pattern + ')(?=[\\s;]|$)', 'i');
 
 languages.csp = {
@@ -10,7 +10,7 @@ languages.csp = {
 		alias: 'property'
 	},
 	'scheme': {
-		pattern: value(/[a-z][a-z0-9.+-]*:/.source),
+		pattern: value(/[a-z][a-z\d.+-]*:/.source),
 		lookbehind: true
 	},
 	'none': {
@@ -30,7 +30,7 @@ languages.csp = {
 	},
 	'host': {
 		pattern: value(
-			/[a-z][a-z0-9.+-]*:\/\/[^\s;,']*|\*[^\s;,']*|[a-z0-9-]+(?:\.[a-z0-9-]+)+(?::[\d*]+)?(?:\/[^\s;,']*)?/.source
+			/[a-z][a-z\d.+-]*:\/\/[^\s;,']*|\*[^\s;,']*|[a-z\d-]+(?:\.[a-z\d-]+)+(?::[\d*]+)?(?:\/[^\s;,']*)?/.source
 		),
 		lookbehind: true,
 		alias: 'url',

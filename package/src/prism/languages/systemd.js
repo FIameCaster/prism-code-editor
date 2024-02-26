@@ -5,7 +5,7 @@ var comment = {
 	greedy: true
 };
 
-var quotesSource = /"(?:[^\n"\\]|\\[\s\S])*"(?!\S)/.source;
+var quotesSource = /"(?:\\[\s\S]|[^\\\n"])*"(?!\S)/.source;
 
 languages.systemd = {
 	'comment': comment,
@@ -34,7 +34,7 @@ languages.systemd = {
 		//  2) Line continuations.
 		//     After line continuations, empty lines and comments are ignored so we have to consume them.
 		pattern: RegExp(
-			`(=[ \\t]*(?!\\s))(?:${quotesSource}|(?=[^"\n]))(?:[^\\s\\\\]|[ \t]+(?:(?![ \t"])|${quotesSource})|\\\\\n+(?:[#;].*\n+)*(?![#;]))*`, 'g'
+			`(=[ \\t]*(?!\\s))(?:${quotesSource}|(?=[^\n"]))(?:[^\\\\\\s]|[ \t]+(?:(?![ \t"])|${quotesSource})|\\\\\n+(?:[#;].*\n+)*(?![#;]))*`, 'g'
 		),
 		lookbehind: true,
 		greedy: true,

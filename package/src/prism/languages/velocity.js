@@ -18,8 +18,8 @@ var velocity = {
 	},
 	'number': /\b\d+\b/,
 	'boolean': boolean,
-	'operator': /[=!<>]=?|[+*/%-]|&&|\|\||\.\.|\b(?:eq|g[et]|l[et]|n(?:e|ot))\b/,
-	'punctuation': /[(){}[\]:,.]/
+	'operator': /[!=<>]=?|[+*/%-]|&&|\|\||\.\.|\b(?:eq|g[et]|l[et]|n(?:e|ot))\b/,
+	'punctuation': /[()[\]{}.,:]/
 };
 
 variable.inside = {

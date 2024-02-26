@@ -14,7 +14,7 @@ languages.psl = {
 		}
 	},
 	'heredoc-string': {
-		pattern: /<<<([a-zA-Z_]\w*)\n(?:.*\n)*?\1\b/g,
+		pattern: /<<<((?!\d)\w+)\n(?:.*\n)*?\1\b/g,
 		alias: 'string',
 		greedy: true
 	},
@@ -27,12 +27,12 @@ languages.psl = {
 		alias: 'builtin-function'
 	},
 	'foreach-variable': {
-		pattern: /(\bforeach\s+(?:(?:\w+\b|"(?:\\.|[^\\"])*")\s+){0,2})[_a-zA-Z]\w*(?=\s*\()/g,
+		pattern: /(\bforeach\s+(?:(?:\w+\b|"(?:\\.|[^\\"])*")\s+){0,2})(?!\d)\w+(?=\s*\()/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'function': /\b[_a-z]\w*\b(?=\s*\()/i,
-	'number': /\b(?:0x[0-9a-f]+|\d+(?:\.\d+)?)\b/i,
-	'operator': /--|\+\+|&&=?|\|\|=?|<<=?|>>=?|[=!]~|[-+*/%&|^!=<>]=?|\.|[:?]/,
+	'number': /\b(?:0x[a-f\d]+|\d+(?:\.\d+)?)\b/i,
+	'operator': /--|\+\+|&&=?|\|\|=?|<<=?|>>=?|[!=]~|[*/%&|^!=<>+-]=?|[.:?]/,
 	'punctuation': clikePunctuation
 };

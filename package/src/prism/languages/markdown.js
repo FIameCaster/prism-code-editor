@@ -17,8 +17,8 @@ var inner = [/(?:\\.|[^\\\n]|\n(?!\n))/.source];
  * @returns {RegExp}
  */
 var createInline = pattern => re(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern})`, inner, 'g');
-var tableCell = /(?:\\.|``(?:[^`\n]|`(?!`))+``|`[^`\n]+`|[^\\|\n`])+/.source;
-var tableRow = replace(/\|?<<0>>(?:\|<<0>>)+\|?(?:\n|(?![\s\S]))/.source, [tableCell]);
+var tableCell = /(?:\\.|``(?:[^\n`]|`(?!`))+``|`[^\n`]+`|[^\\|\n`])+/.source;
+var tableRow = replace(/\|?<0>(?:\|<0>)+\|?(?:\n|(?![\s\S]))/.source, [tableCell]);
 var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?\n/.source;
 var markdown = languages.markdown = languages.md = clone(languages.html);
 
@@ -161,13 +161,13 @@ insertBefore(markdown, 'prolog', {
 		// [id]: http://example.com 'Optional title'
 		// [id]: http://example.com (Optional title)
 		// [id]: <http://example.com> "Optional title"
-		pattern: /!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/,
+		pattern: /!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^\\"])*"|'(?:\\.|[^\\'])*'|\((?:\\.|[^)\\])*\)))?/,
 		inside: {
 			'variable': {
 				pattern: /^(!?\[)[^\]]+/,
 				lookbehind: true
 			},
-			'string': /(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/,
+			'string': /(?:"(?:\\.|[^\\"])*"|'(?:\\.|[^\\'])*'|\((?:\\.|[^)\\])*\))$/,
 			'punctuation': /^[[\]!:]|[<>]/
 		},
 		alias: 'url'
@@ -177,7 +177,7 @@ insertBefore(markdown, 'prolog', {
 		// __strong__
 
 		// allow one nested instance of italic text using the same delimiter
-		pattern: createInline(/\b__(?:(?!_)<<0>>|_(?:(?!_)<<0>>)+_)+__\b|\*\*(?:(?!\*)<<0>>|\*(?:(?!\*)<<0>>)+\*)+\*\*/.source),
+		pattern: createInline(/\b__(?:(?!_)<0>|_(?:(?!_)<0>)+_)+__\b|\*\*(?:(?!\*)<0>|\*(?:(?!\*)<0>)+\*)+\*\*/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -194,7 +194,7 @@ insertBefore(markdown, 'prolog', {
 		// _em_
 
 		// allow one nested instance of bold text using the same delimiter
-		pattern: createInline(/\b_(?:(?!_)<<0>>|__(?:(?!_)<<0>>)+__)+_\b|\*(?:(?!\*)<<0>>|\*\*(?:(?!\*)<<0>>)+\*\*)+\*/.source),
+		pattern: createInline(/\b_(?:(?!_)<0>|__(?:(?!_)<0>)+__)+_\b|\*(?:(?!\*)<0>|\*\*(?:(?!\*)<0>)+\*\*)+\*/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -209,7 +209,7 @@ insertBefore(markdown, 'prolog', {
 		// ~~strike through~~
 		// ~strike~
 		// eslint-disable-next-line regexp/strict
-		pattern: createInline(/(~~?)(?:(?!~)<<0>>)+\2/.source),
+		pattern: createInline(/(~~?)(?:(?!~)<0>)+\2/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -223,7 +223,7 @@ insertBefore(markdown, 'prolog', {
 	'code-snippet': {
 		// `code`
 		// ``code``
-		pattern: /(^|[^\\`])(?:``[^`\n]+(?:`[^`\n]+)*``(?!`)|`[^`\n]+`(?!`))/g,
+		pattern: /(^|[^\\`])(?:``[^\n`]+(?:`[^\n`]+)*``(?!`)|`[^\n`]+`(?!`))/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'code keyword'
@@ -232,7 +232,7 @@ insertBefore(markdown, 'prolog', {
 		// [example](http://example.com "Optional title")
 		// [example][id]
 		// [example] [id]
-		pattern: createInline(/!?\[(?:(?!\])<<0>>)+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)|[ \t]?\[(?:(?!\])<<0>>)+\])/.source),
+		pattern: createInline(/!?\[(?:(?!\])<0>)+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^\\"])*")?\)|[ \t]?\[(?:(?!\])<0>)+\])/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -251,7 +251,7 @@ insertBefore(markdown, 'prolog', {
 				lookbehind: true
 			},
 			'string': {
-				pattern: /(^[ \t]+)"(?:\\.|[^"\\])*"(?=\)$)/,
+				pattern: /(^[ \t]+)"(?:\\.|[^\\"])*"(?=\)$)/,
 				lookbehind: true
 			},
 			'markup-bracket': markdown['markup-bracket']

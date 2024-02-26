@@ -6,8 +6,8 @@ import { boolean, nested, re, replace } from '../utils/shared.js';
 var keywords = /\b(?:Adj|BigInt|Bool|Ctl|Double|false|Int|One|Pauli|PauliI|PauliX|PauliY|PauliZ|Qubit|Range|Result|String|true|Unit|Zero|Adjoint|adjoint|apply|as|auto|body|borrow|borrowing|Controlled|controlled|distribute|elif|else|fail|fixup|for|function|if|in|internal|intrinsic|invert|is|let|mutable|namespace|new|newtype|open|operation|repeat|return|self|set|until|use|using|while|within)\b/;
 
 // types
-var identifier = /\b[A-Za-z_]\w*\b/.source;
-var qualifiedName = replace(/<<0>>(?:\s*\.\s*<<0>>)*/.source, [identifier]);
+var identifier = /\b(?!\d)\w+\b/.source;
+var qualifiedName = replace(/<0>(?:\s*\.\s*<0>)*/.source, [identifier]);
 
 var typeInside = {
 	'keyword': keywords,
@@ -18,16 +18,16 @@ var typeInside = {
 var regularString = /"(?:\\.|[^\\"])*"/.source;
 
 // single line
-var interpolationExpr = nested(replace(/\{(?:[^"{}]|<<0>>|<self>)*\}/.source, [regularString]), 2);
+var interpolationExpr = nested(replace(/\{(?:[^"{}]|<0>|<self>)*\}/.source, [regularString]), 2);
 
 languages.qs = languages.qsharp = {
 	'comment': /\/\/.*/,
 	'interpolation-string': {
-		pattern: re(/\$"(?:\\.|<<0>>|[^\\"{])*"/.source, [interpolationExpr], 'g'),
+		pattern: re(/\$"(?:\\.|<0>|[^\\"{])*"/.source, [interpolationExpr], 'g'),
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: re(/((?:^|[^\\])(?:\\\\)*)<<0>>/.source, [interpolationExpr]),
+				pattern: re(/((?:^|[^\\])(?:\\\\)*)<0>/.source, [interpolationExpr]),
 				lookbehind: true,
 				inside: {
 					'punctuation': /^\{|\}$/,
@@ -43,7 +43,7 @@ languages.qs = languages.qsharp = {
 	},
 	'string': [
 		{
-			pattern: re(/(^|[^$\\])<<0>>/.source, [regularString], 'g'),
+			pattern: re(/(^|[^$\\])<0>/.source, [regularString], 'g'),
 			lookbehind: true,
 			greedy: true
 		}
@@ -52,13 +52,13 @@ languages.qs = languages.qsharp = {
 		{
 			// open Microsoft.Quantum.Canon;
 			// open Microsoft.Quantum.Canon as CN;
-			pattern: re(/(\b(?:as|open)\s+)<<0>>(?=\s*(?:;|as\b))/.source, [qualifiedName]),
+			pattern: re(/(\b(?:as|open)\s+)<0>(?=\s*(?:;|as\b))/.source, [qualifiedName]),
 			lookbehind: true,
 			inside: typeInside
 		},
 		{
 			// namespace Quantum.App1;
-			pattern: re(/(\bnamespace\s+)<<0>>(?=\s*\{)/.source, [qualifiedName]),
+			pattern: re(/(\bnamespace\s+)<0>(?=\s*\{)/.source, [qualifiedName]),
 			lookbehind: true,
 			inside: typeInside
 		},
@@ -70,7 +70,7 @@ languages.qs = languages.qsharp = {
 		pattern: /\.\./,
 		alias: 'operator'
 	},
-	'number': /(?:\b0(?:x[\da-f]+|b[01]+|o[0-7]+)|(?:\B\.\d+|\b\d+(?:\.\d*)?)(?:e[-+]?\d+)?)l?\b/i,
-	'operator': /\band=|\bor=|\band\b|\bnot\b|\bor\b|<[-=]|[-=]>|>>>=?|<<<=?|\^\^\^=?|\|\|\|=?|&&&=?|w\/=?|~~~|[*\/+\-^=!%]=?/,
-	'punctuation': /::|[{}[\];(),.:]/
+	'number': /(?:\b0(?:x[a-f\d]+|b[01]+|o[0-7]+)|(?:\B\.\d+|\b\d+(?:\.\d*)?)(?:e[-+]?\d+)?)l?\b/i,
+	'operator': /\band=|\bor=|\band\b|\bnot\b|\bor\b|<[-=]|[-=]>|>>>=?|<<<=?|\^\^\^=?|\|\|\|=?|&&&=?|w\/=?|~~~|[*/^!=%+-]=?/,
+	'punctuation': /::|[()[\]{}.,:;]/
 };

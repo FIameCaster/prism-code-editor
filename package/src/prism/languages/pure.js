@@ -24,7 +24,7 @@ var pure = languages.pure = {
 var inlineLanguages = [
 	'c', 'c\\+\\+', 'fortran'
 ];
-var inlineLanguageRe = /%< *-\*- *<<0>>\d* *-\*-[\s\S]+?%>/.source;
+var inlineLanguageRe = /%< *-\*- *<0>\d* *-\*-[\s\S]+?%>/.source;
 
 inlineLanguages.forEach(lang => {
 	var alias = lang.length == 5 ? 'cpp' : lang;
@@ -41,12 +41,12 @@ Object.assign(pure, {
 		inside: inside('c')
 	},
 	'string': {
-		pattern: /"(?:\\.|[^"\\\n])*"/g,
+		pattern: /"(?:\\.|[^\\\n"])*"/g,
 		greedy: true
 	},
 	'number': {
 		// The look-behind prevents wrong highlighting of the .. operator
-		pattern: /((?:\.\.)?)(?:\b(?:inf|nan)\b|\b0x[\da-f]+|(?:\b(?:0b)?\d+(?:\.\d+)?|\B\.\d+)(?:e[+-]?\d+)?L?)/i,
+		pattern: /((?:\.\.)?)(?:\b(?:inf|nan)\b|\b0x[a-f\d]+|(?:\b(?:0b)?\d+(?:\.\d+)?|\B\.\d+)(?:e[+-]?\d+)?L?)/i,
 		lookbehind: true
 	},
 	'keyword': /\b(?:NULL|ans|break|bt|case|catch|cd|clear|const|def|del|dump|else|end|exit|extern|false|force|help|if|infix[lr]?|interface|let|ls|mem|namespace|nonfix|of|otherwise|outfix|override|postfix|prefix|private|public|pwd|quit|run|save|show|stats|then|throw|trace|true|type|underride|using|when|with)\b/,
@@ -57,7 +57,7 @@ Object.assign(pure, {
 	},
 	// Any combination of operator chars can be an operator
 	// eslint-disable-next-line no-misleading-character-class
-	'operator': /(?:[!"#$%&'*+,\-.\/:<=>?@\\^`|~\xa1-\xbf\xd7-\xf7\u20d0-\u2bff]|\b_+\b)+|\b(?:and|div|mod|not|or)\b/,
+	'operator': /(?:[!=#$%&"'*,./:<>?@\\^`|~\xa1-\xbf\xd7-\xf7\u20d0-\u2bff+-]|\b_+\b)+|\b(?:and|div|mod|not|or)\b/,
 	// FIXME: How can we prevent | and , to be highlighted as operator when they are used alone?
-	'punctuation': /[(){}[\];,|]/
+	'punctuation': /[()[\]{},;|]/
 });

@@ -32,7 +32,7 @@ var factor = {
 				The values of MMMMMMMMMMMMM and EEEE map directly to the mantissa and exponent fields of the binary IEEE 754 representation."
 				<https://docs.factorcode.org/content/article-syntax-floats.html>
 			*/
-			pattern: /(^|\s)(?:[+-]?\d+|[+-]?0(?:[bB][01]+|[oO][0-7]+|d\d+|x[\dA-Fa-f]+)|[+-]?\d+\/\d+\.?|\+?\d+\+\d+\/\d+|-\d+-\d+\/\d+|[+-]?(?:\d*\.\d+|\d+\.\d*|\d+)(?:[eE][+-]?\d+)?|NAN:\s+[\da-fA-F]+|[+-]?0(?:[bB]1\.[01]*|[oO]1\.[0-7]*|[dD]1\.\d*|[xX]1\.[\dA-Fa-f]*)[pP]\d+)(?=\s|$)/,
+			pattern: /(^|\s)(?:[+-]?\d+|[+-]?0(?:[bB][01]+|[oO][0-7]+|d\d+|x[a-fA-F\d]+)|[+-]?\d+\/\d+\.?|\+?\d+\+\d+\/\d+|-\d+-\d+\/\d+|[+-]?(?:\d*\.\d+|\d+\.\d*|\d+)(?:[eE][+-]?\d+)?|NAN:\s+[a-fA-F\d]+|[+-]?0(?:[bB]1\.[01]*|[oO]1\.[0-7]*|[dD]1\.\d*|[xX]1\.[a-fA-F\d]*)[pP]\d+)(?=\s|$)/,
 			lookbehind: true
 		},
 
@@ -43,7 +43,7 @@ var factor = {
 		alias: 'number',
 		inside: {
 			'variable': /\\\S/,
-			'keyword': /[+?*[\]^$(){}.|]/,
+			'keyword': /[+?*^$()[\]{}.|]/,
 			'operator': {
 				pattern: /(\/)[idmsr]+(?:-[idmsr]+)?/,
 				lookbehind: true
@@ -58,7 +58,7 @@ var factor = {
 
 	// SBUF" asd", URL" ://...", P" /etc/"
 	'custom-string': {
-		pattern: /(^|\s)[A-Z0-9\-]+"\s(?:\\\S|[^"\\])*"/g,
+		pattern: /(^|\s)[A-Z\d-]+"\s(?:\\\S|[^\\"])*"/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'string',
@@ -225,7 +225,7 @@ var factor = {
 	},
 
 	'colon-syntax': {
-		pattern: /(^|\s)(?:[A-Z0-9\-]+#?)?:{1,2}\s+(?:;\S+|(?!;)\S+)(?=\s|$)/g,
+		pattern: /(^|\s)(?:[A-Z\d-]+#?)?:{1,2}\s+(?:;\S+|(?!;)\S+)(?=\s|$)/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'function'
@@ -293,14 +293,14 @@ var factor = {
 		this is fine for a regex-only implementation.
 	*/
 	'string': {
-		pattern: /"(?:\\\S|[^"\\])*"/g,
+		pattern: /"(?:\\\S|[^\\"])*"/g,
 		greedy: true,
 		inside: string_inside
 	}
 };
 
 /** @param {string} str */
-var escape = str => str.replace(/([.?*+\^$[\]\\(){}|\-])/g, '\\$1');
+var escape = str => str.replace(/[$+?|.^*()[\]{}\\]/g, '\\$&');
 
 var arrToWordsRegExp = arr => RegExp('(^|\\s)(?:' + arr.map(escape).join('|') + ')(?=\\s|$)');
 

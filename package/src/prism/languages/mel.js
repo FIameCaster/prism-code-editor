@@ -20,11 +20,11 @@ statement.inside = languages.mel = {
 		}
 	},
 	'string': {
-		pattern: /"(?:\\.|[^\\"\n])*"/g,
+		pattern: /"(?:\\.|[^\\\n"])*"/g,
 		greedy: true
 	},
 	'variable': /\$\w+/,
-	'number': /\b0x[\da-fA-F]+\b|\b\d+(?:\.\d*)?|\B\.\d+/,
+	'number': /\b0x[a-fA-F\d]+\b|\b\d+(?:\.\d*)?|\B\.\d+/,
 	'flag': {
 		pattern: /-[^\d\W]\w*/,
 		alias: 'operator'
@@ -40,6 +40,6 @@ statement.inside = languages.mel = {
 		pattern: /<<|>>/,
 		alias: 'punctuation'
 	},
-	'operator': /\+[+=]?|-[-=]?|&&|\|\||[<>]=?|[*\/!=]=?|[%^]/,
-	'punctuation': /[.,:;?[\](){}]/
+	'operator': /\+[+=]?|-[-=]?|&&|\|\||[<>]=?|[*/!=]=?|[%^]/,
+	'punctuation': /[()[\]{}.,:;?]/
 };

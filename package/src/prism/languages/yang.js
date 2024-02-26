@@ -6,7 +6,7 @@ languages.yang = {
 	// http://www.yang-central.org/twiki/bin/view/Main/YangExamples
 	'comment': clikeComment(),
 	'string': {
-		pattern: /"(?:[^\\"]|\\.)*"|'[^']*'/g,
+		pattern: /"(?:\\.|[^\\"])*"|'[^']*'/g,
 		greedy: true
 	},
 	'keyword': {
@@ -19,5 +19,5 @@ languages.yang = {
 	},
 	'boolean': boolean,
 	'operator': /\+/,
-	'punctuation': /[{};:]/
+	'punctuation': /[{}:;]/
 };

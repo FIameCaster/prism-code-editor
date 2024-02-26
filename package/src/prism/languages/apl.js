@@ -3,11 +3,11 @@ import { languages } from '../core.js';
 languages.apl = {
 	'comment': /(?:⍝|#[! ]).*$/m,
 	'string': {
-		pattern: /'(?:[^'\n]|'')*'/g,
+		pattern: /'(?:[^\n']|'')*'/g,
 		greedy: true
 	},
 	'number': /¯?(?:\d*\.?\b\d+(?:e[+¯]?\d+)?|¯|∞)(?:j¯?(?:(?:\d+(?:\.\d+)?|\.\d+)(?:e[+¯]?\d+)?|¯|∞))?/i,
-	'statement': /:[A-Z][a-z][A-Za-z]*\b/,
+	'statement': /:[A-Z][a-z][a-zA-Z]*\b/,
 	'system-function': {
 		pattern: /⎕[A-Z]+/i,
 		alias: 'function'
@@ -15,7 +15,7 @@ languages.apl = {
 	'constant': /[⍬⌾#⎕⍞]/,
 	'function': /[-+×÷⌈⌊∣|⍳⍸?*⍟○!⌹<≤=>≥≠≡≢∊⍷∪∩~∨∧⍱⍲⍴,⍪⌽⊖⍉↑↓⊂⊃⊆⊇⌷⍋⍒⊤⊥⍕⍎⊣⊢⍁⍂≈⍯↗¤→]/,
 	'monadic-operator': {
-		pattern: /[\\\/⌿⍀¨⍨⌶&∥]/,
+		pattern: /[\\/⌿⍀¨⍨⌶&∥]/,
 		alias: 'operator'
 	},
 	'dyadic-operator': {
@@ -26,7 +26,7 @@ languages.apl = {
 		pattern: /←/,
 		alias: 'keyword'
 	},
-	'punctuation': /[[;\]()◇⋄]/,
+	'punctuation': /[()[\];◇⋄]/,
 	'dfn': {
 		pattern: /[{}⍺⍵⍶⍹∇⍫:]/,
 		alias: 'builtin'

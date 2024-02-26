@@ -6,7 +6,7 @@ import './markup.js';
 // https://freemarker.apache.org/docs/dgui_template_exp.html
 
 // FTL expression with 4 levels of nesting supported
-var FTL_EXPR = [nested(/[^<()"']|\((?:<self>)*\)|<(?!#--)|<#--(?:[^-]|-(?!->))*-->|"(?:[^\\"]|\\.)*"|'(?:[^\\']|\\.)*'/.source, 2)];
+var FTL_EXPR = [nested(/[^<()"']|\((?:<self>)*\)|<(?!#--)|<#--(?:[^-]|-(?!->))*-->|"(?:\\.|[^\\"])*"|'(?:\\.|[^\\'])*'/.source, 2)];
 
 var interpolationInside = {
 	'interpolation-punctuation': {
@@ -20,15 +20,15 @@ var ftl = interpolationInside[rest] = {
 	'string': [
 		{
 			// raw string
-			pattern: /\br("|')(?:(?!\1)[^\\]|\\.)*\1/g,
+			pattern: /\br("|')(?:\\.|(?!\1)[^\\])*\1/g,
 			greedy: true
 		},
 		{
-			pattern: re(/("|')(?:(?!\1|\$\{)[^\\]|\\.|\$\{(?:(?!\})(?:<<0>>))*\})*\1/.source, FTL_EXPR, 'g'),
+			pattern: re(/("|')(?:\\.|(?!\1|\$\{)[^\\]|\$\{(?:(?!\})<0>)*\})*\1/.source, FTL_EXPR, 'g'),
 			greedy: true,
 			inside: {
 				'interpolation': {
-					pattern: re(/((?:^|[^\\])(?:\\\\)*)\$\{(?:(?!\})(?:<<0>>))*\}/.source, FTL_EXPR),
+					pattern: re(/((?:^|[^\\])(?:\\\\)*)\$\{(?:(?!\})<0>)*\}/.source, FTL_EXPR),
 					lookbehind: true,
 					inside: interpolationInside
 				}
@@ -55,7 +55,7 @@ languages.ftl = {
 		alias: 'comment'
 	},
 	'ftl-directive': {
-		pattern: re(/<\/?[#@][a-zA-Z](?:<<0>>)*?>/.source, FTL_EXPR, 'gi'),
+		pattern: re(/<\/?[#@][a-zA-Z]<0>*?>/.source, FTL_EXPR, 'gi'),
 		greedy: true,
 		inside: {
 			'punctuation': /^<\/?|\/?>$/,
@@ -71,7 +71,7 @@ languages.ftl = {
 		}
 	},
 	'ftl-interpolation': {
-		pattern: re(/\$\{(?:<<0>>)*?\}/.source, FTL_EXPR, 'gi'),
+		pattern: re(/\$\{<0>*?\}/.source, FTL_EXPR, 'gi'),
 		greedy: true,
 		inside: {
 			'punctuation': /^\$\{|\}$/,

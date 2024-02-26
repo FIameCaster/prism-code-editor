@@ -27,7 +27,7 @@ languages.abap = {
 	adjacent to operands.
 	*/
 	'operator': {
-		pattern: /(\s)(?:\*\*?|<[=>]?|>=?|\?=|[-+\/=])(?=\s)/,
+		pattern: /(\s)(?:\*\*?|<[=>]?|>=?|\?=|[/=+-])(?=\s)/,
 		lookbehind: true
 	},
 	'string-operator': {
@@ -46,5 +46,5 @@ languages.abap = {
 		pattern: /[|{}]/,
 		alias: 'punctuation'
 	}],
-	'punctuation': /[,.:()]/
+	'punctuation': /[().,:]/
 };

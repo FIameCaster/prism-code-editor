@@ -4,7 +4,7 @@ import { boolean, clikeComment, clikeNumber, clikePunctuation } from '../utils/s
 languages.haxe = {
 	'comment': clikeComment(),
 	'string-interpolation': {
-		pattern: /'(?:[^'\\]|\\[\s\S])*'/g,
+		pattern: /'(?:\\[\s\S]|[^\\'])*'/g,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -26,11 +26,11 @@ languages.haxe = {
 	},
 	'string': {
 		// Strings can be multi-line
-		pattern: /"(?:[^"\\]|\\[\s\S])*"/g,
+		pattern: /"(?:\\[\s\S]|[^\\"])*"/g,
 		greedy: true
 	},
 	'regex': {
-		pattern: /~\/(?:[^\/\\\n]|\\.)+\/[a-z]*/g,
+		pattern: /~\/(?:\\.|[^\\\n/])+\/[a-z]*/g,
 		greedy: true,
 		inside: {
 			'regex-flags': /\w+$/,

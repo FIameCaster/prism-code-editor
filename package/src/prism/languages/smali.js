@@ -6,20 +6,20 @@ import { languages } from '../core.js';
 languages.smali = {
 	'comment': /#.*/,
 	'string': {
-		pattern: /"(?:[^\n\\"]|\\.)*"|'(?:[^\n\\']|\\(?:.|u[\da-fA-F]{4}))'/g,
+		pattern: /"(?:\\.|[^\\\n"])*"|'(?:[^\\\n']|\\(?:.|u[a-fA-F\d]{4}))'/g,
 		greedy: true
 	},
 
 	'class-name': {
-		pattern: /(^|[^L])L(?:(?:\w+|`[^`\n]*`)\/)*(?:[\w$]+|`[^`\n]*`)(?=\s*;)/,
+		pattern: /(^|[^L])L(?:(?:\w+|`[^\n`]*`)\/)*(?:[$\w]+|`[^\n`]*`)(?=\s*;)/,
 		lookbehind: true,
 		inside: {
 			'class-name': {
-				pattern: /(^L|\/)(?:[\w$]+|`[^`\n]*`)$/,
+				pattern: /(^L|\/)(?:[$\w]+|`[^\n`]*`)$/,
 				lookbehind: true
 			},
 			'namespace': {
-				pattern: /^(L)(?:(?:\w+|`[^`\n]*`)\/)+/,
+				pattern: /^(L)(?:(?:\w+|`[^\n`]*`)\/)+/,
 				lookbehind: true,
 				inside: {
 					'punctuation': /\//
@@ -31,12 +31,12 @@ languages.smali = {
 	'builtin': [
 		{
 			// Reference: https://github.com/JesusFreke/smali/wiki/TypesMethodsAndFields#types
-			pattern: /([();\[])[BCDFIJSVZ]+/,
+			pattern: /([()[;])[BCDFIJSVZ]+/,
 			lookbehind: true
 		},
 		{
 			// e.g. .field mWifiOnUid:I
-			pattern: /([\w$>]:)[BCDFIJSVZ]/,
+			pattern: /([$\w>]:)[BCDFIJSVZ]/,
 			lookbehind: true
 		}
 	],
@@ -55,12 +55,12 @@ languages.smali = {
 		}
 	],
 	'function': {
-		pattern: /(^|[^\w.-])(?:\w+|<[\w$-]+>)(?=\()/,
+		pattern: /(^|[^\w.-])(?:\w+|<[$\w-]+>)(?=\()/,
 		lookbehind: true
 	},
 
 	'field': {
-		pattern: /[\w$]+(?=:)/,
+		pattern: /[$\w]+(?=:)/,
 		alias: 'variable'
 	},
 	'register': {
@@ -74,7 +74,7 @@ languages.smali = {
 		lookbehind: true
 	},
 	'number': {
-		pattern: /(^|[^/\w.-])-?(?:NAN|INFINITY|0x(?:[\dA-F]+(?:\.[\dA-F]*)?|\.[\dA-F]+)(?:p[+-]?[\dA-F]+)?|(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?)[dflst]?(?![\w.-])/i,
+		pattern: /(^|[^/\w.-])-?(?:NAN|INFINITY|0x(?:[A-F\d]+(?:\.[A-F\d]*)?|\.[A-F\d]+)(?:p[+-]?[A-F\d]+)?|(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?)[dflst]?(?![\w.-])/i,
 		lookbehind: true
 	},
 
@@ -85,5 +85,5 @@ languages.smali = {
 	},
 
 	'operator': /->|\.\.|[\[=]/,
-	'punctuation': /[{}(),;:]/
+	'punctuation': /[(){},:;]/
 };

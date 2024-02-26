@@ -10,5 +10,5 @@ languages.mizar = {
 	'variable': /\b\w+(?=:)/,
 	'number': /(?:\b|-)\d+\b/,
 	'operator': /\.{3}|->|&|\.?=/,
-	'punctuation': /\(#|#\)|[,:;[\](){}]/
+	'punctuation': /\(#|#\)|[()[\]{},:;]/
 };

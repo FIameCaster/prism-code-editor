@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.pcode = languages.peoplecode = {
 	'comment': /\/\*[\s\S]*?\*\/|\bREM[^;]*;|<\*(?:[^<*]|\*(?!>)|<(?!\*)|<\*(?:(?!\*>)[\s\S])*\*>)*\*>|\/\+[\s\S]*?\+\//,
 	'string': {
-		pattern: /'(?:''|[^'\n])*'(?!')|"(?:""|[^"\n])*"(?!")/g,
+		pattern: /'(?:''|[^\n'])*'(?!')|"(?:""|[^\n"])*"(?!")/g,
 		greedy: true
 	},
 	'variable': /%\w+/,
@@ -29,5 +29,5 @@ languages.pcode = languages.peoplecode = {
 	'boolean': /\b(?:false|true)\b/i,
 	'number': /\b\d+(?:\.\d+)?\b/,
 	'operator': /<>|[<>]=?|!=|\*\*|[-+*/|=@]/,
-	'punctuation': /[:.;,()[\]]/
+	'punctuation': /[()[\].,:;]/
 };

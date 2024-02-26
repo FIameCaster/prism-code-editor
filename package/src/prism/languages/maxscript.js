@@ -9,7 +9,7 @@ languages.maxscript = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^"\\@])(?:"(?:[^"\\]|\\[\s\S])*"|@"[^"]*")/g,
+		pattern: /(^|[^\\"@])(?:"(?:\\[\s\S]|[^\\"])*"|@"[^"]*")/g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -29,7 +29,7 @@ languages.maxscript = {
 	},
 
 	'function-definition': {
-		pattern: /(\b(?:fn|function)\s+)\w+\b/i,
+		pattern: /(\b(?:fn|function)\s+)\w+/i,
 		lookbehind: true,
 		alias: 'function'
 	},
@@ -49,7 +49,7 @@ languages.maxscript = {
 	},
 	'number': [
 		{
-			pattern: /(^|[^\w.])(?:(?:\d+(?:\.\d*)?|\.\d+)(?:[eEdD][+-]\d+|[LP])?|0x[a-fA-F0-9]+)(?![\w.:])/,
+			pattern: /(^|[^\w.])(?:(?:\d+(?:\.\d*)?|\.\d+)(?:[eEdD][+-]\d+|[LP])?|0x[a-fA-F\d]+)(?![\w.:])/,
 			lookbehind: true
 		},
 		/\b(?:e|pi)\b/
@@ -61,6 +61,6 @@ languages.maxscript = {
 		alias: 'constant'
 	},
 
-	'operator': /[-+*/<>=!]=?|[&^?]|#(?!\()/,
-	'punctuation': /[()[\]{}.:,;]|#(?=\()|\\$/m
+	'operator': /[*/<>!=+-]=?|[&^?]|#(?!\()/,
+	'punctuation': /[()[\]{}.,:;]|#(?=\()|\\$/m
 };

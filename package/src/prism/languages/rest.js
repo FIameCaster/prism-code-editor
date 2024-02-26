@@ -1,4 +1,4 @@
-import { languages, rest } from '../core.js';
+import { languages } from '../core.js';
 
 languages.rest = {
 	'table': [
@@ -51,7 +51,7 @@ languages.rest = {
 			}
 		},
 		{
-			pattern: /(^[\t ]*\.\. )_(?:`[^`]+`|(?:[^:\\]|\\.)+):/m,
+			pattern: /(^[\t ]*\.\. )_(?:`[^`]+`|(?:\\.|[^\\:])+):/m,
 			lookbehind: true,
 			alias: 'string',
 			inside: {
@@ -76,30 +76,30 @@ languages.rest = {
 	'title': [
 		// Overlined and underlined
 		{
-			pattern: /^(([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\2+)\n.+\n\1$/m,
+			pattern: /^(([!=#$%&"'*/<>?@()[\]{}.,:;\\^_`|~+-])\2+)\n.+\n\1$/m,
 			inside: {
-				'punctuation': /^[!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~]+|[!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~]+$/,
+				'punctuation': /^[!=#$%&"'*/<>?@()[\]{}.,:;\\^_`|~+-]+|[!=#$%&"'*/<>?@()[\]{}.,:;\\^_`|~+-]+$/,
 				'important': /.+/
 			}
 		},
 
 		// Underlined only
 		{
-			pattern: /(^|\n{2}).+\n([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\2+(?=\n|$)/,
+			pattern: /(^|\n{2}).+\n([!=#$%&"'*/<>?@()[\]{}.,:;\\^_`|~+-])\2+(?=\n|$)/,
 			lookbehind: true,
 			inside: {
-				'punctuation': /[!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~]+$/,
+				'punctuation': /[!=#$%&"'*/<>?@()[\]{}.,:;\\^_`|~+-]+$/,
 				'important': /.+/
 			}
 		}
 	],
 	'hr': {
-		pattern: /(\n\n)([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\2{3,}(?=\n\n)/,
+		pattern: /(\n\n)([!=#$%&"'*/<>?@()[\]{}.,:;\\^_`|~+-])\2{3,}(?=\n\n)/,
 		lookbehind: true,
 		alias: 'punctuation'
 	},
 	'field': {
-		pattern: /(^[\t ]*):[^:\n]+:(?= )/m,
+		pattern: /(^[\t ]*):[^\n:]+:(?= )/m,
 		lookbehind: true,
 		alias: 'attr-name'
 	},
@@ -118,16 +118,16 @@ languages.rest = {
 		}
 	},
 	'quoted-literal-block': {
-		pattern: /::\n\n([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~]).*(?:\n\1.*)*/,
+		pattern: /::\n\n([!=#$%&"'*/<>?@()[\]{}.,:;\\^_`|~+-]).*(?:\n\1.*)*/,
 		inside: {
 			'literal-block-punctuation': {
-				pattern: /^(?:::|([!"#$%&'()*+,\-.\/:;<=>?@\[\\\]^_`{|}~])\1*)/m,
+				pattern: /^(?:::|([!=#$%&"'*/<>?@()[\]{}.,:;\\^_`|~+-])\1*)/m,
 				alias: 'punctuation'
 			}
 		}
 	},
 	'list-bullet': {
-		pattern: /(^[\t ]*)(?:[*+\-•‣⁃]|\(?(?:\d+|[a-z]|[ivxdclm]+)\)|(?:\d+|[a-z]|[ivxdclm]+)\.)(?= )/im,
+		pattern: /(^[\t ]*)(?:[*•‣⁃+-]|\(?(?:\d+|[a-z]|[ivxdclm]+)\)|(?:\d+|[a-z]|[ivxdclm]+)\.)(?= )/im,
 		lookbehind: true,
 		alias: 'punctuation'
 	},
@@ -141,7 +141,7 @@ languages.rest = {
 
 	'inline': [
 		{
-			pattern: /(^|[\s\-:\/'"<(\[{])(?::[^:]+:`.*?`|`.*?`:[^:]+:|(\*\*?|``?|\|)(?!\s)(?:(?!\2).)*\S\2(?=[\s\-.,:;!?\\\/'")\]}]|$))/m,
+			pattern: /(^|[\s:/'"<([{-])(?::[^:]+:`.*?`|`.*?`:[^:]+:|(\*\*?|``?|\|)(?!\s)(?:(?!\2).)*\S\2(?=[\s.,:;!?\\/'")\]}-]|$))/m,
 			lookbehind: true,
 			inside: {
 				'bold': {
@@ -181,14 +181,14 @@ languages.rest = {
 
 	'link': [
 		{
-			pattern: /\[[^[\]]+\]_(?=[\s\-.,:;!?\\/'")\]}]|$)/,
+			pattern: /\[[^[\]]+\]_(?=[\s.,:;!?\\/'")\]}-]|$)/,
 			alias: 'string',
 			inside: {
 				'punctuation': /^\[|\]_$/
 			}
 		},
 		{
-			pattern: /(?:\b[a-z\d]+(?:[_.:+][a-z\d]+)*_?_|`[^`]+`_?_|_`[^`]+`)(?=[\s\-.,:;!?\\\/'")\]}]|$)/i,
+			pattern: /(?:\b[a-z\d]+(?:[_.:+][a-z\d]+)*_?_|`[^`]+`_?_|_`[^`]+`)(?=[\s.,:;!?\\/'")\]}-]|$)/i,
 			alias: 'string',
 			inside: {
 				'punctuation': /^_?`|`$|`?_?_$/

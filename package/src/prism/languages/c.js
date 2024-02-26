@@ -3,18 +3,18 @@ import { clikePunctuation } from '../utils/shared.js';
 
 var char = {
 	// https://en.cppreference.com/w/c/language/character_constant
-	pattern: /'(?:\\[\s\S]|[^'\\\n]){0,32}'/g,
+	pattern: /'(?:\\[\s\S]|[^\\\n']){0,32}'/g,
 	greedy: true
 };
 
 var comment = {
-	pattern: /\/\/(?:[^\n\\]|\\\n?)*|\/\*[\s\S]*?(?:\*\/|$)/g,
+	pattern: /\/\/(?:[^\\\n]|\\\n?)*|\/\*[\s\S]*?(?:\*\/|$)/g,
 	greedy: true
 };
 
 var string = {
 	// https://en.cppreference.com/w/c/language/string_literal
-	pattern: /"(?:\\[\s\S]|[^"\\\n])*"/g,
+	pattern: /"(?:\\[\s\S]|[^\\\n"])*"/g,
 	greedy: true
 };
 
@@ -28,7 +28,7 @@ var c = macroExpression.inside = languages.c = {
 	'macro': {
 		// allow for multiline macro definitions
 		// spaces after the # character compile fine with gcc
-		pattern: /(^[\t ]*)#\s*[a-z](?:[^\n\\/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|\\[\s\S])*/img,
+		pattern: /(^[\t ]*)#\s*[a-z](?:[^\\\n/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|\\[\s\S])*/img,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property',
@@ -49,7 +49,7 @@ var c = macroExpression.inside = languages.c = {
 					lookbehind: true
 				},
 				{
-					pattern: /(^#\s*define\s+)\w+\b(?=\()/i,
+					pattern: /(^#\s*define\s+)\w+/i,
 					lookbehind: true,
 					alias: 'function'
 				}
@@ -74,7 +74,7 @@ var c = macroExpression.inside = languages.c = {
 	// highlight predefined macros as constants
 	'constant': /\b(?:EOF|NULL|SEEK_CUR|SEEK_END|SEEK_SET|__DATE__|__FILE__|__LINE__|__TIMESTAMP__|__TIME__|__func__|stderr|stdin|stdout)\b/,
 	'function': /\b[a-z_]\w*(?=\s*\()/i,
-	'number': /(?:\b0x(?:[\da-f]+(?:\.[\da-f]*)?|\.[\da-f]+)(?:p[+-]?\d+)?|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)[ful]{0,4}/i,
+	'number': /(?:\b0x(?:[a-f\d]+(?:\.[a-f\d]*)?|\.[a-f\d]+)(?:p[+-]?\d+)?|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)[ful]{0,4}/i,
 	'operator': />>=?|<<=?|->|([-+&|:])\1|[?:~]|[-+*/%&|^!=<>]=?/,
 	'punctuation': clikePunctuation
 };

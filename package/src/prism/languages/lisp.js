@@ -40,7 +40,7 @@ var language = {
 	},
 	comment: /;.*/,
 	string: {
-		pattern: /"(?:[^"\\]|\\.)*"/g,
+		pattern: /"(?:\\.|[^\\"])*"/g,
 		greedy: true,
 		inside: {
 			argument: /[-A-Z]+(?=[.,\s])/,

@@ -11,7 +11,7 @@ languages.javastacktrace = {
 	// Caused by: MidLevelException: LowLevelException
 	// Suppressed: Resource$CloseFailException: Resource ID = 0
 	'summary': {
-		pattern: /^([\t ]*)(?:(?:Caused by:|Suppressed:|Exception in thread "[^"]*")[\t ]+)?[\w$.]+(?::.*)?$/m,
+		pattern: /^([\t ]*)(?:(?:Caused by:|Suppressed:|Exception in thread "[^"]*")[\t ]+)?[$\w.]+(?::.*)?$/m,
 		lookbehind: true,
 		inside: {
 			'keyword': {
@@ -25,10 +25,10 @@ languages.javastacktrace = {
 				lookbehind: true
 			},
 			'exceptions': {
-				pattern: /^(:?\s*)[\w$.]+(?=:|$)/,
+				pattern: /^(:?\s*)[$\w.]+(?=:|$)/,
 				lookbehind: true,
 				inside: {
-					'class-name': /[\w$]+$/,
+					'class-name': /[$\w]+$/,
 					'namespace': /\b[a-z]\w*\b/,
 					'punctuation': /\./
 				}
@@ -62,9 +62,9 @@ languages.javastacktrace = {
 	// https://docs.oracle.com/javase/9/docs/api/java/lang/module/ModuleDescriptor.Version.html
 	// This is the implementation of the `parse` method in JDK13:
 	// https://github.com/matcdac/jdk/blob/2305df71d1b7710266ae0956d73927a225132c0f/src/java.base/share/classes/java/lang/module/ModuleDescriptor.java#L1108
-	// However, to keep this simple, a version will be matched by the pattern /@[\w$.+-]*/.
+	// However, to keep this simple, a version will be matched by the pattern /@[$\w.+-]*/.
 	'stack-frame': {
-		pattern: /^([\t ]*)at (?:[\w$./]|@[\w$.+-]*\/)+(?:<init>)?\([^()]*\)/m,
+		pattern: /^([\t ]*)at (?:[$\w./]|@[$\w.+-]*\/)+(?:<init>)?\([^()]*\)/m,
 		lookbehind: true,
 		inside: {
 			'keyword': {
@@ -97,8 +97,8 @@ languages.javastacktrace = {
 					}
 				}
 			],
-			'class-name': /[\w$]+(?=\.(?:<init>|[\w$]+)\()/,
-			'function': /(?:<init>|[\w$]+)(?=\()/,
+			'class-name': /[$\w]+(?=\.(?:<init>|[$\w]+)\()/,
+			'function': /(?:<init>|[$\w]+)(?=\()/,
 			'class-loader': {
 				pattern: /(\s)[a-z]\w*(?:\.[a-z]\w*)*(?=\/[\w@$.]*\/)/,
 				lookbehind: true,
@@ -108,7 +108,7 @@ languages.javastacktrace = {
 				}
 			},
 			'module': {
-				pattern: /([\s/])[a-z]\w*(?:\.[a-z]\w*)*(?:@[\w$.+-]*)?(?=\/)/,
+				pattern: /([\s/])[a-z]\w*(?:\.[a-z]\w*)*(?:@[$\w.+-]*)?(?=\/)/,
 				lookbehind: true,
 				inside: {
 					'version': {

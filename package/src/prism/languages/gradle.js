@@ -20,18 +20,18 @@ var interpolation = {
 
 var gradle = expression.inside = languages.gradle = extend('clike', {
 	'string': {
-		pattern: /'''(?:[^\\]|\\[\s\S])*?'''|'(?:\\.|[^\\'\n])*'/g,
+		pattern: /'''(?:\\[\s\S]|[^\\])*?'''|'(?:\\.|[^\\\n'])*'/g,
 		greedy: true,
 	},
 	'keyword':
 		/\b(?:apply|def|dependencies|else|if|implementation|import|plugin|plugins|project|repositories|repository|sourceSets|tasks|val)\b/,
-	'number': /\b(?:0b[01_]+|0x[\da-f_]+(?:\.[\da-f_p\-]+)?|[\d_]+(?:\.[\d_]+)?(?:e[+-]?\d+)?)[glidf]?\b/i,
+	'number': /\b(?:0b[01_]+|0x[a-f\d_]+(?:\.[a-f\d_p-]+)?|[\d_]+(?:\.[\d_]+)?(?:e[+-]?\d+)?)[glidf]?\b/i,
 	'operator': {
 		pattern:
 			/(^|[^.])(?:~|==?~?|\?[.:]?|\*(?:[.=]|\*=?)?|\.[@&]|\.\.<|\.\.(?!\.)|-[-=>]?|\+[+=]?|!=?|<(?:<=?|=>?)?|>(?:>>?=?|=)?|&[&=]?|\|[|=]?|\/=?|\^=?|%=?)/,
 		lookbehind: true,
 	},
-	'punctuation': /\.+|[{}[\];(),:$]/,
+	'punctuation': /\.+|[()[\]{},:;$]/,
 });
 
 insertBefore(gradle, 'string', {
@@ -42,7 +42,7 @@ insertBefore(gradle, 'string', {
 	},
 	'interpolation-string': {
 		pattern:
-			/"""(?:[^\\]|\\[\s\S])*?"""|(["/])(?:\\.|(?!\1)[^\\\n])*\1|\$\/(?:[^/$]|\$(?:[/$]|(?![/$]))|\/(?!\$))*\/\$/g,
+			/"""(?:\\[\s\S]|[^\\])*?"""|(["/])(?:\\.|(?!\1)[^\\\n])*\1|\$\/(?:[^/$]|\$(?:[/$]|(?![/$]))|\/(?!\$))*\/\$/g,
 		greedy: true,
 		inside: {
 			'interpolation': interpolation,

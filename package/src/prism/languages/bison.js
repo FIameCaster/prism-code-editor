@@ -1,5 +1,5 @@
 import { languages, rest } from '../core.js';
-import { clone, insertBefore } from '../utils/language.js';
+import { clone } from '../utils/language.js';
 import './c.js';
 
 languages.bison = Object.assign({
@@ -18,7 +18,7 @@ languages.bison = Object.assign({
 						alias: 'punctuation'
 					},
 					'bison-variable': {
-						pattern: /[$@](?:<[^\s>]+>)?[\w$]+/,
+						pattern: /[$@](?:<[^\s>]+>)?[$\w]+/,
 						alias: 'variable',
 						inside: {
 							'punctuation': /<|>/
@@ -32,10 +32,10 @@ languages.bison = Object.assign({
 			'property': /\S+(?=:)/,
 			'keyword': /%\w+/,
 			'number': {
-				pattern: /(^|[^@])\b(?:0x[\da-f]+|\d+)/i,
+				pattern: /(^|[^@])\b(?:0x[a-f\d]+|\d+)/i,
 				lookbehind: true
 			},
-			'punctuation': /%[%?]|[|:;\[\]<>]/
+			'punctuation': /%[%?]|[|:;[\]<>]/
 		}
 	}
 }, clone(languages.c));

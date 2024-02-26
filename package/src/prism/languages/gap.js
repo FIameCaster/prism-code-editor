@@ -24,7 +24,7 @@ gap.inside = languages.gap = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\'"])(?:'(?:[^\n\\']|\\.){1,10}'|"(?:[^\n\\"]|\\.)*"(?!")|"""[\s\S]*?""")/g,
+		pattern: /(^|[^\\'"])(?:'(?:\\.|[^\\\n']|){1,10}'|"(?:\\.|[^\\\n"])*"(?!")|"""[\s\S]*?""")/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -49,6 +49,6 @@ gap.inside = languages.gap = {
 		pattern: /^>/m,
 		alias: 'punctuation'
 	},
-	'operator': /->|[-+*/^~=!]|<>|[<>]=?|:=|\.\./,
+	'operator': /->|[*/^~!=+-]|<>|[<>]=?|:=|\.\./,
 	'punctuation': clikePunctuation
 };

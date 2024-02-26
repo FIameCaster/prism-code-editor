@@ -5,9 +5,9 @@ import './javascript.js';
 
 var jsx = languages.jsx = clone(languages.js);
 
-var space = /(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)/.source;
+var space = /\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\//.source;
 var braces = /\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\}/.source;
-var spread = replace(/\{<<0>>*\.{3}(?:[^{}]|<<1>>)*\}/.source, [space, braces]);
+var spread = replace(/\{<0>*\.{3}(?:[^{}]|<1>)*\}/.source, [space, braces]);
 
 var isText = token => token && (!token.type || token.type == 'plain-text');
 
@@ -81,7 +81,7 @@ var walkTokens = (tokens, code, position) => {
 insertBefore(jsx, 'regex', {
 	'tag': {
 		pattern: re(
-			/<\/?(?:(?!\d)[^\s>/=<%]+(?:<<0>>+(?:[^\s{*<>/=]+(?:<<0>>*=<<0>>*(?!\s)(?:"[^"]*"|'[^']*'|[^\s{'"/>=]+|<<1>>)?)?|<<2>>))*<<0>>*\/?)?>/.source, [space, braces, spread], 'g'
+			/<\/?(?:(?!\d)[^\s/=><%]+(?:<0>+(?:[^\s<>/={*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|[^\s/=>{'"]+|<1>)?)?|<2>))*<0>*\/?)?>/.source, [space, braces, spread], 'g'
 		),
 		greedy: true,
 		inside: {
@@ -95,7 +95,7 @@ insertBefore(jsx, 'regex', {
 			},
 			'script': {
 				// Allow for two levels of nesting
-				pattern: re(/(=<<0>>*)<<1>>/.source, [space, braces]),
+				pattern: re(/(=<0>*)<1>/.source, [space, braces]),
 				lookbehind: true,
 				alias: 'language-jsx',
 				inside: jsx
@@ -105,7 +105,7 @@ insertBefore(jsx, 'regex', {
 				inside: jsx
 			},
 			'attr-value': {
-				pattern: re(/(=<<0>>*)(?:"[^"]*"|'[^']*'|[^\s/]+)/.source, [space]),
+				pattern: re(/(=<0>*)(?:"[^"]*"|'[^']*'|[^\s/]+)/.source, [space]),
 				lookbehind: true,
 				inside: {
 					'punctuation': /^["']|["']$/

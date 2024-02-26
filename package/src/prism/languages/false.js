@@ -20,8 +20,8 @@ languages['false'] = {
 		alias: 'important'
 	},
 	'number': /\d+/,
-	'operator': /[-!#$%&'*+,./:;=>?@\\^_`|~ßø]/,
-	'punctuation': /\[|\]/,
+	'operator': /[#$%&?!'*.,:;/=>@\\^_`|~ßø+-]/,
+	'punctuation': /[[\]]/,
 	'variable': /[a-z]/,
 	'non-standard': {
 		pattern: /[()<BDO®]/,

@@ -8,11 +8,11 @@ insertBefore(
 	languages.protobuf = extend('clike', {
 		'class-name': [
 			{
-				pattern: /(\b(?:enum|extend|message|service)\s+)[A-Za-z_]\w*(?=\s*\{)/,
+				pattern: /(\b(?:enum|extend|message|service)\s+)(?!\d)\w+(?=\s*\{)/,
 				lookbehind: true
 			},
 			{
-				pattern: /(\b(?:rpc\s+\w+|returns)\s*\(\s*(?:stream\s+)?)\.?[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*(?=\s*\))/,
+				pattern: /(\b(?:rpc\s+\w+|returns)\s*\(\s*(?:stream\s+)?)\.?(?!\d)\w+(?:\.(?!\d)\w+)*(?=\s*\))/,
 				lookbehind: true
 			}
 		],

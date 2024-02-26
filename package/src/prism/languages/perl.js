@@ -1,8 +1,8 @@
 import { languages } from '../core.js';
 
-var brackets = /(?:\((?:[^()\\]|\\[\s\S])*\)|\{(?:[^{}\\]|\\[\s\S])*\}|\[(?:[^[\]\\]|\\[\s\S])*\]|<(?:[^<>\\]|\\[\s\S])*>)/.source;
+var brackets = /(?:\((?:\\[\s\S]|[^\\()])*\)|\{(?:\\[\s\S]|[^\\{}])*\}|\[(?:\\[\s\S]|[^\\[\]])*\]|<(?:\\[\s\S]|[^\\<>])*>)/.source;
 
-var a = '(?![a-zA-Z0-9])\\s*(?:([^a-zA-Z0-9\\s{([<])(?:(?!\\1)[^\\\\]|\\\\[\\s\\S])*\\1|([a-zA-Z0-9])(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2';
+var a = '(?![a-zA-Z\d])\\s*(?:([^a-zA-Z\d\\s{([<])(?:\\\\[\\s\\S]|(?!\\1)[^\\\\])*\\1|([a-zA-Z\d])(?:\\\\[\\s\\S]|(?!\\2)[^\\\\])*\\2';
 
 languages.perl = {
 	'comment': [
@@ -21,7 +21,7 @@ languages.perl = {
 	// TODO Could be nice to handle Heredoc too.
 	'string': {
 		pattern: RegExp(
-			`\\b(?:q|qq|qw|qx)${a}|${brackets})|("|\`)(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3|'(?:[^'\\\\\n]|\\\\.)*'`, 'g'
+			`\\b(?:q|qq|qw|qx)${a}|${brackets})|("|\`)(?:\\\\[\\s\\S]|(?!\\3)[^\\\\])*\\3|'(?:\\\\.|[^\\\\\n'])*'`, 'g'
 		),
 		greedy: true
 	},
@@ -36,7 +36,7 @@ languages.perl = {
 		// The lookbehinds prevent -s from breaking
 		{
 			pattern: RegExp(
-				`(^|[^-])\\b(?:s|tr|y)(?![a-zA-Z0-9])\\s*(?:([^a-zA-Z0-9\\s{([<])(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2(?:(?!\\2)[^\\\\]|\\\\[\\s\\S])*\\2|([a-zA-Z0-9])(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3(?:(?!\\3)[^\\\\]|\\\\[\\s\\S])*\\3|${brackets}\\s*${brackets})[msixpodualngcer]*`, 'g'
+				`(^|[^-])\\b(?:s|tr|y)(?![a-zA-Z\d])\\s*(?:([^a-zA-Z\d\\s{([<])(?:\\\\[\\s\\S]|(?!\\2)[^\\\\])*\\2(?:\\\\[\\s\\S]|(?!\\2)[^\\\\])*\\2|([a-zA-Z\d])(?:\\\\[\\s\\S]|(?!\\3)[^\\\\])*\\3(?:\\\\[\\s\\S]|(?!\\3)[^\\\\])*\\3|${brackets}\\s*${brackets})[msixpodualngcer]*`, 'g'
 			),
 			lookbehind: true,
 			greedy: true
@@ -47,13 +47,13 @@ languages.perl = {
 		// the same line from being highlighted as regex.
 		// This does not support multi-line regex.
 		{
-			pattern: /\/(?:[^\/\\\n]|\\.)*\/[msixpodualngc]*(?=\s*(?:$|[\n,.;})&|\-+*~<>!?^]|(?:and|cmp|eq|ge|gt|le|lt|ne|not|or|x|xor)\b))/g,
+			pattern: /\/(?:\\.|[^\\\n/])*\/[msixpodualngc]*(?=\s*(?:$|[\n,.;})&|*~<>!?^+-]|(?:and|cmp|eq|ge|gt|le|lt|ne|not|or|x|xor)\b))/g,
 			greedy: true
 		}
 	],
 
 	// FIXME Not sure about the handling of ::, ', and #
-	'variable': /[&*$@%](?:\{\^[A-Z]+\}|\^[A-Z_]|#?(?=\{)|#?(?:(?:::)*'?(?!\d)[\w$]+(?![\w$]))+(?:::)*|\d+)|(?!%=)[$@%][!"#$%&'()*+,\-.\/:;<=>?@[\\\]^_`{|}~]/,
+	'variable': /[&*$@%](?:\{\^[A-Z]+\}|\^[A-Z_]|#?(?=\{)|#?(?:(?:::)*'?(?!\d)[$\w]+(?![$\w]))+(?:::)*|\d+)|(?!%=)[$@%][!"#$%&'*,./:;<=>?@()[\]{}||^_`|~+-]/,
 	'filehandle': {
 		// <>, <FOO>, _
 		pattern: /<(?![<=])\S*?>|\b_\b/,
@@ -69,7 +69,7 @@ languages.perl = {
 		lookbehind: true
 	},
 	'keyword': /\b(?:any|break|continue|default|delete|die|do|else|elsif|eval|for|foreach|given|goto|if|last|local|my|next|our|package|print|redo|require|return|say|state|sub|switch|undef|unless|until|use|when|while)\b/,
-	'number': /\b(?:0x[\dA-Fa-f](?:_?[\dA-Fa-f])*|0b[01](?:_?[01])*|(?:(?:\d(?:_?\d)*)?\.)?\d(?:_?\d)*(?:[Ee][+-]?\d+)?)\b/,
+	'number': /\b(?:0x[a-fA-F\d](?:_?[a-fA-F\d])*|0b[01](?:_?[01])*|(?:(?:\d(?:_?\d)*)?\.)?\d(?:_?\d)*(?:[Ee][+-]?\d+)?)\b/,
 	'operator': /-[rwxoRWXOezsfdlpSbctugkTBMAC]\b|\+[+=]?|-[-=>]?|\*\*?=?|\/\/?=?|=[=~>]?|~[~=]?|\|\|?=?|&&?=?|<(?:=>?|<=?)?|>>?=?|![~=]?|[%^]=?|\.(?:=|\.\.?)?|[\\?]|\bx(?:=|\b)|\b(?:and|cmp|eq|ge|gt|le|lt|ne|not|or|xor)\b/,
-	'punctuation': /[{}[\];(),:]/
+	'punctuation': /[()[\]{},:;]/
 };

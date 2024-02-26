@@ -11,7 +11,7 @@ languages.mata = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^"\n]*"|[‘`']".*?"[’`']/g,
+		pattern: /"[^\n"]*"|[‘`']".*?"[’`']/g,
 		greedy: true
 	},
 
@@ -31,7 +31,7 @@ languages.mata = {
 	'constant': /\bNULL\b/,
 
 	'number': {
-		pattern: /(^|[^\w.])(?:\d+(?:\.\d+)?(?:e[+-]?\d+)?|\d[a-f0-9]*(?:\.[a-f0-9]+)?x[+-]?\d+)i?(?![\w.])/i,
+		pattern: /(^|[^\w.])(?:\d+(?:\.\d+)?(?:e[+-]?\d+)?|\d[a-f\d]*(?:\.[a-f\d]+)?x[+-]?\d+)i?(?![\w.])/i,
 		lookbehind: true
 	},
 	'missing': {
@@ -42,6 +42,6 @@ languages.mata = {
 
 	'function': /\b[a-z_]\w*(?=\s*\()/i,
 
-	'operator': /\.\.|\+\+|--|&&|\|\||:?(?:[!=<>]=|[+\-*/^<>&|:])|[!?=\\#’`']/,
+	'operator': /\.\.|\+\+|--|&&|\|\||:?(?:[!=<>]=|[*/^<>&|:+-])|[!?=\\#’`']/,
 	'punctuation': clikePunctuation
 };

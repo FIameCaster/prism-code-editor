@@ -3,7 +3,7 @@ import { re } from '../utils/shared.js';
 
 var stringPattern = /(?:"(?:""|[^"])*"(?!")|'(?:''|[^'])*'(?!'))/.source;
 
-var number = /\b(?:\d[\da-f]*x|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/i;
+var number = /\b(?:\d[a-f\d]*x|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/i;
 var numericConstant = {
 	pattern: RegExp(stringPattern + '[bx]'),
 	alias: 'number'
@@ -35,7 +35,7 @@ var string = {
 	greedy: true
 };
 
-var punctuation = /[$%@.(){}[\];,\\]/;
+var punctuation = /[$%@.()[\]{};,\\]/;
 
 var func = {
 	pattern: /%?\b\w+(?=\()/,
@@ -77,7 +77,7 @@ var altformat = {
 	inside: {
 		'keyword': /^(?:format|put)/i,
 		'format': {
-			pattern: /[\w$]+\.\d?/,
+			pattern: /[$\w]+\.\d?/,
 			alias: 'number'
 		}
 	}
@@ -98,10 +98,10 @@ var submitStatement = {
 var actionSets = /astore|accesscontrol|aggregation|audio|autotune|bayesiannetclassifier|biomedimage|boolrule|builtins|cardinality|cdm|clustering|conditionalrandomfields|configuration|copula|countreg|datadiscovery|datapreprocess|datasciencepilot|datastep|decisiontree|deduplication|deeplearn|deepneural|deeprnn|ds2|ecm|entityres|espcluster|explainmodel|factmac|fastknn|fcmpact|fedsql|freqtab|gvarcluster|gam|gleam|graphsemisuplearn|hiddenmarkovmodel|hypergroup|ica|image|iml|kernalpca|langmodel|ldatopic|loadstreams|mbc|mixed|mltools|modelpublishing|network|neuralnet|nmf|nonparametricbayes|nonlinear|optnetwork|optimization|panel|pca|percentile|phreg|pls|qkb|qlim|quantreg|recommend|regression|reinforcementlearn|robustpca|rulemining|sampling|sandwich|sccasl|search(?:analytics)?|sentimentanalysis|sequence|session(?:prop)?|severity|simsystem|simple|smartdata|sparkembeddedprocess|sparseml|spatialreg|spc|stabilitymonitoring|svdatadescription|svm|table|text(?:filters|frequency|mining|parse|rule(?:develop|score)|topic|util)|timedata|transpose|tsinfo|tsreconcile|unitimeseries|varreduce/.source;
 
 var casActions = {
-	pattern: re(/(^|\s)(?:action\s+)?(?:<<0>>)\.[a-z]+\b[^;]+/.source, [actionSets], 'i'),
+	pattern: re(/(^|\s)(?:action\s+)?<0>\.[a-z]+\b[^;]+/.source, [actionSets], 'i'),
 	lookbehind: true,
 	inside: {
-		'keyword': re(/(?:<<0>>)\.[a-z]+\b/.source, [actionSets], 'i'),
+		'keyword': re(/<0>\.[a-z]+\b/.source, [actionSets], 'i'),
 		'action': {
 			pattern: /(?:action)/i,
 			alias: 'keyword'
@@ -139,7 +139,7 @@ languages.sas = {
 		lookbehind: true,
 		inside: {
 			'sql': {
-				pattern: re(/^[ \t]*(?:select|alter\s+table|(?:create|describe|drop)\s+(?:index|table(?:\s+constraints)?|view)|create\s+unique\s+index|insert\s+into|update)(?:<<0>>|[^;"'])+;/.source, [stringPattern], 'im'),
+				pattern: re(/^[ \t]*(?:select|alter\s+table|(?:create|describe|drop)\s+(?:index|table(?:\s+constraints)?|view)|create\s+unique\s+index|insert\s+into|update)(?:<0>|[^;"'])+;/.source, [stringPattern], 'im'),
 				alias: 'language-sql',
 				inside: 'sql'
 			},
@@ -162,7 +162,7 @@ languages.sas = {
 		inside: {
 			'comment': comment,
 			'groovy': {
-				pattern: re(/(^[ \t]*submit(?:\s+(?:load|norun|parseonly))?)(?:<<0>>|[^"'])+?(?=endsubmit;)/.source, [stringPattern], 'im'),
+				pattern: re(/(^[ \t]*submit(?:\s+(?:load|norun|parseonly))?)(?:<0>|[^"'])+?(?=endsubmit;)/.source, [stringPattern], 'im'),
 				lookbehind: true,
 				alias: 'language-groovy',
 				inside: 'groovy'
@@ -183,7 +183,7 @@ languages.sas = {
 		inside: {
 			'comment': comment,
 			'lua': {
-				pattern: re(/(^[ \t]*submit(?:\s+(?:load|norun|parseonly))?)(?:<<0>>|[^"'])+?(?=endsubmit;)/.source, [stringPattern], 'im'),
+				pattern: re(/(^[ \t]*submit(?:\s+(?:load|norun|parseonly))?)(?:<0>|[^"'])+?(?=endsubmit;)/.source, [stringPattern], 'im'),
 				lookbehind: true,
 				alias: 'language-lua',
 				inside: 'lua'
@@ -237,7 +237,7 @@ languages.sas = {
 	},
 
 	'proc-args': {
-		pattern: re(/(^proc\s+\w+\s+)(?!\s)(?:[^;"']|<<0>>)+;/.source, [stringPattern], 'im'),
+		pattern: re(/(^proc\s+\w+\s+)(?!\s)(?:[^;"']|<0>)+;/.source, [stringPattern], 'im'),
 		lookbehind: true,
 		inside: args
 	},
@@ -288,7 +288,7 @@ languages.sas = {
 		}
 	},
 	'options-args': {
-		pattern: /(^options)[-'"|/\\<>*+=:()\w\s]*(?=;)/im,
+		pattern: /(^options)[()'"|/\\<>*=:\w\s+-]*(?=;)/im,
 		lookbehind: true,
 		inside: args
 	},
@@ -313,6 +313,6 @@ languages.sas = {
 	},
 	// Decimal (1.2e23), hexadecimal (0c1x)
 	'number': number,
-	'operator': /\*\*?|\|\|?|!!?|¦¦?|<[>=]?|>[<=]?|[-+\/=&]|[~¬^]=?/,
+	'operator': /\*\*?|\|\|?|!!?|¦¦?|<[>=]?|>[<=]?|[/=&+-]|[~¬^]=?/,
 	'punctuation': punctuation
 };

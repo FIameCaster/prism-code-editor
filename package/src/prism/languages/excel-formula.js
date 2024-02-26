@@ -56,11 +56,11 @@ languages['xlsx'] = languages['xls'] = languages['excel-formula'] = {
 	'cell': {
 		// Excel is case insensitive, so the string "foo1" could be either a variable or a cell.
 		// To combat this, we match cells case insensitive, if the contain at least one "$", and case sensitive otherwise.
-		pattern: /\b[A-Z]+\d+\b|\$[A-Za-z]+\$?\d+\b|\b[A-Za-z]+\$\d+\b/,
+		pattern: /\b[A-Z]+\d+\b|\$[a-zA-Z]+\$?\d+\b|\b[a-zA-Z]+\$\d+\b/,
 		alias: 'selector'
 	},
 	'number': /(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e[+-]?\d+)?\b/i,
 	'boolean': /\b(?:FALSE|TRUE)\b/i,
-	'operator': /[-+*/^%=&,]|<[=>]?|>=?/,
-	'punctuation': /[[\]();{}|]/
+	'operator': /[*/^%=&,+-]|<[=>]?|>=?/,
+	'punctuation': /[()[\]{};|]/
 };

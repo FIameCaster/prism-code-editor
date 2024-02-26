@@ -10,12 +10,12 @@ var crystal = languages.crystal = extend('ruby', {
 			lookbehind: true
 		}
 	],
-	'number': /\b(?:0b[01_]*[01]|0o[0-7_]*[0-7]|0x[\da-fA-F_]*[\da-fA-F]|(?:\d(?:[\d_]*\d)?)(?:\.[\d_]*\d)?(?:[eE][+-]?[\d_]*\d)?)(?:_(?:[uif](?:8|16|32|64))?)?\b/,
+	'number': /\b(?:0b[01_]*[01]|0o[0-7_]*[0-7]|0x[a-fA-F\d_]*[a-fA-F\d]|(?:\d(?:[\d_]*\d)?)(?:\.[\d_]*\d)?(?:[eE][+-]?[\d_]*\d)?)(?:_(?:[uif](?:8|16|32|64))?)?\b/,
 	'operator': [
 		/->/,
 		languages.ruby.operator,
 	],
-	'punctuation': /[(){}[\].,;\\]/,
+	'punctuation': /[()[\]{}.,;\\]/,
 });
 
 insertBefore(crystal, 'string-literal', {
@@ -52,7 +52,7 @@ insertBefore(crystal, 'string-literal', {
 		}
 	},
 	'char': {
-		pattern: /'(?:[^\\\n]{1,2}|\\(?:.|u(?:[A-Fa-f0-9]{1,4}|\{[A-Fa-f0-9]{1,6}\})))'/g,
+		pattern: /'(?:[^\\\n]{1,2}|\\(?:.|u(?:[a-fA-F\d]{1,4}|\{[a-fA-F\d]{1,6}\})))'/g,
 		greedy: true
 	}
 });

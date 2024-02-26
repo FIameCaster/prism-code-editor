@@ -6,12 +6,12 @@ import { boolean, clikePunctuation } from '../utils/shared.js';
 languages.rego = {
 	'comment': /#.*/,
 	'property': {
-		pattern: /(^|[^\\.])(?:"(?:\\.|[^\\"\n])*"|`[^`]*`|\b[a-z_]\w*\b)(?=\s*:(?!=))/gi,
+		pattern: /(^|[^\\.])(?:"(?:\\.|[^\\\n"])*"|`[^`]*`|\b[a-z_]\w*\b)(?=\s*:(?!=))/gi,
 		lookbehind: true,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:\\.|[^\\"\n])*"|`[^`]*`/g,
+		pattern: /(^|[^\\])"(?:\\.|[^\\\n"])*"|`[^`]*`/g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -22,7 +22,7 @@ languages.rego = {
 	'function': {
 		pattern: /\b[a-z_]\w*\b(?:\s*\.\s*\b[a-z_]\w*\b)*(?=\s*\()/i,
 		inside: {
-			'namespace': /\b\w+\b(?=\s*\.)/,
+			'namespace': /\b\w+(?=\s*\.)/,
 			'punctuation': /\./
 		}
 	},

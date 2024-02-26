@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import { boolean, clikeComment, clikePunctuation } from '../utils/shared.js';
 
-var keywords = /\b(?:abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|exports|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|module|native|new|non-sealed|null|open|opens|package|permits|private|protected|provides|public|record(?!\s*[(){}[\]<>=%~.:,;?+\-*/&|^])|requires|return|sealed|short|static|strictfp|super|switch|synchronized|this|throw|throws|to|transient|transitive|try|uses|var|void|volatile|while|with|yield)\b/;
+var keywords = /\b(?:abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|exports|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|module|native|new|non-sealed|null|open|opens|package|permits|private|protected|provides|public|record(?!\s*[()[\]{}<>=%~.,:;?*/&|^+-])|requires|return|sealed|short|static|strictfp|super|switch|synchronized|this|throw|throws|to|transient|transitive|try|uses|var|void|volatile|while|with|yield)\b/;
 
 // full package (optional) + parent classes (optional)
 var classNamePrefix = /(?:[a-z]\w*\s*\.\s*)*(?:[A-Z]\w*\s*\.\s*)*/.source;
@@ -33,16 +33,16 @@ languages.java = {
 	'comment': clikeComment(),
 	'triple-quoted-string': {
 		// http://openjdk.java.net/jeps/355#Description
-		pattern: /"""[ \t]*\n(?:(?:"|"")?(?:\\.|[^"\\]))*"""/g,
+		pattern: /"""[ \t]*\n(?:"?"?(?:\\.|[^\\"]))*"""/g,
 		greedy: true,
 		alias: 'string'
 	},
 	'char': {
-		pattern: /'(?:\\.|[^'\\\n]){1,6}'/g,
+		pattern: /'(?:\\.|[^\\\n']){1,6}'/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:\\.|[^"\\\n])*"/g,
+		pattern: /(^|[^\\])"(?:\\.|[^\\\n"])*"/g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -56,7 +56,7 @@ languages.java = {
 		inside: {
 			'class-name': className,
 			'keyword': keywords,
-			'punctuation': /[<>(),.:]/,
+			'punctuation': /[<>().,:]/,
 			'operator': /[?&|]/
 		}
 	},
@@ -119,7 +119,7 @@ languages.java = {
 			lookbehind: true
 		}
 	],
-	'number': /\b0b[01][01_]*L?\b|\b0x(?:\.[\da-f_p+-]+|[\da-f_]+(?:\.[\da-f_p+-]+)?)\b|(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?\d[\d_]*)?[dfl]?/i,
+	'number': /\b0b[01][01_]*L?\b|\b0x(?:\.[a-f\d_p+-]+|[a-f\d_]+(?:\.[a-f\d_p+-]+)?)\b|(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?\d[\d_]*)?[dfl]?/i,
 	'constant': /\b[A-Z][A-Z_\d]+\b/,
 	'operator': {
 		pattern: /(^|[^.])(?:<<=?|>>>?=?|->|--|\+\+|&&|\|\||::|[?:~]|[-+*/%&|^!=<>]=?)/m,

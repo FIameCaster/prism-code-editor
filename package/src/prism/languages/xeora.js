@@ -1,8 +1,18 @@
 import { languages } from '../core.js';
-import { extend, insertBefore } from '../utils/language.js';
+import { clone, insertBefore } from '../utils/language.js';
 import './markup.js';
 
-var xeora = languages.xeoracube = languages.xeora = extend('markup', {
+var xeora = languages.xeoracube = languages.xeora = clone(languages.html);
+
+var variable = {
+	pattern: /(?:[,|])@?(?:#+|[*~=^+-])?[\w.]+/,
+	inside: {
+		'punctuation': /[,.|]/,
+		'operator': /#+|[*~=^@+-]/
+	}
+};
+
+insertBefore(xeora, 'markup-bracket', {
 	'constant': {
 		pattern: /\$(?:DomainContents|PageRenderDuration)\$/,
 		inside: {
@@ -10,35 +20,30 @@ var xeora = languages.xeoracube = languages.xeora = extend('markup', {
 		}
 	},
 	'variable': {
-		pattern: /\$@?(?:#+|[-+*~=^])?[\w.]+\$/,
+		pattern: /\$@?(?:#+|[*~=^+-])?[\w.]+\$/,
 		inside: {
 			'punctuation': /[$.]/,
-			'operator': /#+|[-+*~=^@]/
+			'operator': /#+|[*~=^@+-]/
 		}
 	},
 	'function-inline': {
-		pattern: /\$F:[-\w.]+\?[-\w.]+(?:,(?:(?:@[-#]*\w+\.[\w+.]\.*)*\|)*(?:(?:[\w+]|[-#*.~^]+[\w+]|=\S)(?:[^$=]|=+[^=])*=*|(?:@[-#]*\w+\.[\w+.]\.*)+(?:(?:[\w+]|[-#*~^][-#*.~^]*[\w+]|=\S)(?:[^$=]|=+[^=])*=*)?)?)?\$/,
+		pattern: /\$F:[\w.-]+\?[\w.-]+(?:,(?:(?:@[-#]*\w+\.[\w+.]\.*)*\|)*(?:(?:[\w+]|[-#*.~^]+[\w+]|=\S)(?:[^$=]|=+[^=])*=*|(?:@[-#]*\w+\.[\w+.]\.*)+(?:(?:[\w+]|[-#*~^][-#*.~^]*[\w+]|=\S)(?:[^$=]|=+[^=])*=*)?)?)?\$/,
 		inside: {
-			'variable': {
-				pattern: /(?:[,|])@?(?:#+|[-+*~=^])?[\w.]+/,
-				inside: {
-					'punctuation': /[,.|]/,
-					'operator': /#+|[-+*~=^@]/
-				}
-			},
-			'punctuation': /\$\w:|[$:?.,|]/
+			'variable': variable,
+			'punctuation': /\$\w:|[$?.,:|]/
 		},
 		alias: 'function'
 	},
 	'function-block': {
-		pattern: /\$XF:\{[-\w.]+\?[-\w.]+(?:,(?:(?:@[-#]*\w+\.[\w+.]\.*)*\|)*(?:(?:[\w+]|[-#*.~^]+[\w+]|=\S)(?:[^$=]|=+[^=])*=*|(?:@[-#]*\w+\.[\w+.]\.*)+(?:(?:[\w+]|[-#*~^][-#*.~^]*[\w+]|=\S)(?:[^$=]|=+[^=])*=*)?)?)?\}:XF\$/,
+		pattern: /\$XF:\{[\w.-]+\?[\w.-]+(?:,(?:(?:@[-#]*\w+\.[\w+.]\.*)*\|)*(?:(?:[\w+]|[-#*.~^]+[\w+]|=\S)(?:[^$=]|=+[^=])*=*|(?:@[-#]*\w+\.[\w+.]\.*)+(?:(?:[\w+]|[-#*~^][-#*.~^]*[\w+]|=\S)(?:[^$=]|=+[^=])*=*)?)?)?\}:XF\$/,
 		inside: {
-			'punctuation': /[$:{}?.,|]/
+			'variable': variable,
+			'punctuation': /[{}$?.,:|]/
 		},
 		alias: 'function'
 	},
 	'directive-inline': {
-		pattern: /\$\w(?:#\d+\+?)?(?:\[[-\w.]+\])?:[-\/\w.]+\$/,
+		pattern: /\$\w(?:#\d+\+?)?(?:\[[\w.-]+\])?:[-/\w.]+\$/,
 		inside: {
 			'punctuation': {
 				pattern: /\$(?:\w:|C(?:\[|#\d))?|[:{[\]]/,
@@ -50,7 +55,7 @@ var xeora = languages.xeoracube = languages.xeora = extend('markup', {
 		alias: 'function'
 	},
 	'directive-block-open': {
-		pattern: /\$\w+:\{|\$\w(?:#\d+\+?)?(?:\[[-\w.]+\])?:[-\w.]+:\{(?:![A-Z]+)?/,
+		pattern: /\$\w+:\{|\$\w(?:#\d+\+?)?(?:\[[\w.-]+\])?:[\w.-]+:\{(?:![A-Z]+)?/,
 		inside: {
 			'punctuation': {
 				pattern: /\$(?:\w:|C(?:\[|#\d))?|[:{[\]]/,
@@ -69,25 +74,17 @@ var xeora = languages.xeoracube = languages.xeora = extend('markup', {
 		alias: 'function'
 	},
 	'directive-block-separator': {
-		pattern: /\}:[-\w.]+:\{/,
+		pattern: /\}:[\w.-]+:\{/,
 		inside: {
 			'punctuation': /[:{}]/
 		},
 		alias: 'function'
 	},
 	'directive-block-close': {
-		pattern: /\}:[-\w.]+\$/,
+		pattern: /\}:[\w.-]+\$/,
 		inside: {
 			'punctuation': /[:{}$]/
 		},
 		alias: 'function'
 	}
-});
-
-var brackets = xeora['markup-bracket'];
-delete xeora['markup-bracket'];
-xeora['markup-bracket'] = brackets;
-
-insertBefore(xeora['function-block'].inside, 'punctuation', {
-	'variable': xeora['function-inline'].inside['variable']
 });

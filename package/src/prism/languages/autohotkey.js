@@ -19,9 +19,9 @@ languages.autohotkey = {
 		pattern: /^([ \t]*)[^\s,`":]+(?=:[ \t]*$)/m,
 		lookbehind: true
 	},
-	'string': /"(?:[^"\n]|"")*"/,
+	'string': /"(?:[^\n"]|"")*"/,
 	'variable': /%\w+%/,
-	'number': /\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,
+	'number': /\b0x[a-fA-F\d]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,
 	'operator': /\?|\/\/?=?|:=|\|[=|]?|&[=&]?|\+[=+]?|-[=-]?|\*[=*]?|<(?:<=?|>|=)?|>>?=?|[.^!=~]=?|\b(?:AND|NOT|OR)\b/,
 	'boolean': boolean,
 
@@ -42,6 +42,6 @@ languages.autohotkey = {
 	},
 
 	'keyword': /\b(?:abort|abovenormal|add|ahk_class|ahk_exe|ahk_group|ahk_id|ahk_pid|all|alnum|alpha|altsubmit|alttab|alttabandmenu|alttabmenu|alttabmenudismiss|alwaysontop|autosize|background|backgroundtrans|belownormal|between|bitand|bitnot|bitor|bitshiftleft|bitshiftright|bitxor|bold|border|button|byref|catch|checkbox|checked|checkedgray|choose|choosestring|close|color|combobox|contains|controllist|count|date|datetime|days|ddl|default|deleteall|delimiter|deref|destroy|digit|disable|disabled|dropdownlist|edit|eject|else|enable|enabled|error|exist|expand|exstyle|filesystem|finally|first|flash|float|floatfast|focus|font|for|global|grid|group|groupbox|guiclose|guicontextmenu|guidropfiles|guiescape|guisize|hdr|hidden|hide|high|hkcc|hkcr|hkcu|hkey_classes_root|hkey_current_config|hkey_current_user|hkey_local_machine|hkey_users|hklm|hku|hours|hscroll|icon|iconsmall|id|idlast|if|ifequal|ifexist|ifgreater|ifgreaterorequal|ifinstring|ifless|iflessorequal|ifmsgbox|ifnotequal|ifnotexist|ifnotinstring|ifwinactive|ifwinexist|ifwinnotactive|ifwinnotexist|ignore|imagelist|in|integer|integerfast|interrupt|is|italic|join|label|lastfound|lastfoundexist|limit|lines|list|listbox|listview|local|lock|logoff|low|lower|lowercase|mainwindow|margin|maximize|maximizebox|maxsize|minimize|minimizebox|minmax|minsize|minutes|monthcal|mouse|move|multi|na|no|noactivate|nodefault|nohide|noicon|nomainwindow|norm|normal|nosort|nosorthdr|nostandard|not|notab|notimers|number|off|ok|on|owndialogs|owner|parse|password|picture|pixel|pos|pow|priority|processname|radio|range|read|readonly|realtime|redraw|region|reg_binary|reg_dword|reg_expand_sz|reg_multi_sz|reg_sz|relative|rename|report|resize|restore|retry|rgb|screen|seconds|section|serial|setlabel|shiftalttab|show|single|slider|sortdesc|standard|static|status|statusbar|statuscd|strike|style|submit|sysmenu|tab2|tabstop|text|theme|throw|tile|togglecheck|toggleenable|toolwindow|top|topmost|transcolor|transparent|tray|treeview|try|tryagain|type|uncheck|underline|unicode|unlock|until|updown|upper|uppercase|useerrorlevel|vis|visfirst|visible|vscroll|wait|waitclose|wantctrla|wantf2|wantreturn|while|wrap|xdigit|xm|xp|xs|yes|ym|yp|ys)\b/i,
-	'function': /[^(); \t,\n+*\-=?>:\\\/<&%\[\]]+(?=\()/,
-	'punctuation': /[{}[\]():,]/
+	'function': /[^(); \t,\n*=?>:\\/<&%[\]+-]+(?=\()/,
+	'punctuation': /[()[\]{},:]/
 };

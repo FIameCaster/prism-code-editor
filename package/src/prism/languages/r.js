@@ -16,9 +16,9 @@ languages.r = {
 	'ellipsis': /\.\.(?:\.|\d+)/,
 	'number': [
 		/\b(?:Inf|NaN)\b/,
-		/(?:\b0x[\dA-Fa-f]+(?:\.\d*)?|\b\d+(?:\.\d*)?|\B\.\d+)(?:[EePp][+-]?\d+)?[iL]?/
+		/(?:\b0x[a-fA-F\d]+(?:\.\d*)?|\b\d+(?:\.\d*)?|\B\.\d+)(?:[EePp][+-]?\d+)?[iL]?/
 	],
 	'keyword': /\b(?:NA|NA_character_|NA_complex_|NA_integer_|NA_real_|NULL|break|else|for|function|if|in|next|repeat|while)\b/,
-	'operator': /->?>?|<(?:=|<?-)?|[>=!]=?|::?|&&?|\|\|?|[+*/^$@~]/,
-	'punctuation': /[(){}[\],;]/
+	'operator': /->?>?|<(?:=|<?-)?|[>!=]=?|::?|&&?|\|\|?|[+*/^$@~]/,
+	'punctuation': /[()[\]{},;]/
 };

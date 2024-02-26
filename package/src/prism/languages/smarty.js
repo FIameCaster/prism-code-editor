@@ -2,7 +2,7 @@ import { languages, tokenize } from '../core.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 
-var smartyPattern = /\{(?:[^{}"']|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|\{(?:[^{}"']|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'|\{(?:[^{}"']|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')*\})*\})*\}/g;
+var smartyPattern = /\{(?:[^{}"']|"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*'|\{(?:[^{}"']|"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*'|\{(?:[^{}"']|"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*')*\})*\})*\}/g;
 
 var expression = {
 	pattern: /[\s\S]+/
@@ -11,7 +11,7 @@ var expression = {
 var smarty = expression.inside = {
 	'string': [
 		{
-			pattern: /"(?:\\.|[^"\\\n])*"/g,
+			pattern: /"(?:\\.|[^\\\n"])*"/g,
 			greedy: true,
 			inside: {
 				'interpolation': {
@@ -28,7 +28,7 @@ var smarty = expression.inside = {
 			}
 		},
 		{
-			pattern: /'(?:\\.|[^'\\\n])*'/g,
+			pattern: /'(?:\\.|[^\\\n'])*'/g,
 			greedy: true
 		},
 	],
@@ -42,7 +42,7 @@ var smarty = expression.inside = {
 		greedy: true,
 		alias: 'punctuation'
 	},
-	'number': /\b0x[\dA-Fa-f]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][-+]?\d+)?/,
+	'number': /\b0x[a-fA-F\d]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][-+]?\d+)?/,
 	'variable': [
 		/\$(?!\d)\w+/,
 		/#(?!\d)\w+#/,
@@ -61,9 +61,9 @@ var smarty = expression.inside = {
 	},
 	'attr-name': /\b[a-z_]\w*(?=\s*=)/i,
 	'boolean': /\b(?:false|no|off|on|true|yes)\b/,
-	'punctuation': /[[\](){}.,:`]|->/,
+	'punctuation': /[()[\]{}.,:`]|->/,
 	'operator': [
-		/[+\-*\/%]|==?=?|[!<>]=?|&&|\|\|?/,
+		/[*/%+-]|==?=?|[!<>]=?|&&|\|\|?/,
 		/\bis\s+(?:not\s+)?(?:div|even|odd)(?:\s+by)?\b/,
 		/\b(?:and|eq|gt?e|gt|lt?e|lt|mod|neq?|not|or)\b/
 	]

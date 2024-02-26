@@ -89,10 +89,10 @@ expression.inside = languages.plantuml = languages['plant-uml'] = {
 	},
 
 	'color': {
-		pattern: /#(?:[a-z_]+|[a-fA-F0-9]+)\b/,
+		pattern: /#(?:[a-z_]+|[a-fA-F\d]+)\b/,
 		alias: 'symbol'
 	},
 	'variable': variable,
 
-	'punctuation': /[:,;()[\]{}]|\.{3}/
+	'punctuation': /[()[\]{},:;]|\.{3}/
 };

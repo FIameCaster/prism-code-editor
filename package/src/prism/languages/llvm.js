@@ -14,7 +14,7 @@ languages.llvm = {
 		pattern: /\b(?:double|float|fp128|half|i[1-9]\d*|label|metadata|ppc_fp128|token|void|x86_fp80|x86_mmx)\b/,
 		alias: 'class-name',
 	},
-	'keyword': /\b[a-z_][a-z_0-9]*\b/,
-	'number': /[+-]?\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b|\b0x[\dA-Fa-f]+\b|\b0xK[\dA-Fa-f]{20}\b|\b0x[ML][\dA-Fa-f]{32}\b|\b0xH[\dA-Fa-f]{4}\b/,
-	'punctuation': /[{}[\];(),.!*=<>]/,
+	'keyword': /\b[a-z_][a-z_\d]*\b/,
+	'number': /[+-]?\b\d+(?:\.\d+)?(?:[eE][+-]?\d+)?\b|\b0x[a-fA-F\d]+\b|\b0xK[a-fA-F\d]{20}\b|\b0x[ML][a-fA-F\d]{32}\b|\b0xH[a-fA-F\d]{4}\b/,
+	'punctuation': /[()[\]{}.,;!*=<>]/,
 };

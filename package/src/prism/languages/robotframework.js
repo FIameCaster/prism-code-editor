@@ -29,14 +29,14 @@ var createSection = (name, inside) => {
 		pattern: /(\n(?: {2}|\t)[ \t]*)\[[-\w]+\]/,
 		lookbehind: true,
 		inside: {
-			'punctuation': /\[|\]/
+			'punctuation': /[[\]]/
 		}
 	};
 	extendecInside['variable'] = variable;
 	extendecInside['comment'] = comment;
 
 	return {
-		pattern: re(/^ ?\*{3}[ \t]*<<0>>[ \t]*\*{3}(?:.|\n(?!\*{3}))*/.source, [name], 'im'),
+		pattern: re(/^ ?\*{3}[ \t]*<0>[ \t]*\*{3}(?:.|\n(?!\*{3}))*/.source, [name], 'im'),
 		alias: 'section',
 		inside: extendecInside
 	};

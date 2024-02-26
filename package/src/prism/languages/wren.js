@@ -23,7 +23,7 @@ languages.wren = {
 
 	'string-literal': {
 		// A single quote string is multiline and can have interpolation (similar to JS backticks ``)
-		pattern: /(^|[^\\"])"(?:[^\\"%]|\\[\s\S]|%(?!\()|%\((?:[^()]|\((?:[^()]|\([^)]*\))*\))*\))*"/g,
+		pattern: /(^|[^\\"])"(?:\\[\s\S]|[^\\"%]|%(?!\()|%\((?:[^()]|\((?:[^()]|\([^)]*\))*\))*\))*"/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -83,11 +83,11 @@ languages.wren = {
 	},
 	'keyword': /\b(?:as|break|class|construct|continue|else|for|foreign|if|import|in|is|return|static|super|this|var|while)\b/,
 	'boolean': boolean,
-	'number': /\b(?:0x[\da-f]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/i,
+	'number': /\b(?:0x[a-f\d]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/i,
 
 	// Functions can be Class.method()
 	'function': /\b[a-z_]\w*(?=\s*[({])/i,
 
-	'operator': /<<|>>|[=!<>]=?|&&|\|\||[-+*/%~^&|?:]|\.{2,3}/,
+	'operator': /<<|>>|[!=<>]=?|&&|\|\||[*/%~^&|?:+-]|\.{2,3}/,
 	'punctuation': clikePunctuation
 };

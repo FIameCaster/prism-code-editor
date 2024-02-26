@@ -21,7 +21,7 @@ var powershell = languages.powershell = {
 	// Supports two levels of nested brackets (e.g. `[OutputType([System.Collections.Generic.List[int]])]`)
 	'namespace': /\[[a-z](?:\[(?:\[[^\]]*\]|[^[\]])*\]|[^[\]])*\]/i,
 	'boolean': /\$(?:false|true)\b/i,
-	'variable': /\$\w+\b/,
+	'variable': /\$\w+/,
 	// Cmdlets and aliases. Aliases should come last, otherwise "write" gets preferred over "write-host" for example
 	// Get-Command | ?{ $_.ModuleName -match "Microsoft.PowerShell.(Util|Core|Management)" }
 	// Get-Alias | ?{ $_.ReferencedCommand.Module.Name -match "Microsoft.PowerShell.(Util|Core|Management)" }
@@ -35,7 +35,7 @@ var powershell = languages.powershell = {
 		pattern: /(^|\W)(?:!|-(?:b?(?:and|x?or)|as|(?:Not)?(?:contains|in|like|match)|eq|ge|gt|is(?:Not)?|join|le|lt|ne|not|replace|sh[lr])\b|-[-=]?|\+[+=]?|[*\/%]=?)/i,
 		lookbehind: true
 	},
-	'punctuation': /[|{}[\];(),.]/
+	'punctuation': /[()[\]{}.,;|]/
 };
 
 // Variable interpolation inside strings, and nested expressions

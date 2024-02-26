@@ -9,7 +9,7 @@ languages.ocaml = {
 		greedy: true
 	},
 	'char': {
-		pattern: /'(?:[^\\\n']|\\(?:.|[ox]?[0-9a-f]{1,3}))'/gi,
+		pattern: /'(?:[^\\\n']|\\(?:.|[ox]?[a-f\d]{1,3}))'/gi,
 		greedy: true
 	},
 	'string': [
@@ -26,7 +26,7 @@ languages.ocaml = {
 		// binary and octal
 		/\b(?:0b[01][01_]*|0o[0-7][0-7_]*)\b/i,
 		// hexadecimal
-		/\b0x[a-f0-9][a-f0-9_]*(?:\.[a-f0-9_]*)?(?:p[+-]?\d[\d_]*)?(?!\w)/i,
+		/\b0x[a-f\d][a-f\d_]*(?:\.[a-f\d_]*)?(?:p[+-]?\d[\d_]*)?(?!\w)/i,
 		// decimal
 		/\b\d[\d_]*(?:\.[\d_]*)?(?:e[+-]?\d[\d_]*)?(?!\w)/i,
 	],
@@ -56,6 +56,6 @@ languages.ocaml = {
 		alias: 'punctuation'
 	},
 	// Custom operators are allowed
-	'operator': /\.[.~]|:[=>]|[=<>@^|&+\-*\/$%!?~][!$%&*+\-.\/:<=>?@^|~]*|\b(?:and|asr|land|lor|lsl|lsr|lxor|mod|or)\b/,
-	'punctuation': /;;|::|[(){}[\].,:;#]|\b_\b/
+	'operator': /\.[.~]|:[=>]|[!=<>@^|&*/$%?~+-][!=$%&*./:<>?@^|~+-]*|\b(?:and|asr|land|lor|lsl|lsr|lxor|mod|or)\b/,
+	'punctuation': /;;|::|[()[\]{}.,:;#]|\b_\b/
 };

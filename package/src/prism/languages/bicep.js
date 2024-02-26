@@ -10,7 +10,7 @@ languages.bicep = {
 			lookbehind: true
 		},
 		{
-			pattern: /(\n[ \t]*)'(?:\\.|\$(?!\{)|[^'\\\n$])*'(?=[ \t]*:)/g,
+			pattern: /(\n[ \t]*)'(?:\\.|\$(?!\{)|[^\\\n'$])*'(?=[ \t]*:)/g,
 			lookbehind: true,
 			greedy: true
 		}
@@ -21,13 +21,13 @@ languages.bicep = {
 			greedy: true
 		},
 		{
-			pattern: /(^|[^\\'])'(?:\\.|\$(?!\{)|[^'\\\n$])*'/g,
+			pattern: /(^|[^\\'])'(?:\\.|\$(?!\{)|[^\\\n'$])*'/g,
 			lookbehind: true,
 			greedy: true,
 		}
 	],
 	'interpolated-string': {
-		pattern: /(^|[^\\'])'(?:\\.|\$(?:(?!\{)|\{[^{}\n]*\})|[^'\\\n$])*'/g,
+		pattern: /(^|[^\\'])'(?:\\.|\$(?:(?!\{)|\{[^{}\n]*\})|[^\\\n'$])*'/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -46,7 +46,7 @@ languages.bicep = {
 	},
 
 	'datatype': {
-		pattern: /(\b(?:output|param)\b[ \t]+\w+[ \t]+)\w+\b/,
+		pattern: /(\b(?:output|param)\b[ \t]+\w+[ \t]+)\w+/,
 		lookbehind: true,
 		alias: 'class-name'
 	},
@@ -55,7 +55,7 @@ languages.bicep = {
 	// https://github.com/Azure/bicep/blob/114a3251b4e6e30082a58729f19a8cc4e374ffa6/src/textmate/bicep.tmlanguage#L184
 	'keyword': /\b(?:existing|for|if|in|module|null|output|param|resource|targetScope|var)\b/,
 
-	'decorator': /@\w+\b/,
+	'decorator': /@\w+/,
 	'function': /\b[a-z_]\w*(?=[ \t]*\()/i,
 
 	'number': /(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:E[+-]?\d+)?/i,

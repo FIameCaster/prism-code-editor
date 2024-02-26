@@ -5,7 +5,7 @@ languages.vhdl = {
 	'comment': /--.+/,
 	// support for all logic vectors
 	'vhdl-vectors': {
-		'pattern': /\b[oxb]"[\da-f_]+"|"[01uxzwlh-]+"/i,
+		'pattern': /\b[oxb]"[a-f\d_]+"|"[01uxzwlh-]+"/i,
 		'alias': 'number'
 	},
 	// support for operator overloading included
@@ -13,7 +13,7 @@ languages.vhdl = {
 		pattern: /"\S+?"(?=\()/,
 		alias: 'function'
 	},
-	'string': /"(?:[^\\"\n]|\\[\s\S])*"/,
+	'string': /"(?:\\[\s\S]|[^\\\n"])*"/,
 	'attribute': {
 		pattern: /\b'\w+/,
 		alias: 'attr-name'
@@ -23,7 +23,7 @@ languages.vhdl = {
 	'boolean': /\b(?:false|true)\b/i,
 	'function': /\w+(?=\()/,
 	// decimal, based, physical, and exponential numbers supported
-	'number': /'[01uxzwlh-]'|\b(?:\d+#[\da-f_.]+#|\d[\d_.]*)(?:e[-+]?\d+)?/i,
+	'number': /'[01uxzwlh-]'|\b(?:\d+#[a-f\d_.]+#|\d[\d_.]*)(?:e[-+]?\d+)?/i,
 	'operator': /[<>]=?|:=|[-+*/&=]|\b(?:abs|and|mod|nand|nor|not|or|rem|rol|ror|sla|sll|sra|srl|xnor|xor)\b/i,
 	'punctuation': clikePunctuation
 };

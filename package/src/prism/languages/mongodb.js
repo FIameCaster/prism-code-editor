@@ -75,7 +75,7 @@ insertBefore(mongodb, 'string', {
 mongodb.string.inside = {
 	url: {
 		// url pattern
-		pattern: /https?:\/\/[-\w@:%.+~#=]{1,256}\.[a-z0-9()]{1,6}\b[-\w()@:%+.~#?&/=]*/gi,
+		pattern: /https?:\/\/[-\w@:%.+~#=]{1,256}\.[a-z\d()]{1,6}\b[-\w()@:%+.~#?&/=]*/gi,
 		greedy: true
 	},
 	entity: {

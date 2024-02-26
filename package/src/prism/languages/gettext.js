@@ -33,7 +33,7 @@ languages.po = languages.gettext = {
 		},
 	],
 	'string': {
-		pattern: /(^|[^\\])"(?:[^"\\]|\\.)*"/g,
+		pattern: /(^|[^\\])"(?:\\.|[^\\"])*"/g,
 		lookbehind: true,
 		greedy: true
 	},

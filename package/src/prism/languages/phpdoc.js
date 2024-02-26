@@ -17,7 +17,7 @@ insertBefore(
 				lookbehind: true,
 				inside: {
 					'keyword': /\b(?:array|bool|boolean|callback|double|false|float|int|integer|mixed|null|object|resource|self|string|true|void)\b/,
-					'punctuation': /[|\\[\]()]/
+					'punctuation': /[|\\()[\]]/
 				}
 			}
 		]

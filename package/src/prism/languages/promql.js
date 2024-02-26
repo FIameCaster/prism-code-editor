@@ -60,7 +60,7 @@ languages.promql = {
 	],
 	'keyword': RegExp('\\b(?:sum|min|max|avg|group|stddev|stdvar|count|count_values|bottomk|topk|quantile|' + vectorMatching + '|offset)\\b', 'i'),
 	'function': /\b[a-z_]\w*(?=\s*\()/i,
-	'number': /[-+]?(?:(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e[-+]?\d+)?\b|\b(?:0x[0-9a-f]+|nan|inf)\b)/i,
+	'number': /[-+]?(?:(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e[-+]?\d+)?\b|\b(?:0x[a-f\d]+|nan|inf)\b)/i,
 	'operator': /[\^*/%+-]|==|!=|<=|<|>=|>|\b(?:and|or|unless)\b/i,
 	'punctuation': /[{};()`,.[\]]/,
 };

@@ -29,8 +29,8 @@ languages.autoit = {
 	// Variables and macros
 	'variable': /[$@]\w+/,
 	'keyword': /\b(?:case|const|continue(?:case|loop)|default|dim|do|else(?:if)?|end(?:func|if|select|switch|with)|enum|exit(?:loop)?|for|func|global|if|in|local|next|null|redim|select|static|step|switch|then|to|until|volatile|wend|while|with)\b/i,
-	'number': /\b(?:0x[\da-f]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/i,
+	'number': /\b(?:0x[a-f\d]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/i,
 	'boolean': /\b(?:false|true)\b/i,
-	'operator': /<[=>]?|[-+*\/=&>]=?|[?^]|\b(?:and|not|or)\b/i,
-	'punctuation': /[\[\]().,:]/
+	'operator': /<[=>]?|[*/=&>+-]=?|[?^]|\b(?:and|not|or)\b/i,
+	'punctuation': /[()[\].,:]/
 };

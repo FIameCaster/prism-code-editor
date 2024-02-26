@@ -3,7 +3,7 @@ import { extend } from '../utils/language.js';
 import { re } from '../utils/shared.js';
 import './markup.js';
 
-var replacements = ['(?:\\([^|()\n]+\\)|\\[[^\\]\n]+\\]|\\{[^}\n]+\\})', '(?:\\)|\\((?![^|()\n]+\\)))'];
+var replacements = ['(?:\\([^|()\n]+\\)|\\[[^\\]\n]+\\]|\\{[^\n}]+\\})', '(?:\\)|\\((?![^|()\n]+\\)))'];
 
 var modifierTokens = {
 	'css': {
@@ -21,7 +21,7 @@ var modifierTokens = {
 		alias: 'attr-value'
 	},
 	// Anything else is punctuation (the first pattern is for row/col spans inside tables)
-	'punctuation': /[\\\/]\d+|\S/
+	'punctuation': /[\\/]\d+|\S/
 };
 
 var phraseInlineInside = {
@@ -30,21 +30,21 @@ var phraseInlineInside = {
 	// *bold*, **bold**
 	'bold': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: re(/(^(\*\*?)<<0>>*).+?(?=\2)/.source, replacements),
+		pattern: re(/(^(\*\*?)<0>*).+?(?=\2)/.source, replacements),
 		lookbehind: true
 	},
 
 	// _italic_, __italic__
 	'italic': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: re(/(^(__?)<<0>>*).+?(?=\2)/.source, replacements),
+		pattern: re(/(^(__?)<0>*).+?(?=\2)/.source, replacements),
 		lookbehind: true
 	},
 
 	// ??cite??
 	'cite': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: re(/(^\?\?<<0>>*).+?(?=\?\?)/.source, replacements),
+		pattern: re(/(^\?\?<0>*).+?(?=\?\?)/.source, replacements),
 		lookbehind: true,
 		alias: 'string'
 	},
@@ -52,7 +52,7 @@ var phraseInlineInside = {
 	// @code@
 	'code': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: re('(^@<<0>>*).+?(?=@)', replacements),
+		pattern: re('(^@<0>*).+?(?=@)', replacements),
 		lookbehind: true,
 		alias: 'keyword'
 	},
@@ -60,37 +60,37 @@ var phraseInlineInside = {
 	// +inserted+
 	'inserted': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: re('(^\\+<<0>>*).+?(?=\\+)', replacements),
+		pattern: re('(^\\+<0>*).+?(?=\\+)', replacements),
 		lookbehind: true
 	},
 
 	// -deleted-
 	'deleted': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: re('(^-<<0>>*).+?(?=-)', replacements),
+		pattern: re('(^-<0>*).+?(?=-)', replacements),
 		lookbehind: true
 	},
 
 	// %span%
 	'span': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: re('(^%<<0>>*).+?(?=%)', replacements),
+		pattern: re('(^%<0>*).+?(?=%)', replacements),
 		lookbehind: true
 	},
 
 	'modifier': {
-		pattern: re('(^\\*\\*|__|\\?\\?|[*_%@+\\-^~])<<0>>+', replacements),
+		pattern: re('(^\\*\\*|__|\\?\\?|[*_%@^~+-])<0>+', replacements),
 		lookbehind: true,
 		inside: modifierTokens
 	},
-	'punctuation': /[*_%?@+\-^~]+/
+	'punctuation': /[*_%?@^~+-]+/
 };
 
 var phraseTableInside = {
 	'modifier': {
 		// Modifiers for rows after the first one are
 		// preceded by a pipe and a line feed
-		pattern: re(/(^|\|\n?)(?:<<0>>|<<1>>|[<>=^~_]|[\\/]\d+)+(?=\.)/.source, replacements),
+		pattern: re(/(^|\|\n?)(?:<0>|<1>|[<>=^~_]|[\\/]\d+)+(?=\.)/.source, replacements),
 		lookbehind: true,
 		inside: modifierTokens
 	},
@@ -101,10 +101,10 @@ var phraseInside = {
 
 	// h1. Header 1
 	'block-tag': {
-		pattern: re('^[a-z]\\w*(?:<<0>>|<<1>>|[<>=])*\\.', replacements),
+		pattern: re('^[a-z]\\w*(?:<0>|<1>|[<>=])*\\.', replacements),
 		inside: {
 			'modifier': {
-				pattern: re('(^[a-z]\\w*)(?:<<0>>|<<1>>|[<>=])+(?=\\.)', replacements),
+				pattern: re('(^[a-z]\\w*)(?:<0>|<1>|[<>=])+(?=\\.)', replacements),
 				lookbehind: true,
 				inside: modifierTokens
 			},
@@ -116,10 +116,10 @@ var phraseInside = {
 	// # List item
 	// * List item
 	'list': {
-		pattern: re('^[*#]+<<0>>*\\s+\\S.*', replacements, 'm'),
+		pattern: re('^[*#]+<0>*\\s+\\S.*', replacements, 'm'),
 		inside: {
 			'modifier': {
-				pattern: re('(^[*#]+)<<0>>+', replacements),
+				pattern: re('(^[*#]+)<0>+', replacements),
 				lookbehind: true,
 				inside: modifierTokens
 			},
@@ -131,13 +131,13 @@ var phraseInside = {
 	'table': {
 		// Modifiers can be applied to the row: {color:red}.|1|2|3|
 		// or the cell: |{color:red}.1|2|3|
-		pattern: re(/^(?:(?:<<0>>|<<1>>|[<>=^~])+\.\s*)?(?:\|(?:(?:<<0>>|<<1>>|[<>=^~_]|[\\/]\d+)+\.|(?!(?:<<0>>|<<1>>|[<>=^~_]|[\\/]\d+)+\.))[^|]*)+\|/.source, replacements, 'm'),
+		pattern: re(/^(?:(?:<0>|<1>|[<>=^~])+\.\s*)?(?:\|(?:(?:<0>|<1>|[<>=^~_]|[\\/]\d+)+\.|(?!(?:<0>|<1>|[<>=^~_]|[\\/]\d+)+\.))[^|]*)+\|/.source, replacements, 'm'),
 		inside: phraseTableInside
 	},
 
 	'inline': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: re(/(^|[^a-zA-Z\d])(\*\*|__|\?\?|[*_%@+\-^~])<<0>>*.+?\2(?![a-zA-Z\d])/.source, replacements),
+		pattern: re(/(^|[^a-zA-Z\d])(\*\*|__|\?\?|[*_%@^~+-])<0>*.+?\2(?![a-zA-Z\d])/.source, replacements),
 		lookbehind: true,
 		inside: phraseInlineInside
 	},
@@ -162,15 +162,15 @@ var phraseInside = {
 	// "text":link-ref
 	'link': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: re(/"<<0>>*[^"]+":.+?(?=[^\w/]?(?:\s|$))/.source, replacements),
+		pattern: re(/"<0>*[^"]+":.+?(?=[^\w/]?(?:\s|$))/.source, replacements),
 		inside: {
 			'text': {
 				// eslint-disable-next-line regexp/no-super-linear-backtracking
-				pattern: re(/(^"<<0>>*)[^"]+(?=")/.source, replacements),
+				pattern: re(/(^"<0>*)[^"]+(?=")/.source, replacements),
 				lookbehind: true
 			},
 			'modifier': {
-				pattern: re(/(^")<<0>>+/.source, replacements),
+				pattern: re(/(^")<0>+/.source, replacements),
 				lookbehind: true,
 				inside: modifierTokens
 			},
@@ -185,15 +185,15 @@ var phraseInside = {
 	// !image.jpg!
 	// !image.jpg(Title)!:http://example.com
 	'image': {
-		pattern: re(/!(?:<<0>>|<<1>>|[<>=])*(?![<>=])[^!\s()]+(?:\([^)]+\))?!(?::.+?(?=[^\w/]?(?:\s|$)))?/.source, replacements),
+		pattern: re(/!(?:<0>|<1>|[<>=])*(?![<>=])[^!\s()]+(?:\([^)]+\))?!(?::.+?(?=[^\w/]?(?:\s|$)))?/.source, replacements),
 		inside: {
 			'source': {
-				pattern: re(/(^!(?:<<0>>|<<1>>|[<>=])*)(?![<>=])[^!\s()]+(?:\([^)]+\))?(?=!)/.source, replacements),
+				pattern: re(/(^!(?:<0>|<1>|[<>=])*)(?![<>=])[^!\s()]+(?:\([^)]+\))?(?=!)/.source, replacements),
 				lookbehind: true,
 				alias: 'url'
 			},
 			'modifier': {
-				pattern: re(/(^!)(?:<<0>>|<<1>>|[<>=])+/.source, replacements),
+				pattern: re(/(^!)(?:<0>|<1>|[<>=])+/.source, replacements),
 				lookbehind: true,
 				inside: modifierTokens
 			},
@@ -210,7 +210,7 @@ var phraseInside = {
 		pattern: /\b\[\d+\]/,
 		alias: 'comment',
 		inside: {
-			'punctuation': /\[|\]/
+			'punctuation': /[[\]]/
 		}
 	},
 
@@ -263,4 +263,4 @@ textile['markup-bracket'] = brackets;
 ['inline', 'link', 'image', 'footnote', 'acronym', 'mark'].forEach(p => phraseTableInside[p] = nestedPatterns[p]);
 
 // Only allow alpha-numeric HTML tags, not XML tags
-textile.tag.pattern = /<\/?(?!\d)[a-z0-9]+(?:\s+[^\s>\/=]+(?:=(?:"[^"]*"|'[^']'|[^\s'">=]+))?)*\s*\/?>/gi;
+textile.tag.pattern = /<\/?(?!\d)[a-z\d]+(?:\s+[^\s/=>]+(?:=(?:"[^"]*"|'[^']'|[^\s'">=]+))?)*\s*\/?>/gi;

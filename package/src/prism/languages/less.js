@@ -17,7 +17,7 @@ insertBefore(
 		'atrule': {
 			pattern: /@[\w-](?:\((?:[^(){}]|\([^(){}]*\))*\)|[^(){};\s]|\s+(?!\s))*?(?=\s*\{)/,
 			inside: {
-				'punctuation': /[:()]/
+				'punctuation': /[():]/
 			}
 		},
 		// selectors and mixins are considered the same
@@ -30,7 +30,7 @@ insertBefore(
 		},
 
 		'property': /(?:@\{[\w-]+\}|[\w-])+(?:\+_?)?(?=\s*:)/,
-		'operator': /[+\-*\/]/
+		'operator': /[*/+-]/
 	}),
 	'property', {
 		'variable': [

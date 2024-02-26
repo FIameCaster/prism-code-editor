@@ -13,12 +13,12 @@ expression.inside = languages.gni = languages.gn = {
 		greedy: true
 	},
 	'string-literal': {
-		pattern: /(^|[^\\"])"(?:[^\n"\\]|\\.)*"/g,
+		pattern: /(^|[^\\"])"(?:\\.|[^\\\n"])*"/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\{2})*)\$(?:\{[\s\S]*?\}|[a-zA-Z_]\w*|0x[a-fA-F0-9]{2})/,
+				pattern: /((?:^|[^\\])(?:\\{2})*)\$(?:\{[\s\S]*?\}|(?!\d)\w+|0x[a-fA-F\d]{2})/,
 				lookbehind: true,
 				inside: {
 					'number': /^\$0x[\s\S]{2}$/,
@@ -46,6 +46,6 @@ expression.inside = languages.gni = languages.gn = {
 
 	'number': /-?\b\d+\b/,
 
-	'operator': /[-+!=<>]=?|&&|\|\|/,
-	'punctuation': /[(){}[\],.]/
+	'operator': /[!=<>+-]=?|&&|\|\|/,
+	'punctuation': /[()[\]{}.,]/
 };

@@ -30,7 +30,7 @@ languages.twig = {
 			},
 			'keyword': /\b(?:even|if|odd)\b/,
 			'boolean': /\b(?:false|null|true)\b/,
-			'number': /\b0x[\dA-Fa-f]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][-+]?\d+)?/,
+			'number': /\b0x[a-fA-F\d]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][-+]?\d+)?/,
 			'operator': [
 				{
 					pattern: /(\s)(?:and|b-and|b-or|b-xor|ends with|in|is|matches|not|or|same as|starts with)(?=\s)/,

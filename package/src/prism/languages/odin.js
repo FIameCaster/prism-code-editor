@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-var escapes = /\\(?:["'\\abefnrtv]|0[0-7]{2}|U[\dA-Fa-f]{6}|u[\dA-Fa-f]{4}|x[\dA-Fa-f]{2})/;
+var escapes = /\\(?:["'\\abefnrtv]|0[0-7]{2}|U[a-fA-F\d]{6}|u[a-fA-F\d]{4}|x[a-fA-F\d]{2})/;
 
 languages.odin = {
 	/**
@@ -17,7 +17,7 @@ languages.odin = {
 	 * Should be found before strings because of '"'"- and '`'`-like sequences.
 	 */
 	'char': {
-		pattern: /'(?:\\(?:.|[0Uux][0-9A-Fa-f]{1,6})|[^\n'\\])'/g,
+		pattern: /'(?:\\(?:.|[0Uux][a-fA-F\d]{1,6})|[^\n'\\])'/g,
 		greedy: true,
 		inside: {
 			'symbol': escapes
@@ -30,7 +30,7 @@ languages.odin = {
 			greedy: true
 		},
 		{
-			pattern: /"(?:\\.|[^\n"\\])*"/g,
+			pattern: /"(?:\\.|[^\\\n"])*"/g,
 			greedy: true,
 			inside: {
 				'symbol': escapes
@@ -43,7 +43,7 @@ languages.odin = {
 		alias: 'property'
 	},
 
-	'number': /\b0(?:b[01_]+|d[\d_]+|h_*(?:(?:(?:[\dA-Fa-f]_*){8}){1,2}|(?:[\dA-Fa-f]_*){4})|o[0-7_]+|x[\dA-F_a-f]+|z[\dAB_ab]+)\b|(?:\b\d+(?:\.(?!\.)\d*)?|\B\.\d+)(?:[Ee][+-]?\d*)?[ijk]?(?!\w)/,
+	'number': /\b0(?:b[01_]+|d[\d_]+|h_*(?:(?:(?:[a-fA-F\d]_*){8}){1,2}|(?:[a-fA-F\d]_*){4})|o[0-7_]+|x[a-fA-F\d_]+|z[\dAB_ab]+)\b|(?:\b\d+(?:\.(?!\.)\d*)?|\B\.\d+)(?:[Ee][+-]?\d*)?[ijk]?(?!\w)/,
 
 	'discard': {
 		pattern: /\b_\b/,
@@ -84,5 +84,5 @@ languages.odin = {
 
 	'operator': /\+\+|--|\.\.[<=]?|(?:&~|[-!*+/=~]|[%&<>|]{1,2})=?|[?^]/,
 
-	'punctuation': /[(),.:;@[\]{}]/
+	'punctuation': /[()[\]{}.,:;@]/
 };

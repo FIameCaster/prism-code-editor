@@ -4,7 +4,7 @@ import { boolean, clikeComment, clikePunctuation } from '../utils/shared.js';
 languages.jolie = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /(^|[^\\])"(?:\\[\s\S]|[^"\\])*"/g,
+		pattern: /(^|[^\\])"(?:\\[\s\S]|[^\\"])*"/g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -35,7 +35,7 @@ languages.jolie = {
 	'boolean': boolean,
 	'function': /\b[a-z_]\w*(?=[ \t]*[@(])/i,
 	'number': /(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?l?/i,
-	'operator': /-[-=>]?|\+[+=]?|<[<=]?|[>=*!]=?|&&|\|\||[?\/%^@|]/,
+	'operator': /-[-=>]?|\+[+=]?|<[<=]?|[>=*!]=?|&&|\|\||[?/%^@|]/,
 	'punctuation': clikePunctuation,
 	'builtin': /\b(?:Byte|any|bool|char|double|enum|float|int|length|long|ranges|regex|string|undefined|void)\b/
 };

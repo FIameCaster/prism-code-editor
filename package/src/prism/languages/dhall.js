@@ -15,7 +15,7 @@ expression.inside = languages.dhall = {
 	//   \{-(?:[^-{]|-(?!\})|\{(?!-)|<SELF>)*-\}
 	'comment': /--.*|\{-(?:[^-{]|-(?!\})|\{(?!-)|\{-(?:[^-{]|-(?!\})|\{(?!-))*-\})*-\}/,
 	'string': {
-		pattern: /"(?:[^"\\]|\\.)*"|''(?:[^']|'(?!')|'''|''\$\{)*''(?!'|\$)/g,
+		pattern: /"(?:\\.|[^\\"])*"|''(?:[^']|'(?!')|'''|''\$\{)*''(?!'|\$)/g,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -38,7 +38,7 @@ expression.inside = languages.dhall = {
 	},
 	'env': {
 		// https://github.com/dhall-lang/dhall-lang/blob/5fde8ef1bead6fb4e999d3c1ffe7044cd019d63a/standard/dhall.abnf#L661
-		pattern: /\benv:(?:(?!\d)\w+|"(?:[^"\\=]|\\.)*")/g,
+		pattern: /\benv:(?:(?!\d)\w+|"(?:\\.|[^\\"=])*")/g,
 		greedy: true,
 		inside: {
 			'function': /^env/,
@@ -48,22 +48,22 @@ expression.inside = languages.dhall = {
 	},
 	'hash': {
 		// https://github.com/dhall-lang/dhall-lang/blob/5fde8ef1bead6fb4e999d3c1ffe7044cd019d63a/standard/dhall.abnf#L725
-		pattern: /\bsha256:[\da-fA-F]{64}\b/,
+		pattern: /\bsha256:[a-fA-F\d]{64}\b/,
 		inside: {
 			'function': /sha256/,
 			'operator': /:/,
-			'number': /[\da-fA-F]{64}/
+			'number': /[a-fA-F\d]{64}/
 		}
 	},
 
 	// https://github.com/dhall-lang/dhall-lang/blob/5fde8ef1bead6fb4e999d3c1ffe7044cd019d63a/standard/dhall.abnf#L359
-	'keyword': /\b(?:as|assert|else|forall|if|in|let|merge|missing|then|toMap|using|with)\b|\u2200/,
+	'keyword': /\b(?:as|assert|else|forall|if|in|let|merge|missing|then|toMap|using|with)\b|∀/,
 	'builtin': /\b(?:None|Some)\b/,
 
 	'boolean': /\b(?:False|True)\b/,
-	'number': /\bNaN\b|-?\bInfinity\b|[+-]?\b(?:0x[\da-fA-F]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/,
-	'operator': /\/\\|\/\/\\\\|&&|\|\||===|[!=]=|\/\/|->|\+\+|::|[+*#@=:?<>|\\\u2227\u2a53\u2261\u2afd\u03bb\u2192]/,
-	'punctuation': /\.\.|[{}[\](),./]/,
+	'number': /\bNaN\b|-?\bInfinity\b|[+-]?\b(?:0x[a-fA-F\d]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/,
+	'operator': /\/\\|\/\/\\\\|&&|\|\||===|[!=]=|\/\/|->|\+\+|::|[+*#@=:?<>|\\∧⩓≡⫽λ→]/,
+	'punctuation': /\.\.|[()[\]{}.,/]/,
 
 	// we'll just assume that every capital word left is a type name
 	'class-name': /\b[A-Z]\w*\b/

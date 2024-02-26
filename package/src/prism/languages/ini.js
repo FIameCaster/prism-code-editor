@@ -21,7 +21,7 @@ languages.ini = {
 				lookbehind: true,
 				alias: 'selector'
 			},
-			'punctuation': /\[|\]/
+			'punctuation': /[[\]]/
 		}
 	},
 	'key': {

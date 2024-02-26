@@ -16,9 +16,7 @@ languages.oscript = languages.bsl = {
 		},
 		// Дата и время
 		// Date & time
-		{
-			pattern: /'(?:[^'\n\\]|\\.)*'/
-		}
+		/'(?:\\.|[^\n\\'])*'/
 	],
 	'keyword': [
 		{
@@ -26,28 +24,24 @@ languages.oscript = languages.bsl = {
 			pattern: /(^|[^\w\u0400-\u0484\u0487-\u052f\u1d2b\u1d78\u2de0-\u2dff\ua640-\ua69f\ufe2e\ufe2f])(?:пока|для|новый|прервать|попытка|исключение|вызватьисключение|иначе|конецпопытки|неопределено|функция|перем|возврат|конецфункции|если|иначеесли|процедура|конецпроцедуры|тогда|знач|экспорт|конецесли|из|каждого|истина|ложь|по|цикл|конеццикла|выполнить)(?![\w\u0400-\u0484\u0487-\u052f\u1d2b\u1d78\u2de0-\u2dff\ua640-\ua69f\ufe2e\ufe2f])/i,
 			lookbehind: true
 		},
-		{
-			// EN
-			pattern: /\b(?:break|do|each|else|elseif|enddo|endfunction|endif|endprocedure|endtry|except|execute|export|false|for|function|if|in|new|null|procedure|raise|return|then|to|true|try|undefined|val|var|while)\b/i
-		}
+		// EN
+		/\b(?:break|do|each|else|elseif|enddo|endfunction|endif|endprocedure|endtry|except|execute|export|false|for|function|if|in|new|null|procedure|raise|return|then|to|true|try|undefined|val|var|while)\b/i
 	],
 	'number': {
 		pattern: /(^(?=\d)|[^\w\u0400-\u0484\u0487-\u052f\u1d2b\u1d78\u2de0-\u2dff\ua640-\ua69f\ufe2e\ufe2f])(?:\d+(?:\.\d*)?|\.\d+)(?:E[+-]?\d+)?/i,
 		lookbehind: true
 	},
 	'operator': [
-		/[<>+\-*/]=?|[%=]/,
+		/[<>*/+-]=?|[%=]/,
 		// RU
 		{
 			pattern: /(^|[^\w\u0400-\u0484\u0487-\u052f\u1d2b\u1d78\u2de0-\u2dff\ua640-\ua69f\ufe2e\ufe2f])(?:и|или|не)(?![\w\u0400-\u0484\u0487-\u052f\u1d2b\u1d78\u2de0-\u2dff\ua640-\ua69f\ufe2e\ufe2f])/i,
 			lookbehind: true
 		},
 		// EN
-		{
-			pattern: /\b(?:and|not|or)\b/i
-		}
+		/\b(?:and|not|or)\b/i
 	],
-	'punctuation': /\(\.|\.\)|[()[\]:;,.]/,
+	'punctuation': /\(\.|\.\)|[()[\].,:;]/,
 	// Теги препроцессора вида &Клиент, &Сервер, ...
 	// Preprocessor tags of the type &Client, &Server, ...
 	// Инструкции препроцессора вида:

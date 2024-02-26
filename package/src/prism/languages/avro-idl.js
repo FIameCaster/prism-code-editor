@@ -7,7 +7,7 @@ import { clikeComment } from '../utils/shared.js';
 languages.avdl =languages['avro-idl'] = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /(^|[^\\])"(?:[^\n"\\]|\\.)*"/g,
+		pattern: /(^|[^\\])"(?:\\.|[^\\\n"])*"/g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -37,12 +37,12 @@ languages.avdl =languages['avro-idl'] = {
 
 	'number': [
 		{
-			pattern: /(^|[^\w.])-?(?:(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?|0x(?:[a-f0-9]+(?:\.[a-f0-9]*)?|\.[a-f0-9]+)(?:p[+-]?\d+)?)[dfl]?(?![\w.])/i,
+			pattern: /(^|[^\w.])-?(?:(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?|0x(?:[a-f\d]+(?:\.[a-f\d]*)?|\.[a-f\d]+)(?:p[+-]?\d+)?)[dfl]?(?![\w.])/i,
 			lookbehind: true
 		},
 		/-?\b(?:Infinity|NaN)\b/
 	],
 
 	'operator': /=/,
-	'punctuation': /[()[\]{}<>.:,;-]/
+	'punctuation': /[()[\]{}<>.,:;-]/
 };

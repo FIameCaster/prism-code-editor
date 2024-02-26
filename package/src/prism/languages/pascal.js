@@ -24,7 +24,7 @@ languages.objectpascal = asm.inside = languages.pascal = {
 		greedy: true
 	},
 	'string': {
-		pattern: /(?:'(?:''|[^'\n])*'(?!')|#[&$%]?[a-f\d]+)+|\^[a-z]/gi,
+		pattern: /(?:'(?:''|[^\n'])*'(?!')|#[&$%]?[a-f\d]+)+|\^[a-z]/gi,
 		greedy: true
 	},
 	'asm': asm,
@@ -57,13 +57,13 @@ languages.objectpascal = asm.inside = languages.pascal = {
 		/\b\d+(?:\.\d+)?(?:e[+-]?\d+)?/i
 	],
 	'operator': [
-		/\.\.|\*\*|:=|<[<=>]?|>[>=]?|[+\-*\/]=?|[@^=]/,
+		/\.\.|\*\*|:=|<[<=>]?|>[>=]?|[*/+-]=?|[@^=]/,
 		{
 			pattern: /(^|[^&])\b(?:and|as|div|exclude|in|include|is|mod|not|or|shl|shr|xor)\b/,
 			lookbehind: true
 		}
 	],
-	'punctuation': /\(\.|\.\)|[()[\]:;,.]/
+	'punctuation': /\(\.|\.\)|[()[\].,:;]/
 };
 
 asm.inside = extend('pascal', {

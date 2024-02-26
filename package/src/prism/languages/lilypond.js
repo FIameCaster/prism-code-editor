@@ -4,7 +4,7 @@ import './scheme.js';
 
 // allow for up to pow(2, recursivenessLog2) many levels of recursive brace expressions
 // For some reason, this can't be 4
-var schemeExpression = nested(/\((?:[^();"#\\]|\\[\s\S]|;.*(?!.)|"(?:[^"\\]|\\.)*"|#(?:\{(?:(?!#\})[\s\S])*#\}|[^{])|<self>)*\)/.source, 5);
+var schemeExpression = nested(/\((?:\\[\s\S]|[^\\"();#]|;.*(?!.)|"(?:\\.|[^\\"])*"|#(?:\{(?:(?!#\})[\s\S])*#\}|[^{])|<self>)*\)/.source, 5);
 
 var inside = {
 	pattern: /[\s\S]+/,
@@ -14,7 +14,7 @@ var inside = {
 inside.inside = languages.ly = languages.lilypond = {
 	'comment': /%(?:(?!\{).*|\{[\s\S]*?%\})/,
 	'embedded-scheme': {
-		pattern: re(/(^|[=\s])#(?:"(?:[^"\\]|\\.)*"|[^\s()"]*(?:[^\s()]|<<0>>))/.source, [schemeExpression], 'mg'),
+		pattern: re(/(^|[=\s])#(?:"(?:\\.|[^\\"])*"|[^\s()"]*(?:[^\s()]|<0>))/.source, [schemeExpression], 'mg'),
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -37,7 +37,7 @@ inside.inside = languages.ly = languages.lilypond = {
 		}
 	},
 	'string': {
-		pattern: /"(?:[^"\\]|\\.)*"/g,
+		pattern: /"(?:\\.|[^\\"])*"/g,
 		greedy: true
 	},
 	'class-name': {
@@ -52,7 +52,7 @@ inside.inside = languages.ly = languages.lilypond = {
 	},
 	'operator': /[=|]|<<|>>/,
 	'punctuation': {
-		pattern: /(^|[a-z\d])(?:'+|,+|[_^]?-[_^]?(?:[-+^!>._]|(?=\d))|[_^]\.?|[.!])|[{}()[\]<>^~]|\\[()[\]<>\\!]|--|__/,
+		pattern: /(^|[a-z\d])(?:'+|,+|[_^]?-[_^]?(?:[-+^!>._]|(?=\d))|[_^]\.?|[.!])|[()[\]{}<>^~]|\\[()[\]<>\\!]|--|__/,
 		lookbehind: true
 	},
 	'number': /\b\d+(?:\/\d+)?\b/

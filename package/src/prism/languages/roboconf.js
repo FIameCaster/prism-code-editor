@@ -25,5 +25,5 @@ languages.roboconf = {
 		lookbehind: true,
 		alias: 'operator'
 	},
-	'punctuation': /[{},.;:=]/
+	'punctuation': /[{}.,:;=]/
 };

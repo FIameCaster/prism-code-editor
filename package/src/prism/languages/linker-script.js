@@ -7,7 +7,7 @@ languages['ld'] = languages['linker-script'] = {
 		greedy: true
 	},
 	'identifier': {
-		pattern: /"[^"\n]*"/g,
+		pattern: /"[^\n"]*"/g,
 		greedy: true
 	},
 
@@ -17,13 +17,13 @@ languages['ld'] = languages['linker-script'] = {
 	},
 
 	'section': {
-		pattern: /(^|[^\w*])\.\w+\b/,
+		pattern: /(^|[^\w*])\.\w+/,
 		lookbehind: true,
 		alias: 'keyword'
 	},
 	'function': /\b[A-Z][A-Z_]*(?=\s*\()/,
 
-	'number': /\b(?:0[xX][a-fA-F0-9]+|\d+)[KM]?\b/,
+	'number': /\b(?:0[xX][a-fA-F\d]+|\d+)[KM]?\b/,
 
 	'operator': />>=?|<<=?|->|\+\+|--|&&|\|\||::|[?:~]|[-+*/%&|^!=<>]=?/,
 	'punctuation': /[(){},;]/

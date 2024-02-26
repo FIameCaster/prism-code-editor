@@ -10,7 +10,7 @@ languages.magma = {
 
 	'comment': clikeComment(),
 	'string': {
-		pattern: /(^|[^\\"])"(?:[^\n\\"]|\\.)*"/g,
+		pattern: /(^|[^\\"])"(?:\\.|[^\\\n"])*"/g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -31,5 +31,5 @@ languages.magma = {
 	},
 
 	'operator': /->|[-+*/^~!|#=]|:=|\.\./,
-	'punctuation': /[()[\]{}<>,;.:]/
+	'punctuation': /[()[\]{}.,:;<>]/
 };

@@ -3,11 +3,11 @@ import { languages } from '../core.js';
 languages.ebnf = {
 	'comment': /\(\*[\s\S]*?\*\)/,
 	'string': {
-		pattern: /"[^"\n]*"|'[^'\n]*'/g,
+		pattern: /"[^\n"]*"|'[^\n']*'/g,
 		greedy: true
 	},
 	'special': {
-		pattern: /\?[^?\n]*\?/g,
+		pattern: /\?[^\n?]*\?/g,
 		greedy: true,
 		alias: 'class-name'
 	},
@@ -19,6 +19,6 @@ languages.ebnf = {
 	},
 	'rule': /\b[a-z]\w*(?:[ \t]+[a-z]\w*)*\b/i,
 
-	'punctuation': /\([:/]|[:/]\)|[.,;()[\]{}]/,
+	'punctuation': /\([:/]|[:/]\)|[()[\]{}.,;]/,
 	'operator': /[-=|*/!]/
 };

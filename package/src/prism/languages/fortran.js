@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 languages.fortran = {
 	'quoted-number': {
-		pattern: /[BOZ](['"])[A-F0-9]+\1/i,
+		pattern: /[BOZ](['"])[A-F\d]+\1/i,
 		alias: 'number'
 	},
 	'string': {
@@ -31,12 +31,12 @@ languages.fortran = {
 		/\b(?:ASSIGNMENT|DEFAULT|ELEMENTAL|ELSE|ELSEIF|ELSEWHERE|ENTRY|IN|INCLUDE|INOUT|KIND|NULL|ONLY|OPERATOR|OUT|PURE|RECURSIVE|RESULT|SEQUENCE|STAT|THEN|USE)\b/i
 	],
 	'operator': [
-		/\*\*|\/\/|=>|[=\/]=|[<>]=?|::|[+\-*=%]|\.[A-Z]+\./i,
+		/\*\*|\/\/|=>|[=\/]=|[<>]=?|::|[*=%+-]|\.[A-Z]+\./i,
 		{
 			// Use lookbehind to prevent confusion with (/ /)
 			pattern: /(^|(?!\().)\/(?!\))/,
 			lookbehind: true
 		}
 	],
-	'punctuation': /\(\/|\/\)|[(),;:&]/
+	'punctuation': /\(\/|\/\)|[(),:;&]/
 };

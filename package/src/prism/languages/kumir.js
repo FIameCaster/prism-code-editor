@@ -27,30 +27,30 @@ languages.kum = languages.kumir = {
 	},
 
 	'boolean': {
-		pattern: wrapId(/(^|[<<0>>])(?:да|нет)(?=[<<0>>]|$)/.source),
+		pattern: wrapId(/(^|[<0>])(?:да|нет)(?=[<0>]|$)/.source),
 		lookbehind: true
 	},
 
 	'operator-word': {
-		pattern: wrapId(/(^|[<<0>>])(?:и|или|не)(?=[<<0>>]|$)/.source),
+		pattern: wrapId(/(^|[<0>])(?:и|или|не)(?=[<0>]|$)/.source),
 		lookbehind: true,
 		alias: 'keyword'
 	},
 
 	'system-variable': {
-		pattern: wrapId(/(^|[<<0>>])знач(?=[<<0>>]|$)/.source),
+		pattern: wrapId(/(^|[<0>])знач(?=[<0>]|$)/.source),
 		lookbehind: true,
 		alias: 'keyword'
 	},
 
 	'type': [
 		{
-			pattern: wrapId(/(^|[<<0>>])(?:вещ|лит|лог|сим|цел)(?: *таб)?(?=[<<0>>]|$)/.source),
+			pattern: wrapId(/(^|[<0>])(?:вещ|лит|лог|сим|цел)(?: *таб)?(?=[<0>]|$)/.source),
 			lookbehind: true,
 			alias: 'builtin'
 		},
 		{
-			pattern: wrapId(/(^|[<<0>>])(?:компл|сканкод|файл|цвет)(?=[<<0>>]|$)/.source),
+			pattern: wrapId(/(^|[<0>])(?:компл|сканкод|файл|цвет)(?=[<0>]|$)/.source),
 			lookbehind: true,
 			alias: 'important'
 		}
@@ -62,25 +62,25 @@ languages.kum = languages.kumir = {
 	 * "НАЗНАЧИТЬ", "Фввод", and "Фвывод" are not reserved words.
 	 */
 	'keyword': {
-		pattern: wrapId(/(^|[<<0>>])(?:алг|арг(?: *рез)?|ввод|ВКЛЮЧИТЬ|вс[её]|выбор|вывод|выход|дано|для|до|дс|если|иначе|исп|использовать|кон(?:(?: +|_)исп)?|кц(?:(?: +|_)при)?|надо|нач|нс|нц|от|пауза|пока|при|раза?|рез|стоп|таб|то|утв|шаг)(?=[<<0>>]|$)/.source),
+		pattern: wrapId(/(^|[<0>])(?:алг|арг(?: *рез)?|ввод|ВКЛЮЧИТЬ|вс[её]|выбор|вывод|выход|дано|для|до|дс|если|иначе|исп|использовать|кон(?:(?: +|_)исп)?|кц(?:(?: +|_)при)?|надо|нач|нс|нц|от|пауза|пока|при|раза?|рез|стоп|таб|то|утв|шаг)(?=[<0>]|$)/.source),
 		lookbehind: true
 	},
 
 	/** Should be performed after searching for reserved words. */
 	'name': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: wrapId(/(^|[<<0>>])[^\d<<0>>][^<<0>>]*(?: +[^<<0>>]+)*(?=[<<0>>]|$)/.source),
+		pattern: wrapId(/(^|[<0>])[^\d<0>][^<0>]*(?: +[^<0>]+)*(?=[<0>]|$)/.source),
 		lookbehind: true
 	},
 
 	/** Should be performed after searching for names. */
 	'number': {
-		pattern: wrapId(/(^|[<<0>>])(?:\B\$[\da-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)(?=[<<0>>]|$)/.source, 'i'),
+		pattern: wrapId(/(^|[<0>])(?:\B\$[a-f\d]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)(?=[<0>]|$)/.source, 'i'),
 		lookbehind: true
 	},
 
 	/** Should be performed after searching for words. */
-	'punctuation': /:=|[(),:;[\]]/,
+	'punctuation': /:=|[()[\],:;]/,
 
 	/**
 	 * Should be performed after searching for

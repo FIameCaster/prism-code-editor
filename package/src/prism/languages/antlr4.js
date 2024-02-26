@@ -4,7 +4,7 @@ import { clikeComment } from '../utils/shared.js';
 languages.antlr4 = {
 	'comment': clikeComment(),
 	'string': {
-		pattern: /'(?:\\.|[^\\'\n])*'/g,
+		pattern: /'(?:\\.|[^\\\n'])*'/g,
 		greedy: true
 	},
 	'character-class': {
@@ -34,7 +34,7 @@ languages.antlr4 = {
 		lookbehind: true,
 		inside: {
 			'function': /\b\w+(?=\s*(?:[,(]|$))/,
-			'punctuation': /[,()]/
+			'punctuation': /[(),]/
 		}
 	},
 	'annotation': {
@@ -58,7 +58,7 @@ languages.antlr4 = {
 	],
 	'constant': /\b[A-Z][A-Z_]*\b/,
 	'operator': /\.\.|->|[|~]|[*+?]\??/,
-	'punctuation': /[;:()=]/
+	'punctuation': /[():;=]/
 };
 
 languages.g4 = languages.antlr4;

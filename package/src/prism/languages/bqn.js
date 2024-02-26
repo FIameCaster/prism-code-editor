@@ -61,5 +61,5 @@ languages.bqn = {
 		pattern: /[∘⊸⟜○⌾⎉⚇⍟⊘◶⎊]/,
 		alias: 'operator'
 	},
-	'punctuation': /[←⇐↩(){}⟨⟩[\]‿·⋄,.;:?]/
+	'punctuation': /[←⇐↩()[\]{}.,:;⟨⟩‿·⋄?]/
 };

@@ -29,7 +29,7 @@ languages.bro = {
 
 	'keyword': /\b(?:add|addr|alarm|any|bool|break|const|continue|count|delete|double|else|enum|event|export|file|for|function|global|hook|if|in|int|interval|local|module|next|of|opaque|pattern|port|print|record|return|schedule|set|string|subnet|table|time|timeout|using|vector|when)\b/,
 
-	'operator': /--|\+\+|&&?|::|\|\|?|[!=<>+-]=?|\??\$|[?\/*~^%]/,
+	'operator': /--|\+\+|&&?|::|\|\|?|[!=<>+-]=?|\??\$|[?/*~^%]/,
 
 	'number': clikeNumber,
 

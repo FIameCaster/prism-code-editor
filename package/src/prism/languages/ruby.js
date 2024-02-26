@@ -6,9 +6,9 @@ var interpolationContent = {
 	lookbehind: true,
 };
 
-var percentExpression = /(?:([^a-zA-Z0-9\s{(\[<=])(?:(?!\1)[^\\]|\\[\s\S])*\1|\((?:[^()\\]|\\[\s\S]|\((?:[^()\\]|\\[\s\S])*\))*\)|\{(?:[^{}\\]|\\[\s\S]|\{(?:[^{}\\]|\\[\s\S])*\})*\}|\[(?:[^[\]\\]|\\[\s\S]|\[(?:[^[\]\\]|\\[\s\S])*\])*\]|<(?:[^<>\\]|\\[\s\S]|<(?:[^<>\\]|\\[\s\S])*>)*>)/.source;
+var percentExpression = /(?:([^a-zA-Z\d\s{(\[<=])(?:\\[\s\S]|(?!\1)[^\\])*\1|\((?:\\[\s\S]|[^\\()]|\((?:\\[\s\S]|[^\\()])*\))*\)|\{(?:\\[\s\S]|[^\\{}]|\{(?:\\[\s\S]|[^\\{}])*\})*\}|\[(?:\\[\s\S]|[^\\[\]]|\[(?:\\[\s\S]|[^\\[\]])*\])*\]|<(?:\\[\s\S]|[^\\<>]|<(?:\\[\s\S]|[^\\<>])*>)*>)/.source;
 
-var symbolName = /(?:"(?:\\.|[^"\\\n])*"|(?:\b[a-zA-Z_]\w*|[^\s\0-\x7F]+)[?!]?|\$.)/.source;
+var symbolName = /(?:"(?:\\.|[^\\\n"])*"|(?:\b(?!\d)\w+|[^\s\0-\x7F]+)[?!]?|\$.)/.source;
 
 var interpolation = {
 	pattern: /((?:^|[^\\])(?:\\{2})*)#\{(?:[^{}]|\{[^{}]*\})*\}/,
@@ -117,7 +117,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /(^|[^/])\/(?!\/)(?:\[[^\n\]]+\]|\\.|[^[/\\\n])+\/[egimnosux]{0,6}(?=\s*(?:$|[\n,.;})#]))/g,
+			pattern: /(^|[^/])\/(?!\/)(?:\[[^\n\]]+\]|\\.|[^\\\n/[])+\/[egimnosux]{0,6}(?=\s*(?:$|[\n,.;})#]))/g,
 			lookbehind: true,
 			greedy: true,
 			inside: {
@@ -126,7 +126,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		}
 	],
-	'variable': /[@$]+[a-zA-Z_]\w*(?:[?!]|\b)/,
+	'variable': /[@$]+(?!\d)\w+(?:[?!]|\b)/,
 	'symbol': [
 		{
 			pattern: RegExp(/(^|[^:]):/.source + symbolName, 'g'),
@@ -152,12 +152,12 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 	'keyword': /\b(?:BEGIN|END|alias|and|begin|break|case|class|def|define_method|defined|do|each|else|elsif|end|ensure|extend|for|if|in|include|module|new|next|nil|not|or|prepend|private|protected|public|raise|redo|require|rescue|retry|return|self|super|then|throw|undef|unless|until|when|while|yield)\b/,
 	'boolean': boolean,
 	'builtin': /\b(?:Array|Bignum|Binding|Class|Continuation|Dir|Exception|FalseClass|File|Fixnum|Float|Hash|IO|Integer|MatchData|Method|Module|NilClass|Numeric|Object|Proc|Range|Regexp|Stat|String|Struct|Symbol|TMS|Thread|ThreadGroup|Time|TrueClass)\b/,
-	'constant': /\b[A-Z][A-Z0-9_]*(?:[?!]|\b)/,
+	'constant': /\b[A-Z][A-Z\d_]*(?:[?!]|\b)/,
 	'number': clikeNumber,
 	'double-colon': {
 		pattern: /::/,
 		alias: 'punctuation'
 	},
-	'operator': /\.{2,3}|&\.|===|<?=>|[!=]?~|(?:&&|\|\||<<|>>|\*\*|[+\-*/%<>!^&|=])=?|[?:]/,
-	'punctuation': /[(){}[\].,;]/,
+	'operator': /\.{2,3}|&\.|===|<?=>|[!=]?~|(?:&&|\|\||<<|>>|\*\*|[*/%<>!^&|=+-])=?|[?:]/,
+	'punctuation': /[()[\]{}.,;]/,
 };

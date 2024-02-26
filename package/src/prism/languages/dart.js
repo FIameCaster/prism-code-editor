@@ -45,11 +45,11 @@ languages.dart = {
 		alias: 'function'
 	},
 	'generics': {
-		pattern: /<(?:[\w\s,.&?]|<(?:[\w\s,.&?]|<(?:[\w\s,.&?]|<[\w\s,.&?]*>)*>)*>)*>/,
+		pattern: /<(?:[\w\s.,&?]|<(?:[\w\s.,&?]|<(?:[\w\s.,&?]|<[\w\s.,&?]*>)*>)*>)*>/,
 		inside: {
 			'class-name': className,
 			'keyword': keywords,
-			'punctuation': /[<>(),.:]/,
+			'punctuation': /[<>().,:]/,
 			'operator': /[?&|]/
 		}
 	},
@@ -67,6 +67,6 @@ languages.dart = {
 	'boolean': boolean,
 	'function': /\b\w+(?=\()/,
 	'number': clikeNumber,
-	'operator': /\bis!|\b(?:as|is)\b|\+\+|--|&&|\|\||<<=?|>>=?|~(?:\/=?)?|[+\-*\/%&^|=!<>]=?|\?/,
+	'operator': /\bis!|\b(?:as|is)\b|\+\+|--|&&|\|\||<<=?|>>=?|~(?:\/=?)?|[*/%&^|!=<>+-]=?|\?/,
 	'punctuation': clikePunctuation
 }

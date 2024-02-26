@@ -81,13 +81,13 @@ insertBefore(css, 'property', {
 
 insertBefore(css, 'function', {
 	'operator': {
-		pattern: /(\s)[+\-*\/](?=\s)/,
+		pattern: /(\s)[*/+-](?=\s)/,
 		lookbehind: true
 	},
 	// CAREFUL!
 	// Previewers and Inline color use hexcode and color.
 	'hexcode': {
-		pattern: /\B#[\da-f]{3,8}\b/i,
+		pattern: /\B#[a-f\d]{3,8}\b/i,
 		alias: 'color'
 	},
 	'color': [
@@ -106,7 +106,7 @@ insertBefore(css, 'function', {
 		}
 	],
 	// it's important that there is no boundary assertion after the hex digits
-	'entity': /\\[\da-f]{1,8}/i,
+	'entity': /\\[a-f\d]{1,8}/i,
 	'unit': unit,
 	'number': number
 });

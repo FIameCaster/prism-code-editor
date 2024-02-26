@@ -32,7 +32,7 @@ languages.art = languages.arturo = {
 	'number': /\b\d+(?:\.\d+(?:\.\d+(?:-[\w+-]+)?)?)?\b/,
 
 	'string': {
-		pattern: /"(?:[^"\\\n]|\\.)*"/g,
+		pattern: /"(?:\\.|[^\\\n"])*"/g,
 		greedy: true
 	},
 
@@ -55,17 +55,17 @@ languages.art = languages.arturo = {
 	},
 
 	'label': {
-		pattern: /\w+\b\??:/,
+		pattern: /\w+\??:/,
 		alias: 'property'
 	},
 
 	'literal': {
-		pattern: /'(?:\w+\b\??:?)/,
+		pattern: /'\w+\??:?/,
 		alias: 'constant'
 	},
 
 	'type': {
-		pattern: /:(?:\w+\b\??:?)/,
+		pattern: /:\w+\??:?/,
 		alias: 'class-name'
 	},
 

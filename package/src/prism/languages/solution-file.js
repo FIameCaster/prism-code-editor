@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 var guid = {
 	// https://en.wikipedia.org/wiki/Universally_unique_identifier#Format
-	pattern: /\{[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}\}/i,
+	pattern: /\{[a-f\d]{8}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{4}-[a-f\d]{12}\}/i,
 	alias: 'constant',
 	inside: {
 		'punctuation': /[{}]/
@@ -15,7 +15,7 @@ languages['solution-file'] = {
 		greedy: true
 	},
 	'string': {
-		pattern: /"[^"\n]*"|'[^'\n]*'/g,
+		pattern: /"[^\n"]*"|'[^\n']*'/g,
 		greedy: true,
 		inside: {
 			'guid': guid

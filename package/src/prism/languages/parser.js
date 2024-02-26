@@ -33,7 +33,7 @@ var escape = {
 	alias: 'builtin'
 };
 
-var punctuation = /[[\](){};]/;
+var punctuation = /[()[\]{};]/;
 
 var expression = {
 	// Allow for 3 levels of depth

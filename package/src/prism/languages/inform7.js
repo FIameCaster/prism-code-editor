@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 var substitutionInside = {
 	'delimiter': {
-		pattern: /\[|\]/,
+		pattern: /[[\]]/,
 		alias: 'punctuation'
 	}
 };
@@ -53,7 +53,7 @@ var inform7 = languages.inform7 = {
 		lookbehind: true,
 		alias: 'variable'
 	},
-	'punctuation': /[.,:;(){}]/
+	'punctuation': /[(){}.,:;]/
 };
 
 Object.assign(substitutionInside, inform7, {

@@ -6,11 +6,11 @@ import { boolean, clikeComment } from '../utils/shared.js';
 languages.mscript = languages.pq = languages.powerquery = {
 	'comment': clikeComment(),
 	'quoted-identifier': {
-		pattern: /#"(?:[^"\n]|"")*"(?!")/g,
+		pattern: /#"(?:[^\n"]|"")*"(?!")/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(?:#!)?"(?:[^"\n]|"")*"(?!")/g,
+		pattern: /(?:#!)?"(?:[^\n"]|"")*"(?!")/g,
 		greedy: true
 	},
 	'constant': [
@@ -43,9 +43,9 @@ languages.mscript = languages.pq = languages.powerquery = {
 		alias: 'class-name'
 	},
 	'number': {
-		pattern: /\b0x[\da-f]+\b|(?:[+-]?(?:\b\d+\.)?\b\d+|[+-]\.\d+|(^|[^.])\B\.\d+)(?:e[+-]?\d+)?\b/i,
+		pattern: /\b0x[a-f\d]+\b|(?:[+-]?(?:\b\d+\.)?\b\d+|[+-]\.\d+|(^|[^.])\B\.\d+)(?:e[+-]?\d+)?\b/i,
 		lookbehind: true
 	},
-	'operator': /[-+*\/&?@^]|<(?:=>?|>)?|>=?|=>?|\.\.\.?/,
-	'punctuation': /[,;[\](){}]/
+	'operator': /[*/&?@^+-]|<(?:=>?|>)?|>=?|=>?|\.{2,3}/,
+	'punctuation': /[()[\]{},;]/
 };

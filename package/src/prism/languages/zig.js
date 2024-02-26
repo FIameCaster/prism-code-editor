@@ -5,8 +5,8 @@ var keyword = /\b(?:align|allowzero|and|anyframe|anytype|asm|async|await|break|c
 
 var IDENTIFIER = '\\b(?!' + keyword.source + ')(?!\\d)\\w+\\b';
 var ALIGN = /align\s*\((?:[^()]|\([^()]*\))*\)/.source;
-var PREFIX_TYPE_OP = replace(/(?:\?|\bpromise->|(?:\[[^[\]]*\]|\*(?!\*)|\*\*)(?:\s*<<0>>|\s*const\b|\s*volatile\b|\s*allowzero\b)*)/.source, [ALIGN]);
-var SUFFIX_EXPR = replace(/(?:\bpromise\b|(?:\berror\.)?<<0>>(?:\.<<0>>)*(?!\s+<<0>>))/.source, [IDENTIFIER]);
+var PREFIX_TYPE_OP = replace(/(?:\?|\bpromise->|(?:\[[^[\]]*\]|\*(?!\*)|\*\*)(?:\s*<0>|\s*const\b|\s*volatile\b|\s*allowzero\b)*)/.source, [ALIGN]);
+var SUFFIX_EXPR = replace(/(?:\bpromise\b|(?:\berror\.)?<0>(?:\.<0>)*(?!\s+<0>))/.source, [IDENTIFIER]);
 var TYPE = '(?!\\s)(?:!?\\s*(?:' + PREFIX_TYPE_OP + '\\s*)*' + SUFFIX_EXPR + ')+';
 
 /*
@@ -37,7 +37,7 @@ languages.zig = {
 	'string': [
 		{
 			// "string" and c"string"
-			pattern: /(^|[^\\@])c?"(?:[^"\\\n]|\\.)*"/g,
+			pattern: /(^|[^\\@])c?"(?:\\.|[^\\\n"])*"/g,
 			lookbehind: true,
 			greedy: true
 		},
@@ -50,13 +50,13 @@ languages.zig = {
 	],
 	'char': {
 		// characters 'a', '\n', '\xFF', '\u{10FFFF}'
-		pattern: /(^|[^\\])'(?:[^'\\\n]|[\uD800-\uDFFF]{2}|\\(?:.|x[a-fA-F\d]{2}|u\{[a-fA-F\d]{1,6}\}))'/g,
+		pattern: /(^|[^\\])'(?:[^\\\n']|[\uD800-\uDFFF]{2}|\\(?:.|x[a-fA-F\d]{2}|u\{[a-fA-F\d]{1,6}\}))'/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'builtin': /\B@(?!\d)\w+(?=\s*\()/,
 	'label': {
-		pattern: /(\b(?:break|continue)\s*:\s*)\w+\b|\b(?!\d)\w+\b(?=\s*:\s*(?:\{|while\b))/,
+		pattern: /(\b(?:break|continue)\s*:\s*)\w+|\b(?!\d)\w+\b(?=\s*:\s*(?:\{|while\b))/,
 		lookbehind: true
 	},
 	'class-name': [
@@ -66,13 +66,13 @@ languages.zig = {
 			// const x: i32 = 9;
 			// var x: Bar;
 			// fn foo(x: bool, y: f32) void {}
-			pattern: re(/(:\s*)<<0>>(?=\s*(?:<<1>>\s*)?[=;,)])|<<0>>(?=\s*(?:<<1>>\s*)?\{)/.source, [TYPE, ALIGN]),
+			pattern: re(/(:\s*)<0>(?=\s*(?:<1>\s*)?[=;,)])|<0>(?=\s*(?:<1>\s*)?\{)/.source, [TYPE, ALIGN]),
 			lookbehind: true,
 			inside: 'zig'
 		},
 		{
 			// extern fn foo(x: f64) f64; (optional alignment)
-			pattern: re(/(\)\s*)<<0>>(?=\s*(?:<<1>>\s*)?;)/.source, [TYPE, ALIGN]),
+			pattern: re(/(\)\s*)<0>(?=\s*(?:<1>\s*)?;)/.source, [TYPE, ALIGN]),
 			lookbehind: true,
 			inside: 'zig'
 		}

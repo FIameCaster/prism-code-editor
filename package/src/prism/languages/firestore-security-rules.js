@@ -21,7 +21,7 @@ insertBefore(firestore, 'keyword', {
 				inside: {
 					'operator': /=/,
 					'keyword': /\*\*/,
-					'punctuation': /[.$(){}]/
+					'punctuation': /[(){}.$]/
 				}
 			},
 			'punctuation': /\//

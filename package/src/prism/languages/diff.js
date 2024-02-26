@@ -41,8 +41,3 @@ for (var name in PREFIXES) {
 	};
 
 };
-
-// make prefixes available to Diff plugin
-Object.defineProperty(diff, 'PREFIXES', {
-	value: PREFIXES
-});

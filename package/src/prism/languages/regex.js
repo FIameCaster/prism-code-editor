@@ -1,10 +1,10 @@
 import { languages } from '../core.js';
 
 var specialEscape = {
-	pattern: /\\[\\(){}[\]^$+*?|.]/,
+	pattern: /\\[\\()[\]{}^$+*?|.]/,
 	alias: 'escape'
 };
-var escape = /\\(?:x[\da-fA-F]{2}|u[\da-fA-F]{4}|u\{[\da-fA-F]+\}|0[0-7]{0,2}|[123][0-7]{2}|c[a-zA-Z]|.)/;
+var escape = /\\(?:x[a-fA-F\d]{2}|u[a-fA-F\d]{4}|u\{[a-fA-F\d]+\}|0[0-7]{0,2}|[123][0-7]{2}|c[a-zA-Z]|.)/;
 var charSet = {
 	pattern: /\.|\\[wsd]|\\p\{[^{}]+\}/i,
 	alias: 'class-name'
@@ -26,7 +26,7 @@ var groupName = {
 
 languages.regex = {
 	'char-class': {
-		pattern: /((?:^|[^\\])(?:\\\\)*)\[(?:[^\\\]]|\\[\s\S])*\]/,
+		pattern: /((?:^|[^\\])(?:\\\\)*)\[(?:\\[\s\S]|[^\\\]])*\]/,
 		lookbehind: true,
 		inside: {
 			'char-class-punctuation': {
@@ -80,7 +80,7 @@ languages.regex = {
 			// https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference?view=netframework-4.7.2#grouping-constructs
 
 			// (), (?<name>), (?'name'), (?>), (?:), (?=), (?!), (?<=), (?<!), (?is-m), (?i-m:)
-			pattern: /(\()\?(?:<[^<>']+>|'[^<>']+'|[>:]|<?[=!]|[idmnsuxU]+(?:-[idmnsuxU]+)?:?)/,
+			pattern: /(\()\?(?:<[^<>']+>|'[^<>']+'|[>:]|<?[!=]|[idmnsuxU]+(?:-[idmnsuxU]+)?:?)/,
 			lookbehind: true,
 			inside: {
 				'group-name': groupName

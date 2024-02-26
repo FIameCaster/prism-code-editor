@@ -51,7 +51,7 @@ var xquery = languages.xquery = extend('markup', {
 		pattern: /[+*=?|@]|\.\.?|:=|!=|<[=<]?|>[=>]?|(\s)-(?=\s)/,
 		lookbehind: true
 	},
-	'punctuation': /[[\](){},;:/]/,
+	'punctuation': /[()[\]{},;:/]/,
 	[tokenize]: (code, grammar) => walkTokens(withoutTokenizer(code, grammar), code, 0)
 });
 
@@ -126,7 +126,7 @@ var walkTokens = (tokens, code, position) => {
 	return tokens;
 };
 
-tag.pattern = /<\/?(?!\d)[^\s>\/=$<%]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/g;
+tag.pattern = /<\/?(?!\d)[^\s/=>$<%]+(?:\s+[^\s/=>]+(?:=(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/g;
 attrValue.pattern = /(=)(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\2)[^\\])*\2|[^\s'">=]+)/;
 attrValue.inside['expression'] = {
 	// Allow for two levels of nesting

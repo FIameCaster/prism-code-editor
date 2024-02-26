@@ -5,7 +5,7 @@ languages.rpy = languages.renpy = {
 	'comment': /#.+/,
 
 	'string': {
-		pattern: /("""|''')[\s\S]+?\1|("|')(?:\\.|(?!\2)[^\\])*\2|(?:^#?(?:(?:[0-9a-fA-F]){3}|[0-9a-fA-F]{6})$)/mg,
+		pattern: /("""|''')[\s\S]+?\1|("|')(?:\\.|(?!\2)[^\\])*\2|(?:^#?(?:(?:[a-fA-F\d]){3}|[a-fA-F\d]{6})$)/mg,
 		greedy: true
 	},
 
@@ -19,7 +19,7 @@ languages.rpy = languages.renpy = {
 
 	'boolean': /\b(?:[Ff]alse|[Tt]rue)\b/,
 
-	'number': /(?:\b(?:0[bo])?(?:(?:\d|0x[\da-f])[\da-f]*(?:\.\d*)?)|\B\.\d+)(?:e[+-]?\d+)?j?/i,
+	'number': /(?:\b(?:0[bo])?(?:(?:\d|0x[a-f\d])[a-f\d]*(?:\.\d*)?)|\B\.\d+)(?:e[+-]?\d+)?j?/i,
 
 	'operator': /[-+%=]=?|!=|\*\*?=?|\/\/?=?|<[<=>]?|>[=>]?|[&|^~]|\b(?:and|at|not|or|with)\b/,
 

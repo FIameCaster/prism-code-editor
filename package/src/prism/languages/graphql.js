@@ -4,7 +4,7 @@ import { boolean } from '../utils/shared.js';
 languages.graphql = {
 	'comment': /#.*/,
 	'description': {
-		pattern: /(?:"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\"\n])*")(?=\s*[a-z_])/gi,
+		pattern: /(?:"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\\n"])*")(?=\s*[a-z_])/gi,
 		greedy: true,
 		alias: 'string',
 		inside: {
@@ -16,7 +16,7 @@ languages.graphql = {
 		}
 	},
 	'string': {
-		pattern: /"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\"\n])*"/g,
+		pattern: /"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\\n"])*"/g,
 		greedy: true
 	},
 	'number': /(?:\B-|\b)\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
@@ -27,7 +27,7 @@ languages.graphql = {
 		alias: 'function'
 	},
 	'attr-name': {
-		pattern: /\b[a-z_]\w*(?=\s*(?:\((?:[^()"]|"(?:\\.|[^\\"\n])*")*\))?:)/gi,
+		pattern: /\b[a-z_]\w*(?=\s*(?:\((?:[^()"]|"(?:\\.|[^\\\n"])*")*\))?:)/gi,
 		greedy: true
 	},
 	'atom-input': {
@@ -41,17 +41,17 @@ languages.graphql = {
 		lookbehind: true
 	},
 	'fragment': {
-		pattern: /(\bfragment\s+|\.{3}\s*(?!on\b))[a-zA-Z_]\w*/,
+		pattern: /(\bfragment\s+|\.{3}\s*(?!on\b))(?!\d)\w+/,
 		lookbehind: true,
 		alias: 'function'
 	},
 	'definition-mutation': {
-		pattern: /(\bmutation\s+)[a-zA-Z_]\w*/,
+		pattern: /(\bmutation\s+)(?!\d)\w+/,
 		lookbehind: true,
 		alias: 'function'
 	},
 	'definition-query': {
-		pattern: /(\bquery\s+)[a-zA-Z_]\w*/,
+		pattern: /(\bquery\s+)(?!\d)\w+/,
 		lookbehind: true,
 		alias: 'function'
 	},
@@ -59,7 +59,7 @@ languages.graphql = {
 	'operator': /[!=|&]|\.{3}/,
 	'property-query': /\w+(?=\s*\()/,
 	'object': /\w+(?=\s*\{)/,
-	'punctuation': /[!(){}[\]:=,]/,
+	'punctuation': /[()[\]{},:!=]/,
 	'property': /\w+/,
 	[tokenize](code, grammar) {
 		var tokens = withoutTokenizer(code, grammar);

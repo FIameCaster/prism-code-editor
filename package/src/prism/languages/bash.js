@@ -12,6 +12,10 @@ var commandAfterHeredoc = {
 	alias: 'punctuation', // this looks reasonably well in all themes
 };
 
+var variableInside = {
+	'variable': /^\$\(|^`|\)$|`$/
+};
+
 var insideString = {
 	'bash': commandAfterHeredoc,
 	'environment': {
@@ -32,9 +36,9 @@ var insideString = {
 					},
 					/^\$\(\(/
 				],
-				'number': /\b0x[\dA-Fa-f]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,
+				'number': /\b0x[a-fA-F\d]+\b|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee]-?\d+)?/,
 				// Operators according to https://www.gnu.org/software/bash/manual/bashref.html#Shell-Arithmetic
-				'operator': /--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[=!+\-*/%<>^&|]=?|[?~:]/,
+				'operator': /--|\+\+|\*\*=?|<<=?|>>=?|&&|\|\||[!=*/%<>^&|+-]=?|[?~:]/,
 				// If there is no $ sign at the beginning highlight (( and )) as punctuation
 				'punctuation': /\(\(?|\)\)?|,|;/
 			}
@@ -43,16 +47,14 @@ var insideString = {
 		{
 			pattern: /\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/g,
 			greedy: true,
-			inside: {
-				'variable': /^\$\(|^`|\)$|`$/
-			}
+			inside: variableInside
 		},
 		// [2]: Brace expansion
 		{
 			pattern: /\$\{[^}]+\}/g,
 			greedy: true,
 			inside: {
-				'operator': /:[-=?+]?|[!\/]|##?|%%?|\^\^?|,,?/,
+				'operator': /:[-=?+]?|[!/]|##?|%%?|\^\^?|,,?/,
 				'punctuation': /[[\]]/,
 				'environment': {
 					pattern: RegExp('(\\{)' + envVars),
@@ -64,7 +66,7 @@ var insideString = {
 		/\$(?:\w+|[#?*!@$])/
 	],
 	// Escape sequences from echo and printf's manuals, and escaped quotes.
-	'entity': /\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{1,2})/
+	'entity': /\\(?:[abceEfnrtv\\"]|O?[0-7]{1,3}|U[a-fA-F\d]{8}|u[a-fA-F\d]{4}|x[a-fA-F\d]{1,2})/
 };
 
 var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languages.bash = {
@@ -140,7 +142,7 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
 		// “Normal” string
 		{
 			// https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
-			pattern: /(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^"\\`$])*"/g,
+			pattern: /(^|[^\\](?:\\\\)*)"(?:\\[\s\S]|\$\([^)]+\)|\$(?!\()|`[^`]+`|[^\\"`$])*"/g,
 			lookbehind: true,
 			greedy: true,
 			inside: insideString
@@ -153,7 +155,7 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
 		},
 		{
 			// https://www.gnu.org/software/bash/manual/html_node/ANSI_002dC-Quoting.html
-			pattern: /\$'(?:[^'\\]|\\[\s\S])*'/g,
+			pattern: /\$'(?:\\[\s\S]|[^\\'])*'/g,
 			greedy: true,
 			inside: {
 				'entity': insideString.entity
@@ -198,7 +200,7 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
 			}
 		}
 	},
-	'punctuation': /\$?\(\(?|\)\)?|\.\.|[{}[\];\\]/,
+	'punctuation': /\$?\(\(?|\)\)?|\.\.|[[\]{};\\]/,
 	'number': {
 		pattern: /(^|\s)(?:[1-9]\d*|0)(?:[.,]\d+)?\b/,
 		lookbehind: true
@@ -206,7 +208,6 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
 };
 
 /* Patterns in command substitution. */
-var inside = insideString.variable[1].inside;
 [
 	'comment',
 	'function-name',
@@ -223,4 +224,4 @@ var inside = insideString.variable[1].inside;
 	'operator',
 	'punctuation',
 	'number'
-].forEach(copied => inside[copied] = bash[copied]);
+].forEach(copied => variableInside[copied] = bash[copied]);
