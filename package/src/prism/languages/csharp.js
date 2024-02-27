@@ -146,7 +146,7 @@ insertBefore(cs, 'class-name', {
 	},
 	'type-expression': {
 		// default(Foo), typeof(Foo<Bar>), sizeof(int)
-		pattern: re(/(\b(?:default|sizeof|typeof)\s*\(\s*(?!\s))(?:[^()\s]|\s(?!\s)|<0>)*(?=\s*\))/.source, [nestedRound]),
+		pattern: re(/(\b(?:default|sizeof|typeof)\s*\(\s*(?!\s))(?:[^()\s]|\s(?!\s)|<0>)+(?=\s*\))/.source, [nestedRound]),
 		lookbehind: true,
 		alias: 'class-name',
 		inside: typeInside

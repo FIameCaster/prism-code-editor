@@ -90,7 +90,7 @@ languages.javastacktrace = {
 				// (Native Method)
 				// (...something...)
 				{
-					pattern: /(\()[^()]*(?=\))/,
+					pattern: /(\()[^()]+(?=\))/,
 					lookbehind: true,
 					inside: {
 						'keyword': /^(?:Native Method|Unknown Source)$/

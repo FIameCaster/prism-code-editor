@@ -8,7 +8,7 @@ var string = clikeString();
 
 languages.soy = {
 	'ignore-literal': {
-		pattern: /(\{literal\})[\s\S]*?(?=\{\/literal\})/g,
+		pattern: /(\{literal\})(?!\{\/literal\})[\s\S]+?(?=\{\/literal\})/g,
 		lookbehind: true,
 		greedy: true
 	},

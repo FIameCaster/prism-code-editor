@@ -60,6 +60,7 @@ function testPatterns(langs) {
 	 * @property {string} name
 	 * @property {any} parent
 	 * @property {boolean} lookbehind Whether the first capturing group of the pattern is a Prism lookbehind group.
+	 * @property {LiteralAST | undefined} lookbehindAst AST with the Prism lookbehind group removed.
 	 * @property {CapturingGroup | undefined} lookbehindGroup
 	 * @property {{ key: string, value: any }[]} path
 	 * @property {(message: string) => void} reportError
@@ -91,13 +92,23 @@ function testPatterns(langs) {
 						} catch (error) {
 							throw new SyntaxError(`Invalid RegExp at ${tokenPath}\n\n${error.message}`);
 						}
+						let ast2;
 
 						const parent = path.length > 1 ? path[path.length - 2].value : undefined;
 						const lookbehind = key === 'pattern' && parent && !!parent.lookbehind;
 						const lookbehindGroup = lookbehind ? getFirstCapturingGroup(ast.pattern) : undefined;
+						if (lookbehind && lookbehindGroup) {
+							
+							try {
+								ast2 = parseRegex(RegExp(value.source.replace(RegExp(regexEscape(lookbehindGroup.raw) + "\\??"), '')));
+							} catch (error) {
+								throw new SyntaxError(`Invalid RegExp at ${tokenPath}\n\n${error.message}`);
+							}
+						}
 						callback({
 							pattern: value,
 							ast,
+							lookbehindAst: ast2,
 							tokenPath,
 							name: key,
 							parent,
@@ -147,12 +158,14 @@ function testPatterns(langs) {
 		});
 	}
 
-	it('- should not match the empty string', async () => {
-		await forEachPattern(({ ast, pattern, tokenPath }) => {
+	it('- should not create empty matches', async () => {
+		await forEachPattern(({ ast, pattern, tokenPath, lookbehindAst }) => {
 			// test for empty string
-			const empty = isPotentiallyZeroLength(ast.pattern.alternatives);
-			assert.isFalse(empty, `${tokenPath}: ${pattern} should not match the empty string.\n\n`
-				+ `Patterns that do match the empty string can potentially cause infinitely many empty tokens. `
+			const empty = isPotentiallyZeroLength(ast.pattern.alternatives)
+				|| !!lookbehindAst && isPotentiallyZeroLength(lookbehindAst.pattern.alternatives);
+			assert.isFalse(empty, `${tokenPath}: ${pattern} should not create empty matches.\n\n`
+				+ `When an empty match is created, the current string will no longer be searched `
+				+ `which can cause potential matches to be skipped. `
 				+ `Make sure that all patterns always consume at least one character.`);
 		});
 	});
@@ -759,4 +772,9 @@ async function replaceRegExpProto(execSupplier, fn) {
 	if (error) {
 		throw error;
 	}
+}
+
+/** @param {string} str */
+function regexEscape(str) {
+	return str.replace(/[$+?|.^*()[\]{}\\]/g, '\\$&')
 }

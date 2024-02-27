@@ -52,7 +52,7 @@ insertBefore(aspnet, 'comment', {
 // script runat="server" contains csharp, not javascript
 insertBefore(aspnet, aspnet.script ? 'script' : 'tag', {
 	'asp-script': {
-		pattern: /(<script(?=.*runat=['"]?server\b)[^>]*>)[\s\S]*?(?=<\/script>)/i,
+		pattern: /(<script(?=.*runat=['"]?server\b)[^>]*>)(?!<\/script>)[\s\S]+?(?=<\/script>)/i,
 		lookbehind: true,
 		alias: 'asp script',
 		inside: 'cs'

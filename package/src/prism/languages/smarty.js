@@ -71,12 +71,12 @@ var smarty = expression.inside = {
 
 languages.smarty = {
 	'ignore-literal': {
-		pattern: /(\{literal\})[\s\S]*?(?=\{\/literal\})/g,
+		pattern: /(\{literal\})(?!\{\/literal\})[\s\S]+?(?=\{\/literal\})/g,
 		lookbehind: true,
 		greedy: true
 	},
 	'embedded-php': {
-		pattern: /(\{php\})[\s\S]*?(?=\{\/php\})/g,
+		pattern: /(\{php\})(?!\{\/php\})[\s\S]+?(?=\{\/php\})/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-php',

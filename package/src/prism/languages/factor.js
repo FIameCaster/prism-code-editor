@@ -7,7 +7,12 @@ var string_inside = {
 	'number': /\\[^\s']|%\w/
 };
 
-var factor = {
+var combinatorsToken = {
+	lookbehind: true,
+	alias: 'keyword'
+};
+
+var factor = languages.factor = {
 	'comment': {
 		// ! single-line exclamation point comments with whitespace after/around the !
 		// /* comment */, /* comment*/
@@ -154,11 +159,7 @@ var factor = {
 		}
 	],
 
-	'combinators': {
-		pattern: null,
-		lookbehind: true,
-		alias: 'keyword'
-	},
+	'combinators': combinatorsToken,
 
 	'kernel-builtin': {
 		pattern: null,
@@ -323,10 +324,6 @@ var builtins = {
 	// that's all for now
 };
 
-Object.keys(builtins).forEach(k => {
-	factor[k].pattern = arrToWordsRegExp(builtins[k]);
-});
-
 var combinators = [
 	// kernel
 	'2bi', 'while', '2tri', 'bi*', '4dip', 'both?', 'same?', 'tri@', 'curry', 'prepose', '3bi', '?if', 'tri*', '2keep', '3keep', 'curried', '2keepd', 'when', '2bi*', '2tri*', '4keep', 'bi@', 'keepdd', 'do', 'unless*', 'tri-curry', 'if*', 'loop', 'bi-curry*', 'when*', '2bi@', '2tri@', 'with', '2with', 'either?', 'bi', 'until', '3dip', '3curry', 'tri-curry*', 'tri-curry@', 'bi-curry', 'keepd', 'compose', '2dip', 'if', '3tri', 'unless', 'tuple', 'keep', '2curry', 'tri', 'most', 'while*', 'dip', 'composed', 'bi-curry@',
@@ -345,6 +342,8 @@ var combinators = [
 	// tafn
 ];
 
-factor.combinators.pattern = arrToWordsRegExp(combinators);
+for (var k in builtins) {
+	factor[k].pattern = arrToWordsRegExp(builtins[k]);
+}
 
-languages.factor = factor;
+combinatorsToken.pattern = arrToWordsRegExp(combinators);

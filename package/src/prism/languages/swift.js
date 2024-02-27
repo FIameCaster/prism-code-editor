@@ -15,7 +15,7 @@ var swift = languages.swift = {
 			greedy: true,
 			inside: {
 				'interpolation': {
-					pattern: /(\\\()(?:[^()]|\([^()]*\))*(?=\))/,
+					pattern: /(\\\()(?:[^()]|\([^()]*\))+(?=\))/,
 					lookbehind: true
 				},
 				'interpolation-punctuation': {
@@ -32,7 +32,7 @@ var swift = languages.swift = {
 			greedy: true,
 			inside: {
 				'interpolation': {
-					pattern: /(\\#+\()(?:[^()]|\([^()]*\))*(?=\))/,
+					pattern: /(\\#+\()(?:[^()]|\([^()]*\))+(?=\))/,
 					lookbehind: true
 				},
 				'interpolation-punctuation': {

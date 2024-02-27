@@ -12,7 +12,7 @@ languages.context = languages.tex = languages.latex = {
 	'comment': /%.*/,
 	// the verbatim environment prints whitespace to the document
 	'cdata': {
-		pattern: /(\\begin\{((?:lstlisting|verbatim)\*?)\})[\s\S]*?(?=\\end\{\2\})/,
+		pattern: /(\\begin\{((?:lstlisting|verbatim)\*?)\})(?!\\end\{\2\})[\s\S]+?(?=\\end\{\2\})/,
 		lookbehind: true
 	},
 	/*
@@ -26,7 +26,7 @@ languages.context = languages.tex = languages.latex = {
 			alias: 'string'
 		},
 		{
-			pattern: /(\\begin\{((?:align|eqnarray|equation|gather|math|multline)\*?)\})[\s\S]*?(?=\\end\{\2\})/,
+			pattern: /(\\begin\{((?:align|eqnarray|equation|gather|math|multline)\*?)\})(?!\\end\{\2\})[\s\S]+?(?=\\end\{\2\})/,
 			lookbehind: true,
 			inside: insideEqu,
 			alias: 'string'

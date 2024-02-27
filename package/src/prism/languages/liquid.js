@@ -4,7 +4,7 @@ import './markup.js';
 
 languages.liquid = {
 	'ignore-raw': {
-		pattern: /(\{%-?\s*raw\b[^\}]*\})[\s\S]*?(?=\{%-?\s*endraw\b[^\}]*\})/g,
+		pattern: /(\{%-?\s*raw\b[^\}]*\})(?!\{%-?\s*endraw\b[^\}]*\})[\s\S]+?(?=\{%-?\s*endraw\b[^\}]*\})/g,
 		lookbehind: true,
 		greedy: true
 	},

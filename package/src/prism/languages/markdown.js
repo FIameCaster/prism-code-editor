@@ -17,8 +17,8 @@ var inner = [/(?:\\.|[^\\\n]|\n(?!\n))/.source];
  * @returns {RegExp}
  */
 var createInline = pattern => re(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern})`, inner, 'g');
-var tableCell = /(?:\\.|``(?:[^\n`]|`(?!`))+``|`[^\n`]+`|[^\\|\n`])+/.source;
-var tableRow = replace(/\|?<0>(?:\|<0>)+\|?(?:\n|(?![\s\S]))/.source, [tableCell]);
+var tableCell = /(?:\\.|``(?:[^\n`]|`(?!`))+``|`[^\n`]+`|[^\\\n|`])+/;
+var tableRow = replace(/\|?<0>(?:\|<0>)+\|?(?:\n|(?![\s\S]))/.source, [tableCell.source]);
 var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?\n/.source;
 var markdown = languages.markdown = languages.md = clone(languages.html);
 
@@ -44,35 +44,34 @@ insertBefore(markdown, 'prolog', {
 	'table': {
 		pattern: RegExp('^' + tableRow + tableLine + '(?:' + tableRow + ')*', 'm'),
 		inside: {
+			'table-header-row': {
+				pattern: /^.+/,
+				inside: {
+					'table-header': {
+						pattern: tableCell,
+						alias: 'important',
+						inside: markdown
+					},
+					'punctuation': /\|/
+				}
+			},
 			'table-data-rows': {
-				pattern: RegExp('^(' + tableRow + tableLine + ')(?:' + tableRow + ')*$'),
+				pattern: /(.+\n)[\s\S]+/,
 				lookbehind: true,
 				inside: {
 					'table-data': {
-						pattern: RegExp(tableCell),
+						pattern: tableCell,
 						inside: markdown
 					},
 					'punctuation': /\|/
 				}
 			},
 			'table-line': {
-				pattern: RegExp('^(' + tableRow + ')' + tableLine + '$'),
-				lookbehind: true,
+				pattern: /.+/,
 				inside: {
-					'punctuation': /\||:?-{3,}:?/
+					'punctuation': /\S+/
 				}
 			},
-			'table-header-row': {
-				pattern: RegExp('^' + tableRow + '$'),
-				inside: {
-					'table-header': {
-						pattern: RegExp(tableCell),
-						alias: 'important',
-						inside: markdown
-					},
-					'punctuation': /\|/
-				}
-			}
 		}
 	},
 	'code': [

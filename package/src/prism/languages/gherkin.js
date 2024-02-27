@@ -31,7 +31,7 @@ languages.gherkin = {
 		lookbehind: true,
 		inside: {
 			'important': {
-				pattern: /(:).*/,
+				pattern: /(:).+/,
 				lookbehind: true
 			},
 			'keyword': /[^\n:]+:/
