@@ -24,11 +24,10 @@ var gradle = expression.inside = languages.gradle = extend('clike', {
 		greedy: true,
 	},
 	'keyword':
-		/\b(?:apply|def|dependencies|else|if|implementation|import|plugin|plugins|project|repositories|repository|sourceSets|tasks|val)\b/,
+		/\b(?:apply|def|dependencies|else|if|implementation|import|plugins?|project|repositories|repository|sourceSets|tasks|val)\b/,
 	'number': /\b(?:0b[01_]+|0x[a-f\d_]+(?:\.[a-f\d_p-]+)?|[\d_]+(?:\.[\d_]+)?(?:e[+-]?\d+)?)[glidf]?\b/i,
 	'operator': {
-		pattern:
-			/(^|[^.])(?:~|==?~?|\?[.:]?|\*(?:[.=]|\*=?)?|\.[@&]|\.\.<|\.\.(?!\.)|-[-=>]?|\+[+=]?|!=?|<(?:<=?|=>?)?|>(?:>>?=?|=)?|&[&=]?|\|[|=]?|\/=?|\^=?|%=?)/,
+		pattern: /(^|[^.])(?:~|==?~?|\?[.:]?|\*\.|\.[@&]|\.\.<|\.\.(?!\.)|--|\+\+|&&|\|\||\*\*=?|->|>>>?=?|<<=?|<=>?|[%&|^!=<>/*+-]=?)/,
 		lookbehind: true,
 	},
 	'punctuation': /\.+|[()[\]{},:;$]/,
@@ -52,7 +51,7 @@ insertBefore(gradle, 'string', {
 });
 
 insertBefore(gradle, 'punctuation', {
-	'spock-block': /\b(?:and|cleanup|expect|given|setup|then|when|where):/,
+	'spock-block': /\b(?:and|cleanup|expect|given|setup|[tw]hen|where):/,
 });
 
 insertBefore(gradle, 'function', {

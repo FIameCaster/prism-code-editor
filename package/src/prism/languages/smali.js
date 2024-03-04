@@ -74,7 +74,7 @@ languages.smali = {
 		lookbehind: true
 	},
 	'number': {
-		pattern: /(^|[^/\w.-])-?(?:NAN|INFINITY|0x(?:[A-F\d]+(?:\.[A-F\d]*)?|\.[A-F\d]+)(?:p[+-]?[A-F\d]+)?|(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?)[dflst]?(?![\w.-])/i,
+		pattern: /(^|[^/\w.-])-?(?:NaN|Infinity|0x(?:[a-f\d]+(?:\.[a-f\d]*)?|\.[a-f\d]+)(?:p[+-]?[a-f\d]+)?|(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?)[dflst]?(?![\w.-])/i,
 		lookbehind: true
 	},
 
@@ -84,6 +84,6 @@ languages.smali = {
 		alias: 'property'
 	},
 
-	'operator': /->|\.\.|[\[=]/,
+	'operator': /->|\.\.|[[=]/,
 	'punctuation': /[(){},:;]/
 };

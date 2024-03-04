@@ -2,18 +2,18 @@ import { languages } from '../core.js';
 
 languages.basic = {
 	'comment': {
-		pattern: /(?:!|REM\b).+/i,
+		pattern: /(?:!|rem\b).+/i,
 		inside: {
-			'keyword': /^REM/i
+			'keyword': /^rem/i
 		}
 	},
 	'string': {
-		pattern: /"(?:""|[!=#$%&'()<>*.,:;/?^\w +-])*"/g,
+		pattern: /"(?:""|[#$%&'().,:;\w ?^!=<>/*+-])*"/g,
 		greedy: true
 	},
-	'number': /(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:E[+-]?\d+)?/i,
-	'keyword': /\b(?:AS|BEEP|BLOAD|BSAVE|CALL(?: ABSOLUTE)?|CASE|CHAIN|CHDIR|CLEAR|CLOSE|CLS|COM|COMMON|CONST|DATA|DECLARE|DEF(?: FN| SEG|DBL|INT|LNG|SNG|STR)|DIM|DO|DOUBLE|ELSE|ELSEIF|END|ENVIRON|ERASE|ERROR|EXIT|FIELD|FILES|FOR|FUNCTION|GET|GOSUB|GOTO|IF|INPUT|INTEGER|IOCTL|KEY|KILL|LINE INPUT|LOCATE|LOCK|LONG|LOOP|LSET|MKDIR|NAME|NEXT|OFF|ON(?: COM| ERROR| KEY| TIMER)?|OPEN|OPTION BASE|OUT|POKE|PUT|READ|REDIM|REM|RESTORE|RESUME|RETURN|RMDIR|RSET|RUN|SELECT CASE|SHARED|SHELL|SINGLE|SLEEP|STATIC|STEP|STOP|STRING|SUB|SWAP|SYSTEM|THEN|TIMER|TO|TROFF|TRON|TYPE|UNLOCK|UNTIL|USING|VIEW PRINT|WAIT|WEND|WHILE|WRITE)(?:\$|\b)/i,
-	'function': /\b(?:ABS|ACCESS|ACOS|ANGLE|AREA|ARITHMETIC|ARRAY|ASIN|ASK|AT|ATN|BASE|BEGIN|BREAK|CAUSE|CEIL|CHR|CLIP|COLLATE|COLOR|CON|COS|COSH|COT|CSC|DATE|DATUM|DEBUG|DECIMAL|DEF|DEG|DEGREES|DELETE|DET|DEVICE|DISPLAY|DOT|ELAPSED|EPS|ERASABLE|EXLINE|EXP|EXTERNAL|EXTYPE|FILETYPE|FIXED|FP|GO|GRAPH|HANDLER|IDN|IMAGE|IN|INT|INTERNAL|IP|IS|KEYED|LBOUND|LCASE|LEFT|LEN|LENGTH|LET|LINE|LINES|LOG|LOG10|LOG2|LTRIM|MARGIN|MAT|MAX|MAXNUM|MID|MIN|MISSING|MOD|NATIVE|NUL|NUMERIC|OF|OPTION|ORD|ORGANIZATION|OUTIN|OUTPUT|PI|POINT|POINTER|POINTS|POS|PRINT|PROGRAM|PROMPT|RAD|RADIANS|RANDOMIZE|RECORD|RECSIZE|RECTYPE|RELATIVE|REMAINDER|REPEAT|REST|RETRY|REWRITE|RIGHT|RND|ROUND|RTRIM|SAME|SEC|SELECT|SEQUENTIAL|SET|SETTER|SGN|SIN|SINH|SIZE|SKIP|SQR|STANDARD|STATUS|STR|STREAM|STYLE|TAB|TAN|TANH|TEMPLATE|TEXT|THERE|TIME|TIMEOUT|TRACE|TRANSFORM|TRUNCATE|UBOUND|UCASE|USE|VAL|VARIABLE|VIEWPORT|WHEN|WINDOW|WITH|ZER|ZONEWIDTH)(?:\$|\b)/i,
-	'operator': /<[=>]?|>=?|[*/^=&+-]|\b(?:AND|EQV|IMP|NOT|OR|XOR)\b/i,
+	'number': /(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,
+	'keyword': /\b(?:as|beep|bload|bsave|call absolute|call|case|chain|chdir|clear|close|cls|com|common|const|data|declare|def(?: fn| seg|dbl|int|[ls]ng|str)|dim|do|double|else|elseif|environ|erase|error|exit|field|files|for|function|get|gosub|goto|if|input|integer|ioctl|key|kill|line input|locate|lock|long|loop|[lr]set|mkdir|name|next|off|on(?: com| error| key| timer)?|open|option base|[op]ut|poke|read|redim|rem|restore|resume|return|rmdir|run|select case|shared|shell|single|sleep|static|step|stop|string|sub|swap|system|then|timer|to|troff|tron|type|unlock|until|using|view print|wait|w?end|while|write)(?:\$|\b)/i,
+	'function': /\b(?:abs|access|a?cos|angle|area|arithmetic|array|a?sin|ask|atn?|base|begin|break|cause|ceil|chr|clip|collate|color|co[nst]|cosh|csc|date|datum|debug|decimal|de[fgt]|degrees|delete|device|display|dot|elapsed|eps|erasable|exline|exp|external|extype|filetype|fixed|fp|go|graph|handler|idn|image|int?|internal|ip|is|keyed|[lu]bound|[lu]case|left|le[nt]|length|lines?|log2?|log10|[lr]trim|margin|ma[tx]|maxnum|mi[dn]|missing|mod|native|nul|numeric|of|option|ord|organization|outin|output|pi|pointer|points?|pos|print|program|prompt|rad|radians|randomize|record|recsize|rectype|relative|remainder|repeat|rest|retry|rewrite|right|rnd|round|same|se[ct]|select|sequential|setter|sgn|sinh|size|skip|s[qt]r|standard|status|stream|style|tab|tanh?|template|text|there|time|timeout|trace|transform|truncate|use|val|variable|viewport|when|window|with|zer|zonewidth)(?:\$|\b)/i,
+	'operator': /<=|<>|>=|[&^=<>/*+-]|\b(?:and|eqv|imp|not|x?or)\b/i,
 	'punctuation': /[(),:;]/
 };

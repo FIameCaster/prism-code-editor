@@ -2,11 +2,11 @@ import { languages } from '../core.js';
 
 languages.fortran = {
 	'quoted-number': {
-		pattern: /[BOZ](['"])[A-F\d]+\1/i,
+		pattern: /[boz](["'])[a-f\d]+\1/i,
 		alias: 'number'
 	},
 	'string': {
-		pattern: /(?:\b\w+_)?(['"])(?:\1\1|&\n(?:[ \t]*!.*\n|(?![ \t]*!))|(?!\1).)*(?:\1|&)/,
+		pattern: /(?:\b\w+_)?(["'])(?:\1\1|&\n(?:[ \t]*!.*\n|(?![ \t]*!))|(?!\1).)*(?:\1|&)/,
 		inside: {
 			'comment': {
 				pattern: /(&\n\s*)!.*/,
@@ -18,23 +18,14 @@ languages.fortran = {
 		pattern: /!.*/g,
 		greedy: true
 	},
-	'boolean': /\.(?:FALSE|TRUE)\.(?:_\w+)?/i,
-	'number': /(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[ED][+-]?\d+)?(?:_\w+)?/i,
-	'keyword': [
-		// Types
-		/\b(?:CHARACTER|COMPLEX|DOUBLE ?PRECISION|INTEGER|LOGICAL|REAL)\b/i,
-		// END statements
-		/\b(?:END ?)?(?:BLOCK ?DATA|DO|FILE|FORALL|FUNCTION|IF|INTERFACE|MODULE(?! PROCEDURE)|PROGRAM|SELECT|SUBROUTINE|TYPE|WHERE)\b/i,
-		// Statements
-		/\b(?:ALLOCATABLE|ALLOCATE|BACKSPACE|CALL|CASE|CLOSE|COMMON|CONTAINS|CONTINUE|CYCLE|DATA|DEALLOCATE|DIMENSION|DO|END|EQUIVALENCE|EXIT|EXTERNAL|FORMAT|GO ?TO|IMPLICIT(?: NONE)?|INQUIRE|INTENT|INTRINSIC|MODULE PROCEDURE|NAMELIST|NULLIFY|OPEN|OPTIONAL|PARAMETER|POINTER|PRINT|PRIVATE|PUBLIC|READ|RETURN|REWIND|SAVE|SELECT|STOP|TARGET|WHILE|WRITE)\b/i,
-		// Others
-		/\b(?:ASSIGNMENT|DEFAULT|ELEMENTAL|ELSE|ELSEIF|ELSEWHERE|ENTRY|IN|INCLUDE|INOUT|KIND|NULL|ONLY|OPERATOR|OUT|PURE|RECURSIVE|RESULT|SEQUENCE|STAT|THEN|USE)\b/i
-	],
+	'boolean': /\.(?:false|true)\.(?:_\w+)?/i,
+	'number': /(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[ed][+-]?\d+)?(?:_\w+)?/i,
+	'keyword': /\b(?:allocatable|allocate|assignment|backspace|call|case|character|close|common|complex|contains|continue|cycle|data|deallocate|default|dimension|do|double ?precision|elemental|else|elseif|elsewhere|(?:end ?)?(?:block ?data|do|file|forall|function|if|interface|program|select|subroutine|type|where)|end module|end|entry|equivalence|exit|external|format|go ?to|implicit(?: none)?|in|include|inout|inquire|integer|intent|intrinsic|kind|logical|module procedure|module|namelist|null|nullify|only|open|operator|optional|out|parameter|pointer|print|private|public|pure|rea[dl]|recursive|result|return|rewind|save|select|sequence|stat|stop|target|then|use|while|write)\b/i,
 	'operator': [
-		/\*\*|\/\/|=>|[=\/]=|[<>]=?|::|[*=%+-]|\.[A-Z]+\./i,
+		/\*\*|\/\/|=>|[=/]=|[<>]=?|::|[%=*+-]|\.[a-z]+\./i,
 		{
 			// Use lookbehind to prevent confusion with (/ /)
-			pattern: /(^|(?!\().)\/(?!\))/,
+			pattern: /(^|[^(])\/(?!\))/,
 			lookbehind: true
 		}
 	],

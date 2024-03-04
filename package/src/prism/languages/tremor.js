@@ -43,8 +43,8 @@ languages.trickle = languages.troy = languages.tremor = {
 
 	'function': /\b[a-z_]\w*(?=\s*(?:::\s*<|\())\b/,
 
-	'keyword': /\b(?:args|as|by|case|config|connect|connector|const|copy|create|default|define|deploy|drop|each|emit|end|erase|event|flow|fn|for|from|group|having|insert|into|intrinsic|let|links|match|merge|mod|move|of|operator|patch|pipeline|recur|script|select|set|sliding|state|stream|to|tumbling|update|use|when|where|window|with)\b/,
-	'boolean': /\b(?:false|null|true)\b/i,
+	'keyword': /\b(?:args|as|by|case|config|connect|connector|const|copy|create|default|define|deploy|drop|each|emit|end|erase|event|flow|fn|for|from|group|having|insert|into|intrinsic|[ls]et|links|[mp]atch|merge|mod|move|of|operator|pipeline|recur|script|select|sliding|state|stream|to|tumbling|update|use|when|where|window|with)\b/,
+	'boolean': /\b(?:false|true|null)\b/i,
 
 	'number': /\b(?:0b[01_]*|0x[a-fA-F\d_]*|\d[\d_]*(?:\.\d[\d_]*)?(?:[Ee][+-]?[\d_]+)?)\b/,
 
@@ -52,6 +52,6 @@ languages.trickle = languages.troy = languages.tremor = {
 		pattern: /%(?=[({[])/,
 		alias: 'punctuation'
 	},
-	'operator': /[*/%~!^+-]=?|=[=>]?|&[&=]?|\|[|=]?|<<?=?|>>?>?=?|(?:absent|and|not|or|present|xor)\b/,
+	'operator': /=>|&&|\|\||<<=?|>>>?=?|[~%&|^!=<>/*+-]=?|(?:absent|and|not|x?or|present)\b/,
 	'punctuation': /::|[()[\]{}.,:;]/,
 };

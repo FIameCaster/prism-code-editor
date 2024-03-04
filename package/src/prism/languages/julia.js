@@ -28,8 +28,8 @@ languages.julia = {
 	'number': /(?:\b(?=\d)|\B(?=\.))(?:0[box])?(?:[a-f\d]+(?:_[a-f\d]+)*(?:\.(?:\d+(?:_\d+)*)?)?|\.\d+(?:_\d+)*)(?:[efp][+-]?\d+(?:_\d+)*)?j?/i,
 	// https://docs.julialang.org/en/v1/manual/mathematical-operations/
 	// https://docs.julialang.org/en/v1/manual/mathematical-operations/#Operator-Precedence-and-Associativity-1
-	'operator': /&&|\|\||[-+*^%÷⊻&$\\]=?|\/[/=]?|!=?=?|\|[=>]?|<(?:<=?|[=:|])?|>(?:=|>>?=?)?|==?=?|[~≠≤≥'√∛]/,
-	'punctuation': /::?|[()[\]{}.,;?]/,
+	'operator': /&&|\|\||\/\/|[!=]==|\|>|>>>?=?|<<=?|<:|<\||[\\$÷⊻%&|^!=<>/*+-]=?|[~≠≤≥'√∛]/,
+	'punctuation': /::|[()[\]{}.,:;?]/,
 	// https://docs.julialang.org/en/v1/base/numbers/#Base.im
 	'constant': /\b(?:(?:Inf|NaN)(?:16|32|64)?|im|pi)\b|[πℯ]/
 };

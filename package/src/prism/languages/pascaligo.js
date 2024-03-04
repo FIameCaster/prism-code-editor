@@ -16,9 +16,7 @@ var pascaligo = languages.pascaligo = {
 			pattern: re(/(\btype\s+\w+\s+is\s+)<0>/.source, [type], 'i'),
 			lookbehind: true
 		},
-		{
-			pattern: re(/<0>(?=\s+is\b)/.source, [type], 'i')
-		},
+		re(/<0>(?=\s+is\b)/.source, [type], 'i'),
 		{
 			pattern: re(/(:\s*)<0>/.source, [type]),
 			lookbehind: true
@@ -29,7 +27,7 @@ var pascaligo = languages.pascaligo = {
 		lookbehind: true
 	},
 	'boolean': {
-		pattern: /(^|[^&])\b(?:False|True)\b/i,
+		pattern: /(^|[^&])\b(?:false|true)\b/i,
 		lookbehind: true
 	},
 	'builtin': {
@@ -43,14 +41,15 @@ var pascaligo = languages.pascaligo = {
 		// Decimal
 		/\b\d+(?:\.\d+)?(?:e[+-]?\d+)?(?:mtz|n)?/i
 	],
-	'operator': /->|=\/=|\.\.|\*\*|:=|<[<=>]?|>[>=]?|[*/+-]=?|[@^=|]|\b(?:and|mod|or)\b/,
+	'operator': /->|=\/=|\.\.|\*\*|:=|<>|>>|<<|[<>/*+-]=?|[@|^=]|\b(?:and|mod|or)\b/,
 	'punctuation': /\(\.|\.\)|[()[\].,:;{}]/
 };
 
-var classNameInside = ['comment', 'keyword', 'builtin', 'operator', 'punctuation'].reduce((accum, key) => {
-	accum[key] = pascaligo[key];
-	return accum;
-}, {});
+var classNameInside = {};
+
+['comment', 'keyword', 'builtin', 'operator', 'punctuation'].forEach(key => {
+	classNameInside[key] = pascaligo[key];
+});
 
 pascaligo['class-name'].forEach(p => {
 	p.inside = classNameInside;

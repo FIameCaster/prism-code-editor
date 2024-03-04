@@ -6,5 +6,5 @@ import './json.js';
 insertBefore(languages.jsonp = extend('json', {
 	'punctuation': clikePunctuation
 }), 'punctuation', {
-	'function': /(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\s*\()/
+	'function': /(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*\()/
 });

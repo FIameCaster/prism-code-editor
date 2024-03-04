@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 languages['xlsx'] = languages['xls'] = languages['excel-formula'] = {
 	'comment': {
-		pattern: /(\bN\(\s*)"(?:[^"]|"")*"(?=\s*\))/gi,
+		pattern: /(\bn\(\s*)"(?:[^"]|"")*"(?=\s*\))/gi,
 		lookbehind: true,
 		greedy: true
 	},
@@ -40,16 +40,16 @@ languages['xlsx'] = languages['xls'] = languages['excel-formula'] = {
 		}
 	},
 	'function-name': {
-		pattern: /\b[A-Z]\w*(?=\()/i,
+		pattern: /\b[a-z]\w*(?=\()/i,
 		alias: 'builtin'
 	},
 	'range': {
-		pattern: /\$?\b(?:[A-Z]+\$?\d+:\$?[A-Z]+\$?\d+|[A-Z]+:\$?[A-Z]+|\d+:\$?\d+)\b/i,
+		pattern: /\$?\b(?:[a-z]+\$?\d+:\$?[a-z]+\$?\d+|[a-z]+:\$?[a-z]+|\d+:\$?\d+)\b/i,
 		alias: 'selector',
 		inside: {
 			'operator': /:/,
-			'cell': /\$?[A-Z]+\$?\d+/i,
-			'column': /\$?[A-Z]+/i,
+			'cell': /\$?[a-z]+\$?\d+/i,
+			'column': /\$?[a-z]+/i,
 			'row': /\$?\d+/
 		}
 	},
@@ -60,7 +60,7 @@ languages['xlsx'] = languages['xls'] = languages['excel-formula'] = {
 		alias: 'selector'
 	},
 	'number': /(?:\b\d+(?:\.\d+)?|\B\.\d+)(?:e[+-]?\d+)?\b/i,
-	'boolean': /\b(?:FALSE|TRUE)\b/i,
-	'operator': /[*/^%=&,+-]|<[=>]?|>=?/,
+	'boolean': /\b(?:false|true)\b/i,
+	'operator': /[%&^,=/*+-]|<[=>]?|>=?/,
 	'punctuation': /[()[\]{};|]/
 };

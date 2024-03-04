@@ -8,7 +8,7 @@ import { languages } from '../core.js';
 
 languages.hsts = {
 	'directive': {
-		pattern: /\b(?:includeSubDomains|max-age|preload)(?=[\s;=]|$)/i,
+		pattern: /\b(?:includesubdomains|max-age|preload)(?=[\s;=]|$)/i,
 		alias: 'property'
 	},
 	'operator': /=/,

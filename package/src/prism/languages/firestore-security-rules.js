@@ -5,19 +5,19 @@ import './clike.js';
 var firestore = languages['firestore-security-rules'] = extend('clike', {
 	'comment': /\/\/.*/,
 	'keyword': /\b(?:allow|function|if|match|null|return|rules_version|service)\b/,
-	'operator': /&&|\|\||[<>!=]=?|[-+*/%]|\b(?:in|is)\b/,
+	'operator': /&&|\|\||[!=<>]=?|[%/*+-]|\bi[ns]\b/,
 });
 
 delete firestore['class-name'];
 
 insertBefore(firestore, 'keyword', {
 	'path': {
-		pattern: /(^|[\s(),])(?:\/(?:[\w\xA0-\uFFFF]+|\{[\w\xA0-\uFFFF]+(?:=\*\*)?\}|\$\([\w\xA0-\uFFFF.]+\)))+/g,
+		pattern: /(^|[\s(),])(?:\/(?:[\w\xa0-\uffff]+|\{[\w\xa0-\uffff]+(?:=\*\*)?\}|\$\([\w\xa0-\uffff.]+\)))+/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'variable': {
-				pattern: /\{[\w\xA0-\uFFFF]+(?:=\*\*)?\}|\$\([\w\xA0-\uFFFF.]+\)/,
+				pattern: /\{[\w\xa0-\uffff]+(?:=\*\*)?\}|\$\([\w\xa0-\uffff.]+\)/,
 				inside: {
 					'operator': /=/,
 					'keyword': /\*\*/,

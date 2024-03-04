@@ -20,16 +20,13 @@ var cfc = languages.cfc = languages.cfscript = extend('clike', {
 		}
 	],
 	'keyword': /\b(?:abstract|break|catch|component|continue|default|do|else|extends|final|finally|for|function|if|in|include|package|private|property|public|remote|required|rethrow|return|static|switch|throw|try|var|while|xml)\b(?!\s*=)/,
-	'operator': [
-		/\+\+|--|&&|\|\||::|=>|[!=]==|[-+*/%&|^!=<>]=?|\?(?:\.|:)?|:/,
-		/\b(?:and|contains|eq|equal|eqv|gt|gte|imp|is|lt|lte|mod|not|or|xor)\b/
-	],
+	'operator': /--|\+\+|&&|\|\||::|=>|[!=]==|[%&|^!=<>/*+-]=?|\?[.:]?|:|\b(?:and|contains|equal|eqv?|[gl]te?|imp|is|mod|not|x?or)\b/,
 	'scope': {
 		pattern: /\b(?:application|arguments|cgi|client|cookie|local|session|super|this|variables)\b/,
 		alias: 'global'
 	},
 	'type': {
-		pattern: /\b(?:any|array|binary|boolean|date|guid|numeric|query|string|struct|uuid|void|xml)\b/,
+		pattern: /\b(?:any|array|binary|boolean|date|[gu]uid|numeric|query|string|struct|void|xml)\b/,
 		alias: 'builtin'
 	}
 });
@@ -37,7 +34,7 @@ var cfc = languages.cfc = languages.cfscript = extend('clike', {
 insertBefore(cfc, 'keyword', {
 	// This must be declared before keyword because we use "function" inside the lookahead
 	'function-variable': {
-		pattern: /(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\s*[=:]\s*(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+)\s*=>))/,
+		pattern: /(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*[=:]\s*(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+)\s*=>))/,
 		alias: 'function'
 	}
 });

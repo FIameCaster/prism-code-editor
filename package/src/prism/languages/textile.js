@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { extend } from '../utils/language.js';
+import { clone, insertBefore } from '../utils/language.js';
 import { re } from '../utils/shared.js';
 import './markup.js';
 
@@ -236,31 +236,22 @@ var phraseInside = {
 	}
 };
 
-var textile = languages.textile = extend('markup', {
+var textile = languages.textile = clone(languages.html);
+
+// Allow some nesting
+var nestedPatterns = {};
+
+insertBefore(textile, 'markup-bracket', {
 	'phrase': {
 		pattern: /^\S[\s\S]*?(?:(?![\s\S])|(?=\n\n))/m,
 		inside: phraseInside
 	}
 });
 
-// Allow some nesting
-var nestedPatterns = {
-	'inline': phraseInside['inline'],
-	'link': phraseInside['link'],
-	'image': phraseInside['image'],
-	'footnote': phraseInside['footnote'],
-	'acronym': phraseInside['acronym'],
-	'mark': phraseInside['mark']
-};
-
-var brackets = textile['markup-bracket'];
-delete textile['markup-bracket'];
-textile['markup-bracket'] = brackets;
-
 ['bold', 'italic', 'inserted', 'deleted', 'span'].forEach(p => phraseInlineInside[p].inside = nestedPatterns);
 
 // Allow some styles inside table cells
-['inline', 'link', 'image', 'footnote', 'acronym', 'mark'].forEach(p => phraseTableInside[p] = nestedPatterns[p]);
+['inline', 'link', 'image', 'footnote', 'acronym', 'mark'].forEach(p => nestedPatterns[p] = phraseTableInside[p] = phraseInside[p]);
 
 // Only allow alpha-numeric HTML tags, not XML tags
 textile.tag.pattern = /<\/?(?!\d)[a-z\d]+(?:\s+[^\s/=>]+(?:=(?:"[^"]*"|'[^']'|[^\s'">=]+))?)*\s*\/?>/gi;

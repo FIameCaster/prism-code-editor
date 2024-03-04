@@ -2,13 +2,9 @@ import { languages } from '../core.js';
 
 // see https://github.com/cooklang/spec/blob/main/EBNF.md
 
-var single_token_suffix = /(?:(?!\s)[\d$+<=a-zA-Z\x80-\uFFFF])+/.source;
+var single_token_suffix = /(?:(?!\s)[\d$+<=a-zA-Z\x80-\uffff])+/.source;
 var multi_token_infix = /[^{}@#]+/.source;
-var multi_token_suffix = /\{[^}#@]*\}/.source;
-
-var multi_token = multi_token_infix + multi_token_suffix;
-
-var timer_units = /(?:h|hours|hrs|m|min|minutes)/.source;
+var multi_token = multi_token_infix + /\{[^}#@]*\}/.source;
 
 var amount_group_impl = {
 	pattern: /\{[^{}]*\}/,
@@ -107,7 +103,7 @@ languages.cooklang = {
 				inside: {
 					'punctuation': /[{}]/,
 					'unit': {
-						pattern: RegExp('(%\\s*)' + timer_units + '\\b'),
+						pattern: /(%\s*)(?:h|hours|hrs|m|min|minutes)\b/,
 						lookbehind: true,
 						alias: 'symbol',
 					},

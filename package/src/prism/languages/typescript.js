@@ -4,7 +4,7 @@ import './javascript.js';
 
 var ts = languages.ts = languages.typescript = extend('js', {
 	'class-name': {
-		pattern: /(\b(?:class|extends|implements|instanceof|interface|new|type)\s+)(?!keyof\b)(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?:\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)?/g,
+		pattern: /(\b(?:class|extends|implements|instanceof|interface|new|type)\s+)(?!keyof\b)(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?:\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)?/g,
 		lookbehind: true,
 		greedy: true
 	}
@@ -16,7 +16,7 @@ insertBefore(ts, 'operator', {
 
 // The keywords TypeScript adds to JavaScript
 ts.keyword.push(
-	/\b(?:abstract|declare|is|keyof|readonly|require)\b|\b(?:asserts|infer|interface|module|namespace|type)\b(?=\s*(?:[{_$a-zA-Z\xA0-\uFFFF]|$))|\btype\b(?=\s*(?:[\{*]|$))/
+	/\b(?:abstract|declare|is|keyof|readonly|require)\b|\b(?:asserts|infer|interface|module|namespace|type)\b(?=\s*(?:[{_$a-zA-Z\xa0-\uffff]|$))|\btype\b(?=\s*(?:[\{*]|$))/
 );
 
 // doesn't work with TS because TS is too complex
@@ -32,7 +32,7 @@ ts['class-name'].inside = typeInside;
 
 insertBefore(ts, 'function', {
 	'decorator': {
-		pattern: /@[$\w\xA0-\uFFFF]+/,
+		pattern: /@[$\w\xa0-\uffff]+/,
 		inside: {
 			'at': {
 				pattern: /^@/,
@@ -43,10 +43,10 @@ insertBefore(ts, 'function', {
 	},
 	'generic-function': {
 		// e.g. foo<T extends "bar" | "baz">( ...
-		pattern: /#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>(?=\s*\()/g,
+		pattern: /#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>(?=\s*\()/g,
 		greedy: true,
 		inside: {
-			'function': /^#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+/,
+			'function': /^#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+/,
 			'generic': {
 				pattern: /<[\s\S]+/, // everything after the first <
 				alias: 'class-name',

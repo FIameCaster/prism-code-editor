@@ -5,32 +5,27 @@ import './markup.js';
 
 var vel = languages.velocity = clone(languages.html);
 
-var variable = {
-	pattern: /(^|[^\\](?:\\\\)*)\$!?(?:[a-z][\w-]*(?:\([^)]*\))?(?:\.[a-z][\w-]*(?:\([^)]*\))?|\[[^\]]+\])*|\{[^}]+\})/i,
-	lookbehind: true
-}
-
-var velocity = {
-	'variable': variable,
-	'string': {
-		pattern: /"[^"]*"|'[^']*'/g,
-		greedy: true
-	},
-	'number': /\b\d+\b/,
-	'boolean': boolean,
-	'operator': /[!=<>]=?|[+*/%-]|&&|\|\||\.\.|\b(?:eq|g[et]|l[et]|n(?:e|ot))\b/,
-	'punctuation': /[()[\]{}.,:]/
+var string = {
+	pattern: /"[^"]*"|'[^']*'/g,
+	greedy: true
 };
 
-variable.inside = {
-	'string': velocity['string'],
-	'function': {
-		pattern: /([^\w-])[a-z][\w-]*(?=\()/,
-		lookbehind: true
-	},
-	'number': velocity['number'],
-	'boolean': velocity['boolean'],
-	'punctuation': velocity['punctuation']
+var punctuation = /[()[\]{}.,:]/;
+var number = /\b\d+\b/;
+
+var variable = {
+	pattern: /(^|[^\\](?:\\\\)*)\$!?(?:[a-z][\w-]*(?:\([^)]*\))?(?:\.[a-z][\w-]*(?:\([^)]*\))?|\[[^\]]+\])*|\{[^}]+\})/i,
+	lookbehind: true,
+	inside: {
+		'string': string,
+		'function': {
+			pattern: /([^\w-])[a-z][\w-]*(?=\()/,
+			lookbehind: true
+		},
+		'number': number,
+		'boolean': boolean,
+		'punctuation': punctuation
+	}
 };
 
 insertBefore(vel, 'comment', {
@@ -66,7 +61,12 @@ insertBefore(vel, 'comment', {
 					'punctuation': /[{}]/
 				}
 			},
-			[rest]: velocity
+			'variable': variable,
+			'string': string,
+			'number': number,
+			'boolean': boolean,
+			'operator': /[!=<>]=?|[%/*+-]|&&|\|\||\.\.|\b(?:eq|[gl][et]|ne|not)\b/,
+			'punctuation': punctuation
 		}
 	},
 	'variable': variable

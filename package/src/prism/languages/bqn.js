@@ -16,7 +16,7 @@ languages.bqn = {
 		alias: 'string'
 	},
 	'character-literal': {
-		pattern: /'(?:[\s\S]|[\uD800-\uDBFF][\uDC00-\uDFFF])'/g,
+		pattern: /'(?:[\s\S]|[\ud800-\udbff][\udc00-\udfff])'/g,
 		greedy: true,
 		alias: 'char'
 	},
@@ -26,7 +26,7 @@ languages.bqn = {
 		alias: 'namespace'
 	},
 	'special-name': {
-		pattern: /(?:𝕨|𝕩|𝕗|𝕘|𝕤|𝕣|𝕎|𝕏|𝔽|𝔾|𝕊|_𝕣_|_𝕣)/,
+		pattern: /𝕨|𝕩|𝕗|𝕘|𝕤|𝕣|𝕎|𝕏|𝔽|𝔾|𝕊|_𝕣_|_𝕣/,
 		alias: 'keyword'
 	},
 	'dot-notation-on-name': {
@@ -50,7 +50,7 @@ languages.bqn = {
 		alias: 'char'
 	},
 	'primitive-functions': {
-		pattern: /[-+×÷⋆√⌊⌈|¬∧∨<>≠=≤≥≡≢⊣⊢⥊∾≍⋈↑↓↕«»⌽⍉/⍋⍒⊏⊑⊐⊒∊⍷⊔!]/,
+		pattern: /[×÷⋆√⌊⌈|¬∧∨≠≤≥≡≢⊣⊢⥊∾≍⋈↑↓↕«»⌽⍉⍋⍒⊏⊑⊐⊒∊⍷⊔!=<>/+-]/,
 		alias: 'operator'
 	},
 	'primitive-1-operators': {

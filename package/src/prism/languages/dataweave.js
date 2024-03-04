@@ -22,9 +22,9 @@ languages.dataweave = {
 		greedy: true
 	},
 	'keyword': /\b(?:and|as|at|case|do|else|fun|if|input|is|match|not|ns|null|or|output|type|unless|update|using|var)\b/,
-	'function': /\b[A-Z_]\w*(?=\s*\()/i,
+	'function': /\b[a-z_]\w*(?=\s*\()/i,
 	'number': /-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
 	'punctuation': /[()[\]{}.,:;@]/,
-	'operator': /<<|>>|->|[<>~=]=?|!=|--?-?|\+\+?|!|\?/,
+	'operator': /<<|>>|->|[~!=<>]=?|--?-?|\+\+?|\?/,
 	'boolean': boolean,
 };

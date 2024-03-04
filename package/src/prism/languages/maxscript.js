@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import { boolean } from '../utils/shared.js';
 
-var keywords = /\b(?:about|and|animate|as|at|attributes|by|case|catch|collect|continue|coordsys|do|else|exit|fn|for|from|function|global|if|in|local|macroscript|mapped|max|not|of|off|on|or|parameters|persistent|plugin|rcmenu|return|rollout|set|struct|then|throw|to|tool|try|undo|utility|when|where|while|with)\b/i;
+var keywords = /\b(?:about|and|animate|as|at|attributes|by|case|catch|collect|continue|coordsys|do|else|exit|fn|f?or|from|function|global|if|in|local|macroscript|mapped|max|not|off?|on|parameters|persistent|plugin|rcmenu|return|rollout|set|struct|[tw]hen|throw|to|tool|try|undo|utility|where|while|with)\b/i;
 
 languages.maxscript = {
 	'comment': {
@@ -61,6 +61,6 @@ languages.maxscript = {
 		alias: 'constant'
 	},
 
-	'operator': /[*/<>!=+-]=?|[&^?]|#(?!\()/,
+	'operator': /[!=<>/*+-]=?|[&^?]|#(?!\()/,
 	'punctuation': /[()[\]{}.,:;]|#(?=\()|\\$/m
 };

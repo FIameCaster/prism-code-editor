@@ -26,7 +26,7 @@ languages.trig = languages.turtle = {
 		}
 	},
 	'function': {
-		pattern: /(?:(?![-.\d\xB7])[-.\w\xB7\xC0-\uFFFD]+)?:(?:(?![-.])(?:[-.:\w\xC0-\uFFFD]|%[a-f\d]{2}|\\.)+)?/i,
+		pattern: /(?:(?![-.\d\xb7])[-.\w\xb7\xc0-\ufffd]+)?:(?:(?![-.])(?:[-.:\w\xc0-\ufffd]|%[a-f\d]{2}|\\.)+)?/i,
 		inside: {
 			'local-name': {
 				pattern: /(:)[\s\S]+/,

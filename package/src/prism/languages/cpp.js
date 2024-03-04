@@ -18,7 +18,7 @@ var cpp = languages.cpp = extend('c', {
 		/\b[A-Z]\w*(?=\s*::\s*\w+\s*\()/,
 		// This will capture the class name before destructors like:
 		//   Foo::~Foo() {}
-		/\b[A-Z_]\w*(?=\s*::\s*~\w+\s*\()/i,
+		/\b[a-z_]\w*(?=\s*::\s*~\w+\s*\()/i,
 		// This also intends to capture the class name of method implementations but here the class has template
 		// parameters, so it can't be a namespace (until C++ adds generic namespaces).
 		/\b\w+(?=\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>\s*::\s*\w+\s*\()/
@@ -28,7 +28,7 @@ var cpp = languages.cpp = extend('c', {
 		pattern: /(?:\b0b[01']+|\b0x(?:[a-f\d']+(?:\.[a-f\d']*)?|\.[a-f\d']+)(?:p[+-]?[\d']+)?|(?:\b[\d']+(?:\.[\d']*)?|\B\.[\d']+)(?:e[+-]?[\d']+)?)[ful]{0,4}/gi,
 		greedy: true
 	},
-	'operator': />>=?|<<=?|->|--|\+\+|&&|\|\||[?:~]|<=>|[-+*/%&|^!=<>]=?|\b(?:and|and_eq|bitand|bitor|not|not_eq|or|or_eq|xor|xor_eq)\b/,
+	'operator': /->|--|\+\+|&&|\|\||[?:~]|<=>|>>=?|<<=?|[%&|^!=<>/*+-]=?|\b(?:and|and_eq|bitand|bitor|not|not_eq|x?or|x?or_eq)\b/,
 	'boolean': boolean
 });
 

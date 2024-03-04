@@ -4,13 +4,13 @@ import { boolean } from '../utils/shared.js';
 languages.jexl = {
 	'string': /(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1/,
 	'transform': {
-		pattern: /(\|\s*)[a-zA-Zа-яА-Я_\xC0-\xD6\xD8-\xF6\xF8-\xFF$][\wа-яА-Я\xC0-\xD6\xD8-\xF6\xF8-\xFF$]*/,
+		pattern: /(\|\s*)[a-zA-Zа-яА-Я_\xc0-\xd6\xd8-\xf6\xf8-\xff$][\wа-яА-Я\xc0-\xd6\xd8-\xf6\xf8-\xff$]*/,
 		alias: 'function',
 		lookbehind: true
 	},
-	'function': /[a-zA-Zа-яА-Я_\xC0-\xD6\xD8-\xF6\xF8-\xFF$][\wа-яА-Я\xC0-\xD6\xD8-\xF6\xF8-\xFF$]*\s*(?=\()/,
+	'function': /[a-zA-Zа-яА-Я_\xc0-\xd6\xd8-\xf6\xf8-\xff$][\wа-яА-Я\xc0-\xd6\xd8-\xf6\xf8-\xff$]*\s*(?=\()/,
 	'number': /\b\d+(?:\.\d+)?\b|\B\.\d+\b/,
-	'operator': /[<>!]=?|-|\+|&&|==|\|\|?|\/\/?|[?:*^%]/,
+	'operator': /[!<>]=?|&&|==|\|\||\/\/|[?:%|^/*+-]/,
 	'boolean': boolean,
 	'keyword': /\bin\b/,
 	'punctuation': /[()[\]{}.,]/,

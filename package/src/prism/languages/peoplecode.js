@@ -19,7 +19,7 @@ languages.pcode = languages.peoplecode = {
 			'punctuation': /:/
 		}
 	},
-	'keyword': /\b(?:abstract|alias|as|catch|class|component|constant|create|declare|else|end-(?:class|evaluate|for|function|get|if|method|set|try|while)|evaluate|extends|for|function|get|global|if|implements|import|instance|library|local|method|null|of|out|peopleCode|private|program|property|protected|readonly|ref|repeat|returns?|set|step|then|throw|to|try|until|value|when(?:-other)?|while)\b/i,
+	'keyword': /\b(?:abstract|alias|as|catch|class|component|constant|create|declare|else|end-(?:class|evaluate|for|function|[gs]et|if|method|try|while)|evaluate|extends|for|function|[gs]et|global|if|implements|import|instance|library|local|method|null|of|out|peoplecode|private|program|property|protected|readonly|ref|repeat|returns?|step|throw|to|try|until|value|when-other|[tw]hen|while)\b/i,
 	'operator-keyword': {
 		pattern: /\b(?:and|not|or)\b/i,
 		alias: 'operator'
@@ -28,6 +28,6 @@ languages.pcode = languages.peoplecode = {
 
 	'boolean': /\b(?:false|true)\b/i,
 	'number': /\b\d+(?:\.\d+)?\b/,
-	'operator': /<>|[<>]=?|!=|\*\*|[-+*/|=@]/,
+	'operator': /<>|[<>]=?|!=|\*\*|[@|=/*+-]/,
 	'punctuation': /[()[\].,:;]/
 };

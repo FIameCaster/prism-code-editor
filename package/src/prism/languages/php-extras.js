@@ -7,7 +7,7 @@ insertBefore(languages.php.php.inside, 'variable', {
 		pattern: /\$this\b/,
 		alias: 'keyword'
 	},
-	'global': /\$(?:GLOBALS|HTTP_RAW_POST_DATA|_(?:COOKIE|ENV|FILES|GET|POST|REQUEST|SERVER|SESSION)|argc|argv|http_response_header|php_errormsg)\b/,
+	'global': /\$(?:GLOBALS|HTTP_RAW_POST_DATA|_COOKIE|_ENV|_FILES|_GET|_POST|_REQUEST|_SERVER|_SESSION|arg[cv]|http_response_header|php_errormsg)\b/,
 	'scope': {
 		pattern: /\b[\w\\]+::/,
 		inside: {

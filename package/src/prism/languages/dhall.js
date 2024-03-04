@@ -62,7 +62,7 @@ expression.inside = languages.dhall = {
 
 	'boolean': /\b(?:False|True)\b/,
 	'number': /\bNaN\b|-?\bInfinity\b|[+-]?\b(?:0x[a-fA-F\d]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/,
-	'operator': /\/\\|\/\/\\\\|&&|\|\||===|[!=]=|\/\/|->|\+\+|::|[+*#@=:?<>|\\∧⩓≡⫽λ→]/,
+	'operator': /\/\\|\/\/\\\\|===|[!=]=|\/\/|->|\+\+|&&|\|\||::|[+*#@:?=<>|\\∧⩓≡⫽λ→]/,
 	'punctuation': /\.\.|[()[\]{}.,/]/,
 
 	// we'll just assume that every capital word left is a type name

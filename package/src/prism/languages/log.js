@@ -34,7 +34,7 @@ languages.log = {
 			alias: 'warning important'
 		},
 		{
-			pattern: /\b(?:DISPLAY|INF|INFO|NOTICE|STATUS)\b/,
+			pattern: /\b(?:DISPLAY|INFO?|NOTICE|STATUS)\b/,
 			alias: 'info keyword'
 		},
 		{
@@ -48,7 +48,7 @@ languages.log = {
 	],
 
 	'property': {
-		pattern: /((?:^|[\]|])[ \t]*)[a-z_](?:[\w-]|\b\/\b)*(?:[. ]\(?\w(?:[\w-]|\b\/\b)*\)?)*:(?=\s)/im,
+		pattern: /((?:^|[\]|])[ \t]*)[a-z_](?:[\w-]|\b\/\b)*(?:[. ]\(?\w(?:[\w-]|\b\/\b)*\)?)*:(?!\S)/im,
 		lookbehind: true
 	},
 
@@ -60,7 +60,7 @@ languages.log = {
 
 	'url': /\b(?:file|ftp|https?):\/\/[^\s|,;'"]*[^\s|,;'">.]/,
 	'email': {
-		pattern: /(^|\s)[-\w+.]+@[a-z][a-z\d-]*(?:\.[a-z][a-z\d-]*)+(?=\s)/,
+		pattern: /(^|\s)[-\w+.]+@[a-z][a-z\d-]*(?:\.[a-z][a-z\d-]*)+(?!\S)/,
 		lookbehind: true,
 		alias: 'url'
 	},
@@ -74,7 +74,7 @@ languages.log = {
 		alias: 'constant'
 	},
 	'domain': {
-		pattern: /(^|\s)[a-z][a-z\d-]*(?:\.[a-z][a-z\d-]*)*\.[a-z][a-z\d-]+(?=\s)/,
+		pattern: /(^|\s)[a-z][a-z\d-]*(?:\.[a-z][a-z\d-]*)*\.[a-z][a-z\d-]+(?!\S)/,
 		lookbehind: true,
 		alias: 'constant'
 	},
@@ -89,14 +89,14 @@ languages.log = {
 	},
 
 	'file-path': {
-		pattern: /\b[a-z]:[\\/][^\s()[\]{},;:|"']+|(^|[\s:[\](>|])\.{0,2}\/\w[^\s()[\]{},;:|"']*/gi,
+		pattern: /\b[a-z]:[\\/][^\s()[\]{},:;|"']+|(^|[\s:[\](>|])\.{0,2}\/\w[^\s()[\]{},:;|"']*/gi,
 		lookbehind: true,
 		greedy: true,
 		alias: 'string'
 	},
 
 	'date': {
-		pattern: /\b\d{4}[-/]\d{2}[-/]\d{2}(?:T(?=\d{1,2}:)|(?=\s\d{1,2}:))|\b\d{1,4}[-/ ](?:\d{1,2}|apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)[-/ ]\d{2,4}T?\b|\b(?:(?:fri|mon|sat|sun|thu|tue|wed)(?:\s{1,2}(?:apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep))?|apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)\s{1,2}\d{1,2}\b/i,
+		pattern: /\b\d{4}[-/]\d{2}[-/]\d{2}(?:t(?=\d{1,2}:)|(?=\s\d{1,2}:))|\b\d{1,4}[-/ ](?:\d{1,2}|apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)[-/ ]\d{2,4}t?\b|\b(?:(?:fri|mon|sat|sun|thu|tue|wed)(?:\s{1,2}(?:apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep))?|apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)\s{1,2}\d{1,2}\b/i,
 		alias: 'number'
 	},
 	'time': {
@@ -104,12 +104,12 @@ languages.log = {
 		alias: 'number'
 	},
 
-	'boolean': /\b(?:false|null|true)\b/i,
+	'boolean': /\b(?:false|true|null)\b/i,
 	'number': {
 		pattern: /(^|[^.\w])(?:0x[a-f\d]+|0o[0-7]+|0b[01]+|v?\d[a-f\d]*(?:\.\d+)*(?:e[+-]?\d+)?[a-z]{0,3}\b)\b(?!\.\w)/i,
 		lookbehind: true
 	},
 
-	'operator': /[;:?<=>~/@!$%&|^(){}*#+-]/,
+	'operator': /[(){}:;?~@$#%&|^!=<>/*+-]/,
 	'punctuation': /[[\].,]/
 };

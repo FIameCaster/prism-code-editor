@@ -32,7 +32,7 @@ languages.avdl =languages['avro-idl'] = {
 		lookbehind: true,
 		greedy: true
 	},
-	'keyword': /\b(?:array|boolean|bytes|date|decimal|double|enum|error|false|fixed|float|idl|import|int|local_timestamp_ms|long|map|null|oneway|protocol|record|schema|string|throws|time_ms|timestamp_ms|true|union|uuid|void)\b/,
+	'keyword': /\b(?:array|boolean|bytes|date|decimal|double|enum|error|false|true|fixed|float|idl|import|int|local_timestamp_ms|long|map|null|oneway|protocol|record|schema|string|throws|time_ms|timestamp_ms|union|uuid|void)\b/,
 	'function': /\b[a-z_]\w*(?=\s*\()/i,
 
 	'number': [

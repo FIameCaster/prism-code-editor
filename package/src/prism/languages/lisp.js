@@ -21,7 +21,7 @@ var primitive = pattern => RegExp(`([\\s([])(?:${pattern})(?=[\\s)])`);
 
 // Symbol name. See https://www.gnu.org/software/emacs/manual/html_node/elisp/Symbol-Type.html
 // & and : are excluded as they are usually used for special purposes
-var symbol = /(?!\d)[-+*/~!@$%^=<>{}\w]+/.source;
+var symbol = /(?!\d)[~@$%{}\w^!=<>/*+-]+/.source;
 // symbol starting with & used in function arguments
 var marker = '&' + symbol;
 // Open parenthesis for look-behind
@@ -34,12 +34,12 @@ var nestedPar = /(?:[^()]|\((?:[^()]|\((?:[^()]|\((?:[^()]|\((?:[^()]|\([^()]*\)
 var language = {
 	// Three or four semicolons are considered a heading.
 	// See https://www.gnu.org/software/emacs/manual/html_node/elisp/Comment-Tips.html
-	heading: {
+	'heading': {
 		pattern: /;;;.*/,
 		alias: 'comment title'
 	},
-	comment: /;.*/,
-	string: {
+	'comment': /;.*/,
+	'string': {
 		pattern: /"(?:\\.|[^\\"])*"/g,
 		greedy: true,
 		inside: {
@@ -55,15 +55,15 @@ var language = {
 		pattern: RegExp(':' + symbol),
 		alias: 'property'
 	},
-	splice: {
+	'splice': {
 		pattern: RegExp(',@?' + symbol),
 		alias: 'symbol variable'
 	},
-	keyword: [
+	'keyword': [
 		{
 			pattern: RegExp(
 				par +
-					'(?:and|(?:cl-)?letf|cl-loop|cond|cons|error|if|(?:lexical-)?let\\*?|message|not|null|or|provide|require|setq|unless|use-package|when|while)' +
+					'(?:and|(?:cl-)?letf|cl-loop|con[ds]|error|if|(?:lexical-)?let\\*?|message|not|null|or|provide|require|setq|unless|use-package|when|while)' +
 					space
 			),
 			lookbehind: true
@@ -75,70 +75,70 @@ var language = {
 			lookbehind: true
 		},
 	],
-	declare: {
+	'declare': {
 		pattern: simple_form(/declare/.source),
 		lookbehind: true,
 		alias: 'keyword'
 	},
-	interactive: {
+	'interactive': {
 		pattern: simple_form(/interactive/.source),
 		lookbehind: true,
 		alias: 'keyword'
 	},
-	boolean: {
+	'boolean': {
 		pattern: primitive(/nil|t/.source),
 		lookbehind: true
 	},
-	number: {
-		pattern: primitive(/[-+]?\d+(?:\.\d*)?/.source),
+	'number': {
+		pattern: primitive(/[+-]?\d+(?:\.\d*)?/.source),
 		lookbehind: true
 	},
-	defvar: {
+	'defvar': {
 		pattern: RegExp(par + 'def(?:const|custom|group|var)\\s+' + symbol),
 		lookbehind: true,
 		inside: {
-			keyword: /^def[a-z]+/,
-			variable: RegExp(symbol)
+			'keyword': /^def[a-z]+/,
+			'variable': RegExp(symbol)
 		}
 	},
-	defun: {
+	'defun': {
 		pattern: RegExp(`${par}(?:cl-)?(?:defmacro|defun\\*?)\\s+${symbol}\\s+\\(${nestedPar}*\\)`, 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: {
-			keyword: /^(?:cl-)?def\S+/,
+			'keyword': /^(?:cl-)?def\S+/,
 			// See below, this property needs to be defined later so that it can
 			// reference the language object.
-			arguments: null,
-			function: {
+			'arguments': null,
+			'function': {
 				pattern: RegExp('(^\\s)' + symbol),
 				lookbehind: true
 			},
-			punctuation: /[()]/
+			'punctuation': /[()]/
 		}
 	},
-	lambda: {
+	'lambda': {
 		pattern: RegExp(par + 'lambda\\s+\\(\\s*(?:&?' + symbol + '(?:\\s+&?' + symbol + ')*\\s*)?\\)', 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: {
-			keyword: /^lambda/,
+			'keyword': /^lambda/,
 			// See below, this property needs to be defined later so that it can
 			// reference the language object.
-			arguments: null,
-			punctuation: /[()]/
+			'arguments': null,
+			'punctuation': /[()]/
 		}
 	},
-	car: {
+	'car': {
 		pattern: RegExp(par + symbol),
 		lookbehind: true
 	},
-	punctuation: [
+	'punctuation': [
 		// open paren, brackets, and close paren
 		/(?:['`,]?\(|[)[\]])/,
 		// cons
 		{
-			pattern: /(\s)\.(?=\s)/,
+			pattern: /(\s)\.(?!\S)/,
 			lookbehind: true
 		},
 	]
@@ -172,15 +172,15 @@ var arglist = {
 			pattern: RegExp('&(?:aux|optional)\\s+' + forms),
 			inside: arg
 		},
-		keys: {
+		'keys': {
 			pattern: RegExp('&key\\s+' + forms + '(?:\\s+&allow-other-keys)?'),
 			inside: arg
 		},
-		argument: {
+		'argument': {
 			pattern: RegExp(symbol),
 			alias: 'variable'
 		},
-		punctuation: /[()]/
+		'punctuation': /[()]/
 	}
 };
 

@@ -19,12 +19,12 @@ languages.csp = {
 		alias: 'keyword'
 	},
 	'nonce': {
-		pattern: value(/'nonce-[-+/\w=]+'/.source),
+		pattern: value(/'nonce-[\w=/+-]+'/.source),
 		lookbehind: true,
 		alias: 'number'
 	},
 	'hash': {
-		pattern: value(/'sha(?:256|384|512)-[-+/\w=]+'/.source),
+		pattern: value(/'sha(?:256|384|512)-[\w=/+-]+'/.source),
 		lookbehind: true,
 		alias: 'number'
 	},

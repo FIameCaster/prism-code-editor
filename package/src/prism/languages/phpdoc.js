@@ -16,7 +16,7 @@ insertBefore(
 				pattern: /(@(?:global|package|param|property(?:-read|-write)?|return|subpackage|throws|var)\s+)(?:\b[a-zA-Z]\w*|[|\\[\]])+/,
 				lookbehind: true,
 				inside: {
-					'keyword': /\b(?:array|bool|boolean|callback|double|false|float|int|integer|mixed|null|object|resource|self|string|true|void)\b/,
+					'keyword': /\b(?:array|bool|boolean|callback|double|false|true|float|int|integer|mixed|null|object|resource|self|string|void)\b/,
 					'punctuation': /[|\\()[\]]/
 				}
 			}

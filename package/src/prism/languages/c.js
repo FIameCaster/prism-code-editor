@@ -22,7 +22,7 @@ var macroExpression = {
 	pattern: /\S[\s\S]*/
 };
 
-var c = macroExpression.inside = languages.c = {
+macroExpression.inside = languages.c = {
 	'comment': comment,
 	'char': char,
 	'macro': {
@@ -75,6 +75,6 @@ var c = macroExpression.inside = languages.c = {
 	'constant': /\b(?:EOF|NULL|SEEK_CUR|SEEK_END|SEEK_SET|__DATE__|__FILE__|__LINE__|__TIMESTAMP__|__TIME__|__func__|stderr|stdin|stdout)\b/,
 	'function': /\b[a-z_]\w*(?=\s*\()/i,
 	'number': /(?:\b0x(?:[a-f\d]+(?:\.[a-f\d]*)?|\.[a-f\d]+)(?:p[+-]?\d+)?|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?)[ful]{0,4}/i,
-	'operator': />>=?|<<=?|->|([-+&|:])\1|[?:~]|[-+*/%&|^!=<>]=?/,
+	'operator': /->|([&|:+-])\1|[?:~]|>>=?|<<=?|[%&|^!=<>/*+-]=?/,
 	'punctuation': clikePunctuation
 };

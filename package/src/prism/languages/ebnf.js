@@ -20,5 +20,5 @@ languages.ebnf = {
 	'rule': /\b[a-z]\w*(?:[ \t]+[a-z]\w*)*\b/i,
 
 	'punctuation': /\([:/]|[:/]\)|[()[\]{}.,;]/,
-	'operator': /[-=|*/!]/
+	'operator': /[|!=/*-]/
 };

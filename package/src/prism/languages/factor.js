@@ -37,13 +37,13 @@ var factor = languages.factor = {
 				The values of MMMMMMMMMMMMM and EEEE map directly to the mantissa and exponent fields of the binary IEEE 754 representation."
 				<https://docs.factorcode.org/content/article-syntax-floats.html>
 			*/
-			pattern: /(^|\s)(?:[+-]?\d+|[+-]?0(?:[bB][01]+|[oO][0-7]+|d\d+|x[a-fA-F\d]+)|[+-]?\d+\/\d+\.?|\+?\d+\+\d+\/\d+|-\d+-\d+\/\d+|[+-]?(?:\d*\.\d+|\d+\.\d*|\d+)(?:[eE][+-]?\d+)?|NAN:\s+[a-fA-F\d]+|[+-]?0(?:[bB]1\.[01]*|[oO]1\.[0-7]*|[dD]1\.\d*|[xX]1\.[a-fA-F\d]*)[pP]\d+)(?=\s|$)/,
+			pattern: /(^|\s)(?:[+-]?\d+|[+-]?0(?:[bB][01]+|[oO][0-7]+|d\d+|x[a-fA-F\d]+)|[+-]?\d+\/\d+\.?|\+?\d+\+\d+\/\d+|-\d+-\d+\/\d+|[+-]?(?:\d*\.\d+|\d+\.\d*|\d+)(?:[eE][+-]?\d+)?|NAN:\s+[a-fA-F\d]+|[+-]?0(?:[bB]1\.[01]*|[oO]1\.[0-7]*|[dD]1\.\d*|[xX]1\.[a-fA-F\d]*)[pP]\d+)(?!\S)/,
 			lookbehind: true
 		},
 
 	// R/ regexp?\/\\/
 	'regexp': {
-		pattern: /(^|\s)R\/\s(?:\\\S|[^\\/])*\/(?:[idmsr]*|[idmsr]+-[idmsr]+)(?=\s|$)/,
+		pattern: /(^|\s)R\/\s(?:\\\S|[^\\/])*\/(?:[idmsr]*|[idmsr]+-[idmsr]+)(?!\S)/,
 		lookbehind: true,
 		alias: 'number',
 		inside: {
@@ -57,7 +57,7 @@ var factor = languages.factor = {
 	},
 
 	'boolean': {
-		pattern: /(^|\s)[tf](?=\s|$)/,
+		pattern: /(^|\s)[tf](?!\S)/,
 		lookbehind: true
 	},
 
@@ -75,7 +75,7 @@ var factor = languages.factor = {
 	'multiline-string': [
 		{
 			// STRING: name \n content \n ; -> CONSTANT: name "content" (symbol)
-			pattern: /(^|\s)STRING:\s+\S+\n.*\n\s*;(?=\s|$)/g,
+			pattern: /(^|\s)STRING:\s+\S+\n.*\n\s*;(?!\S)/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',
@@ -83,7 +83,7 @@ var factor = languages.factor = {
 				'number': string_inside.number,
 				// trailing semicolon on its own line
 				'semicolon-or-setlocal': {
-					pattern: /(\n[ \t]*);(?=\s|$)/,
+					pattern: /(\n[ \t]*);(?!\S)/,
 					lookbehind: true,
 					alias: 'function'
 				}
@@ -91,7 +91,7 @@ var factor = languages.factor = {
 		},
 		{
 			// HEREDOC: marker \n content \n marker ; -> "content" (immediate)
-			pattern: /(^|\s)HEREDOC:\s+\S+\n.*\n\s*\S+(?=\s|$)/g,
+			pattern: /(^|\s)HEREDOC:\s+\S+\n.*\n\s*\S+(?!\S)/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',
@@ -99,7 +99,7 @@ var factor = languages.factor = {
 		},
 		{
 			// [[ string ]], [==[ string]==]
-			pattern: /(^|\s)\[(={0,6})\[\s[\s\S]*?\]\2\](?=\s|$)/g,
+			pattern: /(^|\s)\[(={0,6})\[\s[\s\S]*?\]\2\](?!\S)/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'string',
@@ -153,7 +153,7 @@ var factor = languages.factor = {
 		},
 		{
 			// closing parenthesis
-			pattern: /(\s)\)(?=\s|$)/,
+			pattern: /(\s)\)(?!\S)/,
 			lookbehind: true,
 			alias: 'operator'
 		}
@@ -181,7 +181,7 @@ var factor = languages.factor = {
 
 	'constructor-word': {
 		// <array> but not <=>
-		pattern: /(^|\s)<(?!=+>|-+>)\S+>(?=\s|$)/,
+		pattern: /(^|\s)<(?!=+>|-+>)\S+>(?!\S)/,
 		lookbehind: true,
 		alias: 'keyword'
 	},
@@ -220,20 +220,20 @@ var factor = languages.factor = {
 		see <https://docs.factorcode.org/content/article-conventions.html>
 	*/
 	'conventionally-named-word': {
-		pattern: /(^|\s)(?!")(?:(?:change|new|set|with)-\S+|\$\S+|>[^>\s]+|[^:>\s]+>|[^>\s]+>[^>\s]+|\+[^+\s]+\+|[^?\s]+\?|\?[^?\s]+|[^>\s]+>>|>>[^>\s]+|[^<\s]+<<|\([^()\s]+\)|[^!\s]+!|[^*\s]\S*\*|[^.\s]\S*\.)(?=\s|$)/,
+		pattern: /(^|\s)(?!")(?:(?:change|new|set|with)-\S+|\$\S+|>[^>\s]+|[^:>\s]+>|[^>\s]+>[^>\s]+|\+[^+\s]+\+|[^?\s]+\?|\?[^?\s]+|[^>\s]+>>|>>[^>\s]+|[^<\s]+<<|\([^()\s]+\)|[^!\s]+!|[^*\s]\S*\*|[^.\s]\S*\.)(?!\S)/,
 		lookbehind: true,
 		alias: 'keyword'
 	},
 
 	'colon-syntax': {
-		pattern: /(^|\s)(?:[A-Z\d-]+#?)?:{1,2}\s+(?:;\S+|(?!;)\S+)(?=\s|$)/g,
+		pattern: /(^|\s)(?:[A-Z\d-]+#?)?:{1,2}\s+(?:;\S+|(?!;)\S+)(?!\S)/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'function'
 	},
 
 	'semicolon-or-setlocal': {
-		pattern: /(\s)(?:;|:>)(?=\s|$)/,
+		pattern: /(\s)(?:;|:>)(?!\S)/,
 		lookbehind: true,
 		alias: 'function'
 	},
@@ -248,7 +248,7 @@ var factor = languages.factor = {
 		},
 		{
 			// closing
-			pattern: /(\s)\}(?=\s|$)/,
+			pattern: /(\s)\}(?!\S)/,
 			lookbehind: true,
 			alias: 'operator'
 		},
@@ -265,14 +265,14 @@ var factor = languages.factor = {
 		},
 		{
 			// closing
-			pattern: /(\s)\](?=\s|$)/,
+			pattern: /(\s)\](?!\S)/,
 			lookbehind: true,
 			alias: 'operator'
 		},
 	],
 
 	'normal-word': {
-		pattern: /(^|\s)[^"\s]\S*(?=\s|$)/,
+		pattern: /(^|\s)[^"\s]\S*(?!\S)/,
 		lookbehind: true
 	},
 

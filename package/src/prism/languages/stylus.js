@@ -20,7 +20,7 @@ var inside = {
 		greedy: true
 	},
 	'string': {
-		pattern: /("|')(?:\\[\s\S]|(?!\1)[^\\\n])*\1/g,
+		pattern: /(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 	'interpolation': null, // See below
@@ -46,11 +46,9 @@ var inside = {
 	'entity': /\\[a-f\d]{1,8}/i,
 	'unit': unit,
 	'boolean': boolean,
-	'operator': [
-		// We want non-word chars around "-" because it is
-		// accepted in property names.
-		/~|[+!/%<>?=]=?|[-:]=|\*[*=]?|\.{2,3}|&&|\|\||\B-\B|\b(?:and|in|is(?: a| defined| not|nt)?|not|or)\b/
-	],
+	// We want non-word chars around "-" because it is
+	// accepted in property names.
+	'operator': /~|\*\*|[?%!=<>/*+]=?|[-:]=|\.{2,3}|&&|\|\||\B-\B|\b(?:and|in|is(?: a| defined| not|nt)?|not|or)\b/,
 	'number': number,
 	'punctuation': /[()[\]{},:;]/
 };

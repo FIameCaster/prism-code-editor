@@ -22,7 +22,7 @@ languages.jsstacktrace = {
 			},
 
 			'function': {
-				pattern: /(\bat\s+(?:new\s+)?)(?![\d>.])(?:(?!\s)[.$\w\xA0-\uFFFF<>])+/,
+				pattern: /(\bat\s+(?:new\s+)?)(?![\d>.])(?:(?!\s)[.$\w\xa0-\uffff<>])+/,
 				lookbehind: true,
 				inside: {
 					'punctuation': /\./
@@ -34,7 +34,7 @@ languages.jsstacktrace = {
 			'keyword': /\b(?:at|new)\b/,
 
 			'alias': {
-				pattern: /\[(?:as\s+)?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\]/,
+				pattern: /\[(?:as\s+)?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+\]/,
 				alias: 'variable'
 			},
 

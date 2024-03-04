@@ -33,14 +33,14 @@ expression.inside = languages.brightscript = {
 		greedy: true
 	},
 	'class-name': {
-		pattern: /(\bAs[\t ]+)\w+/i,
+		pattern: /(\bas[\t ]+)\w+/i,
 		lookbehind: true
 	},
 	'keyword': /\b(?:as|dim|each|else|elseif|end|exit|for|function|goto|if|in|print|return|step|stop|sub|then|to|while)\b/i,
 	'boolean': /\b(?:false|true)\b/i,
 	'function': /\b(?!\d)\w+(?=[\t ]*\()/,
 	'number': /(?:\b\d+(?:\.\d+)?(?:[ed][+-]\d+)?|&h[a-f\d]+)\b[%&!#]?/i,
-	'operator': /--|\+\+|>>=?|<<=?|<>|[-+*/\\<>]=?|[:^=?]|\b(?:and|mod|not|or)\b/i,
+	'operator': /--|\+\+|<>|>>=?|<<=?|[\\<>/*+-]=?|[?:^=]|\b(?:and|mod|not|or)\b/i,
 	'punctuation': clikePunctuation,
-	'constant': /\b(?:LINE_NUM)\b/i
+	'constant': /\b(?:line_num)\b/i
 };

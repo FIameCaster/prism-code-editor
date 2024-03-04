@@ -12,7 +12,7 @@ languages.rip = {
 		greedy: true
 	},
 	'string': {
-		pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/g,
+		pattern: /(["'])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 

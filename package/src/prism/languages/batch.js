@@ -12,13 +12,10 @@ var string = /"(?:[\\"]"|[^"])*"(?!")/;
 var number = /(?:\b|-)\d+\b/;
 
 languages.batch = {
-	'comment': [
-		/^::.*/m,
-		{
-			pattern: /((?:^|[&(])[ \t]*)rem\b(?:[^^&)\n]|\^[\s\S])*/im,
-			lookbehind: true
-		}
-	],
+	'comment': {
+		pattern: /^::.*|((?:^|[&(])[ \t]*)rem\b(?:[^^&)\n]|\^[\s\S])*/im,
+		lookbehind: true
+	},
 	'label': {
 		pattern: /^:.*/m,
 		alias: 'property'
@@ -39,7 +36,7 @@ languages.batch = {
 		},
 		{
 			// IF command
-			pattern: /((?:^|[&(])[ \t]*)if(?: \/[a-z?](?:[ :](?:"[^"]*"|[^\s"/]\S*))?)* (?:not )?(?:cmdextversion \d+|defined \w+|errorlevel \d+|exist \S+|(?:"[^"]*"|(?!")(?:(?!==)\S)+)?(?:==| (?:equ|geq|gtr|leq|lss|neq) )(?:"[^"]*"|[^\s"]\S*))/im,
+			pattern: /((?:^|[&(])[ \t]*)if(?: \/[a-z?](?:[ :](?:"[^"]*"|[^\s"/]\S*))?)* (?:not )?(?:cmdextversion \d+|defined \w+|errorlevel \d+|exist \S+|(?:"[^"]*"|(?!")(?:(?!==)\S)+)?(?:==| (?:equ|[gln]eq|gtr|lss) )(?:"[^"]*"|[^\s"]\S*))/im,
 			lookbehind: true,
 			inside: {
 				'keyword': /\b(?:cmdextversion|defined|errorlevel|exist|not)\b|^if\b/i,
@@ -47,7 +44,7 @@ languages.batch = {
 				'parameter': parameter,
 				'variable': variable,
 				'number': number,
-				'operator': /\^|==|\b(?:equ|geq|gtr|leq|lss|neq)\b/i
+				'operator': /\^|==|\b(?:equ|[gln]eq|gtr|lss)\b/i
 			}
 		},
 		{
@@ -71,7 +68,7 @@ languages.batch = {
 					/\w+(?=(?:[*/%&^|+-]|<<|>>)?=)/
 				],
 				'number': number,
-				'operator': /[*/%&^|+-]=?|<<=?|>>=?|[!~_=]/,
+				'operator': /[%&|^/*+-]=?|<<=?|>>=?|[!~_=]/,
 				'punctuation': /[()',]/
 			}
 		},

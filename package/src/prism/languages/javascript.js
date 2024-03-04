@@ -46,7 +46,7 @@ languages.js = languages.javascript = Object.assign(js, {
 	},
 	'string': clikeString(),
 	'regex': {
-		pattern: /((?:^|[^$\w\xA0-\uFFFF."'\])\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:\\.|[^\\\n\]])*\]|\\.|[^\\\n/[])+\/[dgimyus]{0,7}|(?:\[(?:\\.|[^\\\n[\]]|\[(?:\\.|[^\\\n[\]]|\[(?:\\.|[^\\\n[\]])*\])*\])*\]|\\.|[^\\\n/[])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[()[\]{}.,:;?/&|<>^\n*%!=+-]))/g,
+		pattern: /((?:^|[^$\w\xa0-\uffff."'\])\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:\\.|[^\\\n\]])*\]|\\.|[^\\\n/[])+\/[dgimyus]{0,7}|(?:\[(?:\\.|[^\\\n[\]]|\[(?:\\.|[^\\\n[\]]|\[(?:\\.|[^\\\n[\]])*\])*\])*\]|\\.|[^\\\n/[])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[()[\]{}.,:;?/&|<>^\n*%!=+-]))/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -61,30 +61,30 @@ languages.js = languages.javascript = Object.assign(js, {
 	},
 	'class-name': [
 		{
-			pattern: /(\b(?:class|extends|implements|instanceof|interface|new)\s+)(?!\d)(?:(?!\s)[$\w.\xA0-\uFFFF])+/,
+			pattern: /(\b(?:class|extends|implements|instanceof|interface|new)\s+)(?!\d)(?:(?!\s)[$\w.\xa0-\uffff])+/,
 			lookbehind: true,
 			inside: {
 				'punctuation': /\./
 			}
 		},
 		{
-			pattern: /(^|[^$\w\xA0-\uFFFF]|\s)(?![a-z\d])(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\.(?:constructor|prototype)\b)/,
+			pattern: /(^|[^$\w\xa0-\uffff]|\s)(?![a-z\d])(?:(?!\s)[$\w\xa0-\uffff])+(?=\.(?:constructor|prototype)\b)/,
 			lookbehind: true
 		}
 	],
 	// This must be declared before keyword because we use "function" inside the look-forward
 	'function-variable': {
-		pattern: /#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+)\s*=>))/,
+		pattern: /#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+)\s*=>))/,
 		alias: 'function',
 		inside: {
 			'maybe-class-name': /^[A-Z].*/
 		}
 	},
 	'parameter': [
-		/(function(?:\s+(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,
-		/(^|[^$\w\xA0-\uFFFF]|\s)(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\s*=>)/,
+		/(function(?:\s+(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+)?\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\))/,
+		/(^|[^$\w\xa0-\uffff]|\s)(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*=>)/,
 		/(\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*=>)/,
-		/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xA0-\uFFFF]))(?:(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/
+		/((?:\b|\s|^)(?!(?:as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|[gls]et|if|implements|import|in|instanceof|interface|new|null|of|package|private|protected|public|return|static|super|switch|this|throw|try|typeof|undefined|var|void|while|with|yield)(?![$\w\xa0-\uffff]))(?:(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+\s*)\(\s*|\]\s*\(\s*)(?!\s)(?:[^()\s]|\s+(?![\s)])|\([^()]*\))+(?=\s*\)\s*\{)/
 	].map(pattern => ({
 		pattern,
 		lookbehind: true,
@@ -93,7 +93,7 @@ languages.js = languages.javascript = Object.assign(js, {
 	'constant': /\b[A-Z](?:[A-Z_]|\dx?)*\b/,
 	'keyword': [
 		{
-			pattern: /(^|[^.]|\.{3}\s*)\b(?:as|assert(?=\s*\{)|export|from(?=\s*(?:['"]|$))|import)\b/,
+			pattern: /(^|[^.]|\.{3}\s*)\b(?:as|assert(?=\s*\{)|export|from(?=\s*(?:["']|$))|import)\b/,
 			alias: 'module',
 			lookbehind: true
 		},
@@ -103,14 +103,14 @@ languages.js = languages.javascript = Object.assign(js, {
 			lookbehind: true
 		},
 		{
-			pattern: /(^|[^.]|\.{3}\s*)\b(?:async(?=\s*(?:[($\w\xA0-\uFFFF]|$))|class|const|debugger|delete|enum|extends|function|(?:get|set)(?=\s*(?:[#[$\w\xA0-\uFFFF]|$))|implements|in|instanceof|interface|let|new|null|of|package|private|protected|public|static|super|this|typeof|undefined|var|void|with)\b/,
+			pattern: /(^|[^.]|\.{3}\s*)\b(?:async(?=\s*(?:[($\w\xa0-\uffff]|$))|class|const|debugger|delete|enum|extends|function|[gs]et(?=\s*(?:[#[$\w\xa0-\uffff]|$))|implements|in|instanceof|interface|let|new|null|of|package|private|protected|public|static|super|this|typeof|undefined|var|void|with)\b/,
 			lookbehind: true
 		}
 	],
 	'boolean': boolean,
 	// Allow for all non-ASCII characters (See http://stackoverflow.com/a/2008444)
 	'function': {
-		pattern: /#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,
+		pattern: /#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*(?:\.\s*(?:apply|bind|call)\s*)?\()/,
 		inside: {
 			'maybe-class-name': /^[A-Z].*/
 		}
@@ -120,7 +120,7 @@ languages.js = languages.javascript = Object.assign(js, {
 		lookbehind: true
 	},
 	'literal-property': {
-		pattern: /((?:^|[,{])[ \t]*)(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\s*:)/m,
+		pattern: /((?:^|[,{])[ \t]*)(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*:)/m,
 		lookbehind: true,
 		alias: 'property'
 	},
@@ -129,17 +129,17 @@ languages.js = languages.javascript = Object.assign(js, {
 			pattern: /=>/,
 			alias: 'arrow'
 		},
-		/--|\+\+|(?:\*\*|&&|\|\||[!=]=?|<<|>>>?|[-+*/%&|^<>]|\?\?)=?|\.{3}|\?(?!\.)|~|:/
+		/--|\+\+|(?:\*\*|&&|\|\||[!=]=|>>>?|<<|[%&|^!=<>/*+-]|\?\?)=?|\.{3}|\?(?!\.)|~|:/
 	],
 	'property-access': {
-		pattern: /(\.\s*)#?(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+/,
+		pattern: /(\.\s*)#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+/,
 		lookbehind: true,
 		inside: {
 			'maybe-class-name': /^[A-Z].*/
 		}
 	},
 	'maybe-class-name': {
-		pattern: /(^|[^$\w\xA0-\uFFFF])[A-Z][$\w\xA0-\uFFFF]+/,
+		pattern: /(^|[^$\w\xa0-\uffff])[A-Z][$\w\xa0-\uffff]+/,
 		lookbehind: true
 	},
 	'punctuation': /\?\.|[()[\]{}.,:;]/

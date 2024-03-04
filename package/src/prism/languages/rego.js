@@ -28,6 +28,6 @@ languages.rego = {
 	},
 
 	'number': /-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
-	'operator': /[-+*/%|&]|[<>:=]=?|!=|\b_\b/,
+	'operator': /[%&|/*+-]|[:=<>]=?|!=|\b_\b/,
 	'punctuation': clikePunctuation
 };

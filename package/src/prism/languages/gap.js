@@ -35,7 +35,7 @@ gap.inside = languages.gap = {
 		}
 	},
 
-	'keyword': /\b(?:Assert|Info|IsBound|QUIT|TryNextMethod|Unbind|and|atomic|break|continue|do|elif|else|end|fi|for|function|if|in|local|mod|not|od|or|quit|readonly|readwrite|rec|repeat|return|then|until|while)\b/,
+	'keyword': /\b(?:Assert|Info|IsBound|QUIT|TryNextMethod|Unbind|[ae]nd|atomic|break|continue|do|elif|else|fi|f?or|function|if|in|local|m?od|not|quit|readonly|readwrite|rec|repeat|return|then|until|while)\b/,
 	'boolean': boolean,
 
 	'function': /\b[a-z_]\w*(?=\s*\()/i,
@@ -49,6 +49,6 @@ gap.inside = languages.gap = {
 		pattern: /^>/m,
 		alias: 'punctuation'
 	},
-	'operator': /->|[*/^~!=+-]|<>|[<>]=?|:=|\.\./,
+	'operator': /->|[~^!=/*+-]|<>|[<>]=?|:=|\.\./,
 	'punctuation': clikePunctuation
 };

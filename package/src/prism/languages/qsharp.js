@@ -3,7 +3,7 @@ import { boolean, nested, re, replace } from '../utils/shared.js';
 
 // https://docs.microsoft.com/en-us/azure/quantum/user-guide/language/typesystem/
 // https://github.com/microsoft/qsharp-language/tree/main/Specifications/Language/5_Grammar
-var keywords = /\b(?:Adj|BigInt|Bool|Ctl|Double|false|Int|One|Pauli|PauliI|PauliX|PauliY|PauliZ|Qubit|Range|Result|String|true|Unit|Zero|Adjoint|adjoint|apply|as|auto|body|borrow|borrowing|Controlled|controlled|distribute|elif|else|fail|fixup|for|function|if|in|internal|intrinsic|invert|is|let|mutable|namespace|new|newtype|open|operation|repeat|return|self|set|until|use|using|while|within)\b/;
+var keywords = /\b(?:Adj|BigInt|Bool|Ctl|Double|false|true|Int|One|Pauli[IXYZ]?|Qubit|Range|Result|String|Unit|Zero|[Aa]djoint|apply|as|auto|body|borrow|borrowing|[Cc]ontrolled|distribute|elif|else|fail|fixup|for|function|i[fns]|internal|intrinsic|invert|[ls]et|mutable|namespace|new|newtype|open|operation|repeat|return|self|until|use|using|while|within)\b/;
 
 // types
 var identifier = /\b(?!\d)\w+\b/.source;
@@ -70,7 +70,7 @@ languages.qs = languages.qsharp = {
 		pattern: /\.\./,
 		alias: 'operator'
 	},
-	'number': /(?:\b0(?:x[a-f\d]+|b[01]+|o[0-7]+)|(?:\B\.\d+|\b\d+(?:\.\d*)?)(?:e[-+]?\d+)?)l?\b/i,
-	'operator': /\band=|\bor=|\band\b|\bnot\b|\bor\b|<[-=]|[-=]>|>>>=?|<<<=?|\^\^\^=?|\|\|\|=?|&&&=?|w\/=?|~~~|[*/^!=%+-]=?/,
+	'number': /(?:\b0(?:x[a-f\d]+|b[01]+|o[0-7]+)|(?:\B\.\d+|\b\d+(?:\.\d*)?)(?:e[+-]?\d+)?)l?\b/i,
+	'operator': /\b(?:and\b=?|or\b=?|not\b)|<[=-]|[=-]>|(?:>>>|<<<|\^\^\^|\|\|\||&&&|w\/|[*/^!=%+-])=?|~~~/,
 	'punctuation': /::|[()[\]{}.,:;]/
 };

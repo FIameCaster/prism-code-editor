@@ -8,7 +8,7 @@ var jsExpr = nested(/(?:[^\\()[\]{}"'/]|"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*'|
 languages.qml = {
 	'comment': clikeComment(),
 	'javascript-function': {
-		pattern: re(/((?:^|;)[ \t]*)function\s+(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+\s*\(<0>*\)\s*\{<0>*\}/.source, [jsExpr], 'mg'),
+		pattern: re(/((?:^|;)[ \t]*)function\s+(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+\s*\(<0>*\)\s*\{<0>*\}/.source, [jsExpr], 'mg'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'language-javascript',

@@ -76,7 +76,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 	},
 	'regex': {
 		// Must be prefixed with the keyword "node" or a non-word char
-		pattern: /((?:\bnode\s+|[~=\(\[\{,]\s*|[=+]>\s*|^\s*))\/(?:\\[\s\S]|[^\\/])+\/(?:[imx]+\b|\B)/g,
+		pattern: /(\bnode\s+|[~=([{,]\s*|[=+]>\s*|^\s*)\/(?:\\[\s\S]|[^\\/])+\/(?:[imx]+\b|\B)/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
@@ -128,6 +128,6 @@ interpolation[0].inside[rest] = languages.puppet = {
 		pattern: /\b(?:Any|Array|Boolean|Callable|Catalogentry|Class|Collection|Data|Default|Enum|Float|Hash|Integer|NotUndef|Numeric|Optional|Pattern|Regexp|Resource|Runtime|Scalar|String|Struct|Tuple|Type|Undef|Variant)\b/,
 		alias: 'symbol'
 	},
-	'operator': /=[=~>]?|![=~]?|<(?:<\|?|[=~|-])?|>[>=]?|->?|~>|\|>?>?|[*/%+?]|\b(?:and|in|or)\b/,
+	'operator': /=[=~>]?|![=~]?|<<\|?|<[=~|-]?|>[>=]?|->?|~>|\|>?>?|[%/*+?]|\b(?:and|in|or)\b/,
 	'punctuation': /[()[\]{}.,;]|:+/
 };

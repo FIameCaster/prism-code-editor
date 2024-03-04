@@ -9,12 +9,10 @@ var numericConstant = {
 	alias: 'number'
 };
 
-var macroVariable = {
-	pattern: /&[a-z_]\w*/i
-};
+var macroVariable = /&[a-z_]\w*/i;
 
 var macroKeyword = {
-	pattern: /((?:^|\s|=|\())%(?:ABORT|BY|CMS|COPY|DISPLAY|DO|ELSE|END|EVAL|GLOBAL|GO|GOTO|IF|INC|INCLUDE|INDEX|INPUT|KTRIM|LENGTH|LET|LIST|LOCAL|PUT|QKTRIM|QSCAN|QSUBSTR|QSYSFUNC|QUPCASE|RETURN|RUN|SCAN|SUBSTR|SUPERQ|SYMDEL|SYMEXIST|SYMGLOBL|SYMLOCAL|SYSCALL|SYSEVALF|SYSEXEC|SYSFUNC|SYSGET|SYSRPUT|THEN|TO|TSO|UNQUOTE|UNTIL|UPCASE|WHILE|WINDOW)\b/i,
+	pattern: /(^|[\s=(])%(?:abort|by|cms|copy|display|do|else|end|eval|global|goto|go|if|inc|include|index|input|length|let|list|local|put|q?ktrim|q?scan|q?substr|q?sysfunc|q?upcase|return|run|superq|symdel|symexist|symglobl|symlocal|syscall|sysevalf|sysexec|sysget|sysrput|then|ts?o|unquote|until|while|window)\b/i,
 	lookbehind: true,
 	alias: 'keyword'
 };
@@ -42,18 +40,22 @@ var func = {
 	alias: 'keyword'
 };
 
+var argValue = {
+	pattern: /(=\s*)[a-z\.]+/i,
+	lookbehind: true
+};
+
+var arg = {
+	pattern: /[a-z]+/i,
+	alias: 'keyword'
+};
+
 var args = {
 	'function': func,
-	'arg-value': {
-		pattern: /(=\s*)[A-Z\.]+/i,
-		lookbehind: true
-	},
+	'arg-value': argValue,
 	'operator': /=/,
 	'macro-variable': macroVariable,
-	'arg': {
-		pattern: /[A-Z]+/i,
-		alias: 'keyword'
-	},
+	'arg': arg,
 	'number': number,
 	'numeric-constant': numericConstant,
 	'punctuation': punctuation,
@@ -95,7 +97,7 @@ var submitStatement = {
 	alias: 'keyword'
 };
 
-var actionSets = /astore|accesscontrol|aggregation|audio|autotune|bayesiannetclassifier|biomedimage|boolrule|builtins|cardinality|cdm|clustering|conditionalrandomfields|configuration|copula|countreg|datadiscovery|datapreprocess|datasciencepilot|datastep|decisiontree|deduplication|deeplearn|deepneural|deeprnn|ds2|ecm|entityres|espcluster|explainmodel|factmac|fastknn|fcmpact|fedsql|freqtab|gvarcluster|gam|gleam|graphsemisuplearn|hiddenmarkovmodel|hypergroup|ica|image|iml|kernalpca|langmodel|ldatopic|loadstreams|mbc|mixed|mltools|modelpublishing|network|neuralnet|nmf|nonparametricbayes|nonlinear|optnetwork|optimization|panel|pca|percentile|phreg|pls|qkb|qlim|quantreg|recommend|regression|reinforcementlearn|robustpca|rulemining|sampling|sandwich|sccasl|search(?:analytics)?|sentimentanalysis|sequence|session(?:prop)?|severity|simsystem|simple|smartdata|sparkembeddedprocess|sparseml|spatialreg|spc|stabilitymonitoring|svdatadescription|svm|table|text(?:filters|frequency|mining|parse|rule(?:develop|score)|topic|util)|timedata|transpose|tsinfo|tsreconcile|unitimeseries|varreduce/.source;
+var actionSets = /astore|accesscontrol|aggregation|audio|autotune|bayesiannetclassifier|biomedimage|boolrule|builtins|cardinality|cdm|clustering|conditionalrandomfields|configuration|copula|countreg|datadiscovery|datapreprocess|datasciencepilot|datastep|decisiontree|deduplication|deeplearn|deepneural|deeprnn|ds2|ecm|entityres|espcluster|explainmodel|factmac|fastknn|fcmpact|fedsql|freqtab|gvarcluster|gam|gleam|graphsemisuplearn|hiddenmarkovmodel|hypergroup|[ip]ca|image|iml|kernalpca|langmodel|ldatopic|loadstreams|mbc|mixed|mltools|modelpublishing|network|neuralnet|nmf|nonparametricbayes|nonlinear|optnetwork|optimization|panel|percentile|phreg|pls|qkb|qlim|quantreg|recommend|regression|reinforcementlearn|robustpca|rulemining|sampling|sandwich|sccasl|search(?:analytics)?|sentimentanalysis|sequence|session(?:prop)?|severity|simsystem|simple|smartdata|sparkembeddedprocess|sparseml|spatialreg|spc|stabilitymonitoring|svdatadescription|svm|table|text(?:filters|frequency|mining|parse|rule(?:develop|score)|topic|util)|timedata|transpose|tsinfo|tsreconcile|unitimeseries|varreduce/.source;
 
 var casActions = {
 	pattern: re(/(^|\s)(?:action\s+)?<0>\.[a-z]+\b[^;]+/.source, [actionSets], 'i'),
@@ -108,9 +110,9 @@ var casActions = {
 		},
 		'comment': comment,
 		'function': func,
-		'arg-value': args['arg-value'],
-		'operator': args.operator,
-		'argument': args.arg,
+		'arg-value': argValue,
+		'operator': /=/,
+		'argument': arg,
 		'number': number,
 		'numeric-constant': numericConstant,
 		'punctuation': punctuation,
@@ -119,7 +121,7 @@ var casActions = {
 };
 
 var keywords = {
-	pattern: /((?:^|\s)=?)(?:after|analysis|and|array|barchart|barwidth|begingraph|by|call|cas|cbarline|cfill|class(?:lev)?|close|column|computed?|contains|continue|data(?==)|define|delete|describe|document|do\s+over|do|dol|drop|dul|else|end(?:comp|source)?|entryTitle|eval(?:uate)?|exec(?:ute)?|exit|file(?:name)?|fill(?:attrs)?|flist|fnc|function(?:list)?|global|goto|group(?:by)?|headline|headskip|histogram|if|infile|keep|keylabel|keyword|label|layout|leave|legendlabel|length|libname|loadactionset|merge|midpoints|_?null_|name|noobs|nowd|ods|options|or|otherwise|out(?:put)?|over(?:lay)?|plot|print|put|raise|ranexp|rannor|rbreak|retain|return|select|session|sessref|set|source|statgraph|sum|summarize|table|temp|terminate|then\s+do|then|title\d?|to|var|when|where|xaxisopts|y2axisopts|yaxisopts)\b/i,
+	pattern: /((?:^|\s)=?)(?:after|analysis|and|array|barchart|barwidth|begingraph|by|call|cas|cbarline|cfill|class|classlev|close|column|computed?|contains|continue|data(?==)|define|delete|describe|document|do\s+over|dol?|drop|dul|else|end(?:comp|source)?|entrytitle|evaluate|eval|execute|exec|exit|filename|fillattrs|fil[el]|flist|fnc|functionlist|function|global|goto|groupby|group|headline|headskip|histogram|if|infile|keep|keylabel|keyword|label|layout|leave|legendlabel|length|libname|loadactionset|merge|midpoints|_?null_|name|noobs|nowd|ods|options|or|otherwise|output|[op]ut|overlay|over|plot|print|raise|ranexp|rannor|rbreak|retain|return|select|session|sessref|set|source|statgraph|sum|summarize|table|temp|terminate|then\s+do|[tw]hen|title\d?|to|var|where|xaxisopts|y2?axisopts)\b/i,
 	lookbehind: true,
 };
 
@@ -245,11 +247,11 @@ languages.sas = {
 	'macro-keyword': macroKeyword,
 	'macro-variable': macroVariable,
 	'macro-string-functions': {
-		pattern: /((?:^|\s|=))%(?:BQUOTE|NRBQUOTE|NRQUOTE|NRSTR|QUOTE|STR)\(.*?(?:[^%]\))/i,
+		pattern: /(^|\s|=)%(?:nr)?(?:b?quote|str)\(.*?(?:[^%]\))/i,
 		lookbehind: true,
 		inside: {
 			'function': {
-				pattern: /%(?:BQUOTE|NRBQUOTE|NRQUOTE|NRSTR|QUOTE|STR)/i,
+				pattern: /^[^(]+/,
 				alias: 'keyword'
 			},
 			'macro-keyword': macroKeyword,
@@ -308,11 +310,11 @@ languages.sas = {
 	'keyword': keywords,
 	// In SAS Studio syntax highlighting, these operators are styled like keywords
 	'operator-keyword': {
-		pattern: /\b(?:eq|ge|gt|in|le|lt|ne|not)\b/i,
+		pattern: /\b(?:eq|[gl][et]|in|ne|not)\b/i,
 		alias: 'operator'
 	},
 	// Decimal (1.2e23), hexadecimal (0c1x)
 	'number': number,
-	'operator': /\*\*?|\|\|?|!!?|¦¦?|<[>=]?|>[<=]?|[/=&+-]|[~¬^]=?/,
+	'operator': /\*\*?|\|\|?|!!?|¦¦?|<>|><|[&=/+-]|[~¬^<>]=?/,
 	'punctuation': punctuation
 };

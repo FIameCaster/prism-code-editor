@@ -35,6 +35,6 @@ languages.uc = languages.uscript = languages.unrealscript = {
 	'boolean': boolean,
 	'number': clikeNumber,
 	// https://docs.unrealengine.com/udk/Three/UnrealScriptExpressions.html
-	'operator': />>|<<|--|\+\+|\*\*|[-+*/~!=<>$@]=?|&&?|\|\|?|\^\^?|[?:%]|\b(?:ClockwiseFrom|Cross|Dot)\b/,
+	'operator': />>|<<|--|\+\+|\*\*|[~$@!=<>/*+-]=?|&&?|\|\|?|\^\^?|[?:%]|\b(?:ClockwiseFrom|Cross|Dot)\b/,
 	'punctuation': clikePunctuation
 };

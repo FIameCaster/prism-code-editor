@@ -77,7 +77,7 @@ var asciidoc = languages.adoc = languages.asciidoc = {
 		alias: 'punctuation'
 	},
 	'list-label': {
-		pattern: /(^[ \t]*)[a-z\d].+(?::{2,4}|;;)(?=\s)/im,
+		pattern: /(^[ \t]*)[a-z\d].+(?::{2,4}|;;)(?!\S)/im,
 		lookbehind: true,
 		alias: 'symbol'
 	},
@@ -182,7 +182,7 @@ var asciidoc = languages.adoc = languages.asciidoc = {
 					punctuation: /^\*\*?|\*\*?$/
 				}
 			},
-			'punctuation': /^(?:``?|\+{1,3}|##?|\$\$|[~^]|\(\(\(?)|(?:''?|\+{1,3}|##?|\$\$|[~^`]|\)?\)\))$/
+			'punctuation': /^(?:``?|\+{1,3}|##?|\$\$|[~^]|\(\(\(?)|(?:''?|\+{1,3}|##?|\$\$|[~^`]|\)\)\)?)$/
 		}
 	},
 	'replacement': {

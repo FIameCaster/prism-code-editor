@@ -1,5 +1,7 @@
 import { languages } from '../core.js';
 
+var opCodes = 'adc|and|asl|bcc|bcs|beq|bit|bmi|bne|bpl|brk|bvc|bvs|cl[cdiv]|cmp|cpx|cpy|de[cxy]|eor|in[cxy]|jmp|jsr|ld[axy]|lsr|nop|ora|pha|php|pla|plp|rol|ror|rti|rts|sbc|se[cdi]|st[axy]|tax|tay|tsx|txa|txs|tya'
+
 languages.asm6502 = {
 	'comment': /;.*/,
 	'directive': {
@@ -8,7 +10,7 @@ languages.asm6502 = {
 	},
 	'string': /(["'`])(?:\\.|(?!\1)[^\\\n])*\1/,
 	'op-code': {
-		pattern: /\b(?:ADC|AND|ASL|BCC|BCS|BEQ|BIT|BMI|BNE|BPL|BRK|BVC|BVS|CLC|CLD|CLI|CLV|CMP|CPX|CPY|DEC|DEX|DEY|EOR|INC|INX|INY|JMP|JSR|LDA|LDX|LDY|LSR|NOP|ORA|PHA|PHP|PLA|PLP|ROL|ROR|RTI|RTS|SBC|SEC|SED|SEI|STA|STX|STY|TAX|TAY|TSX|TXA|TXS|TYA|adc|and|asl|bcc|bcs|beq|bit|bmi|bne|bpl|brk|bvc|bvs|clc|cld|cli|clv|cmp|cpx|cpy|dec|dex|dey|eor|inc|inx|iny|jmp|jsr|lda|ldx|ldy|lsr|nop|ora|pha|php|pla|plp|rol|ror|rti|rts|sbc|sec|sed|sei|sta|stx|sty|tax|tay|tsx|txa|txs|tya)\b/,
+		pattern: RegExp('\\b(?:' + opCodes.toUpperCase() + '|' + opCodes + ')\\b'),
 		alias: 'keyword'
 	},
 	'hex-number': {

@@ -23,22 +23,22 @@ languages.twig = {
 			},
 		
 			'string': {
-				pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/,
+				pattern: /(["'])(?:\\.|(?!\1)[^\\\n])*\1/,
 				inside: {
-					'punctuation': /^['"]|['"]$/
+					'punctuation': /^["']|["']$/
 				}
 			},
 			'keyword': /\b(?:even|if|odd)\b/,
-			'boolean': /\b(?:false|null|true)\b/,
-			'number': /\b0x[a-fA-F\d]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][-+]?\d+)?/,
+			'boolean': /\b(?:false|true|null)\b/,
+			'number': /\b0x[a-fA-F\d]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][+-]?\d+)?/,
 			'operator': [
 				{
-					pattern: /(\s)(?:and|b-and|b-or|b-xor|ends with|in|is|matches|not|or|same as|starts with)(?=\s)/,
+					pattern: /(\s)(?:and|b-and|b-x?or|ends with|in|is|matches|not|or|same as|starts with)(?!\S)/,
 					lookbehind: true
 				},
-				/[=<>]=?|!=|\*\*?|\/\/?|\?:?|[-+~%|]/
+				/[=<>]=?|!=|\*\*?|\/\/?|\?:?|[~%|+-]/
 			],
-			'punctuation': /[()[\]{}:.,]/
+			'punctuation': /[()[\]{}.,:]/
 		}
 	},
 	[tokenize]: embeddedIn('html')

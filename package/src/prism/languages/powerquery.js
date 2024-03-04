@@ -46,6 +46,6 @@ languages.mscript = languages.pq = languages.powerquery = {
 		pattern: /\b0x[a-f\d]+\b|(?:[+-]?(?:\b\d+\.)?\b\d+|[+-]\.\d+|(^|[^.])\B\.\d+)(?:e[+-]?\d+)?\b/i,
 		lookbehind: true
 	},
-	'operator': /[*/&?@^+-]|<(?:=>?|>)?|>=?|=>?|\.{2,3}/,
+	'operator': /<?=>?|<>|>=|[&?@^<>/*+-]|\.{2,3}/,
 	'punctuation': /[()[\]{},;]/
 };

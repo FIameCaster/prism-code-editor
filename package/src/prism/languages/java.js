@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import { boolean, clikeComment, clikePunctuation } from '../utils/shared.js';
 
-var keywords = /\b(?:abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|exports|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|module|native|new|non-sealed|null|open|opens|package|permits|private|protected|provides|public|record(?!\s*[()[\]{}<>=%~.,:;?*/&|^+-])|requires|return|sealed|short|static|strictfp|super|switch|synchronized|this|throw|throws|to|transient|transitive|try|uses|var|void|volatile|while|with|yield)\b/;
+var keywords = /\b(?:abstract|assert|boolean|break|byte|case|catch|char|class|const|continue|default|do|double|else|enum|exports|extends|final|finally|float|for|goto|if|implements|import|instanceof|int|interface|long|module|native|new|non-sealed|null|opens?|package|permits|private|protected|provides|public|record(?!\s*[()[\]{}%~.,:;?%&|^=<>/*+-])|requires|return|sealed|short|static|strictfp|super|switch|synchronized|this|throws?|to|transient|transitive|try|uses|var|void|volatile|while|with|yield)\b/;
 
 // full package (optional) + parent classes (optional)
 var classNamePrefix = /(?:[a-z]\w*\s*\.\s*)*(?:[A-Z]\w*\s*\.\s*)*/.source;
@@ -56,7 +56,7 @@ languages.java = {
 		inside: {
 			'class-name': className,
 			'keyword': keywords,
-			'punctuation': /[<>().,:]/,
+			'punctuation': /[().,:<>]/,
 			'operator': /[?&|]/
 		}
 	},
@@ -86,7 +86,7 @@ languages.java = {
 	],
 	'namespace': {
 		pattern: RegExp(
-			`(\\b(?:exports|import(?:\\s+static)?|module|open|opens|package|provides|requires|to|transitive|uses|with)\\s+)(?!${keywords.source})[a-z]\\w*(?:\\.[a-z]\\w*)*\\.?`
+			`(\\b(?:exports|import(?:\\s+static)?|module|opens?|package|provides|requires|to|transitive|uses|with)\\s+)(?!${keywords.source})[a-z]\\w*(?:\\.[a-z]\\w*)*\\.?`
 		),
 		lookbehind: true,
 		inside: {
@@ -112,17 +112,14 @@ languages.java = {
 	],
 	'keyword': keywords,
 	'boolean': boolean,
-	'function': [
-		/\b\w+(?=\()/,
-		{
-			pattern: /(::\s*)[a-z_]\w*/,
-			lookbehind: true
-		}
-	],
-	'number': /\b0b[01][01_]*L?\b|\b0x(?:\.[a-f\d_p+-]+|[a-f\d_]+(?:\.[a-f\d_p+-]+)?)\b|(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?\d[\d_]*)?[dfl]?/i,
+	'function': {
+		pattern: /\b\w+(?=\()|(::\s*)[a-z_]\w*/,
+		lookbehind: true
+	},
+	'number': /\b0b[01][01_]*l?\b|\b0x(?:\.[a-f\d_p+-]+|[a-f\d_]+(?:\.[a-f\d_p+-]+)?)\b|(?:\b\d[\d_]*(?:\.[\d_]*)?|\B\.\d[\d_]*)(?:e[+-]?\d[\d_]*)?[dfl]?/i,
 	'constant': /\b[A-Z][A-Z_\d]+\b/,
 	'operator': {
-		pattern: /(^|[^.])(?:<<=?|>>>?=?|->|--|\+\+|&&|\|\||::|[?:~]|[-+*/%&|^!=<>]=?)/m,
+		pattern: /(^|[^.])(?:<<=?|>>>?=?|->|--|\+\+|&&|\|\||::|[?:~]|[%&|^!=<>/*+-]=?)/m,
 		lookbehind: true
 	},
 	'punctuation': clikePunctuation

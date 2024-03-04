@@ -31,7 +31,7 @@ languages.pbfasm = languages.purebasic = {
 			},
 			// Named label reference, i.e.: jne label1
 			'label-reference-addressed': {
-				pattern: /(!\s*j[a-z]+\s+)[A-Z._?$@][\w.?$@~#]*/i,
+				pattern: /(!\s*j[a-z]+\s+)[a-z._?$@][\w.?$@~#]*/i,
 				lookbehind: true,
 				alias: 'fasm-label'
 			},
@@ -40,11 +40,11 @@ languages.pbfasm = languages.purebasic = {
 				/\b(?:CPU|DEFAULT|FLOAT)\b.*/
 			],
 			'function': {
-				pattern: /^([\t ]*!\s*)[a-z\d]+(?=\s|$)/im,
+				pattern: /^([\t ]*!\s*)[a-z\d]+(?!\S)/im,
 				lookbehind: true
 			},
 			'function-inline': {
-				pattern: /(:\s*)[a-z\d]+(?=\s)/i,
+				pattern: /(:\s*)[a-z\d]+(?!\S)/i,
 				lookbehind: true,
 				alias: 'function'
 			},
@@ -55,12 +55,12 @@ languages.pbfasm = languages.purebasic = {
 			},
 			'register': /\b(?:st\d|[xyz]mm\d\d?|[cdt]r\d|r\d\d?[bwd]?|[er]?[abcd]x|[abcd][hl]|[er]?(?:bp|di|si|sp)|[cdefgs]s|mm\d+)\b/i,
 			'number': /(?:\b|-|(?=\$))(?:0[hx](?:[a-f\d]*\.)?[a-f\d]+(?:p[+-]?\d+)?|\d[a-f\d]+[hx]|\$\d[a-f\d]*|0[oq][0-7]+|[0-7]+[oq]|0[by][01]+|[01]+[by]|0[dt]\d+|(?:\d+(?:\.\d+)?|\.\d+)(?:\.?e[+-]?\d+)?[dt]?)\b/i,
-			'operator': /[[\]*/%<>=&|$!,.:+-]/
+			'operator': /[[\].,:%&|$!=<>/*+-]/
 		}
 	},
-	'keyword': /\b(?:align|and|as|break|calldebugger|case|compilercase|compilerdefault|compilerelse|compilerelseif|compilerendif|compilerendselect|compilererror|compilerif|compilerselect|continue|data|datasection|debug|debuglevel|declare|declarec|declarecdll|declaredll|declaremodule|default|define|dim|disableasm|disabledebugger|disableexplicit|else|elseif|enableasm|enabledebugger|enableexplicit|end|enddatasection|enddeclaremodule|endenumeration|endif|endimport|endinterface|endmacro|endmodule|endprocedure|endselect|endstructure|endstructureunion|endwith|enumeration|extends|fakereturn|for|foreach|forever|global|gosub|goto|if|import|importc|includebinary|includefile|includepath|interface|macro|module|newlist|newmap|next|not|or|procedure|procedurec|procedurecdll|proceduredll|procedurereturn|protected|prototype|prototypec|read|redim|repeat|restore|return|runtime|select|shared|static|step|structure|structureunion|swap|threaded|to|until|wend|while|with|xincludefile|xor)\b/i,
+	'keyword': /\b(?:align|and|as|break|calldebugger|compilererror|(?:compiler)?(?:case|default|else|elseif|endif|endselect|if|select)|continue|data|datasection|debug|debuglevel|declarec?|declarec?dll|declaremodule|define|dim|disableasm|disabledebugger|disableexplicit|enableasm|enabledebugger|enableexplicit|enddatasection|enddeclaremodule|endenumeration|endimport|endinterface|endmacro|endmodule|endprocedure|endstructure|endstructureunion|endwith|enumeration|extends|fakereturn|[fx]?or|foreach|forever|global|gosub|goto|importc?|includebinary|includepath|interface|macro|module|newlist|newmap|next|not|procedurec?|procedurec?dll|procedurereturn|protected|prototypec?|read|redim|repeat|restore|return|runtime|shared|static|step|structure|structureunion|swap|threaded|to|until|w?end|while|with|x?includefile)\b/i,
 	'function': /\b\w+(?:\.\w+)?\s*(?=\()/,
 	'number': /(?:\$[a-f\d]+|\b-?(?:\d+(?:\.\d+)?|\.\d+)(?:e[+-]?\d+)?)\b/i,
-	'operator': /(?:@\*?|\?|\*)\w+\$?|-[>-]?|\+\+?|!=?|<<?=?|>>?=?|==?|&&?|\|?\||[~^%?*/@]/,
+	'operator': /(?:@\*?|\?|\*)\w+\$?|-[>-]?|\+\+?|[!=]=?|<<?=?|>>?=?|&&?|\|\|?|[~^%?*/@]/,
 	'punctuation': clikePunctuation
 };

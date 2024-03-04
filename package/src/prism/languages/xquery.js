@@ -23,7 +23,7 @@ var xquery = languages.xquery = extend('markup', {
 		alias: 'operator'
 	},
 	'keyword-operator': {
-		pattern: /(^|[^:-])\b(?:and|castable as|div|eq|except|ge|gt|idiv|instance of|intersect|is|le|lt|mod|ne|or|union)\b(?=$|[^:-])/,
+		pattern: /(^|[^:-])\b(?:and|castable as|eq|except|[gl][et]|i?div|instance of|intersect|is|mod|ne|or|union)\b(?=$|[^:-])/,
 		lookbehind: true,
 		alias: 'operator'
 	},
@@ -43,15 +43,15 @@ var xquery = languages.xquery = extend('markup', {
 		alias: 'attr-name'
 	},
 	'builtin': {
-		pattern: /(^|[^:-])\b(?:attribute|comment|document|element|processing-instruction|text|xs:(?:ENTITIES|ENTITY|ID|IDREFS?|NCName|NMTOKENS?|NOTATION|Name|QName|anyAtomicType|anyType|anyURI|base64Binary|boolean|byte|date|dateTime|dayTimeDuration|decimal|double|duration|float|gDay|gMonth|gMonthDay|gYear|gYearMonth|hexBinary|int|integer|language|long|negativeInteger|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|time|token|unsigned(?:Byte|Int|Long|Short)|untyped(?:Atomic)?|yearMonthDuration))\b(?=$|[^:-])/,
+		pattern: /(^|[^:-])\b(?:attribute|comment|document|element|processing-instruction|text|xs:(?:ENTITIES|ENTITY|ID|IDREFS?|NCName|NMTOKENS?|NOTATION|Q?Name|anyAtomicType|anyType|anyURI|base64Binary|boolean|byte|date|dateTime|dayTimeDuration|decimal|double|duration|float|gDay|gMonth|gMonthDay|gYear|gYearMonth|hexBinary|int|integer|language|long|negativeInteger|nonNegativeInteger|nonPositiveInteger|normalizedString|positiveInteger|short|string|time|token|unsigned(?:Byte|Int|Long|Short)|untyped(?:Atomic)?|yearMonthDuration))\b(?=$|[^:-])/,
 		lookbehind: true
 	},
 	'number': /\b\d+(?:\.\d+)?(?:E[+-]?\d+)?/,
 	'operator': {
-		pattern: /[+*=?|@]|\.\.?|:=|!=|<[=<]?|>[=>]?|(\s)-(?=\s)/,
+		pattern: /[=?|@*+]|\.\.?|:=|!=|<[=<]?|>[=>]?|(\s)-(?!\S)/,
 		lookbehind: true
 	},
-	'punctuation': /[()[\]{},;:/]/,
+	'punctuation': /[()[\]{},:;/]/,
 	[tokenize]: (code, grammar) => walkTokens(withoutTokenizer(code, grammar), code, 0)
 });
 
@@ -126,8 +126,8 @@ var walkTokens = (tokens, code, position) => {
 	return tokens;
 };
 
-tag.pattern = /<\/?(?!\d)[^\s/=>$<%]+(?:\s+[^\s/=>]+(?:=(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/g;
-attrValue.pattern = /(=)(?:("|')(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\2)[^\\])*\2|[^\s'">=]+)/;
+tag.pattern = /<\/?(?!\d)[^\s/=>$<%]+(?:\s+[^\s/=>]+(?:=(?:(["'])(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/g;
+attrValue.pattern = /(=)(?:(["'])(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\2)[^\\])*\2|[^\s'">=]+)/;
 attrValue.inside['expression'] = {
 	// Allow for two levels of nesting
 	pattern: /\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}/,

@@ -45,7 +45,7 @@ atruleInside[rest] = languages.css = {
 		greedy: true
 	},
 	'property': {
-		pattern: /(^|[^-\w\xA0-\uFFFF])(?!\d)(?:(?!\s)[-\w\xA0-\uFFFF])+(?=\s*:)/i,
+		pattern: /(^|[^-\w\xa0-\uffff])(?!\d)(?:(?!\s)[-\w\xa0-\uffff])+(?=\s*:)/i,
 		lookbehind: true
 	},
 	'important': /!important\b/i,

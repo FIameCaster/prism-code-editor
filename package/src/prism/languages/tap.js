@@ -8,7 +8,7 @@ languages.tap = {
 	'pass': /ok[^#{\n]*/,
 	'pragma': /pragma [+-][a-z]+/,
 	'bailout': /bail out!.*/i,
-	'version': /TAP version \d+/i,
+	'version': /tap version \d+/i,
 	'plan': /\b\d+\.\.\d+(?: +#.*)?/,
 	'subtest': {
 		pattern: /# Subtest(?:: .*)?/g,

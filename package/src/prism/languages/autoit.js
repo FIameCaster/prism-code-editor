@@ -1,14 +1,11 @@
 import { languages } from '../core.js';
 
 languages.autoit = {
-	'comment': [
-		/;.*/,
-		{
-			// The multi-line comments delimiters can actually be commented out with ";"
-			pattern: /(^[\t ]*)#(?:comments-start|cs)[\s\S]*?^[ \t]*#(?:ce|comments-end)/m,
-			lookbehind: true
-		}
-	],
+	'comment': {
+		// The multi-line comments delimiters can actually be commented out with ";"
+		pattern: /;.*|(^[\t ]*)#(?:comments-start|cs)[\s\S]*?^[ \t]*#(?:ce|comments-end)/m,
+		lookbehind: true
+	},
 	'url': {
 		pattern: /(^[\t ]*#include\s+)(?:<[^\n>]+>|"[^\n"]+")/m,
 		lookbehind: true
@@ -28,9 +25,9 @@ languages.autoit = {
 	'function': /\b\w+(?=\()/,
 	// Variables and macros
 	'variable': /[$@]\w+/,
-	'keyword': /\b(?:case|const|continue(?:case|loop)|default|dim|do|else(?:if)?|end(?:func|if|select|switch|with)|enum|exit(?:loop)?|for|func|global|if|in|local|next|null|redim|select|static|step|switch|then|to|until|volatile|wend|while|with)\b/i,
+	'keyword': /\b(?:case|const|continue(?:case|loop)|default|dim|do|elseif|else|end(?:func|if|select|switch|with)|enum|exitloop|exit|for|func|global|if|in|local|next|null|redim|select|static|step|switch|then|to|until|volatile|wend|while|with)\b/i,
 	'number': /\b(?:0x[a-f\d]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/i,
 	'boolean': /\b(?:false|true)\b/i,
-	'operator': /<[=>]?|[*/=&>+-]=?|[?^]|\b(?:and|not|or)\b/i,
+	'operator': /<[=>]?|[=>&/*+-]=?|[?^]|\b(?:and|not|or)\b/i,
 	'punctuation': /[()[\].,:]/
 };

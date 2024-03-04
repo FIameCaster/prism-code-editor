@@ -8,7 +8,7 @@ languages.etlua = {
 		pattern: /<%[\s\S]+?%>/,
 		inside: {
 			'delimiter': {
-				pattern: /^<%[-=]?|-?%>$/,
+				pattern: /^<%[=-]?|-?%>$/,
 				alias: 'punctuation'
 			},
 			'language-lua': {

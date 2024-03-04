@@ -8,7 +8,7 @@ var interpolationContent = {
 
 var percentExpression = /(?:([^a-zA-Z\d\s{(\[<=])(?:\\[\s\S]|(?!\1)[^\\])*\1|\((?:\\[\s\S]|[^\\()]|\((?:\\[\s\S]|[^\\()])*\))*\)|\{(?:\\[\s\S]|[^\\{}]|\{(?:\\[\s\S]|[^\\{}])*\})*\}|\[(?:\\[\s\S]|[^\\[\]]|\[(?:\\[\s\S]|[^\\[\]])*\])*\]|<(?:\\[\s\S]|[^\\<>]|<(?:\\[\s\S]|[^\\<>])*>)*>)/.source;
 
-var symbolName = /(?:"(?:\\.|[^\\\n"])*"|(?:\b(?!\d)\w+|[^\s\0-\x7F]+)[?!]?|\$.)/.source;
+var symbolName = /(?:"(?:\\.|[^\\\n"])*"|(?:\b(?!\d)\w+|[^\s\0-\x7f]+)[?!]?|\$.)/.source;
 
 var interpolation = {
 	pattern: /((?:^|[^\\])(?:\\{2})*)#\{(?:[^{}]|\{[^{}]*\})*\}/,
@@ -37,7 +37,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /("|')(?:#\{[^}]+\}|#(?!\{)|\\[\s\S]|(?!\1)[^\\#\n])*\1/g,
+			pattern: /(["'])(?:#\{[^}]+\}|#(?!\{)|\\[\s\S]|(?!\1)[^\\#\n])*\1/g,
 			greedy: true,
 			inside: {
 				'interpolation': interpolation,
@@ -52,7 +52,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 				'delimiter': {
 					pattern: /^<<[-~]?[a-z_]\w*|\b[a-z_]\w*$/i,
 					inside: {
-						'symbol': /\b\w+/,
+						'symbol': /\w+/,
 						'punctuation': /^<<[-~]?/
 					}
 				},
@@ -68,7 +68,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 				'delimiter': {
 					pattern: /^<<[-~]?'[a-z_]\w*'|\b[a-z_]\w*$/i,
 					inside: {
-						'symbol': /\b\w+/,
+						'symbol': /\w+/,
 						'punctuation': /^<<[-~]?'|'$/,
 					}
 				},
@@ -149,7 +149,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			'punctuation': /\./
 		}
 	},
-	'keyword': /\b(?:BEGIN|END|alias|and|begin|break|case|class|def|define_method|defined|do|each|else|elsif|end|ensure|extend|for|if|in|include|module|new|next|nil|not|or|prepend|private|protected|public|raise|redo|require|rescue|retry|return|self|super|then|throw|undef|unless|until|when|while|yield)\b/,
+	'keyword': /\b(?:BEGIN|END|alias|and|begin|break|case|class|def|define_method|defined|do|each|else|elsif|end|ensure|extend|f?or|if|in|include|module|new|next|nil|not|prepend|private|protected|public|raise|redo|require|rescue|retry|return|self|super|[tw]hen|throw|undef|unless|until|while|yield)\b/,
 	'boolean': boolean,
 	'builtin': /\b(?:Array|Bignum|Binding|Class|Continuation|Dir|Exception|FalseClass|File|Fixnum|Float|Hash|IO|Integer|MatchData|Method|Module|NilClass|Numeric|Object|Proc|Range|Regexp|Stat|String|Struct|Symbol|TMS|Thread|ThreadGroup|Time|TrueClass)\b/,
 	'constant': /\b[A-Z][A-Z\d_]*(?:[?!]|\b)/,
@@ -158,6 +158,6 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 		pattern: /::/,
 		alias: 'punctuation'
 	},
-	'operator': /\.{2,3}|&\.|===|<?=>|[!=]?~|(?:&&|\|\||<<|>>|\*\*|[*/%<>!^&|=+-])=?|[?:]/,
+	'operator': /\.{2,3}|&\.|===|<?=>|[!=]?~|(?:&&|\|\||<<|>>|\*\*|[%&|^!=<>/*+-])=?|[?:]/,
 	'punctuation': /[()[\]{}.,;]/,
 };

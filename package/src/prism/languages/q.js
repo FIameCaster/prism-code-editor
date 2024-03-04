@@ -35,13 +35,13 @@ languages.q = {
 	// The negative look-ahead prevents bad highlighting
 	// of verbs 0: and 1:
 	'number': /\b(?![01]:)(?:0N[hje]?|0W[hj]?|0[wn]|0x[a-fA-F\d]+|\d+(?:\.\d*)?(?:e[+-]?\d+)?[hjfeb]?)/,
-	'keyword': /\\\w+|\b(?:abs|acos|aj0?|all|and|any|asc|asin|asof|atan|attr|avgs?|binr?|by|ceiling|cols|cor|cos|count|cov|cross|csv|cut|delete|deltas|desc|dev|differ|distinct|div|do|dsave|ej|enlist|eval|except|exec|exit|exp|fby|fills|first|fkeys|flip|floor|from|get|getenv|group|gtime|hclose|hcount|hdel|hopen|hsym|iasc|identity|idesc|if|ij|in|insert|inter|inv|keys?|last|like|list|ljf?|load|log|lower|lsq|ltime|ltrim|mavg|maxs?|mcount|md5|mdev|med|meta|mins?|mmax|mmin|mmu|mod|msum|neg|next|not|null|or|over|parse|peach|pj|plist|prds?|prev|prior|rand|rank|ratios|raze|read0|read1|reciprocal|reval|reverse|rload|rotate|rsave|rtrim|save|scan|scov|sdev|select|set|setenv|show|signum|sin|sqrt|ssr?|string|sublist|sums?|sv|svar|system|tables|tan|til|trim|txf|type|uj|ungroup|union|update|upper|upsert|value|var|views?|vs|wavg|where|while|within|wj1?|wsum|ww|xasc|xbar|xcols?|xdesc|xexp|xgroup|xkey|xlog|xprev|xrank)\b/,
+	'keyword': /\\\w+|\b(?:abs|a?cos|aj0?|all|an[dy]|[ix]?asc|a?sin|asof|a?tan|attr|avgs?|binr?|ceiling|cols|cor|[hm]?count|cross|csv|cut|delete|deltas|[ix]?desc|[sm]?dev|differ|distinct|div|do|ej|enlist|except|exec|exit|f?by|fills|first|fkeys|flip|floor|from|get|getenv|[gl]time|hclose|hdel|hopen|hsym|identity|i[fjn]|insert|inter|inv|keys?|last|like|ljf?|lower|lsq|[lr]?trim|[mw]avg|maxs?|md5|med|meta|mins?|mmax|mmin|mmu|mod|[mw]sum|neg|next|not|null|or|over|parse|peach|pj|p?list|prds?|prior|rand|ratios|raze|read[01]|reciprocal|r?eval|reverse|r?load|rotate|[dr]?save|scan|s?cov|select|set|setenv|show|signum|sqrt|ssr?|string|sublist|sums?|sv|s?var|system|tables|til|txf|type|uj|ungroup|union|update|upper|upsert|value|views?|vs|where|while|within|wj1?|ww|xbar|xcols?|x?exp|x?group|xkey|x?log|x?prev|x?rank)\b/,
 	'adverb': {
 		pattern: /['/\\]:?|\beach\b/,
 		alias: 'function'
 	},
 	'verb': {
-		pattern: /(?:\B\.\B|\b[01]:|<[=>]?|>=?|[:*%,!?~=|$&#@^+-]):?|\b_\b:?/,
+		pattern: /(?:\B\.\B|\b[01]:|<[=>]?|>=?|[:%,!?~=|$&#@^*+-]):?|\b_\b:?/,
 		alias: 'operator'
 	},
 	'punctuation': /[()[\]{}.;]/

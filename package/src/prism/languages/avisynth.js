@@ -52,9 +52,9 @@ languages.avs = languages.avisynth = {
 	// The special "last" variable that takes the value of the last implicitly returned clip
 	'variable': /\b(?:last)\b/i,
 
-	'boolean': /\b(?:false|no|true|yes)\b/i,
+	'boolean': /\b(?:false|true|no|yes)\b/i,
 
-	'keyword': /\b(?:catch|else|for|function|global|if|return|try|while|__END__)\b/i,
+	'keyword': /\b(?:catch|else|for|function|global|if|return|try|while|__end__)\b/i,
 
 	'constant': /\bMT_(?:MULTI_INSTANCE|NICE_FILTER|SERIALIZED|SPECIAL_MT)\b/,
 
@@ -84,7 +84,7 @@ languages.avs = languages.avisynth = {
 
 	'number': /\B\$(?:[a-f\d]{6}|[a-f\d]{8})\b|(?:(?:\b|\B-)\d+(?:\.\d*)?\b|\B\.\d+\b)/i,
 
-	'operator': /\+\+?|[!=<>]=?|&&|\|\||[?:*/%-]/,
+	'operator': /\+\+?|[!=<>]=?|&&|\|\||[?:%/*-]/,
 
 	'punctuation': clikePunctuation
 };

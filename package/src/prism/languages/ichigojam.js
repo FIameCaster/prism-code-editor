@@ -3,15 +3,15 @@ import { languages } from '../core.js';
 // according to the offical reference (EN)
 // https://ichigojam.net/IchigoJam-en.html
 languages.ichigojam = {
-	'comment': /(?:\B'|REM).*/i,
+	'comment': /(?:\B'|rem).*/i,
 	'string': {
 		pattern: /"(?:""|[!#$%&'()*,/:;<=>?^\w .+-])*"/g,
 		greedy: true
 	},
-	'number': /\B#[A-F\d]+|\B`[01]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:E[+-]?\d+)?/i,
-	'keyword': /\b(?:BEEP|BPS|CASE|CLEAR|CLK|CLO|CLP|CLS|CLT|CLV|CONT|COPY|ELSE|END|FILE|FILES|FOR|GOSUB|GOTO|GSB|IF|INPUT|KBD|LED|LET|LIST|LOAD|LOCATE|LRUN|NEW|NEXT|OUT|PLAY|POKE|PRINT|PWM|REM|RENUM|RESET|RETURN|RIGHT|RTN|RUN|SAVE|SCROLL|SLEEP|SRND|STEP|STOP|SUB|TEMPO|THEN|TO|UART|VIDEO|WAIT)(?:\$|\b)/i,
-	'function': /\b(?:ABS|ANA|ASC|BIN|BTN|DEC|END|FREE|HELP|HEX|I2CR|I2CW|IN|INKEY|LEN|LINE|PEEK|RND|SCR|SOUND|STR|TICK|USR|VER|VPEEK|ZER)(?:\$|\b)/i,
-	'label': /(?:\B@\S+)/,
-	'operator': /<[=>]?|>=?|\|\||&&|[*/=|&^~!+-]|\b(?:AND|NOT|OR)\b/i,
+	'number': /\B#[a-f\d]+|\B`[01]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,
+	'keyword': /\b(?:beep|bps|case|clear|cl[kopstv]|cont|copy|else|end|files?|for|gosub|goto|gsb|if|input|kbd|led|let|list|load|locate|lrun|new|next|out|play|poke|print|pwm|rem|renum|reset|return|right|r[tu]n|save|scroll|sleep|srnd|st[eo]p|sub|tempo|then|to|uart|video|wait)(?:\$|\b)/i,
+	'function': /\b(?:abs|ana|asc|b?in|btn|dec|[er]nd|free|help|hex|i2c[rw]|inkey|len|line|s[ct]r|sound|tick|usr|[vz]er|v?peek)(?:\$|\b)/i,
+	'label': /\B@\S+/,
+	'operator': /<>|<=|>=|&&|\|\||[~&|^!=<>/*+-]|\b(?:and|not|or)\b/i,
 	'punctuation': /[()[\],:;]/
 };

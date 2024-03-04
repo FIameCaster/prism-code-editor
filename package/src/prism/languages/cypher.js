@@ -27,13 +27,13 @@ languages.cypher = {
 	'variable': /\$\w+/,
 
 	// https://neo4j.com/docs/cypher-manual/current/syntax/reserved/
-	'keyword': /\b(?:ADD|ALL|AND|AS|ASC|ASCENDING|ASSERT|BY|CALL|CASE|COMMIT|CONSTRAINT|CONTAINS|CREATE|CSV|DELETE|DESC|DESCENDING|DETACH|DISTINCT|DO|DROP|ELSE|END|ENDS|EXISTS|FOR|FOREACH|IN|INDEX|IS|JOIN|KEY|LIMIT|LOAD|MANDATORY|MATCH|MERGE|NODE|NOT|OF|ON|OPTIONAL|OR|ORDER(?=\s+BY)|PERIODIC|REMOVE|REQUIRE|RETURN|SCALAR|SCAN|SET|SKIP|START|STARTS|THEN|UNION|UNIQUE|UNWIND|USING|WHEN|WHERE|WITH|XOR|YIELD)\b/i,
+	'keyword': /\b(?:add|and|asc?|ascending|assert|by|c?all|case|commit|constraint|contains|create|csv|delete|desc|descending|detach|distinct|do|drop|else|ends?|exists|for|foreach|in|index|is|join|key|limit|load|mandatory|match|merge|node|not|of|on|optional|order(?=\s+by)|periodic|remove|require|return|scalar|scan|set|skip|starts?|[tw]hen|union|unique|unwind|using|where|with|x?or|yield)\b/i,
 
 	'function': /\b\w+(?=\s*\()/,
 
-	'boolean': /\b(?:false|null|true)\b/i,
+	'boolean': /\b(?:false|true|null)\b/i,
 	'number': /\b(?:0x[a-fA-F\d]+|\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)\b/,
 	// https://neo4j.com/docs/cypher-manual/current/syntax/operators/
-	'operator': /:|<--?|--?>?|<>|=~?|[<>]=?|[+*/%^|]|\.{2,3}/,
+	'operator': /<--?|--?>?|<>|=~?|[<>]=?|[:%|^/*+]|\.{2,3}/,
 	'punctuation': clikePunctuation
 };

@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-var coreRules = '(?:ALPHA|BIT|CHAR|CR|CRLF|CTL|DIGIT|DQUOTE|HEXDIG|HTAB|LF|LWSP|OCTET|SP|VCHAR|WSP)';
+var coreRules = '(?:ALPHA|BIT|CR|CRLF|CTL|DIGIT|DQUOTE|HEXDIG|HTAB|LF|L?WSP|OCTET|SP|V?CHAR)';
 
 languages.abnf = {
 	'comment': /;.*/,
@@ -12,11 +12,11 @@ languages.abnf = {
 		}
 	},
 	'range': {
-		pattern: /%(?:b[01]+-[01]+|d\d+-\d+|x[A-F\d]+-[A-F\d]+)/i,
+		pattern: /%(?:b[01]+-[01]+|d\d+-\d+|x[a-f\d]+-[a-f\d]+)/i,
 		alias: 'number'
 	},
 	'terminal': {
-		pattern: /%(?:b[01]+(?:\.[01]+)*|d\d+(?:\.\d+)*|x[A-F\d]+(?:\.[A-F\d]+)*)/i,
+		pattern: /%(?:b[01]+(?:\.[01]+)*|d\d+(?:\.\d+)*|x[a-f\d]+(?:\.[a-f\d]+)*)/i,
 		alias: 'number'
 	},
 	'repetition': {

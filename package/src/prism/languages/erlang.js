@@ -29,7 +29,7 @@ languages.erlang = {
 		lookbehind: true
 	},
 	'operator': [
-		/[=/<>:]=|=[:/]=|\+\+?|--?|[=*/!]|\b(?:and|andalso|band|bnot|bor|bsl|bsr|bxor|div|not|or|orelse|rem|xor)\b/,
+		/[:=<>/]=|=[:/]=|\+\+?|--?|[!=/*]|\b(?:andalso|b?and|b?not|b?x?or|bs[lr]|div|orelse|rem)\b/,
 		{
 			// We don't want to match <<
 			pattern: /(^|[^<])<(?!<)/,

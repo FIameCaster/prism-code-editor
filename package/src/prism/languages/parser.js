@@ -51,7 +51,7 @@ var expression = {
 		'boolean': boolean,
 		'number': /\b(?:0x[a-f\d]+|\d+(?:\.\d*)?(?:e[+-]?\d+)?)\b/i,
 		'escape': escape,
-		'operator': /[~+*\/\\%]|!(?:\|\|?|=)?|&&?|\|\|?|==|<[<=]?|>[>=]?|-[fd]?|\b(?:def|eq|ge|gt|in|is|le|lt|ne)\b/,
+		'operator': /[~/\\%*+]|!\|\|?|&&?|\|\|?|==|>>|<<|[!<>]=?|-[fd]?|\b(?:def|eq|[gl][et]|in|is|ne)\b/,
 		'punctuation': punctuation
 	}
 };

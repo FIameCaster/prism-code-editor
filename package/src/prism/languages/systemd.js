@@ -49,7 +49,7 @@ languages.systemd = {
 			'punctuation': /\\$/m,
 
 			'boolean': {
-				pattern: /^(?:false|no|off|on|true|yes)$/g,
+				pattern: /^(?:false|true|no|off|on|yes)$/g,
 				greedy: true
 			}
 		}

@@ -49,7 +49,7 @@ languages.fsharp = {
 			}
 		}
 	},
-	'keyword': /\b(?:let|return|use|yield)(?:!\B|\b)|\b(?:abstract|and|as|asr|assert|atomic|base|begin|break|checked|class|component|const|constraint|constructor|continue|default|delegate|do|done|downcast|downto|eager|elif|else|end|event|exception|extern|external|false|finally|fixed|for|fun|function|functor|global|if|in|include|inherit|inline|interface|internal|land|lazy|lor|lsl|lsr|lxor|match|member|method|mixin|mod|module|mutable|namespace|new|not|null|object|of|open|or|override|parallel|private|process|protected|public|pure|rec|sealed|select|sig|static|struct|tailcall|then|to|trait|true|try|type|upcast|val|virtual|void|volatile|when|while|with)\b/,
+	'keyword': /\b(?:let|return|use|yield)(?:!\B|\b)|\b(?:abstract|and|asr?|assert|atomic|base|begin|break|checked|class|component|const|constraint|constructor|continue|default|delegate|do|done|downcast|downto|eager|elif|else|end|event|exception|extern|external|false|true|finally|fixed|f?or|fun|function|functor|global|if|in|include|inherit|inline|interface|internal|land|lazy|ls[lr]|lx?or|match|member|method|mixin|mod|module|mutable|namespace|new|not|null|object|of|open|override|parallel|private|process|protected|public|pure|rec|sealed|select|sig|static|struct|tailcall|[tw]hen|to|trait|try|type|upcast|val|virtual|void|volatile|while|with)\b/,
 	'boolean': boolean,
 	'function': /\b\w+(?=\()/,
 	'number': [
@@ -58,7 +58,7 @@ languages.fsharp = {
 		/(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[fm]|e[+-]?\d+)?\b/i,
 		/\b\d+(?:[IlLsy]|UL|u[lsy]?)?\b/
 	],
-	'operator': /([<>~&^])\1\1|([*.:<>&])\2|<-|->|[!=:]=|<?\|{1,3}>?|\??(?:<=|>=|<>|[-+*/%=<>])\??|[!?^&]|~[+~-]|:>|:\?>?/,
+	'operator': /([<>~&^])\1\1|([*.:<>&])\2|<-|->|[!=:]=|<?\|{1,3}>?|\??(?:<=|>=|<>|[%=<>/*+-])\??|[?!^&]|~[+~-]|:>|:\?>?/,
 	'computation-expression': {
 		pattern: /\b[_a-z]\w*(?=\s*\{)/i,
 		alias: 'keyword'

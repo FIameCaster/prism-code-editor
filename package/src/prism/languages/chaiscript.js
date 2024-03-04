@@ -28,7 +28,7 @@ var chaiscript = languages.chaiscript = extend('clike', {
 		},
 		/\b(?:Infinity|NaN)\b/
 	],
-	'operator': />>=?|<<=?|\|\||&&|:[:=]?|--|\+\+|[!=<>*/%|&^+-]=?|[?~]|`[^\n`]{1,4}`/,
+	'operator': /:[:=]|--|\+\+|&&|\|\||>>=?|<<=?|[%&|^!=<>/*+-]=?|[?:~]|`[^\n`]{1,4}`/,
 });
 
 insertBefore(chaiscript, 'operator', {

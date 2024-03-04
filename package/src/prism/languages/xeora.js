@@ -5,10 +5,10 @@ import './markup.js';
 var xeora = languages.xeoracube = languages.xeora = clone(languages.html);
 
 var variable = {
-	pattern: /(?:[,|])@?(?:#+|[*~=^+-])?[\w.]+/,
+	pattern: /(?:[,|])@?(?:#+|[~=^*+-])?[\w.]+/,
 	inside: {
 		'punctuation': /[,.|]/,
-		'operator': /#+|[*~=^@+-]/
+		'operator': /#+|[~=^@*+-]/
 	}
 };
 
@@ -20,10 +20,10 @@ insertBefore(xeora, 'markup-bracket', {
 		}
 	},
 	'variable': {
-		pattern: /\$@?(?:#+|[*~=^+-])?[\w.]+\$/,
+		pattern: /\$@?(?:#+|[~=^*+-])?[\w.]+\$/,
 		inside: {
 			'punctuation': /[$.]/,
-			'operator': /#+|[*~=^@+-]/
+			'operator': /#+|[~=^@*+-]/
 		}
 	},
 	'function-inline': {
@@ -43,7 +43,7 @@ insertBefore(xeora, 'markup-bracket', {
 		alias: 'function'
 	},
 	'directive-inline': {
-		pattern: /\$\w(?:#\d+\+?)?(?:\[[\w.-]+\])?:[-/\w.]+\$/,
+		pattern: /\$\w(?:#\d+\+?)?(?:\[[\w.-]+\])?:[-\w./]+\$/,
 		inside: {
 			'punctuation': {
 				pattern: /\$(?:\w:|C(?:\[|#\d))?|[:{[\]]/,
@@ -58,7 +58,7 @@ insertBefore(xeora, 'markup-bracket', {
 		pattern: /\$\w+:\{|\$\w(?:#\d+\+?)?(?:\[[\w.-]+\])?:[\w.-]+:\{(?:![A-Z]+)?/,
 		inside: {
 			'punctuation': {
-				pattern: /\$(?:\w:|C(?:\[|#\d))?|[:{[\]]/,
+				pattern: /\$(?:\w:|C\[|C#\d)?|[:{[\]]/,
 				inside: {
 					'tag': /#\d/
 				}

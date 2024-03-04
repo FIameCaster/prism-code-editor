@@ -36,7 +36,7 @@ languages.objectpascal = asm.inside = languages.pascal = {
 		},
 		{
 			// Free Pascal
-			pattern: /(^|[^&])\b(?:dispose|exit|false|new|true)\b/i,
+			pattern: /(^|[^&])\b(?:dispose|exit|false|true|new)\b/i,
 			lookbehind: true
 		},
 		{
@@ -50,19 +50,12 @@ languages.objectpascal = asm.inside = languages.pascal = {
 			lookbehind: true
 		}
 	],
-	'number': [
-		// Hexadecimal, octal and binary
-		/(?:[&%]\d+|\$[a-f\d]+)/i,
-		// Decimal
-		/\b\d+(?:\.\d+)?(?:e[+-]?\d+)?/i
-	],
-	'operator': [
-		/\.\.|\*\*|:=|<[<=>]?|>[>=]?|[*/+-]=?|[@^=]/,
-		{
-			pattern: /(^|[^&])\b(?:and|as|div|exclude|in|include|is|mod|not|or|shl|shr|xor)\b/,
-			lookbehind: true
-		}
-	],
+	// Hexadecimal, octal and binary, Decimal
+	'number': /[&%]\d+|\$[a-f\d]+|\b\d+(?:\.\d+)?(?:e[+-]?\d+)?/i,
+	'operator': {
+		pattern: /\.\.|\*\*|:=|<>|>>|<<|[<>/*+-]=?|[@^=]|(^|[^&])\b(?:and|as|div|exclude|in|include|is|mod|not|x?or|sh[lr])\b/,
+		lookbehind: true
+	},
 	'punctuation': /\(\.|\.\)|[()[\].,:;]/
 };
 

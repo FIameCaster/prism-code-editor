@@ -23,10 +23,10 @@ var message = {
 var choiceStyleInside = {
 	'punctuation': /\|/,
 	'range': {
-		pattern: /^(\s*)[+-]?(?:\d+(?:\.\d*)?|\u221e)\s*[<#\u2264]/,
+		pattern: /^(\s*)[+-]?(?:\d+(?:\.\d*)?|∞)\s*[<#≤]/,
 		lookbehind: true,
 		inside: {
-			'operator': /[<#\u2264]/,
+			'operator': /[<#≤]/,
 			'number': /\S+/
 		}
 	}

@@ -43,7 +43,7 @@ insertBefore(
 			alias: 'punctuation'
 		},
 		'url': [
-			/ISBN +(?:97[89][ -]?)?(?:\d[ -]?){9}[\dx]\b|(?:PMID|RFC) +\d+/i,
+			/isbn +(?:97[89][ -]?)?(?:\d[ -]?){9}[\dx]\b|(?:pmid|rfc) +\d+/i,
 			/\[\[.+?\]\]|\[.+?\]/
 		],
 		'variable': [

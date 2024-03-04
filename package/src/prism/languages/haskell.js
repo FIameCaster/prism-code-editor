@@ -7,14 +7,14 @@ languages.hs = languages.haskell = {
 		lookbehind: true
 	},
 	'char': {
-		pattern: /'(?:[^\\']|\\(?:[abfnrtv\\"'&]|\^[A-Z@[\]^_]|ACK|BEL|BS|CAN|CR|DC1|DC2|DC3|DC4|DEL|DLE|EM|ENQ|EOT|ESC|ETB|ETX|FF|FS|GS|HT|LF|NAK|NUL|RS|SI|SO|SOH|SP|STX|SUB|SYN|US|VT|\d+|o[0-7]+|x[a-fA-F\d]+))'/,
+		pattern: /'(?:[^\\']|\\(?:[abfnrtv\\"'&]|\^[A-Z@[\]^_]|ACK|[BD]EL|BS|CAN|CR|DC[1-4]|DLE|EM|ENQ|EOT|ESC|ET[BX]|FF|FS|GS|HT|LF|NAK|NUL|RS|SI|SOH?|SP|STX|SUB|SYN|US|VT|\d+|o[0-7]+|x[a-fA-F\d]+))'/,
 		alias: 'string'
 	},
 	'string': {
 		pattern: /"(?:[^\\"]|\\(?:\S|\s+\\))*"/g,
 		greedy: true
 	},
-	'keyword': /\b(?:case|class|data|deriving|do|else|if|in|infixl|infixr|instance|let|module|newtype|of|primitive|then|type|where)\b/,
+	'keyword': /\b(?:case|class|data|deriving|do|else|if|in|infix[lr]|instance|let|module|newtype|of|primitive|then|type|where)\b/,
 	'import-statement': {
 		// The imported or hidden names are not included in this import
 		// statement. This is because we want to highlight those exactly like
@@ -27,7 +27,7 @@ languages.hs = languages.haskell = {
 		}
 	},
 	// These are builtin variables only. Constructors are highlighted later as a constant.
-	'builtin': /\b(?:abs|acos|acosh|all|and|any|appendFile|approxRational|asTypeOf|asin|asinh|atan|atan2|atanh|basicIORun|break|catch|ceiling|chr|compare|concat|concatMap|const|cos|cosh|curry|cycle|decodeFloat|denominator|digitToInt|div|divMod|drop|dropWhile|either|elem|encodeFloat|enumFrom|enumFromThen|enumFromThenTo|enumFromTo|error|even|exp|exponent|fail|filter|flip|floatDigits|floatRadix|floatRange|floor|fmap|foldl|foldl1|foldr|foldr1|fromDouble|fromEnum|fromInt|fromInteger|fromIntegral|fromRational|fst|gcd|getChar|getContents|getLine|group|head|id|inRange|index|init|intToDigit|interact|ioError|isAlpha|isAlphaNum|isAscii|isControl|isDenormalized|isDigit|isHexDigit|isIEEE|isInfinite|isLower|isNaN|isNegativeZero|isOctDigit|isPrint|isSpace|isUpper|iterate|last|lcm|length|lex|lexDigits|lexLitChar|lines|log|logBase|lookup|map|mapM|mapM_|max|maxBound|maximum|maybe|min|minBound|minimum|mod|negate|not|notElem|null|numerator|odd|or|ord|otherwise|pack|pi|pred|primExitWith|print|product|properFraction|putChar|putStr|putStrLn|quot|quotRem|range|rangeSize|read|readDec|readFile|readFloat|readHex|readIO|readInt|readList|readLitChar|readLn|readOct|readParen|readSigned|reads|readsPrec|realToFrac|recip|rem|repeat|replicate|return|reverse|round|scaleFloat|scanl|scanl1|scanr|scanr1|seq|sequence|sequence_|show|showChar|showInt|showList|showLitChar|showParen|showSigned|showString|shows|showsPrec|significand|signum|sin|sinh|snd|sort|span|splitAt|sqrt|subtract|succ|sum|tail|take|takeWhile|tan|tanh|threadToIOResult|toEnum|toInt|toInteger|toLower|toRational|toUpper|truncate|uncurry|undefined|unlines|until|unwords|unzip|unzip3|userError|words|writeFile|zip|zip3|zipWith|zipWith3)\b/,
+	'builtin': /\b(?:abs|a?cosh?|all|an[dy]|appendFile|approxRational|asTypeOf|a?sinh?|atan[2h]?|basicIORun|break|catch|ceiling|chr|compare|concat|concatMap|const|curry|cycle|decodeFloat|denominator|digitToInt|div|divMod|drop|dropWhile|either|elem|encodeFloat|enumFrom|enumFromThen|enumFromThenTo|enumFromTo|error|even|exp|exponent|[ft]ail|filter|flip|floatDigits|floatRadix|floatRange|floor|fmap|fold[lr]1?|fromDouble|fromEnum|fromInt|fromInteger|fromIntegral|fromRational|fst|gcd|getChar|getContents|getLine|group|head|id|inRange|index|init|intToDigit|interact|ioError|isAlpha|isAlphaNum|isAscii|isControl|isDenormalized|isDigit|isHexDigit|isIEEE|isInfinite|isLower|isNaN|isNegativeZero|isOctDigit|isPrint|isSpace|isUpper|iterate|last|lcm|length|lex|lexDigits|lexLitChar|lines|log|logBase|lookup|ma[px]|mapM|mapM_?|maxBound|maximum|maybe|min|minBound|minimum|mod|negate|not|notElem|null|numerator|odd|ord?|otherwise|pack|pi|pred|primExitWith|print|product|properFraction|putChar|putStr|putStrLn|quot|quotRem|range|rangeSize|read(?:s?|Dec|File|Float|Hex|IO|Int|List|LitChar|Ln|Oct|Paren|Signed|sPrec)|realToFrac|recip|rem|repeat|replicate|return|reverse|round|scaleFloat|scan[lr]1?|seq|sequence_?|show(?:s|Char|Int|List|LitChar|Paren|Signed|String|sPrec)?|significand|signum|snd|sort|span|splitAt|sqrt|subtract|succ|sum|take|takeWhile|tanh?|threadToIOResult|toEnum|toInt|toInteger|toLower|toRational|toUpper|truncate|uncurry|undefined|unlines|until|unwords|unzip3?|userError|words|writeFile|zip3?|zipWith3?)\b/,
 	// decimal integers and floating point numbers | octal integers | hexadecimal integers
 	'number': /\b(?:\d+(?:\.\d+)?(?:e[+-]?\d+)?|0o[0-7]+|0x[a-f\d]+)\b/i,
 	'operator': [
@@ -38,7 +38,7 @@ languages.hs = languages.haskell = {
 		},
 		{
 			// function composition
-			pattern: /(\s)\.(?=\s)/,
+			pattern: /(\s)\.(?!\S)/,
 			lookbehind: true
 		},
 		// Most of this is needed because of the meaning of a single '.'.
@@ -48,7 +48,7 @@ languages.hs = languages.haskell = {
 		// operator too.
 		//
 		// This regex means: /[!#$%*=?&@|~.:<>^\\/+-]+/ without /\./.
-		/[!#$%*=?&@|~:<>^\\/+-][.!#$%*=?&@|~:<>^\\/+-]*|\.[.!#$%*=?&@|~:<>^\\/+-]+/,
+		/[#$?@~:\\%&|^!=<>/*+-][.#$?@~:\\%&|^!=<>/*+-]*|\.[.#$?@~:\\%&|^!=<>/*+-]+/,
 	],
 	// In Haskell, nearly everything is a variable, do not highlight these.
 	'hvariable': {

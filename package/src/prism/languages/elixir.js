@@ -2,10 +2,10 @@ import { languages, rest } from '../core.js';
 
 var elixir = languages.elixir = {
 	'doc': {
-		pattern: /@(?:doc|moduledoc)\s+(?:("""|''')[\s\S]*?\1|("|')(?:\\[\s\S]|(?!\2)[^\\\n])*\2)/,
+		pattern: /@(?:doc|moduledoc)\s+(?:("""|''')[\s\S]*?\1|(["'])(?:\\[\s\S]|(?!\2)[^\\\n])*\2)/,
 		inside: {
 			'attribute': /^@\w+/,
-			'string': /['"][\s\S]+/
+			'string': /["'][\s\S]+/
 		}
 	},
 	'comment': {
@@ -29,7 +29,7 @@ var elixir = languages.elixir = {
 		},
 		{
 			// Multi-line strings are allowed
-			pattern: /("|')(?:\\[\s\S]|(?!\1)[^\\\n])*\1/g,
+			pattern: /(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/g,
 			greedy: true
 		}
 	],
@@ -57,10 +57,10 @@ var elixir = languages.elixir = {
 	},
 	'function': /\b(?!\d)\w+[?!]?(?:(?=\s*(?:\.\s*)?\()|(?=\/\d))/,
 	'number': /\b(?:0[box][a-f\d_]+|\d[\d_]*)(?:\.[\d_]+)?(?:e[+-]?[\d_]+)?\b/i,
-	'keyword': /\b(?:after|alias|and|case|catch|cond|def(?:callback|delegate|exception|impl|macro|module|n|np|p|protocol|struct)?|do|else|end|fn|for|if|import|not|or|quote|raise|require|rescue|try|unless|unquote|use|when)\b/,
-	'boolean': /\b(?:false|nil|true)\b/,
+	'keyword': /\b(?:after|alias|[ae]nd|case|catch|cond|def(?:callback|delegate|exception|impl|macro|module|n?p?|protocol|struct)|do|else|fn|f?or|if|import|not|quote|raise|require|rescue|try|unless|unquote|use|when)\b/,
+	'boolean': /\b(?:false|true|nil)\b/,
 	'operator': [
-		/\bin\b|&&?|\|[|>]?|\\\\|::|\.{2,3}|\+\+?|-[->]?|<[-=>]|>=|!==?|\B!|=(?:==?|[>~])?|[*/^]/,
+		/\bin\b|&&?|\|[|>]?|\\\\|::|\.{2,3}|\+\+?|-[->]?|<[=>-]|>=|!==?|\B!|=(?:==?|[>~])?|[*/^]/,
 		{
 			// We don't want to match <<
 			pattern: /([^<])<(?!<)/,

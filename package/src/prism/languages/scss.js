@@ -75,7 +75,7 @@ insertBefore(scss, 'function', {
 		alias: 'keyword'
 	},
 	'operator': {
-		pattern: /(\s)(?:[-+*/%]|[!=]=|[<>]=?|and|not|or)(?=\s)/,
+		pattern: /(\s)(?:[%/*+-]|[!=]=|[<>]=?|and|not|or)(?!\S)/,
 		lookbehind: true
 	}
 });

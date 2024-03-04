@@ -56,7 +56,7 @@ languages.graphql = {
 		alias: 'function'
 	},
 	'keyword': /\b(?:directive|enum|extend|fragment|implements|input|interface|mutation|on|query|repeatable|scalar|schema|subscription|type|union)\b/,
-	'operator': /[!=|&]|\.{3}/,
+	'operator': /[&|!=]|\.{3}/,
 	'property-query': /\w+(?=\s*\()/,
 	'object': /\w+(?=\s*\{)/,
 	'punctuation': /[()[\]{},:!=]/,

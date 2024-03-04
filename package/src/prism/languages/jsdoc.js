@@ -14,7 +14,7 @@ insertBefore(
 	languages.jsdoc = extend('javadoclike', {
 		'parameter': {
 			// @param {string} foo - foo bar
-			pattern: RegExp(parameterPrefix + /(?:(?!\s)[$\w\xA0-\uFFFF.])+(?=\s|$)/.source),
+			pattern: RegExp(parameterPrefix + /(?:(?!\s)[$\w\xa0-\uffff.])+(?!\S)/.source),
 			lookbehind: true,
 			inside: {
 				'punctuation': /\./
@@ -24,7 +24,7 @@ insertBefore(
 	'keyword', {
 		'optional-parameter': {
 			// @param {string} [baz.foo="bar"] foo bar
-			pattern: RegExp(parameterPrefix + /\[(?:(?!\s)[$\w\xA0-\uFFFF.])+(?:=[^[\]]+)?\](?!\S)/.source),
+			pattern: RegExp(parameterPrefix + /\[(?:(?!\s)[$\w\xa0-\uffff.])+(?:=[^[\]]+)?\](?!\S)/.source),
 			lookbehind: true,
 			inside: {
 				'code': {
@@ -59,7 +59,7 @@ insertBefore(
 					'boolean': javascript.boolean,
 					'keyword': languages.ts.keyword,
 					'operator': /=>|\.{3}|[&|?:*]/,
-					'punctuation': /[()[\]{}.,;=<>]/
+					'punctuation': /[()[\]{}.,;<>=]/
 				}
 			}
 		],

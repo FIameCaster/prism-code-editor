@@ -9,7 +9,7 @@ languages.editorconfig = {
 		alias: 'selector',
 		inside: {
 			'regex': /\\\\[[\]{}.,?!*]/, // Escape special characters with '\\'
-			'operator': /[!?]|\.\.|\*{1,2}/,
+			'operator': /[!?]|\.\.|\*\*?/,
 			'punctuation': /[[\]{},]/
 		}
 	},

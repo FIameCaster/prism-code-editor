@@ -29,7 +29,7 @@ statement.inside = languages.mel = {
 		pattern: /-[^\d\W]\w*/,
 		alias: 'operator'
 	},
-	'keyword': /\b(?:break|case|continue|default|do|else|float|for|global|if|in|int|matrix|proc|return|string|switch|vector|while)\b/,
+	'keyword': /\b(?:break|case|continue|default|do|else|float|for|global|if|int?|matrix|proc|return|string|switch|vector|while)\b/,
 	'function': {
 		pattern: /((?:^|[{;])[ \t]*)[a-z_]\w*\b(?!\s*(?:\.(?!\.)|[[{=]))|\b[a-z_]\w*(?=[ \t]*\()/img,
 		lookbehind: true,
@@ -40,6 +40,6 @@ statement.inside = languages.mel = {
 		pattern: /<<|>>/,
 		alias: 'punctuation'
 	},
-	'operator': /\+[+=]?|-[-=]?|&&|\|\||[<>]=?|[*/!=]=?|[%^]/,
+	'operator': /--|\+\+|&&|\|\||[!=<>/*+-]=?|[%^]/,
 	'punctuation': /[()[\]{}.,:;?]/
 };

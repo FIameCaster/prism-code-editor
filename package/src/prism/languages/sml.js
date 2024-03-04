@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import { clikePunctuation, re, replace } from '../utils/shared.js';
 
-var keywords = /\b(?:abstype|and|andalso|as|case|datatype|do|else|end|eqtype|exception|fn|fun|functor|handle|if|in|include|infix|infixr|let|local|nonfix|of|op|open|orelse|raise|rec|sharing|sig|signature|struct|structure|then|type|val|where|while|with|withtype)\b/i;
+var keywords = /\b(?:abstype|[ae]nd|andalso|as|case|datatype|do|else|eqtype|exception|fu?n|functor|handle|if|in|include|infixr?|let|local|nonfix|of|op|open|orelse|raise|rec|sharing|sig|signature|struct|structure|then|type|val|where|while|with|withtype)\b/i;
 
 var longId = `(?!${keywords.source})[a-z\\d_][\\w'.]*`;
 
@@ -54,6 +54,6 @@ class0.inside = languages.smlnj = languages.sml = {
 	},
 
 	'boolean': /\b(?:false|true)\b/i,
-	'operator': /\.{3}|:[>=:]|=>?|->|[<>]=?|[!*/^#|@~+-]/,
+	'operator': /\.{3}|:[>=:]|=>?|->|[<>]=?|[|^#@~!/*+-]/,
 	'punctuation': clikePunctuation
 };

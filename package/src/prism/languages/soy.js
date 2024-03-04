@@ -35,7 +35,7 @@ languages.soy = {
 				alias: 'variable'
 			},
 			'keyword': {
-				pattern: /(\{+\/?[^\S\n]*)(?:\\[nrt]|alias|call|case|css|default|delcall|delpackage|deltemplate|else(?:if)?|fallbackmsg|for(?:each)?|if(?:empty)?|lb|let|literal|msg|namespace|nil|@?param\??|rb|sp|switch|template|xid)|\b(?:any|as|attributes|bool|css|float|html|in|int|js|list|map|null|number|string|uri)\b/,
+				pattern: /(\{+\/?[^\S\n]*)(?:\\[nrt]|alias|call|case|css|default|delcall|delpackage|deltemplate|elseif|else|fallbackmsg|foreach|for|ifempty|if|lb|let|literal|msg|namespace|nil|@?param\??|rb|sp|switch|template|xid)|\b(?:any|as|attributes|bool|css|float|html|int?|js|list|map|null|number|string|uri)\b/,
 				lookbehind: true
 			},
 			'delimiter': {
@@ -52,16 +52,13 @@ languages.soy = {
 				}
 			},
 			'string': string,
-			'function': [
-				/\w+(?=\()/,
-				{
-					pattern: /(\|[^\S\n]*)\w+/,
-					lookbehind: true
-				}
-			],
+			'function': {
+				pattern: /\w+(?=\()|(\|[^\S\n]*)\w+/,
+				lookbehind: true
+			},
 			'boolean': boolean,
 			'number': numberPattern,
-			'operator': /\?:?|<=?|>=?|==?|!=|[+*/%-]|\b(?:and|not|or)\b/,
+			'operator': /\?:?|[=<>]=?|!=|[%/*+-]|\b(?:and|not|or)\b/,
 			'punctuation': /[()[\]{}.,:|]/
 		}
 	},

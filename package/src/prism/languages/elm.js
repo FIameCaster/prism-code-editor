@@ -27,9 +27,9 @@ languages.elm = {
 			'keyword': /\b(?:as|exposing|import)\b/
 		}
 	},
-	'keyword': /\b(?:alias|as|case|else|exposing|if|in|infixl|infixr|let|module|of|then|type)\b/,
+	'keyword': /\b(?:alias|as|case|else|exposing|if|in|infix[lr]|let|module|of|then|type)\b/,
 	// These are builtin variables only. Constructors are highlighted later as a constant.
-	'builtin': /\b(?:abs|acos|always|asin|atan|atan2|ceiling|clamp|compare|cos|curry|degrees|e|flip|floor|fromPolar|identity|isInfinite|isNaN|logBase|max|min|negate|never|not|pi|radians|rem|round|sin|sqrt|tan|toFloat|toPolar|toString|truncate|turns|uncurry|xor)\b/,
+	'builtin': /\b(?:abs|a?cos|always|a?sin|atan2?|ceiling|clamp|compare|curry|degrees|e|flip|floor|fromPolar|identity|isInfinite|isNaN|logBase|max|min|negate|never|not|pi|radians|rem|round|sqrt|tan|toFloat|toPolar|toString|truncate|turns|uncurry|xor)\b/,
 	// decimal integers and floating point numbers | hexadecimal integers
 	'number': /\b(?:\d+(?:\.\d+)?(?:e[+-]?\d+)?|0x[a-f\d]+)\b/i,
 	// Most of this is needed because of the meaning of a single '.'.
@@ -39,7 +39,7 @@ languages.elm = {
 	// operator too.
 	// Valid operator characters in 0.18: +-/*=.$<>:&|^?%#@~!
 	// Ref: https://groups.google.com/forum/#!msg/elm-dev/0AHSnDdkSkQ/E0SVU70JEQAJ
-	'operator': /\s\.\s|\.\.+|[/*=$<>:&|^?%#@~!+-]+/,
+	'operator': /\s\.\s|\.\.+|[:?$#@~%&|^!=<>/*+-]+/,
 	// In Elm, nearly everything is a variable, do not highlight these.
 	'hvariable': /\b(?:[A-Z]\w*\.)*[a-z]\w*\b/,
 	'constant': /\b(?:[A-Z]\w*\.)*[A-Z]\w*\b/,

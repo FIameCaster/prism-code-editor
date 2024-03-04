@@ -9,7 +9,7 @@ languages.j = {
 		pattern: /'(?:''|[^\n'])*'/g,
 		greedy: true
 	},
-	'keyword': /\b(?:(?:CR|LF|adverb|conjunction|def|define|dyad|monad|noun|verb)\b|(?:assert|break|case|catch[dt]?|continue|do|else|elseif|end|fcase|for|for_\w+|goto_\w+|if|label_\w+|return|select|throw|try|while|whilst)\.)/,
+	'keyword': /\b(?:(?:CR|LF|adverb|conjunction|def|define|dyad|monad|noun|verb)\b|(?:assert|break|catch[dt]?|continue|do|else|elseif|end|f?case|for|for_\w+|goto_\w+|if|label_\w+|return|select|throw|try|while|whilst)\.)/,
 	'verb': {
 		// Negative look-ahead prevents bad highlighting
 		// of ^: ;. =. =: !. !:

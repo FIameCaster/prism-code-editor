@@ -15,7 +15,7 @@ expression.inside = languages.stan = {
 	'string': {
 		// String literals can contain spaces and any printable ASCII characters except for " and \
 		// https://mc-stan.org/docs/2_24/reference-manual/print-statements-section.html#string-literals
-		pattern: /"[ \x21\x23-[\]-\x7E]*"/g,
+		pattern: /"[ !#-[\]-~]*"/g,
 		greedy: true
 	},
 	'directive': {
@@ -46,14 +46,14 @@ expression.inside = languages.stan = {
 			pattern: /\bdata(?=\s*\{)|\b(?:functions|generated|model|parameters|quantities|transformed)\b/,
 			alias: 'program-block'
 		},
-		/\b(?:array|break|cholesky_factor_corr|cholesky_factor_cov|complex|continue|corr_matrix|cov_matrix|data|else|for|if|in|increment_log_prob|int|matrix|ordered|positive_ordered|print|real|reject|return|row_vector|simplex|target|unit_vector|vector|void|while)\b/,
+		/\b(?:array|break|cholesky_factor_corr|cholesky_factor_cov|complex|continue|corr_matrix|cov_matrix|data|else|for|if|increment_log_prob|int?|matrix|ordered|positive_ordered|print|real|reject|return|row_vector|simplex|target|unit_vector|vector|void|while)\b/,
 		// these are functions that are known to take another function as their first argument.
 		higherOrderFunctions
 	],
 	'function': /\b[a-z]\w*(?=\s*\()/i,
-	'number': /(?:\b\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\B\.\d+(?:_\d+)*)(?:E[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,
+	'number': /(?:\b\d+(?:_\d+)*(?:\.(?:\d+(?:_\d+)*)?)?|\B\.\d+(?:_\d+)*)(?:e[+-]?\d+(?:_\d+)*)?i?(?!\w)/i,
 	'boolean': boolean,
 
-	'operator': /<-|\.[*/]=?|\|\|?|&&|[!=<>*/+-]=?|['^%~?:]/,
+	'operator': /<-|\.[*/]=?|\|\|?|&&|[!=<>/*+-]=?|['^%~?:]/,
 	'punctuation': /[()[\]{},;]/
 };

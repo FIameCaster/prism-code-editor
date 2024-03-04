@@ -42,7 +42,7 @@ var smarty = expression.inside = {
 		greedy: true,
 		alias: 'punctuation'
 	},
-	'number': /\b0x[a-fA-F\d]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][-+]?\d+)?/,
+	'number': /\b0x[a-fA-F\d]+|(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[Ee][+-]?\d+)?/,
 	'variable': [
 		/\$(?!\d)\w+/,
 		/#(?!\d)\w+#/,
@@ -60,12 +60,12 @@ var smarty = expression.inside = {
 		lookbehind: true
 	},
 	'attr-name': /\b[a-z_]\w*(?=\s*=)/i,
-	'boolean': /\b(?:false|no|off|on|true|yes)\b/,
+	'boolean': /\b(?:false|true|no|off|on|yes)\b/,
 	'punctuation': /[()[\]{}.,:`]|->/,
 	'operator': [
-		/[*/%+-]|==?=?|[!<>]=?|&&|\|\|?/,
+		/[%/*+-]|===|[!=<>]=?|&&|\|\|?/,
 		/\bis\s+(?:not\s+)?(?:div|even|odd)(?:\s+by)?\b/,
-		/\b(?:and|eq|gt?e|gt|lt?e|lt|mod|neq?|not|or)\b/
+		/\b(?:and|eq|[gl][te]|[gl]te|mod|neq?|not|or)\b/,
 	]
 };
 

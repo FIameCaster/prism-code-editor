@@ -59,7 +59,7 @@ languages.wren = {
 		// #! attributes are stored in class properties
 		// #!myvar = true
 		// #attributes are not stored and dismissed at compilation
-		pattern: /#!?[ \t\u3000]*\w+/,
+		pattern: /#!?[ \t　]*\w+/,
 		alias: 'keyword'
 	},
 	'class-name': [
@@ -81,13 +81,13 @@ languages.wren = {
 		pattern: /\bnull\b/,
 		alias: 'keyword'
 	},
-	'keyword': /\b(?:as|break|class|construct|continue|else|for|foreign|if|import|in|is|return|static|super|this|var|while)\b/,
+	'keyword': /\b(?:as|break|class|construct|continue|else|for|foreign|i[fns]|import|return|static|super|this|var|while)\b/,
 	'boolean': boolean,
 	'number': /\b(?:0x[a-f\d]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b/i,
 
 	// Functions can be Class.method()
 	'function': /\b[a-z_]\w*(?=\s*[({])/i,
 
-	'operator': /<<|>>|[!=<>]=?|&&|\|\||[*/%~^&|?:+-]|\.{2,3}/,
+	'operator': /<<|>>|[!=<>]=?|&&|\|\||[%&|^~?:/*+-]|\.{2,3}/,
 	'punctuation': clikePunctuation
 };

@@ -35,7 +35,7 @@ languages.ini = {
 		alias: 'attr-value',
 		inside: {
 			'inner-value': {
-				pattern: /^("|').+(?=\1$)/,
+				pattern: /^(["']).+(?=\1$)/,
 				lookbehind: true
 			}
 		}

@@ -40,7 +40,7 @@ languages.livescript = {
 	],
 	'regex': [
 		{
-			pattern: /\/\/(?:\[[^\n\]]*\]|\\.|(?!\/\/)[^\\\[])+\/\/[gimyu]{0,5}/g,
+			pattern: /\/\/(?:\[[^\n\]]*\]|\\.|(?!\/\/)[^\\[])+\/\/[gimyu]{0,5}/g,
 			greedy: true,
 			inside: {
 				'comment': /#.*/,
@@ -52,16 +52,16 @@ languages.livescript = {
 		}
 	],
 	'keyword': {
-		pattern: /(^|(?!-).)\b(?:break|case|catch|class|const|continue|default|do|else|extends|fallthrough|finally|for(?: ever)?|function|if|implements|it|let|loop|new|null|otherwise|own|return|super|switch|that|then|this|throw|try|unless|until|var|void|when|while|yield)(?!-)\b/m,
+		pattern: /(^|(?!-).)\b(?:break|case|catch|class|const|continue|default|do|else|extends|fallthrough|finally|for ever|for|function|if|implements|it|let|loop|new|null|otherwise|own|return|super|switch|that|[tw]hen|this|throw|try|unless|until|var|void|while|yield)(?!-)\b/m,
 		lookbehind: true
 	},
 	'keyword-operator': {
-		pattern: /(^|[^-])\b(?:(?:delete|require|typeof)!|(?:and|by|delete|export|from|import(?: all)?|in|instanceof|is(?: not|nt)?|not|of|or|til|to|typeof|with|xor)(?!-)\b)/m,
+		pattern: /(^|[^-])\b(?:(?:delete|require|typeof)!|(?:and|by|delete|export|from|import all|import|in|instanceof|isnt|is not|is|not|of|til|to|typeof|with|x?or)(?!-)\b)/m,
 		lookbehind: true,
 		alias: 'operator'
 	},
 	'boolean': {
-		pattern: /(^|[^-])\b(?:false|no|off|on|true|yes)(?!-)\b/m,
+		pattern: /(^|[^-])\b(?:false|true|no|off|on|yes)(?!-)\b/m,
 		lookbehind: true
 	},
 	'argument': {
@@ -72,13 +72,9 @@ languages.livescript = {
 	},
 	'number': /\b(?:\d+~[a-z\d]+|\d[\d_]*(?:\.\d[\d_]*)?(?:[a-z]\w*)?)/i,
 	'identifier': /[a-z_](?:-?[a-z]|[\d_])*/i,
-	'operator': [
-		// Spaced .
-		{
-			pattern: /( )\.(?= )/,
-			lookbehind: true
-		},
+	'operator': {
 		// Full list, in order:
+		// Spaced .
 		// .= .~ .. ...
 		// .&. .^. .<<. .>>. .>>>.
 		// := :: ::=
@@ -101,7 +97,8 @@ languages.livescript = {
 		// = ==
 		// ^ ^^
 		// / ?
-		/\.(?:[=~]|\.\.?)|\.(?:[&|^]|<<|>>>?)\.|:(?:=|:=?)|&&|\|[|>]|<(?:<<?<?|--?!?|~~?!?|[|=?])?|>[>=?]?|-(?:->?|>)?|\+\+?|@@?|%%?|\*\*?|!(?:~?=|--?>|~?~>)?|~(?:~?>|=)?|==?|\^\^?|[/?]/
-	],
+		pattern: /( )\.(?= )|\.[=~]|\.{2,3}|\.(?:[&|^]|>>>?|<<)\.|::?=|::|&&|\|[|>]|<--?!?|<~~?!?|<[|?=]|<{1,4}|>[>=?]?|--?>?|\+\+?|@@?|%%?|\*\*?|!--?>|!~?~>|!~?=?|~=|~~?>?|==?|\^\^?|[/?]/,
+		lookbehind: true
+	},
 	'punctuation': /[()[\]{}.,:;|`]/
 };

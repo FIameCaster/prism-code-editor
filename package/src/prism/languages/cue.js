@@ -51,7 +51,7 @@ expression.inside = languages.cue = {
 		lookbehind: true
 	},
 	'builtin': {
-		pattern: /(^|[^$\w])(?:bool|bytes|float|float(?:32|64)|u?int(?:8|16|32|64|128)?|number|rune|string)(?![$\w])/,
+		pattern: /(^|[^$\w])(?:bool|bytes|float(?:32|64)?|u?int(?:8|16|32|64|128)?|number|rune|string)(?![$\w])/,
 		lookbehind: true
 	},
 
@@ -69,6 +69,6 @@ expression.inside = languages.cue = {
 		lookbehind: true
 	},
 
-	'operator': /\.{3}|_\|_|&&?|\|\|?|[!=]~|[<>!=]=?|[*/?+-]/,
+	'operator': /\.{3}|_\|_|&&?|\|\|?|[!=]~|[<>!=]=?|[?/*+-]/,
 	'punctuation': /[()[\]{}.,:]/
 };

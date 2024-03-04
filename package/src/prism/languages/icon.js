@@ -9,7 +9,7 @@ languages.icon = {
 	},
 	'number': /\b(?:\d+r[a-z\d]+|\d+(?:\.\d+)?(?:e[+-]?\d+)?)\b|\.\d+\b/i,
 	'builtin-keyword': {
-		pattern: /&(?:allocated|ascii|clock|collections|cset|current|date|dateline|digits|dump|e|error(?:number|text|value)?|errout|fail|features|file|host|input|lcase|letters|level|line|main|null|output|phi|pi|pos|progname|random|regions|source|storage|subject|time|trace|ucase|version)\b/,
+		pattern: /&(?:allocated|ascii|clock|collections|cset|current|date|dateline|digits|dump|e|error(?:number|text|value)?|errout|fail|features|file|host|input|[lu]case|letters|level|line|main|null|output|phi|pi|pos|progname|random|regions|source|storage|subject|time|trace|version)\b/,
 		alias: 'variable'
 	},
 	'directive': {

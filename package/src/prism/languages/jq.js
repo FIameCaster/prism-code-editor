@@ -51,7 +51,7 @@ content.inside = languages.jq = {
 			pattern: /\|=?/,
 			alias: 'pipe'
 		},
-		/\.\.|[!=<>]?=|\?\/\/|\/\/=?|[-+*/%]=?|[<>?]|\b(?:and|not|or)\b/
+		/\.\.|!=|\?\/\/|\/\/=?|[%=<>/*+-]=?|\?|\b(?:and|not|or)\b/,
 	],
 	'c-style-function': {
 		pattern: /\b[a-z_]\w*(?=\s*\()/i,

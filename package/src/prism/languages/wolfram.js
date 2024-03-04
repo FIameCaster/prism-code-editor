@@ -23,6 +23,6 @@ languages.nb = languages.wl = languages.mathematica = languages.wolfram = {
 	},
 	'boolean': /\b(?:False|True)\b/,
 	'number': /(?:\b(?=\d)|\B(?=\.))(?:0[bo])?(?:(?:\d|0x[a-f\d])[a-f\d]*(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?j?\b/i,
-	'operator': /\/\.|=\.|:>|\|?->|<-|@@?@?|\/@|=?[!=]?=|\^?:?=|\*\*?=?|\/\/?=?|[/+-]=?|<[<|=>]?|>[|=>]?|[;&|^~]/,
+	'operator': /[/=]\.|:>|\|?->|<-|@@?@?|\/@|=?[!=]?=|\^?:?=|\*\*?=?|\/\/?=?|[/+-]=?|<[<|=>]?|>[|=>]?|[;&|^~]/,
 	'punctuation': clikePunctuation
 };

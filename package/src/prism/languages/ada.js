@@ -3,15 +3,15 @@ import { languages } from '../core.js';
 languages.ada = {
 	'comment': /--.*/,
 	'string': /"(?:""|[^"\f\n])*"/,
-	'number': /\b\d(?:_?\d)*(?:#[A-F\d](?:_?[A-F\d])*(?:\.[A-F\d](?:_?[A-F\d])*)?#|(?:\.\d(?:_?\d)*)?)(?:E[+-]?\d(?:_?\d)*)?\b/i,
+	'number': /\b\d(?:_?\d)*(?:#[a-f\d](?:_?[a-f\d])*(?:\.[a-f\d](?:_?[a-f\d])*)?#|(?:\.\d(?:_?\d)*)?)(?:e[+-]?\d(?:_?\d)*)?\b/i,
 	'attribute': {
 		pattern: /\b'\w+/,
 		alias: 'attr-name'
 	},
-	'keyword': /\b(?:abort|abs|abstract|accept|access|aliased|all|and|array|at|begin|body|case|constant|declare|delay|delta|digits|do|else|elsif|end|entry|exception|exit|for|function|generic|goto|if|in|interface|is|limited|loop|mod|new|not|null|of|or|others|out|overriding|package|pragma|private|procedure|protected|raise|range|record|rem|renames|requeue|return|reverse|select|separate|some|subtype|synchronized|tagged|task|terminate|then|type|until|use|when|while|with|xor)\b/i,
+	'keyword': /\b(?:abort|abs|abstract|accept|access|aliased|all|[ae]nd|array|at|begin|body|case|constant|declare|delay|delta|digits|do|else|elsif|entry|exception|exit|for|function|generic|goto|i[fns]|interface|limited|loop|mod|new|not|null|of|others|out|overriding|package|pragma|private|procedure|protected|raise|range|record|rem|renames|requeue|return|reverse|select|separate|some|subtype|synchronized|tagged|task|terminate|[tw]hen|type|until|use|while|with|x?or)\b/i,
 	'boolean': /\b(?:false|true)\b/i,
 	'operator': /<[=>]?|>=?|=>?|:=|\/=?|\*\*?|[&+-]/,
-	'punctuation': /\.\.?|[,;():]/,
+	'punctuation': /\.\.?|[(),:;]/,
 	'char': /'.'/,
 	'variable': /\b[a-z](?:\w)*\b/i
 };

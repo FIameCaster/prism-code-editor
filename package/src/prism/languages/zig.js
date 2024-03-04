@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import { boolean, clikePunctuation, re, replace } from '../utils/shared.js';
 
-var keyword = /\b(?:align|allowzero|and|anyframe|anytype|asm|async|await|break|cancel|catch|comptime|const|continue|defer|else|enum|errdefer|error|export|extern|fn|for|if|inline|linksection|nakedcc|noalias|nosuspend|null|or|orelse|packed|promise|pub|resume|return|stdcallcc|struct|suspend|switch|test|threadlocal|try|undefined|union|unreachable|usingnamespace|var|volatile|while)\b/;
+var keyword = /\b(?:align|allowzero|and|anyframe|anytype|asm|async|await|break|cancel|catch|comptime|const|continue|defer|else|enum|errdefer|error|export|extern|fn|f?or|if|inline|linksection|nakedcc|noalias|nosuspend|null|orelse|packed|promise|pub|resume|return|stdcallcc|struct|suspend|switch|test|threadlocal|try|undefined|union|unreachable|usingnamespace|var|volatile|while)\b/;
 
 var IDENTIFIER = '\\b(?!' + keyword.source + ')(?!\\d)\\w+\\b';
 var ALIGN = /align\s*\((?:[^()]|\([^()]*\))*\)/.source;
@@ -50,7 +50,7 @@ languages.zig = {
 	],
 	'char': {
 		// characters 'a', '\n', '\xFF', '\u{10FFFF}'
-		pattern: /(^|[^\\])'(?:[^\\\n']|[\uD800-\uDFFF]{2}|\\(?:.|x[a-fA-F\d]{2}|u\{[a-fA-F\d]{1,6}\}))'/g,
+		pattern: /(^|[^\\])'(?:[^\\\n']|[\ud800-\udfff]{2}|\\(?:.|x[a-fA-F\d]{2}|u\{[a-fA-F\d]{1,6}\}))'/g,
 		lookbehind: true,
 		greedy: true
 	},
@@ -85,6 +85,6 @@ languages.zig = {
 	'function': /\b(?!\d)\w+(?=\s*\()/,
 	'number': /\b(?:0b[01]+|0o[0-7]+|0x[a-fA-F\d]+(?:\.[a-fA-F\d]*)?(?:[pP][+-]?[a-fA-F\d]+)?|\d+(?:\.\d*)?(?:[eE][+-]?\d+)?)\b/,
 	'boolean': boolean,
-	'operator': /\.[*?]|\.{2,3}|[-=]>|\*\*|\+\+|\|\||(?:<<|>>|[-+*]%|[-+*/%^&|<>!=])=?|[?~]/,
+	'operator': /[=-]>|\*\*|\+\+|\|\||(?:<<|>>|[*+-]%|[%&|^!=<>/*+-])=?|[?~]|\.{3}|\.[.*?]/,
 	'punctuation': clikePunctuation
 };

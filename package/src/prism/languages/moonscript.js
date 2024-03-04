@@ -37,20 +37,20 @@ moonscript.inside = languages.moon = languages.moonscript = {
 		// class-like names start with a capital letter
 		/\b[A-Z]\w*/
 	],
-	'keyword': /\b(?:class|continue|do|else|elseif|export|extends|for|from|if|import|in|local|nil|return|self|super|switch|then|unless|using|when|while|with)\b/,
+	'keyword': /\b(?:class|continue|do|else|elseif|export|extends|for|from|if|import|in|local|nil|return|self|super|switch|[tw]hen|unless|using|while|with)\b/,
 	'variable': /@@?\w*/,
 	'property': {
 		pattern: /\b(?!\d)\w+(?=:)|(:)(?!\d)\w+/,
 		lookbehind: true
 	},
 	'function': {
-		pattern: /\b(?:_G|_VERSION|assert|collectgarbage|coroutine\.(?:create|resume|running|status|wrap|yield)|debug\.(?:debug|getfenv|gethook|getinfo|getlocal|getmetatable|getregistry|getupvalue|setfenv|sethook|setlocal|setmetatable|setupvalue|traceback)|dofile|error|getfenv|getmetatable|io\.(?:close|flush|input|lines|open|output|popen|read|stderr|stdin|stdout|tmpfile|type|write)|ipairs|load|loadfile|loadstring|math\.(?:abs|acos|asin|atan|atan2|ceil|cos|cosh|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pi|pow|rad|random|randomseed|sin|sinh|sqrt|tan|tanh)|module|next|os\.(?:clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)|package\.(?:cpath|loaded|loadlib|path|preload|seeall)|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|string\.(?:byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)|table\.(?:concat|insert|maxn|remove|sort)|tonumber|tostring|type|unpack|xpcall)\b/,
+		pattern: /\b(?:_G|_VERSION|assert|collectgarbage|coroutine\.(?:create|resume|running|status|wrap|yield)|debug\.(?:debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback)|dofile|error|[gs]etfenv|[gs]etmetatable|io\.(?:close|flush|input|lines|output|p?open|read|stderr|stdin|stdout|tmpfile|type|write)|i?pairs|load|loadfile|loadstring|math\.(?:abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pi|pow|rad|random|randomseed|sinh?|sqrt|tanh?)|module|next|os\.(?:clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)|package\.(?:cpath|loaded|loadlib|path|preload|seeall)|print|rawequal|rawget|rawset|require|select|string\.(?:byte|char|dump|find|format|g?match|g?sub|len|lower|rep|reverse|upper)|table\.(?:concat|insert|maxn|remove|sort)|tonumber|tostring|type|unpack|x?pcall)\b/,
 		inside: {
 			'punctuation': /\./
 		}
 	},
 	'boolean': boolean,
-	'number': /(?:\B\.\d+|\b\d+\.\d+|\b\d+(?=[eE]))(?:[eE][-+]?\d+)?\b|\b(?:0x[a-fA-F\d]+|\d+)(?:U?LL)?\b/,
-	'operator': /\.{3}|[-=]>|~=|(?:[-+*/%<>!=]|\.\.)=?|[:#^]|\b(?:and|or)\b=?|\b(?:not)\b/,
+	'number': /(?:\B\.\d+|\b\d+\.\d+|\b\d+(?=[eE]))(?:[eE][+-]?\d+)?\b|\b(?:0x[a-fA-F\d]+|\d+)(?:U?LL)?\b/,
+	'operator': /\.{3}|[=-]>|~=|(?:[%!=<>/*+-]|\.\.)=?|[:#^]|\b(?:and|or)\b=?|\b(?:not)\b/,
 	'punctuation': /[()[\]{}.,\\]/
 };

@@ -3,13 +3,10 @@ import { extend, insertBefore } from '../utils/language.js';
 import './css.js';
 
 var variable = /\$[-\w]+|#\{\$[-\w]+\}/;
-var operator = [
-	/[+*/%]|[!=]=|<=?|>=?|\b(?:and|not|or)\b/,
-	{
-		pattern: /(\s)-(?=\s)/,
-		lookbehind: true
-	}
-];
+var operator = {
+	pattern: /[%/*+]|[!=]=|<=?|>=?|\b(?:and|not|or)\b|(\s)-(?!\S)/,
+	lookbehind: true
+};
 
 var sass = languages.sass = extend('css', {
 	// Sass comments don't need to be closed, only indented

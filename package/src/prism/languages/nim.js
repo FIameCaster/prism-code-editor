@@ -34,12 +34,12 @@ languages.nim = {
 
 	// The negative look ahead prevents wrong highlighting of the .. operator
 	'number': /\b(?:0[xXoObB][a-fA-F\d_]+|\d[\d_]*(?:(?!\.\.)\.[\d_]*)?(?:[eE][+-]?\d[\d_]*)?)(?:'?[iuf]\d*)?/,
-	'keyword': /\b(?:addr|as|asm|atomic|bind|block|break|case|cast|concept|const|continue|converter|defer|discard|distinct|do|elif|else|end|enum|except|export|finally|for|from|func|generic|if|import|include|interface|iterator|let|macro|method|mixin|nil|object|out|proc|ptr|raise|ref|return|static|template|try|tuple|type|using|var|when|while|with|without|yield)\b/,
+	'keyword': /\b(?:addr|asm?|atomic|bind|block|break|cas[et]|concept|const|continue|converter|defer|discard|distinct|do|elif|else|end|enum|except|export|finally|for|from|func|generic|if|import|include|interface|iterator|let|macro|method|mixin|nil|object|out|proc|ptr|raise|ref|return|static|template|try|tuple|type|using|var|when|while|with|without|yield)\b/,
 	'operator': {
 		// Look behind and look ahead prevent wrong highlighting of punctuations [. .] {. .} (. .)
 		// but allow the slice operator .. to take precedence over them
 		// One can define his own operators in Nim so all combination of operators might be an operator.
-		pattern: /(^|[({\[](?=\.\.)|(?![({\[]\.).)(?:(?:[=*/<>@$~&%|!?^:\\+-]|\.\.|\.(?![)}\]]))+|\b(?:and|div|in|is|isnot|mod|not|notin|of|or|shl|shr|xor)\b)/m,
+		pattern: /(^|[({\[](?=\.\.)|(?![({\[]\.).)(?:(?:[\\@$~?:%&|^!=<>/*+-]|\.\.|\.(?![)}\]]))+|\b(?:and|div|in|isnot|is|mod|notin|not|of|sh[lr]|x?or)\b)/m,
 		lookbehind: true
 	},
 	'punctuation': /[({[]\.|\.[)}\]]|[`()[\]{},:]/

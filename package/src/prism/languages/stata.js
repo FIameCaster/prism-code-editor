@@ -62,19 +62,19 @@ expression.inside = languages.stata = {
 
 
 	'command': {
-		pattern: /(^[ \t]*(?:\.[ \t]+)?(?:(?:bayes|bootstrap|by|bysort|capture|collect|fmm|fp|frame|jackknife|mfp|mi|nestreg|noisily|permute|quietly|rolling|simulate|statsby|stepwise|svy|version|xi)\b[^\n:]*:[ \t]*|(?:capture|noisily|quietly|version)[ \t]+)?)[a-zA-Z]\w*/mg,
+		pattern: /(^[ \t]*(?:\.[ \t]+)?(?:(?:bayes|bootstrap|by|bysort|capture|collect|fmm|frame|jackknife|m?fp|mi|nestreg|noisily|permute|quietly|rolling|simulate|statsby|stepwise|svy|version|xi)\b[^\n:]*:[ \t]*|(?:capture|noisily|quietly|version)[ \t]+)?)[a-zA-Z]\w*/mg,
 		lookbehind: true,
 		greedy: true,
 		alias: 'keyword'
 	},
 	'variable': /\$\w+|[‘`']\w[^’`'\n]*[’`']/,
-	'keyword': /\b(?:bayes|bootstrap|by|bysort|capture|clear|collect|fmm|fp|frame|if|in|jackknife|mi[ \t]+estimate|mfp|nestreg|noisily|of|permute|quietly|rolling|simulate|sort|statsby|stepwise|svy|varlist|version|xi)\b/,
+	'keyword': /\b(?:bayes|bootstrap|by|bysort|capture|clear|collect|fmm|frame|if|in|jackknife|mi[ \t]+estimate|m?fp|nestreg|noisily|of|permute|quietly|rolling|simulate|sort|statsby|stepwise|svy|varlist|version|xi)\b/,
 
 
 	'boolean': /\b(?:off|on)\b/,
 	'number': /\b\d+(?:\.\d+)?\b|\B\.\d+/,
 	'function': /\b[a-z_]\w*(?=\()/i,
 
-	'operator': /\+\+|--|##?|[<>!=~]=?|[*^&|/+-]/,
+	'operator': /--|\+\+|##?|[~!=<>]=?|[&|^/*+-]/,
 	'punctuation': /[()[\]{},:]/
 };

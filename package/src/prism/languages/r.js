@@ -3,7 +3,7 @@ import { languages } from '../core.js';
 languages.r = {
 	'comment': /#.*/,
 	'string': {
-		pattern: /(['"])(?:\\.|(?!\1)[^\\\n])*\1/g,
+		pattern: /(["'])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 	'percent-operator': {
@@ -19,6 +19,6 @@ languages.r = {
 		/(?:\b0x[a-fA-F\d]+(?:\.\d*)?|\b\d+(?:\.\d*)?|\B\.\d+)(?:[EePp][+-]?\d+)?[iL]?/
 	],
 	'keyword': /\b(?:NA|NA_character_|NA_complex_|NA_integer_|NA_real_|NULL|break|else|for|function|if|in|next|repeat|while)\b/,
-	'operator': /->?>?|<(?:=|<?-)?|[>!=]=?|::?|&&?|\|\|?|[+*/^$@~]/,
+	'operator': /->>?|<=|<<?-|[!=<>]=?|::?|&&?|\|\|?|[~^$@/*+-]/,
 	'punctuation': /[()[\]{},;]/
 };

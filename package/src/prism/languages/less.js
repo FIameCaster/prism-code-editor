@@ -30,7 +30,7 @@ insertBefore(
 		},
 
 		'property': /(?:@\{[\w-]+\}|[\w-])+(?:\+_?)?(?=\s*:)/,
-		'operator': /[*/+-]/
+		'operator': /[/*+-]/
 	}),
 	'property', {
 		'variable': [

@@ -16,7 +16,7 @@ languages.magma = {
 	},
 
 	// http://magma.maths.usyd.edu.au/magma/handbook/text/82
-	'keyword': /\b(?:_|adj|and|assert|assert2|assert3|assigned|break|by|case|cat|catch|clear|cmpeq|cmpne|continue|declare|default|delete|diff|div|do|elif|else|end|eq|error|eval|exists|exit|for|forall|forward|fprintf|freeze|function|ge|gt|if|iload|import|in|intrinsic|is|join|le|load|local|lt|meet|mod|ne|not|notadj|notin|notsubset|or|print|printf|procedure|quit|random|read|readi|repeat|require|requirege|requirerange|restore|return|save|sdiff|select|subset|then|time|to|try|until|vprint|vprintf|vtime|when|where|while|xor)\b/,
+	'keyword': /\b(?:_|adj|[ae]nd|assert[23]?|assigned|break|by|case|cat|catch|clear|cmpeq|cmpne|continue|declare|default|delete|div|do|elif|else|eq|error|eval|exists|exit|for|forall|forward|fprintf|freeze|function|[gl][et]|i[fns]|i?load|import|intrinsic|join|local|meet|mod|ne|not|notadj|notin|notsubset|procedure|quit|random|readi?|repeat|require|requirege|requirerange|restore|return|save|s?diff|select|subset|[tw]hen|to|try|until|v?printf?|v?time|where|while|x?or)\b/,
 	'boolean': boolean,
 
 	'generator': {
@@ -30,6 +30,6 @@ languages.magma = {
 		lookbehind: true
 	},
 
-	'operator': /->|[-+*/^~!|#=]|:=|\.\./,
+	'operator': /->|[~#|^!=/*+-]|:=|\.\./,
 	'punctuation': /[()[\]{}.,:;<>]/
 };

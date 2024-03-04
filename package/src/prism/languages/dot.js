@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import { re } from '../utils/shared.js';
 
-var ID = /(?:(?!d)[\w\x80-\uFFFF]+|-?(?:\.\d+|\d+(?:\.\d*)?)|"[^\\"]*(?:\\[\s\S][^\\"]*)*"|<(?:[^<>]|(?!<!--)<(?:[^<>"']|"[^"]*"|'[^']*')+>|<!--(?:[^-]|-(?!->))*-->)*>)/.source;
+var ID = /(?:(?!d)[\w\x80-\uffff]+|-?(?:\.\d+|\d+(?:\.\d*)?)|"[^\\"]*(?:\\[\s\S][^\\"]*)*"|<(?:[^<>]|(?!<!--)<(?:[^<>"']|"[^"]*"|'[^']*')+>|<!--(?:[^-]|-(?!->))*-->)*>)/.source;
 
 var IDInside = {
 	'markup': {
@@ -38,12 +38,12 @@ languages.gv = languages.dot = {
 	},
 	'keyword': /\b(?:digraph|edge|graph|node|strict|subgraph)\b/i,
 	'compass-point': {
-		pattern: /(:[ \t\n]*)(?:[ewc_]|[ns][ew]?)(?![\w\x80-\uFFFF])/,
+		pattern: /(:[ \t\n]*)(?:[ewc_]|[ns][ew]?)(?![\w\x80-\uffff])/,
 		lookbehind: true,
 		alias: 'builtin'
 	},
 	'node': {
-		pattern: re(/(^|[^-.\w\x80-\uFFFF\\])<0>/.source, [ID], 'g'),
+		pattern: re(/(^|[^-.\w\x80-\uffff\\])<0>/.source, [ID], 'g'),
 		lookbehind: true,
 		greedy: true,
 		inside: IDInside

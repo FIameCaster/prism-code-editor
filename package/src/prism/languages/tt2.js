@@ -6,8 +6,8 @@ import './markup.js';
 
 var tt2 = extend('clike', {
 	'comment': /#.*|\[%#[\s\S]*?%\]/,
-	'keyword': /\b(?:BLOCK|CALL|CASE|CATCH|CLEAR|DEBUG|DEFAULT|ELSE|ELSIF|END|FILTER|FINAL|FOREACH|GET|IF|IN|INCLUDE|INSERT|LAST|MACRO|META|NEXT|PERL|PROCESS|RAWPERL|RETURN|SET|STOP|SWITCH|TAGS|THROW|TRY|UNLESS|USE|WHILE|WRAPPER)\b/,
-	'punctuation': /[[\]{},()]/
+	'keyword': /\b(?:BLOCK|CALL|CASE|CATCH|CLEAR|DEBUG|DEFAULT|ELSE|ELSIF|END|FILTER|FINAL|FOREACH|[GS]ET|IF|IN|INCLUDE|INSERT|LAST|MACRO|META|NEXT|PERL|PROCESS|RAWPERL|RETURN|STOP|SWITCH|TAGS|THROW|TRY|UNLESS|USE|WHILE|WRAPPER)\b/,
+	'punctuation': /[()[\]{},]/
 });
 
 insertBefore(tt2, 'number', {
@@ -17,7 +17,7 @@ insertBefore(tt2, 'number', {
 
 insertBefore(tt2, 'keyword', {
 	'delimiter': {
-		pattern: /^(?:\[%|%%)-?|-?%\]$/,
+		pattern: /^[[%]%-?|-?%\]$/,
 		alias: 'punctuation'
 	}
 });

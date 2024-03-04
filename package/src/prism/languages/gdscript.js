@@ -4,7 +4,7 @@ import { boolean, clikePunctuation } from '../utils/shared.js';
 languages.gdscript = {
 	'comment': /#.*/,
 	'string': {
-		pattern: /@?(?:("|')(?:\\[\s\S]|(?!\1)[^\\\n])*\1(?!"|')|"""(?:\\[\s\S]|[^\\])*?""")/g,
+		pattern: /@?(?:(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1(?!"|')|"""(?:\\[\s\S]|[^\\])*?""")/g,
 		greedy: true
 	},
 	'class-name': {
@@ -16,7 +16,7 @@ languages.gdscript = {
 		pattern: /(^(?:class|class_name|extends)[ \t]+|^export\([ \t]*|\bas[ \t]+|(?:\b(?:const|var)[ \t]|[,(])[ \t]*\w+[ \t]*:[ \t]*|->[ \t]*)(?!\d)\w+/m,
 		lookbehind: true
 	},
-	'keyword': /\b(?:and|as|assert|break|breakpoint|class|class_name|const|continue|elif|else|enum|export|extends|for|func|if|in|is|master|mastersync|match|not|null|onready|or|pass|preload|puppet|puppetsync|remote|remotesync|return|self|setget|signal|static|tool|var|while|yield)\b/,
+	'keyword': /\b(?:and|as|assert|break|breakpoint|class|class_name|const|continue|elif|else|enum|export|extends|f?or|func|if|in|is|master|mastersync|match|not|null|onready|pass|preload|puppet|puppetsync|remote|remotesync|return|self|setget|signal|static|tool|var|while|yield)\b/,
 	'function': /\b[a-z_]\w*(?=[ \t]*\()/i,
 	'variable': /\$\w+/,
 	'number': [
@@ -25,6 +25,6 @@ languages.gdscript = {
 	],
 	'constant': /\b[A-Z][A-Z_\d]*\b/,
 	'boolean': boolean,
-	'operator': /->|:=|&&|\|\||<<|>>|[-+*/%&|!<>=]=?|[~^]/,
+	'operator': /->|:=|&&|\|\||<<|>>|[%&|!=<>/*+-]=?|[~^]/,
 	'punctuation': clikePunctuation
 };

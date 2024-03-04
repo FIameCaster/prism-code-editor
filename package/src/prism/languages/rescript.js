@@ -49,10 +49,10 @@ languages.res = languages.rescript = {
 		pattern: /(<)[a-z]\w*|(?:<\/)[a-z]\w*/,
 		lookbehind: true,
 		inside: {
-			'operator': /<|>|\//,
-		},
+			'operator': /[<>/]/
+		}
 	},
-	'keyword': /\b(?:and|as|assert|begin|bool|class|constraint|do|done|downto|else|end|exception|external|float|for|fun|function|if|in|include|inherit|initializer|int|lazy|let|method|module|mutable|new|nonrec|object|of|open|or|private|rec|string|switch|then|to|try|type|when|while|with)\b/,
-	'operator': /\.{3}|:[:=]?|\|>|->|=(?:==?|>)?|<=?|>=?|[|^?'#!~`]|[*/+-]\.?|\b(?:asr|land|lor|lsl|lsr|lxor|mod)\b/,
+	'keyword': /\b(?:and|as|assert|begin|bool|class|constraint|do|done|downto|else|end|exception|external|float|f?or|fun|function|if|include|inherit|initializer|int?|lazy|let|method|module|mutable|new|nonrec|object|of|open|private|rec|string|switch|[tw]hen|to|try|type|while|with)\b/,
+	'operator': /\.{3}|:[:=]?|\|>|->|=>|==?=?|<=?|>=?|[~|^!?'#`]|[/*+-]\.?|\b(?:asr|land|ls[lr]|lx?or|mod)\b/,
 	'punctuation': /[()[\]{}.,;]/
 };

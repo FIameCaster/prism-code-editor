@@ -48,7 +48,7 @@ languages.ocaml = {
 	},
 	// For the list of keywords and operators,
 	// see: http://caml.inria.fr/pub/docs/manual-ocaml/lex.html#sec84
-	'keyword': /\b(?:as|assert|begin|class|constraint|do|done|downto|else|end|exception|external|for|fun|function|functor|if|in|include|inherit|initializer|lazy|let|match|method|module|mutable|new|nonrec|object|of|open|private|rec|sig|struct|then|to|try|type|val|value|virtual|when|where|while|with)\b/,
+	'keyword': /\b(?:as|assert|begin|class|constraint|do|done|downto|else|end|exception|external|for|fun|function|functor|if|in|include|inherit|initializer|lazy|let|match|method|module|mutable|new|nonrec|object|of|open|private|rec|sig|struct|[tw]hen|to|try|type|val|value|virtual|where|while|with)\b/,
 	'boolean': boolean,
 
 	'operator-like-punctuation': {
@@ -56,6 +56,6 @@ languages.ocaml = {
 		alias: 'punctuation'
 	},
 	// Custom operators are allowed
-	'operator': /\.[.~]|:[=>]|[!=<>@^|&*/$%?~+-][!=$%&*./:<>?@^|~+-]*|\b(?:and|asr|land|lor|lsl|lsr|lxor|mod|or)\b/,
+	'operator': /\.[.~]|:[=>]|[@$?~%&|^!=<>/*+-][.:/@$?~%&|^!=<>/*+-]*|\b(?:and|asr|land|ls[lr]|lx?or|mod|or)\b/,
 	'punctuation': /;;|::|[()[\]{}.,:;#]|\b_\b/
 };

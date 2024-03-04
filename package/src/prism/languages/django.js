@@ -18,7 +18,7 @@ languages.jinja2 = languages.django = {
 				alias: 'punctuation'
 			},
 			'string': {
-				pattern: /("|')(?:\\.|(?!\1)[^\\\n])*\1/g,
+				pattern: /(["'])(?:\\.|(?!\1)[^\\\n])*\1/g,
 				greedy: true
 			},
 			'filter': {
@@ -32,8 +32,8 @@ languages.jinja2 = languages.django = {
 				alias: 'function'
 			},
 			'function': /\b[a-z_]\w+(?=\s*\()/i,
-			'keyword': /\b(?:and|as|by|else|for|if|import|in|is|loop|not|or|recursive|with|without)\b/,
-			'operator': /[-+%=]=?|!=|\*\*?=?|\/\/?=?|<[<=>]?|>[=>]?|[&|^~]/,
+			'keyword': /\b(?:and|as|by|else|f?or|i[fns]|import|loop|not|recursive|with|without)\b/,
+			'operator': /!=|\*\*=?|\/\/=?|<>|>>|<<|[%=<>/*+-]=?|[&|^~]/,
 			'number': /\b\d+(?:\.\d+)?\b/,
 			'boolean': /[Ff]alse|[Nn]one|[Tt]rue/,
 			'variable': /\w+/,

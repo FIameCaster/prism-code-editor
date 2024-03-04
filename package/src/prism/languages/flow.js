@@ -12,7 +12,7 @@ insertBefore(flow, 'keyword', {
 		}
 	]
 });
-flow['function-variable'].pattern = /(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+(?=\s*=\s*(?:function\b|(?:\([^()]*\)(?:\s*:\s*\w+)?|(?!\d)(?:(?!\s)[$\w\xA0-\uFFFF])+)\s*=>))/i;
+flow['function-variable'].pattern = /(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*=\s*(?:function\b|(?:\([^()]*\)(?:\s*:\s*\w+)?|(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+)\s*=>))/i;
 delete flow['parameter'];
 
 insertBefore(flow, 'operator', {

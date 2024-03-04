@@ -6,7 +6,7 @@ languages.neon = {
 		greedy: true
 	},
 	'datetime': {
-		pattern: /(^|[[{(=,:\s])\d\d\d\d-\d\d?-\d\d?(?:(?:[Tt]| +)\d\d?:\d\d:\d\d(?:\.\d*)? *(?:Z|[-+]\d\d?(?::?\d\d)?)?)?(?=$|[\]}),\s])/,
+		pattern: /(^|[[{(=,:\s])\d\d\d\d-\d\d?-\d\d?(?:(?:[Tt]| +)\d\d?:\d\d:\d\d(?:\.\d*)? *(?:Z|[+-]\d\d?(?::?\d\d)?)?)?(?=$|[\]}),\s])/,
 		lookbehind: true,
 		alias: 'number'
 	},
@@ -20,7 +20,7 @@ languages.neon = {
 		lookbehind: true
 	},
 	'boolean': {
-		pattern: /(^|[[{(=,:\s])(?:false|no|true|yes)(?=$|[\]}),:=\s])/i,
+		pattern: /(^|[[{(=,:\s])(?:false|true|no|yes)(?=$|[\]}),:=\s])/i,
 		lookbehind: true
 	},
 	'null': {

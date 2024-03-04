@@ -82,7 +82,7 @@ var swift = languages.swift = {
 		alias: 'important'
 	},
 
-	'keyword': /\b(?:Any|Protocol|Self|Type|actor|as|assignment|associatedtype|associativity|async|await|break|case|catch|class|continue|convenience|default|defer|deinit|didSet|do|dynamic|else|enum|extension|fallthrough|fileprivate|final|for|func|get|guard|higherThan|if|import|in|indirect|infix|init|inout|internal|is|isolated|lazy|left|let|lowerThan|mutating|none|nonisolated|nonmutating|open|operator|optional|override|postfix|precedencegroup|prefix|private|protocol|public|repeat|required|rethrows|return|right|safe|self|set|some|static|struct|subscript|super|switch|throw|throws|try|typealias|unowned|unsafe|var|weak|where|while|willSet)\b/,
+	'keyword': /\b(?:Any|[Pp]rotocol|[Ss]elf|Type|actor|as|assignment|associatedtype|associativity|async|await|break|case|catch|class|continue|convenience|default|defer|deinit|didSet|do|dynamic|else|enum|extension|fallthrough|fileprivate|final|for|func|[gs]et|guard|higherThan|i[fns]|import|indirect|infix|init|inout|internal|isolated|lazy|lef?t|lowerThan|mutating|none|nonisolated|nonmutating|open|operator|optional|override|postfix|precedencegroup|prefix|private|public|repeat|required|rethrows|return|right|safe|some|static|struct|subscript|super|switch|throws?|try|typealias|unowned|unsafe|var|weak|where|while|willSet)\b/,
 	'boolean': boolean,
 	'nil': {
 		pattern: /\bnil\b/,
@@ -104,7 +104,7 @@ var swift = languages.swift = {
 	// Operators are generic in Swift. Developers can even create new operators (e.g. +++).
 	// https://docs.swift.org/swift-book/ReferenceManual/zzSummaryOfTheGrammar.html#ID481
 	// This regex only supports ASCII operators.
-	'operator': /[*/%!=<>&|^~?+-]+|\.[.*/%!=<>&|^~?+-]+/,
+	'operator': /[~?%&|^!=<>/*+-]+|\.[.~?%&|^!=<>/*+-]+/,
 	'punctuation': /[()[\]{}.,:;\\]/
 };
 

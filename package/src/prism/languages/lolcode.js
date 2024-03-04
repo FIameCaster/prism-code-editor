@@ -19,7 +19,7 @@ languages.lolcode = {
 		pattern: /(^|\s)(?:A )?(?:BUKKIT|NOOB|NUMBAR|NUMBR|TROOF|YARN)(?=\s|,|$)/,
 		lookbehind: true,
 		inside: {
-			'keyword': /A(?=\s)/
+			'keyword': /A(?!\S)/
 		}
 	},
 	'label': {

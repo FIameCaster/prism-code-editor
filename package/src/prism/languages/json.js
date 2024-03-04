@@ -4,13 +4,11 @@ import { boolean, clikeComment } from '../utils/shared.js';
 // https://www.json.org/json-en.html
 languages.webmanifest = languages.json = {
 	'property': {
-		pattern: /(^|[^\\])"(?:\\.|[^\\\n"])*"(?=\s*:)/g,
-		lookbehind: true,
+		pattern: /"(?:\\.|[^\\\n"])*"(?=\s*:)/g,
 		greedy: true
 	},
 	'string': {
-		pattern: /(^|[^\\])"(?:\\.|[^\\\n"])*"(?!\s*:)/g,
-		lookbehind: true,
+		pattern: /"(?:\\.|[^\\\n"])*"/g,
 		greedy: true
 	},
 	'comment': clikeComment(),

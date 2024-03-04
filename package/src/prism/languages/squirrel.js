@@ -36,6 +36,6 @@ languages.squirrel = {
 		pattern: /@(?=\()/,
 		alias: 'operator'
 	},
-	'operator': /\+\+|--|<=>|<[-<]|>>>?|&&?|\|\|?|[-+*/%!=<>]=?|[~^]|::?/,
+	'operator': /--|\+\+|<=>|<[-<]|>>>?|&&?|\|\|?|[%!=<>/*+-]=?|[~^]|::?/,
 	'punctuation': clikePunctuation
 };

@@ -20,7 +20,7 @@ languages['false'] = {
 		alias: 'important'
 	},
 	'number': /\d+/,
-	'operator': /[#$%&?!'*.,:;/=>@\\^_`|~ßø+-]/,
+	'operator': /[#$?'.,:;@\\_`~ßø%&|^!=>/*+-]/,
 	'punctuation': /[[\]]/,
 	'variable': /[a-z]/,
 	'non-standard': {

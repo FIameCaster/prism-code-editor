@@ -63,13 +63,13 @@ languages.haxe = {
 		alias: 'important'
 	},
 	// The final look-ahead prevents highlighting of keywords if expressions such as "haxe.macro.Expr"
-	'keyword': /\bthis\b|\b(?:abstract|as|break|case|cast|catch|class|continue|default|do|dynamic|else|enum|extends|extern|final|for|from|function|if|implements|import|in|inline|interface|macro|new|null|operator|overload|override|package|private|public|return|static|super|switch|throw|to|try|typedef|untyped|using|var|while)(?!\.)\b/,
+	'keyword': /\bthis\b|\b(?:abstract|as|break|cas[et]|catch|class|continue|default|do|dynamic|else|enum|extends|extern|final|for|from|function|if|implements|import|in|inline|interface|macro|new|null|operator|overload|override|package|private|public|return|static|super|switch|throw|to|try|typedef|untyped|using|var|while)(?!\.)\b/,
 	'boolean': boolean,
 	'function': {
 		pattern: /\b[a-z_]\w*(?=\s*(?:<[^<>]*>\s*)?\()/gi,
 		greedy: true
 	},
 	'number': clikeNumber,
-	'operator': /\.{3}|\+\+|--|&&|\|\||->|=>|(?:<<?|>{1,3}|[-+*/%!=&|^])=?|[?:~]/,
+	'operator': /--|\+\+|&&|\|\||->|=>|(?:<<?|>{1,3}|[%&|^!=/*+-])=?|[?:~]|\.{3}/,
 	'punctuation': clikePunctuation
 };

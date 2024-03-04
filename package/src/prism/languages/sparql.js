@@ -12,9 +12,9 @@ insertBefore(
 	}),
 	'punctuation', {
 		'keyword': [
-			/\b(?:A|ADD|ALL|AS|ASC|ASK|BNODE|BY|CLEAR|CONSTRUCT|COPY|CREATE|DATA|DEFAULT|DELETE|DESC|DESCRIBE|DISTINCT|DROP|EXISTS|FILTER|FROM|GROUP|HAVING|INSERT|INTO|LIMIT|LOAD|MINUS|MOVE|NAMED|NOT|NOW|OFFSET|OPTIONAL|ORDER|RAND|REDUCED|SELECT|SEPARATOR|SERVICE|SILENT|STRUUID|UNION|USING|UUID|VALUES|WHERE)\b/i,
-			/\b(?:ABS|AVG|BIND|BOUND|CEIL|COALESCE|CONCAT|CONTAINS|COUNT|DATATYPE|DAY|ENCODE_FOR_URI|FLOOR|GROUP_CONCAT|HOURS|IF|IRI|isBLANK|isIRI|isLITERAL|isNUMERIC|isURI|LANG|LANGMATCHES|LCASE|MAX|MD5|MIN|MINUTES|MONTH|REGEX|REPLACE|ROUND|sameTerm|SAMPLE|SECONDS|SHA1|SHA256|SHA384|SHA512|STR|STRAFTER|STRBEFORE|STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|SUBSTR|SUM|TIMEZONE|TZ|UCASE|URI|YEAR)\b(?=\s*\()/i,
-			/\b(?:BASE|GRAPH|PREFIX)\b/i
+			/\b(?:a|add|all|as[ck]?|bnode|by|clear|construct|copy|create|data|default|delete|desc|describe|distinct|drop|exists|filter|from|group|having|insert|into|limit|load|minus|move|named|no[tw]|offset|optional|order|rand|reduced|select|separator|service|silent|struuid|union|using|uuid|values|where)\b/i,
+			/\b(?:abs|avg|bind|[br]ound|ceil|coalesce|concat|contains|count|datatype|day|encode_for_uri|floor|group_concat|hours|if|[iu]ri|isblank|is[iu]ri|isliteral|isnumeric|lang|langmatches|[lu]case|max|md5|min|minutes|month|regex|replace|sameterm|sample|seconds|sha1|sha256|sha384|sha512|str|strafter|strbefore|strdt|strends|strlang|strlen|strstarts|substr|sum|timezone|tz|year)\b(?=\s*\()/i,
+			/\b(?:base|graph|prefix)\b/i
 		]
 	}
 );

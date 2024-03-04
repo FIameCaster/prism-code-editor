@@ -19,7 +19,7 @@ css.selector.inside = css['atrule'].inside['selector-function-argument'].inside 
 	'class': /\.[-\w]+/,
 	'id': /#[-\w]+/,
 	'attribute': {
-		pattern: /\[(?:[^[\]"']|("|')(?:\\[\s\S]|(?!\1)[^\\\n])*\1)*\]/g,
+		pattern: /\[(?:[^[\]"']|(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1)*\]/g,
 		greedy: true,
 		inside: {
 			'punctuation': /^\[|\]$/,
@@ -29,23 +29,20 @@ css.selector.inside = css['atrule'].inside['selector-function-argument'].inside 
 				alias: 'keyword'
 			},
 			'namespace': {
-				pattern: /^(\s*)(?:(?!\s)[-*\w\xA0-\uFFFF])*\|(?!=)/,
+				pattern: /^(\s*)(?:(?!\s)[-*\w\xa0-\uffff])*\|(?!=)/,
 				lookbehind: true,
 				inside: {
 					'punctuation': /\|$/
 				}
 			},
 			'attr-name': {
-				pattern: /^(\s*)(?:(?!\s)[-\w\xA0-\uFFFF])+/,
+				pattern: /^(\s*)(?:(?!\s)[-\w\xa0-\uffff])+/,
 				lookbehind: true
 			},
-			'attr-value': [
-				/("|')(?:\\[\s\S]|(?!\1)[^\\\n])*\1/,
-				{
-					pattern: /(=\s*)(?:(?!\s)[-\w\xA0-\uFFFF])+(?=\s*$)/,
-					lookbehind: true
-				}
-			],
+			'attr-value': {
+				pattern: /(=\s*)(?:(?!\s)[-\w\xa0-\uffff])+(?=\s*$)|(["'])(?:\\[\s\S]|(?!\2)[^\\\n])*\2/,
+				lookbehind: true
+			},
 			'operator': /[|~*^$]?=/
 		}
 	},
@@ -74,14 +71,14 @@ css.selector.inside = css['atrule'].inside['selector-function-argument'].inside 
 
 insertBefore(css, 'property', {
 	'variable': {
-		pattern: /(^|[^-\w\xA0-\uFFFF])--(?!\d)(?:(?!\s)[-\w\xA0-\uFFFF])*/i,
+		pattern: /(^|[^-\w\xa0-\uffff])--(?!\d)(?:(?!\s)[-\w\xa0-\uffff])*/i,
 		lookbehind: true
 	}
 });
 
 insertBefore(css, 'function', {
 	'operator': {
-		pattern: /(\s)[*/+-](?=\s)/,
+		pattern: /(\s)[/*+-](?!\S)/,
 		lookbehind: true
 	},
 	// CAREFUL!

@@ -37,7 +37,7 @@ insertBefore(aspnet, 'markup-bracket', {
 pageDirectiveInside[rest] = tag.inside;
 
 // Regexp copied from prism-markup, with a negative look-ahead added
-tag.pattern = /<(?!%)\/?[^\s>/]+(?:\s+[^\s/=>]+(?:=(?:("|')(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/g;
+tag.pattern = /<(?!%)\/?[^\s>/]+(?:\s+[^\s/=>]+(?:=(?:(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/g;
 
 // match directives of attribute value foo="<% Bar %>"
 tag.inside['attr-value'][2].inside['directive'] = directive;
@@ -52,7 +52,7 @@ insertBefore(aspnet, 'comment', {
 // script runat="server" contains csharp, not javascript
 insertBefore(aspnet, aspnet.script ? 'script' : 'tag', {
 	'asp-script': {
-		pattern: /(<script(?=.*runat=['"]?server\b)[^>]*>)(?!<\/script>)[\s\S]+?(?=<\/script>)/i,
+		pattern: /(<script(?=.*runat=["']?server\b)[^>]*>)(?!<\/script>)[\s\S]+?(?=<\/script>)/i,
 		lookbehind: true,
 		alias: 'asp script',
 		inside: 'cs'

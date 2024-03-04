@@ -38,7 +38,7 @@ expression.inside = languages.gni = languages.gn = {
 	'boolean': boolean,
 	'builtin-function': {
 		// a few functions get special highlighting to improve readability
-		pattern: /\b(?:assert|defined|foreach|import|pool|print|template|tool|toolchain)(?=\s*\()/i,
+		pattern: /\b(?:assert|defined|foreach|import|[pt]ool|print|template|toolchain)(?=\s*\()/i,
 		alias: 'keyword'
 	},
 	'function': /\b[a-z_]\w*(?=\s*\()/i,

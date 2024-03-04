@@ -20,11 +20,11 @@ var ftl = interpolationInside[rest] = {
 	'string': [
 		{
 			// raw string
-			pattern: /\br("|')(?:\\.|(?!\1)[^\\])*\1/g,
+			pattern: /\br(["'])(?:\\.|(?!\1)[^\\])*\1/g,
 			greedy: true
 		},
 		{
-			pattern: re(/("|')(?:\\.|(?!\1|\$\{)[^\\]|\$\{(?:(?!\})<0>)*\})*\1/.source, FTL_EXPR, 'g'),
+			pattern: re(/(["'])(?:\\.|(?!\1|\$\{)[^\\]|\$\{(?:(?!\})<0>)*\})*\1/.source, FTL_EXPR, 'g'),
 			greedy: true,
 			inside: {
 				'interpolation': {
@@ -44,7 +44,7 @@ var ftl = interpolationInside[rest] = {
 	},
 	'function': /\b\w+(?=\s*\()/,
 	'number': /\b\d+(?:\.\d+)?\b/,
-	'operator': /\.\.[<*!]?|->|--|\+\+|&&|\|\||\?{1,2}|[-+*/%!=<>]=?|\b(?:gt|gte|lt|lte)\b/,
+	'operator': /\.\.[<*!]?|->|--|\+\+|&&|\|\||\?\??|[%!=<>/*+-]=?|\b[gl]te?\b/,
 	'punctuation': clikePunctuation
 };
 
