@@ -260,7 +260,7 @@ const defaultCommands =
 			if (code == (isMac ? 0b1010 : 0b0010) && keyCode == 77) {
 				setIgnoreTab(!ignoreTab)
 				preventDefault(e)
-			} else if ((e.code == "Backslash" && code == mod) || (keyCode == 65 && code == 9)) {
+			} else if ((keyCode == 191 && code == mod) || (keyCode == 65 && code == 9)) {
 				const value = editor.value,
 					isBlock = code == 9,
 					position = isBlock ? start : value.lastIndexOf("\n", start - 1) + 1,
@@ -422,6 +422,7 @@ const editHistory = (historyLimit = 999) => {
 	let allowMerge: boolean
 	let isTyping = false
 	let prevInputType: string
+	let prevData: string | null
 	let isMerge: boolean
 	let textarea: HTMLTextAreaElement
 	let getSelection: PrismEditor["getSelection"]
@@ -456,22 +457,26 @@ const editHistory = (historyLimit = 999) => {
 			allowMerge = isTyping
 			isTyping = false
 		})
-		editor.addListener("update", () => (isTyping = true))
 
 		addTextareaListener(editor, "beforeinput", e => {
 			let data = e.data
 			let inputType = e.inputType
-			if (data == " " && inputType == "insertText") inputType = "insertSpace"
 
 			if (/history/.test(inputType)) {
 				setEditorState(sp + (inputType[7] == "U" ? -1 : 1))
 				preventDefault(e)
 			} else if (
 				!(isMerge =
-					allowMerge && prevInputType == inputType && e.isTrusted && !data?.includes("\n"))
+					allowMerge &&
+					prevInputType == inputType &&
+					e.isTrusted &&
+					!data?.includes("\n") &&
+					(data != " " || prevData == data))
 			) {
 				stack[sp][2] = prevSelection || getSelection()
 			}
+			isTyping = true
+			prevData = data
 			prevInputType = inputType
 		})
 		addTextareaListener(editor, "input", e => {
