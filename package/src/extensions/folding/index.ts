@@ -36,8 +36,8 @@ export interface ReadOnlyCodeFolding extends Extension {
 	updateFolds(): void
 }
 
-const template = createTemplate("<div> </div>", "", "pce-fold")
-const template2 = createTemplate(" <span title='Unfold'>   </span> ", "", "pce-unfold")
+const template = createTemplate('<div class="pce-fold"><div> ')
+const template2 = createTemplate('<div class="pce-unfold"> <span title="Unfold">   </span> ')
 
 /**
  * Extension only supporting read-only editors which adds code folding to the editor.
@@ -142,7 +142,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 				let el = foldToggles[line]
 				let isClosed = foldedLines.has(line)
 				if (!el) {
-					el = foldToggles[line] = <HTMLDivElement>template.cloneNode(true)
+					el = foldToggles[line] = template()
 					el.onclick = () => toggleAndUpdate(line)
 				}
 				if (parent != el.parentNode && !parent.querySelector(".pce-fold")) parent.prepend(el)
@@ -151,7 +151,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 				el = foldPlaceholders[line]
 				if (isClosed) {
 					if (!el) {
-						el = foldPlaceholders[line] = <HTMLDivElement>template2.cloneNode(true)
+						el = foldPlaceholders[line] = template2()
 					}
 					const pos2 = getPosition(foldPositions[line]![1])
 					const [before, placeholder, after] = <[Text, HTMLElement, Text]>(<any>el.childNodes)

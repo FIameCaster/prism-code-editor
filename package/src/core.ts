@@ -39,7 +39,7 @@ const createEditor = (
 		tokens: TokenStream = [],
 		readOnly: boolean
 
-	const scrollContainer = <HTMLDivElement>editorTemplate.cloneNode(true),
+	const scrollContainer = editorTemplate(),
 		wrapper = <HTMLDivElement>scrollContainer.firstChild,
 		overlays = <HTMLDivElement>wrapper.firstChild,
 		textarea = <HTMLTextAreaElement>overlays.firstChild,
@@ -293,9 +293,13 @@ const editorFromPlaceholder = (
 	return editor
 }
 
-/** Returns a div with the specified HTML, class and inline style */
-const createTemplate = (innerHTML = "", style = "", className = ""): HTMLDivElement =>
-	Object.assign(document.createElement("div"), { innerHTML, style, className })
+const templateEl = document.createElement("div")
+
+const createTemplate = <T extends Element = HTMLDivElement>(html: string) => {
+	templateEl.innerHTML = html
+	const node = templateEl.firstChild!
+	return () => <T>node.cloneNode(true)
+}
 
 const getElement = <T extends ParentNode>(el?: T | string | null) =>
 	typeof el == "string" ? document.querySelector<HTMLElement>(el) : el
@@ -319,7 +323,7 @@ const numLines = (str: string, start = 0, end = Infinity) => {
 const languageMap: Record<string, Language> = {}
 
 const editorTemplate = createTemplate(
-	'<div class="pce-wrapper"><div class="pce-overlays"><textarea spellcheck="false" autocapitalize="off" autocomplete="off"></textarea></div></div>',
+	'<div><div class="pce-wrapper"><div class="pce-overlays"><textarea spellcheck="false" autocapitalize="off" autocomplete="off">',
 )
 
 const preventDefault = (e: Event) => {

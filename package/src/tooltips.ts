@@ -3,9 +3,7 @@ import { createTemplate } from "./core.js"
 import { cursorPosition } from "./extensions/cursor.js"
 
 const template = /* @__PURE__ */ createTemplate(
-	"<div></div>",
-	"z-index:5;top:auto;display:flex;overflow-x:clip",
-	"pce-tooltip",
+	'<div class="pce-tooltip" style="z-index:5;top:auto;display:flex;overflow-x:clip">',
 )
 
 /**
@@ -43,7 +41,7 @@ export const addTooltip = (
 	element: HTMLElement,
 	fixedWidth = true,
 ): [ShowTooltip, HideTooltip] => {
-	const container = <HTMLDivElement>template.cloneNode(true)
+	const container = template()
 	const style = container.style
 	const spacer = <HTMLDivElement>container.firstChild
 

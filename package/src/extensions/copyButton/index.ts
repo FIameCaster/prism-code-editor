@@ -4,8 +4,7 @@ import { createTemplate } from "../../core.js"
 import { BasicExtension } from "../../types.js"
 
 const template = createTemplate(
-		'<button type="button" dir="ltr" style="display:none;" class="pce-copy" aria-label="Copy"><svg width="1.2em" viewbox="0 0 48 48" overflow="visible" stroke-width="4" stroke-linecap="round" fill="none" stroke="currentColor"><rect x="16" y="16" width="30" height="30" rx="3"/><path d="M32 9V5a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v24a3 3 0 0 0 3 3h4"/></svg></button>',
-		"display:flex;align-items:flex-start;justify-content:flex-end;",
+		'<div style="display:flex;align-items:flex-start;justify-content:flex-end"><button type="button" dir="ltr" style="display:none" class="pce-copy" aria-label="Copy"><svg width="1.2em" viewbox="0 0 48 48" overflow="visible" stroke-width="4" stroke-linecap="round" fill="none" stroke="currentColor"><rect x="16" y="16" width="30" height="30" rx="3"/><path d="M32 9V5a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v24a3 3 0 0 0 3 3h4"/>',
 	),
 	clipboard = navigator.clipboard
 
@@ -15,7 +14,7 @@ const template = createTemplate(
  * You must also import styles from `prism-code-editor/copy-button.css`.
  */
 export const copyButton = (): BasicExtension => editor => {
-	const container = <HTMLDivElement>template.cloneNode(true),
+	const container = template(),
 		btn = <HTMLButtonElement>container.firstChild!
 
 	btn.addEventListener("click", () => {

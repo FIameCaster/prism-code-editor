@@ -3,9 +3,10 @@ import { createTemplate } from "../../core.js"
 import { PrismEditor } from "../../types.js"
 
 const template = createTemplate(
-	"",
-	"color:#0000;display:none;contain:strict;padding:0 var(--_pse) 0 var(--padding-left);",
+	'<div style="color:#0000;display:none;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden="true">',
 )
+
+const matchTemplate = createTemplate("<span> ")
 
 const testBoundary = (str: string, position: number, pattern = /[_\p{N}\p{L}]{2}/u) => {
 	if (!position) return false
@@ -56,10 +57,9 @@ export interface SearchAPI {
 
 /** Function adding search functionality to an editor. */
 const createSearchAPI = (editor: PrismEditor): SearchAPI => {
-	const span = document.createElement("span"),
-		nodes: ChildNode[] = [new Text()],
+	const nodes: ChildNode[] = [new Text()],
 		nodeValues: string[] = [],
-		container = <HTMLDivElement>template.cloneNode(),
+		container = template(),
 		matchPositions: [number, number][] = [],
 		stopSearch = () => {
 			if (matchPositions[0]) {
@@ -70,7 +70,6 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 
 	let regex: RegExp
 	let nodeCount = 0
-	span.append("")
 	editor.overlays.append(container)
 
 	return {
@@ -110,7 +109,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 			l = Math.min(i * 2, 20000)
 
 			for (let i = nodes.length; i <= l; ) {
-				nodes[i++] = <HTMLSpanElement>span.cloneNode(true)
+				nodes[i++] = matchTemplate()
 				nodes[i++] = new Text()
 			}
 
@@ -139,7 +138,5 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 		stopSearch,
 	}
 }
-
-template.setAttribute("aria-hidden", <any>true)
 
 export { createSearchAPI }

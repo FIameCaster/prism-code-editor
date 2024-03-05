@@ -25,8 +25,7 @@ export interface Cursor extends BasicExtension {
 }
 
 const cursorTemplate = createTemplate(
-	" <span></span> ",
-	"position:absolute;top:0;opacity:0;padding:inherit",
+	'<div style="position:absolute;top:0;opacity:0;padding:inherit"> <span></span> ',
 )
 
 /**
@@ -38,7 +37,7 @@ export const cursorPosition = () => {
 		prevBefore = " ",
 		prevAfter = " "
 
-	const cursorContainer = <HTMLDivElement>cursorTemplate.cloneNode(true),
+	const cursorContainer = cursorTemplate(),
 		[before, cursor, after] = <[Text, HTMLSpanElement, Text]>(<unknown>cursorContainer.childNodes),
 		selectionChange = ([start, end, direction]: InputSelection) => {
 			let { value, activeLine } = cEditor,

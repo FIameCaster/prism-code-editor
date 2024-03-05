@@ -4,14 +4,11 @@ import { createTemplate } from "../core.js"
 import { Extension, PrismEditor } from "../types.js"
 
 const template = createTemplate(
-	'<div style="position:relative;display:inline-block"> </div>',
-	"left:var(--padding-left)",
-	"guide-indents",
+	'<div class="guide-indents" style="left:var(--padding-left)"><div style="position:relative;display:inline-block"> ',
 )
 
 const indentTemplate = createTemplate(
-	"",
-	"width:1px;position:absolute;background:var(--bg-guide-indent)",
+	'<div style="width:1px;position:absolute;background:var(--bg-guide-indent)">',
 )
 
 export interface IndentGuides extends Extension {
@@ -31,7 +28,7 @@ export const indentGuides = (): IndentGuides => {
 
 	const lines: HTMLDivElement[] = [],
 		indents: number[][] = [],
-		container = <HTMLDivElement>template.cloneNode(true),
+		container = template(),
 		guideHeight = <HTMLDivElement>container.lastChild,
 		indentLevels: number[] = []
 
@@ -41,7 +38,7 @@ export const indentGuides = (): IndentGuides => {
 			l = newIndents.length
 
 		for (let i = 0, prev: number[] = [], next = newIndents[0]; next; i++) {
-			const { style } = (lines[i] ||= <HTMLDivElement>indentTemplate.cloneNode()),
+			const { style } = (lines[i] ||= indentTemplate()),
 				[top, height, left] = next,
 				old = indents[i]
 
