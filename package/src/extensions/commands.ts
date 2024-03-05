@@ -439,7 +439,7 @@ const editHistory = (historyLimit = 999) => {
 		if (stack[index]) {
 			textarea.value = stack[index][0]
 			textarea.setSelectionRange(...stack[index][index < sp ? 2 : 1]!)
-			textarea.dispatchEvent(new Event("input"))
+			currentEditor.update()
 			currentEditor.extensions.cursor?.scrollIntoView()
 			sp = index
 			allowMerge = false

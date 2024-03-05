@@ -128,7 +128,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 
 		textarea.value = value += code.slice(pos)
 		if (line) textarea.setSelectionRange(pos = getPosition(foldPositions[line]![0]), pos)
-		textarea.dispatchEvent(new Event("input"))
+		cEditor.update()
 
 		for (let i = 1, j = 0, l = lines.length; i < l; i++)
 			lines[i].setAttribute("data-line", <any>(j += skippedLines[i - 1] || 1))

@@ -82,14 +82,13 @@ const createEditor = (
 		if (isNewGrammar || value != textarea.value) {
 			focusRelatedTarget()
 			textarea.value = value
-			value = textarea.value
 			textarea.selectionEnd = 0
 			update()
 		}
 	}
 
 	const update = () => {
-		tokens = tokenizeText(value, grammar)
+		tokens = tokenizeText((value = textarea.value), grammar)
 		dispatchEvent("tokenize", tokens, language, value)
 
 		let newLines = highlightTokens(tokens).split("\n")
@@ -242,10 +241,7 @@ const createEditor = (
 			preventDefault(e)
 	})
 	addTextareaListener(self, "input", () => {
-		if (value != textarea.value) {
-			value = textarea.value
-			update()
-		}
+		if (value != textarea.value) update()
 	})
 	addTextareaListener(self, "blur", () => {
 		selectionChange = null
