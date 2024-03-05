@@ -39,6 +39,9 @@ export interface ReadOnlyCodeFolding extends Extension {
 const template = createTemplate('<div class="pce-fold"><div> ')
 const template2 = createTemplate('<div class="pce-unfold"> <span title="Unfold">   </span> ')
 
+const isMultiline = (str: string, start: number, end: number) =>
+	str.slice(start, end).includes("\n")
+
 /**
  * Extension only supporting read-only editors which adds code folding to the editor.
  *
@@ -54,6 +57,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 		value: string,
 		code: string,
 		lines: HTMLCollection,
+		lineNumberWidth: string,
 		textarea: HTMLTextAreaElement,
 		foldPositions: (undefined | [number, number])[],
 		foldToggles: HTMLDivElement[],
@@ -109,27 +113,27 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 		}
 	}
 
-	const update = () => {
+	const update = (line?: number) => {
 		value = ""
 		let pos = 0,
+			ln = 1,
 			skippedLines: number[] = [],
 			sortedRanges = [...foldedRanges].sort((a, b) => a[0] - b[0])
 
+
 		for (let [start, end] of sortedRanges) {
 			value += code.slice(pos, start) + "   "
-			skippedLines[numLines(value)] = numLines(code, start, (pos = end))
+			skippedLines[(ln += numLines(code, pos, start) - 1)] = numLines(code, start, (pos = end))
 		}
 
 		textarea.value = value += code.slice(pos)
+		if (line) textarea.setSelectionRange(pos = getPosition(foldPositions[line]![0]), pos)
 		textarea.dispatchEvent(new Event("input"))
 
 		for (let i = 1, j = 0, l = lines.length; i < l; i++)
 			lines[i].setAttribute("data-line", <any>(j += skippedLines[i - 1] || 1))
 
-		cEditor.scrollContainer.style.setProperty(
-			"--number-width",
-			Math.ceil(Math.log10(numLines(code))) + 0.001 + "ch",
-		)
+		cEditor.scrollContainer.style.setProperty("--number-width", lineNumberWidth)
 		updateFolds()
 	}
 
@@ -166,8 +170,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 
 	const toggleAndUpdate = (line: number) => {
 		toggleFold(line)
-		update()
-		cEditor.setSelection(getPosition(foldPositions[line]![0]))
+		update(line)
 	}
 
 	const createFolds = () => {
@@ -177,13 +180,14 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 		foldedRanges.clear()
 		foldedLines.clear()
 		value = code = cEditor.value
+		lineNumberWidth = Math.ceil(Math.log10(numLines(code))) + ".001ch"
 		const folds: [number, number][] = []
 		const { matchTags, matchBrackets } = cEditor.extensions
 
 		if (matchTags) {
 			let { tags, pairs } = matchTags
 			for (let i = 0, j: number, l = pairs.length; i < l; i++) {
-				if ((j = pairs[i]!) > i && numLines(value, tags[i][2], tags[j][1]) > 1) {
+				if ((j = pairs[i]!) > i && isMultiline(value, tags[i][2], tags[j][1])) {
 					folds.push([tags[i][2], tags[j][1]])
 				}
 			}
@@ -194,7 +198,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 				if (
 					(j = pairs[i]!) > i &&
 					brackets[i][3] != "(" &&
-					numLines(value, brackets[i][1], brackets[j][1]) > 1
+					isMultiline(value, brackets[i][1], brackets[j][1])
 				)
 					folds.push([brackets[i][1] + brackets[i][3].length, brackets[j][1]])
 			}
@@ -234,7 +238,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 			!!foldPositions[lineNumber] &&
 			foldedLines.has(lineNumber) != force &&
 			!toggleFold(lineNumber)!,
-		updateFolds: update,
+		updateFolds: () => update(),
 	}
 }
 
@@ -253,7 +257,7 @@ const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { l
 			const length = token.length
 			const type = token.type
 			const aliasType = token.alias || type
-			if (aliasType == "comment" && numLines(value, position, position + length) > 1) {
+			if (aliasType == "comment" && isMultiline(value, position, position + length)) {
 				let comment = languageMap[language]?.comments?.block
 				if (comment && value.indexOf(comment[0], position) == position)
 					folds.push([position + comment[0].length, position + length - comment[1].length])
