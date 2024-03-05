@@ -69,7 +69,7 @@ const minimalEditor = (
 /**
  * Same as {@link minimalEditor}, but also adds {@link indentGuides}, {@link highlightSelectionMatches},
  * {@link matchBrackets}, {@link highlightBracketPairs} and {@link defaultCommands}
- * extensions and language specific behvaior.
+ * extensions and language specific behavior.
  */
 const basicEditor = (
 	container: HTMLElement | string,

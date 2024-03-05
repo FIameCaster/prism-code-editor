@@ -60,15 +60,15 @@ export declare class Token {
 	 * The alias(es) of the token.
 	 * Multiple aliases are separated by spaces.
 	 *
-	 * @see {@link GrammarToken#alias}
+	 * @see {@link GrammarToken.alias}
 	 */
 	alias?: TokenName
 
 	/**
 	 * Creates a new token.
 	 *
-	 * @param type See {@link Token#type}
-	 * @param content See {@link Token#content}
+	 * @param type See {@link Token.type}
+	 * @param content See {@link Token.content}
 	 * @param matchedStr A copy of the full string this token was created from.
 	 * @param alias The alias(es) of the token.
 	 */

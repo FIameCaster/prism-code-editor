@@ -40,12 +40,12 @@ const setIgnoreTab = (newState: boolean) => (ignoreTab = newState)
  * Defaults to `['""', "''", '``', '()', '[]', '{}']`.
  * @param selfCloseRegex Regex controlling whether or not a bracket/quote should
  * automatically close based on the character before and after the cursor.
- * Defaults to ``/([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s``.
+ * Defaults to ``/([^$\w'"`]["'`]|.[[({])[.,:;\])}>\s]|.[[({]`/s``.
  */
 const defaultCommands =
 	(
 		selfClosePairs = ['""', "''", "``", "()", "[]", "{}"],
-		selfCloseRegex = /([^\w$'"`]["'`]|.[[({])[;:,.\])}>\s]|.[[({]`/s,
+		selfCloseRegex = /([^$\w'"`]["'`]|.[[({])[.,:;\])}>\s]|.[[({]`/s,
 	): BasicExtension =>
 	(editor, options) => {
 		let prevCopy: string
@@ -388,8 +388,8 @@ export interface EditHistory extends BasicExtension {
 	 */
 	go(offset: number): void
 	/**
-	 * Returns whether or not there exists an entry at the specified offset relative to the
-	 * current entry.
+	 * Returns whether or not there exists a history entry at the specified offset relative
+	 * to the current entry.
 	 *
 	 * This method can be used to determine whether a call to {@link EditHistory.go} with the
 	 * same offset will succeed or do nothing.
@@ -400,9 +400,12 @@ export interface EditHistory extends BasicExtension {
 /**
  * History extension that overrides the undo/redo behavior of the browser.
  *
+ * Without this extension, the browser's native undo/redo is used, which can be sufficient
+ * in some cases.
+ *
  * It should be noted that the history stack is not automatically cleared when the editors
- * value is changed programmatically using {@link PrismEditor.setOptions}. Instead you can
- * clear the stack any time using {@link EditorHistory.clear}.
+ * value is changed programmatically using `editor.setOptions` Instead you can clear the
+ * stack any time using {@link EditHistory.clear}.
  *
  * Once added to an editor, this extension can be accessed from `editor.extensions.history`.
  *
