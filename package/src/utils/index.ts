@@ -60,7 +60,7 @@ const getClosestToken = (
 	range.setEndAfter(line)
 	for (let i = tokens.length, token: HTMLSpanElement, len: number; i; ) {
 		range.setStartAfter((token = tokens[--i]))
-		len = range.toString().length
+		len = `${range}`.length
 		if (len <= length + marginRight && len + token.textContent!.length >= length - marginLeft)
 			return token
 	}
@@ -68,13 +68,13 @@ const getClosestToken = (
 
 /**
  * Gets the current language at a position.
- * Useful if you want to run different logic based on language.
+ * Useful if you want to run different logic based on the language.
  * @param editor Editor to search in.
  * @param position Position to search in. Defaults to `selectionStart`.
  */
 const getLanguage = (editor: PrismEditor, position?: number) =>
 	getClosestToken(editor, '[class*="language-"]', 0, 0, position)?.className.match(
-		/language-(\w+)/,
+		/language-(\S*)/,
 	)![1] || editor.options.language
 
 /**
