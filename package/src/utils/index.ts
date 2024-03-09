@@ -1,29 +1,27 @@
 import { InputSelection, PrismEditor } from "../index.js"
 import { numLines, isChrome, isWebKit, setSelection } from "../core.js"
+import { getLineEnd, getLineStart } from "./local.js"
 
 let prevSelection: InputSelection | 0
 
 /** Escapes all special regex characters with a backslash and returns the escaped string. */
 const regexEscape = (str: string) => str.replace(/[$+?|.^*()[\]{}\\]/g, "\\$&")
 
-/** Returns the string between the position and the last \n. */
+/** Returns the string between the position and the previous \n. */
 const getLineBefore = (text: string, position: number) =>
-	text.slice(text.lastIndexOf("\n", position - 1) + 1, position)
+	text.slice(getLineStart(text, position), position)
 
 /**
- * Gets all lines that are at least partially between `start` and `end`
+ * Gets all lines that are at least partially between `start` and `end`.
  * @param text Text to search in.
  * @param start Start of the selection.
  * @param end End of the selection. Defaults to `start`.
+ * @returns A tuple containing an array of lines, the starting position of the first line,
+ * and the ending position of the last line.
  */
 const getLines = (text: string, start: number, end = start) =>
 	[
-		text
-			.slice(
-				(start = start ? text.lastIndexOf("\n", start - 1) + 1 : 0),
-				(end = (end = text.indexOf("\n", end)) + 1 ? end : text.length),
-			)
-			.split("\n"),
+		text.slice((start = getLineStart(text, start)), (end = getLineEnd(text, end))).split("\n"),
 		start,
 		end,
 	] as const
@@ -34,8 +32,8 @@ const getLines = (text: string, start: number, end = start) =>
  * children are searched before their parents.
  * @param editor Editor you want to search in.
  * @param selector CSS selector for the tokens you want to search for.
- * @param marginLeft How far ahead of the token the cursor can be. Defaults to 0.
- * @param marginRight How far behind the token the cursor can be. Defaults to `marginLeft`.
+ * @param marginLeft How far to the left of the token the position can be. Defaults to 0.
+ * @param marginRight How far to the right of the token the position can be. Defaults to `marginLeft`.
  * @param position Position to search in. Defaults to `selectionStart`.
  * @returns A span element if one's found or undefined if not.
  * @example
@@ -52,17 +50,23 @@ const getClosestToken = (
 	marginRight = marginLeft,
 	position = editor.getSelection()[0],
 ) => {
-	const value = editor.value,
-		length = value.slice(position).search(/\n|$/) + 1,
-		line = editor.wrapper.children[numLines(value, 0, position)],
-		tokens = <NodeListOf<HTMLSpanElement>>line.querySelectorAll(selector),
-		range = new Range()
-	range.setEndAfter(line)
-	for (let i = tokens.length, token: HTMLSpanElement, len: number; i; ) {
-		range.setStartAfter((token = tokens[--i]))
-		len = `${range}`.length
-		if (len <= length + marginRight && len + token.textContent!.length >= length - marginLeft)
-			return token
+	const value = editor.value
+	const line = editor.wrapper.children[numLines(value, 0, position)]
+	// We unfortunitely have to include elements, else we can't get empty tokens
+	const walker = document.createTreeWalker(line, 5)
+
+	let node = walker.lastChild()!
+	let offset = getLineEnd(value, position) + 1 - position - (<Text>node).length
+
+	while (-offset <= marginRight && (node = walker.previousNode()!)) {
+		if (node.lastChild) continue
+		offset -= (<Text>node).length || 0
+
+		if (offset <= marginLeft) {
+			for (; node != line; node = node.parentNode!) {
+				if ((<Element>node).matches?.(selector)) return <HTMLSpanElement>node
+			}
+		}
 	}
 }
 

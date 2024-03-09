@@ -6,6 +6,7 @@ import { createTemplate, languageMap } from "../../core.js"
 import { BracketMatcher } from "../matchBrackets/index.js"
 import { TagMatcher } from "../matchTags.js"
 import { TokenStream, Token } from "../../prism/index.js"
+import { getLineEnd } from "../../utils/local.js"
 
 /**
  * Callback used to add extra foldable ranges to an editor.
@@ -160,7 +161,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 					const pos2 = getPosition(foldPositions[line]![1])
 					const [before, placeholder, after] = <[Text, HTMLElement, Text]>(<any>el.childNodes)
 					before.data = getLineBefore(value, pos)
-					after.data = /.*/.exec(value.slice(pos2))![0]
+					after.data = value.slice(pos2, getLineEnd(value, pos2))
 					placeholder.onclick = () => toggleAndUpdate(line)
 					if (parent != el.parentNode) parent.prepend(el)
 				} else el?.remove()
@@ -265,7 +266,7 @@ const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { l
 				findBlockComments(
 					content,
 					position,
-					aliasType.indexOf("language-") ? language : aliasType.slice(9),
+					aliasType.slice(0, 9) == "language-" ? aliasType.slice(9) : language,
 				)
 			}
 			position += length

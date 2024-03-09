@@ -12,11 +12,10 @@ const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
 	style1.scrollPaddingBlock = style2.scrollPaddingBlock = ""
 }
 
-const addTextareaListener = <T extends keyof HTMLElementEventMap>(
-	editor: PrismEditor,
-	type: T,
-	listener: (this: HTMLTextAreaElement, ev: HTMLElementEventMap[T]) => any,
-	options?: boolean | AddEventListenerOptions,
-) => editor.textarea.addEventListener(type, listener, options)
+const getLineStart = (text: string, position: number) =>
+	position ? text.lastIndexOf("\n", position - 1) + 1 : 0
 
-export { scrollToEl, addTextareaListener }
+const getLineEnd = (text: string, position: number) =>
+	(position = text.indexOf("\n", position)) + 1 ? position : text.length
+
+export { scrollToEl, getLineStart, getLineEnd }

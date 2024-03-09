@@ -1,9 +1,9 @@
 /** @module cursor */
 
 import { BasicExtension, InputSelection, PrismEditor } from "../index.js"
-import { createTemplate } from "../core.js"
+import { createTemplate, addTextareaListener } from "../core.js"
 import { getLineBefore } from "../utils/index.js"
-import { addTextareaListener, scrollToEl } from "../utils/local.js"
+import { getLineEnd, scrollToEl } from "../utils/local.js"
 import { defaultCommands } from "./commands.js"
 
 /** Postion of the cursor relative to the editors overlays. */
@@ -43,7 +43,7 @@ export const cursorPosition = () => {
 			let { value, activeLine } = cEditor,
 				position = direction == "backward" ? start : end,
 				newBefore = getLineBefore(value, position),
-				newAfter = /.*/.exec(value.slice(position))![0]
+				newAfter = value.slice(position, getLineEnd(value, position))
 
 			if (!newBefore && !newAfter) newAfter = " "
 			if (prevBefore != newBefore) before.data = prevBefore = newBefore

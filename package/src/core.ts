@@ -9,7 +9,6 @@ import type {
 	EditorExtension,
 } from "./types.js"
 import { highlightTokens, languages, tokenizeText, Grammar, TokenStream } from "./prism/index.js"
-import { addTextareaListener } from "./utils/local.js"
 
 /**
  * Creates a code editor using the specified container and options.
@@ -217,10 +216,10 @@ const createEditor = (
 		addExtensions(...extensions) {
 			updateExtensions(extensions)
 		},
-		addListener<T extends keyof EditorEventMap>(name: T, handler: EditorEventMap[T]) {
+		addListener(name, handler) {
 			;(listeners[name] ||= new Set<any>()).add(handler)
 		},
-		removeListener<T extends keyof EditorEventMap>(name: T, handler: EditorEventMap[T]) {
+		removeListener(name, handler) {
 			listeners[name]?.delete(handler)
 		},
 		remove() {
@@ -297,6 +296,13 @@ const createTemplate = <T extends Element = HTMLDivElement>(html: string) => {
 	return () => <T>node.cloneNode(true)
 }
 
+const addTextareaListener = <T extends keyof HTMLElementEventMap>(
+	editor: PrismEditor,
+	type: T,
+	listener: (this: HTMLTextAreaElement, ev: HTMLElementEventMap[T]) => any,
+	options?: boolean | AddEventListenerOptions,
+) => editor.textarea.addEventListener(type, listener, options)
+
 const getElement = <T extends ParentNode>(el?: T | string | null) =>
 	typeof el == "string" ? document.querySelector<HTMLElement>(el) : el
 
@@ -345,4 +351,5 @@ export {
 	preventDefault,
 	setSelection,
 	editorFromPlaceholder,
+	addTextareaListener,
 }

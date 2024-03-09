@@ -3,7 +3,7 @@
 import { PrismEditor, BasicExtension } from "../index.js"
 import { Token, TokenStream } from "../prism/index.js"
 import { getClosestToken } from "../utils/index.js"
-import { addTextareaListener } from "../utils/local.js"
+import { addTextareaListener } from "../core.js"
 
 const voidlessLangs = "xml,rss,atom,jsx,tsx".split(",")
 const voidTags = "area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr".split(",")
@@ -94,7 +94,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 						let lang = token.alias || type
 						matchTagsRecursive(
 							content,
-							lang.indexOf("language-") ? language : lang.slice(9),
+							lang.slice(0, 9) == "language-" ? lang.slice(9) : language,
 							position,
 						)
 					}

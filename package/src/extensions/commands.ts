@@ -1,7 +1,7 @@
 /** @module commands */
 
 import { EditorOptions, InputSelection, BasicExtension, PrismEditor } from "../index.js"
-import { isMac, preventDefault, languageMap } from "../core.js"
+import { isMac, preventDefault, languageMap, addTextareaListener } from "../core.js"
 import {
 	getLanguage,
 	insertText,
@@ -11,7 +11,7 @@ import {
 	getModifierCode,
 	prevSelection,
 } from "../utils/index.js"
-import { addTextareaListener } from "../utils/local.js"
+import { getLineStart } from "../utils/local.js"
 
 let ignoreTab = false
 const clipboard = navigator.clipboard
@@ -214,7 +214,7 @@ const defaultCommands =
 				if ((code & 0b111) == 1) {
 					if (code == 1) {
 						// Moving lines
-						const newStart = i ? start : start ? value.lastIndexOf("\n", start - 1) : -1
+						const newStart = i ? start : getLineStart(value, start) - 1
 						const newEnd = i ? value.indexOf("\n", end) + 1 : end
 						if (newStart > -1 && newEnd > 0) {
 							const [lines, start1, end1] = getLines(value, newStart, newEnd),
@@ -263,7 +263,7 @@ const defaultCommands =
 			} else if ((keyCode == 191 && code == mod) || (keyCode == 65 && code == 9)) {
 				const value = editor.value,
 					isBlock = code == 9,
-					position = isBlock ? start : value.lastIndexOf("\n", start - 1) + 1,
+					position = isBlock ? start : getLineStart(value, start),
 					language = languageMap[getLanguage(editor, position)] || {},
 					{ line, block } =
 						language.getComments?.(editor, position, value) || language.comments || {},
