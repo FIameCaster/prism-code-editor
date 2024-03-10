@@ -127,7 +127,7 @@ const getClosestTagIndex = (pos: number, tags: TagMatcher["tags"]) => {
  * This extension can safely be added dynamically to an editor.
  */
 export const matchTags = (): BasicExtension => editor => {
-	let openEl: HTMLSpanElement, closeEl: HTMLSpanElement
+	let openEl: Element | undefined, closeEl: Element | undefined
 	const { tags, pairs } = (editor.extensions.matchTags ||= createTagMatcher(editor))
 	const highlight = (remove?: boolean) =>
 		[openEl, closeEl].forEach(el => {
@@ -135,26 +135,24 @@ export const matchTags = (): BasicExtension => editor => {
 		})
 
 	editor.addListener("selectionChange", ([start, end]) => {
-		let newEl1: HTMLSpanElement
-		let newEl2: HTMLSpanElement
+		let newEl1: Element | undefined
+		let newEl2: Element | undefined
+		let index: number
 		if (start == end && editor.focused) {
-			let index = getClosestTagIndex(start, tags)!
-			let tag = tags[index]
+			index = getClosestTagIndex(start, tags)!
 
-			if (tag && tag[3]) {
-				const tag1 = getClosestToken(editor, ".tag>.tag")
-				const otherIndex = pairs[index]!
+			if (index + 1) {
+				index = pairs[index]!
 
-				if (tag1 && otherIndex + 1) {
-					newEl1 = tag1
-					newEl2 = getClosestToken(editor, ".tag>.tag", 0, 0, tags[otherIndex][1] + 2)!
+				if (index + 1 && (newEl1 = getClosestToken(editor, ".tag>.tag"))) {
+					newEl2 = getClosestToken(editor, ".tag>.tag", 2, 0, tags[index][1])
 				}
 			}
 		}
-		if (openEl != newEl1!) {
+		if (openEl != newEl1) {
 			highlight(true)
-			openEl = newEl1!
-			closeEl = newEl2!
+			openEl = newEl1
+			closeEl = newEl2
 			highlight()
 		}
 	})
