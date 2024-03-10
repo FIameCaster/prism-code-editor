@@ -6,7 +6,7 @@ import { createTemplate, languageMap } from "../../core.js"
 import { BracketMatcher } from "../matchBrackets/index.js"
 import { TagMatcher } from "../matchTags.js"
 import { TokenStream, Token } from "../../prism/index.js"
-import { getLineEnd } from "../../utils/local.js"
+import { addListener, getLineEnd } from "../../utils/local.js"
 
 /**
  * Callback used to add extra foldable ranges to an editor.
@@ -229,8 +229,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 				"--padding-left",
 				options.lineNumbers == false ? "calc(var(--_pse) + var(--_ns))" : "",
 			)
-			editor.addListener("update", createFolds)
-			setTimeout(editor.removeListener, 0, "update", createFolds)
+			setTimeout(addListener(editor, "update", createFolds))
 		},
 		get fullCode() {
 			return code

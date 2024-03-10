@@ -1,4 +1,4 @@
-import { isChrome, PrismEditor } from "../index.js"
+import { EditorEventMap, isChrome, PrismEditor } from "../index.js"
 
 const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
 	const style1 = editor.scrollContainer.style,
@@ -18,4 +18,13 @@ const getLineStart = (text: string, position: number) =>
 const getLineEnd = (text: string, position: number) =>
 	(position = text.indexOf("\n", position)) + 1 ? position : text.length
 
-export { scrollToEl, getLineStart, getLineEnd }
+const addListener = <T extends keyof EditorEventMap>(
+	editor: PrismEditor,
+	type: T,
+	listener: EditorEventMap[T],
+) => {
+	editor.addListener(type, listener)
+	return () => editor.removeListener(type, listener)
+}
+
+export { scrollToEl, getLineStart, getLineEnd, addListener }

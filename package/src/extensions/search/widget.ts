@@ -6,9 +6,12 @@ import {
 	preventDefault,
 	setSelection,
 	addTextareaListener,
+	numLines,
+	selection,
 } from "../../core.js"
 import { regexEscape, getLines, getModifierCode } from "../../utils/index.js"
 import { createReplaceAPI } from "./replace.js"
+import { addListener } from "../../utils/local.js"
 
 const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
 
@@ -54,32 +57,35 @@ export const searchWidget = (): SearchWidget => {
 		prevUserSelection: InputSelection,
 		prevMargin: number,
 		selectNext = false,
-		marginTop: number
+		marginTop: number,
+		removeUpdateHandler: () => any,
+		removeSelectionHandler: () => any
 
 	const self: SearchWidget = editor => {
 		editor.extensions.searchWidget = self
 
-		const { textarea, wrapper, overlays, scrollContainer, getSelection: selection } = editor,
+		const { textarea, wrapper, overlays, scrollContainer, getSelection } = editor,
 			replaceAPI = createReplaceAPI(editor)
 
 		const startSearch = (selectMatch?: boolean) => {
+			const prev = selection
 			if (selectMatch) setSelection(prevUserSelection)
 			const error = replaceAPI.search(
-					findInput.value,
-					matchCase,
-					wholeWord,
-					useRegExp,
-					searchSelection,
-				),
-				index = error ? -1 : selectNext ? replaceAPI.next() : replaceAPI.closest()
+				findInput.value,
+				matchCase,
+				wholeWord,
+				useRegExp,
+				searchSelection,
+			)
+			const index = error ? -1 : selectNext ? replaceAPI.next() : replaceAPI.closest()
 
-			setSelection()
+			setSelection(prev)
 			current.data = <any>index + 1
 			total.data = <any>replaceAPI.matches.length
 			findContainer.classList.toggle("pce-error", !!error)
 
 			if (error) errorEl.textContent = error
-			else selectMatch && replaceAPI.selectMatch(index, prevMargin)
+			else if (selectMatch || selectNext) replaceAPI.selectMatch(index, prevMargin)
 		}
 
 		const keydown = (e: KeyboardEvent) => {
@@ -87,7 +93,7 @@ export const searchWidget = (): SearchWidget => {
 			if (e.keyCode >> 1 == 35 && getModifierCode(e) == (isMac ? 0b0100 : 0b0010)) {
 				preventDefault(e)
 				open()
-				let [start, end] = selection(),
+				let [start, end] = getSelection(),
 					value = editor.value,
 					word =
 						value.slice(start, end) ||
@@ -96,7 +102,7 @@ export const searchWidget = (): SearchWidget => {
 				if (/^$|\n/.test(word)) startSearch()
 				else {
 					if (useRegExp) word = regexEscape(word)
-					document.execCommand("insertText", false, word) || (findInput.value = word)
+					document.execCommand("insertText", false, word)
 					findInput.select()
 				}
 			}
@@ -107,11 +113,11 @@ export const searchWidget = (): SearchWidget => {
 		}
 
 		const beforeinput = () => {
-			if (searchSelection) currentSelection = selection()
+			if (searchSelection) currentSelection = getSelection()
 		}
 
 		const input = () => {
-			if (searchSelection) {
+			if (searchSelection && currentSelection) {
 				// This preserves the selection well for normal typing,
 				// but for indenting, toggling comments, etc. it doesn't
 				const diff = prevLength - (prevLength = editor.value.length),
@@ -123,17 +129,16 @@ export const searchWidget = (): SearchWidget => {
 					if (end <= searchStart - +(diff < 0)) searchSelection[0] -= diff
 				}
 			}
-			startSearch(selectNext)
-			selectNext = false
+			startSearch()
 		}
 
 		const open = (focusInput = true) => {
 			if (!isOpen) {
 				isOpen = true
 				if (marginTop == null) prevMargin = marginTop = getStyleValue(wrapper, "marginTop")
-				editor.addListener("update", input)
-				editor.addListener("selectionChange", selectionChange)
-				prevUserSelection = selection()
+				removeUpdateHandler = addListener(editor, "update", input)
+				removeSelectionHandler = addListener(editor, "selectionChange", selectionChange)
+				prevUserSelection = getSelection()
 				addTextareaListener(editor, "beforeinput", beforeinput)
 				container.style.display = "flex"
 				updateMargin()
@@ -147,8 +152,8 @@ export const searchWidget = (): SearchWidget => {
 			if (isOpen) {
 				isOpen = false
 				replaceAPI.stopSearch()
-				editor.removeListener("update", input)
-				editor.removeListener("selectionChange", selectionChange)
+				removeUpdateHandler()
+				removeSelectionHandler()
 				textarea.removeEventListener("beforeinput", beforeinput)
 				container.style.display = "none"
 				updateMargin()
@@ -187,17 +192,18 @@ export const searchWidget = (): SearchWidget => {
 		const replace = () => {
 			selectNext = true
 			replaceAPI.replace(replaceInput.value)
+			selectNext = false
 		}
 
 		const replaceAll = () => {
 			replaceAPI.replaceAll(replaceInput.value)
 		}
 
-		const keyButtonMap: Record<string, HTMLButtonElement> = {
-			p: matchCaseEl,
-			w: wholeWordEl,
-			r: useRegExpEl,
-			l: inSelectionEl,
+		const keyCodeButtonMap: Record<string, HTMLButtonElement> = {
+			80 /* P */: matchCaseEl,
+			87 /* W */: wholeWordEl,
+			82 /* R */: useRegExpEl,
+			76 /* L */: inSelectionEl,
 		}
 
 		const elementHandlerMap = new Map<HTMLElement, () => any>([
@@ -222,9 +228,9 @@ export const searchWidget = (): SearchWidget => {
 					const value = editor.value
 					if (searchSelection) searchSelection = undefined
 					else {
-						searchSelection = <[number, number]>selection().slice(0, 2)
+						searchSelection = <[number, number]>getSelection().slice(0, 2)
 
-						if (/\n/.test(value.slice(...searchSelection!)))
+						if (numLines(value, ...searchSelection) > 1)
 							searchSelection = <[number, number]>getLines(value, ...searchSelection!).slice(1)
 					}
 					prevLength = value.length
@@ -245,13 +251,13 @@ export const searchWidget = (): SearchWidget => {
 
 		container.addEventListener("click", e => {
 			const target = <HTMLElement>e.target
+			const remove = addListener(editor, "update", () => target.focus())
 			elementHandlerMap.get(<HTMLElement>target)?.()
-			if (target.matches("input~*")) target.focus()
 			if (target.matches(".pce-options>button")) {
 				toggleAttr(target, "aria-pressed")
 				startSearch(true)
-				e.isTrusted && target.focus()
 			}
+			remove()
 		})
 
 		findInput.oninput = () => isOpen && startSearch(true)
@@ -259,22 +265,21 @@ export const searchWidget = (): SearchWidget => {
 		container.addEventListener("keydown", e => {
 			const shortcut = getModifierCode(e),
 				target = <HTMLElement>e.target,
-				key = e.key,
+				keyCode = e.keyCode,
 				isFind = target == findInput
 			if (shortcut == (isMac ? 5 : 1)) {
-				let input = keyButtonMap[isMac ? e.code[3].toLowerCase() : key]
+				let input = keyCodeButtonMap[keyCode]
 				if (input) {
 					preventDefault(e)
 					input.click()
-					target.focus()
 				}
-			} else if (key == "Enter" && target.tagName == "INPUT") {
+			} else if (keyCode == 13 && target.tagName == "INPUT") {
 				preventDefault(e)
 				if (!shortcut) isFind ? move(true) : replace()
 				else if (shortcut == 8 && isFind) move()
 				else if (shortcut == (isMac ? 4 : 3) && !isFind) replaceAll()
 				target.focus()
-			} else if (!shortcut && key == "Escape") close()
+			} else if (!shortcut && keyCode == 27) close()
 			else keydown(e)
 		})
 

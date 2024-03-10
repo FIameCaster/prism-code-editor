@@ -239,9 +239,7 @@ const createEditor = (
 		)
 			preventDefault(e)
 	})
-	addTextareaListener(self, "input", () => {
-		if (value != textarea.value) update()
-	})
+	addTextareaListener(self, "input", update)
 	addTextareaListener(self, "blur", () => {
 		selectionChange = null
 		focused = false
@@ -352,4 +350,5 @@ export {
 	setSelection,
 	editorFromPlaceholder,
 	addTextareaListener,
+	selection,
 }

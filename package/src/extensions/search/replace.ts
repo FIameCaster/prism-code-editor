@@ -48,6 +48,11 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 			return l ? 0 : -1
 		}
 
+	const toggleClasses = () => {
+		currentLine?.classList.toggle("match-highlight")
+		currentMatch?.classList.toggle("match")
+	}
+
 	let currentLine: HTMLDivElement,
 		currentMatch: HTMLSpanElement,
 		removeHighlight: (() => void) | null
@@ -79,18 +84,16 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 			const match = search.matches[index]
 			if (match) {
 				removeHighlight = () => {
-					currentLine?.classList.remove("match-highlight")
-					currentMatch?.classList.remove("match")
+					toggleClasses()
 					editor.textarea.removeEventListener("focus", removeHighlight!)
 					removeHighlight = null
 				}
 				editor.setSelection(...match)
 				addTextareaListener(editor, "focus", removeHighlight)
 				currentLine = editor.activeLine!
-				currentLine.classList.add("match-highlight")
 				currentMatch = <HTMLSpanElement>search.container.children[index]
+				toggleClasses()
 				if (currentMatch) {
-					currentMatch.classList.add("match")
 					scrollToEl(editor, currentMatch, scrollPadding)
 				}
 			}
