@@ -12,7 +12,7 @@ import {
 
 const attributeMap = {
 	language: [(value: string | null) => value || "text"],
-	"tab-size": [(value: string | null) => +value!, "tabSize"],
+	"tab-size": [(value: string | null) => +value! || 2, "tabSize"],
 	"insert-spaces": [(value: string | null) => value != null, "insertSpaces"],
 	"line-numbers": [(value: string | null) => value != null, "lineNumbers"],
 	readonly: [(value: string | null) => value != null, "readOnly"],
