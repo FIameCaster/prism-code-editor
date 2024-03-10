@@ -46,7 +46,7 @@ export const indentGuides = (): IndentGuides => {
 
 			if (top != old?.[0]) style.top = top + "00%"
 			if (height != old?.[1]) style.height = height + "00%"
-			if (left != old?.[2]) style.left = left + "00%"
+			if (left != old?.[2]) style.left = left * 100 + "%"
 
 			const isSingleIndent = prev[0] != top && next?.[0] != top,
 				isSingleOutdent = prev[0] + prev[1] != top + height && next?.[0] + next?.[1] != top + height
