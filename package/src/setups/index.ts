@@ -1,6 +1,6 @@
 import { EditorOptions, PrismEditor, createEditor } from "../index.js"
 import { getElement } from "../core.js"
-import { defaultCommands } from "../extensions/commands.js"
+import { defaultCommands, editHistory } from "../extensions/commands.js"
 import { copyButton } from "../extensions/copyButton/index.js"
 import { readOnlyCodeFolding } from "../extensions/folding/index.js"
 import { indentGuides } from "../extensions/guides.js"
@@ -21,8 +21,8 @@ const addStyles = (shadow: ShadowRoot, styles: string, id?: string) => {
 }
 
 /**
- * Updates the theme of an editor. The editor needs to be inside a shadow root
- * with a style element for the theme whoose `id` is `"theme"`.
+ * Updates the theme of an editor. The editor needs to be inside a shadow root with a style
+ * element for the theme whoose `id` is `"theme"`. This is the case when using the setups.
  * @param editor Editor you want to change the theme of.
  * @param theme Name of the new theme.
  */
@@ -68,8 +68,11 @@ const minimalEditor = (
 
 /**
  * Same as {@link minimalEditor}, but also adds {@link indentGuides}, {@link highlightSelectionMatches},
- * {@link matchBrackets}, {@link highlightBracketPairs} and {@link defaultCommands}
+ * {@link matchBrackets}, {@link highlightBracketPairs}, {@link defaultCommands} and {@link editHistory}
  * extensions and language specific behavior.
+ * 
+ * There's also an extension added that clears the history stack every time the value is
+ * changed programmatically.
  */
 const basicEditor = (
 	container: HTMLElement | string,
@@ -77,14 +80,10 @@ const basicEditor = (
 	readyCallback?: () => any,
 ) => {
 	import("./common").then(mod => {
-		mod.addExtensions(editor)
+		editor.addExtensions(...mod.common())
 	})
 
 	const editor = minimalEditor(container, options, readyCallback)
-
-	import("../extensions/search/selection").then(mod => {
-		editor.addExtensions(mod.highlightSelectionMatches())
-	})
 
 	return editor
 }
@@ -96,7 +95,7 @@ const fullEditor = (
 	readyCallback?: () => any,
 ) => {
 	import("./common").then(mod => {
-		mod.addExtensions(editor)
+		editor.addExtensions(...mod.common())
 	})
 
 	const el = <HTMLElement>getElement(container)
