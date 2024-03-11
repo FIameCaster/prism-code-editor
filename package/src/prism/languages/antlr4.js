@@ -33,7 +33,7 @@ languages.antlr4 = {
 		pattern: /(->\s*(?!\s))(?:\s*(?:,\s*)?\b[a-z]\w*(?:\s*\([^()\n]*\))?)+(?=\s*;)/i,
 		lookbehind: true,
 		inside: {
-			'function': /\b\w+(?=\s*(?:[,(]|$))/,
+			'function': /\b\w+(?!\s*[^\s,(])/,
 			'punctuation': /[(),]/
 		}
 	},

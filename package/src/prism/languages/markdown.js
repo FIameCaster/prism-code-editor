@@ -38,7 +38,7 @@ insertBefore(markdown, 'prolog', {
 	},
 	'blockquote': {
 		// > ...
-		pattern: /^>(?:[\t ]*>)*/m,
+		pattern: /^>(?:[ \t]*>)*/m,
 		alias: 'punctuation'
 	},
 	'table': {
@@ -142,7 +142,7 @@ insertBefore(markdown, 'prolog', {
 		// ---
 		// * * *
 		// -----------
-		pattern: /(^\s*)([*-])(?:[\t ]*\2){2,}(?=\s*$)/m,
+		pattern: /(^\s*)([*-])(?:[ \t]*\2){2,}(?=\s*$)/m,
 		lookbehind: true,
 		alias: 'punctuation'
 	},
@@ -151,7 +151,7 @@ insertBefore(markdown, 'prolog', {
 		// + item
 		// - item
 		// 1. item
-		pattern: /(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m,
+		pattern: /(^\s*)(?:[*+-]|\d+\.)(?=[ \t].)/m,
 		lookbehind: true,
 		alias: 'punctuation'
 	},
@@ -160,7 +160,7 @@ insertBefore(markdown, 'prolog', {
 		// [id]: http://example.com 'Optional title'
 		// [id]: http://example.com (Optional title)
 		// [id]: <http://example.com> "Optional title"
-		pattern: /!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^\\"])*"|'(?:\\.|[^\\'])*'|\((?:\\.|[^)\\])*\)))?/,
+		pattern: /!?\[[^\]]+\]:[ \t]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[ \t]+(?:"(?:\\.|[^\\"])*"|'(?:\\.|[^\\'])*'|\((?:\\.|[^)\\])*\)))?/,
 		inside: {
 			'variable': {
 				pattern: /^(!?\[)[^\]]+/,
@@ -231,7 +231,7 @@ insertBefore(markdown, 'prolog', {
 		// [example](http://example.com "Optional title")
 		// [example][id]
 		// [example] [id]
-		pattern: createInline(/!?\[(?:(?!\])<0>)+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^\\"])*")?\)|[ \t]?\[(?:(?!\])<0>)+\])/.source),
+		pattern: createInline(/!?\[(?:(?!\])<0>)+\](?:\([^\s)]+(?:[ \t]+"(?:\\.|[^\\"])*")?\)|[ \t]?\[(?:(?!\])<0>)+\])/.source),
 		lookbehind: true,
 		greedy: true,
 		inside: {

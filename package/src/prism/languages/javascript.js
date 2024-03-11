@@ -46,14 +46,14 @@ languages.js = languages.javascript = Object.assign(js, {
 	},
 	'string': clikeString(),
 	'regex': {
-		pattern: /((?:^|[^$\w\xa0-\uffff."'\])\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:\\.|[^\\\n\]])*\]|\\.|[^\\\n/[])+\/[dgimyus]{0,7}|(?:\[(?:\\.|[^\\\n[\]]|\[(?:\\.|[^\\\n[\]]|\[(?:\\.|[^\\\n[\]])*\])*\])*\]|\\.|[^\\\n/[])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?:$|[()[\]{}.,:;?/&|<>^\n*%!=+-]))/g,
+		pattern: /((?:^|[^$\w\xa0-\uffff"'`.)\]\s]|\b(?:return|yield))\s*)\/(?:(?:\[(?:\\.|[^\\\n\]])*\]|\\.|[^\\\n/[])+\/[dgimyus]{0,7}|(?:\[(?:\\.|[^\\\n[\]]|\[(?:\\.|[^\\\n[\]]|\[(?:\\.|[^\\\n[\]])*\])*\])*\]|\\.|[^\\\n/[])+\/[dgimyus]{0,7}v[dgimyus]{0,7})(?=(?:\s|\/\*(?:[^*]|\*(?!\/))*\*\/)*(?!\/\*|[^()[\]{}.,:;?`\n%&|^!=<>/*+-]))/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'regex-flags': /\w+$/,
 			'regex-delimiter': /^\/|\/$/,
 			'regex-source': {
-				pattern: /[\s\S]+/,
+				pattern: /.+/,
 				alias: 'language-regex',
 				inside: 'regex'
 			}
@@ -93,7 +93,7 @@ languages.js = languages.javascript = Object.assign(js, {
 	'constant': /\b[A-Z](?:[A-Z_]|\dx?)*\b/,
 	'keyword': [
 		{
-			pattern: /(^|[^.]|\.{3}\s*)\b(?:as|assert(?=\s*\{)|export|from(?=\s*(?:["']|$))|import)\b/,
+			pattern: /(^|[^.]|\.{3}\s*)\b(?:as|assert(?=\s*\{)|export|from(?!\s*[^\s"'])|import)\b/,
 			alias: 'module',
 			lookbehind: true
 		},
@@ -103,7 +103,7 @@ languages.js = languages.javascript = Object.assign(js, {
 			lookbehind: true
 		},
 		{
-			pattern: /(^|[^.]|\.{3}\s*)\b(?:async(?=\s*(?:[($\w\xa0-\uffff]|$))|class|const|debugger|delete|enum|extends|function|[gs]et(?=\s*(?:[#[$\w\xa0-\uffff]|$))|implements|in|instanceof|interface|let|new|null|of|package|private|protected|public|static|super|this|typeof|undefined|var|void|with)\b/,
+			pattern: /(^|[^.]|\.{3}\s*)\b(?:async(?!\s*[^\s($\w\xa0-\uffff])|class|const|debugger|delete|enum|extends|function|[gs]et(?!\s*[^\s#[$\w\xa0-\uffff])|implements|in|instanceof|interface|let|new|null|of|package|private|protected|public|static|super|this|typeof|undefined|var|void|with)\b/,
 			lookbehind: true
 		}
 	],

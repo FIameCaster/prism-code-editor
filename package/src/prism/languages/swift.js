@@ -46,7 +46,7 @@ var swift = languages.swift = {
 
 	'directive': {
 		// directives with conditions
-		pattern: /#(?:(?:elseif|if)\b(?:[ 	]*(?:![ \t]*)?(?:\b\w+\b(?:[ \t]*\((?:[^()]|\([^()]*\))*\))?|\((?:[^()]|\([^()]*\))*\))(?:[ \t]*(?:&&|\|\|))?)+|(?:else|endif)\b)/,
+		pattern: /#(?:(?:elseif|if)\b(?:[ \t]*(?:![ \t]*)?(?:\b\w+\b(?:[ \t]*\((?:[^()]|\([^()]*\))*\))?|\((?:[^()]|\([^()]*\))*\))(?:[ \t]*(?:&&|\|\|))?)+|(?:else|endif)\b)/,
 		alias: 'property',
 		inside: {
 			'directive-name': /^#\w+/,

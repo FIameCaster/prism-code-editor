@@ -11,11 +11,11 @@ languages.javastacktrace = {
 	// Caused by: MidLevelException: LowLevelException
 	// Suppressed: Resource$CloseFailException: Resource ID = 0
 	'summary': {
-		pattern: /^([\t ]*)(?:(?:Caused by:|Suppressed:|Exception in thread "[^"]*")[\t ]+)?[$\w.]+(?::.*)?$/m,
+		pattern: /^([ \t]*)(?:(?:Caused by:|Suppressed:|Exception in thread "[^"]*")[ \t]+)?[$\w.]+(?::.*)?$/m,
 		lookbehind: true,
 		inside: {
 			'keyword': {
-				pattern: /^([\t ]*)(?:(?:Caused by|Suppressed)(?=:)|Exception in thread)/m,
+				pattern: /^([ \t]*)(?:(?:Caused by|Suppressed)(?=:)|Exception in thread)/m,
 				lookbehind: true
 			},
 
@@ -64,7 +64,7 @@ languages.javastacktrace = {
 	// https://github.com/matcdac/jdk/blob/2305df71d1b7710266ae0956d73927a225132c0f/src/java.base/share/classes/java/lang/module/ModuleDescriptor.java#L1108
 	// However, to keep this simple, a version will be matched by the pattern /@[$\w.+-]*/.
 	'stack-frame': {
-		pattern: /^([\t ]*)at (?:[$\w./]|@[$\w.+-]*\/)+(?:<init>)?\([^()]*\)/m,
+		pattern: /^([ \t]*)at (?:[$\w./]|@[$\w.+-]*\/)+(?:<init>)?\([^()]*\)/m,
 		lookbehind: true,
 		inside: {
 			'keyword': {
@@ -132,7 +132,7 @@ languages.javastacktrace = {
 	// ... 32 more
 	// ... 32 common frames omitted
 	'more': {
-		pattern: /^([\t ]*)\.{3} \d+ [a-z]+(?: [a-z]+)*/m,
+		pattern: /^([ \t]*)\.{3} \d+ [a-z]+(?: [a-z]+)*/m,
 		lookbehind: true,
 		inside: {
 			'punctuation': /\.{3}/,

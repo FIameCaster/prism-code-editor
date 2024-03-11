@@ -62,10 +62,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 			pattern: /@\("?(?:[^\n"/):]+)"?(?:\/[nrts$uL]*)?\)/,
 			alias: 'string',
 			inside: {
-				'punctuation': {
-					pattern: /(\().+?(?=\))/,
-					lookbehind: true
-				}
+				'punctuation': /(?![(@]).+(?=.)/
 			}
 		}
 	],

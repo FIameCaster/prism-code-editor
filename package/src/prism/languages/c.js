@@ -28,7 +28,7 @@ macroExpression.inside = languages.c = {
 	'macro': {
 		// allow for multiline macro definitions
 		// spaces after the # character compile fine with gcc
-		pattern: /(^[\t ]*)#\s*[a-z](?:[^\\\n/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|\\[\s\S])*/img,
+		pattern: /(^[ \t]*)#\s*[a-z](?:[^\\\n/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|\\[\s\S])*/img,
 		lookbehind: true,
 		greedy: true,
 		alias: 'property',

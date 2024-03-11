@@ -49,7 +49,7 @@ languages.art = languages.arturo = {
 	'sh-string': createLanguageString('shell', 'sh'),
 
 	'multistring': {
-		pattern: /».*|\{:[\s\S]*?:\}|\{[\s\S]*?\}|^-{6}$[\s\S]*/mg,
+		pattern: /».*|\{:[\s\S]*?:\}|\{[^}]*\}|^-{6}$[\s\S]*/mg,
 		alias: 'string',
 		greedy: true
 	},

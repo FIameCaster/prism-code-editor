@@ -9,7 +9,7 @@ languages.autohotkey = {
 			lookbehind: true
 		},
 		{
-			pattern: /(^[\t ]*)\/\*(?:\n(?![ \t]*\*\/)|[^\n])*(?:\n[ \t]*\*\/)?/mg,
+			pattern: /(^[ \t]*)\/\*(?:\n(?![ \t]*\*\/)|[^\n])*(?:\n[ \t]*\*\/)?/mg,
 			lookbehind: true,
 			greedy: true
 		}

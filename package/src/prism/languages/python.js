@@ -48,7 +48,7 @@ inside[rest] = languages.py = languages.python = {
 		lookbehind: true
 	},
 	'decorator': {
-		pattern: /(^[\t ]*)@\w+(?:\.\w+)*/m,
+		pattern: /(^[ \t]*)@\w+(?:\.\w+)*/m,
 		lookbehind: true,
 		alias: 'annotation punctuation',
 		inside: {

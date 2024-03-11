@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 var variable = /%%?[~:\w]+%?|!\S+!/;
 var parameter = {
-	pattern: /\/[a-z?]+(?=[ :]|$):?|-[a-z]\b|--[a-z-]+\b/im,
+	pattern: /\/[a-z?]+(?![^ :]):?|-[a-z]\b|--[a-z-]+\b/im,
 	alias: 'attr-name',
 	inside: {
 		'punctuation': /:/

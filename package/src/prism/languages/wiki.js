@@ -28,14 +28,11 @@ insertBefore(
 					alias: 'bold italic'
 				},
 				'bold': {
-					pattern: /(''')[^'](?:.*?[^'])?(?=\1)/,
+					pattern: /(''')[^'].*(?=\1)/,
 					lookbehind: true
 				},
-				'italic': {
-					pattern: /('')[^'](?:.*?[^'])?(?=\1)/,
-					lookbehind: true
-				},
-				'punctuation': /^''+|''+$/
+				'italic': /(?!').+(?='')/,
+				'punctuation': /.+/
 			}
 		},
 		'hr': {

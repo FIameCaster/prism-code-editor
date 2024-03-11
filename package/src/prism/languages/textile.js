@@ -162,7 +162,7 @@ var phraseInside = {
 	// "text":link-ref
 	'link': {
 		// eslint-disable-next-line regexp/no-super-linear-backtracking
-		pattern: re(/"<0>*[^"]+":.+?(?=[^\w/]?(?:\s|$))/.source, replacements),
+		pattern: re(/"<0>*[^"]+":\S+(?=\S)[\w/]?/.source, replacements),
 		inside: {
 			'text': {
 				// eslint-disable-next-line regexp/no-super-linear-backtracking
@@ -185,7 +185,7 @@ var phraseInside = {
 	// !image.jpg!
 	// !image.jpg(Title)!:http://example.com
 	'image': {
-		pattern: re(/!(?:<0>|<1>|[<>=])*(?![<>=])[^!\s()]+(?:\([^)]+\))?!(?::.+?(?=[^\w/]?(?:\s|$)))?/.source, replacements),
+		pattern: re(/!(?:<0>|<1>|[<>=])*(?![<>=])[^!\s()]+(?:\([^)]+\))?!(?::\S+(?=\S)[\w/]?)?/.source, replacements),
 		inside: {
 			'source': {
 				pattern: re(/(^!(?:<0>|<1>|[<>=])*)(?![<>=])[^!\s()]+(?:\([^)]+\))?(?=!)/.source, replacements),

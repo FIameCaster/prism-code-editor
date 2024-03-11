@@ -53,7 +53,7 @@ insertBefore(v, 'string', {
 
 insertBefore(v, 'operator', {
 	'attribute': {
-		pattern: /(^[\t ]*)\[(?:deprecated|direct_array_access|flag|inline|live|ref_only|typedef|unsafe_fn|windows_stdcall)\]/m,
+		pattern: /(^[ \t]*)\[(?:deprecated|direct_array_access|flag|inline|live|ref_only|typedef|unsafe_fn|windows_stdcall)\]/m,
 		lookbehind: true,
 		alias: 'annotation',
 		inside: {

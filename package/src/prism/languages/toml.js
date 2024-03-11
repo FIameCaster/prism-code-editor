@@ -10,13 +10,13 @@ languages.toml = {
 		greedy: true
 	},
 	'table': {
-		pattern: insertKey(/(^[\t ]*\[\s*(?:\[\s*)?)<0>(?:\s*\.\s*<0>)*(?=\s*\])/.source),
+		pattern: insertKey(/(^[ \t]*\[\s*(?:\[\s*)?)<0>(?:\s*\.\s*<0>)*(?=\s*\])/.source),
 		lookbehind: true,
 		greedy: true,
 		alias: 'class-name'
 	},
 	'key': {
-		pattern: insertKey(/(^[\t ]*|[{,]\s*)<0>(?:\s*\.\s*<0>)*(?=\s*=)/.source),
+		pattern: insertKey(/(^[ \t]*|[{,]\s*)<0>(?:\s*\.\s*<0>)*(?=\s*=)/.source),
 		lookbehind: true,
 		greedy: true,
 		alias: 'property'

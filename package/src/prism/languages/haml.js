@@ -6,26 +6,26 @@ var haml = languages.haml = {
 	// Multiline stuff should appear before the rest
 
 	'multiline-comment': {
-		pattern: /(^[\t ]*)(?:\/|-#).*(?:\n\1[\t ].+)*/m,
+		pattern: /(^[ \t]*)(?:\/|-#).*(?:\n\1[ \t].+)*/m,
 		lookbehind: true,
 		alias: 'comment'
 	},
 
 	'multiline-code': [
 		{
-			pattern: /(^([\t ]*)(?:[~-]|[&!]?=)).*,[\t ]*(?:\n\2[\t ].*,[\t ]*)*(?:\n\2[\t ].+)/m,
+			pattern: /(^([ \t]*)(?:[~-]|[&!]?=)).*,[ \t]*(?:\n\2[ \t].*,[ \t]*)*(?:\n\2[ \t].+)/m,
 			lookbehind: true,
 			inside: 'ruby'
 		},
 		{
-			pattern: /(^([\t ]*)(?:[~-]|[&!]?=)).*\|[\t ]*(?:\n\2[\t ].*\|[\t ]*)*/m,
+			pattern: /(^([ \t]*)(?:[~-]|[&!]?=)).*\|[ \t]*(?:\n\2[ \t].*\|[ \t]*)*/m,
 			lookbehind: true,
 			inside: 'ruby'
 		}
 	]
 };
 
-var filter_pattern = '(^[\\t ]*):<0>(?:\\n(?:\\1[\\t ].+|\\s*?$))+';
+var filter_pattern = '(^[ \t]*):<0>(?:\\n(?:\\1[ \t].+|\\s*?$))+';
 
 // Non exhaustive list of available filters and associated languages
 [
@@ -59,7 +59,7 @@ var filter_pattern = '(^[\\t ]*):<0>(?:\\n(?:\\1[\\t ].+|\\s*?$))+';
 
 Object.assign(haml, {
 	'filter': {
-		pattern: /(^[\t ]*):[\w-]+(?:\n(?:\1[\t ].+|\s*?$))+/m,
+		pattern: /(^[ \t]*):[\w-]+(?:\n(?:\1[ \t].+|\s*?$))+/m,
 		lookbehind: true,
 		inside: {
 			'filter-name': {
@@ -70,17 +70,17 @@ Object.assign(haml, {
 	},
 
 	'markup': {
-		pattern: /(^[\t ]*)<.+/m,
+		pattern: /(^[ \t]*)<.+/m,
 		lookbehind: true,
 		inside: 'markup'
 	},
 	'doctype': {
-		pattern: /(^[\t ]*)!!!(?: .+)?/m,
+		pattern: /(^[ \t]*)!!!(?: .+)?/m,
 		lookbehind: true
 	},
 	'tag': {
 		// Allows for one nested group of braces
-		pattern: /(^[\t ]*)[%.#][\w#.-]*[\w-](?:\([^)]+\)|\{(?:\{[^}]+\}|[^{}])+\}|\[[^\]]+\])*[/<>]*/m,
+		pattern: /(^[ \t]*)[%.#][\w#.-]*[\w-](?:\([^)]+\)|\{(?:\{[^}]+\}|[^{}])+\}|\[[^\]]+\])*[/<>]*/m,
 		lookbehind: true,
 		inside: {
 			'attributes': [
@@ -111,7 +111,7 @@ Object.assign(haml, {
 		}
 	},
 	'code': {
-		pattern: /(^[\t ]*(?:[~-]|[&!]?=)).+/m,
+		pattern: /(^[ \t]*(?:[~-]|[&!]?=)).+/m,
 		lookbehind: true,
 		inside: 'ruby'
 	},
@@ -130,7 +130,7 @@ Object.assign(haml, {
 		}
 	},
 	'punctuation': {
-		pattern: /(^[\t ]*)[~=&!-]+/m,
+		pattern: /(^[ \t]*)[~=&!-]+/m,
 		lookbehind: true
 	}
 });

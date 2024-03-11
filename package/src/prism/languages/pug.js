@@ -12,7 +12,7 @@ import './javascript.js';
 // - Add support for markup embedded in plain text
 
 var js = languages.js;
-var filter_pattern = /(^([\t ]*)):<0>(?:\n(?:\2[\t ].+|\s*?$))+/.source;
+var filter_pattern = /(^([ \t]*)):<0>(?:\n(?:\2[ \t].+|\s*?$))+/.source;
 
 var langMap = {
 	atpl: 'twig',
@@ -26,14 +26,14 @@ var pug = languages.pug = {
 
 	// This handles both single-line and multi-line comments
 	'comment': {
-		pattern: /(^([\t ]*))\/\/.*(?:\n\2[\t ].+)*/m,
+		pattern: /(^([ \t]*))\/\/.*(?:\n\2[ \t].+)*/m,
 		lookbehind: true
 	},
 
 	// All the tag-related part is in lookbehind
 	// so that it can be highlighted by the "tag" pattern
 	'multiline-script': {
-		pattern: /(^([\t ]*)script\b.*\.[\t ]*)(?:\n(?:\2[\t ].+|\s*?$))+/m,
+		pattern: /(^([ \t]*)script\b.*\.[ \t]*)(?:\n(?:\2[ \t].+|\s*?$))+/m,
 		lookbehind: true,
 		inside: js
 	}
@@ -71,7 +71,7 @@ var pug = languages.pug = {
 
 Object.assign(pug, {
 	'filter': {
-		pattern: /(^([\t ]*)):.+(?:\n(?:\2[\t ].+|\s*?$))+/m,
+		pattern: /(^([ \t]*)):.+(?:\n(?:\2[ \t].+|\s*?$))+/m,
 		lookbehind: true,
 		inside: {
 			'filter-name': {
@@ -83,22 +83,22 @@ Object.assign(pug, {
 	},
 
 	'multiline-plain-text': {
-		pattern: /(^([\t ]*)[\w#.-]+\.[\t ]*)(?:\n(?:\2[\t ].+|\s*?$))+/m,
+		pattern: /(^([ \t]*)[\w#.-]+\.[ \t]*)(?:\n(?:\2[ \t].+|\s*?$))+/m,
 		lookbehind: true
 	},
 	'markup': {
-		pattern: /(^[\t ]*)<.+/m,
+		pattern: /(^[ \t]*)<.+/m,
 		lookbehind: true,
 		inside: languages.html
 	},
 	'doctype': {
-		pattern: /((?:^|\n)[\t ]*)doctype(?: .+)?/,
+		pattern: /((?:^|\n)[ \t]*)doctype(?: .+)?/,
 		lookbehind: true
 	},
 
 	// This handle all conditional and loop keywords
 	'flow-control': {
-		pattern: /(^[\t ]*)(?:case|default|each|else|if|unless|when|while)\b(?: .+)?/m,
+		pattern: /(^[ \t]*)(?:case|default|each|else|if|unless|when|while)\b(?: .+)?/m,
 		lookbehind: true,
 		inside: {
 			'each': {
@@ -116,13 +116,13 @@ Object.assign(pug, {
 		}
 	},
 	'keyword': {
-		pattern: /(^[\t ]*)(?:append|block|extends|include|prepend)\b.+/m,
+		pattern: /(^[ \t]*)(?:append|block|extends|include|prepend)\b.+/m,
 		lookbehind: true
 	},
 	'mixin': [
 		// Declaration
 		{
-			pattern: /(^[\t ]*)mixin .+/m,
+			pattern: /(^[ \t]*)mixin .+/m,
 			lookbehind: true,
 			inside: {
 				'keyword': /^mixin/,
@@ -132,7 +132,7 @@ Object.assign(pug, {
 		},
 		// Usage
 		{
-			pattern: /(^[\t ]*)\+.+/m,
+			pattern: /(^[ \t]*)\+.+/m,
 			lookbehind: true,
 			inside: {
 				'name': {
@@ -144,17 +144,17 @@ Object.assign(pug, {
 		}
 	],
 	'script': {
-		pattern: /(^[\t ]*script(?:(?:&[^(]+)?\([^)]+\))*[\t ]).+/m,
+		pattern: /(^[ \t]*script(?:(?:&[^(]+)?\([^)]+\))*[ \t]).+/m,
 		lookbehind: true,
 		inside: js
 	},
 
 	'plain-text': {
-		pattern: /(^[\t ]*(?!-)[\w#.-]*[\w-](?:(?:&[^(]+)?\([^)]+\))*\/?[\t ]).+/m,
+		pattern: /(^[ \t]*(?!-)[\w#.-]*[\w-](?:(?:&[^(]+)?\([^)]+\))*\/?[ \t]).+/m,
 		lookbehind: true
 	},
 	'tag': {
-		pattern: /(^[\t ]*)(?!-)[\w#.-]*[\w-](?:(?:&[^(]+)?\([^)]+\))*\/?:?/m,
+		pattern: /(^[ \t]*)(?!-)[\w#.-]*[\w-](?:(?:&[^(]+)?\([^)]+\))*\/?:?/m,
 		lookbehind: true,
 		inside: {
 			'attributes': [
@@ -182,7 +182,7 @@ Object.assign(pug, {
 	},
 	'code': [
 		{
-			pattern: /(^[\t ]*(?:-|!?=)).+/m,
+			pattern: /(^[ \t]*(?:-|!?=)).+/m,
 			lookbehind: true,
 			inside: js
 		}

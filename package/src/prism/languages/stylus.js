@@ -27,7 +27,7 @@ var inside = {
 	'func': null, // See below
 	'important': /\B!(?:important|optional)\b/i,
 	'keyword': {
-		pattern: /(^|\s+)(?:(?:else|for|if|return|unless)(?=\s|$)|@[\w-]+)/,
+		pattern: /(^|\s+)(?:(?:else|for|if|return|unless)(?!\S)|@[\w-]+)/,
 		lookbehind: true
 	},
 	'hexcode': /#[a-f\d]{3,6}/i,

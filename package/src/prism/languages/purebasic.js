@@ -14,7 +14,7 @@ languages.pbfasm = languages.purebasic = {
 	'string': clikeString(),
 	'tag': /#\w+\$?/,
 	'asm': {
-		pattern: /(^[\t ]*)!.*/m,
+		pattern: /(^[ \t]*)!.*/m,
 		lookbehind: true,
 		alias: 'tag',
 		inside: {
@@ -40,7 +40,7 @@ languages.pbfasm = languages.purebasic = {
 				/\b(?:CPU|DEFAULT|FLOAT)\b.*/
 			],
 			'function': {
-				pattern: /^([\t ]*!\s*)[a-z\d]+(?!\S)/im,
+				pattern: /^([ \t]*!\s*)[a-z\d]+(?!\S)/im,
 				lookbehind: true
 			},
 			'function-inline': {
@@ -49,7 +49,7 @@ languages.pbfasm = languages.purebasic = {
 				alias: 'function'
 			},
 			'label': {
-				pattern: /^([\t ]*!\s*)[A-Za-z._?$@][\w.?$@~#]*(?=:)/m,
+				pattern: /^([ \t]*!\s*)[A-Za-z._?$@][\w.?$@~#]*(?=:)/m,
 				lookbehind: true,
 				alias: 'fasm-label'
 			},

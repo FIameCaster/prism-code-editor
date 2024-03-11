@@ -8,7 +8,7 @@ var keywordsToPattern = words => `\\b(?:${words})\\b`;
 // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/
 var typeKeyword = 'bool|char|decimal|double|dynamic|float|object|s?byte|string|u?int|u?long|u?short|var|void'
 var typeDeclarationKeyword = 'class|enum|interface|record|struct'
-var contextualKeyword = 'add|alias|and|ascending|async|await|by|descending|from(?=\\s*(?:\\w|$))|[gls]et|global|group|into|init(?=\\s*;)|join|nameof|not|notnull|on|or|orderby|partial|remove|select|unmanaged|value|when|where|with(?=\\s*{)'
+var contextualKeyword = 'add|alias|and|ascending|async|await|by|descending|from(?!\\s*[^\\s\\w])|[gls]et|global|group|into|init(?=\\s*;)|join|nameof|not|notnull|on|or|orderby|partial|remove|select|unmanaged|value|when|where|with(?=\\s*{)'
 var otherKeyword = 'abstract|as|[bc]ase|break|catch|checked|const|continue|default|delegate|do|else|event|explicit|extern|finally|fixed|for|foreach|goto|i[fns]|implicit|internal|lock|namespace|new|null|operator|out|override|params|private|protected|public|readonly|ref|return|sealed|sizeof|stackalloc|static|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while|yield'
 
 // keywords
@@ -210,7 +210,7 @@ insertBefore(cs, 'class-name', {
 		}
 	},
 	'preprocessor': {
-		pattern: /(^[\t ]*)#.*/m,
+		pattern: /(^[ \t]*)#.*/m,
 		lookbehind: true,
 		alias: 'property',
 		inside: {

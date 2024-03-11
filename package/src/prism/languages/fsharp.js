@@ -38,7 +38,7 @@ languages.fsharp = {
 		}
 	},
 	'preprocessor': {
-		pattern: /(^[\t ]*)#.*/m,
+		pattern: /(^[ \t]*)#.*/m,
 		lookbehind: true,
 		alias: 'property',
 		inside: {

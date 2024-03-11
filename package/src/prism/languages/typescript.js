@@ -16,7 +16,7 @@ insertBefore(ts, 'operator', {
 
 // The keywords TypeScript adds to JavaScript
 ts.keyword.push(
-	/\b(?:abstract|declare|is|keyof|readonly|require)\b|\b(?:asserts|infer|interface|module|namespace|type)\b(?=\s*(?:[{_$a-zA-Z\xa0-\uffff]|$))|\btype\b(?=\s*(?:[\{*]|$))/
+	/\b(?:abstract|declare|is|keyof|readonly|require)\b|\b(?:asserts|infer|interface|module|namespace|type)\b(?!\s*[^\s{_$a-zA-Z\xa0-\uffff])|\btype(?=\s*\*)/
 );
 
 // doesn't work with TS because TS is too complex

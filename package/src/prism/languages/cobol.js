@@ -20,7 +20,7 @@ languages.cobol = {
 
 	'class-name': {
 		// https://github.com/antlr/grammars-v4/blob/42edd5b687d183b5fa679e858a82297bd27141e7/cobol85/Cobol85.g4#L1015
-		pattern: /(\bpic(?:ture)?\s+)(?:(?:[$\w/,:*<>+-]|\.(?!\s|$))(?:\(\d+\))?)+/i,
+		pattern: /(\bpic(?:ture)?\s+)(?:(?:[$\w/,:*<>+-]|\.(?=\S))(?:\(\d+\))?)+/i,
 		lookbehind: true,
 		inside: {
 			'number': {

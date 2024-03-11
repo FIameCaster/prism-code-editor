@@ -3,7 +3,7 @@ import { clikeString } from '../utils/shared.js';
 
 languages.iecst = {
 	'comment': {
-		pattern: /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)|\(\*[\s\S]*?(?:\*\)|$)|\{[\s\S]*?(?:\}|$)/g,
+		pattern: /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)|\(\*[\s\S]*?(?:\*\)|$)|\{[^}]*}?/g,
 		greedy: true,
 	},
 	'string': clikeString(),

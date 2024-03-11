@@ -17,7 +17,7 @@ var factor = languages.factor = {
 		// ! single-line exclamation point comments with whitespace after/around the !
 		// /* comment */, /* comment*/
 		// ![[ comment ]] , ![===[ comment]===]
-		pattern: /(^|\s)(?:! .*|!$|\/\*\s[\s\S]*?\*\/(?=\s|$)|!\[(={0,6})\[\s[\s\S]*?\]\2\](?=\s|$))/g,
+		pattern: /(^|\s)(?:! .*|!$|\/\*\s[\s\S]*?\*\/(?!\S)|!\[(={0,6})\[\s[\s\S]*?\]\2\](?!\S))/g,
 		greedy: true,
 		lookbehind: true,
 		inside: comment_inside
@@ -108,7 +108,7 @@ var factor = languages.factor = {
 	],
 
 	'special-using': {
-		pattern: /(^|\s)USING:(?:\s\S+)*(?=\s+;(?:\s|$))/,
+		pattern: /(^|\s)USING:(?:\s\S+)*(?=\s+;(?!\S))/,
 		lookbehind: true,
 		alias: 'function',
 		inside: {
@@ -303,7 +303,7 @@ var factor = languages.factor = {
 /** @param {string} str */
 var escape = str => str.replace(/[$+?|.^*()[\]{}\\]/g, '\\$&');
 
-var arrToWordsRegExp = arr => RegExp('(^|\\s)(?:' + arr.map(escape).join('|') + ')(?=\\s|$)');
+var arrToWordsRegExp = arr => RegExp('(^|\\s)(?:' + arr.map(escape).join('|') + ')(?!\\S)');
 
 var builtins = {
 	'kernel-builtin': [

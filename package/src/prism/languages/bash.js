@@ -117,7 +117,7 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
 	},
 	// Highlight parameter names as variables
 	'parameter': {
-		pattern: /(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?=[=\s]|$)/,
+		pattern: /(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?![^\s=])/,
 		alias: 'variable',
 		lookbehind: true
 	},

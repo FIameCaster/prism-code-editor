@@ -9,7 +9,7 @@ languages.vala = {
 		alias: 'string'
 	},
 	'template-string': {
-		pattern: /@"[\s\S]*?"/g,
+		pattern: /@"[^"]*"/g,
 		greedy: true,
 		inside: {
 			'interpolation': {

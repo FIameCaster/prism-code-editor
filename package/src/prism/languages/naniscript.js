@@ -18,7 +18,7 @@ var params = {
 			alias: 'selector',
 		},
 		{
-			pattern: /([\t ])\S+/g,
+			pattern: /([ \t])\S+/g,
 			lookbehind: true,
 			greedy: true,
 			alias: 'operator',
@@ -49,7 +49,7 @@ var isBadLine = input => {
 languages.nani = languages.naniscript = {
 	// ; ...
 	'comment': {
-		pattern: /^([\t ]*);.*/m,
+		pattern: /^([ \t]*);.*/m,
 		lookbehind: true,
 	},
 	// > ...
@@ -59,7 +59,7 @@ languages.nani = languages.naniscript = {
 		alias: 'tag',
 		inside: {
 			'value': {
-				pattern: /(^>\w+[\t ]+)(?!\s)[^{}\n]+/,
+				pattern: /(^>\w+[ \t]+)(?!\s)[^{}\n]+/,
 				lookbehind: true,
 				alias: 'operator'
 			},
@@ -71,12 +71,12 @@ languages.nani = languages.naniscript = {
 	},
 	// # ...
 	'label': {
-		pattern: /^([\t ]*)#[\t ]*\w+[\t ]*$/m,
+		pattern: /^([ \t]*)#[ \t]*\w+[ \t]*$/m,
 		lookbehind: true,
 		alias: 'regex'
 	},
 	'command': {
-		pattern: /^([\t ]*)@\w+(?=[\t ]|$).*/m,
+		pattern: /^([ \t]*)@\w+(?=[ \t]|$).*/m,
 		lookbehind: true,
 		alias: 'function',
 		inside: {
@@ -106,17 +106,17 @@ languages.nani = languages.naniscript = {
 				alias: 'selector'
 			},
 			'inline-command': {
-				pattern: /\[[\t ]*\w[^\n[\]]*\]/g,
+				pattern: /\[[ \t]*\w[^\n[\]]*\]/g,
 				greedy: true,
 				alias: 'function',
 				inside: {
 					'command-params': {
-						pattern: /(^\[[\t ]*\w+\b)[\s\S]+(?=\]$)/,
+						pattern: /(^\[[ \t]*\w+\b)[\s\S]+(?=\]$)/,
 						lookbehind: true,
 						inside: params
 					},
 					'command-param-name': {
-						pattern: /^(\[[\t ]*)\w+/,
+						pattern: /^(\[[ \t]*)\w+/,
 						lookbehind: true,
 						alias: 'name',
 					},

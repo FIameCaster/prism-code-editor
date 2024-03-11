@@ -3,11 +3,11 @@ import { languages } from '../core.js';
 languages.autoit = {
 	'comment': {
 		// The multi-line comments delimiters can actually be commented out with ";"
-		pattern: /;.*|(^[\t ]*)#(?:comments-start|cs)[\s\S]*?^[ \t]*#(?:ce|comments-end)/m,
+		pattern: /;.*|(^[ \t]*)#(?:comments-start|cs)[\s\S]*?^[ \t]*#(?:ce|comments-end)/m,
 		lookbehind: true
 	},
 	'url': {
-		pattern: /(^[\t ]*#include\s+)(?:<[^\n>]+>|"[^\n"]+")/m,
+		pattern: /(^[ \t]*#include\s+)(?:<[^\n>]+>|"[^\n"]+")/m,
 		lookbehind: true
 	},
 	'string': {
@@ -18,7 +18,7 @@ languages.autoit = {
 		}
 	},
 	'directive': {
-		pattern: /(^[\t ]*)#[\w-]+/m,
+		pattern: /(^[ \t]*)#[\w-]+/m,
 		lookbehind: true,
 		alias: 'keyword'
 	},

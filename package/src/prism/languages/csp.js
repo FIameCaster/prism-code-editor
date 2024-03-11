@@ -1,11 +1,11 @@
 import { languages } from '../core.js';
 
 /** @param {string} pattern */
-var value = pattern => RegExp('([ \\t])(?:' + pattern + ')(?=[\\s;]|$)', 'i');
+var value = pattern => RegExp('([ \t])(?:' + pattern + ')(?![^\\s;])', 'i');
 
 languages.csp = {
 	'directive': {
-		pattern: /(^|[\s;])(?:base-uri|block-all-mixed-content|(?:child|connect|default|font|frame|img|manifest|media|object|prefetch|script|style|worker)-src|disown-opener|form-action|frame-(?:ancestors|options)|input-protection(?:-(?:clip|selectors))?|navigate-to|plugin-types|policy-uri|referrer|reflected-xss|report-(?:to|uri)|require-sri-for|sandbox|(?:script|style)-src-(?:attr|elem)|upgrade-insecure-requests)(?=[\s;]|$)/i,
+		pattern: /(^|[\s;])(?:base-uri|block-all-mixed-content|(?:child|connect|default|font|frame|img|manifest|media|object|prefetch|script|style|worker)-src|disown-opener|form-action|frame-(?:ancestors|options)|input-protection(?:-(?:clip|selectors))?|navigate-to|plugin-types|policy-uri|referrer|reflected-xss|report-(?:to|uri)|require-sri-for|sandbox|(?:script|style)-src-(?:attr|elem)|upgrade-insecure-requests)(?![^\s;])/i,
 		lookbehind: true,
 		alias: 'property'
 	},

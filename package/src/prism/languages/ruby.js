@@ -45,7 +45,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /<<[-~]?([a-z_]\w*)\n(?:.*\n)*?[\t ]*\1/gi,
+			pattern: /<<[-~]?([a-z_]\w*)\n(?:.*\n)*?[ \t]*\1/gi,
 			alias: 'heredoc-string',
 			greedy: true,
 			inside: {
@@ -61,7 +61,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 			}
 		},
 		{
-			pattern: /<<[-~]?'([a-z_]\w*)'\n(?:.*\n)*?[\t ]*\1/gi,
+			pattern: /<<[-~]?'([a-z_]\w*)'\n(?:.*\n)*?[ \t]*\1/gi,
 			alias: 'heredoc-string',
 			greedy: true,
 			inside: {
