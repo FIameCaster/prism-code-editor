@@ -12,7 +12,8 @@ div.pce-rtl::before,
 
 .pce-rtl textarea,
 .pce-rtl .word-matches,
-.pce-rtl .pce-matches {
+.pce-rtl .pce-matches,
+.pce-rtl .selection-matches {
 	padding: 0 var(--padding-left) 0 var(--_pse) !important;
 }
 
