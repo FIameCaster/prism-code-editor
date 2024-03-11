@@ -427,13 +427,13 @@ const editHistory = (historyLimit = 999) => {
 	let textarea: HTMLTextAreaElement
 	let getSelection: PrismEditor["getSelection"]
 
-	const stack: [string, InputSelection, InputSelection?][] = []
+	const stack: [string, InputSelection, InputSelection][] = []
 	const update = (index: number) => {
 		if (index >= historyLimit) {
 			index--
 			stack.shift()
 		}
-		stack.splice((sp = index), historyLimit, [currentEditor.value, getSelection()])
+		stack.splice((sp = index), historyLimit, [currentEditor.value, getSelection(), getSelection()])
 	}
 	const setEditorState = (index: number) => {
 		if (stack[index]) {
@@ -479,9 +479,7 @@ const editHistory = (historyLimit = 999) => {
 			prevData = data
 			prevInputType = inputType
 		})
-		addTextareaListener(editor, "input", e => {
-			if (e.isTrusted && !/history/.test((<InputEvent>e).inputType)) update(sp + <any>!isMerge)
-		})
+		addTextareaListener(editor, "input", () => update(sp + <any>!isMerge))
 		addTextareaListener(editor, "keydown", e => {
 			if (!options.readOnly) {
 				const code = getModifierCode(e)

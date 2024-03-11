@@ -145,7 +145,7 @@ export const searchWidget = (): SearchWidget => {
 				resize()
 				observer?.observe(scrollContainer)
 			}
-			if (focusInput) findInput.focus(), findInput.select()
+			if (focusInput) findInput.select()
 		}
 
 		const close = (self.close = (focusTextarea = true) => {
