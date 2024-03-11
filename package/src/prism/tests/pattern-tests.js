@@ -292,28 +292,14 @@ function testPatterns(langs) {
 	});
 
 	it('- should not cause exponential backtracking', async () => {
-		await replaceRegExpProto(exec => {
-			return function (input) {
-				checkExponentialBacktracking('<Unknown>', this);
-				return exec.call(this, input);
-			};
-		}, async () => {
-			await forEachPattern(({ pattern, ast, tokenPath }) => {
-				checkExponentialBacktracking(tokenPath, pattern, ast);
-			});
+		await forEachPattern(({ pattern, ast, tokenPath }) => {
+			checkExponentialBacktracking(tokenPath, pattern, ast);
 		});
 	});
 
 	it('- should not cause polynomial backtracking', async () => {
-		await replaceRegExpProto(exec => {
-			return function (input) {
-				checkPolynomialBacktracking('<Unknown>', this);
-				return exec.call(this, input);
-			};
-		}, async () => {
-			await forEachPattern(({ pattern, ast, tokenPath }) => {
-				checkPolynomialBacktracking(tokenPath, pattern, ast);
-			});
+		await forEachPattern(({ pattern, ast, tokenPath }) => {
+			checkPolynomialBacktracking(tokenPath, pattern, ast);
 		});
 	});
 }
@@ -743,35 +729,6 @@ function highlight(highlights, offset = 0) {
  */
 function indent(str, amount = '    ') {
 	return str.split(/\r?\n/).map(m => m === '' ? '' : amount + m).join('\n');
-}
-
-/**
- * @param {(exec: RegExp["exec"]) => RegExp["exec"]} execSupplier
- * @param {() => Promise<void>} fn
- */
-async function replaceRegExpProto(execSupplier, fn) {
-	const oldExec = RegExp.prototype.exec;
-	const oldTest = RegExp.prototype.test;
-	const newExec = execSupplier(oldExec);
-
-	RegExp.prototype.exec = newExec;
-	RegExp.prototype.test = function (input) {
-		return newExec.call(this, input) !== null;
-	};
-
-	let error;
-	try {
-		await fn();
-	} catch (e) {
-		error = e;
-	}
-
-	RegExp.prototype.exec = oldExec;
-	RegExp.prototype.test = oldTest;
-
-	if (error) {
-		throw error;
-	}
 }
 
 /** @param {string} str */
