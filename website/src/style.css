@@ -145,11 +145,6 @@ main > .prism-code-editor {
 	width: 1.5em;
 }
 
-:hover > .message,
-:focus-visible > .message {
-	display: block;
-}
-
 .select {
 	display: inline-grid;
 	grid: "a";

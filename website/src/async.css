@@ -69,6 +69,11 @@ select:focus {
 	stroke-linejoin: round;
 }
 
+:hover > .message,
+:focus-visible > .message {
+	display: block;
+}
+
 .tooltip {
   font-family: Arial, Helvetica, sans-serif;
   background: var(--widget__bg);
