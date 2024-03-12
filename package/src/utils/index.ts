@@ -1,6 +1,6 @@
 import { InputSelection, PrismEditor } from "../index.js"
-import { numLines, isChrome, isWebKit, setSelection } from "../core.js"
-import { getLineEnd, getLineStart } from "./local.js"
+import { numLines, isChrome, isWebKit } from "../core.js"
+import { addListener, getLineEnd, getLineStart } from "./local.js"
 
 let prevSelection: InputSelection | 0
 
@@ -92,24 +92,38 @@ const getLanguage = (editor: PrismEditor, position?: number) =>
  * @param newCursorEnd New ending position for the cursor. Defaults to `newCursorStart`.
  */
 const insertText = (
-	{ textarea, getSelection, value, focused, options }: PrismEditor,
+	editor: PrismEditor,
 	text: string,
 	start?: number | null,
 	end?: number | null,
 	newCursorStart?: number | null,
 	newCursorEnd?: number | null,
 ) => {
-	if (options.readOnly) return
-	focused || textarea.focus()
-	prevSelection = getSelection()
-	const selection: InputSelection | 0 =
-		newCursorStart != null ? [newCursorStart, newCursorEnd ?? newCursorStart, prevSelection[2]] : 0
-	if (start != null) textarea.setSelectionRange(start, end ?? start)
+	if (editor.options.readOnly) return
+	prevSelection = editor.getSelection()
+	end ??= start
 
+	let textarea = editor.textarea
+	let value = editor.value
 	// Bug inserting new lines at the end if the editor ends with an empty line
-	const avoidBug = isChrome && !value[getSelection()[1]] && /^$|\n$/.test(value) && /\n$/.test(text)
+	let avoidBug =
+		isChrome && !value[end ?? prevSelection[1]] && /\n$/.test(text) && /^$|\n$/.test(value)
+	let removeListener: () => any
 
-	if (selection) setSelection(selection)
+	editor.focused || textarea.focus()
+	if (start != null) textarea.setSelectionRange(start, end!)
+
+	if (newCursorStart != null) {
+		removeListener = addListener(editor, "update", () => {
+			textarea.setSelectionRange(
+				newCursorStart,
+				newCursorEnd ?? newCursorStart,
+				(<InputSelection>prevSelection)[2],
+			)
+			prevSelection = 0
+			removeListener()
+		})
+	}
 
 	// Only Safari dispatches a beforeinput event
 	isWebKit || textarea.dispatchEvent(new InputEvent("beforeinput", { data: text }))
@@ -131,11 +145,6 @@ const insertText = (
 		)
 		if (avoidBug) textarea.selectionStart++
 	} else document.execCommand(text ? "insertText" : "delete", false, text)
-	if (selection) {
-		textarea.setSelectionRange(...selection)
-		setSelection()
-	}
-	prevSelection = 0
 }
 
 /**

@@ -139,8 +139,11 @@ const createEditor = (
 		}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
 	}
 
-	const getInputSelection = () =>
-		selection || [textarea.selectionStart, textarea.selectionEnd, textarea.selectionDirection]
+	const getInputSelection = (): InputSelection => [
+		textarea.selectionStart,
+		textarea.selectionEnd,
+		textarea.selectionDirection,
+	]
 
 	const keyCommandMap: Record<string, KeyCommandCallback | null> = {
 		Escape() {
@@ -331,9 +334,7 @@ const preventDefault = (e: Event) => {
 	e.stopImmediatePropagation()
 }
 
-const setSelection = (s?: InputSelection) => (selection = s)
-
-let selectionChange: null | (() => void), selection: InputSelection | undefined
+let selectionChange: null | (() => void)
 
 document.addEventListener("selectionchange", () => selectionChange?.())
 
@@ -347,8 +348,6 @@ export {
 	isWebKit,
 	getElement,
 	preventDefault,
-	setSelection,
 	editorFromPlaceholder,
 	addTextareaListener,
-	selection,
 }

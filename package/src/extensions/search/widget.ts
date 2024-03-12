@@ -4,10 +4,8 @@ import {
 	isMac,
 	createTemplate,
 	preventDefault,
-	setSelection,
 	addTextareaListener,
 	numLines,
-	selection,
 } from "../../core.js"
 import { regexEscape, getLines, getModifierCode } from "../../utils/index.js"
 import { createReplaceAPI } from "./replace.js"
@@ -68,8 +66,7 @@ export const searchWidget = (): SearchWidget => {
 			replaceAPI = createReplaceAPI(editor)
 
 		const startSearch = (selectMatch?: boolean) => {
-			const prev = selection
-			if (selectMatch) setSelection(prevUserSelection)
+			if (selectMatch) textarea.setSelectionRange(...prevUserSelection)
 			const error = replaceAPI.search(
 				findInput.value,
 				matchCase,
@@ -79,7 +76,6 @@ export const searchWidget = (): SearchWidget => {
 			)
 			const index = error ? -1 : selectNext ? replaceAPI.next() : replaceAPI.closest()
 
-			setSelection(prev)
 			current.data = <any>index + 1
 			total.data = <any>replaceAPI.matches.length
 			findContainer.classList.toggle("pce-error", !!error)
