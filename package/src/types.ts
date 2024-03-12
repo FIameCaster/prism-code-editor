@@ -153,7 +153,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 		history?: EditHistory
 	}
 	/**
-	 * Set new options for the editor. Ommitted properties will use their previous value.
+	 * Set new options for the editor. Ommitted properties will use their old value.
 	 * @param options New options for the editor
 	 */
 	setOptions(options: Partial<EditorOptions>): void
@@ -163,9 +163,10 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	getSelection(): InputSelection
 	/**
 	 * Sets the selection for the `textarea` and synchronously runs the selectionChange listeners.
-	 * @param start New selectionStart
-	 * @param end New selectionEnd
-	 * @param direction New direction
+	 * If you don't want to synchronously run the listeners, use `textarea.setSelectionRange` instead.
+	 * @param start New selectionStart.
+	 * @param end New selectionEnd. Defaults to `start`.
+	 * @param direction New direction.
 	 */
 	setSelection(start: number, end?: number, direction?: "backward" | "forward" | "none"): void
 	/** Adds extensions to the editor and calls their update methods. */

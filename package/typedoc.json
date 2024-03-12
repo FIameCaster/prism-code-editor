@@ -25,4 +25,6 @@
 	"cacheBust": true,
 	"githubPages": false,
 	"out": "../website/dist/api",
+	"titleLink": "/",
+	"name": "Prism code editor API",
 }

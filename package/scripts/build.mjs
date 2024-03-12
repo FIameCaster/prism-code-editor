@@ -35,7 +35,7 @@ fs.writeFile("dist/themes/index.js", themeMod)
 fs.copyFile("../readme.md", "readme.md")
 fs.copyFile("../LICENSE", "LICENSE")
 
-const dummyModule = `/** Used for autocompletion, **don't** import this. */
+const dummyModule = `/** Used for autocompletion. This module doesn't have a default export. */
 declare const _: never;
 export default _;
 `
