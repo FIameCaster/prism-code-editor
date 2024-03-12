@@ -1,11 +1,18 @@
-[![Bundle size](https://img.shields.io/bundlephobia/minzip/prism-code-editor?label=size)](https://bundlephobia.com/package/prism-code-editor)
-[![NPM Package](https://img.shields.io/npm/v/prism-code-editor)](https://npmjs.com/prism-code-editor)
-
-Lightweight, extensible code editor component for the web using [Prism](https://github.com/PrismJS/prism).
-
-[Demos](https://prism-code-editor.netlify.app) | [API Docs](https://prism-code-editor.netlify.app/api)
-
-Version 3 was recently released. Check [the release](https://github.com/FIameCaster/prism-code-editor/releases/tag/3.0.0) for what's changed.
+<h1 align="center">Prism code editor</h1>
+<p align="center">
+  <a href="https://prism-code-editor.netlify.app">Demos</a> | <a href="https://prism-code-editor.netlify.app/api">API Docs</a>
+</p>
+<p align="center">
+  <a href="https://bundlephobia.com/package/prism-code-editor"><img src="https://img.shields.io/bundlephobia/minzip/prism-code-editor?label=size" alt="Bundle size"></a>
+  <a href="https://npmjs.com/prism-code-editor"><img src="https://img.shields.io/npm/v/prism-code-editor" alt="NPM package"></a>
+  <a href="https://github.com/FIameCaster/prism-code-editor/releases"><img src="https://img.shields.io/github/v/release/FIameCaster/prism-code-editor" alt="GitHub release"></a>
+</p>
+<p align="center">
+  <strong>Lightweight, extensible code editor component for the web using <a href="https://github.com/PrismJS/prism">Prism</a>.</strong>
+</p>
+<p align="center">
+  <a href="https://prism-code-editor.netlify.app"><img src="https://raw.githubusercontent.com/FIameCaster/prism-code-editor/assets/demo.png" width="640" alt="Editor example"></a>
+</p>
 
 ## Why?
 
@@ -27,7 +34,7 @@ This library overlays syntax highlighted code over a `<textarea>`. Libraries lik
 - [Advanced usage](#advanced-usage)
 - [Importing Prism](#importing-prism)
   - [Importing grammars](#importing-grammars)
-- [Usage with Node.js](#usage-with-node.js)
+- [Usage with Node.js](#usage-with-nodejs)
 - [Examples](#examples)
 - [Extensions](#extensions)
   - [Importing extensions](#importing-extensions)
@@ -65,7 +72,7 @@ import { minimalEditor, basicEditor, fullEditor, readonlyEditor } from "prism-co
 // Importing Prism grammars
 import "prism-code-editor/prism/languages/markup"
 
-const editor = fullEditor(
+const editor = basicEditor(
   "#editor",
   {
     language: "html",
@@ -115,7 +122,7 @@ import "prism-code-editor/languages/clike"
 import "prism-code-editor/languages/css"
 
 import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
-import { defaultCommands } from "prism-code-editor/commands"
+import { defaultCommands, editHistory } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { copyButton } from "prism-code-editor/copy-button"
 import { matchTags } from "prism-code-editor/match-tags"
@@ -130,6 +137,7 @@ editor.addExtensions(
   matchTags(),
   highlightBracketPairs(),
   cursorPosition(),
+  editHistory(),
 )
 ```
 
@@ -181,7 +189,7 @@ This won't add `js-templates` features to `typescript` because it extended `java
 
 If you need access to many languages, you can import the following entry points:
 
-- `prism-code-editor/prism/languages` for all languages (~190kB)
+- `prism-code-editor/prism/languages` for all languages (~180kB)
 - `prism-code-editor/prism/languages/common` for [42 common languages](https://github.com/FIameCaster/prism-code-editor/tree/main/package/src/prism/languages/common.js) (~30kB)
 
 Take this simple markdown editor as an example. Here, only the markdown grammar is required initially. The common languages are dynamically imported and once they load, the editor is updated, which will highlight all markdown code blocks.
@@ -222,6 +230,7 @@ There are extensions adding:
 - Selection match highlighting
 - A copy button
 - Read-only code folding
+- Custom undo/redo
 
 The default commands extension includes:
 
@@ -250,7 +259,7 @@ import { indentGuides } from "prism-code-editor/guides"
 import {
   searchWidget, highlightSelectionMatches, highlightCurrentWord
 } from "prism-code-editor/search"
-import { defaultCommands } from "prism-code-editor/commands"
+import { defaultCommands, editHistory } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { copyButton } from "prism-code-editor/copy-button"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
@@ -318,7 +327,7 @@ setIgnoreTab(true)
 
 ### Importing themes
 
-There are currently 12 different themes you can import, one of them being from `prism-code-editor/themes/github-dark.css`.
+There are currently 13 different themes you can import, one of them being from `prism-code-editor/themes/github-dark.css`.
 
 You can also dynamically import themes into your JavaScript. This is used by the demo website.
 
@@ -513,7 +522,7 @@ addBasicEditor("prism-editor")
 
 const editorElement = document.querySelector<PrismEditorElement>("prism-editor")
 
-// Add an event for when the editor finishes loading
+// Add a listener for when the editor finishes loading
 editorElement.addEventListener("ready", () => console.log("ready"))
 
 // The editor can be accessed from the element
@@ -547,7 +556,7 @@ This has been tested to work in the latest desktop and mobile versions of both S
 
 This library does not support any Prism plugins since Prism hooks have been removed. Behavior like the [Highlight Keywords](https://prismjs.com/plugins/highlight-keywords/) plugin is included.
 
-Some grammars have had small changes, most notably markup tags' grammar. So Prism themes will work to style the tokens, but there can be som slight differences.
+Some grammars have had small changes, most notably markup tags' grammar. So Prism themes will work to style the tokens, but there can be some slight differences.
 
 PrismJS automatically adds the global regex flag to the pattern of greedy tokens. This has been removed, so if you're using your own Prism grammars, you might have to add the global flag to the greedy tokens. 
 
