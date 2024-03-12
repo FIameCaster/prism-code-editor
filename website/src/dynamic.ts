@@ -14,7 +14,7 @@ import "prism-code-editor/prism/languages/markdown"
 import "prism-code-editor/prism/languages/clike"
 import "prism-code-editor/prism/languages/python"
 import { copyButton } from "prism-code-editor/copy-button"
-import { defaultCommands } from "prism-code-editor/commands"
+import { defaultCommands, editHistory } from "prism-code-editor/commands"
 import {
 	highlightSelectionMatches,
 	searchWidget,
@@ -58,6 +58,7 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 			highlightBracketPairs(),
 			defaultCommands(),
 			cursorPosition(),
+			editHistory(),
 		)
 		editor.textarea.setAttribute("aria-label", "Code editor")
 	},

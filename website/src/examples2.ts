@@ -1,7 +1,7 @@
 export const code = [
 	`import { ForwardedRef, forwardRef, useEffect, useRef } from "react"
 import { PrismEditor } from "prism-code-editor"
-import { fullEditor, SetupOptions, updateTheme } from "prism-code-editor/setups"
+import { basicEditor, SetupOptions, updateTheme } from "prism-code-editor/setups"
 
 export const PrismEditorReact = forwardRef((
   props: SetupOptions,
@@ -19,7 +19,7 @@ export const PrismEditorReact = forwardRef((
   }, [props.theme])
 
   useEffect(() => {
-    const editor = editorRef.current = fullEditor(divRef.current!, props)
+    const editor = editorRef.current = basicEditor(divRef.current!, props)
     if (ref) typeof ref == "function" ? ref(editor) : ref.current = editor
     return editor.remove
   }, [])
@@ -69,7 +69,7 @@ import "prism-code-editor/languages/clike"
 import "prism-code-editor/languages/css"
 
 import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
-import { defaultCommands } from "prism-code-editor/commands"
+import { defaultCommands, editHistory } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { copyButton } from "prism-code-editor/copy-button"
 import { matchTags } from "prism-code-editor/match-tags"
@@ -84,6 +84,7 @@ editor.addExtensions(
   matchTags(),
   highlightBracketPairs(),
   cursorPosition(),
+  editHistory(),
 )`,
 
 	`import {
@@ -95,7 +96,7 @@ addBasicEditor("prism-editor")
 
 const editorElement = document.querySelector<PrismEditorElement>("prism-editor")
 
-// Add an event for when the editor finishes loading
+// Add a listener for when the editor finishes loading
 editorElement.addEventListener("ready", () => console.log("ready"))
 
 // The editor can be accessed from the element
