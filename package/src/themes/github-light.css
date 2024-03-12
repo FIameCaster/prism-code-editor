@@ -47,7 +47,6 @@
 [class*="language-"],
 .language-markdown .url > .operator,
 .token.attr-equals,
-.token.spread,
 .token.punctuation {
 	color: #24292e;
 }

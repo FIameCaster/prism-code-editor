@@ -83,7 +83,6 @@
 .token.combinator,
 .token.punctuation,
 .token.attr-equals,
-.token.spread,
 .token.plain-text,
 .token.quantifier.number {
 	color: #000;

@@ -46,12 +46,12 @@ insertBefore(ts, 'function', {
 		pattern: /#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>(?=\s*\()/g,
 		greedy: true,
 		inside: {
-			'function': /^#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+/,
 			'generic': {
 				pattern: /<[\s\S]+/, // everything after the first <
 				alias: 'class-name',
 				inside: typeInside
-			}
+			},
+			'function': /\S+/
 		}
 	}
 });

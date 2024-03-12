@@ -52,7 +52,6 @@
 }
 
 [class*="language-"],
-.token.spread,
 .token.punctuation,
 .token.attr-equals {
 	color: #ccc;

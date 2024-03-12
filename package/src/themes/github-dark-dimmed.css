@@ -47,7 +47,6 @@
 [class*="language-"],
 .language-markdown .url > .operator,
 .token.punctuation,
-.token.spread,
 .token.attr-equals,
 .token.code.keyword {
 	color: #adbac7;

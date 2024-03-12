@@ -58,7 +58,6 @@ Original: https://github.com/dracula/visual-studio-code */
 
 [class*="language-"],
 .token.punctuation,
-.token.spread,
 .language-markdown .code.keyword {
 	color: #f8f8f2;
 }

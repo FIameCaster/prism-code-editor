@@ -55,7 +55,6 @@
 .token.punctuation,
 .token.entity,
 .token.attr-equals,
-.token.spread,
 .language-css .token.property {
 	color: #abb2bf;
 }

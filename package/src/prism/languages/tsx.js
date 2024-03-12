@@ -1,16 +1,12 @@
 import { languages } from '../core.js';
-import { clone, extend } from '../utils/language.js';
+import { addJsxTag } from '../utils/jsx-shared.js';
 import './jsx.js';
 import './typescript.js';
 
-var typescript = clone(languages.ts);
-var tsx = languages.tsx = extend('jsx', typescript);
-var tag = tsx.tag;
-var bracket = '(?:^|(';
+addJsxTag(languages.ts, 'tsx');
 
-// doesn't work with TS because TS is too complex
-delete tsx['parameter'];
-delete tsx['literal-property'];
+var tag = languages.tsx.tag;
+var bracket = '(?:^|(';
 
 // This will prevent collisions between TSX tags and TS generic types.
 // Idea by https://github.com/karlhorky

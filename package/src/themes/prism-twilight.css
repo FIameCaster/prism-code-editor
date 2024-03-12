@@ -46,8 +46,7 @@
 	--bg-guide-indent: #ededed3d;
 }
 
-[class*="language-"],
-.token.spread {
+[class*="language-"] {
 	color: #fff;
 }
 

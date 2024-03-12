@@ -78,7 +78,6 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 
 [class*="language-"],
 .language-css .punctuation,
-.token.spread,
 .language-markdown .code.keyword,
 .language-markdown .url .content {
 	color: #d6deeb;

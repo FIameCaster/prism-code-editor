@@ -52,7 +52,6 @@
 }
 
 .token.punctuation,
-.token.spread,
 .token.attr-equals {
 	color: #586e75;
 }
