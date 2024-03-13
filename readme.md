@@ -11,7 +11,7 @@
   <strong>Lightweight, extensible code editor component for the web using <a href="https://github.com/PrismJS/prism">Prism</a>.</strong>
 </p>
 <p align="center">
-  <a href="https://prism-code-editor.netlify.app"><img src="https://github.com/FIameCaster/prism-code-editor/blob/7d49c5e7082f3325473ccf09dae486d0b04b0c63/assets/demo.png" width="640" alt="Editor example"></a>
+  <a href="https://prism-code-editor.netlify.app"><img src="https://github.com/FIameCaster/prism-code-editor/blob/3.1.0/assets/demo.png?raw=true" width="640" alt="Editor example"></a>
 </p>
 
 ## Why?

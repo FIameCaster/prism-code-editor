@@ -290,7 +290,7 @@ languages.sas = {
 		}
 	},
 	'options-args': {
-		pattern: /(^options)[()'"|/\\<>*=:\w\s+-]+(?=;)/im,
+		pattern: /(^options)[()'"|:\\\w\s=<>/*+-]+(?=;)/im,
 		lookbehind: true,
 		inside: args
 	},

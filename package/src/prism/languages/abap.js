@@ -4,7 +4,7 @@ languages.abap = {
 	'comment': /^\*.*/m,
 	'string': /(`|')(?:\\.|(?!\1)[^\\\n])*\1/,
 	'string-template': {
-		pattern: /([|}])(?:\\.|[^\\|{\n])+(?=[|{])/,
+		pattern: /([|}])(?:\\.|[^\\\n|{])+(?=[|{])/,
 		lookbehind: true,
 		alias: 'string'
 	},
