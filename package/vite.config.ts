@@ -51,6 +51,7 @@ for (const theme of [
 	"prism-okaidia",
 	"prism-solarized-light",
 	"prism-twilight",
+	"prism-tomorrow",
 	"prism",
 	"vs-code-dark",
 	"vs-code-light",

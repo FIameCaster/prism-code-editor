@@ -10,6 +10,7 @@ const themes = [
 	"prism-okaidia",
 	"prism-solarized-light",
 	"prism-twilight",
+	"prism-tomorrow",
 	"prism",
 	"vs-code-dark",
 	"vs-code-light",
