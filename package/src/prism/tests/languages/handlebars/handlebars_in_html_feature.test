@@ -49,14 +49,12 @@
 		["tag", ["span"]],
 		["attr-name", ["data-has-name"]],
 		["attr-equals", "="],
-		["attr-value", [
-			["handlebars", [
-				["delimiter", "{{"],
-				["variable", "if"],
-				["variable", "name"],
-				["boolean", "true"],
-				["delimiter", "}}"]
-			]]
+		["handlebars", [
+			["delimiter", "{{"],
+			["variable", "if"],
+			["variable", "name"],
+			["boolean", "true"],
+			["delimiter", "}}"]
 		]],
 		["punctuation", ">"]
 	]],
@@ -69,16 +67,14 @@
 	["tag", [
 		["punctuation", "<"],
 		["tag", ["div"]],
-		["attr-name", [
-			["handlebars", [
-				["delimiter", "{{"],
-				["variable", "on"],
-				["string", "\"click\""],
-				["variable", "this"],
-				["punctuation", "."],
-				["variable", "hello"],
-				["delimiter", "}}"]
-			]]
+		["handlebars", [
+			["delimiter", "{{"],
+			["variable", "on"],
+			["string", "\"click\""],
+			["variable", "this"],
+			["punctuation", "."],
+			["variable", "hello"],
+			["delimiter", "}}"]
 		]],
 		["punctuation", "/>"]
 	]]

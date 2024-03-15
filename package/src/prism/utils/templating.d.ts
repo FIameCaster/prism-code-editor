@@ -5,14 +5,9 @@ import { CustomTokenizer, Grammar, TokenStream } from "../types.js"
  * Custom tokenizer for languages that are embedded in another language.
  * 
  * This works by first tokenizing everything using the grammar of the embedded language.
- * Then, all tokens whoose name doesn't start with `ignore` are replaced by a template
- * placeholder. This new string with placeholders is then tokenized using `hostGrammar`.
- * Lastly, this token stream is searched and each placeholder is replaced by its matching token.
- * 
- * ### Note
- * 
- * Placeholders look like `___PH0___`, `___PH1___`, etc. `hostGrammar` must not be able to match part
- * of these placeholders, since this will break the embedding.
+ * Then, all tokens whoose name doesn't start with `ignore` are replaced with whitespace
+ * of the same length. This new string is then tokenized using `hostGrammar`, and all the
+ * replaced tokens are inserted into the new token stream.
  * 
  * @param hostGrammar The grammar this language is embedded in. Can either be a grammar object
  * or the id of a grammar.

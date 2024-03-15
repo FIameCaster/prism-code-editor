@@ -1,79 +1,69 @@
 import { tokenizeText, Token, resolve, withoutTokenizer } from "../core.js";
 
-var getPlaceholder = id => `___PH${id}___`;
-
 var embeddedIn = hostGrammar => (code, templateGrammar) => {
 	var host = resolve(hostGrammar);
-	var hostCode = code;
+	var hostCode = '';
 	var tokenStack = [];
+	var stackLength = 0;
+	var templateTokens = withoutTokenizer(code, templateGrammar);
+	var i = 0, l = templateTokens.length, position = 0;
 
-	if (templateGrammar) {
-		hostCode = '';
-		var templateTokens = withoutTokenizer(code, templateGrammar);
-		var hasPlaceholderLike = /___PH\d+___/.test(code);
-		var id = 0, i = 0, l = templateTokens.length, position = 0;
-
-		while (i < l) {
-			var token = templateTokens[i++];
-			var length = token.length;
-			var type = token.type;
-			if (!type || type.slice(0, 6) == 'ignore') {
-				hostCode += code.slice(position, position + length);
-			}
-			else {
-				if (hasPlaceholderLike) {
-					while (code.includes(getPlaceholder(id))) id++;
-				}
-				tokenStack.push([id, token]);
-				hostCode += getPlaceholder(id++);
-			}
-			position += length;
+	while (i < l) {
+		var token = templateTokens[i++];
+		var length = token.length;
+		var type = token.type;
+		if (type && type.slice(0, 6) != 'ignore') {
+			tokenStack[stackLength++] = [position, token];
+			hostCode += ' '.repeat(length);
 		}
+		else {
+			hostCode += code.slice(position, position + length);
+		}
+		position += length;
 	}
 
 	var j = 0;
-	var l = tokenStack.length;
-	var parents = [];
-	var p = 0;
+	var position = 0;
+
 	/** @param {(string | Token)[]} tokens */
 	var walkTokens = tokens => {
-		for (var i = 0; j < l && i < tokens.length; i++) {
+		for (var i = 0; j < stackLength && i < tokens.length; i++) {
 			var token = tokens[i];
 			var content = token.content;
-
-			if (content) parents[p++] = token;
+			
 			if (Array.isArray(content)) {
 				walkTokens(content);
 			} else {
-				var [id, t] = tokenStack[j];
-				var s = content || token;
-				var placeholder = getPlaceholder(id);
+				var length = token.length;
+				var replacement = [];
+				var offset, t, k = 0;
+				var pos = position;
+
+				while ([offset, t] = tokenStack[j], offset >= position && offset < position + length) {
+					if (pos < offset) replacement[k++] = hostCode.slice(pos, offset);
+					pos = offset + t.length;
+					replacement[k++] = t;
+					if (++j == stackLength) break;
+				}
+				position += length;
 				
-				var index = s.indexOf(placeholder);
-				if (index + 1) {
-					++j;
-
-					var replacement = [t];
-					var len = placeholder.length;
-					var after = s.slice(index + len);
-					for (var k = 0; k < p; ) parents[k++].length += t.length - len;
-					if (index) replacement.unshift(s.slice(0, index));
-					if (after) replacement.push(...walkTokens([after]));
-
+				if (k) {
+					if (pos < position) replacement[k++] = hostCode.slice(pos, position);
 					if (content) {
 						token.content = replacement;
 					} else {
 						tokens.splice(i, 1, ...replacement);
+						i += k - 1;
 					}
 				}
 			}
-			if (content) p--;
 		}
-
-		return tokens;
 	}
 
-	return walkTokens(host ? tokenizeText(hostCode, host) : [hostCode]);
+	var tokens = host ? tokenizeText(hostCode, host) : [hostCode];
+	walkTokens(tokens);
+
+	return tokens;
 }
 
 export { embeddedIn }

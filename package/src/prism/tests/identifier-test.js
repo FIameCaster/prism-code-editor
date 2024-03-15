@@ -25,44 +25,28 @@ import { languages, tokenizeText } from '../core.js';
  * @property {boolean} [template=true]
  */
 const testOptions = {
-	// all of these have a special syntax for tokens of the form __something__
-	'asciidoc': {
-		template: false
-	},
-	'markdown': {
-		template: false
-	},
-	'textile': {
-		template: false
-	},
-
 	'false': {
-		word: false,
-		template: false
+		word: false
 	},
 	// Hoon uses _ in its keywords
 	'hoon': {
-		word: false,
-		template: false
+		word: false
 	},
 
 	// LilyPond doesn't tokenize based on words
 	'lilypond': {
 		word: false,
-		number: false,
-		template: false,
+		number: false
 	},
 
 	// Nevod uses underscore symbol as operator and allows hyphen to be part of identifier
 	'nevod': {
-		word: false,
-		template: false,
+		word: false
 	},
 
 	// METAFONT has a special scheme for variable names with tags, suffixes and subscripts
 	'metafont': {
-		word: false,
-		template: false,
+		word: false
 	},
 };
 
@@ -83,13 +67,6 @@ const identifiers = {
 		'9',
 		'123',
 		'123456789',
-	],
-	template: [
-		'__PHP0__',
-		'__LANG0__',
-		'__LANG123__',
-		'___PLACEHOLDER_0___',
-		'___PLACEHOLDER_123___',
 	],
 };
 
