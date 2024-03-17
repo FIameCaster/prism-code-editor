@@ -14,20 +14,18 @@ string'
 ----------------------------------------------------
 
 [
-	["tt2", 
-		[
-			["delimiter", "[%"],
-			["double-quoted-string", ["\"https://example.com/\""]],
-			["double-quoted-string", ["\" # not a comment\""]],
-			["double-quoted-string", ["\"multi-line\nstring\""]],
-			["double-quoted-string", ["\"escaped \\\"quotes\\\"\\nwork\\twell\""]],
-			["single-quoted-string", "'https://example.com/'"],
-			["single-quoted-string", "' # not a comment'"],
-			["single-quoted-string", "'multi-line\nstring'"],
-			["single-quoted-string", "'escaped \\'quotes\\' work'"],
-			["delimiter", "%]"]
-		]
-	]
+	["tt2", [
+		["delimiter", "[%"],
+		["string", ["\"https://example.com/\""]],
+		["string", ["\" # not a comment\""]],
+		["string", ["\"multi-line\nstring\""]],
+		["string", ["\"escaped \\\"quotes\\\"\\nwork\\twell\""]],
+		["string", "'https://example.com/'"],
+		["string", "' # not a comment'"],
+		["string", "'multi-line\nstring'"],
+		["string", "'escaped \\'quotes\\' work'"],
+		["delimiter", "%]"]
+	]]
 ]
 
 ----------------------------------------------------
