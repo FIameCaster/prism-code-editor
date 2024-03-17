@@ -123,7 +123,7 @@ const insertText = (
 			prevSelection = 0
 			removeListener()
 		})
-	}
+	} else prevSelection = 0
 
 	// Only Safari dispatches a beforeinput event
 	isWebKit || textarea.dispatchEvent(new InputEvent("beforeinput", { data: text }))
