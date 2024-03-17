@@ -11,7 +11,7 @@ var operator = {
 var sass = languages.sass = extend('css', {
 	// Sass comments don't need to be closed, only indented
 	'comment': {
-		pattern: /^([ \t]*)\/[/*].*(?:\n\1[ \t].+)*/mg,
+		pattern: /^([ \t]*)\/[/*].*(?:\n\s*?[ \t]\1\S.*)*/mg,
 		lookbehind: true,
 		greedy: true
 	}

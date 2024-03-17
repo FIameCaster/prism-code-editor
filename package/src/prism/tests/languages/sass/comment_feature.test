@@ -14,8 +14,7 @@
 	["comment", "//"],
 	["comment", "// foobar"],
 	["comment", "/*"],
-	["comment", "/* foo\n\tbar"],
-	["comment", "/* foo\n\t bar\n\t baz"]
+	["comment", "/* foo\n\tbar\n\n\t/* foo\n\t bar\n\t baz"]
 ]
 
 ----------------------------------------------------
