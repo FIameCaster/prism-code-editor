@@ -28,16 +28,16 @@
 
 [
 	["multiline-comment", "/"],
+
 	["multiline-comment", "/ foo"],
-	["multiline-comment", "/foo\n bar"],
-	["multiline-comment", "/foo\n   bar"],
-	["multiline-comment", "/foo\n\t bar"],
+
+	["multiline-comment", "/foo\n bar\n\n  /foo\n   bar\n\n\t/foo\n\t bar"],
 
 	["multiline-comment", "-#"],
-    ["multiline-comment", "-# foo"],
-    ["multiline-comment", "-#foo\n bar"],
-    ["multiline-comment", "-#foo\n   bar"],
-    ["multiline-comment", "-#foo\n\t bar"]
+
+	["multiline-comment", "-# foo"],
+
+	["multiline-comment", "-#foo\n bar\n\n  -#foo\n   bar\n\n\t-#foo\n\t bar"]
 ]
 
 ----------------------------------------------------

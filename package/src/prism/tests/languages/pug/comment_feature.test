@@ -11,10 +11,9 @@
 ----------------------------------------------------
 
 [
-	["comment", "// foo\n bar"],
-	["comment", "// foo\n\t\tbar baz"],
-	["comment", "// foo"],
-	["comment", "// bar"]
+	["comment", "// foo\n bar\n\n\t// foo\n\t\tbar baz"],
+
+	["comment", "// foo\n\n\t// bar"]
 ]
 
 ----------------------------------------------------

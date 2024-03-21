@@ -12,7 +12,7 @@ import './javascript.js';
 // - Add support for markup embedded in plain text
 
 var js = languages.js;
-var filter_pattern = /(^([ \t]*)):<0>(?:\n(?:\2[ \t].+|\s*?$))+/.source;
+var filter_pattern = /(^[ \t]*):<0>(?:$\s*?\n\1[ \t]+\S.*)+/.source;
 
 var langMap = {
 	atpl: 'twig',
@@ -26,14 +26,14 @@ var pug = languages.pug = {
 
 	// This handles both single-line and multi-line comments
 	'comment': {
-		pattern: /(^([ \t]*))\/\/.*(?:\n\2[ \t].+)*/m,
+		pattern: /(^[ \t]*)\/\/.*(?:$\s*?\n\1[ \t]+\S.*)*/m,
 		lookbehind: true
 	},
 
 	// All the tag-related part is in lookbehind
 	// so that it can be highlighted by the "tag" pattern
 	'multiline-script': {
-		pattern: /(^([ \t]*)script\b.*\.[ \t]*)(?:\n(?:\2[ \t].+|\s*?$))+/m,
+		pattern: /(^([ \t]*)script\b.*\.[ \t]*)(?:$\s*?\n\2[ \t]+\S.*)+/m,
 		lookbehind: true,
 		inside: js
 	}
@@ -57,7 +57,7 @@ var pug = languages.pug = {
 		lookbehind: true,
 		inside: {
 			'filter-name': {
-				pattern: /^:[\w-]+/,
+				pattern: /^:.+/,
 				alias: 'variable'
 			},
 			'text': {
@@ -71,11 +71,11 @@ var pug = languages.pug = {
 
 Object.assign(pug, {
 	'filter': {
-		pattern: /(^([ \t]*)):.+(?:\n(?:\2[ \t].+|\s*?$))+/m,
+		pattern: re(filter_pattern, ['.+'], 'm'),
 		lookbehind: true,
 		inside: {
 			'filter-name': {
-				pattern: /^:[\w-]+/,
+				pattern: /^:.+/,
 				alias: 'variable'
 			},
 			'text': /\S[\s\S]*/,
@@ -83,7 +83,7 @@ Object.assign(pug, {
 	},
 
 	'multiline-plain-text': {
-		pattern: /(^([ \t]*)[\w#.-]+\.[ \t]*)(?:\n(?:\2[ \t].+|\s*?$))+/m,
+		pattern: /(^([ \t]*)[\w#.-]+\.[ \t]*)(?:$\s*?\n\2[ \t]+\S.*)+/m,
 		lookbehind: true
 	},
 	'markup': {

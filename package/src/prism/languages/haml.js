@@ -6,26 +6,19 @@ var haml = languages.haml = {
 	// Multiline stuff should appear before the rest
 
 	'multiline-comment': {
-		pattern: /(^[ \t]*)(?:\/|-#).*(?:\n\1[ \t].+)*/m,
+		pattern: /(^[ \t]*)(?:\/|-#).*(?:$\s*?\n\1[ \t]+\S.*)*/m,
 		lookbehind: true,
 		alias: 'comment'
 	},
 
-	'multiline-code': [
-		{
-			pattern: /(^([ \t]*)(?:[~-]|[&!]?=)).*,[ \t]*(?:\n\2[ \t].*,[ \t]*)*(?:\n\2[ \t].+)/m,
-			lookbehind: true,
-			inside: 'ruby'
-		},
-		{
-			pattern: /(^([ \t]*)(?:[~-]|[&!]?=)).*\|[ \t]*(?:\n\2[ \t].*\|[ \t]*)*/m,
-			lookbehind: true,
-			inside: 'ruby'
-		}
-	]
+	'multiline-code': {
+		pattern: /(^([ \t]*)(?:[~-]|[&!]?=)).*(?:,[ \t]*(?:\n\2[ \t].*,[ \t]*)*(?:\n\2[ \t].+)|\|[ \t]*(?:\n\2[ \t].*\|[ \t]*)*)/m,
+		lookbehind: true,
+		inside: 'ruby'
+	}
 };
 
-var filter_pattern = '(^[ \t]*):<0>(?:\\n(?:\\1[ \t].+|\\s*?$))+';
+var filter_pattern = /(^[ \t]*):<0>(?:$\s*?\n\1[ \t]+\S.*)+/.source;
 
 // Non exhaustive list of available filters and associated languages
 [
@@ -45,7 +38,7 @@ var filter_pattern = '(^[ \t]*):<0>(?:\\n(?:\\1[ \t].+|\\s*?$))+';
 		lookbehind: true,
 		inside: {
 			'filter-name': {
-				pattern: /^:[\w-]+/,
+				pattern: /^:.+/,
 				alias: 'symbol'
 			},
 			'text': {
@@ -59,11 +52,11 @@ var filter_pattern = '(^[ \t]*):<0>(?:\\n(?:\\1[ \t].+|\\s*?$))+';
 
 Object.assign(haml, {
 	'filter': {
-		pattern: /(^[ \t]*):[\w-]+(?:\n(?:\1[ \t].+|\s*?$))+/m,
+		pattern: re(filter_pattern, ['[\\w-]+'], 'm'),
 		lookbehind: true,
 		inside: {
 			'filter-name': {
-				pattern: /^:[\w-]+/,
+				pattern: /^:.+/,
 				alias: 'symbol'
 			}
 		}
@@ -107,7 +100,7 @@ Object.assign(haml, {
 					inside: 'ruby'
 				}
 			],
-			'punctuation': /[<>]/
+			'punctuation': /<|>/
 		}
 	},
 	'code': {

@@ -10,8 +10,9 @@
 [
 	["filter", [
 		["filter-name", ":some-language"],
-		"\n\tsome code\n"
+		"\n\tsome code"
 	]],
+
 	["punctuation", "~"],
 	["filter", [
 		["filter-name", ":some-language"],
