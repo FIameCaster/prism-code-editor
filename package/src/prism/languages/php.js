@@ -324,7 +324,8 @@ var embedded = embeddedIn('html');
 languages.php = {
 	'php': {
 		pattern: /<\?(?:[^"'/#]|\/(?![*/])|(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1|(?:\/\/|#(?!\[))(?:[^\n?]|\?(?!>))*(?=$|\?>|\n)|#\[|\/\*(?:[^*]|\*(?!\/))*(?:\*\/|$))*?(?:\?>|$)/,
-		inside: php
+		inside: php,
+		alias: 'language-php'
 	},
 	[tokenize]: (code, grammar) => {
 		if (code.includes("<?")) return embedded(code, grammar);

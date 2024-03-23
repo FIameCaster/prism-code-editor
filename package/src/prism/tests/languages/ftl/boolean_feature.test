@@ -5,7 +5,7 @@ ${true == !false}
 [
 	["ftl-interpolation", [
 		["punctuation", "${"],
-		["content", [
+		["ftl", [
 			["boolean", "true"],
 			["operator", "=="],
 			["operator", "!"],

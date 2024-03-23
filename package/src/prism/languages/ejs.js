@@ -4,28 +4,20 @@ import './javascript.js';
 import './markup.js';
 
 languages.eta = languages.ejs = {
-	'ejs-comment': {
-		pattern: /<%#[\s\S]*?%>/g,
-		greedy: true,
-		alias: 'comment'
-	},
-	'escape': {
-		pattern: /<%%|%%>/g,
-		greedy: true
-	},
 	'ejs': {
-		pattern: /<%[^%#][\s\S]*?%>/g,
-		greedy: true,
+		pattern: /<%[^%][\s\S]*?%>/,
 		inside: {
+			'comment': /^<%#[\s\S]+/,
 			'delimiter': {
 				pattern: /^<%[-_=]?|[-_]?%>$/,
 				alias: 'punctuation'
 			},
 			'language-javascript': {
 				pattern: /[\s\S]+/,
-				inside: 'javascript'
+				inside: 'js'
 			}
 		}
 	},
+	'escape': /<%%|%%>/,
 	[tokenize]: embeddedIn('markup')
 };

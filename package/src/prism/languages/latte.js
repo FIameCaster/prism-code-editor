@@ -9,40 +9,32 @@ insertBefore(markupLatte.tag.inside, 'attr-value', {
 	'n-attr': {
 		pattern: /n:[\w-]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+))?/,
 		inside: {
-			'attr-name': {
-				pattern: /^[^\s=]+/,
-				alias: 'important'
-			},
 			'attr-value': {
-				pattern: /=[\s\S]+/,
+				pattern: /(=\s*)[\s\S]+/,
+				lookbehind: true,
 				inside: {
-					'punctuation': [
-						/^=/,
-						{
-							pattern: /^(\s*)["']|["']$/,
-							lookbehind: true
-						}
-					],
+					'punctuation': /^["']|["']$/,
 					'php': {
 						pattern: /\S(?:[\s\S]*\S)?/,
 						inside: 'php'
 					}
 				}
 			},
+			'attr-equals': /=/,
+			'attr-name': {
+				pattern: /\S+/,
+				alias: 'important'
+			}
 		}
 	},
 });
 
 languages.latte = {
-	'latte-comment': {
-		pattern: /\{\*[\s\S]*?\*\}/g,
-		greedy: true,
-		alias: 'comment'
-	},
 	'latte': {
-		pattern: /\{[^'"\s{}*](?:[^"'/{}]|\/(?![*/])|(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1|\/\*(?:[^*]|\*(?!\/))*\*\/)*\}/g,
-		greedy: true,
+		pattern: /\{\*[\s\S]*?\*\}|\{[^'"\s{}*](?:[^"'/{}]|\/(?![*/])|(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1|\/\*(?:[^*]|\*(?!\/))*\*\/)*\}/,
+		alias: 'language-latte',
 		inside: {
+			'comment': /^\{\*[\s\S]+/,
 			'latte-tag': {
 				// https://latte.nette.org/en/tags
 				pattern: /(^\{(?:\/(?=[a-z]))?)(?:[=_]|[a-z]\w*\b(?!\())/i,

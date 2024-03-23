@@ -38,6 +38,7 @@ insertBefore(tt2, 'keyword', {
 languages.tt2 = {
 	'tt2': {
 		pattern: /\[%[\s\S]+?%\]/,
+		alias: 'language-tt2',
 		inside: tt2
 	},
 	[tokenize]: embeddedIn('html')

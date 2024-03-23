@@ -5,7 +5,7 @@ ${min(1,2)}
 [
 	["ftl-interpolation", [
 		["punctuation", "${"],
-		["content", [
+		["ftl", [
 			["function", "min"],
 			["punctuation", "("],
 			["number", "1"],

@@ -19,7 +19,7 @@
 	["ftl-directive", [
 		["punctuation", "<"],
 		["directive", "#assign"],
-		["content", [
+		["ftl", [
 			" x ",
 			["comment", "<#-- A comment -->"],
 			["operator", "="],
@@ -32,7 +32,7 @@
 	["ftl-directive", [
 		["punctuation", "<"],
 		["directive", "#function"],
-		["content", [
+		["ftl", [
 			["function", "f"],
 			["punctuation", "("],
 			"x ",
@@ -48,7 +48,7 @@
 	["ftl-directive", [
 		["punctuation", "<"],
 		["directive", "#return"],
-		["content", [
+		["ftl", [
 			["comment", "<#-- A comment -->"],
 			["number", "1"],
 			["comment", "<#-- A comment -->"]
@@ -65,7 +65,7 @@
 	["ftl-directive", [
 		["punctuation", "<"],
 		["directive", "#assign"],
-		["content", [
+		["ftl", [
 			" someHash ",
 			["operator", "="],
 			["punctuation", "{"],

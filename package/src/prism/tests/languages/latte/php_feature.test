@@ -29,8 +29,8 @@
 		["tag", ["div"]],
 		["n-attr", [
 			["attr-name", "n:attr"],
+			["attr-equals", "="],
 			["attr-value", [
-				["punctuation", "="],
 				["punctuation", "\""],
 				["php", [
 					["variable", "$a"],

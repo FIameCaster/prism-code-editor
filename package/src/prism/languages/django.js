@@ -5,9 +5,10 @@ import './markup.js';
 
 languages.jinja2 = languages.django = {
 	'django': {
-		pattern: /\{\{[\s\S]*?\}\}|\{%[\s\S]*?%\}|\{#[\s\S]*?#\}/,
+		pattern: /\{(?:\{[\s\S]*?\}|%[\s\S]*?%|#[\s\S]*?#)\}/,
+		alias: 'language-django',
 		inside: {
-			'comment': /^\{#[\s\S]*?#\}$/,
+			'comment': /^\{#[\s\S]+/,
 			'tag': {
 				pattern: /(^\{%[+-]?\s*)\w+/,
 				lookbehind: true,
@@ -31,7 +32,7 @@ languages.jinja2 = languages.django = {
 				lookbehind: true,
 				alias: 'function'
 			},
-			'function': /\b[a-z_]\w+(?=\s*\()/i,
+			'function': /\b(?!\d)\w+(?=\s*\()/,
 			'keyword': /\b(?:and|as|by|else|f?or|i[fns]|import|loop|not|recursive|with|without)\b/,
 			'operator': /!=|\*\*=?|\/\/=?|<>|>>|<<|[%=<>/*+-]=?|[&|^~]/,
 			'number': /\b\d+(?:\.\d+)?\b/,

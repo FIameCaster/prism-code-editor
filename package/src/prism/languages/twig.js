@@ -3,15 +3,11 @@ import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 
 languages.twig = {
-	'twig-comment': {
-		pattern: /\{#[\s\S]*?#\}/g,
-		greedy: true,
-		alias: 'comment'
-	},
 	'twig': {
-		pattern: /\{(?:#[\s\S]*?#|%[\s\S]*?%|\{[\s\S]*?\})\}/g,
-		greedy: true,
+		pattern: /\{(?:#[\s\S]*?#|%[\s\S]*?%|\{[\s\S]*?\})\}/,
+		alias: 'language-twig',
 		inside: {
+			'comment': /^\{#[\s\S]+/,
 			'tag-name': {
 				pattern: /(^\{%-?\s*)\w+/,
 				lookbehind: true,

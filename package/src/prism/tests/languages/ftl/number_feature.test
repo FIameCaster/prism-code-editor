@@ -10,7 +10,7 @@ ${
 [
 	["ftl-interpolation", [
 		["punctuation", "${"],
-		["content", [
+		["ftl", [
 			["number", "0"],
 			["number", "08"],
 			["number", "0.2"],

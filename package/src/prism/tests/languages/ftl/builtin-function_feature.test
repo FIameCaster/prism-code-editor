@@ -10,7 +10,7 @@ ${testSequence?join(", ")}
 [
 	["ftl-interpolation", [
 		["punctuation", "${"],
-		["content", [
+		["ftl", [
 			"testString",
 			["operator", "?"],
 			["builtin-function", "upper_case"]
@@ -19,7 +19,7 @@ ${testSequence?join(", ")}
 	]],
 	["ftl-interpolation", [
 		["punctuation", "${"],
-		["content", [
+		["ftl", [
 			"testString",
 			["operator", "?"],
 			["builtin-function", "html"]
@@ -28,7 +28,7 @@ ${testSequence?join(", ")}
 	]],
 	["ftl-interpolation", [
 		["punctuation", "${"],
-		["content", [
+		["ftl", [
 			"testString",
 			["operator", "?"],
 			["builtin-function", "upper_case"],
@@ -40,7 +40,7 @@ ${testSequence?join(", ")}
 
 	["ftl-interpolation", [
 		["punctuation", "${"],
-		["content", [
+		["ftl", [
 			"testSequence",
 			["operator", "?"],
 			["builtin-function", "size"]
@@ -49,7 +49,7 @@ ${testSequence?join(", ")}
 	]],
 	["ftl-interpolation", [
 		["punctuation", "${"],
-		["content", [
+		["ftl", [
 			"testSequence",
 			["operator", "?"],
 			["builtin-function", "join"],

@@ -14,7 +14,7 @@ ${ "{}foo${bar}" }
 			["punctuation", "\""],
 			["ftl-interpolation", [
 				["punctuation", "${"],
-				["content", ["link"]],
+				["ftl", ["link"]],
 				["punctuation", "}"]
 			]],
 			["punctuation", "\""]
@@ -23,7 +23,7 @@ ${ "{}foo${bar}" }
 	]],
 	["ftl-interpolation", [
 		["punctuation", "${"],
-		["content", ["text"]],
+		["ftl", ["text"]],
 		["punctuation", "}"]
 	]],
 	["tag", [
@@ -34,7 +34,7 @@ ${ "{}foo${bar}" }
 
 	["ftl-interpolation", [
 		["punctuation", "${"],
-		["content", [
+		["ftl", [
 			["string", [
 				"\"{}foo",
 				["interpolation", [

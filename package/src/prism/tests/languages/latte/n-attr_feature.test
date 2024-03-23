@@ -12,8 +12,8 @@
 		["tag", ["a"]],
 		["n-attr", [
 			["attr-name", "n:href"],
+			["attr-equals", "="],
 			["attr-value", [
-				["punctuation", "="],
 				["punctuation", "\""],
 				["php", [
 					"Post",
@@ -40,8 +40,8 @@
 		["tag", ["a"]],
 		["n-attr", [
 			["attr-name", "n:href"],
+			["attr-equals", "="],
 			["attr-value", [
-				["punctuation", "="],
 				["punctuation", "\""],
 				["php", [
 					"Post",
@@ -68,8 +68,8 @@
 		["tag", ["div"]],
 		["n-attr", [
 			["attr-name", "n:if"],
+			["attr-equals", "="],
 			["attr-value", [
-				["punctuation", "="],
 				["php", [
 					["variable", "$items"]
 				]]
@@ -83,8 +83,8 @@
 		["tag", ["div"]],
 		["n-attr", [
 			["attr-name", "n:tag-if"],
+			["attr-equals", "="],
 			["attr-value", [
-				["punctuation", "="],
 				["punctuation", "'"],
 				["php", [
 					["variable", "$a"],

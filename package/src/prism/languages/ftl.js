@@ -63,9 +63,9 @@ languages.ftl = {
 				pattern: /^[#@][a-z]\w*/i,
 				alias: 'keyword'
 			},
-			'content': {
+			'ftl': {
 				pattern: /\s*\S[\s\S]*/,
-				alias: 'ftl',
+				alias: 'language-ftl',
 				inside: ftl
 			}
 		}
@@ -75,9 +75,9 @@ languages.ftl = {
 		greedy: true,
 		inside: {
 			'punctuation': /^\$\{|\}$/,
-			'content': {
+			'ftl': {
 				pattern: /\s*\S[\s\S]*/,
-				alias: 'ftl',
+				alias: 'language-ftl',
 				inside: ftl
 			}
 		}

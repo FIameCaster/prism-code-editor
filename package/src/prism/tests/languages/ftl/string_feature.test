@@ -19,7 +19,7 @@ r'foo${bar}'
 	["ftl-directive", [
 		["punctuation", "<"],
 		["directive", "@foo"],
-		["content", [
+		["ftl", [
 			["punctuation", "("],
 
 			["string", ["\"foo'\\\"'\n\\\"\\\\\""]],

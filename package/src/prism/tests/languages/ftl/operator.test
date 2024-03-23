@@ -23,7 +23,7 @@ gt gte lt lte
 	["ftl-directive", [
 		["punctuation", "<"],
 		["directive", "@foo"],
-		["content", [
+		["ftl", [
 			["punctuation", "("],
 
 			["operator", "+"],

@@ -11,7 +11,7 @@
 	["ftl-directive", [
 		["punctuation", "<"],
 		["directive", "@foo"],
-		["content", [
+		["ftl", [
 			["punctuation", "("],
 			["punctuation", ")"],
 			["punctuation", "["],

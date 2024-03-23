@@ -2,8 +2,6 @@ import { languages, tokenize } from '../core.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 
-var smartyPattern = /\{(?:[^{}"']|"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*'|\{(?:[^{}"']|"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*'|\{(?:[^{}"']|"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*')*\})*\})*\}/g;
-
 var expression = {
 	pattern: /[\s\S]+/
 };
@@ -88,8 +86,9 @@ languages.smarty = {
 		alias: 'comment'
 	},
 	'smarty': {
-		pattern: smartyPattern,
+		pattern: RegExp('<>|<>|<>)*})*})*}'.replace(/<>/g, `{(?:[^{}"']|"(?:\\\\.|[^\\\\\n"])*"|'(?:\\\\.|[^\\\\\n'])*'`), 'g'),
 		greedy: true,
+		alias: 'language-smarty',
 		inside: smarty
 	},
 	[tokenize]: embeddedIn('markup')

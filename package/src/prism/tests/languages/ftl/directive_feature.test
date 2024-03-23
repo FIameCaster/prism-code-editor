@@ -17,7 +17,7 @@
 	["ftl-directive", [
 		["punctuation", "<"],
 		["directive", "#import"],
-		["content", [
+		["ftl", [
 			["string", ["\"/libs/commons.ftl\""]],
 			["keyword", "as"],
 			" com"
@@ -28,7 +28,7 @@
 	["ftl-directive", [
 		["punctuation", "<"],
 		["directive", "#if"],
-		["content", [
+		["ftl", [
 			" a ",
 			["operator", "<"],
 			" b"
@@ -39,7 +39,7 @@
 	["ftl-directive", [
 		["punctuation", "<"],
 		["directive", "#elseif"],
-		["content", [
+		["ftl", [
 			["punctuation", "("],
 			"a ",
 			["operator", ">"],

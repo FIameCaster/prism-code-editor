@@ -15,11 +15,11 @@ languages.soy = {
 	'soy': {
 		pattern: /\{\{.+?\}\}|\{.+?\}|\s\/\/.*|\/\*[\s\S]*?\*\//g,
 		greedy: true,
+		alias: 'language-soy',
 		inside: {
 			'comment': {
-				pattern: /\/\*[\s\S]*?\*\/|(\s)\/\/.*/g,
-				lookbehind: true,
-				greedy: true
+				pattern: /\/\*[\s\S]*?\*\/|(\s)\/\/.*/,
+				lookbehind: true
 			},
 			'command-arg': {
 				pattern: /(\{+\/?\s*(?:alias|call|delcall|delpackage|deltemplate|namespace|template)\s+)\.?[\w.]+/,
@@ -44,7 +44,7 @@ languages.soy = {
 			},
 			'property': /\w+(?==)/,
 			'variable': {
-				pattern: /\$[^\W\d]\w*(?:\??(?:\.\w+|\[[^\]]+\]))*/,
+				pattern: /\$(?!\d)\w+(?:\??(?:\.\w+|\[[^\]]+\]))*/,
 				inside: {
 					'string': string,
 					'number': numberPattern,
