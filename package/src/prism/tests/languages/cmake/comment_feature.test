@@ -1,11 +1,30 @@
 # standalone
 add_library() # after code
 
+#[=[
+This is the first line in a bracket comment with bracket length 1.
+The comment does not end on a closing bracket of length 0 like ]]
+]=]
+message("First Argument\n" #[[Bracket Comment]] "Second Argument")
+
 ----------------------------------------------------
 
 [
 	["comment", "# standalone"],
-	["keyword", "add_library"], ["punctuation", "("], ["punctuation", ")"], ["comment", "# after code"]
+
+	["keyword", "add_library"],
+	["punctuation", "("],
+	["punctuation", ")"],
+	["comment", "# after code"],
+
+	["comment", "#[=[\nThis is the first line in a bracket comment with bracket length 1.\nThe comment does not end on a closing bracket of length 0 like ]]\n]=]"],
+
+	["keyword", "message"],
+	["punctuation", "("],
+	["string", ["\"First Argument\\n\""]],
+	["comment", "#[[Bracket Comment]]"],
+	["string", ["\"Second Argument\""]],
+	["punctuation", ")"]
 ]
 
 ----------------------------------------------------

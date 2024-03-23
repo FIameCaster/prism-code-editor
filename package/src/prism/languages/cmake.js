@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 
 languages.cmake = {
-	'comment': /#.*/,
+	'comment': /#\[(=*)\[[\s\S]*?\]\1\]|#.*/,
 	'string': {
 		pattern: /"(?:\\.|[^\\"])*"/g,
 		greedy: true,
@@ -26,6 +26,6 @@ languages.cmake = {
 		alias: 'class-name'
 	},
 	'number': /\b\d+(?:\.\d+)*\b/,
-	'function': /\b[a-z_]\w*(?=\s*\()/i,
+	'function': /\b(?!\d)\w+(?=\s*\()/,
 	'punctuation': /[()>}]|\$[<{]/
 };
