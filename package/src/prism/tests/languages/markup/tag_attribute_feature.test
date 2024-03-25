@@ -88,8 +88,8 @@ baz">
 		]],
 		["attr-name", ["bar"]],
 		["attr-equals", "="],
-		["attr-value", ["baz"]],
-		["punctuation", "/>"]
+		["attr-value", ["baz/"]],
+		["punctuation", ">"]
 	]]
 ]
 

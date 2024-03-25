@@ -38,7 +38,7 @@ languages.rss = languages.atom = languages.ssml = languages.xml = {
 		greedy: true
 	},
 	'tag': {
-		pattern: /<\/?(?!\d)[^\s/=>$<%]+(?:\s(?:\s*[^\s/=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s'"=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*\/?>/g,
+		pattern: /<\/?(?!\d)[^\s/=>$<%]+(?:\s(?:\s*[^\s/=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*\/?>/g,
 		greedy: true,
 		inside: {
 			'punctuation': /^<\/?|\/?>$/,
@@ -49,8 +49,9 @@ languages.rss = languages.atom = languages.ssml = languages.xml = {
 				}
 			},
 			'attr-value': [{
-				pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s'"=]+)/,
+				pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s"'=>]+)/g,
 				lookbehind: true,
+				greedy: true,
 				inside: {
 					'punctuation': /^["']|["']$/,
 					entity

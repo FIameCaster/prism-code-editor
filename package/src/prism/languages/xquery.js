@@ -1,15 +1,16 @@
 import { languages, Token, tokenize, withoutTokenizer } from '../core.js';
 import { extend } from '../utils/language.js';
+import { re } from '../utils/shared.js';
 import './markup.js';
 
-var xquery = languages.xquery = extend('markup', {
+var xquery = languages.xquery = extend('xml', {
 	'xquery-comment': {
 		pattern: /\(:[\s\S]*?:\)/g,
 		greedy: true,
 		alias: 'comment'
 	},
 	'string': {
-		pattern: /(["'])(?:\1\1|(?!\1)[\s\S])*\1/g,
+		pattern: /"(?:""|[^"])*"|'(?:''|[^'])*'/g,
 		greedy: true
 	},
 	'extension': {
@@ -56,7 +57,7 @@ var xquery = languages.xquery = extend('markup', {
 });
 
 var tag = xquery.tag;
-var attrValue = tag.inside['attr-value'][2];
+var attrValue = tag.inside['attr-value'][0];
 var isText = token => token && (!token.type || token.type == 'plain-text');
 
 /**
@@ -76,15 +77,16 @@ var walkTokens = (tokens, code, position) => {
 		if (type && type != 'comment') {
 			if (type == 'tag' && code[position] == '<') {
 				// We found a tag, now find its kind
-				tag = code.substr(position + content[0].length, content[1].length);
-				if (code[position + 1] == '/') {
+				start = content[0].length;
+				tag = code.substr(position + start, content[1].length);
+				if (start > 1) {
 					// Closing tag
 					if (l && openedTags[l - 1][0] == tag) {
 						// Pop matching opening tag
 						l--;
 					}
 				} else {
-					if (code[position + length - 2] != '/') {
+					if (content[content.length - 1].length < 2) {
 						// Opening tag
 						openedTags[l++] = [tag, 0];
 					}
@@ -116,7 +118,7 @@ var walkTokens = (tokens, code, position) => {
 			}
 
 			plainText = code.slice(start, position + length);
-			tokens[i] = plainText.trimEnd() ? new Token('plain-text', plainText, plainText, null) : plainText;
+			tokens[i] = new Token('plain-text', plainText, plainText);
 		}
 		else if (Array.isArray(content)) {
 			walkTokens(content, code, position);
@@ -126,11 +128,14 @@ var walkTokens = (tokens, code, position) => {
 	return tokens;
 };
 
-tag.pattern = /<\/?(?!\d)[^\s/=>$<%]+(?:\s+[^\s/=>]+(?:=(?:(["'])(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\1)[^\\])*\1|[^\s'">=]+))?)*\s*\/?>/g;
-attrValue.pattern = /(=)(?:(["'])(?:\\[\s\S]|\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}|(?!\2)[^\\])*\2|[^\s'">=]+)/;
+var expression = /\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}/;
+var exprSrc = [expression.source];
+
+tag.pattern = re(/<\/?(?!\d)[^\s/=>$<%]+(?:\s+[^\s/=>]+(?:\s*=\s*(?:"(?:<0>|[^"])*"|'(?:<0>|[^'])*'))?)*\s*\/?>/.source, exprSrc, 'g');
+attrValue.pattern = re(/(=\s*)(?:"(?:<0>|[^"])*"|'(?:<0>|[^'])*')/.source, exprSrc, 'g');
 attrValue.inside['expression'] = {
 	// Allow for two levels of nesting
-	pattern: /\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}/,
+	pattern: expression,
 	inside: xquery,
 	alias: 'language-xquery'
 };

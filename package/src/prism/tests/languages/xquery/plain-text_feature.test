@@ -15,7 +15,7 @@ plaintext
 		["tag", ["ul"]],
 		["punctuation", ">"]
 	]],
-
+	["plain-text", "\n"],
 	["comment", "<!-- {concat(\" List of \", $count, \" products \")} -->"],
 	["plain-text", "\nplaintext\n"],
 	["punctuation", "{"],
@@ -31,7 +31,7 @@ plaintext
 	["punctuation", ")"],
 	["punctuation", "}"],
 	["punctuation", "}"],
-
+	["plain-text", "\n"],
 	["tag", [
 		["punctuation", "</"],
 		["tag", ["ul"]],

@@ -5,8 +5,8 @@ import { Token, TokenStream } from "../prism/index.js"
 import { getClosestToken } from "../utils/index.js"
 import { addTextareaListener } from "../core.js"
 
-const voidlessLangs = "xml,rss,atom,jsx,tsx".split(",")
-const voidTags = "area,base,br,col,embed,hr,img,input,link,meta,source,track,wbr".split(",")
+const voidlessLangs = "xml,rss,atom,jsx,tsx,xquery".split(",")
+const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
 
 /**
  * Tuple containing in the following order:
@@ -53,24 +53,20 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 			let stack: [number, string][] = []
 			let sp = 0
 			for (let i = 0, l = tokens.length; i < l; ) {
-				const token = <Token>tokens[i++],
-					content = token.content,
-					type = token.type,
-					length = token.length
+				const token = <Token>tokens[i++]
+				const content = token.content
+				const length = token.length
 				if (Array.isArray(content)) {
-					if (type == "tag" && code[position] == "<") {
-						const isClosing = code[position + 1] == "/"
-						const tagName = content[2]
-							? code.substr(position + content[0].length, content[1].length)
-							: ""
+					if (token.type == "tag" && code[position] == "<") {
+						const openLen = content[0].length
+						const tagName = content[2] ? code.substr(position + openLen, content[1].length) : ""
 						const notSelfClosing =
-							!tagName ||
-							(code[position + length - 2] != "/" && (noVoidTags || !voidTags.includes(tagName)))
+							content[content.length - 1].length < 2 && (noVoidTags || !voidTags.test(tagName))
 
 						if (content[2] && noVoidTags) matchTagsRecursive(content, language, position)
 
 						if (notSelfClosing) {
-							if (isClosing) {
+							if (openLen > 1) {
 								for (let i = sp; i; ) {
 									if (tagName == stack[--i][1]) {
 										pairMap[(pairMap[tagIndex] = stack[(sp = i)][0])] = tagIndex
@@ -87,11 +83,11 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 							position,
 							position + length,
 							tagName,
-							isClosing,
+							openLen > 1,
 							notSelfClosing,
 						]
 					} else {
-						let lang = token.alias || type
+						let lang = token.alias || token.type
 						matchTagsRecursive(
 							content,
 							lang.slice(0, 9) == "language-" ? lang.slice(9) : language,

@@ -25,7 +25,7 @@ var addInlined = (tagName, lang) => ({
 });
 
 var addAttribute = (attrName, lang) => ({
-	pattern: RegExp(`((?:^|["'\\s])(?:${attrName})\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s'"=]+)`, 'i'),
+	pattern: RegExp(`((?:^|["'\\s])(?:${attrName})\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s"'=]+)`, 'i'),
 	lookbehind: true,
 	inside: addLang({
 		'punctuation': /^["']|["']$/,

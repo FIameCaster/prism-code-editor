@@ -25,15 +25,16 @@ var walkTokens = (tokens, code, position) => {
 		if (type) {
 			if (type == 'tag' && code[position] == '<') {
 				// We found a tag, now find its kind
-				tag = content[2] ? code.substr(position + content[0].length, content[1].length) : '';
-				if (code[position + 1] == '/') {
+				start = content[0].length;
+				tag = content[2] ? code.substr(position + start, content[1].length) : '';
+				if (start > 1) {
 					// Closing tag
 					if (l && openedTags[l - 1][0] == tag) {
 						// Pop matching opening tag
 						l--;
 					}
 				} else {
-					if (code[position + length - 2] != '/') {
+					if (content[content.length - 1].length < 2) {
 						// Opening tag
 						openedTags[l++] = [tag, 0];
 					}
@@ -65,7 +66,7 @@ var walkTokens = (tokens, code, position) => {
 			}
 
 			plainText = code.slice(start, position + length);
-			tokens[i] = new Token('plain-text', plainText, plainText, null);
+			tokens[i] = new Token('plain-text', plainText, plainText);
 		}
 		else if (Array.isArray(content)) {
 			walkTokens(content, code, position);
@@ -77,14 +78,14 @@ var walkTokens = (tokens, code, position) => {
 
 /**
  * Adds JSX tags along with the custom tokenizer to the grammar
- * @param {any} grammar 
- * @param {string} name 
+ * @param {any} grammar
+ * @param {string} name
  */
 var addJsxTag = (grammar, name) => {
 	insertBefore(languages[name] = grammar = clone(grammar), 'regex', {
 		'tag': {
 			pattern: re(
-				/<\/?(?:(?!\d)[^\s/=><%]+(?:<0>+(?:[^\s<>/={*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|[^\s/=>{'"]+|<1>)?)?|<2>))*<0>*\/?)?>/.source, [space, braces, spread], 'g'
+				/<\/?(?:(?!\d)[^\s/=><%]+(?:<0>(?:<0>*(?:[^\s<>/={*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?=[\s/>]))|<2>))+)?<0>*\/?)?>/.source, [space, braces, spread], 'g'
 			),
 			greedy: true,
 			inside: {
@@ -109,7 +110,7 @@ var addJsxTag = (grammar, name) => {
 					inside: grammar
 				},
 				'attr-value': {
-					pattern: re(/(=<0>*)(?:"[^"]*"|'[^']*'|[^\s/]+)/.source, [space]),
+					pattern: re(/(=<0>*)(?:"[^"]*"|'[^']*')/.source, [space]),
 					lookbehind: true,
 					inside: {
 						'punctuation': /^["']|["']$/
@@ -130,4 +131,4 @@ var addJsxTag = (grammar, name) => {
 	grammar[tokenize] = (code, grammar) => walkTokens(withoutTokenizer(code, grammar), code, 0);
 }
 
-export { addJsxTag }
+export { addJsxTag, space, braces, spread }
