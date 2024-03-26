@@ -45,7 +45,7 @@ export const highlightBracketPairs = (): BasicExtension => editor => {
 		closest = (offset: number) => {
 			;({ brackets, pairs } = matcher!)
 			for (let i = 0, bracket: Bracket; (bracket = brackets[++i]); ) {
-				if (!bracket[4] && bracket[1] > offset - 2 && brackets[pairs[i]!]?.[1] <= offset) {
+				if (!bracket[4] && bracket[5] >= offset && brackets[pairs[i]!]?.[1] <= offset) {
 					return i
 				}
 			}

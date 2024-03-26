@@ -3,9 +3,6 @@
 import { BasicExtension } from "../../index.js"
 import { Token, TokenStream } from "../../prism/index.js"
 
-const openingCharCodes: boolean[] = []
-const closingCharCodes: boolean[] = []
-
 export interface BracketMatcher extends BasicExtension {
 	/**
 	 * Array of tuples containing in the following order:
@@ -14,6 +11,9 @@ export interface BracketMatcher extends BasicExtension {
 	 * - Its level of nesting
 	 * - Its text content
 	 * - Whether it's an opening bracket
+	 * - It's ending position
+	 *
+	 * The order will likely change in the next major release
 	 */
 	readonly brackets: Bracket[]
 	/** Array mapping the index of a bracket to the index of its matching bracket. */
@@ -27,17 +27,30 @@ export interface BracketMatcher extends BasicExtension {
  * - Its level of nesting
  * - Its text content
  * - Whether it's an opening bracket
+ * - It's ending position
+ *
+ * The order will likely change in the next major release
  */
-export type Bracket = [Token, number, number, string, boolean]
+export type Bracket = [Token, number, number, string, boolean, number]
 
 /**
- * Extension that matches brackets together.
+ * Extension that matches punctuation tokens together. Intended for matching brackets.
+ * 
+ * The order inside `openingBrackets` and `closingBrackets` determines which characters
+ * are matched together.
  * @param rainbowBrackets Whether to add extra classes to brackets for styling. Defaults to true.
+ * @param openingBrackets Defaults to `"([{"`.
+ * @param closingBrackets Defaults to `")]}"`.
+ * 
  * Adding the extension dynamically, will force a rerender to add those extra classes.
  *
  * Without rainbow brackets, this extension can be added dynamically with no side effects.
  */
-export const matchBrackets = (rainbowBrackets = true) => {
+export const matchBrackets = (
+	rainbowBrackets = true,
+	openingBrackets = "([{",
+	closingBrackets = ")]}",
+) => {
 	let bracketIndex: number
 	const self: BracketMatcher = editor => {
 		editor.extensions.matchBrackets = self
@@ -69,22 +82,21 @@ export const matchBrackets = (rainbowBrackets = true) => {
 		for (let i = 0; (token = tokens[i++]); ) {
 			let length = token.length
 			if (typeof token != "string") {
-				const type = token.type,
-					content = token.content
+				let content = token.content
 
 				if (Array.isArray(content)) {
 					matchRecursive(content, position, sp + level)
-				} else if ((token.alias || type) == "punctuation") {
-					let charCode = content.charCodeAt(length - 1),
-						isOpen = !!openingCharCodes[charCode]
-					if (isOpen || closingCharCodes[charCode]) {
-						brackets[bracketIndex] = [token, position, 0, content, isOpen]
+				} else if ((token.alias || token.type) == "punctuation") {
+					let openingType = testBracket(content, openingBrackets, length - 1)
+					let closingType = openingType || testBracket(content, closingBrackets, length - 1)
+					if (closingType) {
+						brackets[bracketIndex] = [token, position, 0, content, !!openingType, position + length]
 
-						if (isOpen) stack[sp++] = [bracketIndex, charCode]
+						if (openingType) stack[sp++] = [bracketIndex, openingType]
 						else {
 							for (let i = sp; i; ) {
-								let [index, charCode1] = stack[--i]
-								if (charCode - charCode1 < 3 && charCode - charCode1 > 0) {
+								let [index, type] = stack[--i]
+								if (closingType == type) {
 									pairMap[(pairMap[bracketIndex] = index)] = bracketIndex
 									brackets[bracketIndex][2] = brackets[index][2] = i + level
 									sp = i
@@ -103,5 +115,6 @@ export const matchBrackets = (rainbowBrackets = true) => {
 	return self
 }
 
-openingCharCodes[40] = openingCharCodes[91] = openingCharCodes[123] = true
-closingCharCodes[41] = closingCharCodes[93] = closingCharCodes[125] = true
+const testBracket = (str: string, brackets: string, l: number) => {
+	return brackets.indexOf(str[0]) + 1 || (l && brackets.indexOf(str[l]) + 1)
+}
