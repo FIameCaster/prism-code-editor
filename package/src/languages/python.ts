@@ -1,14 +1,8 @@
 import { languageMap } from "../core"
-import { isBracketPair } from "./patterns"
+import { bracketIndenting } from "./shared"
 
-const openBracketOrColon = /[([{][^\n)\]}]*$|:[ \t]*$/
-
-languageMap.py = languageMap.python = {
-	comments: {
-		line: "#",
-	},
-	autoIndent: [
-		([start], value) => openBracketOrColon.test(value.slice(0, start)),
-		([start, end], value) => isBracketPair.test(value[start - 1] + value[end]),
-	],
-}
+languageMap.rpy =
+	languageMap.renpy =
+	languageMap.py =
+	languageMap.python =
+		bracketIndenting({ line: "#" }, /[([{][^)\]}]*$|:\s*$/)

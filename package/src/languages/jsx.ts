@@ -3,13 +3,14 @@ import { languageMap } from "../core"
 import { Bracket, BracketMatcher } from "../extensions/matchBrackets"
 import { Tag, TagMatcher } from "../extensions/matchTags"
 import { re } from "../prism/utils/shared"
-import { getClosestToken } from "../utils"
-import { autoCloseTags, clikeIndent, isBracketPair } from "./patterns"
+import { space, braces, spread } from "../prism/utils/jsx-shared"
+import { getClosestToken, getLineBefore } from "../utils"
+import { autoCloseTags, clikeComment, clikeIndent, testBracketPair } from "./shared"
 
 const openingTag = re(
-	/(?:^|[^$\w])<(?:(?!\d)([^\s/=><%]+)(?:<0>+(?:[^\s<>/={*]+(?:<0>*=<0>*(?:"[^"]*"|'[^']*'|[^\s/=>{'"]+|\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\}))?|\{<0>*\.{3}(?:[^{}]|\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\})*\}))*<0>*)?>[ \t]*$/
+	/(?:^|[^$\w])<(?:(?!\d)([^\s/=><%]+)(?:<0>(?:<0>*(?:[^\s"'{=<>/*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?=[\s/>]))|<2>))+)?<0>*)?>[ \t]*$/
 		.source,
-	[/(?:\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/)/.source],
+	[space, braces, spread],
 )
 
 const closingTag = /^<\/(?!\d)[^\s/=><%]*\s*>/
@@ -43,30 +44,26 @@ const inJsxContext = (
 	}
 }
 
-const jsComment: CommentTokens = {
-	line: "//",
-	block: ["/*", "*/"],
-}
-
 const jsxComment: CommentTokens = {
 	block: ["{/*", "*/}"],
 }
 
 languageMap.jsx = languageMap.tsx = {
-	comments: jsComment,
+	comments: clikeComment,
 	getComments(editor, position) {
 		const { matchBrackets, matchTags } = editor.extensions
 		const inJsx =
 			matchBrackets && matchTags
 				? inJsxContext(matchTags, matchBrackets, position)
 				: getClosestToken(editor, ".plain-text", 0, 0, position)
-		return inJsx ? jsxComment : jsComment
+		return inJsx ? jsxComment : clikeComment
 	},
 	autoIndent: [
-		([start], value) => openingTag.test((value = value.slice(0, start))) || clikeIndent.test(value),
-		([start, end], value) =>
-			isBracketPair.test(value[start - 1] + value[end]) ||
-			(openingTag.test(value.slice(0, start)) && closingTag.test(value.slice(end))),
+		([start], value) =>
+			openingTag.test(value.slice(0, start)) || clikeIndent.test(getLineBefore(value, start)),
+		(selection, value) =>
+			testBracketPair(selection, value) ||
+			(openingTag.test(value.slice(0, selection[0])) && closingTag.test(value.slice(selection[1]))),
 	],
 	autoCloseTags: ([start, end], value, editor) => {
 		return autoCloseTags(editor, start, end, value, openingTag)

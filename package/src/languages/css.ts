@@ -1,15 +1,13 @@
 import { languageMap } from "../core"
-import { isBracketPair, openBracket } from "./patterns"
+import { bracketIndenting, clikeComment } from "./shared"
 
-languageMap.css =
-	languageMap.sass =
-	languageMap.scss =
-		{
-			comments: {
-				block: ["/*", "*/"],
-			},
-			autoIndent: [
-				([start], value) => openBracket.test(value.slice(0, start)),
-				([start, end], value) => isBracketPair.test(value[start - 1] + value[end]),
-			],
-		}
+languageMap.css = bracketIndenting({
+	block: ["/*", "*/"],
+})
+
+languageMap.less = languageMap.scss = bracketIndenting()
+
+languageMap.sass = {
+	comments: clikeComment,
+	// Let's not bother with auto-indenting for sass
+}

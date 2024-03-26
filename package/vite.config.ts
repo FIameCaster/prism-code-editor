@@ -3,12 +3,6 @@ import MagicString from "magic-string"
 import dts from "vite-plugin-dts"
 import fs from "node:fs/promises"
 
-const dependencyGraph = <Record<string, string[]>>JSON.parse(
-	await fs.readFile(new URL("./src/prism/tests/dependencies.json", import.meta.url), {
-		encoding: "utf-8",
-	}),
-)
-
 const entries = {
 	index: "src/index.ts",
 	"extensions/guides": "src/extensions/guides.ts",
@@ -38,35 +32,38 @@ const entries = {
 	"prism/languages/common": "src/prism/languages/common.js",
 }
 
-for (const name in dependencyGraph)
-	entries[`prism/languages/${name}`] = `src/prism/languages/${name}.js`
-
-for (const theme of [
-	"atom-one-dark",
-	"dracula",
-	"github-dark-dimmed",
-	"github-dark",
-	"github-light",
-	"night-owl",
-	"prism-okaidia",
-	"prism-solarized-light",
-	"prism-twilight",
-	"prism-tomorrow",
-	"prism",
-	"vs-code-dark",
-	"vs-code-light",
+await Promise.all([
+	fs
+		.readFile(new URL("./src/prism/tests/dependencies.json", import.meta.url), {
+			encoding: "utf-8",
+		})
+		.then(file => {
+			const dependencyGraph = <Record<string, string[]>>JSON.parse(file)
+			for (const name in dependencyGraph)
+				entries[`prism/languages/${name}`] = `src/prism/languages/${name}.js`
+		}),
+	fs.readdir(new URL("./src/themes", import.meta.url)).then(files =>
+		files.forEach(name => {
+			if (name.slice(-4) == ".css") {
+				entries[name.slice(0, -4)] = "src/themes/" + name
+			}
+		}),
+	),
+	fs.readdir(new URL("./src/languages", import.meta.url)).then(files =>
+		files.forEach(name => {
+			if (name.slice(-3) == ".ts") {
+				entries["languages/" + name.slice(0, -3)] = "src/languages/" + name
+			}
+		}),
+	),
 ])
-	entries[theme] = `src/themes/${theme}.css`
-
-for (const lang of ["clike", "css", "html", "jsx", "python", "xml", "index"])
-	entries["languages/" + lang] = `src/languages/${lang}.ts`
 
 const simpleRegexMinifier: Plugin = {
 	name: "simple-regex-minifier",
 	renderChunk(code) {
 		const str = new MagicString(code)
 		str.replace(/\[\\\\?s\\\\?S\]/g, "[^]")
-		str.replace(/([^\\])\\t/g, '$1\t')
+		str.replace(/([^\\])\\t/g, "$1\t")
 
 		// inline-regex-source plugin used by Prism's build system
 		// https://github.com/PrismJS/prism/blob/v1.29.0/gulpfile.js/index.js#L33
@@ -110,7 +107,7 @@ export default defineConfig({
 	plugins: [
 		dts({
 			beforeWriteFile(filePath) {
-				if (filePath.includes("languages/patterns")) {
+				if (filePath.includes("languages/shared")) {
 					return false
 				}
 			},
