@@ -93,7 +93,15 @@ var walkTokens = (tokens, code, position) => {
 				}
 			} else if (l && type == 'punctuation') {
 				last = openedTags[l - 1];
-				if (content == '{' && code[position - 1] != '{' && code[position + 1] != '{') last[1]++;
+				if (content == '{') {
+					// Ignore `{{`
+					if (code[position + 1] == content) {
+						tokens[i + 1] = content;
+						notTagNorBrace = true;
+					} else {
+						last[1]++;
+					}
+				}
 				else if (last[1] && content == '}') last[1]--;
 				else {
 					notTagNorBrace = true;
@@ -120,23 +128,20 @@ var walkTokens = (tokens, code, position) => {
 			plainText = code.slice(start, position + length);
 			tokens[i] = new Token('plain-text', plainText, plainText);
 		}
-		else if (Array.isArray(content)) {
-			walkTokens(content, code, position);
-		}
 		position += length;
 	}
 	return tokens;
 };
 
-var expression = /\{(?!\{)(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])+\}/;
-var exprSrc = [expression.source];
+// Allow for two levels of nesting
+var expression = [/\{(?!\{)(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/.source];
 
-tag.pattern = re(/<\/?(?!\d)[^\s/=>$<%]+(?:\s+[^\s/=>]+(?:\s*=\s*(?:"(?:<0>|[^"])*"|'(?:<0>|[^'])*'))?)*\s*\/?>/.source, exprSrc, 'g');
-attrValue.pattern = re(/(=\s*)(?:"(?:<0>|[^"])*"|'(?:<0>|[^'])*')/.source, exprSrc, 'g');
+tag.pattern = re(/<\/?(?!\d)[^\s/=>$<%]+(?:\s+[^\s/=>]+(?:\s*=\s*(["'])(?:\{\{|<0>|(?!\1)[^{])*\1)?)*\s*\/?>/.source, expression, 'g');
+attrValue.pattern = re(/(=\s*)(["'])(?:\{\{|<0>|(?!\2)[^{])*\2/.source, expression, 'g');
 attrValue.inside['expression'] = {
-	// Allow for two levels of nesting
-	pattern: expression,
-	inside: xquery,
-	alias: 'language-xquery'
+	pattern: re(/((?:^|[^{])(?:\{\{)*)<0>/.source, expression),
+	lookbehind: true,
+	alias: 'language-xquery',
+	inside: xquery
 };
 delete xquery['markup-bracket'];

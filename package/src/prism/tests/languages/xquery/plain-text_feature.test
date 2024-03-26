@@ -4,7 +4,7 @@ plaintext
 {comment{concat(" List of ", $count, " products ")}}
 </ul>
 
-<h1>data($prod/name){data($prod/name)}{{data($prod/name)}}</h1>
+<h1>data($prod/name){{{data($prod/name)}}}{{data($prod/name)}}</h1>
 
 ----------------------------------------------------
 
@@ -43,7 +43,7 @@ plaintext
 		["tag", ["h1"]],
 		["punctuation", ">"]
 	]],
-	["plain-text", "data($prod/name)"],
+	["plain-text", "data($prod/name){{"],
 	["punctuation", "{"],
 	["function", "data"],
 	["punctuation", "("],
@@ -52,7 +52,7 @@ plaintext
 	"name",
 	["punctuation", ")"],
 	["punctuation", "}"],
-	["plain-text", "{{data($prod/name)}}"],
+	["plain-text", "}}{{data($prod/name)}}"],
 	["tag", [
 		["punctuation", "</"],
 		["tag", ["h1"]],
