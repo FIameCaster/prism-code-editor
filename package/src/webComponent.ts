@@ -140,6 +140,7 @@ export const addBasicEditor = (name: string) => addComponent(name, basicEditor)
 /**
  * Adds a custom element wrapping the {@link fullEditor} setup.
  * @param name Name of the custom element. Must be a valid custom element name.
+ * @deprecated Will get merged with {@link addBasicEditor} in the next major release.
  */
 export const addFullEditor = (name: string) => addComponent(name, fullEditor)
 /**

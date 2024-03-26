@@ -88,7 +88,10 @@ const basicEditor = (
 	return editor
 }
 
-/** Same as {@link basicEditor}, but also adds the {@link searchWidget} and {@link matchTags} extensions. */
+/**
+ * Same as {@link basicEditor}, but also adds the {@link searchWidget} and {@link matchTags} extensions.
+ * @deprecated Will get merged with {@link basicEditor} in the next major release.
+ */
 const fullEditor = (
 	container: HTMLElement | string,
 	options: SetupOptions,
