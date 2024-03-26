@@ -98,6 +98,8 @@ export default defineConfig({
 	build: {
 		cssCodeSplit: true,
 		sourcemap: true,
+		cssMinify: "esbuild",
+		minify: false,
 		lib: {
 			entry: entries,
 			formats: ["es"],
