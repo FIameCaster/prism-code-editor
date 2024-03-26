@@ -45,7 +45,9 @@ This library overlays syntax highlighted code over a `<textarea>`. Libraries lik
   - [Advanced styling](#advanced-styling)
     - [Creating a theme](#creating-a-theme)
 - [Language specific behavior](#language-specific-behavior)
-  - [Adding languages](#adding-languages)
+  - [Importing](#importing)
+    - [Individual imports](#individual-imports)
+  - [Adding your own](#adding-your-own)
 - [Avoiding layout shifts](#avoiding-layout-shifts)
 - [Tooltips](#tooltips)
 - [Overscroll](#overscroll)
@@ -387,26 +389,259 @@ Below is some additional styling information:
 
 If you're not using the setups, automatic indentation, toggling comments, and automatic closing of tags won't work. You'll need to import the behavior or define it yourself.
 
-```javascript
-import "prism-code-editor/languages/clike"
-import "prism-code-editor/languages/html"
-import "prism-code-editor/languages/css"
-import "prism-code-editor/languages/xml"
-import "prism-code-editor/languages/jsx"
-import "prism-code-editor/languages/python"
-```
+### Importing
 
-The clike language will work with many languages including JavaScript, Java, C++, C#, and C.
-
-Alternatively, you can import all language behavior at the expense of your bundle size.
+The easiest way to get this working, is to import all languages. This will add comment toggling, etc. to almost all Prism languages at ~3.6kB gzipped. It's recommended to dynamically import this since it's usually not needed before the page has loaded.
 
 ```javascript
-import "prism-code-editor/languages"
+import("prism-code-editor/languages")
 ```
 
-It's recommended to dynamically import the language behavior since it's usually not needed before the page has loaded.
+You can also import `prism-code-editor/languages/common` instead to support a subset of common languages at less than 1kB gzipped.
 
-### Adding languages
+#### Individual imports
+
+Lastly, if you know exactly which languages you need, you can import behavior for individual languages. Refer to the list below for which imports adds comment toggling, etc. to which language(s).
+
+<details>
+  <summary>List of all imports</summary>
+  <br>
+  <p>The import for <code>ada</code> would be <code>prism-code-editor/languages/ada</code> for example. This list is <strong>NOT</strong> for Prism grammars.</p>
+  <table>
+    <thead>
+      <tr><th>Import</th><th>Languages/aliases added</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><code>abnf</code></td><td><code>abnf</code></td></tr>
+      <tr><td><code>actionscript</code></td><td><code>actionscript</code></td></tr>
+      <tr><td><code>ada</code></td><td><code>ada</code></td></tr>
+      <tr><td><code>al</code></td><td><code>al</code></td></tr>
+      <tr><td><code>apacheconf</code></td><td><code>apacheconf</code></td></tr>
+      <tr><td><code>antlr4</code></td><td><code>g4</code> and <code>antlr4</code></td></tr>
+      <tr><td><code>apex</code></td><td><code>apex</code></td></tr>
+      <tr><td><code>apl</code></td><td><code>apl</code></td></tr>
+      <tr><td><code>applescript</code></td><td><code>applescript</code></td></tr>
+      <tr><td><code>aql</code></td><td><code>aql</code></td></tr>
+      <tr><td><code>arduino</code></td><td><code>ino</code> and <code>arduino</code></td></tr>
+      <tr><td><code>arff</code></td><td><code>arff</code></td></tr>
+      <tr><td><code>arturo</code></td><td><code>art</code> and <code>arturo</code></td></tr>
+      <tr><td><code>asciidoc</code></td><td><code>adoc</code> and <code>asciidoc</code></td></tr>
+      <tr><td><code>asm</code></td><td><code>arm-asm</code>, <code>armasm</code>, <code>asm6502</code>, <code>asmatmel</code> and <code>nasm</code></td></tr>
+      <tr><td><code>autohotkey</code></td><td><code>autohotkey</code></td></tr>
+      <tr><td><code>autoit</code></td><td><code>autoit</code></td></tr>
+      <tr><td><code>avisynth</code></td><td><code>avs</code> and <code>avisynth</code></td></tr>
+      <tr><td><code>avro-idl</code></td><td><code>avdl</code> and <code>avro-idl</code></td></tr>
+      <tr><td><code>aspnet</code></td><td><code>aspnet</code></td></tr>
+      <tr><td><code>awk</code></td><td><code>awk</code></td></tr>
+      <tr><td><code>bash</code></td><td><code>bash</code></td></tr>
+      <tr><td><code>bicep</code></td><td><code>bicep</code></td></tr>
+      <tr><td><code>bison</code></td><td><code>bison</code></td></tr>
+      <tr><td><code>birb</code></td><td><code>birb</code></td></tr>
+      <tr><td><code>bqn</code></td><td><code>bqn</code></td></tr>
+      <tr><td><code>brightscript</code></td><td><code>brightscript</code></td></tr>
+      <tr><td><code>bro</code></td><td><code>bro</code></td></tr>
+      <tr><td><code>bsl</code></td><td><code>bro</code></td></tr>
+      <tr><td><code>chaiscript</code></td><td><code>chaiscript</code></td></tr>
+      <tr><td><code>cfscript</code></td><td><code>cfscript</code></td></tr>
+      <tr><td><code>cil</code></td><td><code>cil</code></td></tr>
+      <tr><td><code>clojure</code></td><td><code>clojure</code></td></tr>
+      <tr><td><code>clike</code></td><td><code>clike</code>, <code>js</code>, <code>javascript</code>, <code>ts</code>, <code>typescript</code>, <code>java</code>, <code>cs</code>, <code>csharp</code>, <code>c</code>, <code>cpp</code>, <code>go</code>, <code>d</code>, <code>dart</code>, <code>flow</code> and <code>haxe</code></td></tr>
+      <tr><td><code>cilk</code></td><td><code>cilk-c</code>, <code>cilkc</code>, <code>cilk</code>, <code>cilk-cpp</code> and <code>cilkcpp</code></td></tr>
+      <tr><td><code>cmake</code></td><td><code>cmake</code></td></tr>
+      <tr><td><code>cobol</code></td><td><code>cobol</code></td></tr>
+      <tr><td><code>coffeescript</code></td><td><code>coffee</code> and <code>coffeescript</code></td></tr>
+      <tr><td><code>concurnas</code></td><td><code>conc</code> and <code>concurnas</code></td></tr>
+      <tr><td><code>cooklang</code></td><td><code>cooklang</code></td></tr>
+      <tr><td><code>coq</code></td><td><code>coq</code></td></tr>
+      <tr><td><code>cshtml</code></td><td><code>razor</code> and <code>cshtml</code></td></tr>
+      <tr><td><code>css</code></td><td><code>css</code>, <code>less</code>, <code>scss</code> and <code>sass</code></td></tr>
+      <tr><td><code>cue</code></td><td><code>cue</code></td></tr>
+      <tr><td><code>cypher</code></td><td><code>cypher</code></td></tr>
+      <tr><td><code>dataweave</code></td><td><code>dataweave</code></td></tr>
+      <tr><td><code>dax</code></td><td><code>dax</code></td></tr>
+      <tr><td><code>django</code></td><td><code>jinja2</code> and <code>django</code></td></tr>
+      <tr><td><code>dhall</code></td><td><code>dhall</code></td></tr>
+      <tr><td><code>dns-zone-file</code></td><td><code>dns-zone</code> and <code>dns-zone-file</code></td></tr>
+      <tr><td><code>dot</code></td><td><code>gv</code> and <code>dot</code></td></tr>
+      <tr><td><code>docker</code></td><td><code>dockerfile</code> and <code>docker</code></td></tr>
+      <tr><td><code>ebnf</code></td><td><code>ebnf</code></td></tr>
+      <tr><td><code>editorconfig</code></td><td><code>editorconfig</code></td></tr>
+      <tr><td><code>eiffel</code></td><td><code>eiffel</code></td></tr>
+      <tr><td><code>ejs</code></td><td><code>ejs</code></td></tr>
+      <tr><td><code>elixir</code></td><td><code>elixir</code></td></tr>
+      <tr><td><code>elm</code></td><td><code>elm</code></td></tr>
+      <tr><td><code>erb</code></td><td><code>erb</code></td></tr>
+      <tr><td><code>erlang</code></td><td><code>erlang</code></td></tr>
+      <tr><td><code>etlua</code></td><td><code>etlua</code></td></tr>
+      <tr><td><code>factor</code></td><td><code>factor</code></td></tr>
+      <tr><td><code>false</code></td><td><code>false</code></td></tr>
+      <tr><td><code>firestore-security-rules</code></td><td><code>firestore-security-rules</code></td></tr>
+      <tr><td><code>fortran</code></td><td><code>fortran</code></td></tr>
+      <tr><td><code>fsharp</code></td><td><code>fsharp</code></td></tr>
+      <tr><td><code>ftl</code></td><td><code>ftl</code></td></tr>
+      <tr><td><code>gap</code></td><td><code>gap</code></td></tr>
+      <tr><td><code>gdscript</code></td><td><code>gdscript</code></td></tr>
+      <tr><td><code>gcode</code></td><td><code>gcode</code></td></tr>
+      <tr><td><code>gettext</code></td><td><code>gettext</code></td></tr>
+      <tr><td><code>git</code></td><td><code>git</code></td></tr>
+      <tr><td><code>gml</code></td><td><code>gamemakerlanguage</code> and <code>gml</code></td></tr>
+      <tr><td><code>glsl</code></td><td><code>glsl</code> and <code>hlsl</code></td></tr>
+      <tr><td><code>gherkin</code></td><td><code>gherkin</code></td></tr>
+      <tr><td><code>gn</code></td><td><code>gni</code> and <code>gn</code></td></tr>
+      <tr><td><code>go-module</code></td><td><code>go-mod</code> and <code>go-module</code></td></tr>
+      <tr><td><code>gradle</code></td><td><code>gradle</code></td></tr>
+      <tr><td><code>graphql</code></td><td><code>graphql</code></td></tr>
+      <tr><td><code>groovy</code></td><td><code>groovy</code></td></tr>
+      <tr><td><code>haml</code></td><td><code>haml</code></td></tr>
+      <tr><td><code>haskell</code></td><td><code>idr</code>, <code>idris</code>, <code>hs</code>, <code>haskell</code>, <code>purs</code> and <code>purescript</code></td></tr>
+      <tr><td><code>handlebars</code></td><td><code>mustache</code>, <code>hbs</code> and <code>handlebars</code></td></tr>
+      <tr><td><code>hcl</code></td><td><code>hcl</code></td></tr>
+      <tr><td><code>html</code></td><td><code>markup</code>, <code>html</code>, <code>markdown</code> and <code>md</code></td></tr>
+      <tr><td><code>ichigojam</code></td><td><code>ichigojam</code></td></tr>
+      <tr><td><code>hoon</code></td><td><code>hoon</code></td></tr>
+      <tr><td><code>icon</code></td><td><code>icon</code></td></tr>
+      <tr><td><code>iecst</code></td><td><code>iecst</code></td></tr>
+      <tr><td><code>ini</code></td><td><code>ini</code></td></tr>
+      <tr><td><code>inform7</code></td><td><code>inform7</code></td></tr>
+      <tr><td><code>ignore</code></td><td><code>npmignore</code>, <code>hgignore</code>, <code>gitignore</code> and <code>ignore</code></td></tr>
+      <tr><td><code>io</code></td><td><code>io</code></td></tr>
+      <tr><td><code>j</code></td><td><code>j</code></td></tr>
+      <tr><td><code>jolie</code></td><td><code>jolie</code></td></tr>
+      <tr><td><code>json</code></td><td><code>json</code>, <code>json5</code> and <code>jsonp</code></td></tr>
+      <tr><td><code>jq</code></td><td><code>jq</code></td></tr>
+      <tr><td><code>jsx</code></td><td><code>jsx</code> and <code>tsx</code></td></tr>
+      <tr><td><code>keepalived</code></td><td><code>keepalived</code></td></tr>
+      <tr><td><code>julia</code></td><td><code>julia</code></td></tr>
+      <tr><td><code>keyman</code></td><td><code>keyman</code></td></tr>
+      <tr><td><code>kotlin</code></td><td><code>kts</code>, <code>kt</code> and <code>kotlin</code></td></tr>
+      <tr><td><code>kumir</code></td><td><code>kumir</code></td></tr>
+      <tr><td><code>latte</code></td><td><code>latte</code></td></tr>
+      <tr><td><code>latex</code></td><td><code>context</code>, <code>tex</code> and <code>latex</code></td></tr>
+      <tr><td><code>kusto</code></td><td><code>kusto</code></td></tr>
+      <tr><td><code>lilypond</code></td><td><code>ly</code> and <code>lilypond</code></td></tr>
+      <tr><td><code>linker-script</code></td><td><code>ld</code> and <code>linker-script</code></td></tr>
+      <tr><td><code>liquid</code></td><td><code>liquid</code></td></tr>
+      <tr><td><code>lisp</code></td><td><code>emacs-lisp</code>, <code>emacs</code>, <code>elisp</code> and <code>lisp</code></td></tr>
+      <tr><td><code>livescript</code></td><td><code>livescript</code></td></tr>
+      <tr><td><code>llvm</code></td><td><code>llvm</code></td></tr>
+      <tr><td><code>lolcode</code></td><td><code>lolcode</code></td></tr>
+      <tr><td><code>magma</code></td><td><code>magma</code></td></tr>
+      <tr><td><code>makefile</code></td><td><code>makefile</code></td></tr>
+      <tr><td><code>mata</code></td><td><code>mata</code></td></tr>
+      <tr><td><code>lua</code></td><td><code>lua</code></td></tr>
+      <tr><td><code>matlab</code></td><td><code>matlab</code></td></tr>
+      <tr><td><code>maxscript</code></td><td><code>maxscript</code></td></tr>
+      <tr><td><code>mel</code></td><td><code>mel</code></td></tr>
+      <tr><td><code>mermaid</code></td><td><code>mermaid</code></td></tr>
+      <tr><td><code>metafont</code></td><td><code>metafont</code></td></tr>
+      <tr><td><code>mizar</code></td><td><code>mizar</code></td></tr>
+      <tr><td><code>mongodb</code></td><td><code>mongodb</code></td></tr>
+      <tr><td><code>moonscript</code></td><td><code>moon</code> and <code>moonscript</code></td></tr>
+      <tr><td><code>monkey</code></td><td><code>monkey</code></td></tr>
+      <tr><td><code>n1ql</code></td><td><code>n1ql</code></td></tr>
+      <tr><td><code>n4js</code></td><td><code>n4jsd</code> and <code>n4js</code></td></tr>
+      <tr><td><code>naniscript</code></td><td><code>nani</code> and <code>naniscript</code></td></tr>
+      <tr><td><code>nand2tetris-hdl</code></td><td><code>nand2tetris-hdl</code></td></tr>
+      <tr><td><code>neon</code></td><td><code>neon</code></td></tr>
+      <tr><td><code>nevod</code></td><td><code>nevod</code></td></tr>
+      <tr><td><code>nginx</code></td><td><code>nginx</code></td></tr>
+      <tr><td><code>nim</code></td><td><code>nim</code></td></tr>
+      <tr><td><code>nix</code></td><td><code>nix</code></td></tr>
+      <tr><td><code>nsis</code></td><td><code>nsis</code></td></tr>
+      <tr><td><code>objectivec</code></td><td><code>objc</code> and <code>objectivec</code></td></tr>
+      <tr><td><code>ocaml</code></td><td><code>ocaml</code></td></tr>
+      <tr><td><code>odin</code></td><td><code>odin</code></td></tr>
+      <tr><td><code>opencl</code></td><td><code>opencl</code></td></tr>
+      <tr><td><code>openqasm</code></td><td><code>qasm</code> and <code>openqasm</code></td></tr>
+      <tr><td><code>parigp</code></td><td><code>parigp</code></td></tr>
+      <tr><td><code>oz</code></td><td><code>oz</code></td></tr>
+      <tr><td><code>parser</code></td><td><code>parser</code></td></tr>
+      <tr><td><code>peoplecode</code></td><td><code>pcode</code> and <code>peoplecode</code></td></tr>
+      <tr><td><code>pascal</code></td><td><code>pascaligo</code>, <code>objectpascal</code> and <code>pascal</code></td></tr>
+      <tr><td><code>plant-uml</code></td><td><code>plantuml</code> and <code>plant-uml</code></td></tr>
+      <tr><td><code>perl</code></td><td><code>perl</code></td></tr>
+      <tr><td><code>php</code></td><td><code>php</code></td></tr>
+      <tr><td><code>processing</code></td><td><code>processing</code></td></tr>
+      <tr><td><code>prolog</code></td><td><code>prolog</code></td></tr>
+      <tr><td><code>powerquery</code></td><td><code>mscript</code>, <code>pq</code> and <code>powerquery</code></td></tr>
+      <tr><td><code>powershell</code></td><td><code>powershell</code></td></tr>
+      <tr><td><code>promql</code></td><td><code>promql</code></td></tr>
+      <tr><td><code>properties</code></td><td><code>properties</code></td></tr>
+      <tr><td><code>psl</code></td><td><code>psl</code></td></tr>
+      <tr><td><code>protobuf</code></td><td><code>protobuf</code></td></tr>
+      <tr><td><code>pug</code></td><td><code>pug</code></td></tr>
+      <tr><td><code>puppet</code></td><td><code>puppet</code></td></tr>
+      <tr><td><code>pure</code></td><td><code>pure</code></td></tr>
+      <tr><td><code>purebasic</code></td><td><code>pbfasm</code> and <code>purebasic</code></td></tr>
+      <tr><td><code>python</code></td><td><code>rpy</code>, <code>renpy</code>, <code>py</code> and <code>python</code></td></tr>
+      <tr><td><code>qml</code></td><td><code>qml</code></td></tr>
+      <tr><td><code>q</code></td><td><code>q</code></td></tr>
+      <tr><td><code>qore</code></td><td><code>qore</code></td></tr>
+      <tr><td><code>qsharp</code></td><td><code>qs</code> and <code>qsharp</code></td></tr>
+      <tr><td><code>r</code></td><td><code>r</code></td></tr>
+      <tr><td><code>reason</code></td><td><code>reason</code></td></tr>
+      <tr><td><code>rescript</code></td><td><code>res</code> and <code>rescript</code></td></tr>
+      <tr><td><code>rego</code></td><td><code>rego</code></td></tr>
+      <tr><td><code>rest</code></td><td><code>rest</code></td></tr>
+      <tr><td><code>rip</code></td><td><code>rip</code></td></tr>
+      <tr><td><code>roboconf</code></td><td><code>roboconf</code></td></tr>
+      <tr><td><code>robotframework</code></td><td><code>robot</code> and <code>robotframework</code></td></tr>
+      <tr><td><code>ruby</code></td><td><code>crystal</code>, <code>rb</code> and <code>ruby</code></td></tr>
+      <tr><td><code>rust</code></td><td><code>rust</code></td></tr>
+      <tr><td><code>sas</code></td><td><code>sas</code></td></tr>
+      <tr><td><code>scala</code></td><td><code>scala</code></td></tr>
+      <tr><td><code>scheme</code></td><td><code>racket</code> and <code>scheme</code></td></tr>
+      <tr><td><code>smali</code></td><td><code>smali</code></td></tr>
+      <tr><td><code>smalltalk</code></td><td><code>smalltalk</code></td></tr>
+      <tr><td><code>smarty</code></td><td><code>smarty</code></td></tr>
+      <tr><td><code>sml</code></td><td><code>smlnj</code> and <code>sml</code></td></tr>
+      <tr><td><code>solidity</code></td><td><code>sol</code> and <code>solidity</code></td></tr>
+      <tr><td><code>solution-file</code></td><td><code>sln</code> and <code>solution-file</code></td></tr>
+      <tr><td><code>soy</code></td><td><code>soy</code></td></tr>
+      <tr><td><code>splunk-spl</code></td><td><code>splunk-spl</code></td></tr>
+      <tr><td><code>sqf</code></td><td><code>sqf</code></td></tr>
+      <tr><td><code>sql</code></td><td><code>plsql</code> and <code>sql</code></td></tr>
+      <tr><td><code>squirrel</code></td><td><code>squirrel</code></td></tr>
+      <tr><td><code>stan</code></td><td><code>stan</code></td></tr>
+      <tr><td><code>stata</code></td><td><code>stata</code></td></tr>
+      <tr><td><code>stylus</code></td><td><code>stylus</code></td></tr>
+      <tr><td><code>supercollider</code></td><td><code>sclang</code> and <code>supercollider</code></td></tr>
+      <tr><td><code>swift</code></td><td><code>swift</code></td></tr>
+      <tr><td><code>systemd</code></td><td><code>systemd</code></td></tr>
+      <tr><td><code>tcl</code></td><td><code>tcl</code></td></tr>
+      <tr><td><code>textile</code></td><td><code>textile</code></td></tr>
+      <tr><td><code>toml</code></td><td><code>toml</code></td></tr>
+      <tr><td><code>tremor</code></td><td><code>trickle</code>, <code>troy</code> and <code>tremor</code></td></tr>
+      <tr><td><code>tt2</code></td><td><code>tt2</code></td></tr>
+      <tr><td><code>turtle</code></td><td><code>rq</code>, <code>sparql</code>, <code>trig</code> and <code>turtle</code></td></tr>
+      <tr><td><code>twig</code></td><td><code>twig</code></td></tr>
+      <tr><td><code>typoscript</code></td><td><code>tsconfig</code> and <code>typoscript</code></td></tr>
+      <tr><td><code>unrealscript</code></td><td><code>uc</code>, <code>uscript</code> and <code>unrealscript</code></td></tr>
+      <tr><td><code>v</code></td><td><code>v</code></td></tr>
+      <tr><td><code>uorazor</code></td><td><code>uorazor</code></td></tr>
+      <tr><td><code>vala</code></td><td><code>vala</code></td></tr>
+      <tr><td><code>verilog</code></td><td><code>verilog</code></td></tr>
+      <tr><td><code>velocity</code></td><td><code>velocity</code></td></tr>
+      <tr><td><code>vhdl</code></td><td><code>vhdl</code></td></tr>
+      <tr><td><code>vim</code></td><td><code>vim</code></td></tr>
+      <tr><td><code>visual-basic</code></td><td><code>vba</code>, <code>vb</code> and <code>visual-basic</code></td></tr>
+      <tr><td><code>warpscript</code></td><td><code>warpscript</code></td></tr>
+      <tr><td><code>web-idl</code></td><td><code>webidl</code> and <code>web-idl</code></td></tr>
+      <tr><td><code>wasm</code></td><td><code>wasm</code></td></tr>
+      <tr><td><code>wgsl</code></td><td><code>wgsl</code></td></tr>
+      <tr><td><code>wiki</code></td><td><code>wiki</code></td></tr>
+      <tr><td><code>wolfram</code></td><td><code>nb</code>, <code>wl</code>, <code>mathematica</code> and <code>wolfram</code></td></tr>
+      <tr><td><code>wren</code></td><td><code>wren</code></td></tr>
+      <tr><td><code>xeora</code></td><td><code>xeora</code></td></tr>
+      <tr><td><code>xml</code></td><td><code>xml</code>, <code>ssml</code>, <code>atom</code>, <code>rss</code>, <code>mathml</code> and <code>svg</code></td></tr>
+      <tr><td><code>xojo</code></td><td><code>xojo</code></td></tr>
+      <tr><td><code>xquery</code></td><td><code>xquery</code></td></tr>
+      <tr><td><code>yaml</code></td><td><code>yml</code> and <code>yaml</code></td></tr>
+    </tbody>
+  </table>
+</details>
+
+### Adding your own
 
 ```javascript
 import { languageMap } from "prism-code-editor"
