@@ -120,10 +120,9 @@ const insertText = (
 				newCursorEnd ?? newCursorStart,
 				(<InputSelection>prevSelection)[2],
 			)
-			prevSelection = 0
 			removeListener()
 		})
-	} else prevSelection = 0
+	}
 
 	// Only Safari dispatches a beforeinput event
 	isWebKit || textarea.dispatchEvent(new InputEvent("beforeinput", { data: text }))
@@ -145,6 +144,8 @@ const insertText = (
 		)
 		if (avoidBug) textarea.selectionStart++
 	} else document.execCommand(text ? "insertText" : "delete", false, text)
+
+	prevSelection = 0
 }
 
 /**
