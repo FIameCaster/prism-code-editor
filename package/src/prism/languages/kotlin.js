@@ -30,7 +30,7 @@ interpolationInside.expression.inside = languages.kts = languages.kt = languages
 			alias: 'singleline',
 			inside: {
 				'interpolation': {
-					pattern: /((?:^|[^\\])(?:\\{2})*)\$(?:[a-z_]\w*|\{[^{}]*\})/i,
+					pattern: /((?:^|[^\\])(?:\\\\)*)\$(?:[a-z_]\w*|\{[^{}]*\})/i,
 					lookbehind: true,
 					inside: interpolationInside
 				},

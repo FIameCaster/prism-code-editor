@@ -4,19 +4,19 @@ import { boolean } from '../utils/shared.js';
 languages.graphql = {
 	'comment': /#.*/,
 	'description': {
-		pattern: /(?:"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\\n"])*")(?=\s*[a-z_])/gi,
+		pattern: /(?:"""[\s\S]*?"""|"(?:\\.|[^\\\n"])*")(?=\s*[a-z_])/gi,
 		greedy: true,
 		alias: 'string',
 		inside: {
 			'language-markdown': {
-				pattern: /(^"(?:"")?)(?!\1)[\s\S]+(?=\1$)/,
+				pattern: /("(?!")|""")[\s\S]+(?=\1)/,
 				lookbehind: true,
 				inside: 'md'
 			}
 		}
 	},
 	'string': {
-		pattern: /"""(?:[^"]|(?!""")")*"""|"(?:\\.|[^\\\n"])*"/g,
+		pattern: /"""[\s\S]*?"""|"(?:\\.|[^\\\n"])*"/g,
 		greedy: true
 	},
 	'number': /(?:\B-|\b)\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,

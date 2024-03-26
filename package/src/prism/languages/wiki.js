@@ -31,7 +31,7 @@ insertBefore(
 					pattern: /(''')[^'].*(?=\1)/,
 					lookbehind: true
 				},
-				'italic': /(?!').+(?='')/,
+				'italic': /[^'].*(?='')/,
 				'punctuation': /.+/
 			}
 		},

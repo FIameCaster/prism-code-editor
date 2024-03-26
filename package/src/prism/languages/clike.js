@@ -15,6 +15,6 @@ languages.clike = {
 	'boolean': boolean,
 	'function': /\b\w+(?=\()/,
 	'number': clikeNumber,
-	'operator': /[<>]=?|[!=]=?=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,
+	'operator': /[!=]==|[!=<>]=?|--?|\+\+?|&&?|\|\|?|[?*/~^%]/,
 	'punctuation': clikePunctuation
 };

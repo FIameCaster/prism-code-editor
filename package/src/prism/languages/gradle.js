@@ -7,7 +7,7 @@ var expression = {
 }
 
 var interpolation = {
-	pattern: /((?:^|[^\\$])(?:\\{2})*)\$(?:\w+|\{[^{}]*\})/,
+	pattern: /((?:^|[^\\$])(?:\\\\)*)\$(?:\w+|\{[^{}]*\})/,
 	lookbehind: true,
 	inside: {
 		'interpolation-punctuation': {

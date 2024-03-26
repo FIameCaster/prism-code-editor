@@ -7,7 +7,7 @@ import './typescript.js';
 
 var javascript = languages.js;
 
-var type = /\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})+\}/.source;
+var type = /\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/.source;
 var parameterPrefix = `(@(?:arg|argument|param|property)\\s+(?:${type}\\s+)?)`;
 
 insertBefore(
@@ -68,7 +68,7 @@ insertBefore(
 			lookbehind: true,
 			inside: {
 				'code': {
-					pattern: /^([ \t]*(?:\*[ \t]*|(?!\*)))\S.*$/m,
+					pattern: /^([ \t]*(?:\*[ \t]*|(?!\*)))\S.*/m,
 					lookbehind: true,
 					inside: javascript,
 					alias: 'language-javascript'

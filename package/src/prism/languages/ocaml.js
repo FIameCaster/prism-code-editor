@@ -4,24 +4,15 @@ import { boolean } from '../utils/shared.js';
 // https://ocaml.org/manual/lex.html
 
 languages.ocaml = {
-	'comment': {
-		pattern: /\(\*[\s\S]*?\*\)/g,
-		greedy: true
-	},
+	'comment': /\(\*[\s\S]*?\*\)/,
 	'char': {
 		pattern: /'(?:[^\\\n']|\\(?:.|[ox]?[a-f\d]{1,3}))'/gi,
 		greedy: true
 	},
-	'string': [
-		{
-			pattern: /"(?:\\[\s\S]|[^\\\n"])*"/g,
-			greedy: true
-		},
-		{
-			pattern: /\{([a-z_]*)\|[\s\S]*?\|\1\}/g,
-			greedy: true
-		}
-	],
+	'string': {
+		pattern: /"(?:\\[\s\S]|[^\\\n"])*"|\{([a-z_]*)\|[\s\S]*?\|\1\}/g,
+		greedy: true
+	},
 	'number': [
 		// binary and octal
 		/\b(?:0b[01][01_]*|0o[0-7][0-7_]*)\b/i,

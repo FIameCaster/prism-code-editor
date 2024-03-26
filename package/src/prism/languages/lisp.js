@@ -135,7 +135,7 @@ var language = {
 	},
 	'punctuation': [
 		// open paren, brackets, and close paren
-		/(?:['`,]?\(|[)[\]])/,
+		/['`,]\(|[()[\]]/,
 		// cons
 		{
 			pattern: /(\s)\.(?!\S)/,
@@ -185,7 +185,6 @@ var arglist = {
 };
 
 language['lambda'].inside.arguments = arglist;
-language['defun'].inside.arguments = clone(arglist);
-language['defun'].inside.arguments.inside.sublist = arglist;
+(language['defun'].inside.arguments = clone(arglist)).inside.sublist = arglist;
 
 languages['emacs-lisp'] = languages.emacs = languages.elisp = languages.lisp = language;

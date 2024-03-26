@@ -12,7 +12,7 @@ var inside = {
 };
 
 inside.inside = languages.ly = languages.lilypond = {
-	'comment': /%(?:(?!\{).*|\{[\s\S]*?%\})/,
+	'comment': /%\{[\s\S]*?%\}|%.*/,
 	'embedded-scheme': {
 		pattern: re(/(^|[=\s])#(?:"(?:\\.|[^\\"])*"|[^\s()"]*(?:[^\s()]|<0>))/.source, [schemeExpression], 'mg'),
 		lookbehind: true,

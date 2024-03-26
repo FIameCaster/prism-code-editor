@@ -1,6 +1,13 @@
 import { languages, rest } from '../core.js';
 
-var elixir = languages.elixir = {
+var interpolationInside = {
+	'delimiter': {
+		pattern: /^#\{|\}$/,
+		alias: 'punctuation'
+	}
+};
+
+interpolationInside[rest] = languages.elixir = {
 	'doc': {
 		pattern: /@(?:doc|moduledoc)\s+(?:("""|''')[\s\S]*?\1|(["'])(?:\\[\s\S]|(?!\2)[^\\\n])*\2)/,
 		inside: {
@@ -17,22 +24,17 @@ var elixir = languages.elixir = {
 		pattern: /~[rR](?:("""|''')(?:\\[\s\S]|(?!\1)[^\\])+\1|([/|"'])(?:\\.|(?!\2)[^\\\n])+\2|\((?:\\.|[^\\)\n])+\)|\[(?:\\.|[^\\\]\n])+\]|\{(?:\\.|[^\\}\n])+\}|<(?:\\.|[^\\>\n])+>)[uismxfr]*/g,
 		greedy: true
 	},
-	'string': [
-		{
-			// ~s"""foo""" (multi-line), ~s'''foo''' (multi-line), ~s/foo/, ~s|foo|, ~s"foo", ~s'foo', ~s(foo), ~s[foo], ~s{foo} (with interpolation care), ~s<foo>
-			pattern: /~[cCsSwW](?:("""|''')(?:\\[\s\S]|(?!\1)[^\\])+\1|([/|"'])(?:\\.|(?!\2)[^\\\n])+\2|\((?:\\.|[^\\)\n])+\)|\[(?:\\.|[^\\\]\n])+\]|\{(?:\\.|#\{[^}]+\}|#(?!\{)|[^#\\}\n])+\}|<(?:\\.|[^\\>\n])+>)[csa]?/g,
-			greedy: true
-		},
-		{
-			pattern: /("""|''')[\s\S]*?\1/g,
-			greedy: true
-		},
-		{
-			// Multi-line strings are allowed
-			pattern: /(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/g,
-			greedy: true
+	'string': {
+		// ~s"""foo""" (multi-line), ~s'''foo''' (multi-line), ~s/foo/, ~s|foo|, ~s"foo", ~s'foo', ~s(foo), ~s[foo], ~s{foo} (with interpolation care), ~s<foo>
+		pattern: /~[cCsSwW](?:("""|''')(?:\\[\s\S]|(?!\1)[^\\])+\1|([/|"'])(?:\\.|(?!\2)[^\\\n])+\2|\((?:\\.|[^\\)\n])+\)|\[(?:\\.|[^\\\]\n])+\]|\{(?:\\.|#\{[^}]+\}|#(?!\{)|[^#\\}\n])+\}|<(?:\\.|[^\\>\n])+>)[csa]?|("""|''')[\s\S]*?\3|(["'])(?:\\[\s\S]|(?!\4)[^\\\n])*\4/g,
+		greedy: true,
+		inside: {
+			'interpolation': {
+				pattern: /#\{[^}]+\}/,
+				inside: interpolationInside
+			}
 		}
-	],
+	},
 	'atom': {
 		// Look-behind prevents bad highlighting of the :: operator
 		pattern: /(^|[^:]):\w+/,
@@ -72,20 +74,5 @@ var elixir = languages.elixir = {
 			lookbehind: true
 		}
 	],
-	'punctuation': /<<|>>|[.,%()[\]{}]/
+	'punctuation': /<<|>>|[()[\]{}.,%]/
 };
-
-elixir.string.forEach(o => {
-	o.inside = {
-		'interpolation': {
-			pattern: /#\{[^}]+\}/,
-			inside: {
-				'delimiter': {
-					pattern: /^#\{|\}$/,
-					alias: 'punctuation'
-				},
-				[rest]: elixir
-			}
-		}
-	};
-});

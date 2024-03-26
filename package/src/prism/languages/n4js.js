@@ -15,5 +15,3 @@ insertBefore(
 		}
 	}
 );
-
-languages.n4js;

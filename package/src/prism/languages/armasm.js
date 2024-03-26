@@ -10,7 +10,7 @@ languages['arm-asm'] = languages.armasm = {
 		greedy: true,
 		inside: {
 			'variable': {
-				pattern: /((?:^|[^$])(?:\${2})*)\$\w+/,
+				pattern: /((?:^|[^$])(?:\$\$)*)\$\w+/,
 				lookbehind: true
 			}
 		}

@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 
 languages.apl = {
-	'comment': /(?:⍝|#[! ]).*$/m,
+	'comment': /(?:⍝|#[! ]).*/,
 	'string': {
 		pattern: /'(?:[^\n']|'')*'/g,
 		greedy: true

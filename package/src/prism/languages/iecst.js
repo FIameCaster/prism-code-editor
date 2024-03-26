@@ -2,10 +2,7 @@ import { languages } from '../core.js';
 import { clikeString } from '../utils/shared.js';
 
 languages.iecst = {
-	'comment': {
-		pattern: /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)|\(\*[\s\S]*?(?:\*\)|$)|\{[^}]*}?/g,
-		greedy: true,
-	},
+	'comment': /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)|\(\*[\s\S]*?(?:\*\)|$)|\{[^}]*}?/g,
 	'string': clikeString(),
 	'keyword': [
 		/\b(?:end_)?(?:program|configuration|interface|function_block|function|action|transition|type|struct|(?:initial_)?step|namespace|library|channel|folder|resource|var_(?:access|config|external|global|input|in_out|output|temp)|var|method|property)\b/i,

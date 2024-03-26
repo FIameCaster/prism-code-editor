@@ -58,7 +58,7 @@ languages.log = {
 		alias: 'comment'
 	},
 
-	'url': /\b(?:file|ftp|https?):\/\/[^\s|,;'"]*[^\s|,;'">.]/,
+	'url': /\b(?:file|ftp|https?):\/\/[^\s|,;"']*[^\s|,;"'>.]/,
 	'email': {
 		pattern: /(^|\s)[-\w+.]+@[a-z][a-z\d-]*(?:\.[a-z][a-z\d-]*)+(?!\S)/,
 		lookbehind: true,
@@ -96,11 +96,11 @@ languages.log = {
 	},
 
 	'date': {
-		pattern: /\b\d{4}[-/]\d{2}[-/]\d{2}(?:t(?=\d{1,2}:)|(?=\s\d{1,2}:))|\b\d{1,4}[-/ ](?:\d{1,2}|apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)[-/ ]\d{2,4}t?\b|\b(?:(?:fri|mon|sat|sun|thu|tue|wed)(?:\s{1,2}(?:apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep))?|apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)\s{1,2}\d{1,2}\b/i,
+		pattern: /\b\d{4}[-/]\d\d[-/]\d\d(?:t(?=\d\d?:)|(?=\s\d\d?:))|\b\d{1,4}[-/ ](?:\d\d?|apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)[-/ ]\d{2,4}t?\b|\b(?:(?:fri|mon|sat|sun|thu|tue|wed)(?:\s\s?(?:apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep))?|apr|aug|dec|feb|jan|jul|jun|mar|may|nov|oct|sep)\s\s?\d\d?\b/i,
 		alias: 'number'
 	},
 	'time': {
-		pattern: /\b\d{1,2}:\d{1,2}:\d{1,2}(?:[.,:]\d+)?(?:\s?[+-]\d{2}:?\d{2}|Z)?\b/,
+		pattern: /\b\d\d?:\d\d?:\d\d?(?:[.,:]\d+)?(?:\s?[+-]\d\d:?\d\d|Z)?\b/,
 		alias: 'number'
 	},
 

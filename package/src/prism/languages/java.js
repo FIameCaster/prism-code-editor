@@ -33,7 +33,7 @@ languages.java = {
 	'comment': clikeComment(),
 	'triple-quoted-string': {
 		// http://openjdk.java.net/jeps/355#Description
-		pattern: /"""[ \t]*\n(?:"?"?(?:\\.|[^\\"]))*"""/g,
+		pattern: /"""[ \t]*\n(?:\\.|[^\\])*?"""/g,
 		greedy: true,
 		alias: 'string'
 	},

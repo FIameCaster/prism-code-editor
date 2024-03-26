@@ -16,7 +16,7 @@ languages['splunk-spl'] = {
 	'property': /\b\w+(?=\s*=(?!=))/,
 	'date': {
 		// MM/DD/YYYY(:HH:MM:SS)?
-		pattern: /\b\d{1,2}\/\d{1,2}\/\d{1,4}(?:(?::\d{1,2}){3})?\b/,
+		pattern: /\b\d\d?\/\d\d?\/\d{1,4}(?:(?::\d\d?){3})?\b/,
 		alias: 'number'
 	},
 	'number': /\b\d+(?:\.\d+)?\b/,

@@ -20,7 +20,7 @@ var createT4 = insideLang => ({
 		inside: {
 			'directive': createBlock('@', {
 				'attr-value': {
-					pattern: /=(?:(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s'">=]+)/,
+					pattern: /=(?:(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1|[^\s"'=>]+)/,
 					inside: {
 						'punctuation': /^[="']|["']$/
 					}

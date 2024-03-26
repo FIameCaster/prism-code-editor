@@ -22,7 +22,7 @@ languages.maxscript = {
 	'function-call': {
 		pattern: RegExp(`((?:^|[;=<>+\\-*/^({\\[]|\\b(?:and|by|case|catch|collect|do|else|if|in|not|or|return|then|to|try|where|while|with)\\b)[ \t]*)(?!${
 			keywords.source
-		})[a-z_]\\w*\\b(?=[ \t]*(?:(?!${keywords.source})[a-z_]|\\d|-\\.?\\d|[({'"$@#?]))`, 'img'),
+		})[a-z_]\\w*\\b(?=[ \t]*(?:(?!${keywords.source})[a-z_]|\\d|-\\.?\\d|[({"'$@#?]))`, 'img'),
 		lookbehind: true,
 		greedy: true,
 		alias: 'function'

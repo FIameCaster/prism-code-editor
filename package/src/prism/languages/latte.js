@@ -7,7 +7,8 @@ import './php.js';
 var markupLatte = clone(languages.html);
 insertBefore(markupLatte.tag.inside, 'attr-value', {
 	'n-attr': {
-		pattern: /n:[\w-]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+))?/,
+		pattern: /n:[\w-]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'=>]+))?/g,
+		greedy: true,
 		inside: {
 			'attr-value': {
 				pattern: /(=\s*)[\s\S]+/,
@@ -31,7 +32,7 @@ insertBefore(markupLatte.tag.inside, 'attr-value', {
 
 languages.latte = {
 	'latte': {
-		pattern: /\{\*[\s\S]*?\*\}|\{[^'"\s{}*](?:[^"'/{}]|\/(?![*/])|(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1|\/\*(?:[^*]|\*(?!\/))*\*\/)*\}/,
+		pattern: /\{\*[\s\S]*?\*\}|\{[^\s{}"'*](?:[^"'/{}]|\/(?![*/])|(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1|\/\*(?:[^*]|\*(?!\/))*\*\/)*\}/,
 		alias: 'language-latte',
 		inside: {
 			'comment': /^\{\*[\s\S]+/,

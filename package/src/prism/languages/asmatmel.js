@@ -3,10 +3,7 @@ import { languages } from '../core.js';
 var opCodes = 'ad[cd]|adiw|andi?|asr|bclr|bld|br[bchtv][cs]|break|breq|br[gin]e|brid|brl[ot]|brmi|brpl|brsh|bse?t|cb[ir]|cl[chinrstvz]|com|cp[ci]?|cpse|de[cs]|eicall|eijmp|e?lpm|eor|f?mul|f?mulsu?|[ir]?call|[ir]?jmp|inc?|la[cst]|ld[a-z0-9]?|ls[lr]|movw?|neg|nop|ori?|out|pop|push|reti?|rol|ror|sbci?|sbi[csw]?|sbr[cs]?|se[chinrstvz]|sleep|spm|st[a-z0-9]?|subi?|swap|tst|wdr|xch';
 
 languages.asmatmel = {
-	'comment': {
-		pattern: /;.*/g,
-		greedy: true
-	},
+	'comment': /;.*/,
 	'string': {
 		pattern: /(["'`])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true

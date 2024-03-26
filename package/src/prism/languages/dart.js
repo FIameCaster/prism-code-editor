@@ -27,7 +27,7 @@ languages.dart = {
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\{2})*)\$(?:\w+|\{(?:[^{}]|\{[^{}]*\})*\})/,
+				pattern: /((?:^|[^\\])(?:\\\\)*)\$(?:\w+|\{(?:[^{}]|\{[^}]*\})*\})/,
 				lookbehind: true,
 				inside: {
 					'punctuation': /^\$\{?|\}$/,

@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 
-languages['visual-basic'] = {
+languages.vba = languages.vb = languages['visual-basic'] = {
 	'comment': {
 		pattern: /(?:['‘’]|rem\b)(?:[^\n_]|_\n?)*/i,
 		inside: {
@@ -26,6 +26,3 @@ languages['visual-basic'] = {
 	'operator': /[\\#@$%&^!=<>/*+-]|\b_(?=[ \t]*\n)/,
 	'punctuation': /[(){}.,:?]/
 };
-
-languages.vb = languages['visual-basic'];
-languages.vba = languages['visual-basic'];

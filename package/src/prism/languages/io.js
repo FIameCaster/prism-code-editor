@@ -7,7 +7,7 @@ languages.io = {
 		greedy: true
 	},
 	'triple-quoted-string': {
-		pattern: /"""(?:\\[\s\S]|(?!""")[^\\])*"""/g,
+		pattern: /"""(?:\\[\s\S]|[^\\])*?"""/g,
 		greedy: true,
 		alias: 'string'
 	},

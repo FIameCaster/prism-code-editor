@@ -48,7 +48,7 @@ languages.yml = languages.yaml = {
 		alias: 'important'
 	},
 	'datetime': {
-		pattern: createValuePattern(/\d{4}-\d\d?-\d\d?(?:[tT]|[ \t]+)\d\d?:\d{2}:\d{2}(?:\.\d*)?(?:[ \t]*(?:Z|[+-]\d\d?(?::\d{2})?))?|\d{4}-\d{2}-\d{2}|\d\d?:\d{2}(?::\d{2}(?:\.\d*)?)?/.source, 'm'),
+		pattern: createValuePattern(/\d{4}-\d\d?-\d\d?(?:[tT]|[ \t]+)\d\d?:\d\d:\d\d(?:\.\d*)?(?:[ \t]*(?:Z|[+-]\d\d?(?::\d\d)?))?|\d{4}-\d\d-\d\d|\d\d?:\d\d(?::\d\d(?:\.\d*)?)?/.source, 'm'),
 		lookbehind: true,
 		alias: 'number'
 	},

@@ -67,7 +67,7 @@ insertBefore(mongodb, 'string', {
 		pattern: /(?:(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1|(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+)(?=\s*:)/g,
 		greedy: true,
 		inside: {
-			'keyword': RegExp('^([\'"])?' + operatorsSource + '(?:\\1)?$')
+			'keyword': RegExp(`^(["'])?` + operatorsSource + '(?:\\1)?$')
 		}
 	}
 });

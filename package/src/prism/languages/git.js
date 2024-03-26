@@ -29,7 +29,7 @@ languages.git = {
 	 * $ git add file.txt
 	 */
 	'command': {
-		pattern: /^.*\$ git .*$/m,
+		pattern: /^.*\$ git .*/m,
 		inside: {
 			/*
 			 * A git command can contain a parameter starting by a single or a double dash followed by a string

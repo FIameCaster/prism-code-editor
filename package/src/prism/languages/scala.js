@@ -20,7 +20,7 @@ var scala = languages.scala = extend('java', {
 
 insertBefore(scala, 'triple-quoted-string', {
 	'string-interpolation': {
-		pattern: /\b[a-z]\w*(?:"""(?:[^$]|\$(?:[^{]|\{(?:[^{}]|\{[^{}]*\})*\}))*?"""|"(?:[^$"\n]|\$(?:[^{]|\{(?:[^{}]|\{[^{}]*\})*\}))*")/ig,
+		pattern: /\b[a-z]\w*(?:"""(?:[^$]|\$(?:[^{]|\{(?:[^{}]|\{[^}]*\})*\}))*?"""|"(?:[^$"\n]|\$(?:[^{]|\{(?:[^{}]|\{[^}]*\})*\}))*")/ig,
 		greedy: true,
 		inside: {
 			'id': {
@@ -34,7 +34,7 @@ insertBefore(scala, 'triple-quoted-string', {
 				alias: 'symbol'
 			},
 			'interpolation': {
-				pattern: /\$(?:\w+|\{(?:[^{}]|\{[^{}]*\})*\})/g,
+				pattern: /\$(?:\w+|\{(?:[^{}]|\{[^}]*\})*\})/g,
 				greedy: true,
 				inside: {
 					'punctuation': /^\$\{?|\}$/,

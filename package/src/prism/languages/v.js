@@ -7,7 +7,7 @@ var interpolationExpr = {
 };
 
 var generic = {
-	'punctuation': /[<>]/,
+	'punctuation': /<|>/,
 	'class-name': /\w+/
 };
 
@@ -18,7 +18,7 @@ var v = interpolationExpr.inside = languages.v = extend('clike', {
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\{2})*)\$(?:\{[^{}]*\}|\w+(?:\.\w+(?:\([^\(\)]*\))?|\[[^[\]]+\])*)/,
+				pattern: /((?:^|[^\\])(?:\\\\)*)\$(?:\{[^{}]*\}|\w+(?:\.\w+(?:\([^\(\)]*\))?|\[[^[\]]+\])*)/,
 				lookbehind: true,
 				inside: {
 					'interpolation-variable': {

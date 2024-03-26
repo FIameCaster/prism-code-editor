@@ -2,7 +2,7 @@ import { languages } from '../core.js';
 
 languages.monkey = {
 	'comment': {
-		pattern: /^#Rem\s[\s\S]*?^#End|'.+/img,
+		pattern: /^#rem\s[\s\S]*?^#end|'.+/img,
 		greedy: true
 	},
 	'string': {

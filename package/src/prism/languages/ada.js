@@ -13,5 +13,5 @@ languages.ada = {
 	'operator': /<[=>]?|>=?|=>?|:=|\/=?|\*\*?|[&+-]/,
 	'punctuation': /\.\.?|[(),:;]/,
 	'char': /'.'/,
-	'variable': /\b[a-z](?:\w)*\b/i
+	'variable': /\b[a-z]\w*/i
 };

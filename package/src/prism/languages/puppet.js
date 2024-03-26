@@ -4,7 +4,7 @@ import { boolean } from '../utils/shared.js';
 var interpolation = [
 	{
 		// Allow for one nested level of braces inside interpolation
-		pattern: /(^|[^\\])\$\{(?:[^'"{}]|\{[^}]*\}|(["'])(?:\\[\s\S]|(?!\2)[^\\])*\2)+\}/,
+		pattern: /(^|[^\\])\$\{(?:[^{}"']|\{[^}]*\}|(["'])(?:\\[\s\S]|(?!\2)[^\\])*\2)+\}/,
 		lookbehind: true,
 		inside: {
 			'short-variable': {
@@ -92,7 +92,7 @@ interpolation[0].inside[rest] = languages.puppet = {
 	},
 	'string': {
 		// Allow for one nested level of double quotes inside interpolation
-		pattern: /(["'])(?:\$\{(?:[^'"}]|(["'])(?:\\[\s\S]|(?!\2)[^\\])*\2)+\}|\$(?!\{)|\\[\s\S]|(?!\1)[^\\$])*\1/g,
+		pattern: /(["'])(?:\$\{(?:[^}"']|(["'])(?:\\[\s\S]|(?!\2)[^\\])*\2)+\}|\$(?!\{)|\\[\s\S]|(?!\1)[^\\$])*\1/g,
 		greedy: true,
 		inside: {
 			'double-quoted': {

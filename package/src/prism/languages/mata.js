@@ -6,10 +6,7 @@ var type = /\bvoid\b|<org>|\b(?:complex|numeric|pointer(?:\s*\([^()]*\))?|real|s
 	.replace(/<org>/g, orgType);
 
 languages.mata = {
-	'comment': {
-		pattern: /\/\/.*|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\*\//g,
-		greedy: true
-	},
+	'comment': /\/\/.*|\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/)*\*\//,
 	'string': {
 		pattern: /"[^\n"]*"|[‘`']".*?"[’`']/g,
 		greedy: true

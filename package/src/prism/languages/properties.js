@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 
 languages.properties = {
-	'comment': /^[ \t]*[#!].*$/m,
+	'comment': /^[ \t]*[#!].*/m,
 	'value': {
 		pattern: /(^[ \t]*(?:\\[\s\S]|[^\\\s:=])+(?: *[=:] *(?! )| ))(?:\\[\s\S]|[^\\\n])+/m,
 		lookbehind: true,

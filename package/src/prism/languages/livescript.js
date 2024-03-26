@@ -3,10 +3,7 @@ import { languages, rest } from '../core.js';
 languages.livescript = {
 	'comment': /#.*|\/\*[\s\S]*?\*\//,
 	'interpolated-string': {
-		/* Look-behind and look-ahead prevents wrong behavior of the greedy pattern
-		* forcing it to match """-quoted string when it would otherwise match "-quoted first. */
-		pattern: /(^|[^"])("""|")(?:\\[\s\S]|(?!\2)[^\\])*\2(?!")/g,
-		lookbehind: true,
+		pattern: /"""(?:\\[\s\S]|[^\\])*?"""|"(?:\\[\s\S]|[^\\])*?"/g,
 		greedy: true,
 		inside: {
 			'variable': {
@@ -29,11 +26,7 @@ languages.livescript = {
 	},
 	'string': [
 		{
-			pattern: /('''|')(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
-			greedy: true
-		},
-		{
-			pattern: /<\[[\s\S]*?\]>/g,
+			pattern: /'''(?:\\[\s\S]|[^\\])*?'''|'(?:\\[\s\S]|[^\\])*?'|<\[[\s\S]*?\]>/g,
 			greedy: true
 		},
 		/\\[^\s,;\])}]+/

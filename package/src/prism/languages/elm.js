@@ -6,17 +6,11 @@ languages.elm = {
 		pattern: /'(?:[^\\\n']|\\(?:[abfnrtv\\']|\d+|x[a-fA-F\d]+|u\{[a-fA-F\d]+\}))'/g,
 		greedy: true
 	},
-	'string': [
-		{
-			// Multiline strings are wrapped in triple ". Quotes may appear unescaped.
-			pattern: /"""[\s\S]*?"""/g,
-			greedy: true
-		},
-		{
-			pattern: /"(?:\\.|[^\\\n"])*"/g,
-			greedy: true
-		}
-	],
+	'string': {
+		// Multiline strings are wrapped in triple ". Quotes may appear unescaped.
+		pattern: /"""[\s\S]*?"""|"(?:\\.|[^\\\n"])*"/g,
+		greedy: true
+	},
 	'import-statement': {
 		// The imported or hidden names are not included in this import
 		// statement. This is because we want to highlight those exactly like

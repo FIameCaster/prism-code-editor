@@ -8,10 +8,7 @@ var interpolation = {
 };
 
 interpolation.inside = languages.nix = {
-	'comment': {
-		pattern: /\/\*[\s\S]*?\*\/|#.*/g,
-		greedy: true
-	},
+	'comment': /\/\*[\s\S]*?\*\/|#.*/,
 	'string': {
 		pattern: /"(?:\\[\s\S]|[^\\"])*"|''(?:(?!'')[\s\S]|''(?:'|\\|\$\{))*''/g,
 		greedy: true,

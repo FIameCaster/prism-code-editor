@@ -1,13 +1,10 @@
 import { languages } from '../core.js';
 
 languages['ld'] = languages['linker-script'] = {
+	'identifier': /"[^\n"]*"/,
 	'comment': {
 		pattern: /(^|\s)\/\*[\s\S]*?(?:$|\*\/)/g,
 		lookbehind: true,
-		greedy: true
-	},
-	'identifier': {
-		pattern: /"[^\n"]*"/g,
 		greedy: true
 	},
 

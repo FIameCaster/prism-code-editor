@@ -25,7 +25,7 @@ var genericName = replace(/<0>(?:\s*<1>)?/.source, [name, generic]);
 var identifier = replace(/(?!<0>)<1>(?:\s*\.\s*<1>)*/.source, [nonTypeKeywords, genericName]);
 var array = /\[\s*(?:,\s*)*\]/.source;
 var typeExpressionWithoutTuple = replace(/<0>(?:\s*(?:\?\s*)?<1>)*(?:\s*\?)?/.source, [identifier, array]);
-var tupleElement = replace(/[^()[\],;<>=*/%&|^+-]|<0>|<1>|<2>/.source, [generic, nestedRound, array]);
+var tupleElement = replace(/[^()[\],;%&|^=<>/*+-]|<0>|<1>|<2>/.source, [generic, nestedRound, array]);
 var tuple = replace(/\(<0>+(?:,<0>+)+\)/.source, [tupleElement]);
 var typeExpression = replace(/(?:<0>|<1>)(?:\s*(?:\?\s*)?<2>)*(?:\s*\?)?/.source, [tuple, identifier, array]);
 
@@ -156,15 +156,15 @@ insertBefore(cs, 'class-name', {
 		// int this[int index] => 0; T IReadOnlyList<T>.this[int index] => this[index];
 		// int Foo => 0; int Foo { get; set } = 0;
 		pattern: re(/<0>(?=\s+(?:<1>\s*(?:=>|[({]|\.\s*this\s*\[)|this\s*\[))/.source, [typeExpression, identifier]),
-		inside: typeInside,
-		alias: 'class-name'
+		alias: 'class-name',
+		inside: typeInside
 	},
 	'constructor-invocation': {
 		// new List<Foo<Bar[]>> { }
 		pattern: re(/(\bnew\s+)<0>(?=\s*[[({])/.source, [typeExpression]),
 		lookbehind: true,
-		inside: typeInside,
-		alias: 'class-name'
+		alias: 'class-name',
+		inside: typeInside
 	},
 	/*'explicit-implementation': {
 		// int IFoo<Foo>.Bar => 0; void IFoo<Foo<Foo>>.Foo<T>();

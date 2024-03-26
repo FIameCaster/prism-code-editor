@@ -21,7 +21,7 @@ languages.perl = {
 	// TODO Could be nice to handle Heredoc too.
 	'string': {
 		pattern: RegExp(
-			`\\b(?:q|qq|qw|qx)${a}|${brackets})|("|\`)(?:\\\\[\\s\\S]|(?!\\3)[^\\\\])*\\3|'(?:\\\\.|[^\\\\\n'])*'`, 'g'
+			`\\bq[qwx]?${a}|${brackets})|("|\`)(?:\\\\[\\s\\S]|(?!\\3)[^\\\\])*\\3|'(?:\\\\.|[^\\\\\n'])*'`, 'g'
 		),
 		greedy: true
 	},

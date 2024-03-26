@@ -28,7 +28,7 @@ languages.mustache = languages.hbs = languages.handlebars = {
 					variable: /[\s\S]+/
 				}
 			},
-			'punctuation': /[%&|^!=<>/*+#'"()[\]{}.,:;@\\`~]/,
+			'punctuation': /[%&|^!=<>/*+#"'()[\]{}.,:;@\\`~]/,
 			'variable': /\S+/
 		}
 	},

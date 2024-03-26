@@ -3,10 +3,7 @@ import { languages } from '../core.js';
 // https://go.dev/ref/mod#go-mod-file-module
 
 languages['go-mod'] = languages['go-module'] = {
-	'comment': {
-		pattern: /\/\/.*/g,
-		greedy: true
-	},
+	'comment': /\/\/.*/,
 	'version': {
 		pattern: /(^|[\s()[\],])v\d+\.\d+\.\d+(?:[+-][\w.+-]*)?(?![^\s()[\],])/,
 		lookbehind: true,

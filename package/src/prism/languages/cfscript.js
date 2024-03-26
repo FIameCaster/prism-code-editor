@@ -5,8 +5,10 @@ import './clike.js';
 // https://cfdocs.org/script
 var cfc = languages.cfc = languages.cfscript = extend('clike', {
 	'comment': [
+		/\/\/.*/,
 		{
-			pattern: /\/\*[\s\S]*?(?:\*\/|$)/,
+			pattern: /\/\*[\s\S]*?(?:\*\/|$)/g,
+			greedy: true,
 			inside: {
 				'annotation': {
 					pattern: /(?:^|[^.])@[\w\.]+/,
@@ -14,10 +16,6 @@ var cfc = languages.cfc = languages.cfscript = extend('clike', {
 				}
 			}
 		},
-		{
-			pattern: /\/\/.*/g,
-			greedy: true
-		}
 	],
 	'keyword': /\b(?:abstract|break|catch|component|continue|default|do|else|extends|final|finally|for|function|if|in|include|package|private|property|public|remote|required|rethrow|return|static|switch|throw|try|var|while|xml)\b(?!\s*=)/,
 	'operator': /--|\+\+|&&|\|\||::|=>|[!=]==|[%&|^!=<>/*+-]=?|\?[.:]?|:|\b(?:and|contains|equal|eqv?|[gl]te?|imp|is|mod|not|x?or)\b/,

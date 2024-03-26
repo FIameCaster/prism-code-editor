@@ -2,10 +2,7 @@ import { languages } from '../core.js';
 
 // Copied from https://github.com/jeluard/prism-clojure
 languages.clojure = {
-	'comment': {
-		pattern: /;.*/g,
-		greedy: true
-	},
+	'comment': /;.*/,
 	'string': {
 		pattern: /"(?:\\.|[^\\"])*"/g,
 		greedy: true

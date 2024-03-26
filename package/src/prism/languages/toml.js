@@ -25,18 +25,11 @@ languages.toml = {
 		pattern: /"""(?:\\[\s\S]|[^\\])*?"""|'''[\s\S]*?'''|'[^\n']*'|"(?:\\.|[^\\\n"])*"/g,
 		greedy: true
 	},
-	'date': [
-		{
-			// Offset Date-Time, Local Date-Time, Local Date
-			pattern: /\b\d{4}-\d{2}-\d{2}(?:[t\s]\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:z|[+-]\d{2}:\d{2})?)?\b/i,
-			alias: 'number'
-		},
-		{
-			// Local Time
-			pattern: /\b\d{2}:\d{2}:\d{2}(?:\.\d+)?\b/,
-			alias: 'number'
-		}
-	],
+	'date': {
+		// Offset Date-Time, Local Date-Time, Local Date, Local Time
+		pattern: /\b(?:\d{4}-\d\d-\d\d(?:[t\s]\d\d:\d\d:\d\d(?:\.\d+)?(?:z|[+-]\d\d:\d\d)?)?|\d\d:\d\d:\d\d(?:\.\d+)?)\b/i,
+		alias: 'number'
+	},
 	'number': /(?:\b0(?:x[a-zA-Z\d]+(?:_[a-zA-Z\d]+)*|o[0-7]+(?:_[0-7]+)*|b[10]+(?:_[10]+)*))\b|[+-]?\b\d+(?:_\d+)*(?:\.\d+(?:_\d+)*)?(?:[eE][+-]?\d+(?:_\d+)*)?\b|[+-]?\b(?:inf|nan)\b/,
 	'boolean': boolean,
 	'punctuation': /[[\]{}.,=]/

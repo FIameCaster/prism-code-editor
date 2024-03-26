@@ -110,17 +110,16 @@ languages.nani = languages.naniscript = {
 				greedy: true,
 				alias: 'function',
 				inside: {
+					'start-stop-char': /[[\]]/,
 					'command-params': {
-						pattern: /(^\[[ \t]*\w+\b)[\s\S]+(?=\]$)/,
+						pattern: /(^[ \t]*\w+)[\s\S]+/,
 						lookbehind: true,
 						inside: params
 					},
 					'command-param-name': {
-						pattern: /^(\[[ \t]*)\w+/,
-						lookbehind: true,
+						pattern: /\w+/,
 						alias: 'name',
 					},
-					'start-stop-char': /[[\]]/,
 				}
 			}
 		}

@@ -29,7 +29,7 @@ languages.wren = {
 		inside: {
 			'interpolation': {
 				// "%(interpolation)"
-				pattern: /((?:^|[^\\])(?:\\{2})*)%\((?:[^()]|\((?:[^()]|\([^)]*\))*\))*\)/,
+				pattern: /((?:^|[^\\])(?:\\\\)*)%\((?:[^()]|\((?:[^()]|\([^)]*\))*\))*\)/,
 				lookbehind: true,
 				inside: {
 					'expression': {

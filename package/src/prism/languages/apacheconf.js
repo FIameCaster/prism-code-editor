@@ -10,7 +10,7 @@ languages.apacheconf = {
 		alias: 'property'
 	},
 	'directive-block': {
-		pattern: /<\/?\b(?:auth[nz]provideralias|(?:directory|files|location)(?:match)?|else|elseif|if|ifdefine|ifmodule|ifversion|limit|limitexcept||macro|proxy|require(?:all|any|none)|virtualhost)\b.*>/i,
+		pattern: /<\/?(?:auth[nz]provideralias|(?:directory|files|location)(?:match)?|else|elseif|if|ifdefine|ifmodule|ifversion|limit|limitexcept||macro|proxy|require(?:all|any|none)|virtualhost)\b.*>/i,
 		inside: {
 			'punctuation': /^<\/?|>$/,
 			'directive-block': {

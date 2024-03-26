@@ -24,12 +24,12 @@ var commentRule = {
 
 languages.dockerfile = languages.docker = {
 	'instruction': {
-		pattern: /(^[ \t]*)(?:ADD|ARG|CMD|COPY|ENTRYPOINT|ENV|EXPOSE|FROM|HEALTHCHECK|LABEL|MAINTAINER|ONBUILD|RUN|SHELL|STOPSIGNAL|USER|VOLUME|WORKDIR)(?=\s)(?:\\.|[^\\\n])*(?:\\$(?:\s|#.*$)*(?![\s#])(?:\\.|[^\\\n])*)*/img,
+		pattern: /(^[ \t]*)(?:add|arg|cmd|copy|entrypoint|env|expose|from|healthcheck|label|maintainer|onbuild|run|shell|stopsignal|user|volume|workdir)(?=\s)(?:\\.|[^\\\n])*(?:\\$(?:\s|#.*$)*(?![\s#])(?:\\.|[^\\\n])*)*/img,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'options': {
-				pattern: re(/(^(?:ONBUILD<0>)?\w+<0>)<1>(?:<0><1>)*/.source, [space, option], 'gi'),
+				pattern: re(/(^(?:onbuild<0>)?\w+<0>)<1>(?:<0><1>)*/.source, [space, option], 'gi'),
 				lookbehind: true,
 				greedy: true,
 				inside: {
@@ -51,19 +51,19 @@ languages.dockerfile = languages.docker = {
 			'keyword': [
 				{
 					// https://docs.docker.com/engine/reference/builder/#healthcheck
-					pattern: re(/(^(?:ONBUILD<0>)?HEALTHCHECK<0>(?:<1><0>)*)(?:CMD|NONE)\b/.source, [space, option], 'gi'),
+					pattern: re(/(^(?:onbuild<0>)?healthcheck<0>(?:<1><0>)*)(?:cmd|none)\b/.source, [space, option], 'gi'),
 					lookbehind: true,
 					greedy: true
 				},
 				{
 					// https://docs.docker.com/engine/reference/builder/#from
-					pattern: re(/(^(?:ONBUILD<0>)?FROM<0>(?:<1><0>)*(?!--)[^ \t\\]+<0>)AS/.source, [space, option], 'gi'),
+					pattern: re(/(^(?:onbuild<0>)?from<0>(?:<1><0>)*(?!--)[^ \t\\]+<0>)as/.source, [space, option], 'gi'),
 					lookbehind: true,
 					greedy: true
 				},
 				{
 					// https://docs.docker.com/engine/reference/builder/#onbuild
-					pattern: re(/(^ONBUILD<0>)\w+/.source, [space], 'gi'),
+					pattern: re(/(^onbuild<0>)\w+/.source, [space], 'gi'),
 					lookbehind: true,
 					greedy: true
 				},

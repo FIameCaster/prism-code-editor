@@ -1,10 +1,7 @@
 import { languages } from '../core.js';
 
 languages.j = {
-	'comment': {
-		pattern: /\bNB\..*/g,
-		greedy: true
-	},
+	'comment': /\bNB\..*/,
 	'string': {
 		pattern: /'(?:''|[^\n'])*'/g,
 		greedy: true

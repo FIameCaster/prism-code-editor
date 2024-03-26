@@ -243,7 +243,8 @@ var nestedPatterns = {};
 
 insertBefore(textile, 'markup-bracket', {
 	'phrase': {
-		pattern: /^\S[\s\S]*?(?:(?![\s\S])|(?=\n\n))/m,
+		pattern: /(^|\n)\S[\s\S]*?(?=$|\n\n)/,
+		lookbehind: true,
 		inside: phraseInside
 	}
 });
@@ -254,4 +255,4 @@ insertBefore(textile, 'markup-bracket', {
 ['inline', 'link', 'image', 'footnote', 'acronym', 'mark'].forEach(p => nestedPatterns[p] = phraseTableInside[p] = phraseInside[p]);
 
 // Only allow alpha-numeric HTML tags, not XML tags
-textile.tag.pattern = /<\/?(?!\d)[a-z\d]+(?:\s+[^\s/=>]+(?:=(?:"[^"]*"|'[^']'|[^\s'">=]+))?)*\s*\/?>/gi;
+textile.tag.pattern = /<\/?(?!\d)[a-z\d]+(?:\s+[^\s/=>]+(?:=(?:"[^"]*"|'[^']'|[^\s"'>=]+))?)*\s*\/?>/gi;

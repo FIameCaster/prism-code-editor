@@ -69,13 +69,13 @@ var walkTokens = (tokens, code, position) => {
 	for (var i = 0, openedTags = [], l = 0; i < tokens.length; i++) {
 		var token = tokens[i];
 		var length = token.length;
-		var content = token.content;
 		var type = token.type;
 		var notTagNorBrace = !type;
-		var last, tag, start, plainText;
+		var last, tag, start, plainText, content;
 
 		if (type && type != 'comment') {
-			if (type == 'tag' && code[position] == '<') {
+			content = token.content;
+			if (type == 'tag') {
 				// We found a tag, now find its kind
 				start = content[0].length;
 				tag = code.substr(position + start, content[1].length);

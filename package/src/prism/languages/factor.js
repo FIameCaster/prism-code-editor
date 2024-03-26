@@ -18,8 +18,8 @@ var factor = languages.factor = {
 		// /* comment */, /* comment*/
 		// ![[ comment ]] , ![===[ comment]===]
 		pattern: /(^|\s)(?:! .*|!$|\/\*\s[\s\S]*?\*\/(?!\S)|!\[(={0,6})\[\s[\s\S]*?\]\2\](?!\S))/g,
-		greedy: true,
 		lookbehind: true,
+		greedy: true,
 		inside: comment_inside
 	},
 	'number': {
@@ -226,7 +226,7 @@ var factor = languages.factor = {
 	},
 
 	'colon-syntax': {
-		pattern: /(^|\s)(?:[A-Z\d-]+#?)?:{1,2}\s+(?:;\S+|(?!;)\S+)(?!\S)/g,
+		pattern: /(^|\s)(?:[A-Z\d-]+#?)?::?\s+(?:;\S+|(?!;)\S+)(?!\S)/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'function'

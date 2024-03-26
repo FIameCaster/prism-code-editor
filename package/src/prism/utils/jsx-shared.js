@@ -17,13 +17,13 @@ var walkTokens = (tokens, code, position) => {
 	for (var i = 0, openedTags = [], l = 0; i < tokens.length; i++) {
 		var token = tokens[i];
 		var length = token.length;
-		var content = token.content;
 		var type = token.type;
 		var notTagNorBrace = !type;
-		var last, tag, start, plainText;
+		var last, tag, start, plainText, content;
 
 		if (type) {
-			if (type == 'tag' && code[position] == '<') {
+			content = token.content;
+			if (type == 'tag') {
 				// We found a tag, now find its kind
 				start = content[0].length;
 				tag = content[2] ? code.substr(position + start, content[1].length) : '';
@@ -67,9 +67,6 @@ var walkTokens = (tokens, code, position) => {
 
 			plainText = code.slice(start, position + length);
 			tokens[i] = new Token('plain-text', plainText, plainText);
-		}
-		else if (Array.isArray(content)) {
-			walkTokens(content, code, position);
 		}
 		position += length;
 	}

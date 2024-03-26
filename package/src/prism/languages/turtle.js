@@ -7,7 +7,7 @@ languages.trig = languages.turtle = {
 		greedy: true
 	},
 	'multiline-string': {
-		pattern: /"""(?:"?"?(?:\\.|[^\\"]))*"""|'''(?:'?'?(?:\\.|[^\\']))*'''/g,
+		pattern: /"""(?:\\.|[^\\])*?"""|'''(?:\\.|[^\\])*?'''/g,
 		greedy: true,
 		alias: 'string',
 		inside: {
@@ -22,7 +22,7 @@ languages.trig = languages.turtle = {
 		pattern: /<(?:[^\0- <>"{}|^`\\]|\\(?:u[a-fA-F\d]{4}|U[a-fA-F\d]{8}))*>/g,
 		greedy: true,
 		inside: {
-			'punctuation': /[<>]/
+			'punctuation': /<|>/
 		}
 	},
 	'function': {
@@ -41,7 +41,7 @@ languages.trig = languages.turtle = {
 		}
 	},
 	'number': /[+-]?\b\d+(?:\.\d*)?(?:e[+-]?\d+)?/i,
-	'punctuation': /[{}.,;()[\]]|\^\^/,
+	'punctuation': /[()[\]{}.,;]|\^\^/,
 	'boolean': boolean,
 	'keyword': [
 		/(?:\ba|@prefix|@base)\b|=/,

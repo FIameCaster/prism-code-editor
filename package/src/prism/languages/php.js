@@ -11,13 +11,13 @@ var constant = [
 	},
 	{
 		pattern: /(::\s*)\b[a-z_]\w*\b(?!\s*\()/gi,
-		greedy: true,
 		lookbehind: true,
+		greedy: true
 	},
 	{
 		pattern: /(\b(?:case|const)\s+)\b[a-z_]\w*(?=\s*[;=])/gi,
-		greedy: true,
 		lookbehind: true,
+		greedy: true
 	},
 	/\b(?:null)\b/i,
 	/\b[A-Z_][A-Z\d_]*\b(?!\s*\()/,
@@ -45,8 +45,8 @@ var string = [
 	},
 	{
 		pattern: /<<<(?:"([^"]+)"\n(?:.*\n)*?\1;|([a-z_]\w*)\n(?:.*\n)*?\2;)/gi,
-		alias: 'heredoc-string',
 		greedy: true,
+		alias: 'heredoc-string',
 		inside: {
 			'delimiter': {
 				pattern: /^<<<(?:"[^"]+"|[a-z_]\w*)|[a-z_]\w*;$/i,
@@ -61,17 +61,17 @@ var string = [
 	{
 		pattern: /`(?:\\[\s\S]|[^\\`])*`/g,
 		alias: 'backtick-quoted-string',
-		greedy: true
+		greedy: true,
 	},
 	{
 		pattern: /'(?:\\[\s\S]|[^\\'])*'/g,
+		greedy: true,
 		alias: 'single-quoted-string',
-		greedy: true
 	},
 	{
 		pattern: /"(?:\\[\s\S]|[^\\"])*"/g,
-		alias: 'double-quoted-string',
 		greedy: true,
+		alias: 'double-quoted-string',
 		inside: {
 			'interpolation': stringInterpolation
 		}
@@ -105,15 +105,15 @@ var php = stringInterpolation.inside = {
 					'attribute-class-name': [
 						{
 							pattern: /([^:]|^)\b[a-z_]\w*(?!\\)\b/gi,
-							alias: 'class-name',
+							lookbehind: true,
 							greedy: true,
-							lookbehind: true
+							alias: 'class-name'
 						},
 						{
 							pattern: /([^:]|^)(?:\\?\b[a-z_]\w*)+/gi,
-							alias: 'class-name class-name-fully-qualified',
-							greedy: true,
 							lookbehind: true,
+							greedy: true,
+							alias: 'class-name class-name-fully-qualified',
 							inside: {
 								'punctuation': /\\/
 							}
@@ -152,21 +152,21 @@ var php = stringInterpolation.inside = {
 	'keyword': [
 		{
 			pattern: /(\(\s*)\b(?:array|bool|boolean|float|int|integer|object|string)\b(?=\s*\))/gi,
-			alias: 'type-casting',
+			lookbehind: true,
 			greedy: true,
-			lookbehind: true
+			alias: 'type-casting'
 		},
 		{
 			pattern: /([(,?]\s*)\b(?:array(?!\s*\()|bool|callable|(?:false|null)(?=\s*\|)|float|int|iterable|mixed|object|self|static|string)\b(?=\s*\$)/gi,
-			alias: 'type-hint',
+			lookbehind: true,
 			greedy: true,
-			lookbehind: true
+			alias: 'type-hint'
 		},
 		{
 			pattern: /(\)\s*:\s*(?:\?\s*)?)\b(?:array(?!\s*\()|bool|callable|(?:false|null)(?=\s*\|)|float|int|iterable|mixed|never|object|self|static|string|void)\b/gi,
-			alias: 'return-type',
+			lookbehind: true,
 			greedy: true,
-			lookbehind: true
+			alias: 'return-type'
 		},
 		{
 			pattern: /\b(?:array(?!\s*\()|bool|float|int|iterable|mixed|object|string|void)\b/gi,
@@ -175,14 +175,14 @@ var php = stringInterpolation.inside = {
 		},
 		{
 			pattern: /(\|\s*)(?:false|null)\b|\b(?:false|null)(?=\s*\|)/gi,
-			alias: 'type-declaration',
+			lookbehind: true,
 			greedy: true,
-			lookbehind: true
+			alias: 'type-declaration'
 		},
 		{
 			pattern: /\b(?:parent|self|static)(?=\s*::)/gi,
-			alias: 'static-context',
-			greedy: true
+			greedy: true,
+			alias: 'static-context'
 		},
 		{
 			// yield from
@@ -207,13 +207,13 @@ var php = stringInterpolation.inside = {
 	'class-name': [
 		{
 			pattern: /(\b(?:extends|implements|instanceof|new(?!\s+self|\s+static))\s+|\bcatch\s*\()\b[a-z_]\w*(?!\\)\b/gi,
-			greedy: true,
-			lookbehind: true
+			lookbehind: true,
+			greedy: true
 		},
 		{
 			pattern: /(\|\s*)\b[a-z_]\w*(?!\\)\b/gi,
-			greedy: true,
-			lookbehind: true
+			lookbehind: true,
+			greedy: true
 		},
 		{
 			pattern: /\b[a-z_]\w*(?!\\)\b(?=\s*\|)/gi,
@@ -221,67 +221,67 @@ var php = stringInterpolation.inside = {
 		},
 		{
 			pattern: /(\|\s*)(?:\\?\b[a-z_]\w*)+\b/gi,
-			alias: 'class-name-fully-qualified',
-			greedy: true,
 			lookbehind: true,
+			greedy: true,
+			alias: 'class-name-fully-qualified',
 			inside: {
 				'punctuation': /\\/
 			}
 		},
 		{
 			pattern: /(?:\\?\b[a-z_]\w*)+\b(?=\s*\|)/gi,
-			alias: 'class-name-fully-qualified',
 			greedy: true,
+			alias: 'class-name-fully-qualified',
 			inside: {
 				'punctuation': /\\/
 			}
 		},
 		{
 			pattern: /(\b(?:extends|implements|instanceof|new(?!\s+self\b|\s+static\b))\s+|\bcatch\s*\()(?:\\?\b[a-z_]\w*)+\b(?!\\)/gi,
-			alias: 'class-name-fully-qualified',
-			greedy: true,
 			lookbehind: true,
+			greedy: true,
+			alias: 'class-name-fully-qualified',
 			inside: {
 				'punctuation': /\\/
 			}
 		},
 		{
 			pattern: /\b[a-z_]\w*(?=\s*\$)/gi,
+			greedy: true,
 			alias: 'type-declaration',
-			greedy: true
 		},
 		{
 			pattern: /(?:\\?\b[a-z_]\w*)+(?=\s*\$)/gi,
-			alias: 'class-name-fully-qualified type-declaration',
 			greedy: true,
+			alias: 'class-name-fully-qualified type-declaration',
 			inside: {
 				'punctuation': /\\/
 			}
 		},
 		{
 			pattern: /\b[a-z_]\w*(?=\s*::)/gi,
-			alias: 'static-context',
-			greedy: true
+			greedy: true,
+			alias: 'static-context'
 		},
 		{
 			pattern: /(?:\\?\b[a-z_]\w*)+(?=\s*::)/gi,
-			alias: 'class-name-fully-qualified static-context',
 			greedy: true,
+			alias: 'class-name-fully-qualified static-context',
 			inside: {
 				'punctuation': /\\/
 			}
 		},
 		{
 			pattern: /([(,?]\s*)[a-z_]\w*(?=\s*\$)/gi,
-			alias: 'type-hint',
+			lookbehind: true,
 			greedy: true,
-			lookbehind: true
+			alias: 'type-hint',
 		},
 		{
 			pattern: /([(,?]\s*)(?:\\?\b[a-z_]\w*)+(?=\s*\$)/gi,
-			alias: 'class-name-fully-qualified type-hint',
-			greedy: true,
 			lookbehind: true,
+			greedy: true,
+			alias: 'class-name-fully-qualified type-hint',
 			inside: {
 				'punctuation': /\\/
 			}
@@ -289,14 +289,14 @@ var php = stringInterpolation.inside = {
 		{
 			pattern: /(\)\s*:\s*(?:\?\s*)?)\b[a-z_]\w*(?!\\)\b/gi,
 			alias: 'return-type',
+			lookbehind: true,
 			greedy: true,
-			lookbehind: true
 		},
 		{
 			pattern: /(\)\s*:\s*(?:\?\s*)?)(?:\\?\b[a-z_]\w*)+\b(?!\\)/gi,
-			alias: 'class-name-fully-qualified return-type',
-			greedy: true,
 			lookbehind: true,
+			greedy: true,
+			alias: 'class-name-fully-qualified return-type',
 			inside: {
 				'punctuation': /\\/
 			}
@@ -324,8 +324,8 @@ var embedded = embeddedIn('html');
 languages.php = {
 	'php': {
 		pattern: /<\?(?:[^"'/#]|\/(?![*/])|(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1|(?:\/\/|#(?!\[))(?:[^\n?]|\?(?!>))*(?=$|\?>|\n)|#\[|\/\*(?:[^*]|\*(?!\/))*(?:\*\/|$))*?(?:\?>|$)/,
+		alias: 'language-php',
 		inside: php,
-		alias: 'language-php'
 	},
 	[tokenize]: (code, grammar) => {
 		if (code.includes("<?")) return embedded(code, grammar);

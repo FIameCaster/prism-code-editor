@@ -1,12 +1,12 @@
 import { languages } from '../core.js';
 
 languages.nevod = {
-	'comment': /\/\/.*|(?:\/\*[\s\S]*?(?:\*\/|$))/,
+	'comment': /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)/,
 	'string': {
 		pattern: /(?:"(?:""|[^"])*"(?!")|'(?:''|[^'])*'(?!'))!?\*?/g,
 		greedy: true,
 		inside: {
-			'string-attrs': /!$|!\*$|\*$/,
+			'string-attrs': /!$|!?\*$/,
 		},
 	},
 	'namespace': {

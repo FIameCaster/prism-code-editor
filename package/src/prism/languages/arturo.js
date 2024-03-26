@@ -25,8 +25,8 @@ languages.art = languages.arturo = {
 
 	'character': {
 		pattern: /`.`/g,
-		alias: 'char',
-		greedy: true
+		greedy: true,
+		alias: 'char'
 	},
 
 	'number': /\b\d+(?:\.\d+(?:\.\d+(?:-[\w+-]+)?)?)?\b/,

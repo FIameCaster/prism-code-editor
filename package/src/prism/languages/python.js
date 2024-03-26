@@ -18,12 +18,12 @@ inside[rest] = languages.py = languages.python = {
 		greedy: true
 	},
 	'string-interpolation': {
-		pattern: /(?:f|fr|rf)(?:("""|''')[\s\S]*?\1|(["'])(?:\\.|(?!\2)[^\\\n])*\2)/gi,
+		pattern: /(?:fr?|rf)(?:("""|''')[\s\S]*?\1|(["'])(?:\\.|(?!\2)[^\\\n])*\2)/gi,
 		greedy: true,
 		inside: {
 			'interpolation': {
 				// "{" <expression> <optional "!s", "!r", or "!a"> <optional ":" format specifier> "}"
-				pattern: /((?:^|[^{])(?:\{\{)*)\{(?!\{)(?:[^{}]|\{(?!\{)(?:[^{}]|\{(?!\{)(?:[^{}])+\})+\})+\}/,
+				pattern: /((?:^|[^{])(?:\{\{)*)\{(?!\{)(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/,
 				lookbehind: true,
 				inside: inside
 			},

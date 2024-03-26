@@ -16,7 +16,7 @@ var inner = [/(?:\\.|[^\\\n]|\n(?!\n))/.source];
  * @param {string} pattern
  * @returns {RegExp}
  */
-var createInline = pattern => re(`((?:^|[^\\\\])(?:\\\\{2})*)(?:${pattern})`, inner, 'g');
+var createInline = pattern => re(`((?:^|[^\\\\])(?:\\\\\\\\)*)(?:${pattern})`, inner, 'g');
 var tableCell = /(?:\\.|``(?:[^\n`]|`(?!`))+``|`[^\n`]+`|[^\\\n|`])+/;
 var tableRow = replace(/\|?<0>(?:\|<0>)+\|?(?:\n|(?![\s\S]))/.source, [tableCell.source]);
 var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?\n/.source;
@@ -30,7 +30,7 @@ insertBefore(markdown, 'prolog', {
 		inside: {
 			'punctuation': /^---|---$/,
 			'front-matter': {
-				pattern: /\S+(?:\s+\S+)*/,
+				pattern: /\S(?:[\s\S]*\S)?/,
 				alias: 'language-yaml',
 				inside: 'yaml'
 			}
@@ -88,23 +88,22 @@ insertBefore(markdown, 'prolog', {
 			pattern: /^(```+)[^`][\s\S]*?^\1`*$/mg,
 			greedy: true,
 			inside: {
-				'punctuation': /^```+|```+$/,
+				'punctuation': /^`+|`+$/,
 				'code-language': /^.+/,
 				'code-block': /(?!^)[\s\S]+(?=\n)/,
 				[tokenize](code, grammar) {
 					var tokens = withoutTokenizer(code, grammar);
-					var [, codeLang, , codeBlock] = tokens;
 					var language;
 
 					if (tokens[5]) {
 						language = (/[a-z][\w-]*/i.exec(
-							codeLang.content.replace(/\b#/g, 'sharp').replace(/\b\+\+/g, 'pp')
+							tokens[1].content.replace(/\b#/g, 'sharp').replace(/\b\+\+/g, 'pp')
 						) || [''])[0].toLowerCase();
-	
-						codeBlock.alias = 'language-' + language;
+
+						tokens[3].alias = 'language-' + language;
 	
 						if (grammar = languages[language]) {
-							codeBlock.content = tokenizeText(codeBlock.content, grammar);
+							tokens[3].content = tokenizeText(tokens[3].content, grammar);
 						}
 					}
 
@@ -167,7 +166,7 @@ insertBefore(markdown, 'prolog', {
 				lookbehind: true
 			},
 			'string': /(?:"(?:\\.|[^\\"])*"|'(?:\\.|[^\\'])*'|\((?:\\.|[^)\\])*\))$/,
-			'punctuation': /^[[\]!:]|[<>]/
+			'punctuation': /^[[\]!:]|<|>/
 		},
 		alias: 'url'
 	},

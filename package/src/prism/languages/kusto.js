@@ -2,10 +2,7 @@ import { languages } from '../core.js';
 import { clikePunctuation } from '../utils/shared.js';
 
 languages.kusto = {
-	'comment': {
-		pattern: /\/\/.*/g,
-		greedy: true
-	},
+	'comment': /\/\/.*/,
 	'string': {
 		pattern: /```[\s\S]*?```|[hH]?(?:"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*'|@(?:"[^\n"]*"|'[^\n']*'))/g,
 		greedy: true
@@ -31,12 +28,12 @@ languages.kusto = {
 	'datetime': [
 		{
 			// RFC 822 + RFC 850
-			pattern: /\b(?:(?:Fri|Friday|Mon|Monday|Sat|Saturday|Sun|Sunday|Thu|Thursday|Tue|Tuesday|Wed|Wednesday)\s*,\s*)?\d{1,2}(?:\s+|-)(?:Apr|Aug|Dec|Feb|Jan|Ju[ln]|Ma[ry]|Nov|Oct|Sep)(?:\s+|-)\d{2}\s+\d{2}:\d{2}(?::\d{2})?(?:\s*(?:\b(?:[A-Z]|(?:[ECMT][DS]|GM|U)T)|[+-]\d{4}))?\b/,
+			pattern: /\b(?:(?:Fri|Friday|Mon|Monday|Sat|Saturday|Sun|Sunday|Thu|Thursday|Tue|Tuesday|Wed|Wednesday)\s*,\s*)?\d\d?(?:\s+|-)(?:Apr|Aug|Dec|Feb|Jan|Ju[ln]|Ma[ry]|Nov|Oct|Sep)(?:\s+|-)\d\d\s+\d\d:\d\d(?::\d\d)?(?:\s*(?:\b(?:[A-Z]|(?:[ECMT][DS]|GM|U)T)|[+-]\d{4}))?\b/,
 			alias: 'number'
 		},
 		{
 			// ISO 8601
-			pattern: /[+-]?\b(?:\d{4}-\d{2}-\d{2}(?:[ T]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)?|\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)Z?/,
+			pattern: /[+-]?\b(?:\d{4}-\d\d-\d\d(?:[ T]\d\d:\d\d(?::\d\d(?:\.\d+)?)?)?|\d\d:\d\d(?::\d\d(?:\.\d+)?)?)Z?/,
 			alias: 'number'
 		}
 	],

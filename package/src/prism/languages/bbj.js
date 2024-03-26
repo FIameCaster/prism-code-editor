@@ -2,12 +2,11 @@ import { languages } from '../core.js';
 
 languages.bbj = {
 	'comment': {
-		pattern: /(^|[^\\:])rem\s+.*/gi,
-		lookbehind: true,
-		greedy: true
+		pattern: /(^|[^\\:])rem\s+.*/i,
+		lookbehind: true
 	},
 	'string': {
-		pattern: /(["'])(?:(?!\1|\\).|\\.)*\1/g,
+		pattern: /(["'])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true
 	},
 	'number': /(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:e[+-]?\d+)?/i,

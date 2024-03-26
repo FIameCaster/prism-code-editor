@@ -42,12 +42,12 @@ insertBefore(chaiscript, 'operator', {
 
 insertBefore(chaiscript, 'string', {
 	'string-interpolation': {
-		pattern: /(^|[^\\])"(?:\\[\s\S]|[^\\$"]|\$(?!\{)|\$\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*"/g,
+		pattern: /(^|[^\\])"(?:\\[\s\S]|[^\\$"]|\$(?!\{)|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\})*"/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\{2})*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\}/,
+				pattern: /((?:^|[^\\])(?:\\\\)*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/,
 				lookbehind: true,
 				inside: {
 					'interpolation-expression': {

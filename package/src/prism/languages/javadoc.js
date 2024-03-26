@@ -5,7 +5,7 @@ import './markup.js';
 import './java.js';
 import './javadoclike.js';
 
-var codeLinePattern = /(^(?:[ \t]*(?:\*\s*)*))[^*\s].*$/m;
+var codeLinePattern = /(^(?:[ \t]*(?:\*\s*)*))[^*\s].*/m;
 
 var memberReference = /#\s*\w+(?:\s*\([^()]*\))?/.source;
 var reference = replace(/(?:\b[a-zA-Z]\w+\s*\.\s*)*\b[A-Z]\w*(?:\s*<0>)?|<0>/.source, [memberReference]);
@@ -48,7 +48,7 @@ insertBefore(javadoc, 'keyword', {
 	},
 	'code-section': [
 		{
-			pattern: /(\{@code\s+(?!\s))(?:[^\s{}]|\s+(?![\s}])|\{(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*\})+(?=\s*\})/,
+			pattern: /(\{@code\s+(?!\s))(?:[^\s{}]|\s+(?![\s}])|\{(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\})*\})+(?=\s*\})/,
 			lookbehind: true,
 			inside: {
 				'code': {

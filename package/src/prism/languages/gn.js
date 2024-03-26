@@ -8,17 +8,14 @@ var expression = {
 };
 
 expression.inside = languages.gni = languages.gn = {
-	'comment': {
-		pattern: /#.*/g,
-		greedy: true
-	},
+	'comment': /#.*/,
 	'string-literal': {
 		pattern: /(^|[^\\"])"(?:\\.|[^\\\n"])*"/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\{2})*)\$(?:\{[\s\S]*?\}|(?!\d)\w+|0x[a-fA-F\d]{2})/,
+				pattern: /((?:^|[^\\])(?:\\\\)*)\$(?:\{[\s\S]*?\}|(?!\d)\w+|0x[a-fA-F\d]{2})/,
 				lookbehind: true,
 				inside: {
 					'number': /^\$0x[\s\S]{2}$/,

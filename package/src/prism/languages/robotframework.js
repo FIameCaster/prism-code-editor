@@ -2,13 +2,13 @@ import { languages } from '../core.js';
 import { re } from '../utils/shared.js';
 
 var comment = {
-	pattern: /(^[ \t]*| {2}|\t)#.*/mg,
+	pattern: /(^[ \t]*|  |\t)#.*/mg,
 	lookbehind: true,
 	greedy: true
 };
 
 var variable = {
-	pattern: /((?:^|[^\\])(?:\\{2})*)[$@&%]\{(?:[^{}\n]|\{[^{}\n]*\})*\}/,
+	pattern: /((?:^|[^\\])(?:\\\\)*)[$@&%]\{(?:[^{}\n]|\{[^{}\n]*\})*\}/,
 	lookbehind: true,
 	inside: {
 		'punctuation': /^[$@&%]\{|\}$/
@@ -26,7 +26,7 @@ var createSection = (name, inside) => {
 	Object.assign(extendecInside, inside)
 
 	extendecInside['tag'] = {
-		pattern: /(\n(?: {2}|\t)[ \t]*)\[[-\w]+\]/,
+		pattern: /(\n(?:  |\t)[ \t]*)\[[-\w]+\]/,
 		lookbehind: true,
 		inside: {
 			'punctuation': /[[\]]/
@@ -44,7 +44,7 @@ var createSection = (name, inside) => {
 
 
 var docTag = {
-	pattern: /(\[Documentation\](?: {2}|\t)[ \t]*)(?![ \t]|#)(?:.|\n[ \t]*\.{3})+/,
+	pattern: /(\[Documentation\](?:  |\t)[ \t]*)(?![ \t]|#)(?:.|\n[ \t]*\.{3})+/,
 	lookbehind: true,
 	alias: 'string'
 };
@@ -59,7 +59,7 @@ var testNameLike = {
 };
 
 var testPropertyLike = {
-	pattern: /(\n(?: {2}|\t)[ \t]*)(?!\[|\.{3}|#)(?:\S(?:[ \t]\S)*)+/,
+	pattern: /(\n(?: |\t)[ \t]*)(?!\[|\.{3}|#)(?:\S(?:[ \t]\S)*)+/,
 	lookbehind: true,
 	inside: {
 		'variable': variable
@@ -69,7 +69,7 @@ var testPropertyLike = {
 languages.robot = languages.robotframework = {
 	'settings': createSection('Settings', {
 		'documentation': {
-			pattern: /(\n ?Documentation(?: {2}|\t)[ \t]*)(?![ \t]|#)(?:.|\n[ \t]*\.{3})+/,
+			pattern: /(\n ?Documentation(?:  |\t)[ \t]*)(?![ \t]|#)(?:.|\n[ \t]*\.{3})+/,
 			lookbehind: true,
 			alias: 'string'
 		},

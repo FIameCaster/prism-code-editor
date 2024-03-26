@@ -11,13 +11,13 @@ languages.sql = {
 	],
 	'string': {
 		pattern: /(^|[^@\\])(["'])(?:\\[\s\S]|(?!\2)[^\\]|\2\2)*\2/g,
-		greedy: true,
-		lookbehind: true
+		lookbehind: true,
+		greedy: true
 	},
 	'identifier': {
 		pattern: /(^|[^@\\])`(?:\\[\s\S]|[^\\`]|``)*`/g,
-		greedy: true,
 		lookbehind: true,
+		greedy: true,
 		inside: {
 			'punctuation': /^`|`$/
 		}

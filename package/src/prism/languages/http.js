@@ -5,24 +5,23 @@ var headerValueOf = name => RegExp('(^(?:' + name + '):[ \t]*(?![ \t]))[^]+', 'i
 
 var http = languages.http = {
 	'request-line': {
-		pattern: /^(?:CONNECT|DELETE|GET|HEAD|OPTIONS|PATCH|POST|PRI|PUT|SEARCH|TRACE)\s(?:https?:\/\/|\/)\S*\sHTTP\/[\d.]+/m,
+		pattern: /^(?:CONNECT|DELETE|GET|HEAD|OPTIONS|PATCH|POST|PRI|PUT|SEARCH|TRACE)\s(?:https?:\/)?\/\S*\sHTTP\/[\d.]+/m,
 		inside: {
 			// HTTP Method
 			'method': {
-				pattern: /^[A-Z]+\b/,
+				pattern: /^\w+/,
 				alias: 'property'
 			},
 			// Request Target e.g. http://example.com, /path/to/file
 			'request-target': {
-				pattern: /^(\s)(?:https?:\/\/|\/)\S*(?=\s)/,
+				pattern: /^(\s)[h/]\S*/,
 				lookbehind: true,
 				alias: 'url',
 				inside: 'uri'
 			},
 			// HTTP Version
 			'http-version': {
-				pattern: /^(\s)HTTP\/[\d.]+/,
-				lookbehind: true,
+				pattern: /(?!^)\S+/,
 				alias: 'property'
 			},
 		}
@@ -32,19 +31,18 @@ var http = languages.http = {
 		inside: {
 			// HTTP Version
 			'http-version': {
-				pattern: /^HTTP\/[\d.]+/,
+				pattern: /^\S+/,
 				alias: 'property'
 			},
 			// Status Code
 			'status-code': {
-				pattern: /^(\s)\d+(?=\s)/,
+				pattern: /^( )\d+(?= )/,
 				lookbehind: true,
 				alias: 'number'
 			},
 			// Reason Phrase
 			'reason-phrase': {
-				pattern: /^(\s).+/,
-				lookbehind: true,
+				pattern: /(?!^).+/,
 				alias: 'string'
 			}
 		}

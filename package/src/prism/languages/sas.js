@@ -33,7 +33,7 @@ var string = {
 	greedy: true
 };
 
-var punctuation = /[$%@.()[\]{};,\\]/;
+var punctuation = /[$%@()[\]{}.,;\\]/;
 
 var func = {
 	pattern: /%?\b\w+(?=\()/,
@@ -256,7 +256,7 @@ languages.sas = {
 			},
 			'macro-keyword': macroKeyword,
 			'macro-variable': macroVariable,
-			'escaped-char': /%['"()<>=¬^~;,#]/,
+			'escaped-char': /%["'()<>=¬^~;,#]/,
 			'punctuation': punctuation
 		}
 	},
@@ -290,7 +290,7 @@ languages.sas = {
 		}
 	},
 	'options-args': {
-		pattern: /(^options)[()'"|:\\\w\s=<>/*+-]+(?=;)/im,
+		pattern: /(^options)[()"'|:\\\w\s=<>/*+-]+(?=;)/im,
 		lookbehind: true,
 		inside: args
 	},

@@ -98,28 +98,28 @@ var bash = commandAfterHeredoc.inside = languages.sh = languages.shell = languag
 	// Highlight variable names as variables in for and select beginnings.
 	'for-or-select': {
 		pattern: /(\b(?:for|select)\s+)\w+(?=\s+in\s)/,
-		alias: 'variable',
-		lookbehind: true
+		lookbehind: true,
+		alias: 'variable'
 	},
 	// Highlight variable names as variables in the left-hand part
 	// of assignments (“=” and “+=”).
 	'assign-left': {
 		pattern: /(^|[\s;|&]|[<>]\()\w+(?:\.\w+)*(?=\+?=)/,
+		lookbehind: true,
+		alias: 'variable',
 		inside: {
 			'environment': {
 				pattern: RegExp('(^|[\\s;|&]|[<>]\\()' + envVars),
 				lookbehind: true,
 				alias: 'constant'
 			}
-		},
-		alias: 'variable',
-		lookbehind: true
+		}
 	},
 	// Highlight parameter names as variables
 	'parameter': {
 		pattern: /(^|\s)-{1,2}(?:\w+:[+-]?)?\w+(?:\.\w+)*(?![^\s=])/,
-		alias: 'variable',
-		lookbehind: true
+		lookbehind: true,
+		alias: 'variable'
 	},
 	'string': [
 		// Support for Here-documents https://en.wikipedia.org/wiki/Here_document

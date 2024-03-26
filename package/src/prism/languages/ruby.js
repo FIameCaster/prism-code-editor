@@ -11,7 +11,7 @@ var percentExpression = /(?:([^a-zA-Z\d\s{(\[<=])(?:\\[\s\S]|(?!\1)[^\\])*\1|\((
 var symbolName = /(?:"(?:\\.|[^\\\n"])*"|(?:\b(?!\d)\w+|[^\s\0-\x7f]+)[?!]?|\$.)/.source;
 
 var interpolation = {
-	pattern: /((?:^|[^\\])(?:\\{2})*)#\{(?:[^{}]|\{[^{}]*\})*\}/,
+	pattern: /((?:^|[^\\])(?:\\\\)*)#\{(?:[^{}]|\{[^}]*\})*\}/,
 	lookbehind: true,
 	inside: {
 		'content': interpolationContent,

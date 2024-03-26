@@ -141,19 +141,19 @@ languages.rest = {
 
 	'inline': [
 		{
-			pattern: /(^|[\s:/'"<([{-])(?::[^:]+:`.*?`|`.*?`:[^:]+:|(\*\*?|``?|\|)(?!\s)(?:(?!\2).)*\S\2(?![^\s.,:;!?\\/'")\]}-]))/m,
+			pattern: /(^|[\s:/"'<([{-])(?::[^:]+:`.*?`|`.*?`:[^:]+:|(\*\*?|``?|\|)(?!\s)(?:(?!\2).)*\S\2(?![^\s.,:;!?\\/"')\]}-]))/m,
 			lookbehind: true,
 			inside: {
 				'bold': {
-					pattern: /(^\*\*).+(?=\*\*$)/,
+					pattern: /(^\*\*).+(?=..)/,
 					lookbehind: true
 				},
 				'italic': {
-					pattern: /(^\*).+(?=\*$)/,
+					pattern: /(^\*).+(?=.)/,
 					lookbehind: true
 				},
 				'inline-literal': {
-					pattern: /(^``).+(?=``$)/,
+					pattern: /(^``).+(?=..)/,
 					lookbehind: true,
 					alias: 'symbol'
 				},
@@ -165,30 +165,30 @@ languages.rest = {
 					}
 				},
 				'interpreted-text': {
-					pattern: /(^`).+(?=`$)/,
+					pattern: /(^`).+(?=.)/,
 					lookbehind: true,
 					alias: 'attr-value'
 				},
 				'substitution': {
-					pattern: /(^\|).+(?=\|$)/,
+					pattern: /(^\|).+(?=.)/,
 					lookbehind: true,
 					alias: 'attr-value'
 				},
-				'punctuation': /\*\*?|``?|\|/
+				'punctuation': /.+/
 			}
 		}
 	],
 
 	'link': [
 		{
-			pattern: /\[[^[\]]+\]_(?![^\s.,:;!?\\/'")\]}-])/,
+			pattern: /\[[^[\]]+\]_(?![^\s.,:;!?\\/"')\]}-])/,
 			alias: 'string',
 			inside: {
 				'punctuation': /^\[|\]_$/
 			}
 		},
 		{
-			pattern: /(?:\b[a-z\d]+(?:[_.:+][a-z\d]+)*_?_|`[^`]+`_?_|_`[^`]+`)(?![^\s.,:;!?\\/'")\]}-])/i,
+			pattern: /(?:\b[a-z\d]+(?:[_.:+][a-z\d]+)*_?_|`[^`]+`_?_|_`[^`]+`)(?![^\s.,:;!?\\/"')\]}-])/i,
 			alias: 'string',
 			inside: {
 				'punctuation': /^_?`|`$|`?_?_$/

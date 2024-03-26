@@ -48,8 +48,8 @@ insertBefore(cpp, 'string', {
 	},
 	'raw-string': {
 		pattern: /R"([^()\\ ]{0,16})\([\s\S]*?\)\1"/g,
-		alias: 'string',
-		greedy: true
+		greedy: true,
+		alias: 'string'
 	}
 });
 

@@ -1,7 +1,7 @@
 import { languages } from '../core.js';
 import { clikeComment } from '../utils/shared.js';
 
-languages.antlr4 = {
+languages.g4 = languages.antlr4 = {
 	'comment': clikeComment(),
 	'string': {
 		pattern: /'(?:\\.|[^\\\n'])*'/g,
@@ -22,7 +22,7 @@ languages.antlr4 = {
 		}
 	},
 	'action': {
-		pattern: /\{(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*\}/g,
+		pattern: /\{(?:[^{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\})*\}/g,
 		greedy: true,
 		inside: {
 			'content': /(?!^)[\s\S]+(?=.)/,
@@ -60,5 +60,3 @@ languages.antlr4 = {
 	'operator': /\.\.|->|[|~]|[*+?]\??/,
 	'punctuation': /[():;=]/
 };
-
-languages.g4 = languages.antlr4;

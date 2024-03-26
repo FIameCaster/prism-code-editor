@@ -12,12 +12,8 @@ var expression = {
 }
 
 expression.inside = languages.cue = {
-	'comment': {
-		pattern: /\/\/.*/g,
-		greedy: true
-	},
+	'comment': /\/\/.*/,
 	'string-literal': {
-		// eslint-disable-next-line regexp/strict
 		pattern: stringLiteral,
 		lookbehind: true,
 		greedy: true,

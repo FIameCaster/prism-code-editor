@@ -18,7 +18,6 @@ languages.pbfasm = languages.purebasic = {
 		lookbehind: true,
 		alias: 'tag',
 		inside: {
-			'comment': /;.*/,
 			'string': {
 				pattern: /(["'`])(?:\\.|(?!\1)[^\\\n])*\1/g,
 				greedy: true

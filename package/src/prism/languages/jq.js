@@ -8,7 +8,7 @@ var interpolation = /\\\((?:[^()]|\([^()]*\))*\)/.source;
 var string = /(^|[^\\])"(?:[^\\\n"]|\\[^\n(]|__)*"/.source.replace(/__/g, interpolation);
 var stringInterpolation = {
 	'interpolation': {
-		pattern: RegExp(/((?:^|[^\\])(?:\\{2})*)/.source + interpolation),
+		pattern: RegExp(/((?:^|[^\\])(?:\\\\)*)/.source + interpolation),
 		lookbehind: true,
 		inside: {
 			'punctuation': /^\\\(|\)$/,

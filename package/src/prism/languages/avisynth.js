@@ -23,10 +23,10 @@ languages.avs = languages.avisynth = {
 		lookbehind: true,
 		inside: {
 			'argument-name': {
-				pattern: /^\w+/,
+				pattern: /\w+/,
 				alias: 'punctuation'
 			},
-			'punctuation': /=$/
+			'punctuation': /=/
 		}
 	},
 

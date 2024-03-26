@@ -8,7 +8,7 @@ languages.conc = languages.concurnas = {
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\{2})*)\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
+				pattern: /((?:^|[^\\])(?:\\\\)*)\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
 				lookbehind: true,
 				inside: 'conc'
 			},
@@ -20,7 +20,7 @@ languages.conc = languages.concurnas = {
 		greedy: true,
 		inside: {
 			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\{2})*)\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
+				pattern: /((?:^|[^\\])(?:\\\\)*)\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
 				lookbehind: true,
 				inside: 'conc'
 			},

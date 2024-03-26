@@ -5,23 +5,32 @@ import { re, replace } from '../utils/shared.js';
 
 var type = replace(/(?:\b\w+<0>?|<0>)/.source, [/\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/.source]);
 
+var classNameInside = {};
+
+var className = [
+	{
+		pattern: re(/(\btype\s+\w+\s+is\s+)<0>/.source, [type], 'i'),
+		lookbehind: true,
+		inside: classNameInside
+	},
+	{
+		pattern: re(/<0>(?=\s+is\b)/.source, [type], 'i'),
+		inside: classNameInside
+	},
+	{
+		pattern: re(/(:\s*)<0>/.source, [type]),
+		lookbehind: true,
+		inside: classNameInside
+	}
+];
+
 var pascaligo = languages.pascaligo = {
 	'comment': /\(\*[\s\S]+?\*\)|\/\/.*/,
 	'string': {
 		pattern: /(["'`])(?:\\[\s\S]|(?!\1)[^\\])*\1|\^[a-z]/gi,
 		greedy: true
 	},
-	'class-name': [
-		{
-			pattern: re(/(\btype\s+\w+\s+is\s+)<0>/.source, [type], 'i'),
-			lookbehind: true
-		},
-		re(/<0>(?=\s+is\b)/.source, [type], 'i'),
-		{
-			pattern: re(/(:\s*)<0>/.source, [type]),
-			lookbehind: true
-		}
-	],
+	'class-name': className,
 	'keyword': {
 		pattern: /(^|[^&])\b(?:begin|block|case|const|else|end|fail|for|from|function|if|is|nil|of|remove|return|skip|then|type|var|while|with)\b/i,
 		lookbehind: true
@@ -42,15 +51,9 @@ var pascaligo = languages.pascaligo = {
 		/\b\d+(?:\.\d+)?(?:e[+-]?\d+)?(?:mtz|n)?/i
 	],
 	'operator': /->|=\/=|\.\.|\*\*|:=|<>|>>|<<|[<>/*+-]=?|[@|^=]|\b(?:and|mod|or)\b/,
-	'punctuation': /\(\.|\.\)|[()[\].,:;{}]/
+	'punctuation': /\(\.|\.\)|[()[\]{}.,:;]/
 };
-
-var classNameInside = {};
 
 ['comment', 'keyword', 'builtin', 'operator', 'punctuation'].forEach(key => {
 	classNameInside[key] = pascaligo[key];
-});
-
-pascaligo['class-name'].forEach(p => {
-	p.inside = classNameInside;
 });

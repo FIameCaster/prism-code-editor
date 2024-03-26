@@ -7,10 +7,7 @@ import { clikePunctuation } from '../utils/shared.js';
  * Includes all commands and plug-ins shipped with NSIS 3.08
  */
 languages.nsis = {
-	'comment': {
-		pattern: /\/\*[\s\S]*?\*\/|[#;].*/g,
-		greedy: true
-	},
+	'comment': /\/\*[\s\S]*?\*\/|[#;].*/,
 	'string': {
 		pattern: /(["'])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true

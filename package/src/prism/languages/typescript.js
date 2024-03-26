@@ -2,12 +2,13 @@ import { languages } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
 import './javascript.js';
 
+var className = {
+	pattern: /(\b(?:class|extends|implements|instanceof|interface|new|type)\s+)(?!keyof\b)(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?:\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)?/g,
+	lookbehind: true,
+	greedy: true
+};
 var ts = languages.ts = languages.typescript = extend('js', {
-	'class-name': {
-		pattern: /(\b(?:class|extends|implements|instanceof|interface|new|type)\s+)(?!keyof\b)(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?:\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)?/g,
-		lookbehind: true,
-		greedy: true
-	}
+	'class-name': className
 });
 
 insertBefore(ts, 'operator', {
@@ -24,11 +25,9 @@ delete ts['parameter'];
 delete ts['literal-property'];
 
 // a version of typescript specifically for highlighting types
-var typeInside = Object.assign({}, ts);
+var typeInside = className.inside = Object.assign({}, ts);
 delete typeInside['class-name'];
 delete typeInside['maybe-class-name'];
-
-ts['class-name'].inside = typeInside;
 
 insertBefore(ts, 'function', {
 	'decorator': {

@@ -1,10 +1,7 @@
 import { languages } from '../core.js';
 
 languages.xojo = {
-	'comment': {
-		pattern: /(?:'|\/\/|rem\b).+/gi,
-		greedy: true
-	},
+	'comment': /(?:'|\/\/|rem\b).+/i,
 	'string': {
 		pattern: /"(?:""|[^"])*"/g,
 		greedy: true

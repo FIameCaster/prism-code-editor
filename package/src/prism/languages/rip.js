@@ -8,7 +8,7 @@ languages.rip = {
 	},
 
 	'char': {
-		pattern: /\B`[^\s`'"#/\\<>()[\]{}.,:;]\b/g,
+		pattern: /\B`[^\s"'`#/\\<>()[\]{}.,:;]\b/g,
 		greedy: true
 	},
 	'string': {
@@ -28,14 +28,14 @@ languages.rip = {
 
 	'boolean': boolean,
 
-	'date': /\b\d{4}-\d{2}-\d{2}\b/,
-	'time': /\b\d{2}:\d{2}:\d{2}\b/,
-	'datetime': /\b\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\b/,
+	'date': /\b\d{4}-\d\d-\d\d\b/,
+	'time': /\b\d\d:\d\d:\d\d\b/,
+	'datetime': /\b\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\b/,
 
-	'symbol': /:(?!\d)[^\s`'"#/\\<>()[\]{}.,:;]+/,
+	'symbol': /:(?!\d)[^\s"'`#/\\<>()[\]{}.,:;]+/,
 	'number': /[+-]?\b(?:\d+\.\d+|\d+)\b/,
 
-	'punctuation': /(?:\.{2,3})|[`=/\\<>()[\]{}.,:;]/,
+	'punctuation': /\.{2,3}|[`\\<>=/()[\]{}.,:;]/,
 
-	'reference': /(?!\d)[^\s`'"#/\\<>()[\]{}.,:;]+/
+	'reference': /(?!\d)[^\s"'`#/\\<>()[\]{}.,:;]+/
 };

@@ -8,18 +8,16 @@ var substitutionInside = {
 };
 
 var inform7 = languages.inform7 = {
+	'comment': /\[[^[\]]+\]/,
 	'string': {
-		pattern: /"[^"]*"/,
+		pattern: /"[^"]*"/g,
+		greedy: true,
 		inside: {
 			'substitution': {
 				pattern: /\[[^[\]]+\]/,
 				inside: substitutionInside
 			}
 		}
-	},
-	'comment': {
-		pattern: /\[[^[\]]+\]/g,
-		greedy: true
 	},
 	'title': {
 		pattern: /^[ \t]*(?:book|chapter|part(?! of)|section|table|volume)\b.+/im,
@@ -58,7 +56,7 @@ var inform7 = languages.inform7 = {
 
 Object.assign(substitutionInside, inform7, {
 	'text': {
-		pattern: /\S(?:\s*\S)*/,
+		pattern: /\S(?:[\s\S]*\S)?/,
 		alias: 'comment'
 	}
 });
