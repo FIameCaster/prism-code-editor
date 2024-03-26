@@ -38,7 +38,7 @@ export const indentGuides = (): IndentGuides => {
 			l = newIndents.length
 
 		for (let i = 0, prev: number[] = [], next = newIndents[0]; next; i++) {
-			const { style } = (lines[i] ||= indentTemplate()),
+			const style = (lines[i] ||= indentTemplate()).style,
 				[top, height, left] = next,
 				old = indents[i]
 

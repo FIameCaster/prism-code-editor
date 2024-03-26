@@ -255,8 +255,7 @@ const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, options: { l
 			const token = <Token>tokens[i++]
 			const content = token.content
 			const length = token.length
-			const type = token.type
-			const aliasType = token.alias || type
+			const aliasType = token.alias || token.type
 			if (aliasType == "comment" && isMultiline(value, position, position + length)) {
 				let comment = languageMap[language]?.comments?.block
 				if (comment && value.indexOf(comment[0], position) == position)

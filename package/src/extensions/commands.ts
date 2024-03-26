@@ -21,6 +21,7 @@ const mod = isMac ? 4 : 2
  * Users can always toggle this using Ctrl+M / Ctrl+Shift+M (Mac).
  */
 const setIgnoreTab = (newState: boolean) => (ignoreTab = newState)
+const whitespaceEnd = (str: string) => str.search(/\S|$/)
 
 /**
  * Extension that will add automatic indentation, closing of brackets,
@@ -93,9 +94,9 @@ const defaultCommands =
 				const oldLastLine = old[last]
 				const lastDiff = oldLastLine.length - lastLine.length
 				const firstDiff = newL[0].length - old[0].length
-				const firstInsersion = start + (firstDiff < 0 ? newL : old)[0].search(/\S|$/)
+				const firstInsersion = start + whitespaceEnd((firstDiff < 0 ? newL : old)[0])
 				const lastInsersion =
-					end - oldLastLine.length + (lastDiff > 0 ? lastLine : oldLastLine).search(/\S|$/)
+					end - oldLastLine.length + whitespaceEnd(lastDiff > 0 ? lastLine : oldLastLine)
 				const offset = start - end + newLines.length + lastDiff
 				const newCursorStart =
 					firstInsersion > selectionStart
@@ -129,8 +130,8 @@ const defaultCommands =
 				lines,
 				lines.map(
 					outdent
-						? str => str.slice(str.search(/\S|$/) ? tabSize - (str.search(/\S|$/) % tabSize) : 0)
-						: str => str && indentChar.repeat(tabSize - (str.search(/\S|$/) % tabSize)) + str,
+						? str => str.slice(whitespaceEnd(str) ? tabSize - (whitespaceEnd(str) % tabSize) : 0)
+						: str => str && indentChar.repeat(tabSize - (whitespaceEnd(str) % tabSize)) + str,
 				),
 				start1,
 				end1,
@@ -179,7 +180,7 @@ const defaultCommands =
 					[start, end] = selection,
 					autoIndent = languageMap[getLanguage(editor)]?.autoIndent,
 					indenationCount =
-						Math.floor(getLineBefore(value, start).search(/\S|$/) / tabSize) * tabSize,
+						Math.floor(whitespaceEnd(getLineBefore(value, start)) / tabSize) * tabSize,
 					extraIndent = autoIndent?.[0]?.(selection, value, editor) ? tabSize : 0,
 					extraLine = autoIndent?.[1]?.(selection, value, editor),
 					newText =
@@ -219,17 +220,10 @@ const defaultCommands =
 						if (newStart > -1 && newEnd > 0) {
 							const [lines, start1, end1] = getLines(value, newStart, newEnd),
 								line = lines[i ? "pop" : "shift"]()!,
-								offset = line.length + 1
+								offset = (line.length + 1) * (i ? 1 : -1)
 
 							lines[i ? "unshift" : "push"](line)
-							insertText(
-								editor,
-								lines.join("\n"),
-								start1,
-								end1,
-								start + (i ? offset : -offset),
-								end + (i ? offset : -offset),
-							)
+							insertText(editor, lines.join("\n"), start1, end1, start + offset, end + offset)
 						}
 					} else {
 						// Copying lines
@@ -313,7 +307,7 @@ const defaultCommands =
 						scroll()
 					} else if (block) {
 						const [open, close] = block,
-							insertionPoint = lines[0].search(/\S|$/),
+							insertionPoint = whitespaceEnd(lines[0]),
 							hasComment = lines[0].startsWith(open, insertionPoint) && lines[last].endsWith(close),
 							newLines = lines.slice()
 
@@ -438,7 +432,7 @@ const editHistory = (historyLimit = 999) => {
 	const setEditorState = (index: number) => {
 		if (stack[index]) {
 			textarea.value = stack[index][0]
-			textarea.setSelectionRange(...stack[index][index < sp ? 2 : 1]!)
+			textarea.setSelectionRange(...stack[index][index < sp ? 2 : 1])
 			currentEditor.update()
 			currentEditor.extensions.cursor?.scrollIntoView()
 			sp = index
