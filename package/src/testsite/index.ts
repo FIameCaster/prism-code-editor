@@ -148,7 +148,7 @@ runBtn.onclick = () => {
 	runBtn.setAttribute("aria-hidden", "true")
 	let options: any
 	try {
-		options = new Function(currentOptions + ";return options")()
+		options = new Function(currentOptions + "\n;return options")() || {}
 	} catch (error) {
 		errorEl.removeAttribute("aria-hidden")
 		errorMessage.textContent = <string>error
@@ -157,7 +157,6 @@ runBtn.onclick = () => {
 
 	let newEditor: PrismEditor
 	try {
-		// Creating a new editor instead of
 		newEditor = createEditorWrapper(null, options)
 	} catch (error) {
 		errorEl.removeAttribute("aria-hidden")
@@ -204,5 +203,4 @@ document.querySelector<HTMLElement>("button.btn")!.onclick = () => {
 	editor2.extensions.searchWidget!.open()
 }
 
-// @ts-expect-error
 setTimeout(() => import("../prism/languages"), 500)
