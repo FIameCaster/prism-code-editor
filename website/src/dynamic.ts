@@ -3,7 +3,12 @@ import "prism-code-editor/search.css"
 import "prism-code-editor/copy-button.css"
 import "prism-code-editor/code-folding.css"
 import "prism-code-editor/rtl-layout.css"
-import "prism-code-editor/languages"
+import "prism-code-editor/languages/clike"
+import "prism-code-editor/languages/css"
+import "prism-code-editor/languages/html"
+import "prism-code-editor/languages/jsx"
+import "prism-code-editor/languages/python"
+import "prism-code-editor/languages/xml"
 import "prism-code-editor/prism/languages/markup"
 import "prism-code-editor/prism/languages/css-extras"
 import "prism-code-editor/prism/languages/js-templates"
@@ -163,7 +168,7 @@ runBtn.onclick = () => {
 	runBtn.setAttribute("aria-hidden", "true")
 	let options: any
 	try {
-		options = new Function(currentOptions + ";return options")()
+		options = new Function(currentOptions + "\n;return options")() || {}
 	} catch (error) {
 		errorEl.removeAttribute("aria-hidden")
 		errorMessage.textContent = <string>error
@@ -172,7 +177,6 @@ runBtn.onclick = () => {
 
 	let newEditor: PrismEditor
 	try {
-		// Creating a new editor instead of
 		newEditor = makeEditor(false, options)
 	} catch (error) {
 		errorEl.removeAttribute("aria-hidden")
