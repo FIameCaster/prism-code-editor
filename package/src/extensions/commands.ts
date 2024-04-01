@@ -388,7 +388,7 @@ export interface EditHistory extends BasicExtension {
 	 * This method can be used to determine whether a call to {@link EditHistory.go} with the
 	 * same offset will succeed or do nothing.
 	 */
-	has(offset: number): void
+	has(offset: number): boolean
 }
 
 /**
