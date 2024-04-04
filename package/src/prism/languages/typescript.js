@@ -42,7 +42,7 @@ insertBefore(ts, 'function', {
 	},
 	'generic-function': {
 		// e.g. foo<T extends "bar" | "baz">( ...
-		pattern: /#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+\s*<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>(?=\s*\()/g,
+		pattern: /#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+\s*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>(?=\s*\()/g,
 		greedy: true,
 		inside: {
 			'generic': {

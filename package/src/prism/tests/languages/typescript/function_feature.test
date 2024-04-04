@@ -4,6 +4,11 @@ declare function f<T extends boolean>(x: T): T extends true ? string : number;
 
 function assert(condition: any, msg?: string): asserts condition { }
 
+function g<T extends () => void>(f: T) {}
+
+foo < bar
+let baz = () => (foo = 10)
+
 ----------------------------------------------------
 
 [
@@ -83,7 +88,45 @@ function assert(condition: any, msg?: string): asserts condition { }
 	["keyword", "asserts"],
 	" condition ",
 	["punctuation", "{"],
-	["punctuation", "}"]
+	["punctuation", "}"],
+
+	["keyword", "function"],
+	["generic-function", [
+		["function", "g"],
+		["generic", [
+			["operator", "<"],
+			["constant", "T"],
+			["keyword", "extends"],
+			["punctuation", "("],
+			["punctuation", ")"],
+			["operator", "=>"],
+			["keyword", "void"],
+			["operator", ">"]
+		]]
+	]],
+	["punctuation", "("],
+	"f",
+	["operator", ":"],
+	["constant", "T"],
+	["punctuation", ")"],
+	["punctuation", "{"],
+	["punctuation", "}"],
+
+	"\n\nfoo ",
+	["operator", "<"],
+	" bar\n",
+
+	["keyword", "let"],
+	["function-variable", ["baz"]],
+	["operator", "="],
+	["punctuation", "("],
+	["punctuation", ")"],
+	["operator", "=>"],
+	["punctuation", "("],
+	"foo ",
+	["operator", "="],
+	["number", "10"],
+	["punctuation", ")"]
 ]
 
 ----------------------------------------------------
