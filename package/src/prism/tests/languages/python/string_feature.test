@@ -3,6 +3,8 @@
 ''
 'fo\'obar'
 "fo\" # comment obar"
+"foo\
+bar"
 
 r"\n"
 b'foo'
@@ -17,6 +19,7 @@ u"foo"
 	["string", "''"],
 	["string", "'fo\\'obar'"],
 	["string", "\"fo\\\" # comment obar\""],
+	["string", "\"foo\\\nbar\""],
 
 	["string", "r\"\\n\""],
 	["string", "b'foo'"],

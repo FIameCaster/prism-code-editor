@@ -18,7 +18,7 @@ inside[rest] = languages.py = languages.python = {
 		greedy: true
 	},
 	'string-interpolation': {
-		pattern: /(?:fr?|rf)(?:("""|''')[\s\S]*?\1|(["'])(?:\\.|(?!\2)[^\\\n])*\2)/gi,
+		pattern: /(?:fr?|rf)(?:("""|''')[\s\S]*?\1|(["'])(?:\\[\s\S]|(?!\2)[^\\\n])*\2)/gi,
 		greedy: true,
 		inside: {
 			'interpolation': {
@@ -31,12 +31,12 @@ inside[rest] = languages.py = languages.python = {
 		}
 	},
 	'triple-quoted-string': {
-		pattern: /(?:[rub]|br|rb)?("""|''')[\s\S]*?\1/gi,
+		pattern: /(?:br?|rb?|u)?("""|''')[\s\S]*?\1/gi,
 		greedy: true,
 		alias: 'string'
 	},
 	'string': {
-		pattern: /(?:[rub]|br|rb)?(["'])(?:\\.|(?!\1)[^\\\n])*\1/gi,
+		pattern: /(?:br?|rb?|u)?(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/gi,
 		greedy: true
 	},
 	'function': {
