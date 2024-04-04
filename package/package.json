@@ -1,6 +1,6 @@
 {
   "name": "prism-code-editor",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "type": "module",
   "description": "Lightweight, extensible code editor component for the web using Prism",
   "main": "./dist/index.js",
@@ -73,7 +73,7 @@
     "scslre": "0.1.6",
     "typedoc": "^0.25.1",
     "typescript": "^5.0.2",
-    "vite": "^5.0.12",
+    "vite": "^5.2.8",
     "vite-plugin-dts": "^2.3.0",
     "yargs": "^17.7.2"
   },
