@@ -47,21 +47,7 @@ const createEditor = (
 		currentExtensions = new Set(extensions),
 		listeners: {
 			[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
-		} = {
-			selectionChange: new Set([
-				([start, end, direction]) => {
-					const newLine =
-						lines[(activeLineNumber = numLines(value, 0, direction == "backward" ? start : end))]
-
-					if (newLine != activeLine) {
-						activeLine?.classList.remove("active-line")
-						newLine.classList.add("active-line")
-						activeLine = newLine
-					}
-					updateClassName()
-				},
-			]),
-		}
+		} = {}
 
 	const setOptions = (options: Partial<EditorOptions>) => {
 		;({ language, value = "" } = Object.assign(currentOptions, { value }, options))
@@ -92,10 +78,10 @@ const createEditor = (
 
 		let newLines = highlightTokens(tokens).split("\n")
 		let l = newLines.length
-		let start = 0,
-			end1 = l,
-			end2 = prevLines.length,
-			newHTML = ""
+		let start = 0
+		let end1 = l
+		let end2 = prevLines.length
+		let newHTML = ""
 		while (newLines[start] == prevLines[start] && start < end1) ++start
 		while (end1 && newLines[--end1] == prevLines[--end2]);
 
@@ -113,7 +99,7 @@ const createEditor = (
 
 		dispatchEvent("update", value)
 		dispatchSelection(true)
-		setTimeout(setTimeout, 0, () => (handleSelecionChange = true))
+		if (handleSelecionChange) setTimeout(setTimeout, 0, () => (handleSelecionChange = true))
 
 		prevLines = newLines
 		handleSelecionChange = false
@@ -178,8 +164,23 @@ const createEditor = (
 		currentOptions[`on${name[0].toUpperCase()}${name.slice(1)}`]?.apply(self, args)
 	}
 
-	const dispatchSelection = (force?: boolean) =>
-		(force || handleSelecionChange) && dispatchEvent("selectionChange", getInputSelection(), value)
+	const dispatchSelection = (force?: boolean) => {
+		if (force || handleSelecionChange) {
+			const selection = getInputSelection()
+			const newLine =
+				lines[
+					(activeLineNumber = numLines(value, 0, selection[selection[2] == "backward" ? 0 : 1]))
+				]
+
+			if (newLine != activeLine) {
+				activeLine?.classList.remove("active-line")
+				newLine.classList.add("active-line")
+				activeLine = newLine
+			}
+			updateClassName(selection)
+			dispatchEvent("selectionChange", selection, value)
+		}
+	}
 
 	const self: PrismEditor = {
 		scrollContainer,

@@ -27,8 +27,8 @@ export interface WordHighlighter extends SelectionMatchHighlighter {
  */
 const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLength = 200) => {
 	const self: SelectionMatchHighlighter = editor => {
-		const searchAPI = (self.api = createSearchAPI(editor)),
-			container = searchAPI.container
+		const searchAPI = (self.api = createSearchAPI(editor))
+		const container = searchAPI.container
 
 		container.style.zIndex = <any>-1
 		container.className = "selection-matches"
@@ -36,7 +36,8 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
 		editor.addListener("selectionChange", ([start, end], value) => {
 			value = editor.focused ? value.slice(start, end) : ""
 			start += value.search(/\S/)
-			let l = (value = value.trim()).length
+			value = value.trim()
+			let l = value.length
 
 			searchAPI.search(
 				minLength > l || l > maxLength ? "" : value,
@@ -80,8 +81,8 @@ const highlightCurrentWord = (
 ) => {
 	const self: WordHighlighter = editor => {
 		let noHighlight = false
-		const searchAPI = (self.api = createSearchAPI(editor)),
-			container = searchAPI.container
+		let searchAPI = (self.api = createSearchAPI(editor))
+		let container = searchAPI.container
 
 		container.style.zIndex = <any>-1
 		container.className = "word-matches"

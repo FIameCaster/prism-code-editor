@@ -58,17 +58,11 @@ interpolationInside.expression.inside = languages.kts = languages.kt = languages
 		pattern: /\b\w+@|@\w+/,
 		alias: 'symbol'
 	},
-	'function': [
-		{
-			pattern: /(?:`[^\n`]+`|\b\w+)(?=\s*\()/g,
-			greedy: true
-		},
-		{
-			pattern: /(\.)(?:`[^\n`]+`|\w+)(?=\s*\{)/g,
-			lookbehind: true,
-			greedy: true
-		}
-	],
+	'function': {
+		pattern: /(?:`[^\n`]+`|\b\w+)(?=\s*\()|(\.)(?:`[^\n`]+`|\w+)(?=\s*\{)/g,
+		lookbehind: true,
+		greedy: true
+	},
 	'number': /\b(?:0[xX][a-fA-F\d]+(?:_[a-fA-F\d]+)*|0[bB][01]+(?:_[01]+)*|\d+(?:_\d+)*(?:\.\d+(?:_\d+)*)?(?:[eE][+-]?\d+(?:_\d+)*)?[fFL]?)\b/,
 	'operator': /--|\+\+|&&|\|\||->|[!=]==|!!|[%!=<>/*+-]=?|[?:]:?|\.\.|\b(?:and|inv|shl|u?shr|x?or)\b/,
 	'punctuation': clikePunctuation

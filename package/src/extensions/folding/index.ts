@@ -54,15 +54,15 @@ const isMultiline = (str: string, start: number, end: number) =>
  * Very minimal downsides to adding this extension dynamically.
  */
 const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCodeFolding => {
-	let cEditor: PrismEditor,
-		value: string,
-		code: string,
-		lines: HTMLCollection,
-		lineNumberWidth: string,
-		textarea: HTMLTextAreaElement,
-		foldPositions: (undefined | [number, number])[],
-		foldToggles: HTMLDivElement[],
-		foldPlaceholders: HTMLDivElement[]
+	let cEditor: PrismEditor
+	let value: string
+	let code: string
+	let lines: HTMLCollection
+	let lineNumberWidth: string
+	let textarea: HTMLTextAreaElement
+	let foldPositions: (undefined | [number, number])[]
+	let foldToggles: HTMLDivElement[]
+	let foldPlaceholders: HTMLDivElement[]
 
 	const foldedLines = new Set<number>()
 	const foldedRanges = new Set<[number, number]>()
@@ -116,11 +116,10 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 
 	const update = (line?: number) => {
 		value = ""
-		let pos = 0,
-			ln = 1,
-			skippedLines: number[] = [],
-			sortedRanges = [...foldedRanges].sort((a, b) => a[0] - b[0])
-
+		let pos = 0
+		let ln = 1
+		let skippedLines: number[] = []
+		let sortedRanges = [...foldedRanges].sort((a, b) => a[0] - b[0])
 
 		for (let [start, end] of sortedRanges) {
 			value += code.slice(pos, start) + "   "
@@ -128,7 +127,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 		}
 
 		textarea.value = value += code.slice(pos)
-		if (line) textarea.setSelectionRange(pos = getPosition(foldPositions[line]![0]), pos)
+		if (line) textarea.setSelectionRange((pos = getPosition(foldPositions[line]![0])), pos)
 		cEditor.update()
 
 		for (let i = 1, j = 0, l = lines.length; i < l; i++)

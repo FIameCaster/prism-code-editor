@@ -76,14 +76,14 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 		search(str, caseSensitive, wholeWord, useRegExp, selection, filter, pattern) {
 			if (!str) return stopSearch()
 			if (!useRegExp) str = regexEscape(str)
-			const value = editor.value,
-				searchStr = selection ? value.slice(...selection) : value,
-				offset = selection ? selection[0] : 0
+			const value = editor.value
+			const searchStr = selection ? value.slice(...selection) : value
+			const offset = selection ? selection[0] : 0
 
-			let match: RegExpExecArray | null,
-				l: number,
-				index: number,
-				i = 0
+			let match: RegExpExecArray | null
+			let l: number
+			let index: number
+			let i = 0
 
 			try {
 				regex = RegExp(str, `gum${caseSensitive ? "" : "i"}`)
@@ -103,32 +103,32 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 				return (<Error>e).message
 			}
 
-			if (!i) return stopSearch()
-			matchPositions.length = i
+			if (i) {
+				matchPositions.length = i
+				l = Math.min(i * 2, 20000)
 
-			l = Math.min(i * 2, 20000)
+				for (let i = nodes.length; i <= l; ) {
+					nodes[i++] = matchTemplate()
+					nodes[i++] = new Text()
+				}
 
-			for (let i = nodes.length; i <= l; ) {
-				nodes[i++] = matchTemplate()
-				nodes[i++] = new Text()
-			}
+				for (let i = nodeCount - 1; i > l; ) nodes[i--].remove()
+				if (nodeCount <= l) container.append(...nodes.slice(nodeCount, l + 1))
 
-			for (let i = nodeCount - 1; i > l; ) nodes[i--].remove()
-			if (nodeCount <= l) container.append(...nodes.slice(nodeCount, l + 1))
+				// Diffing from bottom to top as well should be better
+				for (let i = 0, prevEnd = 0; i < l; ++i) {
+					const [start, end] = matchPositions[i / 2]
+					const before = value.slice(prevEnd, start)
+					const match = value.slice(start, (prevEnd = end))
 
-			// Diffing from bottom to top as well should be better
-			for (let i = 0, prevEnd = 0; i < l; ++i) {
-				const [start, end] = matchPositions[i / 2],
-					before = value.slice(prevEnd, start),
-					match = value.slice(start, (prevEnd = end))
+					if (before != nodeValues[i]) (<Text>nodes[i]).data = nodeValues[i] = before
+					if (match != nodeValues[++i]) (<Text>nodes[i].firstChild).data = nodeValues[i] = match
+				}
 
-				if (before != nodeValues[i]) (<Text>nodes[i]).data = nodeValues[i] = before
-				if (match != nodeValues[++i]) (<Text>nodes[i].firstChild).data = nodeValues[i] = match
-			}
-
-			;(<Text>nodes[l]).data = nodeValues[l] = value.slice(matchPositions[l / 2 - 1][1])
-			container.style.display = ""
-			nodeCount = l + 1
+				;(<Text>nodes[l]).data = nodeValues[l] = value.slice(matchPositions[l / 2 - 1][1])
+				container.style.display = ""
+				nodeCount = l + 1
+			} else stopSearch()
 		},
 		container,
 		get regex() {

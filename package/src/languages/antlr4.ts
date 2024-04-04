@@ -1,4 +1,4 @@
 import { languageMap } from ".."
-import { bracketIndenting, clikeComment } from "./shared"
+import { bracketIndenting } from "./shared"
 
-languageMap.g4 = languageMap.antlr4 = bracketIndenting(clikeComment)
+languageMap.g4 = languageMap.antlr4 = bracketIndenting()

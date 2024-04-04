@@ -55,10 +55,10 @@ const getClosestToken = (
 	// We unfortunitely have to include elements, else we can't get empty tokens
 	const walker = document.createTreeWalker(line, 5)
 
-	let node = walker.lastChild()!
+	let node = walker.lastChild()
 	let offset = getLineEnd(value, position) + 1 - position - (<Text>node).length
 
-	while (-offset <= marginRight && (node = walker.previousNode()!)) {
+	while (-offset <= marginRight && (node = walker.previousNode())) {
 		if (node.lastChild) continue
 		offset -= (<Text>node).length || 0
 

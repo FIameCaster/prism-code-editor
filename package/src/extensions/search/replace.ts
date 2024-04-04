@@ -36,32 +36,41 @@ export interface ReplaceAPI extends SearchAPI {
 
 /** Function adding both search and replace functionality to an editor. */
 const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
-	const getSelection = editor.getSelection,
-		search = createSearchAPI(editor),
-		closest = () => {
-			const caretPos = getSelection()[0],
-				matches = search.matches,
-				l = matches.length
-			for (let i = l; i; ) {
-				if (caretPos > matches[--i][1]) return i == l - 1 ? 0 : i + 1
-			}
-			return l ? 0 : -1
+	const getSelection = editor.getSelection
+	const search = createSearchAPI(editor)
+	const container = search.container
+	const matches = search.matches
+	const closest = () => {
+		const caretPos = getSelection()[0]
+		const l = matches.length
+		for (let i = l; i; ) {
+			if (caretPos > matches[--i][1]) return i == l - 1 ? 0 : i + 1
 		}
+		return l ? 0 : -1
+	}
 
 	const toggleClasses = () => {
 		currentLine?.classList.toggle("match-highlight")
 		currentMatch?.classList.toggle("match")
 	}
 
-	let currentLine: HTMLDivElement,
-		currentMatch: HTMLSpanElement,
-		removeHighlight: (() => void) | null
+	const removeSelection = () => {
+		if (hasSelected) {
+			toggleClasses()
+			hasSelected = false
+		}
+	}
+
+	let currentLine: HTMLDivElement
+	let currentMatch: HTMLSpanElement
+	let hasSelected = false
+
+	addTextareaListener(editor, "focus", removeSelection)
 
 	return Object.assign(search, {
 		next() {
-			const cursor = getSelection()[1],
-				matches = search.matches,
-				l = matches.length
+			const cursor = getSelection()[1]
+			const l = matches.length
 			for (let i = 0, match: [number, number]; i < l; i++) {
 				match = matches[i]
 				if (match[0] - <any>(match[0] == match[1]) >= cursor) return i
@@ -69,9 +78,8 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 			return l ? 0 : -1
 		},
 		prev() {
-			const cursor = getSelection()[0],
-				matches = search.matches,
-				l = matches.length
+			const cursor = getSelection()[0]
+			const l = matches.length
 			for (let i = l, match: [number, number]; i; ) {
 				match = matches[--i]
 				if (match[1] + <any>(match[0] == match[1]) <= cursor) return i
@@ -80,18 +88,12 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 		},
 		closest,
 		selectMatch(index: number, scrollPadding?: number) {
-			removeHighlight?.()
-			const match = search.matches[index]
-			if (match) {
-				removeHighlight = () => {
-					toggleClasses()
-					editor.textarea.removeEventListener("focus", removeHighlight!)
-					removeHighlight = null
-				}
-				editor.setSelection(...match)
-				addTextareaListener(editor, "focus", removeHighlight)
+			removeSelection()
+			if (matches[index]) {
+				editor.setSelection(...matches[index])
 				currentLine = editor.activeLine!
-				currentMatch = <HTMLSpanElement>search.container.children[index]
+				currentMatch = <HTMLSpanElement>container.children[index]
+				hasSelected = true
 				toggleClasses()
 				if (currentMatch) {
 					scrollToEl(editor, currentMatch, scrollPadding)
@@ -99,39 +101,39 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 			}
 		},
 		replace(str: string) {
-			if (!search.matches[0]) return
-			const index = closest(),
-				[start, end] = search.matches[index],
-				[caretStart, caretEnd] = getSelection()
+			if (matches[0]) {
+				const index = closest()
+				const [start, end] = matches[index]
+				const [caretStart, caretEnd] = getSelection()
 
-			if (start != caretStart || end != caretEnd) {
-				this.selectMatch(index)
-				return index
+				if (start != caretStart || end != caretEnd) {
+					this.selectMatch(index)
+					return index
+				}
+				insertText(editor, str)
 			}
-			insertText(editor, str)
 		},
 		replaceAll(str: string) {
-			const { matches } = search
 			if (!matches[0]) return
-			let value = editor.value,
-				[start, end] = getSelection(),
-				newLen = str.length,
-				newStart = start,
-				newEnd = end,
-				newValue = "",
-				l = matches.length
+			let value = editor.value
+			let [start, end] = getSelection()
+			let newLen = str.length
+			let newStart = start
+			let newEnd = end
+			let newValue = ""
+			let l = matches.length
 
 			for (let i = 0; i < l; i++) {
-				const [matchStart, matchEnd] = matches[i],
-					lengthDiff = newLen - matchEnd + matchStart,
-					move = (pos: number) =>
-						matchStart > pos
-							? 0
-							: pos >= matchEnd
-							? lengthDiff
-							: lengthDiff < 0 && pos > matchStart + newLen
-							? newLen + matchStart - pos
-							: 0
+				const [matchStart, matchEnd] = matches[i]
+				const lengthDiff = newLen - matchEnd + matchStart
+				const move = (pos: number) =>
+					matchStart > pos
+						? 0
+						: pos >= matchEnd
+						? lengthDiff
+						: lengthDiff < 0 && pos > matchStart + newLen
+						? newLen + matchStart - pos
+						: 0
 
 				newEnd += move(end)
 				newStart += move(start)
@@ -141,8 +143,9 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 			insertText(editor, newValue, matches[0][0], matches[l - 1][1], newStart, newEnd)
 		},
 		destroy() {
-			removeHighlight?.()
-			search.container.remove()
+			editor.textarea.removeEventListener("focus", removeSelection)
+			removeSelection()
+			container.remove()
 		},
 	})
 }

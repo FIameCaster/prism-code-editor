@@ -1,17 +1,18 @@
 import { languages } from '../core.js';
 import { boolean, clikeComment, clikePunctuation } from '../utils/shared.js';
 
-languages.conc = languages.concurnas = {
+var interpolation = {
+	pattern: /((?:^|[^\\])(?:\\\\)*)\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/,
+	lookbehind: true
+};
+
+interpolation.inside = languages.conc = languages.concurnas = {
 	'comment': clikeComment(),
 	'regex-literal': {
 		pattern: /\br(["'])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true,
 		inside: {
-			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\\\)*)\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
-				lookbehind: true,
-				inside: 'conc'
-			},
+			'interpolation': interpolation,
 			'regex': /[\s\S]+/
 		}
 	},
@@ -19,11 +20,7 @@ languages.conc = languages.concurnas = {
 		pattern: /(?:\B|\bs)(["'])(?:\\.|(?!\1)[^\\\n])*\1/g,
 		greedy: true,
 		inside: {
-			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\\\)*)\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})+\}/,
-				lookbehind: true,
-				inside: 'conc'
-			},
+			'interpolation': interpolation,
 			'string': /[\s\S]+/
 		}
 	},

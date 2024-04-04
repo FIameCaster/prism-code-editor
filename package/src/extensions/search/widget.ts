@@ -7,9 +7,9 @@ import {
 	addTextareaListener,
 	numLines,
 } from "../../core.js"
-import { regexEscape, getLines, getModifierCode } from "../../utils/index.js"
+import { regexEscape, getModifierCode } from "../../utils/index.js"
 import { createReplaceAPI } from "./replace.js"
-import { addListener } from "../../utils/local.js"
+import { addListener, getLineEnd, getLineStart } from "../../utils/local.js"
 
 const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
 
@@ -62,8 +62,8 @@ export const searchWidget = (): SearchWidget => {
 	const self: SearchWidget = editor => {
 		editor.extensions.searchWidget = self
 
-		const { textarea, wrapper, overlays, scrollContainer, getSelection } = editor,
-			replaceAPI = createReplaceAPI(editor)
+		const { textarea, wrapper, overlays, scrollContainer, getSelection } = editor
+		const replaceAPI = createReplaceAPI(editor)
 
 		const startSearch = (selectMatch?: boolean) => {
 			if (selectMatch) textarea.setSelectionRange(...prevUserSelection)
@@ -116,9 +116,9 @@ export const searchWidget = (): SearchWidget => {
 			if (searchSelection && currentSelection) {
 				// This preserves the selection well for normal typing,
 				// but for indenting, toggling comments, etc. it doesn't
-				const diff = prevLength - (prevLength = editor.value.length),
-					[, end] = currentSelection,
-					[searchStart, searchEnd] = searchSelection
+				const diff = prevLength - (prevLength = editor.value.length)
+				const [, end] = currentSelection
+				const [searchStart, searchEnd] = searchSelection
 
 				if (end <= searchEnd) {
 					searchSelection[1] -= diff
@@ -168,9 +168,9 @@ export const searchWidget = (): SearchWidget => {
 
 		const updateMargin = () => {
 			const newMargin = isOpen
-					? getStyleValue(search, "top") + getStyleValue(search, "height")
-					: marginTop,
-				newScroll = scrollContainer.scrollTop + newMargin - prevMargin
+				? getStyleValue(search, "top") + getStyleValue(search, "height")
+				: marginTop
+			const newScroll = scrollContainer.scrollTop + newMargin - prevMargin
 
 			wrapper.style.marginTop = newMargin + "px"
 			scrollContainer.scrollTop = newScroll
@@ -226,8 +226,12 @@ export const searchWidget = (): SearchWidget => {
 					else {
 						searchSelection = <[number, number]>getSelection().slice(0, 2)
 
-						if (numLines(value, ...searchSelection) > 1)
-							searchSelection = <[number, number]>getLines(value, ...searchSelection!).slice(1)
+						if (numLines(value, ...searchSelection) > 1) {
+							searchSelection = [
+								getLineStart(value, searchSelection[0]),
+								getLineEnd(value, searchSelection[1]),
+							]
+						}
 					}
 					prevLength = value.length
 				},
@@ -247,27 +251,25 @@ export const searchWidget = (): SearchWidget => {
 
 		container.addEventListener("click", e => {
 			const target = <HTMLElement>e.target
-			const remove = addListener(editor, "update", () => target.focus())
 			elementHandlerMap.get(<HTMLElement>target)?.()
 			if (target.matches(".pce-options>button")) {
 				toggleAttr(target, "aria-pressed")
 				startSearch(true)
 			}
-			remove()
+			if (e.isTrusted) target.focus()
 		})
 
 		findInput.oninput = () => isOpen && startSearch(true)
 
 		container.addEventListener("keydown", e => {
-			const shortcut = getModifierCode(e),
-				target = <HTMLElement>e.target,
-				keyCode = e.keyCode,
-				isFind = target == findInput
+			const shortcut = getModifierCode(e)
+			const target = <HTMLElement>e.target
+			const keyCode = e.keyCode
+			const isFind = target == findInput
 			if (shortcut == (isMac ? 5 : 1)) {
-				let input = keyCodeButtonMap[keyCode]
-				if (input) {
+				if (keyCodeButtonMap[keyCode]) {
 					preventDefault(e)
-					input.click()
+					keyCodeButtonMap[keyCode].click()
 				}
 			} else if (keyCode == 13 && target.tagName == "INPUT") {
 				preventDefault(e)
