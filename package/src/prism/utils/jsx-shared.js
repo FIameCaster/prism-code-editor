@@ -3,7 +3,7 @@ import { clone, insertBefore } from './language.js';
 import { replace, re } from './shared.js';
 
 var space = /\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\//.source;
-var braces = /\{(?:\{(?:\{[^{}]*\}|[^{}])*\}|[^{}])*\}/.source;
+var braces = /\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/.source;
 var spread = replace(/\{<0>*\.{3}(?:[^{}]|<1>)*\}/.source, [space, braces]);
 
 var isText = token => token && (!token.type || token.type == 'plain-text');

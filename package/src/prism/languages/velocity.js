@@ -52,7 +52,7 @@ insertBefore(vel, 'comment', {
 		}
 	],
 	'directive': {
-		pattern: /(^|[^\\](?:\\\\)*)#@?(?:[a-z][\w-]*|\{[a-z][\w-]*\})(?:\s*\((?:[^()]|\([^()]*\))*\))?/i,
+		pattern: /(^|[^\\](?:\\\\)*)#@?(?:[a-z][\w-]*|\{[a-z][\w-]*\})(?:\s*\((?:[^()]|\([^)]*\))*\))?/i,
 		lookbehind: true,
 		inside: {
 			'keyword': {

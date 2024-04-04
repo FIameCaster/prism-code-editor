@@ -3,7 +3,7 @@ import { re, replace } from '../utils/shared.js';
 
 // Pascaligo is a layer 2 smart contract language for the tezos blockchain
 
-var type = replace(/(?:\b\w+<0>?|<0>)/.source, [/\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\)/.source]);
+var type = replace(/(?:\b\w+<0>?|<0>)/.source, [/\((?:[^()]|\((?:[^()]|\([^)]*\))*\))*\)/.source]);
 
 var classNameInside = {};
 

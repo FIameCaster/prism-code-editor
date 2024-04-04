@@ -37,7 +37,7 @@ var punctuation = /[()[\]{};]/;
 
 var expression = {
 	// Allow for 3 levels of depth
-	pattern: /(^|[^^])\((?:[^()]|\((?:[^()]|\((?:[^()])*\))*\))*\)/g,
+	pattern: /(^|[^^])\((?:[^()]|\((?:[^()]|\([^)]*\))*\))*\)/g,
 	lookbehind: true,
 	greedy: true,
 	inside: {

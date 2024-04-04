@@ -25,7 +25,7 @@ var insideString = {
 	'variable': [
 		// [0]: Arithmetic Environment
 		{
-			pattern: /\$?\(\([\s\S]+?\)\)/g,
+			pattern: /\$?\(\([\s\S]*?\)\)/g,
 			greedy: true,
 			inside: {
 				// If there is a $ sign at the beginning highlight $(( and )) as variable
@@ -45,13 +45,13 @@ var insideString = {
 		},
 		// [1]: Command Substitution
 		{
-			pattern: /\$\((?:\([^)]+\)|[^()])+\)|`[^`]+`/g,
+			pattern: /\$\((?:[^()]|\([^)]*\))*\)|`[^`]+`/g,
 			greedy: true,
 			inside: variableInside
 		},
 		// [2]: Brace expansion
 		{
-			pattern: /\$\{[^}]+\}/g,
+			pattern: /\$\{[^}]*\}/g,
 			greedy: true,
 			inside: {
 				'operator': /:[?=+-]?|[!/]|##?|%%?|\^\^?|,,?/,

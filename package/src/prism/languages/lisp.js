@@ -29,7 +29,7 @@ var par = '(\\()';
 var endpar = '(?=\\))';
 // End the pattern with look-ahead space
 var space = '(?=\\s)';
-var nestedPar = /(?:[^()]|\((?:[^()]|\((?:[^()]|\((?:[^()]|\((?:[^()]|\([^()]*\))*\))*\))*\))*\))/.source;
+var nestedPar = /(?:[^()]|\((?:[^()]|\((?:[^()]|\((?:[^()]|\((?:[^()]|\([^)]*\))*\))*\))*\))*\))/.source;
 
 var language = {
 	// Three or four semicolons are considered a heading.

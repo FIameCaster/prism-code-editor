@@ -4,7 +4,7 @@ import { boolean, clikePunctuation, re, replace } from '../utils/shared.js';
 var keyword = /\b(?:align|allowzero|and|anyframe|anytype|asm|async|await|break|cancel|catch|comptime|const|continue|defer|else|enum|errdefer|error|export|extern|fn|f?or|if|inline|linksection|nakedcc|noalias|nosuspend|null|orelse|packed|promise|pub|resume|return|stdcallcc|struct|suspend|switch|test|threadlocal|try|undefined|union|unreachable|usingnamespace|var|volatile|while)\b/;
 
 var IDENTIFIER = '\\b(?!' + keyword.source + ')(?!\\d)\\w+\\b';
-var ALIGN = /align\s*\((?:[^()]|\([^()]*\))*\)/.source;
+var ALIGN = /align\s*\((?:[^()]|\([^)]*\))*\)/.source;
 var PREFIX_TYPE_OP = replace(/(?:\?|\bpromise->|(?:\[[^[\]]*\]|\*(?!\*)|\*\*)(?:\s*<0>|\s*const\b|\s*volatile\b|\s*allowzero\b)*)/.source, [ALIGN]);
 var SUFFIX_EXPR = replace(/(?:\bpromise\b|(?:\berror\.)?<0>(?:\.<0>)*(?!\s+<0>))/.source, [IDENTIFIER]);
 var TYPE = '(?!\\s)(?:!?\\s*(?:' + PREFIX_TYPE_OP + '\\s*)*' + SUFFIX_EXPR + ')+';

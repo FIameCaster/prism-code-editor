@@ -74,7 +74,7 @@ languages.js = languages.javascript = Object.assign(js, {
 	],
 	// This must be declared before keyword because we use "function" inside the look-forward
 	'function-variable': {
-		pattern: /#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+)\s*=>))/,
+		pattern: /#?(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*[=:]\s*(?:async\s*)?(?:\bfunction\b|(?:\((?:[^()]|\([^)]*\))*\)|(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+)\s*=>))/,
 		alias: 'function',
 		inside: {
 			'maybe-class-name': /^[A-Z].*/

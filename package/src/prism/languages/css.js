@@ -6,7 +6,7 @@ var stringSrc = string.source;
 var atruleInside = {
 	'rule': /^@[\w-]+/,
 	'selector-function-argument': {
-		pattern: /(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^()]*\))*\))+(?=\s*\))/,
+		pattern: /(\bselector\s*\(\s*(?![\s)]))(?:[^()\s]|\s+(?![\s)])|\((?:[^()]|\([^)]*\))*\))+(?=\s*\))/,
 		lookbehind: true,
 		alias: 'selector'
 	},

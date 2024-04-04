@@ -32,7 +32,7 @@ var cfc = languages.cfc = languages.cfscript = extend('clike', {
 insertBefore(cfc, 'keyword', {
 	// This must be declared before keyword because we use "function" inside the lookahead
 	'function-variable': {
-		pattern: /(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*[=:]\s*(?:\bfunction\b|(?:\((?:[^()]|\([^()]*\))*\)|(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+)\s*=>))/,
+		pattern: /(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*[=:]\s*(?:\bfunction\b|(?:\((?:[^()]|\([^)]*\))*\)|(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+)\s*=>))/,
 		alias: 'function'
 	}
 });

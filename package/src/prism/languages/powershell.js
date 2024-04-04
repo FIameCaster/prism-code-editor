@@ -33,7 +33,7 @@ stringFunction.inside = languages.powershell = {
 	],
 	// Matches name spaces as well as casts, attribute decorators. Force starting with letter to avoid matching array indices
 	// Supports two levels of nested brackets (e.g. `[OutputType([System.Collections.Generic.List[int]])]`)
-	'namespace': /\[[a-z](?:\[(?:\[[^\]]*\]|[^[\]])*\]|[^[\]])*\]/i,
+	'namespace': /\[[a-z](?:[^[\]]|\[(?:[^[\]]|\[[^\]]*\])*\])*\]/i,
 	'boolean': boolean,
 	'variable': variable,
 	// Cmdlets and aliases. Aliases should come last, otherwise "write" gets preferred over "write-host" for example

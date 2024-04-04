@@ -11,7 +11,7 @@ languages.bison = Object.assign({
 		inside: {
 			'c': {
 				// Allow for one level of nested braces
-				pattern: /%\{[\s\S]*?%\}|\{(?:\{[^}]*\}|[^{}])*\}/,
+				pattern: /%\{[\s\S]*?%\}|\{(?:[^{}]|\{[^}]*\})*\}/,
 				inside: {
 					'delimiter': {
 						pattern: /^%?\{|%?\}$/,

@@ -19,7 +19,7 @@ languages.scheme = {
 	// and (potentially nested) multiline comments:
 	//   #| comment #| nested |# still comment |#
 	// (only 1 level of nesting is supported)
-	'comment': /;.*|#;\s*(?:\((?:[^()]|\([^()]*\))*\)|\[(?:[^[\]]|\[[^[\]]*\])*\])|#\|(?:[^#|]|#(?!\|)|\|(?!#)|#\|(?:[^#|]|#(?!\|)|\|(?!#))*\|#)*\|#/,
+	'comment': /;.*|#;\s*(?:\((?:[^()]|\([^)]*\))*\)|\[(?:[^[\]]|\[[^\]]*\])*\])|#\|(?:[^#|]|#(?!\|)|\|(?!#)|#\|(?:[^#|]|#(?!\|)|\|(?!#))*\|#)*\|#/,
 	'string': {
 		pattern: /"(?:\\.|[^\\"])*"/g,
 		greedy: true

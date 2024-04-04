@@ -4,7 +4,7 @@ import { boolean } from '../utils/shared.js';
 var content = {
 	pattern: /[\s\S]+/
 };
-var interpolation = /\\\((?:[^()]|\([^()]*\))*\)/.source;
+var interpolation = /\\\((?:[^()]|\([^)]*\))*\)/.source;
 var string = /(^|[^\\])"(?:[^\\\n"]|\\[^\n(]|__)*"/.source.replace(/__/g, interpolation);
 var stringInterpolation = {
 	'interpolation': {

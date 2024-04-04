@@ -73,14 +73,14 @@ Object.assign(haml, {
 	},
 	'tag': {
 		// Allows for one nested group of braces
-		pattern: /(^[ \t]*)[%.#][\w#.-]*[\w-](?:\([^)]+\)|\{(?:\{[^}]+\}|[^{}])+\}|\[[^\]]+\])*[/<>]*/m,
+		pattern: /(^[ \t]*)[%.#][\w#.-]*[\w-](?:\([^)]*\)|\{(?:[^{}]|\{[^}]*\})*\}|\[[^\]]*\])*[<>/]*/m,
 		lookbehind: true,
 		inside: {
 			'attributes': [
 				{
 					// Lookbehind tries to prevent interpolations from breaking it all
 					// Allows for one nested group of braces
-					pattern: /(^|[^#])\{(?:\{[^}]+\}|[^{}])+\}/,
+					pattern: /(^|[^#])\{(?:[^{}]|\{[^}]*\})*\}/,
 					lookbehind: true,
 					inside: 'ruby'
 				},
