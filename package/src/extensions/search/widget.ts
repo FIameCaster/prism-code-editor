@@ -187,7 +187,11 @@ export const searchWidget = (): SearchWidget => {
 
 		const replace = () => {
 			selectNext = true
-			replaceAPI.replace(replaceInput.value)
+			const index = replaceAPI.replace(replaceInput.value)
+			if (index != null) {
+				current.data = <any>(index + 1)
+				replaceAPI.selectMatch(index, prevMargin)
+			}
 			selectNext = false
 		}
 
@@ -251,12 +255,13 @@ export const searchWidget = (): SearchWidget => {
 
 		container.addEventListener("click", e => {
 			const target = <HTMLElement>e.target
+			const remove = addListener(editor, "update", () => target.focus())
 			elementHandlerMap.get(<HTMLElement>target)?.()
 			if (target.matches(".pce-options>button")) {
 				toggleAttr(target, "aria-pressed")
 				startSearch(true)
 			}
-			if (e.isTrusted) target.focus()
+			remove()
 		})
 
 		findInput.oninput = () => isOpen && startSearch(true)
@@ -273,9 +278,9 @@ export const searchWidget = (): SearchWidget => {
 				}
 			} else if (keyCode == 13 && target.tagName == "INPUT") {
 				preventDefault(e)
-				if (!shortcut) isFind ? move(true) : replace()
+				if (!shortcut) isFind ? move(true) : replaceEl.click()
 				else if (shortcut == 8 && isFind) move()
-				else if (shortcut == (isMac ? 4 : 3) && !isFind) replaceAll()
+				else if (shortcut == (isMac ? 4 : 3) && !isFind) replaceAllEl.click()
 				target.focus()
 			} else if (!shortcut && keyCode == 27) close()
 			else keydown(e)

@@ -21,10 +21,11 @@ export interface ReplaceAPI extends SearchAPI {
 	 */
 	selectMatch(index: number, scrollPadding?: number): void
 	/**
-	 * If a match is selected, it's replaced with the specified value.
-	 * If not, the closest match will be selected and the index is returned.
+	 * If a match is selected and it's different to the provided string, it's replaced,
+	 * else the index of the next match is returned.
+	 * If there's no selected match, the index of the closest match is returned.
 	 */
-	replace(value: string): number | undefined
+	replace(str: string): number | undefined
 	/**
 	 * @param value Value
 	 * @param selection Does nothing. Kept for backwards compatibility.
@@ -44,7 +45,7 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 		const caretPos = getSelection()[0]
 		const l = matches.length
 		for (let i = l; i; ) {
-			if (caretPos > matches[--i][1]) return i == l - 1 ? 0 : i + 1
+			if (caretPos >= matches[--i][1]) return (i + <any>(matches[i][0] < caretPos)) % l
 		}
 		return l ? 0 : -1
 	}
@@ -102,15 +103,14 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 		},
 		replace(str: string) {
 			if (matches[0]) {
-				const index = closest()
-				const [start, end] = matches[index]
-				const [caretStart, caretEnd] = getSelection()
+				let index = closest()
+				let [start, end] = matches[index]
+				let [caretStart, caretEnd] = getSelection()
+				let notSelected = start != caretStart || end != caretEnd
 
-				if (start != caretStart || end != caretEnd) {
-					this.selectMatch(index)
-					return index
-				}
-				insertText(editor, str)
+				if (notSelected) return index
+				if (editor.value.slice(start, end) == str) return (index = (index + 1) % matches.length)
+				return insertText(editor, str)!
 			}
 		},
 		replaceAll(str: string) {
