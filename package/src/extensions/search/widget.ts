@@ -1,4 +1,4 @@
-import { InputSelection, BasicExtension } from "../../index.js"
+import { InputSelection, BasicExtension, isWebKit } from "../../index.js"
 import {
 	isChrome,
 	isMac,
@@ -66,7 +66,7 @@ export const searchWidget = (): SearchWidget => {
 		const replaceAPI = createReplaceAPI(editor)
 
 		const startSearch = (selectMatch?: boolean) => {
-			if (selectMatch) textarea.setSelectionRange(...prevUserSelection)
+			if (selectMatch && !isWebKit) textarea.setSelectionRange(...prevUserSelection)
 			const error = replaceAPI.search(
 				findInput.value,
 				matchCase,
