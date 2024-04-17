@@ -1,7 +1,15 @@
 import { languages } from '../core.js';
 
-/** @param {string} name */
-var headerValueOf = name => RegExp('(^(?:' + name + '):[ \t]*(?![ \t]))[^]+', 'i');
+/**
+ * @param {string} name
+ * @param {string} lang
+ */
+var headerValueOf = (name, lang) => ({
+	pattern: RegExp('(^(?:' + name + '):[ \t]*)\\S[^]*', 'i'),
+	lookbehind: true,
+	alias: lang && 'language-' + lang,
+	inside: lang
+});
 
 var http = languages.http = {
 	'request-line': {
@@ -51,7 +59,7 @@ var http = languages.http = {
 
 // Create a mapping of Content-Type headers to language definitions
 
-var httpLanguages = [
+[
 	'application/javascript',
 	'application/json',
 	'application/xml',
@@ -59,23 +67,15 @@ var httpLanguages = [
 	'text/html',
 	'text/css',
 	'text/plain'
-];
-
-/**
- * Returns a pattern for the given content type which matches it and any type which has it as a suffix.
- *
- * @param {string} contentType
- * @returns {string}
- */
-var getSuffixPattern = (contentType, lang) => '(?:' + contentType + '|\\w+/(?:[\\w.-]+\\+)+' + lang + '(?![+\\w.-]))';
-
-httpLanguages.forEach(contentType => {
+].forEach(contentType => {
 	var lang = contentType.split('/')[1];
-	var pattern = contentType[0] == 'a' && !contentType[17] ? getSuffixPattern(contentType, lang) : contentType;
+	var pattern = contentType[10] && !lang[4]
+		? '(?:' + contentType + '|\\w+/(?:[\\w.-]+\\+)+' + lang + '(?![\\w.+-]))' : contentType;
 
 	http[contentType.replace('/', '-')] = {
-		pattern: RegExp('(content-type:\\s*'+ pattern + '(?:\n[\\w-].*)*\n)[^ \t\\w-][^]*', 'i'),
+		pattern: RegExp('(content-type:\\s*'+ pattern + '(?:;.*)?(?:\n[\\w-].*)*\n)[^ \t\\w-][^]*', 'i'),
 		lookbehind: true,
+		alias: 'language-' + lang,
 		inside: lang == 'json' ? languages.json || 'js' : lang
 	};
 });
@@ -84,28 +84,10 @@ http.header = {
 	pattern: /^[\w-]+:.+(?:\n[ \t].+)*/m,
 	inside: {
 		'header-value': [
-			{
-				pattern: headerValueOf(/Content-Security-Policy/.source),
-				lookbehind: true,
-				alias: 'languages-csp',
-				inside: 'csp'
-			},
-			{
-				pattern: headerValueOf(/Public-Key-Pins(?:-Report-Only)?/.source),
-				lookbehind: true,
-				alias: 'languages-hpkp',
-				inside: 'hpkp'
-			},
-			{
-				pattern: headerValueOf(/Strict-Transport-Security/.source),
-				lookbehind: true,
-				alias: 'languages-hsts',
-				inside: 'hsts'
-			},
-			{
-				pattern: headerValueOf(/[^:]+/.source),
-				lookbehind: true
-			}
+			headerValueOf(/Content-Security-Policy/.source, 'csp'),
+			headerValueOf(/Public-Key-Pins(?:-Report-Only)?/.source, 'hpkp'),
+			headerValueOf(/Strict-Transport-Security/.source, 'hsts'),
+			headerValueOf(/[^:]+/.source)
 		],
 		'header-name': {
 			pattern: /^[^:]+/,
