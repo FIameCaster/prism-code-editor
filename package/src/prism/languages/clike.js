@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment, clikeString, clikeNumber, boolean, clikePunctuation } from '../utils/shared.js';
+import { clikeComment, clikeString, clikeNumber, boolean, clikePunctuation } from '../utils/patterns.js';
 
 languages.clike = {
 	'comment': clikeComment(),

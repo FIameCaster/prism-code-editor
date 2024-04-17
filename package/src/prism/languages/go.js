@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment, clikePunctuation } from '../utils/shared.js';
+import { clikeComment, clikePunctuation } from '../utils/patterns.js';
 
 languages.go = {
 	'comment': clikeComment(),

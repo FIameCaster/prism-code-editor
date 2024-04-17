@@ -1,5 +1,5 @@
 import { languages, rest } from '../core.js';
-import { boolean, clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment } from '../utils/patterns.js';
 
 var unit = {
 	pattern: /(\b\d+)(?:%|[a-z]+)/,

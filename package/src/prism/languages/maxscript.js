@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
 
 var keywords = /\b(?:about|and|animate|as|at|attributes|by|case|catch|collect|continue|coordsys|do|else|exit|fn|f?or|from|function|global|if|in|local|macroscript|mapped|max|not|off?|on|parameters|persistent|plugin|rcmenu|return|rollout|set|struct|[tw]hen|throw|to|tool|try|undo|utility|where|while|with)\b/i;
 

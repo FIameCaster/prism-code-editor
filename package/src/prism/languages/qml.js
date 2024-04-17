@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
-import { clikeComment, nested, re } from '../utils/shared.js';
+import { clikeComment } from '../utils/patterns.js';
+import { nested, re } from '../utils/shared.js';
 import './javascript.js';
 
 var jsExpr = nested(/(?:[^\\()[\]{}"'/]|"(?:\\.|[^\\\n"])*"|'(?:\\.|[^\\\n'])*'|\/(?![*/])|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\/|\(<self>*\)|\[<self>*\]|\{<self>*\}|\\[\s\S])/.source, 2);

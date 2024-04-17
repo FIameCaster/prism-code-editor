@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment } from '../utils/shared.js';
+import { clikeComment } from '../utils/patterns.js';
 
 var statement = {
 	pattern: /[\s\S]+/

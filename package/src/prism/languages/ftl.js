@@ -1,5 +1,6 @@
 import { languages, rest, tokenize } from '../core.js';
-import { boolean, clikePunctuation, nested, re } from '../utils/shared.js';
+import { boolean, clikePunctuation } from '../utils/patterns.js';
+import { nested, re } from '../utils/shared.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 

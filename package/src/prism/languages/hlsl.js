@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 import { extend } from '../utils/language.js';
-import { boolean } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
 import './c.js';
 
 languages.hlsl = extend('c', {

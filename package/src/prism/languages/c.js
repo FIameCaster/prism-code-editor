@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikePunctuation } from '../utils/shared.js';
+import { clikePunctuation } from '../utils/patterns.js';
 
 var char = {
 	// https://en.cppreference.com/w/c/language/character_constant

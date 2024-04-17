@@ -1,6 +1,6 @@
 import { languages, rest } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
-import { boolean, clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment } from '../utils/patterns.js';
 import './css.js';
 
 var scss = languages.scss = extend('css', {

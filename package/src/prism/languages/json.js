@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment } from '../utils/patterns.js';
 
 // https://www.json.org/json-en.html
 languages.webmanifest = languages.json = {

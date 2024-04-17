@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikeComment, clikePunctuation } from '../utils/shared.js';
+import { boolean, clikeComment, clikePunctuation } from '../utils/patterns.js';
 
 // based loosely upon: https://github.com/Azure/bicep/blob/main/src/textmate/bicep.tmlanguage
 languages.bicep = {

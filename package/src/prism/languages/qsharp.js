@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
-import { boolean, nested, re, replace } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
+import { nested, re, replace } from '../utils/shared.js';
 
 // https://docs.microsoft.com/en-us/azure/quantum/user-guide/language/typesystem/
 // https://github.com/microsoft/qsharp-language/tree/main/Specifications/Language/5_Grammar

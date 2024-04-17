@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikeNumber } from '../utils/shared.js';
+import { boolean, clikeNumber } from '../utils/patterns.js';
 
 var interpolationContent = {
 	pattern: /^(..)[\s\S]+(?=.)/,

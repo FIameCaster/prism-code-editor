@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment } from '../utils/patterns.js';
 
 // https://docs.microsoft.com/en-us/powerquery-m/power-query-m-language-specification
 

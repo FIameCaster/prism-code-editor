@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeString } from '../utils/shared.js';
+import { clikeString } from '../utils/patterns.js';
 
 languages.iecst = {
 	'comment': /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)|\(\*[\s\S]*?(?:\*\)|$)|\{[^}]*}?/g,

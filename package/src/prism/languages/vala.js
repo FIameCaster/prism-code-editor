@@ -1,5 +1,5 @@
 import { languages, rest } from '../core.js';
-import { boolean, clikeComment, clikePunctuation, clikeString } from '../utils/shared.js';
+import { boolean, clikeComment, clikePunctuation, clikeString } from '../utils/patterns.js';
 
 languages.vala = {
 	'comment': clikeComment(),

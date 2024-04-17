@@ -1,5 +1,5 @@
 import { languages, tokenize, tokenizeText } from '../core.js';
-import { clikePunctuation } from '../utils/shared.js';
+import { clikePunctuation } from '../utils/patterns.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 

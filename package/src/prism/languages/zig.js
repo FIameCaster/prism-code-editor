@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
-import { boolean, clikePunctuation, re, replace } from '../utils/shared.js';
+import { boolean, clikePunctuation } from '../utils/patterns.js';
+import { re, replace } from '../utils/shared.js';
 
 var keyword = /\b(?:align|allowzero|and|anyframe|anytype|asm|async|await|break|cancel|catch|comptime|const|continue|defer|else|enum|errdefer|error|export|extern|fn|f?or|if|inline|linksection|nakedcc|noalias|nosuspend|null|orelse|packed|promise|pub|resume|return|stdcallcc|struct|suspend|switch|test|threadlocal|try|undefined|union|unreachable|usingnamespace|var|volatile|while)\b/;
 

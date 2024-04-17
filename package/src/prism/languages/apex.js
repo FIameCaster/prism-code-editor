@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
-import { clikeComment, clikePunctuation, clikeString, re, replace } from '../utils/shared.js';
+import { clikeComment, clikePunctuation, clikeString} from '../utils/patterns.js';
+import { re, replace } from '../utils/shared.js';
 import './clike.js';
 import './sql.js';
 

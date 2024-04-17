@@ -1,5 +1,5 @@
 import { languages, rest } from '../core.js';
-import { boolean, clikeComment, clikeString } from '../utils/shared.js';
+import { boolean, clikeComment, clikeString } from '../utils/patterns.js';
 
 var js = {};
 

@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikePunctuation } from '../utils/shared.js';
+import { boolean, clikePunctuation } from '../utils/patterns.js';
 
 // https://www.gap-system.org/Manuals/doc/ref/chap4.html
 // https://www.gap-system.org/Manuals/doc/ref/chap27.html

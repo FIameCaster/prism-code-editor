@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
 
 languages.jexl = {
 	'string': /(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1/,

@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikeComment, clikeNumber, clikePunctuation } from '../utils/shared.js';
+import { boolean, clikeComment, clikeNumber, clikePunctuation } from '../utils/patterns.js';
 
 languages.haxe = {
 	'comment': clikeComment(),

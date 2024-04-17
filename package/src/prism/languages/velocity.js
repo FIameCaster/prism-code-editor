@@ -1,6 +1,6 @@
 import { languages, rest } from '../core.js';
 import { clone, insertBefore } from '../utils/language.js';
-import { boolean } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
 import './markup.js';
 
 var vel = languages.velocity = clone(languages.html);

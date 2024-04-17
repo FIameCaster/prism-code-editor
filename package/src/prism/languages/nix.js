@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikePunctuation } from '../utils/shared.js';
+import { boolean, clikePunctuation } from '../utils/patterns.js';
 
 var interpolation = {
 	// The lookbehind ensures the ${} is not preceded by \ or ''

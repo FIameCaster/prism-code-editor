@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikePunctuation } from '../utils/shared.js';
+import { clikePunctuation } from '../utils/patterns.js';
 
 // https://docs.couchbase.com/server/current/n1ql/n1ql-language-reference/index.html
 

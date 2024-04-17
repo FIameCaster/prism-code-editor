@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment } from '../utils/shared.js';
+import { clikeComment } from '../utils/patterns.js';
 
 languages.g4 = languages.antlr4 = {
 	'comment': clikeComment(),

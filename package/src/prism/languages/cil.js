@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikeString } from '../utils/shared.js';
+import { boolean, clikeString } from '../utils/patterns.js';
 
 languages.cil = {
 	'comment': /\/\/.*/,

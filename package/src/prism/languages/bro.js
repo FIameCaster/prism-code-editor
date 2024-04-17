@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeString, clikeNumber, clikePunctuation } from '../utils/shared.js';
+import { clikeString, clikeNumber, clikePunctuation } from '../utils/patterns.js';
 
 languages.bro = {
 

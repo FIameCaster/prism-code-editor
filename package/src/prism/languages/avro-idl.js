@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment } from '../utils/shared.js';
+import { clikeComment } from '../utils/patterns.js';
 
 // GitHub: https://github.com/apache/avro
 // Docs: https://avro.apache.org/docs/current/idl.html

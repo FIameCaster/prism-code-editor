@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
 
 languages.smalltalk = {
 	'comment': {

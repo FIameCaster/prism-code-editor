@@ -1,5 +1,6 @@
 import { languages, rest } from '../core.js';
-import { boolean, nested } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
+import { nested } from '../utils/shared.js';
 
 var multilineComment = nested(/\/\*(?:[^*/]|\*(?!\/)|\/(?!\*)|<self>)*\*\//.source, 2);
 var string = {

@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment } from '../utils/patterns.js';
 
 languages.dataweave = {
 	'url': /\b[a-zA-Z]+:\/\/[\w/:.?=&-]+|\burn:[\w:.?=&-]+/,

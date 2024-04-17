@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
-import { clikeComment } from '../utils/shared.js';
+import { clikeComment } from '../utils/patterns.js';
 import './css.js';
 
 /* FIXME :

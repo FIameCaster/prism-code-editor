@@ -1,10 +1,10 @@
 import { languages, tokenize, withoutTokenizer } from '../core.js';
-import { boolean } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
 
 languages.graphql = {
 	'comment': /#.*/,
 	'description': {
-		pattern: /(?:"""[\s\S]*?"""|"(?:\\.|[^\\\n"])*")(?=\s*[a-z_])/gi,
+		pattern: /(?:"""(?:[^"]|"(?!""))*"""|"(?:\\.|[^\\\n"])*")(?=\s*[a-z_])/gi,
 		greedy: true,
 		alias: 'string',
 		inside: {

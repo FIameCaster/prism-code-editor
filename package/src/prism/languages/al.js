@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikeComment, clikePunctuation } from '../utils/shared.js';
+import { clikeComment, clikePunctuation } from '../utils/patterns.js';
 
 // based on https://github.com/microsoft/AL/blob/master/grammar/alsyntax.tmlanguage
 

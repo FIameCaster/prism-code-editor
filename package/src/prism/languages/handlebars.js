@@ -1,5 +1,5 @@
 import { languages, tokenize } from '../core.js';
-import { boolean } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
 import { embeddedIn } from '../utils/templating.js';
 import './markup.js';
 

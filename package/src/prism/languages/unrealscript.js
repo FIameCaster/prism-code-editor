@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikeComment, clikeNumber, clikePunctuation, clikeString } from '../utils/shared.js';
+import { boolean, clikeComment, clikeNumber, clikePunctuation, clikeString } from '../utils/patterns.js';
 
 languages.uc = languages.uscript = languages.unrealscript = {
 	'comment': clikeComment(),

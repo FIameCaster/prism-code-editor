@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikePunctuation } from '../utils/shared.js';
+import { clikePunctuation } from '../utils/patterns.js';
 
 languages.nb = languages.wl = languages.mathematica = languages.wolfram = {
 	'comment': // Allow one level of nesting - note: regex taken from applescipt

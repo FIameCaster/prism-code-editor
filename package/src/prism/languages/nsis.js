@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikePunctuation } from '../utils/shared.js';
+import { clikePunctuation } from '../utils/patterns.js';
 
 /**
  * Original by Jan T. Sott (http://github.com/idleberg)

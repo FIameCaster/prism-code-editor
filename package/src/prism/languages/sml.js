@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
-import { clikePunctuation, re, replace } from '../utils/shared.js';
+import { clikePunctuation } from '../utils/patterns.js';
+import { re, replace } from '../utils/shared.js';
 
 var keywords = /\b(?:abstype|[ae]nd|andalso|as|case|datatype|do|else|eqtype|exception|fu?n|functor|handle|if|in|include|infixr?|let|local|nonfix|of|op|open|orelse|raise|rec|sharing|sig|signature|struct|structure|then|type|val|where|while|with|withtype)\b/i;
 

@@ -1,14 +1,12 @@
 import { languages, rest, tokenize, tokenizeText, withoutTokenizer, Token } from "../../core.js"
+import { nested, re, replace } from "../../utils/shared.js"
 import {
 	clikeComment,
 	clikeString,
 	clikeNumber,
 	clikePunctuation,
 	boolean,
-	nested,
-	re,
-	replace,
-} from "../../utils/shared.js"
+} from "../../utils/patterns.js"
 import { embeddedIn } from "../../utils/templating.js"
 import { createT4 } from "../../utils/t4-templating.js"
 import { clone, extend, insertBefore } from "../../utils/language.js"

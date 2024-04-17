@@ -1,5 +1,5 @@
 import { languages, rest } from '../core.js';
-import { clikePunctuation } from '../utils/shared.js';
+import { clikePunctuation } from '../utils/patterns.js';
 
 var inside = {
 	'format-spec': {

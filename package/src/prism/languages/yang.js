@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikeComment } from '../utils/shared.js';
+import { boolean, clikeComment } from '../utils/patterns.js';
 
 languages.yang = {
 	// https://tools.ietf.org/html/rfc6020#page-34

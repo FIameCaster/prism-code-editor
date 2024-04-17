@@ -1,5 +1,6 @@
 import { languages } from '../core.js';
-import { boolean, re } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
+import { re } from '../utils/shared.js';
 
 /** @param {string} pattern */
 var insertKey = pattern => re(pattern, [`(?:[\\w-]+|'[^\n']*'|"(?:\\\\.|[^\\\\"\n])*")`], 'mg');

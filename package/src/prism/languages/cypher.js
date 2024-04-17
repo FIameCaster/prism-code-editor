@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { clikePunctuation } from '../utils/shared.js';
+import { clikePunctuation } from '../utils/patterns.js';
 
 languages.cypher = {
 	// https://neo4j.com/docs/cypher-manual/current/syntax/comments/

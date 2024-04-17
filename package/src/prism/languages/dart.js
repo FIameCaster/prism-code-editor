@@ -1,5 +1,5 @@
 import { languages } from '../core.js';
-import { boolean, clikeComment, clikeNumber, clikePunctuation } from '../utils/shared.js';
+import { boolean, clikeComment, clikeNumber, clikePunctuation } from '../utils/patterns.js';
 
 var keywords = /\b(?:a?sync|yield)\b\*?|\b(?:abstract|assert|await|break|case|catch|class|const|continue|covariant|default|deferred|do|dynamic|else|enum|export|extends|extension|external|factory|final|finally|for|[gs]et|hide|if|implements|import|in|interface|library|mixin|new|null|on|operator|part|rethrow|return|show|static|super|switch|this|throw|try|typedef|var|void|while|with)\b/;
 

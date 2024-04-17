@@ -1,6 +1,6 @@
 import { languages } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
-import { boolean } from '../utils/shared.js';
+import { boolean } from '../utils/patterns.js';
 import './c.js';
 
 /* OpenCL kernel language */
