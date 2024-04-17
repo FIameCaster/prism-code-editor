@@ -50,7 +50,11 @@ const Test = () => {
 		]],
 		["punctuation", ">"]
 	]],
-	["plain-text", "\n               Click (Wrong Highlighting)\n           "],
+	["plain-text", "\n               Click "],
+	["punctuation", "("],
+	["plain-text", "Wrong Highlighting"],
+	["punctuation", ")"],
+	["plain-text", "\n           "],
 	["tag", [
 		["punctuation", "</"],
 		["tag", [
@@ -80,7 +84,11 @@ const Test = () => {
 		]],
 		["punctuation", ">"]
 	]],
-	["plain-text", "\n               Click (Correct highlighting)\n           "],
+	["plain-text", "\n               Click "],
+	["punctuation", "("],
+	["plain-text", "Correct highlighting"],
+	["punctuation", ")"],
+	["plain-text", "\n           "],
 	["tag", [
 		["punctuation", "</"],
 		["tag", [

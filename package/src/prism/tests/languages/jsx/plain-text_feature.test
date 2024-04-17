@@ -36,7 +36,8 @@
 	["operator", ":"],
 	["number", "0"],
 	["punctuation", "}"],
-	["plain-text", "}\n"],
+	["punctuation", "}"],
+	["plain-text", "\n"],
 	["tag", [
 		["punctuation", "</"],
 		["tag", ["div"]],

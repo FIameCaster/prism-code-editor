@@ -44,7 +44,7 @@ var walkTokens = (tokens, code, position) => {
 				if (content == '{') last[1]++;
 				else if (last[1] && content == '}') last[1]--;
 				else {
-					notTagNorBrace = true;
+					notTagNorBrace = !"}()[]".includes(content);
 				}
 			} else {
 				notTagNorBrace = true;
