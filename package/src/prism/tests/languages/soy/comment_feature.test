@@ -1,9 +1,9 @@
+//
+// Foo /* bar */
 /**/
 /* Foo "bar" */
 /* Foo //bar
 baz */
-//
-// Foo /* bar */
 // <div></div>
 /* <div>
 </div> */
@@ -11,13 +11,27 @@ baz */
 ----------------------------------------------------
 
 [
-	["soy", [["comment", "/**/"]]],
-	["soy", [["comment", "/* Foo \"bar\" */"]]],
-	["soy", [["comment", "/* Foo //bar\nbaz */"]]],
-	["soy", [["comment", "//"]]],
-	["soy", [["comment", "// Foo /* bar */"]]],
-	["soy", [["comment", "// <div></div>"]]],
-	["soy", [["comment", "/* <div>\n</div> */"]]]
+	["soy", [
+		["comment", "//"]
+	]],
+	["soy", [
+		["comment", "// Foo /* bar */"]
+	]],
+	["soy", [
+		["comment", "/**/"]
+	]],
+	["soy", [
+		["comment", "/* Foo \"bar\" */"]
+	]],
+	["soy", [
+		["comment", "/* Foo //bar\nbaz */"]
+	]],
+	["soy", [
+		["comment", "// <div></div>"]
+	]],
+	["soy", [
+		["comment", "/* <div>\n</div> */"]
+	]]
 ]
 
 ----------------------------------------------------

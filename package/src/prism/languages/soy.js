@@ -13,12 +13,13 @@ languages.soy = {
 		greedy: true
 	},
 	'soy': {
-		pattern: /\{\{.+?\}\}|\{.+?\}|\s\/\/.*|\/\*[\s\S]*?\*\//g,
+		pattern: /\{\{.+?\}\}|\{.+?\}|(^|\s)\/\/.*|\/\*[\s\S]*?\*\//g,
+		lookbehind: true,
 		greedy: true,
 		alias: 'language-soy',
 		inside: {
 			'comment': {
-				pattern: /\/\*[\s\S]*?\*\/|(\s)\/\/.*/,
+				pattern: /(^|\s)\/\/.*|\/\*[\s\S]*?\*\//,
 				lookbehind: true
 			},
 			'command-arg': {
