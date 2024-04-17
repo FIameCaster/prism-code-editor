@@ -9,10 +9,26 @@
 ----------------------------------------------------
 
 [
-	["atrule-declaration", [["atrule", "@media"], " print"]],
-	["atrule-declaration", [["atrule", "@import"], ["string", "\"reset.css\""]]],
-	["atrule-declaration", [["atrule", "@font-face"], ["punctuation", "{"]]],
-	["atrule-declaration", [["atrule", "@keyframes"], ["punctuation", "{"]]],
+	["atrule-declaration", [
+		["atrule", "@media"],
+		" print"
+	]],
+
+	["atrule-declaration", [
+		["atrule", "@import"],
+		["string", "\"reset.css\""]
+	]],
+
+	["atrule-declaration", [
+		["atrule", "@font-face"]
+	]],
+	["punctuation", "{"],
+
+	["atrule-declaration", [
+		["atrule", "@keyframes"]
+	]],
+	["punctuation", "{"],
+
 	["atrule-declaration", [
 		["atrule", "@media"],
 		["punctuation", "("],
@@ -26,11 +42,13 @@
 		" bar",
 		["punctuation", ")"]
 	]],
+
 	["atrule-declaration", [
 		["atrule", "@namespace"],
 		["url", "url(http://www.w3.org/1999/xhtml)"],
 		["comment", "// comment"]
 	]],
+
 	["atrule-declaration", [
 		["atrule", "@namespace"],
 		" svg ",

@@ -1,5 +1,5 @@
 import { languages, rest } from '../core.js';
-import { boolean, clikeComment } from '../utils/patterns.js';
+import { boolean, clikeComment, clikePunctuation, clikeString } from '../utils/patterns.js';
 
 var unit = {
 	pattern: /(\b\d+)(?:%|[a-z]+)/,
@@ -12,27 +12,43 @@ var number = {
 };
 
 var comment = clikeComment();
+var string = clikeString();
 
-var inside = {
+var interpolation = {
+	pattern: /\{[^\n}:]*\}/,
+	alias: 'variable',
+	inside: {
+		'delimiter': {
+			pattern: /^\{|\}$/,
+			alias: 'punctuation'
+		}
+	}
+};
+
+var func = {
+	pattern: /[\w-]+\([^)]*\).*/,
+	inside: {
+		'function': /^[^(]+/,
+	}
+};
+
+var inside = interpolation.inside[rest] = func.inside[rest] = {
 	'comment': comment,
 	'url': {
 		pattern: /\burl\((["']?).*?\1\)/ig,
 		greedy: true
 	},
-	'string': {
-		pattern: /(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/g,
-		greedy: true
-	},
-	'interpolation': null, // See below
-	'func': null, // See below
+	'string': string,
+	'interpolation': interpolation,
+	'func': func,
 	'important': /\B!(?:important|optional)\b/i,
 	'keyword': {
-		pattern: /(^|\s+)(?:(?:else|for|if|return|unless)(?!\S)|@[\w-]+)/,
+		pattern: /(^|\s)(?:(?:else|for|if|return|unless)(?!\S)|@[\w-]+)/,
 		lookbehind: true
 	},
 	'hexcode': /#[a-f\d]{3,6}/i,
 	'color': [
-		/\b(?:aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|(?:dark)?(?:blue|cyan|goldenrod|gr[ae]y|green|khaki|magenta|olivegreen|orange|orchid|red|salmon|seagreen|slateblue|slategr[ae]y|turquoise|violet)|deeppink|deepskyblue|dimgr[ae]y|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|gainsboro|ghostwhite|gold|greenyellow|honeydew|hotpink|indianred|indigo|ivory|lavender|lavenderblush|lawngreen|lemonchiffon|light(?:blue|coral|cyan|goldenrodyellow|gr[ae]y|green|pink|salmon|seagreen|skyblue|slategr[ae]y|steelblue|yellow)|lime|limegreen|linen|maroon|medium(?:aquamarine|blue|orchid|purple|seagreen|slateblue|springgreen|turquoise|violetred)|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orangered|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|rosybrown|royalblue|saddlebrown|sandybrown|seashell|sienna|silver|skyblue|snow|springgreen|steelblue|tan|teal|thistle|tomato|transparent|wheat|white|whitesmoke|yellow|yellowgreen)\b/i,
+		/\b(?:(?:alice|cadet|cornflower|darksky|dodger|midnight|powder|royal|sky|steel)blue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blueviolet|brown|burlywood|chartreuse|chocolate|coral|cornsilk|crimson|(?:dark)?(?:blue|cyan|goldenrod|gr[ae]y|green|khaki|magenta|olivegreen|orange|orchid|red|salmon|seagreen|slateblue|slategr[ae]y|turquoise|violet)|deeppink|dimgr[ae]y|firebrick|floralwhite|(?:forest|lawn|lime|pale|spring)green|fuchsia|gainsboro|ghostwhite|gold|greenyellow|honeydew|hotpink|indianred|indigo|ivory|lavender|lavenderblush|lemonchiffon|light(?:blue|coral|cyan|goldenrodyellow|gr[ae]y|green|pink|salmon|seagreen|skyblue|slategr[ae]y|steelblue|yellow)|lime|linen|maroon|medium(?:aquamarine|blue|orchid|purple|seagreen|slateblue|springgreen|turquoise|violetred)|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orangered|palegoldenrod|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|purple|rosybrown|saddlebrown|sandybrown|seashell|sienna|silver|snow|tan|teal|thistle|tomato|transparent|wheat|white|whitesmoke|yellow|yellowgreen)\b/i,
 		{
 			pattern: /\b(?:hsl|rgb)\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*\)\B|\b(?:hsl|rgb)a\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*,\s*(?:0|0?\.\d+|1)\s*\)\B/i,
 			inside: {
@@ -50,32 +66,12 @@ var inside = {
 	// accepted in property names.
 	'operator': /~|\*\*|[?%!=<>/*+]=?|[-:]=|\.{2,3}|&&|\|\||\B-\B|\b(?:and|in|is(?: a| defined| not|nt)?|not|or)\b/,
 	'number': number,
-	'punctuation': /[()[\]{},:;]/
-};
-
-var interpolation = inside['interpolation'] = {
-	pattern: /\{[^\n}:]+\}/,
-	alias: 'variable',
-	inside: {
-		'delimiter': {
-			pattern: /^\{|\}$/,
-			alias: 'punctuation'
-		},
-		[rest]: inside
-	}
-};
-
-var func = inside['func'] = {
-	pattern: /[\w-]+\([^)]*\).*/,
-	inside: {
-		'function': /^[^(]+/,
-		[rest]: inside
-	}
+	'punctuation': clikePunctuation
 };
 
 languages.stylus = {
 	'atrule-declaration': {
-		pattern: /(^[ \t]*)@.+/m,
+		pattern: /(^[ \t]*)@.*[^\s{]/m,
 		lookbehind: true,
 		inside: {
 			'atrule': /^@[\w-]+/,
@@ -103,7 +99,7 @@ languages.stylus = {
 	// A property/value pair cannot end with a comma or a brace
 	// It cannot have indented content unless it ended with a semicolon
 	'property-declaration': {
-		pattern: /((?:^|\{)([ \t]*))(?:[\w-]|\{[^\n}]+\})+(?:\s*:\s*|[ \t]+)(?!\s)[^\n{]*(?:;|[^\n{,]$(?!\n(?:\{|\2[ \t])))/m,
+		pattern: /((?:^|\{)([ \t]*))(?:[\w-]|\{[^\n}]*\})+(?:\s*:\s*|[ \t]+)(?!\s)[^\n{]*(?:;|[^\n{,]$(?!\n(?:\{|\2[ \t])))/m,
 		lookbehind: true,
 		inside: {
 			'property': {
@@ -121,18 +117,18 @@ languages.stylus = {
 	// It can span multiple lines.
 	// It must end with a comma or an accolade or have indented content.
 	'selector': {
-		pattern: /(^[ \t]*)(?:(?!\s)(?:[^(){}\n:]|::?[\w-]+(?:\([^\n)]*\)|(?![\w-]))|\{[^\n}]+\})+)(?:\n(?:\1(?:(?!\s)(?:[^(){}\n:]|::?[\w-]+(?:\([^\n)]*\)|(?![\w-]))|\{[^\n}]+\})+)))*(?:,$|\{|(?=\n(?:\{|\1[ \t])))/m,
+		pattern: /(^[ \t]*)(?:(?!\s)(?:[^(){}\n:]|::?[\w-]+(?:\([^\n)]*\)|(?![\w-]))|\{[^\n}]*\})+)(?:\n(?:\1(?:(?!\s)(?:[^(){}\n:]|::?[\w-]+(?:\([^\n)]*\)|(?![\w-]))|\{[^\n}]*\})+)))*(?=,$|\{|\n(?:\{|\1[ \t]))/m,
 		lookbehind: true,
 		inside: {
 			'interpolation': interpolation,
 			'comment': comment,
-			'punctuation': /[{},]/
+			'punctuation': /[()[\]{},]/
 		}
 	},
 
 	'func': func,
-	'string': inside.string,
+	'string': string,
 	'comment': comment,
 	'interpolation': interpolation,
-	'punctuation': /[()[\]{}.:;]/
+	'punctuation': clikePunctuation
 };

@@ -28,7 +28,13 @@ form input[type=button]
 		["property", ["border-radius"]],
 		" n"
 	]],
-	["selector", ["form input[type=button]"]],
+
+	["selector", [
+		"form input",
+		["punctuation", "["],
+		"type=button",
+		["punctuation", "]"]
+	]],
 	["func", [
 		["function", "border-radius"],
 		["punctuation", "("],
