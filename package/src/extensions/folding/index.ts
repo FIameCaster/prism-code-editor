@@ -37,8 +37,8 @@ export interface ReadOnlyCodeFolding extends Extension {
 	updateFolds(): void
 }
 
-const template = createTemplate('<div class="pce-fold"><div> ')
-const template2 = createTemplate('<div class="pce-unfold"> <span title="Unfold">   </span> ')
+const template = createTemplate("<div class=pce-fold><div> ")
+const template2 = createTemplate("<div class=pce-unfold> <span title=Unfold>   </span> ")
 
 const isMultiline = (str: string, start: number, end: number) =>
 	str.slice(start, end).includes("\n")
@@ -284,15 +284,15 @@ const markdownFolding: FoldingRangeProvider = ({ tokens, value, options: { langu
 	let folds: [number, number][] = []
 	let pos = 0
 	let openTitles: number[] = []
+	let levels: number
 	let closeTitles = (level: number) => {
-		let end = value.slice(0, pos).trimEnd().length
-		for (let i = level - 1; i < openTitles.length; i++) {
-			folds.push([openTitles[i], end])
+		for (let end = value.slice(0, pos).trimEnd().length; level <= levels; ) {
+			folds.push([openTitles[level++], end])
 		}
 	}
-	if (language == "markdown" || language == "md")
-		for (let i = 0, end = tokens.length - 1; ; i++) {
-			const token = <Token>tokens[i]
+	if (language == "markdown" || language == "md") {
+		for (let i = 0, l = tokens.length; i < l; ) {
+			const token = <Token>tokens[i++]
 			const length = token.length
 			const type = token.type
 			if (type == "code" && !token.alias) {
@@ -304,18 +304,15 @@ const markdownFolding: FoldingRangeProvider = ({ tokens, value, options: { langu
 			}
 			if (type == "title") {
 				let [token1, token2] = <Token[]>(<Token>token).content
-				let level = token1.type ? token1.length : (<string>token2.content)[0] == "=" ? 1 : 2
+				let level = token1.type ? token1.length - 1 : (<string>token2.content)[0] == "=" ? 0 : 1
 				closeTitles(level)
-				openTitles.length = level
-				openTitles[level - 1] = pos + (token1.type ? length : token1.length - 1)
+				openTitles[(levels = level)] = pos + (token1.type ? length : token1.length - 1)
 			}
 
 			pos += length
-			if (i == end) {
-				closeTitles(1)
-				break
-			}
 		}
+		closeTitles(0)
+	}
 
 	return folds
 }

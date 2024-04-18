@@ -4,11 +4,11 @@ import { createTemplate } from "../core.js"
 import { Extension, PrismEditor } from "../types.js"
 
 const template = createTemplate(
-	'<div class="guide-indents" style="left:var(--padding-left)"><div style="position:relative;display:inline-block"> ',
+	'<div class=guide-indents style=left:var(--padding-left)><div style=position:relative;display:inline-block> ',
 )
 
 const indentTemplate = createTemplate(
-	'<div style="width:1px;position:absolute;background:var(--bg-guide-indent)">',
+	'<div style=width:1px;position:absolute;background:var(--bg-guide-indent)>',
 )
 
 export interface IndentGuides extends Extension {

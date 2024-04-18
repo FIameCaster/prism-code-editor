@@ -3,7 +3,7 @@ import { createTemplate } from "./core.js"
 import { cursorPosition } from "./extensions/cursor.js"
 
 const template = /* @__PURE__ */ createTemplate(
-	'<div class="pce-tooltip" style="z-index:5;top:auto;display:flex;overflow-x:clip"><div>',
+	'<div class=pce-tooltip style=z-index:5;top:auto;display:flex;overflow-x:clip><div>',
 )
 
 /**

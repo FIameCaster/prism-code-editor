@@ -25,7 +25,7 @@ export interface Cursor extends BasicExtension {
 }
 
 const cursorTemplate = createTemplate(
-	'<div style="position:absolute;top:0;opacity:0;padding:inherit"> <span></span> ',
+	'<div style=position:absolute;top:0;opacity:0;padding:inherit> <span></span> ',
 )
 
 /**

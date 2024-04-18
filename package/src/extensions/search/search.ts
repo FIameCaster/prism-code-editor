@@ -3,7 +3,7 @@ import { createTemplate } from "../../core.js"
 import { PrismEditor } from "../../types.js"
 
 const template = createTemplate(
-	'<div style="color:#0000;display:none;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden="true">',
+	'<div style="color:#0000;display:none;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true>',
 )
 
 const matchTemplate = createTemplate("<span> ")
