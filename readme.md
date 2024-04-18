@@ -412,12 +412,14 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><th>Import</th><th>Languages/aliases added</th></tr>
     </thead>
     <tbody>
+      <tr><td><code>abap</code></td><td><code>abap</code></td></tr>
       <tr><td><code>abnf</code></td><td><code>abnf</code></td></tr>
       <tr><td><code>actionscript</code></td><td><code>actionscript</code></td></tr>
       <tr><td><code>ada</code></td><td><code>ada</code></td></tr>
+      <tr><td><code>agda</code></td><td><code>agda</code></td></tr>
       <tr><td><code>al</code></td><td><code>al</code></td></tr>
-      <tr><td><code>apacheconf</code></td><td><code>apacheconf</code></td></tr>
       <tr><td><code>antlr4</code></td><td><code>g4</code> and <code>antlr4</code></td></tr>
+      <tr><td><code>apacheconf</code></td><td><code>apacheconf</code></td></tr>
       <tr><td><code>apex</code></td><td><code>apex</code></td></tr>
       <tr><td><code>apl</code></td><td><code>apl</code></td></tr>
       <tr><td><code>applescript</code></td><td><code>applescript</code></td></tr>
@@ -427,26 +429,29 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>arturo</code></td><td><code>art</code> and <code>arturo</code></td></tr>
       <tr><td><code>asciidoc</code></td><td><code>adoc</code> and <code>asciidoc</code></td></tr>
       <tr><td><code>asm</code></td><td><code>arm-asm</code>, <code>armasm</code>, <code>asm6502</code>, <code>asmatmel</code> and <code>nasm</code></td></tr>
+      <tr><td><code>aspnet</code></td><td><code>aspnet</code></td></tr>
       <tr><td><code>autohotkey</code></td><td><code>autohotkey</code></td></tr>
       <tr><td><code>autoit</code></td><td><code>autoit</code></td></tr>
       <tr><td><code>avisynth</code></td><td><code>avs</code> and <code>avisynth</code></td></tr>
       <tr><td><code>avro-idl</code></td><td><code>avdl</code> and <code>avro-idl</code></td></tr>
-      <tr><td><code>aspnet</code></td><td><code>aspnet</code></td></tr>
       <tr><td><code>awk</code></td><td><code>awk</code></td></tr>
       <tr><td><code>bash</code></td><td><code>bash</code></td></tr>
+      <tr><td><code>basic</code></td><td><code>basic</code></td></tr>
+      <tr><td><code>batch</code></td><td><code>batch</code></td></tr>
+      <tr><td><code>bbj</code></td><td><code>bbj</code></td></tr>
       <tr><td><code>bicep</code></td><td><code>bicep</code></td></tr>
-      <tr><td><code>bison</code></td><td><code>bison</code></td></tr>
       <tr><td><code>birb</code></td><td><code>birb</code></td></tr>
+      <tr><td><code>bison</code></td><td><code>bison</code></td></tr>
       <tr><td><code>bqn</code></td><td><code>bqn</code></td></tr>
       <tr><td><code>brightscript</code></td><td><code>brightscript</code></td></tr>
       <tr><td><code>bro</code></td><td><code>bro</code></td></tr>
-      <tr><td><code>bsl</code></td><td><code>bro</code></td></tr>
-      <tr><td><code>chaiscript</code></td><td><code>chaiscript</code></td></tr>
+      <tr><td><code>bsl</code></td><td><code>bsl</code></td></tr>
       <tr><td><code>cfscript</code></td><td><code>cfscript</code></td></tr>
+      <tr><td><code>chaiscript</code></td><td><code>chaiscript</code></td></tr>
       <tr><td><code>cil</code></td><td><code>cil</code></td></tr>
-      <tr><td><code>clojure</code></td><td><code>clojure</code></td></tr>
-      <tr><td><code>clike</code></td><td><code>clike</code>, <code>js</code>, <code>javascript</code>, <code>ts</code>, <code>typescript</code>, <code>java</code>, <code>cs</code>, <code>csharp</code>, <code>c</code>, <code>cpp</code>, <code>go</code>, <code>d</code>, <code>dart</code>, <code>flow</code> and <code>haxe</code></td></tr>
       <tr><td><code>cilk</code></td><td><code>cilk-c</code>, <code>cilkc</code>, <code>cilk</code>, <code>cilk-cpp</code> and <code>cilkcpp</code></td></tr>
+      <tr><td><code>clike</code></td><td><code>clike</code>, <code>js</code>, <code>javascript</code>, <code>ts</code>, <code>typescript</code>, <code>java</code>, <code>cs</code>, <code>csharp</code>, <code>c</code>, <code>cpp</code>, <code>go</code>, <code>d</code>, <code>dart</code>, <code>flow</code> and <code>haxe</code></td></tr>
+      <tr><td><code>clojure</code></td><td><code>clojure</code></td></tr>
       <tr><td><code>cmake</code></td><td><code>cmake</code></td></tr>
       <tr><td><code>cobol</code></td><td><code>cobol</code></td></tr>
       <tr><td><code>coffeescript</code></td><td><code>coffee</code> and <code>coffeescript</code></td></tr>
@@ -459,11 +464,11 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>cypher</code></td><td><code>cypher</code></td></tr>
       <tr><td><code>dataweave</code></td><td><code>dataweave</code></td></tr>
       <tr><td><code>dax</code></td><td><code>dax</code></td></tr>
-      <tr><td><code>django</code></td><td><code>jinja2</code> and <code>django</code></td></tr>
       <tr><td><code>dhall</code></td><td><code>dhall</code></td></tr>
+      <tr><td><code>django</code></td><td><code>jinja2</code> and <code>django</code></td></tr>
       <tr><td><code>dns-zone-file</code></td><td><code>dns-zone</code> and <code>dns-zone-file</code></td></tr>
-      <tr><td><code>dot</code></td><td><code>gv</code> and <code>dot</code></td></tr>
       <tr><td><code>docker</code></td><td><code>dockerfile</code> and <code>docker</code></td></tr>
+      <tr><td><code>dot</code></td><td><code>gv</code> and <code>dot</code></td></tr>
       <tr><td><code>ebnf</code></td><td><code>ebnf</code></td></tr>
       <tr><td><code>editorconfig</code></td><td><code>editorconfig</code></td></tr>
       <tr><td><code>eiffel</code></td><td><code>eiffel</code></td></tr>
@@ -473,6 +478,7 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>erb</code></td><td><code>erb</code></td></tr>
       <tr><td><code>erlang</code></td><td><code>erlang</code></td></tr>
       <tr><td><code>etlua</code></td><td><code>etlua</code></td></tr>
+      <tr><td><code>excel-formula</code></td><td><code>xlsx</code>, <code>xls</code> and <code>excel-formula</code></td></tr>
       <tr><td><code>factor</code></td><td><code>factor</code></td></tr>
       <tr><td><code>false</code></td><td><code>false</code></td></tr>
       <tr><td><code>firestore-security-rules</code></td><td><code>firestore-security-rules</code></td></tr>
@@ -480,44 +486,44 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>fsharp</code></td><td><code>fsharp</code></td></tr>
       <tr><td><code>ftl</code></td><td><code>ftl</code></td></tr>
       <tr><td><code>gap</code></td><td><code>gap</code></td></tr>
-      <tr><td><code>gdscript</code></td><td><code>gdscript</code></td></tr>
       <tr><td><code>gcode</code></td><td><code>gcode</code></td></tr>
+      <tr><td><code>gdscript</code></td><td><code>gdscript</code></td></tr>
       <tr><td><code>gettext</code></td><td><code>gettext</code></td></tr>
-      <tr><td><code>git</code></td><td><code>git</code></td></tr>
-      <tr><td><code>gml</code></td><td><code>gamemakerlanguage</code> and <code>gml</code></td></tr>
-      <tr><td><code>glsl</code></td><td><code>glsl</code> and <code>hlsl</code></td></tr>
       <tr><td><code>gherkin</code></td><td><code>gherkin</code></td></tr>
+      <tr><td><code>git</code></td><td><code>git</code></td></tr>
+      <tr><td><code>glsl</code></td><td><code>glsl</code> and <code>hlsl</code></td></tr>
+      <tr><td><code>gml</code></td><td><code>gamemakerlanguage</code> and <code>gml</code></td></tr>
       <tr><td><code>gn</code></td><td><code>gni</code> and <code>gn</code></td></tr>
       <tr><td><code>go-module</code></td><td><code>go-mod</code> and <code>go-module</code></td></tr>
       <tr><td><code>gradle</code></td><td><code>gradle</code></td></tr>
       <tr><td><code>graphql</code></td><td><code>graphql</code></td></tr>
       <tr><td><code>groovy</code></td><td><code>groovy</code></td></tr>
       <tr><td><code>haml</code></td><td><code>haml</code></td></tr>
-      <tr><td><code>haskell</code></td><td><code>idr</code>, <code>idris</code>, <code>hs</code>, <code>haskell</code>, <code>purs</code> and <code>purescript</code></td></tr>
       <tr><td><code>handlebars</code></td><td><code>mustache</code>, <code>hbs</code> and <code>handlebars</code></td></tr>
+      <tr><td><code>haskell</code></td><td><code>idr</code>, <code>idris</code>, <code>hs</code>, <code>haskell</code>, <code>purs</code> and <code>purescript</code></td></tr>
       <tr><td><code>hcl</code></td><td><code>hcl</code></td></tr>
+      <tr><td><code>hoon</code></td><td><code>hoon</code></td></tr>
       <tr><td><code>html</code></td><td><code>markup</code>, <code>html</code>, <code>markdown</code> and <code>md</code></td></tr>
       <tr><td><code>ichigojam</code></td><td><code>ichigojam</code></td></tr>
-      <tr><td><code>hoon</code></td><td><code>hoon</code></td></tr>
       <tr><td><code>icon</code></td><td><code>icon</code></td></tr>
       <tr><td><code>iecst</code></td><td><code>iecst</code></td></tr>
-      <tr><td><code>ini</code></td><td><code>ini</code></td></tr>
-      <tr><td><code>inform7</code></td><td><code>inform7</code></td></tr>
       <tr><td><code>ignore</code></td><td><code>npmignore</code>, <code>hgignore</code>, <code>gitignore</code> and <code>ignore</code></td></tr>
+      <tr><td><code>inform7</code></td><td><code>inform7</code></td></tr>
+      <tr><td><code>ini</code></td><td><code>ini</code></td></tr>
       <tr><td><code>io</code></td><td><code>io</code></td></tr>
       <tr><td><code>j</code></td><td><code>j</code></td></tr>
       <tr><td><code>jolie</code></td><td><code>jolie</code></td></tr>
-      <tr><td><code>json</code></td><td><code>json</code>, <code>json5</code> and <code>jsonp</code></td></tr>
       <tr><td><code>jq</code></td><td><code>jq</code></td></tr>
+      <tr><td><code>json</code></td><td><code>json</code>, <code>json5</code> and <code>jsonp</code></td></tr>
       <tr><td><code>jsx</code></td><td><code>jsx</code> and <code>tsx</code></td></tr>
-      <tr><td><code>keepalived</code></td><td><code>keepalived</code></td></tr>
       <tr><td><code>julia</code></td><td><code>julia</code></td></tr>
+      <tr><td><code>keepalived</code></td><td><code>keepalived</code></td></tr>
       <tr><td><code>keyman</code></td><td><code>keyman</code></td></tr>
       <tr><td><code>kotlin</code></td><td><code>kts</code>, <code>kt</code> and <code>kotlin</code></td></tr>
       <tr><td><code>kumir</code></td><td><code>kumir</code></td></tr>
-      <tr><td><code>latte</code></td><td><code>latte</code></td></tr>
-      <tr><td><code>latex</code></td><td><code>context</code>, <code>tex</code> and <code>latex</code></td></tr>
       <tr><td><code>kusto</code></td><td><code>kusto</code></td></tr>
+      <tr><td><code>latex</code></td><td><code>context</code>, <code>tex</code> and <code>latex</code></td></tr>
+      <tr><td><code>latte</code></td><td><code>latte</code></td></tr>
       <tr><td><code>lilypond</code></td><td><code>ly</code> and <code>lilypond</code></td></tr>
       <tr><td><code>linker-script</code></td><td><code>ld</code> and <code>linker-script</code></td></tr>
       <tr><td><code>liquid</code></td><td><code>liquid</code></td></tr>
@@ -525,10 +531,10 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>livescript</code></td><td><code>livescript</code></td></tr>
       <tr><td><code>llvm</code></td><td><code>llvm</code></td></tr>
       <tr><td><code>lolcode</code></td><td><code>lolcode</code></td></tr>
+      <tr><td><code>lua</code></td><td><code>lua</code></td></tr>
       <tr><td><code>magma</code></td><td><code>magma</code></td></tr>
       <tr><td><code>makefile</code></td><td><code>makefile</code></td></tr>
       <tr><td><code>mata</code></td><td><code>mata</code></td></tr>
-      <tr><td><code>lua</code></td><td><code>lua</code></td></tr>
       <tr><td><code>matlab</code></td><td><code>matlab</code></td></tr>
       <tr><td><code>maxscript</code></td><td><code>maxscript</code></td></tr>
       <tr><td><code>mel</code></td><td><code>mel</code></td></tr>
@@ -536,12 +542,12 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>metafont</code></td><td><code>metafont</code></td></tr>
       <tr><td><code>mizar</code></td><td><code>mizar</code></td></tr>
       <tr><td><code>mongodb</code></td><td><code>mongodb</code></td></tr>
-      <tr><td><code>moonscript</code></td><td><code>moon</code> and <code>moonscript</code></td></tr>
       <tr><td><code>monkey</code></td><td><code>monkey</code></td></tr>
+      <tr><td><code>moonscript</code></td><td><code>moon</code> and <code>moonscript</code></td></tr>
       <tr><td><code>n1ql</code></td><td><code>n1ql</code></td></tr>
       <tr><td><code>n4js</code></td><td><code>n4jsd</code> and <code>n4js</code></td></tr>
-      <tr><td><code>naniscript</code></td><td><code>nani</code> and <code>naniscript</code></td></tr>
       <tr><td><code>nand2tetris-hdl</code></td><td><code>nand2tetris-hdl</code></td></tr>
+      <tr><td><code>naniscript</code></td><td><code>nani</code> and <code>naniscript</code></td></tr>
       <tr><td><code>neon</code></td><td><code>neon</code></td></tr>
       <tr><td><code>nevod</code></td><td><code>nevod</code></td></tr>
       <tr><td><code>nginx</code></td><td><code>nginx</code></td></tr>
@@ -553,35 +559,35 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>odin</code></td><td><code>odin</code></td></tr>
       <tr><td><code>opencl</code></td><td><code>opencl</code></td></tr>
       <tr><td><code>openqasm</code></td><td><code>qasm</code> and <code>openqasm</code></td></tr>
-      <tr><td><code>parigp</code></td><td><code>parigp</code></td></tr>
       <tr><td><code>oz</code></td><td><code>oz</code></td></tr>
+      <tr><td><code>parigp</code></td><td><code>parigp</code></td></tr>
       <tr><td><code>parser</code></td><td><code>parser</code></td></tr>
-      <tr><td><code>peoplecode</code></td><td><code>pcode</code> and <code>peoplecode</code></td></tr>
       <tr><td><code>pascal</code></td><td><code>pascaligo</code>, <code>objectpascal</code> and <code>pascal</code></td></tr>
-      <tr><td><code>plant-uml</code></td><td><code>plantuml</code> and <code>plant-uml</code></td></tr>
+      <tr><td><code>peoplecode</code></td><td><code>pcode</code> and <code>peoplecode</code></td></tr>
       <tr><td><code>perl</code></td><td><code>perl</code></td></tr>
       <tr><td><code>php</code></td><td><code>php</code></td></tr>
-      <tr><td><code>processing</code></td><td><code>processing</code></td></tr>
-      <tr><td><code>prolog</code></td><td><code>prolog</code></td></tr>
+      <tr><td><code>plant-uml</code></td><td><code>plantuml</code> and <code>plant-uml</code></td></tr>
       <tr><td><code>powerquery</code></td><td><code>mscript</code>, <code>pq</code> and <code>powerquery</code></td></tr>
       <tr><td><code>powershell</code></td><td><code>powershell</code></td></tr>
+      <tr><td><code>processing</code></td><td><code>processing</code></td></tr>
+      <tr><td><code>prolog</code></td><td><code>prolog</code></td></tr>
       <tr><td><code>promql</code></td><td><code>promql</code></td></tr>
       <tr><td><code>properties</code></td><td><code>properties</code></td></tr>
-      <tr><td><code>psl</code></td><td><code>psl</code></td></tr>
       <tr><td><code>protobuf</code></td><td><code>protobuf</code></td></tr>
+      <tr><td><code>psl</code></td><td><code>psl</code></td></tr>
       <tr><td><code>pug</code></td><td><code>pug</code></td></tr>
       <tr><td><code>puppet</code></td><td><code>puppet</code></td></tr>
       <tr><td><code>pure</code></td><td><code>pure</code></td></tr>
       <tr><td><code>purebasic</code></td><td><code>pbfasm</code> and <code>purebasic</code></td></tr>
       <tr><td><code>python</code></td><td><code>rpy</code>, <code>renpy</code>, <code>py</code> and <code>python</code></td></tr>
-      <tr><td><code>qml</code></td><td><code>qml</code></td></tr>
       <tr><td><code>q</code></td><td><code>q</code></td></tr>
+      <tr><td><code>qml</code></td><td><code>qml</code></td></tr>
       <tr><td><code>qore</code></td><td><code>qore</code></td></tr>
       <tr><td><code>qsharp</code></td><td><code>qs</code> and <code>qsharp</code></td></tr>
       <tr><td><code>r</code></td><td><code>r</code></td></tr>
       <tr><td><code>reason</code></td><td><code>reason</code></td></tr>
-      <tr><td><code>rescript</code></td><td><code>res</code> and <code>rescript</code></td></tr>
       <tr><td><code>rego</code></td><td><code>rego</code></td></tr>
+      <tr><td><code>rescript</code></td><td><code>res</code> and <code>rescript</code></td></tr>
       <tr><td><code>rest</code></td><td><code>rest</code></td></tr>
       <tr><td><code>rip</code></td><td><code>rip</code></td></tr>
       <tr><td><code>roboconf</code></td><td><code>roboconf</code></td></tr>
@@ -617,17 +623,18 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>twig</code></td><td><code>twig</code></td></tr>
       <tr><td><code>typoscript</code></td><td><code>tsconfig</code> and <code>typoscript</code></td></tr>
       <tr><td><code>unrealscript</code></td><td><code>uc</code>, <code>uscript</code> and <code>unrealscript</code></td></tr>
-      <tr><td><code>v</code></td><td><code>v</code></td></tr>
       <tr><td><code>uorazor</code></td><td><code>uorazor</code></td></tr>
+      <tr><td><code>v</code></td><td><code>v</code></td></tr>
       <tr><td><code>vala</code></td><td><code>vala</code></td></tr>
-      <tr><td><code>verilog</code></td><td><code>verilog</code></td></tr>
+      <tr><td><code>vbnet</code></td><td><code>vbnet</code></td></tr>
       <tr><td><code>velocity</code></td><td><code>velocity</code></td></tr>
+      <tr><td><code>verilog</code></td><td><code>verilog</code></td></tr>
       <tr><td><code>vhdl</code></td><td><code>vhdl</code></td></tr>
       <tr><td><code>vim</code></td><td><code>vim</code></td></tr>
       <tr><td><code>visual-basic</code></td><td><code>vba</code>, <code>vb</code> and <code>visual-basic</code></td></tr>
       <tr><td><code>warpscript</code></td><td><code>warpscript</code></td></tr>
-      <tr><td><code>web-idl</code></td><td><code>webidl</code> and <code>web-idl</code></td></tr>
       <tr><td><code>wasm</code></td><td><code>wasm</code></td></tr>
+      <tr><td><code>web-idl</code></td><td><code>webidl</code> and <code>web-idl</code></td></tr>
       <tr><td><code>wgsl</code></td><td><code>wgsl</code></td></tr>
       <tr><td><code>wiki</code></td><td><code>wiki</code></td></tr>
       <tr><td><code>wolfram</code></td><td><code>nb</code>, <code>wl</code>, <code>mathematica</code> and <code>wolfram</code></td></tr>
@@ -637,6 +644,8 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>xojo</code></td><td><code>xojo</code></td></tr>
       <tr><td><code>xquery</code></td><td><code>xquery</code></td></tr>
       <tr><td><code>yaml</code></td><td><code>yml</code> and <code>yaml</code></td></tr>
+      <tr><td><code>yang</code></td><td><code>yang</code></td></tr>
+      <tr><td><code>zig</code></td><td><code>zig</code></td></tr>
     </tbody>
   </table>
 </details>
