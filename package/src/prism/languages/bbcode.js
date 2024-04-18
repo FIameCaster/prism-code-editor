@@ -5,15 +5,15 @@ languages.shortcode = languages.bbcode = {
 		pattern: /\[\/?[^\s=\]]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'\]=]+))?(?:\s+[^\s=\]]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s"'\]=]+))*\s*\]/,
 		inside: {
 			'punctuation': /^\[\/?|\]$/,
-			'tag': /^[^\s=\]]+/,
 			'attr-value': {
-				pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s"'\]=]+)/,
+				pattern: /(=\s*)(?:"[^"]*"|'[^']*'|\S+)/,
 				lookbehind: true,
 				inside: {
 					'punctuation': /^["']|["']$/,
 				}
 			},
 			'attr-equals': /=/,
+			'tag': /^\S+/,
 			'attr-name': /\S+/
 		}
 	}

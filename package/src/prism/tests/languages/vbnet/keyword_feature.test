@@ -154,7 +154,6 @@ RAISEEVENT
 READ
 READONLY
 REDIM
-REM
 REMOVEHANDLER
 RESTORE
 RESUME
@@ -375,7 +374,6 @@ XOR
 	["keyword", "READ"],
 	["keyword", "READONLY"],
 	["keyword", "REDIM"],
-	["keyword", "REM"],
 	["keyword", "REMOVEHANDLER"],
 	["keyword", "RESTORE"],
 	["keyword", "RESUME"],

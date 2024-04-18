@@ -20,7 +20,7 @@ var createInline = pattern => re(`((?:^|[^\\\\])(?:\\\\\\\\)*)(?:${pattern})`, i
 var tableCell = /(?:\\.|``(?:[^\n`]|`(?!`))+``|`[^\n`]+`|[^\\\n|`])+/;
 var tableRow = replace(/\|?<0>(?:\|<0>)+\|?(?:\n|(?![\s\S]))/.source, [tableCell.source]);
 var tableLine = /\|?[ \t]*:?-{3,}:?[ \t]*(?:\|[ \t]*:?-{3,}:?[ \t]*)+\|?\n/.source;
-var markdown = languages.markdown = languages.md = clone(languages.html);
+var markdown = languages.md = languages.markdown = clone(languages.html);
 
 insertBefore(markdown, 'prolog', {
 	'front-matter-block': {
@@ -122,7 +122,7 @@ insertBefore(markdown, 'prolog', {
 			pattern: /\S.*\n(?:==+|--+)(?=[ \t]*$)/m,
 			alias: 'important',
 			inside: {
-				punctuation: /==+$|--+$/
+				punctuation: /=+$|-+$/
 			}
 		},
 		{

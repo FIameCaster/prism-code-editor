@@ -1,23 +1,18 @@
 import { languages } from '../core.js';
 import { extend } from '../utils/language.js';
+import { clikeString } from '../utils/patterns.js';
 import './json.js';
 
-var string = /(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/g;
+var string = clikeString();
 
 languages.json5 = extend('json', {
 	'property': [
-		{
-			pattern: RegExp(string.source + '(?=\\s*:)', 'g'),
-			greedy: true
-		},
+		RegExp(string.pattern.source + '(?=\\s*:)'),
 		{
 			pattern: /(?!\d)(?:(?!\s)[$\w\xa0-\uffff])+(?=\s*:)/,
 			alias: 'unquoted'
 		}
 	],
-	'string': {
-		pattern: string,
-		greedy: true
-	},
+	'string': string,
 	'number': /[+-]?\b(?:NaN|Infinity|0x[a-fA-F\d]+)\b|[+-]?(?:\b\d+(?:\.\d*)?|\B\.\d+)(?:[eE][+-]?\d+\b)?/
 });

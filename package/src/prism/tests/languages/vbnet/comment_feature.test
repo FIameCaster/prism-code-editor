@@ -8,9 +8,13 @@ REM foobar
 
 [
 	["comment", ["!foobar"]],
-	["comment", [["keyword", "REM"], " foobar"]],
-	["comment", "'"],
-	["comment", "'foobar"]
+	["comment", [
+		["keyword", "REM"],
+		" foobar"
+	]],
+
+	["comment", ["'"]],
+	["comment", ["'foobar"]]
 ]
 
 ----------------------------------------------------

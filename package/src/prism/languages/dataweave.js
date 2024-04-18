@@ -18,7 +18,7 @@ languages.dataweave = {
 	},
 	'comment': clikeComment(),
 	'regex': {
-		pattern: /\/(?:[^\\/\n]|\\[^\n])+\//g,
+		pattern: /\/(?:[^\\\n/]|\\[^\n])+\//g,
 		greedy: true
 	},
 	'keyword': /\b(?:and|as|at|case|do|else|fun|if|input|is|match|not|ns|null|or|output|type|unless|update|using|var)\b/,

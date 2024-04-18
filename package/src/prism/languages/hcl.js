@@ -12,7 +12,7 @@ languages.hcl = {
 			pattern: /(?:data|resource)\s+(?:"(?:\\[\s\S]|[^\\"])*")(?=\s+"[\w-]+"\s+\{)/i,
 			inside: {
 				'type': {
-					pattern: /(resource|data|\s+)(?:"(?:\\[\s\S]|[^\\"])*")/i,
+					pattern: /(resource|data|\s)(?:"(?:\\[\s\S]|[^\\"])*")/i,
 					lookbehind: true,
 					alias: 'variable'
 				}
