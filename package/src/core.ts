@@ -40,9 +40,9 @@ const createEditor = (
 
 	const scrollContainer = editorTemplate(),
 		wrapper = <HTMLDivElement>scrollContainer.firstChild,
-		overlays = <HTMLDivElement>wrapper.firstChild,
-		textarea = <HTMLTextAreaElement>overlays.firstChild,
 		lines = <HTMLCollectionOf<HTMLDivElement>>wrapper.children,
+		overlays = lines[0],
+		textarea = <HTMLTextAreaElement>overlays.firstChild,
 		currentOptions = <EditorOptions>{ language: "text" },
 		currentExtensions = new Set(extensions),
 		listeners: {
@@ -81,21 +81,22 @@ const createEditor = (
 		let start = 0
 		let end1 = l
 		let end2 = prevLines.length
-		let newHTML = ""
+
 		while (newLines[start] == prevLines[start] && start < end1) ++start
 		while (end1 && newLines[--end1] == prevLines[--end2]);
 
-		// This is not needed, but significantly improves performance when only one line changed
 		if (start == end1 && start == end2) lines[++start].innerHTML = newLines[start - 1] + "\n"
+		else {
+			let insertStart = end2 < start ? end2 : start - 1
+			let i = insertStart
+			let newHTML = ""
 
-		let insertStart = end2 < start ? end2 : start - 1
-		let i = insertStart
-
-		while (i < end1) newHTML += `<div class="pce-line" aria-hidden="true">${newLines[++i]}\n</div>`
-		for (i = end1 < start ? end1 : start - 1; i < end2; i++) lines[start + 1].remove()
-		if (newHTML) lines[insertStart + 1].insertAdjacentHTML("afterend", newHTML)
-		for (i = insertStart + 1; i < l; ) lines[++i].setAttribute("data-line", <any>i)
-		scrollContainer.style.setProperty("--number-width", Math.ceil(Math.log10(l + 1)) + ".001ch")
+			while (i < end1) newHTML += `<div class=pce-line aria-hidden=true>${newLines[++i]}\n</div>`
+			for (i = end1 < start ? end1 : start - 1; i < end2; i++) lines[start + 1].remove()
+			if (newHTML) lines[insertStart + 1].insertAdjacentHTML("afterend", newHTML)
+			for (i = insertStart + 1; i < l; ) lines[++i].setAttribute("data-line", <any>i)
+			scrollContainer.style.setProperty("--number-width", Math.ceil(Math.log10(l + 1)) + ".001ch")
+		}
 
 		dispatchEvent("update", value)
 		dispatchSelection(true)
@@ -327,7 +328,7 @@ const numLines = (str: string, start = 0, end = Infinity) => {
 const languageMap: Record<string, Language> = {}
 
 const editorTemplate = createTemplate(
-	'<div><div class="pce-wrapper"><div class="pce-overlays"><textarea spellcheck="false" autocapitalize="off" autocomplete="off">',
+	"<div><div class=pce-wrapper><div class=pce-overlays><textarea spellcheck=false autocapitalize=off autocomplete=off>",
 )
 
 const preventDefault = (e: Event) => {
