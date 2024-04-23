@@ -1,6 +1,4 @@
 import { languageMap } from ".."
 import { bracketIndenting } from "./shared"
 
-languageMap.bash = bracketIndenting({
-	line: "#",
-})
+languageMap.sh = languageMap.shell = languageMap.bash = bracketIndenting({ line: "#" })
