@@ -13,6 +13,7 @@ import { clone, extend, insertBefore } from "../../utils/language.js"
 import { dependencyGraph } from "./lang-info.js"
 import fs from "fs"
 import { addJsxTag } from "../../utils/jsx-shared.js"
+import { entity, tag } from "../../utils/xml-shared.js"
 
 /** @type {Map<string, Function>} */
 const cache = new Map()
@@ -38,6 +39,8 @@ const imports = {
 	re,
 	replace,
 	addJsxTag,
+	tag,
+	entity,
 }
 
 const args = Object.keys(imports)

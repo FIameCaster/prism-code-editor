@@ -5,7 +5,7 @@ import { Token, TokenStream } from "../prism/index.js"
 import { getClosestToken } from "../utils/index.js"
 import { addTextareaListener } from "../core.js"
 
-const voidlessLangs = "xml,rss,atom,jsx,tsx,xquery".split(",")
+const voidlessLangs = "xml,rss,atom,jsx,tsx,xquery,actionscript".split(",")
 const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
 
 /**

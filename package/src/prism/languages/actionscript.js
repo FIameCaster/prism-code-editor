@@ -1,5 +1,6 @@
-import { languages } from '../core.js';
+import { languages, tokenize, withoutTokenizer } from '../core.js';
 import { extend, insertBefore } from '../utils/language.js';
+import { tag } from '../utils/xml-shared.js';
 import './javascript.js';
 
 var actionscript = languages.actionscript = extend('javascript', {
@@ -12,10 +13,6 @@ actionscript['class-name'].alias = 'function';
 delete actionscript['parameter'];
 delete actionscript['literal-property'];
 
-insertBefore(actionscript, 'string', {
-	'xml': {
-		pattern: /(^|[^.])<\/?\w+(?:\s+[^\s/=>]+=(?:"[^"]*"|'[^']*'))*\s*\/?>/,
-		lookbehind: true,
-		inside: 'xml'
-	}
+insertBefore(actionscript, 'regex', {
+	'tag': tag
 });
