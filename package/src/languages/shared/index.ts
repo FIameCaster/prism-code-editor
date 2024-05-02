@@ -4,7 +4,7 @@ import { getClosestToken, getLineBefore } from "../../utils"
 const clikeIndent = /[([{][^)\]}]*$|^[^.]*\b(?:case .+?|default):\s*$/,
 	isBracketPair = /\[]|\(\)|{}/,
 	xmlOpeningTag =
-		/<(?![!\d#@])([^\s/=>$<%]+)(?:\s(?:\s*[^\s/"'=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*>[ \t]*$/,
+		/<(?![?!\d#@])([^\s/=>$<%]+)(?:\s(?:\s*[^\s/"'=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*>[ \t]*$/,
 	xmlClosingTag = /^<\/(?!\d)[^\s/=>$<%]+\s*>/,
 	openBracket = /[([{][^)\]}]*$/
 
@@ -38,7 +38,7 @@ const markupComment: CommentTokens = {
 
 const markupLanguage = (
 	comment = markupComment,
-	tagPattern = xmlClosingTag,
+	tagPattern = xmlOpeningTag,
 	voidTags?: RegExp,
 ): Language => ({
 	comments: comment,
