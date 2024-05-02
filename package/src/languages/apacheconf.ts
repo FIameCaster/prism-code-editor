@@ -10,7 +10,8 @@ languageMap.apacheconf = {
 		([start, end], value) =>
 			/<\w+\b.*>$/.test(getLineBefore(value, start)) && /^<\/\w+\b.*>/.test(value.slice(end)),
 	],
-	autoCloseTags: ([start], value) => {
-		return /<(\w+)\b.*>/.exec(getLineBefore(value, start) + ">")?.[1]
+	autoCloseTags([start], value) {
+		let match = /<(\w+)\b.*>/.exec(getLineBefore(value, start) + ">")
+		return match! && `</${match[1]}>`
 	},
 }
