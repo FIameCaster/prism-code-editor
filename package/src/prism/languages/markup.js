@@ -18,15 +18,16 @@ var addInlined = (tagName, lang) => ({
 		'included-cdata': {
 			pattern: /<!\[CDATA\[[\s\S]*?\]\]>/i,
 			inside: addLang({
-				cdata: /^<!\[CDATA\[|\]\]>$/i
+				'cdata': /^<!\[CDATA\[|\]\]>$/i
 			}, lang)
 		}
 	}, lang)
 });
 
 var addAttribute = (attrName, lang) => ({
-	pattern: RegExp(`((?:^|["'\\s])(?:${attrName})\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s"'=]+)`, 'i'),
+	pattern: RegExp(`((?:^|["'\\s])(?:${attrName})\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s"'=>]+)`, 'gi'),
 	lookbehind: true,
+	greedy: true,
 	inside: addLang({
 		'punctuation': /^["']|["']$/,
 	}, lang)
@@ -36,7 +37,7 @@ var markup = languages.svg = languages.mathml = languages.html = languages.marku
 
 markup.tag.inside['attr-value'].unshift(
 	addAttribute('style', 'css'),
-	addAttribute(/on(?:abort|blur|change|click|composition(?:end|start|update)|dblclick|error|focus(?:in|out)?|key(?:down|up)|load|mouse(?:down|enter|leave|move|out|over|up)|reset|resize|scroll|select|slotchange|submit|unload|wheel)/.source, 'javascript')
+	addAttribute(/on[a-z]+/.source, 'javascript')
 );
 
 insertBefore(markup, 'cdata', {
