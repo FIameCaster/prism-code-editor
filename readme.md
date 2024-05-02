@@ -435,7 +435,7 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>avisynth</code></td><td><code>avs</code> and <code>avisynth</code></td></tr>
       <tr><td><code>avro-idl</code></td><td><code>avdl</code> and <code>avro-idl</code></td></tr>
       <tr><td><code>awk</code></td><td><code>awk</code></td></tr>
-      <tr><td><code>bash</code></td><td><code>bash</code></td></tr>
+      <tr><td><code>bash</code></td><td><code>sh</code>, <code>shell</code> and <code>bash</code></td></tr>
       <tr><td><code>basic</code></td><td><code>basic</code></td></tr>
       <tr><td><code>batch</code></td><td><code>batch</code></td></tr>
       <tr><td><code>bbj</code></td><td><code>bbj</code></td></tr>
@@ -639,7 +639,7 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
       <tr><td><code>wiki</code></td><td><code>wiki</code></td></tr>
       <tr><td><code>wolfram</code></td><td><code>nb</code>, <code>wl</code>, <code>mathematica</code> and <code>wolfram</code></td></tr>
       <tr><td><code>wren</code></td><td><code>wren</code></td></tr>
-      <tr><td><code>xeora</code></td><td><code>xeora</code></td></tr>
+      <tr><td><code>xeora</code></td><td><code>xeoracube</code> and <code>xeora</code></td></tr>
       <tr><td><code>xml</code></td><td><code>xml</code>, <code>ssml</code>, <code>atom</code>, <code>rss</code>, <code>mathml</code> and <code>svg</code></td></tr>
       <tr><td><code>xojo</code></td><td><code>xojo</code></td></tr>
       <tr><td><code>xquery</code></td><td><code>xquery</code></td></tr>
