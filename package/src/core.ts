@@ -36,27 +36,27 @@ const createEditor = (
 		focused = false,
 		handleSelecionChange = true,
 		tokens: TokenStream = [],
-		readOnly: boolean
+		readOnly: boolean,
+		lineCount = 0
 
 	const scrollContainer = editorTemplate(),
 		wrapper = <HTMLDivElement>scrollContainer.firstChild,
 		lines = <HTMLCollectionOf<HTMLDivElement>>wrapper.children,
 		overlays = lines[0],
 		textarea = <HTMLTextAreaElement>overlays.firstChild,
-		currentOptions = <EditorOptions>{ language: "text" },
+		currentOptions: EditorOptions = { language: "text", value },
 		currentExtensions = new Set(extensions),
 		listeners: {
 			[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
 		} = {}
 
 	const setOptions = (options: Partial<EditorOptions>) => {
-		;({ language, value = "" } = Object.assign(currentOptions, { value }, options))
+		Object.assign(currentOptions, options)
+		value = options.value ?? value
+		language = currentOptions.language
 
-		const newGrammar = languages[language]
-		const isNewGrammar = grammar != newGrammar
-		if (!newGrammar) throw Error(`Language '${language}' has no grammar.`)
+		if (!languages[language]) throw Error(`Language '${language}' has no grammar.`)
 
-		grammar = newGrammar
 		readOnly = !!currentOptions.readOnly
 		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
 		textarea.inputMode = readOnly ? "none" : ""
@@ -64,7 +64,7 @@ const createEditor = (
 		updateClassName()
 
 		updateExtensions()
-		if (isNewGrammar || value != textarea.value) {
+		if (grammar != (grammar = languages[language]) || value != textarea.value) {
 			focusRelatedTarget()
 			textarea.value = value
 			textarea.selectionEnd = 0
@@ -77,15 +77,14 @@ const createEditor = (
 		dispatchEvent("tokenize", tokens, language, value)
 
 		let newLines = highlightTokens(tokens).split("\n")
-		let l = newLines.length
 		let start = 0
-		let end1 = l
-		let end2 = prevLines.length
+		let end2 = lineCount
+		let end1 = (lineCount = newLines.length)
 
 		while (newLines[start] == prevLines[start] && start < end1) ++start
 		while (end1 && newLines[--end1] == prevLines[--end2]);
 
-		if (start == end1 && start == end2) lines[++start].innerHTML = newLines[start - 1] + "\n"
+		if (start == end1 && start == end2) lines[start + 1].innerHTML = newLines[start] + "\n"
 		else {
 			let insertStart = end2 < start ? end2 : start - 1
 			let i = insertStart
@@ -94,8 +93,11 @@ const createEditor = (
 			while (i < end1) newHTML += `<div class=pce-line aria-hidden=true>${newLines[++i]}\n</div>`
 			for (i = end1 < start ? end1 : start - 1; i < end2; i++) lines[start + 1].remove()
 			if (newHTML) lines[insertStart + 1].insertAdjacentHTML("afterend", newHTML)
-			for (i = insertStart + 1; i < l; ) lines[++i].setAttribute("data-line", <any>i)
-			scrollContainer.style.setProperty("--number-width", Math.ceil(Math.log10(l + 1)) + ".001ch")
+			for (i = insertStart + 1; i < lineCount; ) lines[++i].setAttribute("data-line", <any>i)
+			scrollContainer.style.setProperty(
+				"--number-width",
+				Math.ceil(Math.log10(lineCount + 1)) + ".001ch",
+			)
 		}
 
 		dispatchEvent("update", value)
@@ -291,7 +293,7 @@ const editorFromPlaceholder = (
 	return editor
 }
 
-const templateEl = document.createElement("div")
+const templateEl = /* @__PURE__ */ document.createElement("div")
 
 const createTemplate = <T extends Element = HTMLDivElement>(html: string) => {
 	templateEl.innerHTML = html
@@ -327,7 +329,7 @@ const numLines = (str: string, start = 0, end = Infinity) => {
 /** Object storing all language specific behavior. */
 const languageMap: Record<string, Language> = {}
 
-const editorTemplate = createTemplate(
+const editorTemplate = /* @__PURE__ */ createTemplate(
 	"<div><div class=pce-wrapper><div class=pce-overlays><textarea spellcheck=false autocapitalize=off autocomplete=off>",
 )
 
