@@ -15,7 +15,7 @@ const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|tra
  * - Its ending position
  * - Its tag name
  * - Whether it's a closing tag
- * - Whether it isn't self-closing
+ * - Whether it's not self-closing
  */
 export type Tag = [Token, number, number, string, boolean, boolean]
 
@@ -27,7 +27,9 @@ export interface TagMatcher {
 	 * - Its ending position
 	 * - Its tag name
 	 * - Whether it's a closing tag
-	 * - Whether it isn't self-closing
+	 * - Whether it's not self-closing
+	 * 
+	 * The tags are sorted by their ending position
 	 */
 	readonly tags: Tag[]
 	/** Array mapping the index of a tag to the index of its matching tag. */

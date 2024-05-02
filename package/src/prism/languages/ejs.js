@@ -19,5 +19,5 @@ languages.eta = languages.ejs = {
 		}
 	},
 	'escape': /<%%|%%>/,
-	[tokenize]: embeddedIn('markup')
+	[tokenize]: embeddedIn('html')
 };

@@ -6,13 +6,15 @@ var keywords = /\b(?:abstract|assert|boolean|break|byte|case|catch|char|class|co
 // full package (optional) + parent classes (optional)
 var classNamePrefix = /(?:[a-z]\w*\s*\.\s*)*(?:[A-Z]\w*\s*\.\s*)*/.source;
 
+var namespace = {
+	pattern: /^[a-z]\w*(?:\s*\.\s*[a-z]\w*)*(?:\s*\.)?/,
+	inside: {
+		'punctuation': /\./
+	}
+};
+
 var classInside = {
-	'namespace': {
-		pattern: /^[a-z]\w*(?:\s*\.\s*[a-z]\w*)*(?:\s*\.)?/,
-		inside: {
-			'punctuation': /\./
-		}
-	},
+	'namespace': namespace,
 	'punctuation': /\./
 };
 
@@ -65,7 +67,7 @@ languages.java = {
 			pattern: RegExp(`(\\bimport\\s+)${classNamePrefix}(?:[A-Z]\\w*|\\*)(?=\\s*;)`),
 			lookbehind: true,
 			inside: {
-				'namespace': classInside.namespace,
+				'namespace': namespace,
 				'punctuation': /\./,
 				'operator': /\*/,
 				'class-name': /\w+/
@@ -76,7 +78,7 @@ languages.java = {
 			lookbehind: true,
 			alias: 'static',
 			inside: {
-				'namespace': classInside.namespace,
+				'namespace': namespace,
 				'static': /\b\w+$/,
 				'punctuation': /\./,
 				'operator': /\*/,

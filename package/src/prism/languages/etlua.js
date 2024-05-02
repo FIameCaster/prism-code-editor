@@ -17,5 +17,5 @@ languages.etlua = {
 			}
 		}
 	},
-	[tokenize]: embeddedIn('markup')
+	[tokenize]: embeddedIn('html')
 };

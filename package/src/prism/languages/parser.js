@@ -56,7 +56,7 @@ var expression = {
 	}
 };
 
-var parser = languages.parser = extend('markup', {
+var parser = languages.parser = extend('html', {
 	'parser-comment': {
 		pattern: /(\s)#.*/,
 		lookbehind: true,

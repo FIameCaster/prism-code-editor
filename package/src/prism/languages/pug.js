@@ -104,12 +104,12 @@ Object.assign(pug, {
 			'each': {
 				pattern: /^each .+? in\b/,
 				inside: {
-					'keyword': /\b(?:each|in)\b/,
+					'keyword': /^\w+|in$/,
 					'punctuation': /,/
 				}
 			},
 			'branch': {
-				pattern: /^(?:case|default|else|if|unless|when|while)\b/,
+				pattern: /^\w+/,
 				alias: 'keyword'
 			},
 			[rest]: js
@@ -126,7 +126,7 @@ Object.assign(pug, {
 			lookbehind: true,
 			inside: {
 				'keyword': /^mixin/,
-				'function': /\w+(?=\s*\(|\s*$)/,
+				'function': /\b\w+(?!\s*[^\s(])/,
 				'punctuation': /[().,]/
 			}
 		},
@@ -166,7 +166,7 @@ Object.assign(pug, {
 					pattern: /\([^)]+\)/,
 					inside: {
 						'attr-value': {
-							pattern: /(=\s*(?!\s))(?:\{[^}]*\}|[^,)\n]+)/,
+							pattern: /(=\s*(?!\s))(?:\{[^}]*\}|[^\n,)]+)/,
 							lookbehind: true,
 							inside: js
 						},
@@ -180,12 +180,10 @@ Object.assign(pug, {
 			'attr-class': /\.[\w-]+/
 		}
 	},
-	'code': [
-		{
-			pattern: /(^[ \t]*(?:-|!?=)).+/m,
-			lookbehind: true,
-			inside: js
-		}
-	],
+	'code': {
+		pattern: /(^[ \t]*(?:-|!?=)).+/m,
+		lookbehind: true,
+		inside: js
+	},
 	'punctuation': /[.!=|-]+/
-})
+});

@@ -91,5 +91,5 @@ languages.smarty = {
 		alias: 'language-smarty',
 		inside: smarty
 	},
-	[tokenize]: embeddedIn('markup')
+	[tokenize]: embeddedIn('html')
 }

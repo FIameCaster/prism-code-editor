@@ -12,6 +12,13 @@ var variable = {
 	}
 };
 
+var blockPunctuation = {
+	pattern: /\$(?:\w:|C\[|C#\d)?|[[\]{:]/,
+	inside: {
+		'tag': /#\d/
+	}
+};
+
 insertBefore(xeora, 'markup-bracket', {
 	'constant': {
 		pattern: /\$(?:DomainContents|PageRenderDuration)\$/,
@@ -28,63 +35,53 @@ insertBefore(xeora, 'markup-bracket', {
 	},
 	'function-inline': {
 		pattern: /\$F:[\w.-]+\?[\w.-]+(?:,(?:(?:@[-#]*\w+\.[\w+.]\.*)*\|)*(?:(?:[\w+]|[-#*.~^]+[\w+]|=\S)(?:[^$=]|=+[^=])*=*|(?:@[-#]*\w+\.[\w+.]\.*)+(?:(?:[\w+]|[-#*~^][-#*.~^]*[\w+]|=\S)(?:[^$=]|=+[^=])*=*)?)?)?\$/,
+		alias: 'function',
 		inside: {
 			'variable': variable,
 			'punctuation': /\$\w:|[$?.,:|]/
-		},
-		alias: 'function'
+		}
 	},
 	'function-block': {
 		pattern: /\$XF:\{[\w.-]+\?[\w.-]+(?:,(?:(?:@[-#]*\w+\.[\w+.]\.*)*\|)*(?:(?:[\w+]|[-#*.~^]+[\w+]|=\S)(?:[^$=]|=+[^=])*=*|(?:@[-#]*\w+\.[\w+.]\.*)+(?:(?:[\w+]|[-#*~^][-#*.~^]*[\w+]|=\S)(?:[^$=]|=+[^=])*=*)?)?)?\}:XF\$/,
+		alias: 'function',
 		inside: {
 			'variable': variable,
 			'punctuation': /[{}$?.,:|]/
-		},
-		alias: 'function'
+		}
 	},
 	'directive-inline': {
-		pattern: /\$\w(?:#\d+\+?)?(?:\[[\w.-]+\])?:[-\w./]+\$/,
+		pattern: /\$\w(?:#\d+\+?)?(?:\[[\w.-]+\])?:[\w./-]+\$/,
+		alias: 'function',
 		inside: {
-			'punctuation': {
-				pattern: /\$(?:\w:|C(?:\[|#\d))?|[:{[\]]/,
-				inside: {
-					'tag': /#\d/
-				}
-			}
-		},
-		alias: 'function'
+			'punctuation': blockPunctuation
+		}
 	},
 	'directive-block-open': {
 		pattern: /\$\w+:\{|\$\w(?:#\d+\+?)?(?:\[[\w.-]+\])?:[\w.-]+:\{(?:![A-Z]+)?/,
+		alias: 'function',
 		inside: {
-			'punctuation': {
-				pattern: /\$(?:\w:|C\[|C#\d)?|[:{[\]]/,
-				inside: {
-					'tag': /#\d/
-				}
-			},
+			'punctuation': blockPunctuation,
 			'attribute': {
-				pattern: /![A-Z]+$/,
+				pattern: /![A-Z]+/,
+				alias: 'keyword',
 				inside: {
 					'punctuation': /!/
-				},
-				alias: 'keyword'
+				}
 			}
-		},
-		alias: 'function'
+		}
 	},
 	'directive-block-separator': {
 		pattern: /\}:[\w.-]+:\{/,
+		alias: 'function',
 		inside: {
 			'punctuation': /[:{}]/
-		},
-		alias: 'function'
+		}
 	},
 	'directive-block-close': {
 		pattern: /\}:[\w.-]+\$/,
+		alias: 'function',
 		inside: {
 			'punctuation': /[:{}$]/
-		},
-		alias: 'function'
+		}
 	}
 });
