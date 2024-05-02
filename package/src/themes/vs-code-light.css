@@ -142,12 +142,12 @@
 	color: #001080;
 }
 
-.token.doctype .token.doctype-tag,
+.token.doctype,
+.token.doctype > .punctuation,
 .token.selector,
 .token.escape,
 .token.tag,
 .token.tag > .punctuation,
-.token.doctype .punctuation,
 .token.cdata {
 	color: #800000;
 }

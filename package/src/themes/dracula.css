@@ -69,7 +69,7 @@ Original: https://github.com/dracula/visual-studio-code */
 .token.tag,
 .token.operator,
 .token.attr-equals,
-.token.doctype,
+.token.doctype-tag,
 .token.symbol,
 .token.unit,
 .token.selector,
@@ -95,6 +95,7 @@ Original: https://github.com/dracula/visual-studio-code */
 .token.boolean,
 .token.number,
 .token.color,
+.token.entity,
 .token.char-set,
 .token.keyword-this,
 .token.keyword-null,
@@ -108,18 +109,15 @@ Original: https://github.com/dracula/visual-studio-code */
 .token.pseudo-element,
 .token.pseudo-class,
 .token.attr-name,
-.token.string,
-.token.char,
 .token.builtin,
 .token.inserted,
 .token.function,
-.doctype .name,
+.token.doctype,
 .language-markdown .code-language,
 .language-markdown .code-snippet.code {
 	color: #50fa7b;
 }
 
-.token.entity,
 .token.url,
 .token.variable {
 	color: #f8f8f2;
@@ -128,6 +126,7 @@ Original: https://github.com/dracula/visual-studio-code */
 .token.regex,
 .language-regex,
 .token.attr-value,
+.token.char,
 .token.string,
 .token.string-property,
 .language-markdown .italic * {

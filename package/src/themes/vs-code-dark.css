@@ -92,7 +92,7 @@
 	text-decoration: underline;
 }
 
-.token.doctype .doctype-tag,
+.token.doctype,
 .token.operator.arrow,
 .token.keyword,
 .token.important,
@@ -122,7 +122,7 @@
 }
 
 .token.class-name,
-[class*="language-t"] .builtin,
+.token.builtin,
 .token.maybe-class-name {
 	color: #4ec9b0;
 }
@@ -144,7 +144,7 @@
 }
 
 .token.tag > .punctuation,
-.token.doctype .punctuation,
+.token.doctype > .punctuation,
 .token.cdata {
 	color: #808080;
 }

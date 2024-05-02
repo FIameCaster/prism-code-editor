@@ -66,6 +66,8 @@
 .token.unit,
 .token.selector .combinator,
 .token.operator,
+.token.deleted,
+.token.entity,
 .token.regex-flags,
 .token.token.anchor,
 .token.number.quantifier,
@@ -75,7 +77,7 @@
 
 .token.tag,
 .token.selector,
-.token.doctype,
+.token.doctype-tag,
 .language-regex .escape {
 	color: #8ddb8c;
 }
@@ -87,6 +89,7 @@
 .token.token.interpolation-punctuation,
 .token.attr-value,
 .token.string,
+.token.char,
 .token.regex,
 .language-regex,
 .token.string-property,
@@ -110,7 +113,7 @@
 .title.important .punctuation,
 .language-css .token.function,
 .token.code-snippet.code,
-.token.doctype .name,
+.token.doctype,
 .token.property-access,
 .token.keyword-null,
 .token.keyword-this,
@@ -123,6 +126,7 @@
 }
 
 .token.comment,
+.token.prolog,
 .token.cdata {
 	color: #768390;
 }

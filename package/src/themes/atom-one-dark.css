@@ -53,7 +53,6 @@
 
 [class*="language-"],
 .token.punctuation,
-.token.entity,
 .token.attr-equals,
 .language-css .token.property {
 	color: #abb2bf;
@@ -75,7 +74,7 @@
 }
 
 .token.attr-name,
-.doctype .name,
+.token.doctype,
 .selector .class,
 .selector .pseudo-element,
 .selector .pseudo-class,
@@ -85,6 +84,7 @@
 .token.boolean,
 .token.constant,
 .token.number,
+.token.entity,
 .token.unit,
 .token.atrule,
 .token.keyword-null,
@@ -94,7 +94,7 @@
 
 .token.property,
 .token.tag,
-.token.doctype,
+.token.doctype-tag,
 .token.symbol,
 .token.deleted,
 .token.important,
