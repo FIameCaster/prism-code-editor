@@ -25,7 +25,7 @@ This library overlays syntax highlighted code over a `<textarea>`. Libraries lik
 - It uses a trimmed Prism's core less than ⅓ the size that no longer relies on global variables.
 - It re-exports Prism's languages that now automatically import their required dependencies and embedded languages are resolved at runtime.
 - It splits the highlighted code into lines. This makes it easy to add line numbers, highlight a line and only update changed lines in the DOM for efficient updates.
-- The core is light as a feather with a wide array of [extensions](#extensions) you can choose from and multiple events to listen to.
+- The core is light as a feather with a wide array of [extensions](#extensions) you can choose from and [multiple events](#events) to listen to.
 
 ## Contents
 
@@ -33,6 +33,7 @@ This library overlays syntax highlighted code over a `<textarea>`. Libraries lik
 - [Basic usage](#basic-usage)
 - [Advanced usage](#advanced-usage)
 - [Importing Prism](#importing-prism)
+- [Events](#events)
   - [Importing grammars](#importing-grammars)
 - [Usage with Node.js](#usage-with-nodejs)
 - [Examples](#examples)
@@ -68,6 +69,8 @@ This library overlays syntax highlighted code over a `<textarea>`. Libraries lik
 The library includes 4 different setups you can import. These will automatically import the necessary styles and scope them with a shadow root, add various extensions and import all language specific behavior. There are also [web components](#web-components) wrapping these setups if that's preferred.
 
 These setups are very cumbersome to customize and are therefore only recommended while getting started.
+
+Here's the [different options](https://prism-code-editor.netlify.app/api/types/index.editoroptions) you can use.
 
 ```javascript
 import { minimalEditor, basicEditor, fullEditor, readonlyEditor } from "prism-code-editor/setups"
@@ -142,6 +145,16 @@ editor.addExtensions(
   editHistory(),
 )
 ```
+
+## Events
+
+There are three different event both you and extensions can listen to: `tokenize`, `update` and `selectionChange`.
+
+The `tokenize` event is dispatched after the code is tokenized, which makes it possible to change the tokens before the HTML string is created.
+
+The `update` event is dispatched after the syntax highlighted DOM has been updated.
+
+The `selectionChange` event is dispatched right after the `update` event or when the user changes the selection.
 
 ## Importing Prism
 
