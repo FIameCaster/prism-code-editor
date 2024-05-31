@@ -70,8 +70,6 @@ The library includes 4 different setups you can import. These will automatically
 
 These setups are very cumbersome to customize and are therefore only recommended while getting started.
 
-Here's the [different options](https://prism-code-editor.netlify.app/api/types/index.editoroptions) you can use.
-
 ```javascript
 import { minimalEditor, basicEditor, fullEditor, readonlyEditor } from "prism-code-editor/setups"
 // Importing Prism grammars
@@ -86,6 +84,8 @@ const editor = basicEditor(
   () => console.log("ready"),
 )
 ```
+
+**Note:** You might want to add `display: grid` to the container the editor is added to.
 
 ## Advanced usage
 
@@ -145,6 +145,22 @@ editor.addExtensions(
   editHistory(),
 )
 ```
+
+## Options
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `language` | `string` | Language used for syntax highlighting. Defaults to `text`. |
+| `tabSize` | `number` | Tab size used for indentation. Defaults to `2`. |
+| `insertSpaces` | `boolean` | Whether the editor should insert spaces for indentation. Defaults to `true`. Requires the `defaultCommands()` extension to work. |
+| `lineNumbers` | `boolean` | Whether line numbers should be shown. Defaults to `true`. |
+| `readOnly` | `boolean` | Whether the editor should be read only. Defaults to `false`. |
+| `wordWrap` | `boolean` | Whether the editor should have word wrap. Defaults to `false`. |
+| `value` | `string` | Initial value to display in the editor. |
+| `rtl` | `boolean` | Whether the editor uses right to left directionality. Defaults to `false`. Requires extra CSS from `prism-code-editor/rtl-layout.css` to work. |
+| `onUpdate` | `(value: string => void` | Function called after the editor updates. |
+| `onSelectionChange` | `(selection: InputSelection, value: string) => void` | Function called when the editor's selection changes. |
+| `onTokenize` | `(tokens: TokenStream, language: string, value: string) => void` | Function called before the tokens are stringified to HTML. |
 
 ## Events
 
@@ -410,7 +426,7 @@ The easiest way to get this working, is to import all languages. This will add c
 import("prism-code-editor/languages")
 ```
 
-You can also import `prism-code-editor/languages/common` instead to support a subset of common languages at less than 1kB gzipped.
+You can also import `prism-code-editor/languages/common` instead to support a subset of common languages at less than 2kB gzipped.
 
 #### Individual imports
 
