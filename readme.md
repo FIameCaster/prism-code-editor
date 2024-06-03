@@ -246,6 +246,7 @@ The entry points `prism-code-editor/prism`, `prism-code-editor/prism/utils` and 
 - [Relative line numbers](https://stackblitz.com/edit/vitejs-vite-2wytja?file=src%2Fextensions.ts,src%2Fmain.ts)
 - [Usage with React](https://stackblitz.com/edit/vitejs-vite-cahjr5?file=src%2FApp.tsx)
 - [Adding elements to code lines](https://stackblitz.com/edit/vitejs-vite-y5pwon?file=src%2Fmain.ts,readme.md)
+- [Custom cursor](https://stackblitz.com/edit/vitejs-vite-sza5zx?file=src%2Fstyle.css,src%2Fextensions.ts)
 
 ## Extensions
 
