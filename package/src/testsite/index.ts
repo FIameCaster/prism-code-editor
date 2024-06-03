@@ -203,13 +203,13 @@ document.querySelector<HTMLElement>("button.btn")!.onclick = () => {
 	editor2.extensions.searchWidget!.open()
 }
 
-document.querySelector<HTMLFormElement>("#form")!.onsubmit = (e) => {
-	e.preventDefault();
-	const data = new FormData(e.target as HTMLFormElement);
+document.querySelector<HTMLFormElement>("#form")!.onsubmit = e => {
+	e.preventDefault()
+	const data = new FormData(e.target as HTMLFormElement)
 	console.info(`===
 Form submission results:
 ===
-${data.get('editor')}`);
+${data.get("editor")}`)
 }
 
 setTimeout(() => import("../prism/languages"), 500)
