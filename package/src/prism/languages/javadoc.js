@@ -5,7 +5,7 @@ import './markup.js';
 import './java.js';
 import './javadoclike.js';
 
-var codeLinePattern = /(^(?:[ \t]*(?:\*\s*)*))[^*\s].*/m;
+var codeLinePattern = /(^[ \t]*(?:\*\s*)*)[^\s*].*/m;
 
 var memberReference = /#\s*\w+(?:\s*\([^()]*\))?/.source;
 var reference = replace(/(?:\b[a-zA-Z]\w+\s*\.\s*)*\b[A-Z]\w*(?:\s*<0>)?|<0>/.source, [memberReference]);
@@ -55,8 +55,8 @@ insertBefore(javadoc, 'keyword', {
 					// there can't be any HTML inside of {@code} tags
 					pattern: codeLinePattern,
 					lookbehind: true,
-					inside: java,
-					alias: 'language-java'
+					alias: 'language-java',
+					inside: java
 				}
 			}
 		},
@@ -74,8 +74,8 @@ insertBefore(javadoc, 'keyword', {
 						'code': {
 							// everything else is Java code
 							pattern: /.+/,
-							inside: java,
-							alias: 'language-java'
+							alias: 'language-java',
+							inside: java
 						}
 					}
 				}

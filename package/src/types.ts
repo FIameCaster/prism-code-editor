@@ -8,7 +8,7 @@ import { TokenStream } from "./prism/types.js"
 import { EditHistory } from "./extensions/commands.js"
 
 export type EditorOptions = {
-	/** Language used for syntax highlighting. */
+	/** Language used for syntax highlighting. @default "text" */
 	language: string
 	/** Tabsize for the editor. @default 2 */
 	tabSize?: number | undefined
@@ -28,7 +28,7 @@ export type EditorOptions = {
 	onUpdate?: EditorEventMap["update"] | null
 	/** Function called when the selection changes in the editor. */
 	onSelectionChange?: EditorEventMap["selectionChange"] | null
-	/** Function called after `after-tokenize` Prism hooks, but before the tokens are stringified. */
+	/** Function called before the tokens are stringified to HTML. */
 	onTokenize?: EditorEventMap["tokenize"] | null
 }
 

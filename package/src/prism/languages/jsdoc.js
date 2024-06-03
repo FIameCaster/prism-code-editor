@@ -30,8 +30,8 @@ insertBefore(
 				'code': {
 					pattern: /(=)[\s\S]+(?=.)/,
 					lookbehind: true,
-					inside: javascript,
-					alias: 'language-javascript'
+					alias: 'language-javascript',
+					inside: javascript
 				},
 				'punctuation': /[=[\]]/,
 				'parameter': {
@@ -70,8 +70,8 @@ insertBefore(
 				'code': {
 					pattern: /^([ \t]*(?:\*[ \t]*|(?!\*)))\S.*/m,
 					lookbehind: true,
-					inside: javascript,
-					alias: 'language-javascript'
+					alias: 'language-javascript',
+					inside: javascript
 				}
 			}
 		}

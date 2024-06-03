@@ -51,6 +51,7 @@ const isMultiline = (str: string, start: number, end: number) =>
  * To fold bracket pairs, a {@link BracketMatcher} needs to be added before.
  *
  * @param providers Callbacks that can add extra foldable ranges.
+ *
  * Very minimal downsides to adding this extension dynamically.
  */
 const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCodeFolding => {
@@ -61,9 +62,9 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 	let lineNumberWidth: string
 	let textarea: HTMLTextAreaElement
 	let foldPositions: (undefined | [number, number])[]
-	let foldToggles: HTMLDivElement[]
-	let foldPlaceholders: HTMLDivElement[]
 
+	const foldToggles: HTMLDivElement[] = []
+	const foldPlaceholders: HTMLDivElement[] = []
 	const foldedLines = new Set<number>()
 	const foldedRanges = new Set<[number, number]>()
 
@@ -138,30 +139,30 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 	}
 
 	const updateFolds = () => {
-		for (let line = 0, l = foldPositions.length; line < l; line++) {
+		for (let line = 0, l = foldPositions.length, prev: Element; line < l; line++) {
 			if (!foldPositions[line]) continue
 			let pos = getPosition(foldPositions[line]![0])
 			if (pos + 1) {
 				let parent = lines[numLines(value, 0, pos)]
 				let el = foldToggles[line]
 				let isClosed = foldedLines.has(line)
+				let pos2 = getPosition(foldPositions[line]![1])
 				if (!el) {
 					el = foldToggles[line] = template()
 					el.onclick = () => toggleAndUpdate(line)
 				}
-				if (parent != el.parentNode && !parent.querySelector(".pce-fold")) parent.prepend(el)
+				if (parent != el.parentNode && parent != prev!) parent.prepend(el)
+				prev = parent
 				el.classList.toggle("closed-fold", isClosed)
 				el.title = `${isClosed ? "Unf" : "F"}old line`
 				el = foldPlaceholders[line]
 				if (isClosed) {
 					if (!el) {
 						el = foldPlaceholders[line] = template2()
+						el.onclick = () => toggleAndUpdate(line)
 					}
-					const pos2 = getPosition(foldPositions[line]![1])
-					const [before, placeholder, after] = <[Text, HTMLElement, Text]>(<any>el.childNodes)
-					before.data = getLineBefore(value, pos)
-					after.data = value.slice(pos2, getLineEnd(value, pos2))
-					placeholder.onclick = () => toggleAndUpdate(line)
+					;(<Text>el.firstChild).data = getLineBefore(value, pos)
+					;(<Text>el.lastChild).data = value.slice(pos2, getLineEnd(value, pos2))
 					if (parent != el.parentNode) parent.prepend(el)
 				} else el?.remove()
 			}
@@ -174,8 +175,6 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 	}
 
 	const createFolds = () => {
-		foldToggles = []
-		foldPlaceholders = []
 		foldPositions = []
 		foldedRanges.clear()
 		foldedLines.clear()

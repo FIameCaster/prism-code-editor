@@ -25,30 +25,30 @@ const createEditor = (
 	options?: Partial<EditorOptions>,
 	...extensions: EditorExtension[]
 ): PrismEditor => {
-	let language: string,
-		grammar: Grammar,
-		containerEl = getElement(container),
-		prevLines: string[] = [],
-		activeLine: HTMLDivElement,
-		value = "",
-		activeLineNumber: number,
-		removed = false,
-		focused = false,
-		handleSelecionChange = true,
-		tokens: TokenStream = [],
-		readOnly: boolean,
-		lineCount = 0
+	let language: string
+	let grammar: Grammar
+	let containerEl = getElement(container)
+	let prevLines: string[] = []
+	let activeLine: HTMLDivElement
+	let value = ""
+	let activeLineNumber: number
+	let removed = false
+	let focused = false
+	let handleSelecionChange = true
+	let tokens: TokenStream = []
+	let readOnly: boolean
+	let lineCount = 0
 
-	const scrollContainer = editorTemplate(),
-		wrapper = <HTMLDivElement>scrollContainer.firstChild,
-		lines = <HTMLCollectionOf<HTMLDivElement>>wrapper.children,
-		overlays = lines[0],
-		textarea = <HTMLTextAreaElement>overlays.firstChild,
-		currentOptions: EditorOptions = { language: "text", value },
-		currentExtensions = new Set(extensions),
-		listeners: {
-			[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
-		} = {}
+	const scrollContainer = editorTemplate()
+	const wrapper = <HTMLDivElement>scrollContainer.firstChild
+	const lines = <HTMLCollectionOf<HTMLDivElement>>wrapper.children
+	const overlays = lines[0]
+	const textarea = <HTMLTextAreaElement>overlays.firstChild
+	const currentOptions: EditorOptions = { language: "text", value }
+	const currentExtensions = new Set(extensions)
+	const listeners: {
+		[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
+	} = {}
 
 	const setOptions = (options: Partial<EditorOptions>) => {
 		Object.assign(currentOptions, options)
@@ -171,9 +171,7 @@ const createEditor = (
 		if (force || handleSelecionChange) {
 			const selection = getInputSelection()
 			const newLine =
-				lines[
-					(activeLineNumber = numLines(value, 0, selection[selection[2] == "backward" ? 0 : 1]))
-				]
+				lines[(activeLineNumber = numLines(value, 0, selection[selection[2] < "f" ? 0 : 1]))]
 
 			if (newLine != activeLine) {
 				activeLine?.classList.remove("active-line")

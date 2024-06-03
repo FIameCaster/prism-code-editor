@@ -62,7 +62,7 @@ insertBefore(xeora, 'markup-bracket', {
 		inside: {
 			'punctuation': blockPunctuation,
 			'attribute': {
-				pattern: /![A-Z]+/,
+				pattern: /!.+/,
 				alias: 'keyword',
 				inside: {
 					'punctuation': /!/
@@ -81,7 +81,7 @@ insertBefore(xeora, 'markup-bracket', {
 		pattern: /\}:[\w.-]+\$/,
 		alias: 'function',
 		inside: {
-			'punctuation': /[:{}$]/
+			'punctuation': /[:}$]/
 		}
 	}
 });

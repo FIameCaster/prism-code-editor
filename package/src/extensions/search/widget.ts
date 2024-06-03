@@ -117,12 +117,11 @@ export const searchWidget = (): SearchWidget => {
 				// This preserves the selection well for normal typing,
 				// but for indenting, toggling comments, etc. it doesn't
 				const diff = prevLength - (prevLength = editor.value.length)
-				const [, end] = currentSelection
-				const [searchStart, searchEnd] = searchSelection
+				const end = currentSelection[1]
 
-				if (end <= searchEnd) {
+				if (end <= searchSelection[1]) {
 					searchSelection[1] -= diff
-					if (end <= searchStart - +(diff < 0)) searchSelection[0] -= diff
+					if (end <= searchSelection[0] - +(diff < 0)) searchSelection[0] -= diff
 				}
 			}
 			startSearch()
@@ -256,7 +255,7 @@ export const searchWidget = (): SearchWidget => {
 		container.addEventListener("click", e => {
 			const target = <HTMLElement>e.target
 			const remove = addListener(editor, "update", () => target.focus())
-			elementHandlerMap.get(<HTMLElement>target)?.()
+			elementHandlerMap.get(target)?.()
 			if (target.matches(".pce-options>button")) {
 				toggleAttr(target, "aria-pressed")
 				startSearch(true)
@@ -295,22 +294,22 @@ export const searchWidget = (): SearchWidget => {
 		replaceAPI.container.className = "pce-matches"
 	}
 
-	const container = <HTMLDivElement>template(),
-		// @ts-expect-error
-		search = (self.element = <HTMLDivElement>container.firstChild),
-		[toggle, div] = <[HTMLButtonElement, HTMLDivElement]>(<unknown>search.children),
-		rows = div.children,
-		[findContainer, closeEl] = <[HTMLDivElement, HTMLButtonElement]>(<unknown>rows[0].children),
-		[findInput, prevEl, nextEl, errorEl] = <
-			[HTMLInputElement, HTMLButtonElement, HTMLButtonElement, HTMLDivElement]
-		>(<unknown>findContainer.children),
-		[replaceInput, replaceEl, replaceAllEl] = <
-			[HTMLInputElement, HTMLButtonElement, HTMLButtonElement]
-		>(<unknown>rows[1].children),
-		[matchCount, useRegExpEl, matchCaseEl, wholeWordEl, inSelectionEl] = <
-			[HTMLDivElement, HTMLButtonElement, HTMLButtonElement, HTMLButtonElement, HTMLButtonElement]
-		>(<unknown>rows[2].children),
-		[current, , total] = <Text[]>(<unknown>matchCount.childNodes)
+	const container = <HTMLDivElement>template()
+	// @ts-expect-error
+	const search = (self.element = <HTMLDivElement>container.firstChild)
+	const [toggle, div] = <[HTMLButtonElement, HTMLDivElement]>(<unknown>search.children)
+	const rows = div.children
+	const [findContainer, closeEl] = <[HTMLDivElement, HTMLButtonElement]>(<unknown>rows[0].children)
+	const [findInput, prevEl, nextEl, errorEl] = <
+		[HTMLInputElement, HTMLButtonElement, HTMLButtonElement, HTMLDivElement]
+	>(<unknown>findContainer.children)
+	const [replaceInput, replaceEl, replaceAllEl] = <
+		[HTMLInputElement, HTMLButtonElement, HTMLButtonElement]
+	>(<unknown>rows[1].children)
+	const [matchCount, useRegExpEl, matchCaseEl, wholeWordEl, inSelectionEl] = <
+		[HTMLDivElement, HTMLButtonElement, HTMLButtonElement, HTMLButtonElement, HTMLButtonElement]
+	>(<unknown>rows[2].children)
+	const [current, , total] = <Text[]>(<unknown>matchCount.childNodes)
 
 	self.open = self.close = () => {}
 
