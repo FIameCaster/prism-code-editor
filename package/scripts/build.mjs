@@ -16,10 +16,6 @@ const themes = [
 	"vs-code-light",
 ]
 
-for (const theme of themes) {
-	fs.rename(`dist/${theme}.css`, `dist/themes/${theme}.css`)
-}
-
 let themeMod = await fs.readFile("dist/themes/index.js", "utf-8")
 const regex = RegExp(`^(${themes.join("|")})(-\\w+)\.js$`)
 const entries = await fs.readdir("dist", { withFileTypes: true })

@@ -45,7 +45,7 @@ await Promise.all([
 	fs.readdir(new URL("./src/themes", import.meta.url)).then(files =>
 		files.forEach(name => {
 			if (name.slice(-4) == ".css") {
-				entries[name.slice(0, -4)] = "src/themes/" + name
+				entries["themes/" + name.slice(0, -4)] = "src/themes/" + name
 			}
 		}),
 	),
