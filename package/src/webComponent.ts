@@ -38,10 +38,14 @@ const addComponent = (name: string, createEditor: typeof basicEditor) => {
 		name,
 		class extends HTMLElement {
 			static observedAttributes = attributes
+			static formAssociated = true
+
 			editor: PrismEditor
+			internals: ElementInternals
 
 			constructor() {
 				super()
+				this.internals = this.attachInternals()
 				this.editor = createEditor(this, getOptions(this), () =>
 					this.dispatchEvent(new CustomEvent("ready")),
 				)
@@ -61,6 +65,14 @@ const addComponent = (name: string, createEditor: typeof basicEditor) => {
 			}
 			set value(value: string) {
 				this.editor.setOptions({ value })
+				this.internals.setFormValue(this.editor.value);
+			}
+
+			formAssociatedCallback() {
+				setTimeout(
+					() => this.internals.setFormValue(this.editor.value),
+					200
+				)
 			}
 
 			attributeChangedCallback(
