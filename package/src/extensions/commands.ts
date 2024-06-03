@@ -1,6 +1,6 @@
 /** @module commands */
 
-import { EditorOptions, InputSelection, BasicExtension, PrismEditor } from "../index.js"
+import { InputSelection, BasicExtension, PrismEditor } from "../index.js"
 import { isMac, preventDefault, languageMap, addTextareaListener } from "../core.js"
 import {
 	getLanguage,
@@ -52,10 +52,10 @@ const defaultCommands =
 		let prevCopy: string
 		const { keyCommandMap, inputCommandMap, getSelection } = editor
 
-		const getIndent = ({ insertSpaces = true, tabSize }: EditorOptions) =>
+		const getIndent = ({ insertSpaces = true, tabSize } = options) =>
 			[insertSpaces ? " " : "\t", insertSpaces ? tabSize || 2 : 1] as const
 
-		const scroll = (): true => !editor.extensions.cursor?.scrollIntoView()
+		const scroll = () => !options.readOnly && !editor.extensions.cursor?.scrollIntoView()
 
 		/**
 		 * Automatically closes quotes and brackets if text is selected,
@@ -176,17 +176,17 @@ const defaultCommands =
 			const code = getModifierCode(e) & 7
 			if (!code || code == mod) {
 				if (code) selection[0] = selection[1] = getLines(value, selection[1])[2]
-				const [indentChar, tabSize] = getIndent(options),
-					[start, end] = selection,
-					autoIndent = languageMap[getLanguage(editor)]?.autoIndent,
-					indenationCount =
-						Math.floor(whitespaceEnd(getLineBefore(value, start)) / tabSize) * tabSize,
-					extraIndent = autoIndent?.[0]?.(selection, value, editor) ? tabSize : 0,
-					extraLine = autoIndent?.[1]?.(selection, value, editor),
-					newText =
-						"\n" +
-						indentChar.repeat(indenationCount + extraIndent) +
-						(extraLine ? "\n" + indentChar.repeat(indenationCount) : "")
+				const [indentChar, tabSize] = getIndent()
+				const [start, end] = selection
+				const autoIndent = languageMap[getLanguage(editor)]?.autoIndent
+				const indenationCount =
+					Math.floor(whitespaceEnd(getLineBefore(value, start)) / tabSize) * tabSize
+				const extraIndent = autoIndent?.[0]?.(selection, value, editor) ? tabSize : 0
+				const extraLine = autoIndent?.[1]?.(selection, value, editor)
+				const newText =
+					"\n" +
+					indentChar.repeat(indenationCount + extraIndent) +
+					(extraLine ? "\n" + indentChar.repeat(indenationCount) : "")
 
 				if (newText[1] || value[end]) {
 					insertText(editor, newText, start, end, start + indenationCount + extraIndent + 1)
@@ -197,13 +197,13 @@ const defaultCommands =
 
 		keyCommandMap.Backspace = (_e, [start, end], value) => {
 			if (start == end) {
-				const currentLine = getLineBefore(value, start),
-					[, tabSize] = getIndent(options),
-					isPair = selfClosePairs.includes(value.slice(start - 1, start + 1)),
-					indenationCount = currentLine.length % tabSize || tabSize
+				const line = getLineBefore(value, start)
+				const tabSize = options.tabSize || 2
+				const isPair = selfClosePairs.includes(value.slice(start - 1, start + 1))
+				const indenationCount = /[^ ]/.test(line) ? 0 : line.length % tabSize || tabSize
 
-				if (isPair || (indenationCount != 1 && !/\S|^$/.test(currentLine))) {
-					insertText(editor, "", start - (isPair ? 1 : indenationCount), start + +isPair)
+				if (isPair || indenationCount > 1) {
+					insertText(editor, "", start - (isPair ? 1 : indenationCount), start + <any>isPair)
 					return scroll()
 				}
 			}
@@ -218,9 +218,9 @@ const defaultCommands =
 						const newStart = i ? start : getLineStart(value, start) - 1
 						const newEnd = i ? value.indexOf("\n", end) + 1 : end
 						if (newStart > -1 && newEnd > 0) {
-							const [lines, start1, end1] = getLines(value, newStart, newEnd),
-								line = lines[i ? "pop" : "shift"]()!,
-								offset = (line.length + 1) * (i ? 1 : -1)
+							const [lines, start1, end1] = getLines(value, newStart, newEnd)
+							const line = lines[i ? "pop" : "shift"]()!
+							const offset = (line.length + 1) * (i ? 1 : -1)
 
 							lines[i ? "unshift" : "push"](line)
 							insertText(editor, lines.join("\n"), start1, end1, start + offset, end + offset)
@@ -228,8 +228,8 @@ const defaultCommands =
 					} else {
 						// Copying lines
 						const [lines, start1, end1] = getLines(value, start, end)
-						const str = lines.join("\n"),
-							offset = i ? str.length + 1 : 0
+						const str = lines.join("\n")
+						const offset = i ? str.length + 1 : 0
 						insertText(editor, str + "\n" + str, start1, end1, start + offset, end + offset)
 					}
 					return scroll()
@@ -237,9 +237,9 @@ const defaultCommands =
 			}
 
 		addTextareaListener(editor, "keydown", e => {
-			const code = getModifierCode(e),
-				keyCode = e.keyCode,
-				[start, end, dir] = getSelection()
+			const code = getModifierCode(e)
+			const keyCode = e.keyCode
+			const [start, end, dir] = getSelection()
 
 			if (code == mod && (keyCode == 221 || keyCode == 219)) {
 				indent(
@@ -247,7 +247,7 @@ const defaultCommands =
 					...getLines(editor.value, start, end),
 					start,
 					end,
-					...getIndent(options),
+					...getIndent(),
 				)
 				return scroll()
 			}
@@ -255,21 +255,21 @@ const defaultCommands =
 				setIgnoreTab(!ignoreTab)
 				preventDefault(e)
 			} else if ((keyCode == 191 && code == mod) || (keyCode == 65 && code == 9)) {
-				const value = editor.value,
-					isBlock = code == 9,
-					position = isBlock ? start : getLineStart(value, start),
-					language = languageMap[getLanguage(editor, position)] || {},
-					{ line, block } =
-						language.getComments?.(editor, position, value) || language.comments || {},
-					[lines, start1, end1] = getLines(value, start, end),
-					last = lines.length - 1
+				const value = editor.value
+				const isBlock = code == 9
+				const position = isBlock ? start : getLineStart(value, start)
+				const language = languageMap[getLanguage(editor, position)] || {}
+				const { line, block } =
+					language.getComments?.(editor, position, value) || language.comments || {}
+				const [lines, start1, end1] = getLines(value, start, end)
+				const last = lines.length - 1
 
 				if (isBlock) {
 					if (block) {
-						const [open, close] = block,
-							text = value.slice(start, end),
-							pos = value.slice(0, start).search(regexEscape(open) + " ?$"),
-							matches = RegExp("^ ?" + regexEscape(close)).test(value.slice(end))
+						const [open, close] = block
+						const text = value.slice(start, end)
+						const pos = value.slice(0, start).search(regexEscape(open) + " ?$")
+						const matches = RegExp("^ ?" + regexEscape(close)).test(value.slice(end))
 
 						if (pos + 1 && matches)
 							insertText(
@@ -293,23 +293,24 @@ const defaultCommands =
 					}
 				} else {
 					if (line) {
-						const escaped = regexEscape(line),
-							regex = RegExp(`^\\s*(${escaped} ?|$)`),
-							regex2 = RegExp(escaped + " ?"),
-							allWhiteSpace = !/\S/.test(value.slice(start1, end1)),
-							newLines = lines.map(
-								lines.every(line => regex.test(line)) && !allWhiteSpace
-									? str => str.replace(regex2, "")
-									: str =>
-											allWhiteSpace || /\S/.test(str) ? str.replace(/^\s*/, `$&${line} `) : str,
-							)
+						const escaped = regexEscape(line)
+						const regex = RegExp(`^\\s*(${escaped} ?|$)`)
+						const regex2 = RegExp(escaped + " ?")
+						const allWhiteSpace = !/\S/.test(value.slice(start1, end1))
+						const newLines = lines.map(
+							lines.every(line => regex.test(line)) && !allWhiteSpace
+								? str => str.replace(regex2, "")
+								: str =>
+										allWhiteSpace || /\S/.test(str) ? str.replace(/^\s*/, `$&${line} `) : str,
+						)
 						insertLines(lines, newLines, start1, end1, start, end)
 						scroll()
 					} else if (block) {
-						const [open, close] = block,
-							insertionPoint = whitespaceEnd(lines[0]),
-							hasComment = lines[0].startsWith(open, insertionPoint) && lines[last].endsWith(close),
-							newLines = lines.slice()
+						const [open, close] = block
+						const insertionPoint = whitespaceEnd(lines[0])
+						const hasComment =
+							lines[0].startsWith(open, insertionPoint) && lines[last].endsWith(close)
+						const newLines = lines.slice()
 
 						newLines[0] = lines[0].replace(
 							hasComment ? RegExp(regexEscape(open) + " ?") : /(?=\S)|$/,
@@ -332,10 +333,10 @@ const defaultCommands =
 					}
 				}
 			} else if (code == 8 + mod && keyCode == 75) {
-				const value = editor.value,
-					[lines, start1, end1] = getLines(value, start, end),
-					column = dir == "forward" ? end - end1 + lines.pop()!.length : start - start1,
-					newLineLen = getLines(value, end1 + 1)[0][0].length
+				const value = editor.value
+				const [lines, start1, end1] = getLines(value, start, end)
+				const column = dir == "forward" ? end - end1 + lines.pop()!.length : start - start1
+				const newLineLen = getLines(value, end1 + 1)[0][0].length
 				insertText(
 					editor,
 					"",
