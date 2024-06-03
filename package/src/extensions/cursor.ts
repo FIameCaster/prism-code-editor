@@ -25,7 +25,7 @@ export interface Cursor extends BasicExtension {
 }
 
 const cursorTemplate = createTemplate(
-	'<div style=position:absolute;top:0;opacity:0;padding:inherit> <span></span> ',
+	'<div style=position:absolute;top:0;opacity:0;padding:inherit> <span><span></span> ',
 )
 
 /**
@@ -33,24 +33,25 @@ const cursorTemplate = createTemplate(
  * This is used by the {@link defaultCommands} extension to keep the cursor in view while typing.
  */
 export const cursorPosition = () => {
-	let cEditor: PrismEditor,
-		prevBefore = " ",
-		prevAfter = " "
+	let cEditor: PrismEditor
+	let prevBefore = " "
+	let prevAfter = " "
 
-	const cursorContainer = cursorTemplate(),
-		[before, cursor, after] = <[Text, HTMLSpanElement, Text]>(<unknown>cursorContainer.childNodes),
-		selectionChange = ([start, end, direction]: InputSelection) => {
-			let { value, activeLine } = cEditor,
-				position = direction == "backward" ? start : end,
-				newBefore = getLineBefore(value, position),
-				newAfter = value.slice(position, getLineEnd(value, position))
+	const cursorContainer = cursorTemplate()
+	const [before, span] = <[Text, HTMLSpanElement]>(<unknown>cursorContainer.childNodes)
+	const [cursor, after] = <[HTMLSpanElement, Text]>(<unknown>span.childNodes)
+	const selectionChange = (selection: InputSelection) => {
+		let { value, activeLine } = cEditor
+		let position = selection[selection[2] < "f" ? 0 : 1]
+		let newBefore = getLineBefore(value, position)
+		let newAfter = value.slice(position, getLineEnd(value, position))
 
-			if (!newBefore && !newAfter) newAfter = " "
-			if (prevBefore != newBefore) before.data = prevBefore = newBefore
-			if (prevAfter != newAfter) after.data = prevAfter = newAfter
-			if (cursorContainer.parentNode != activeLine) activeLine.prepend(cursorContainer)
-		},
-		scrollIntoView = () => scrollToEl(cEditor, cursor)
+		if (!newBefore && !newAfter) newAfter = " "
+		if (prevBefore != newBefore) before.data = prevBefore = newBefore
+		if (prevAfter != newAfter) after.data = prevAfter = newAfter
+		if (cursorContainer.parentNode != activeLine) activeLine.prepend(cursorContainer)
+	}
+	const scrollIntoView = () => scrollToEl(cEditor, cursor)
 
 	const self: Cursor = editor => {
 		editor.addListener("selectionChange", selectionChange)
@@ -65,8 +66,8 @@ export const cursorPosition = () => {
 	}
 
 	self.getPosition = () => {
-		const rect1 = cursor.getBoundingClientRect(),
-			rect2 = cEditor.overlays.getBoundingClientRect()
+		const rect1 = cursor.getBoundingClientRect()
+		const rect2 = cEditor.overlays.getBoundingClientRect()
 
 		return {
 			top: rect1.y - rect2.y,
