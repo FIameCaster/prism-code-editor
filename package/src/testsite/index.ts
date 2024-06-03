@@ -205,7 +205,7 @@ document.querySelector<HTMLElement>("button.btn")!.onclick = () => {
 
 document.querySelector<HTMLFormElement>("#form")!.onsubmit = (e) => {
 	e.preventDefault();
-	const data = new FormData(e.target);
+	const data = new FormData(e.target as HTMLFormElement);
 	console.info(`===
 Form submission results:
 ===
