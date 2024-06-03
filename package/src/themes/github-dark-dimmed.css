@@ -76,6 +76,7 @@
 }
 
 .token.tag,
+.token.inserted,
 .token.selector,
 .token.doctype-tag,
 .language-regex .escape {

@@ -107,7 +107,8 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #ff6363;
 }
 
-.language-markdown .token.url {
+.language-markdown .token.url,
+.token.deleted {
 	color: #ff869a;
 }
 
@@ -153,6 +154,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.attr-name,
 .token.doctype,
 .token.variable,
+.token.inserted,
 .selector .class,
 .selector .pseudo-element,
 .selector .pseudo-class,
