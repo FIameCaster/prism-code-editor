@@ -14,7 +14,7 @@ import { addListener, getLineEnd, getLineStart } from "../../utils/local.js"
 const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
 
 const template = createTemplate(
-	`<div class=prism-search-container style=display:none;align-items:flex-start;justify-content:flex-end><div dir=ltr class=prism-search><button type=button aria-expanded=false title="Toggle Replace" class=pce-expand></button><div spellcheck=false><div><div class="pce-input pce-find"><input autocorrect=off autocapitalize=off placeholder=Find aria-label=Find><button type=button class=prev-match title="Previous Match (Shift+Enter)"></button><button type=button class=next-match title="Next Match (Enter)"></button><div class=search-error></div></div><button type=button class=pce-close title="Close (Esc)"></button></div><div class="pce-input pce-replace"><input autocorrect=off autocapitalize=off placeholder=Replace aria-label=Replace><button type=button title=(Enter)>Replace</button><button type=button title=(${
+	`<div class=prism-search-container style=display:flex;align-items:flex-start;justify-content:flex-end><div dir=ltr class=prism-search><button type=button aria-expanded=false title="Toggle Replace" class=pce-expand></button><div spellcheck=false><div><div class="pce-input pce-find"><input autocorrect=off autocapitalize=off placeholder=Find aria-label=Find><button type=button class=prev-match title="Previous Match (Shift+Enter)"></button><button type=button class=next-match title="Next Match (Enter)"></button><div class=search-error></div></div><button type=button class=pce-close title="Close (Esc)"></button></div><div class="pce-input pce-replace"><input autocorrect=off autocapitalize=off placeholder=Replace aria-label=Replace><button type=button title=(Enter)>Replace</button><button type=button title=(${
 		isMac ? "Cmd" : "Ctrl+Alt"
 	}+Enter)>All</button></div><div class=pce-options><div class=pce-match-count>0<span> of </span>0</div><button type=button aria-pressed=false class=pce-regex title="RegExp Search${shortcut}R)"><span aria-hidden=true></span></button><button type=button aria-pressed=false title="Preserve Case${shortcut}P)"><span aria-hidden=true>Aa</span></button><button type=button aria-pressed=false class=pce-whole title="Match Whole Word${shortcut}W)"><span aria-hidden=true>ab</span></button><button type=button aria-pressed=false class=pce-in-selection title="Find in Selection${shortcut}L)">`,
 )
@@ -45,19 +45,17 @@ export interface SearchWidget extends BasicExtension {
  * This extension needs styles from `prism-code-editor/search.css`.
  */
 export const searchWidget = (): SearchWidget => {
-	let prevLength: number,
-		useRegExp: boolean,
-		matchCase: boolean,
-		wholeWord: boolean,
-		searchSelection: [number, number] | undefined,
-		isOpen: boolean,
-		currentSelection: InputSelection,
-		prevUserSelection: InputSelection,
-		prevMargin: number,
-		selectNext = false,
-		marginTop: number,
-		removeUpdateHandler: () => any,
-		removeSelectionHandler: () => any
+	let prevLength: number
+	let useRegExp: boolean
+	let matchCase: boolean
+	let wholeWord: boolean
+	let searchSelection: [number, number] | undefined
+	let isOpen: boolean
+	let currentSelection: InputSelection
+	let prevUserSelection: InputSelection
+	let prevMargin: number
+	let selectNext = false
+	let marginTop: number
 
 	const self: SearchWidget = editor => {
 		editor.extensions.searchWidget = self
@@ -104,38 +102,12 @@ export const searchWidget = (): SearchWidget => {
 			}
 		}
 
-		const selectionChange = (selection: InputSelection) => {
-			if (editor.focused) prevUserSelection = selection
-		}
-
-		const beforeinput = () => {
-			if (searchSelection) currentSelection = getSelection()
-		}
-
-		const input = () => {
-			if (searchSelection && currentSelection) {
-				// This preserves the selection well for normal typing,
-				// but for indenting, toggling comments, etc. it doesn't
-				const diff = prevLength - (prevLength = editor.value.length)
-				const end = currentSelection[1]
-
-				if (end <= searchSelection[1]) {
-					searchSelection[1] -= diff
-					if (end <= searchSelection[0] - +(diff < 0)) searchSelection[0] -= diff
-				}
-			}
-			startSearch()
-		}
-
 		const open = (focusInput = true) => {
 			if (!isOpen) {
 				isOpen = true
 				if (marginTop == null) prevMargin = marginTop = getStyleValue(wrapper, "marginTop")
-				removeUpdateHandler = addListener(editor, "update", input)
-				removeSelectionHandler = addListener(editor, "selectionChange", selectionChange)
 				prevUserSelection = getSelection()
-				addTextareaListener(editor, "beforeinput", beforeinput)
-				container.style.display = "flex"
+				overlays.append(container)
 				updateMargin()
 				resize()
 				observer?.observe(scrollContainer)
@@ -147,10 +119,7 @@ export const searchWidget = (): SearchWidget => {
 			if (isOpen) {
 				isOpen = false
 				replaceAPI.stopSearch()
-				removeUpdateHandler()
-				removeSelectionHandler()
-				textarea.removeEventListener("beforeinput", beforeinput)
-				container.style.display = "none"
+				container.remove()
 				updateMargin()
 				observer?.disconnect()
 				focusTextarea && textarea.focus()
@@ -171,7 +140,7 @@ export const searchWidget = (): SearchWidget => {
 				: marginTop
 			const newScroll = scrollContainer.scrollTop + newMargin - prevMargin
 
-			wrapper.style.marginTop = newMargin + "px"
+			wrapper.style.marginTop = isOpen ? newMargin + "px" : ""
 			scrollContainer.scrollTop = newScroll
 			prevMargin = newMargin
 		}
@@ -242,16 +211,37 @@ export const searchWidget = (): SearchWidget => {
 		])
 
 		addTextareaListener(editor, "keydown", keydown)
+		addTextareaListener(editor, "beforeinput", () => {
+			if (isOpen && searchSelection) currentSelection = getSelection()
+		})
+		addListener(editor, "update", () => {
+			if (!isOpen) return
+			if (searchSelection && currentSelection) {
+				// This preserves the selection well for normal typing,
+				// but for indenting, toggling comments, etc. it doesn't
+				const diff = prevLength - (prevLength = editor.value.length)
+				const end = currentSelection[1]
+
+				if (end <= searchSelection[1]) {
+					searchSelection[1] -= diff
+					if (end <= searchSelection[0] - +(diff < 0)) searchSelection[0] -= diff
+				}
+			}
+			startSearch()
+		})
+		addListener(editor, "selectionChange", selection => {
+			if (isOpen && editor.focused) prevUserSelection = selection
+		})
 
 		// Patches a bug where Chrome lies about the textarea's selection
-		isChrome &&
+		if (isChrome) {
 			container.addEventListener("focusin", e => {
 				if (!container.contains(<Element>e.relatedTarget)) {
 					findInput.focus()
 					;(<HTMLElement>e.target).focus()
 				}
 			})
-
+		}
 		container.addEventListener("click", e => {
 			const target = <HTMLElement>e.target
 			const remove = addListener(editor, "update", () => target.focus())
@@ -290,7 +280,6 @@ export const searchWidget = (): SearchWidget => {
 			startSearch()
 		}
 
-		overlays.append(container)
 		replaceAPI.container.className = "pce-matches"
 	}
 

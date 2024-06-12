@@ -3,7 +3,7 @@ import { createTemplate } from "../../core.js"
 import { PrismEditor } from "../../types.js"
 
 const template = createTemplate(
-	'<div style="color:#0000;display:none;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true>',
+	'<div style="color:#0000;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true>',
 )
 
 const matchTemplate = createTemplate("<span> ")
@@ -64,13 +64,12 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 		stopSearch = () => {
 			if (matchPositions[0]) {
 				matchPositions.length = 0
-				container.style.display = "none"
+				container.remove()
 			}
 		}
 
 	let regex: RegExp
 	let nodeCount = 0
-	editor.overlays.append(container)
 
 	return {
 		search(str, caseSensitive, wholeWord, useRegExp, selection, filter, pattern) {
@@ -107,16 +106,17 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 				matchPositions.length = i
 				l = Math.min(i * 2, 20000)
 
-				for (let i = nodes.length; i <= l; ) {
+				for (i = nodes.length; i <= l; ) {
 					nodes[i++] = matchTemplate()
 					nodes[i++] = new Text()
 				}
 
-				for (let i = nodeCount - 1; i > l; ) nodes[i--].remove()
+				for (i = nodeCount - 1; i > l; ) nodes[i--].remove()
 				if (nodeCount <= l) container.append(...nodes.slice(nodeCount, l + 1))
 
 				// Diffing from bottom to top as well should be better
-				for (let i = 0, prevEnd = 0; i < l; ++i) {
+				let prevEnd = 0
+				for (i = 0; i < l; ++i) {
 					const [start, end] = matchPositions[i / 2]
 					const before = value.slice(prevEnd, start)
 					const match = value.slice(start, (prevEnd = end))
@@ -125,8 +125,8 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 					if (match != nodeValues[++i]) (<Text>nodes[i].firstChild).data = nodeValues[i] = match
 				}
 
-				;(<Text>nodes[l]).data = nodeValues[l] = value.slice(matchPositions[l / 2 - 1][1])
-				container.style.display = ""
+				;(<Text>nodes[l]).data = nodeValues[l] = value.slice(prevEnd)
+				if (!container.parentNode) editor.overlays.append(container)
 				nodeCount = l + 1
 			} else stopSearch()
 		},

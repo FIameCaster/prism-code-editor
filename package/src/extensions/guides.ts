@@ -4,7 +4,7 @@ import { createTemplate } from "../core.js"
 import { Extension, PrismEditor } from "../types.js"
 
 const template = createTemplate(
-	'<div class=guide-indents style=left:var(--padding-left)><div style=position:relative;display:inline-block> ',
+	'<div class=guide-indents style=left:var(--padding-left);bottom:auto;right:auto> ',
 )
 
 const indentTemplate = createTemplate(
@@ -20,27 +20,26 @@ export interface IndentGuides extends Extension {
 
 /** Extension adding indent guides to an editor. Does not work with word wrap. */
 export const indentGuides = (): IndentGuides => {
-	let tabSize: number,
-		prevLength = 0,
-		lineIndentMap: number[],
-		active = -1,
-		currentEditor: PrismEditor
+	let tabSize: number
+	let prevLength = 0
+	let lineIndentMap: number[]
+	let active = -1
+	let currentEditor: PrismEditor
 
-	const lines: HTMLDivElement[] = [],
-		indents: number[][] = [],
-		container = template(),
-		guideHeight = <HTMLDivElement>container.lastChild,
-		indentLevels: number[] = []
+	const lines: HTMLDivElement[] = []
+	const indents: number[][] = []
+	const container = template()
+	const indentLevels: number[] = []
 
 	const update = (code: string) => {
 		lineIndentMap = []
-		const newIndents = getIndents(code.split("\n")),
-			l = newIndents.length
+		const newIndents = getIndents(code.split("\n"))
+		const l = newIndents.length
 
 		for (let i = 0, prev: number[] = [], next = newIndents[0]; next; i++) {
-			const style = (lines[i] ||= indentTemplate()).style,
-				[top, height, left] = next,
-				old = indents[i]
+			const style = (lines[i] ||= indentTemplate()).style
+			const [top, height, left] = next
+			const old = indents[i]
 
 			next = newIndents[i + 1]
 
@@ -58,7 +57,7 @@ export const indentGuides = (): IndentGuides => {
 		}
 
 		for (let i = prevLength; i > l; ) lines[--i].remove()
-		guideHeight.append(...lines.slice(prevLength, (prevLength = l)))
+		container.append(...lines.slice(prevLength, (prevLength = l)))
 	}
 
 	const updateActive = () => {
@@ -72,13 +71,13 @@ export const indentGuides = (): IndentGuides => {
 	}
 
 	const getIndents = (lines: string[]) => {
-		const l = lines.length,
-			stack: number[][] = [],
-			results: number[][] = []
+		const l = lines.length
+		const stack: number[][] = []
+		const results: number[][] = []
 
 		for (let prevIndent = 0, emptyPos = -1, i = 0, p = 0; ; i++) {
-			const last = i == l,
-				indent = last ? 0 : (indentLevels[i] = getIndentCount(lines[i]))
+			const last = i == l
+			const indent = last ? 0 : (indentLevels[i] = getIndentCount(lines[i]))
 			if (indent < 0) {
 				if (emptyPos < 0) emptyPos = i
 			} else {
@@ -104,8 +103,8 @@ export const indentGuides = (): IndentGuides => {
 	}
 
 	const getIndentCount = (text: string) => {
-		let l = text.search(/\S/),
-			result = 0
+		let l = text.search(/\S/)
+		let result = 0
 		if (l < 0) return l
 		for (let i = 0; i < l; ) {
 			result += text[i++] == "\t" ? tabSize - (result % tabSize) : 1
@@ -114,7 +113,7 @@ export const indentGuides = (): IndentGuides => {
 	}
 
 	return {
-		lines: <HTMLCollectionOf<HTMLDivElement>>guideHeight.children,
+		lines: <HTMLCollectionOf<HTMLDivElement>>container.children,
 		indentLevels,
 		update(editor, options) {
 			if (!currentEditor) {
