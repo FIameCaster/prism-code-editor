@@ -1,6 +1,6 @@
 {
   "name": "prism-code-editor",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "type": "module",
   "description": "Lightweight, extensible code editor component for the web using Prism",
   "main": "./dist/index.js",
@@ -95,5 +95,6 @@
     "*.css",
     "./dist/languages/*",
     "./dist/prism/languages/*"
-  ]
+  ],
+  "packageManager": "pnpm@9.0.4+sha1.b198ac6d38244fd829253720f9daafd6a606834d"
 }

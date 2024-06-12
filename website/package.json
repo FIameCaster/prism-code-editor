@@ -2,6 +2,7 @@
   "name": "website",
   "private": true,
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -11,5 +12,6 @@
   "devDependencies": {
     "typescript": "^5.0.2",
     "vite": "^5.2.8"
-  }
+  },
+  "packageManager": "pnpm@9.0.4+sha1.b198ac6d38244fd829253720f9daafd6a606834d"
 }
