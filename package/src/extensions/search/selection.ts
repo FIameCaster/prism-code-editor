@@ -1,4 +1,5 @@
 import { BasicExtension } from "../../index.js"
+import { getLineBefore } from "../../utils/index.js"
 import { SearchAPI, SearchFilter, createSearchAPI } from "./search.js"
 
 export interface SelectionMatchHighlighter extends BasicExtension {
@@ -92,7 +93,7 @@ const highlightCurrentWord = (
 			if (start < end || !editor.focused || noHighlight) searchAPI.search("")
 			else {
 				let group = `[_$\\p{L}\\d${includeHyphens && includeHyphens(start) ? "-" : ""}]`
-				let before = value.slice(0, start).match(RegExp(group + "*$", "u"))!
+				let before = getLineBefore(value, start).match(RegExp(group + "*$", "u"))!
 				let index = before.index!
 				let word = before[0] + value.slice(start).match(RegExp("^" + group + "*", "u"))![0]
 				searchAPI.search(

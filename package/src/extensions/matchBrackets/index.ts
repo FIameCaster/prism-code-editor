@@ -11,7 +11,7 @@ export interface BracketMatcher extends BasicExtension {
 	 * - Its level of nesting
 	 * - Its text content
 	 * - Whether it's an opening bracket
-	 * - It's ending position
+	 * - Its ending position
 	 *
 	 * The order will likely change in the next major release
 	 */
@@ -27,7 +27,7 @@ export interface BracketMatcher extends BasicExtension {
  * - Its level of nesting
  * - Its text content
  * - Whether it's an opening bracket
- * - It's ending position
+ * - Its ending position
  *
  * The order will likely change in the next major release
  */

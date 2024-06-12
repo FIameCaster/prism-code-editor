@@ -27,14 +27,13 @@ const createEditor = (
 ): PrismEditor => {
 	let language: string
 	let grammar: Grammar
-	let containerEl = getElement(container)
 	let prevLines: string[] = []
 	let activeLine: HTMLDivElement
 	let value = ""
 	let activeLineNumber: number
 	let removed = false
 	let focused = false
-	let handleSelecionChange = true
+	let handleSelectionChange = true
 	let tokens: TokenStream = []
 	let readOnly: boolean
 	let lineCount = 0
@@ -102,10 +101,10 @@ const createEditor = (
 
 		dispatchEvent("update", value)
 		dispatchSelection(true)
-		if (handleSelecionChange) setTimeout(setTimeout, 0, () => (handleSelecionChange = true))
+		if (handleSelectionChange) setTimeout(setTimeout, 0, () => (handleSelectionChange = true))
 
 		prevLines = newLines
-		handleSelecionChange = false
+		handleSelectionChange = false
 	}
 
 	const updateExtensions = (newExtensions?: EditorExtension[]) => {
@@ -124,7 +123,7 @@ const createEditor = (
 		scrollContainer.className = `prism-code-editor language-${language}${
 			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
 		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${
-			start == end ? "no" : "has"
+			start < end ? "has" : "no"
 		}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
 	}
 
@@ -162,13 +161,13 @@ const createEditor = (
 		...args: Parameters<EditorEventMap[T]>
 	) => {
 		// @ts-expect-error
-		for (const handler of listeners[name] || []) handler.apply(self, args)
+		listeners[name]?.forEach(handler => handler.apply(self, args))
 		// @ts-expect-error
-		currentOptions[`on${name[0].toUpperCase()}${name.slice(1)}`]?.apply(self, args)
+		currentOptions["on" + name[0].toUpperCase() + name.slice(1)]?.apply(self, args)
 	}
 
 	const dispatchSelection = (force?: boolean) => {
-		if (force || handleSelecionChange) {
+		if (force || handleSelectionChange) {
 			const selection = getInputSelection()
 			const newLine =
 				lines[(activeLineNumber = numLines(value, 0, selection[selection[2] < "f" ? 0 : 1]))]
@@ -261,7 +260,7 @@ const createEditor = (
 		preventDefault(e)
 	})
 
-	containerEl?.append(scrollContainer)
+	getElement(container)?.append(scrollContainer)
 	options && setOptions(options)
 	return self
 }

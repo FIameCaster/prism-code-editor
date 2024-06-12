@@ -118,13 +118,10 @@ const getClosestTagIndex = (pos: number, tags: TagMatcher["tags"]) => {
 }
 
 /**
- * Extension that adds classes to matching HTML/XML/JSX tags. If the editor doesn't
- * have a {@link TagMatcher}, one is created. Obviously don't add this if the languages
- * used don't have tags.
- *
- * Use the CSS selectors `.active-tagname` to style the elements.
- *
- * This extension can safely be added dynamically to an editor.
+ * Extension that adds an `active-tagname` class to matching HTML/XML/JSX tags when the
+ * cursor is on either tag. If the editor doesn't have a {@link TagMatcher}, one is
+ * created. Use the CSS selector `.active-tagname` to style the elements. Obviously don't
+ * add this if the languages used don't have tags.
  */
 export const matchTags = (): BasicExtension => editor => {
 	let openEl: Element | undefined, closeEl: Element | undefined

@@ -31,6 +31,8 @@ const cursorTemplate = createTemplate(
 /**
  * Extension which can be used to calculate the position of the cursor and scroll it into view.
  * This is used by the {@link defaultCommands} extension to keep the cursor in view while typing.
+ * 
+ * The extension can also be accessed from `editor.extensions.cursor` when added.
  */
 export const cursorPosition = () => {
 	let cEditor: PrismEditor
