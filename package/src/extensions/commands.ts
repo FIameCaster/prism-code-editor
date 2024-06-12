@@ -36,6 +36,7 @@ const whitespaceEnd = (str: string) => str.search(/\S|$/)
  * - Ctrl+/ (Cmd+/ on MacOS): Toggle comment
  * - Shift+Alt+A: Toggle block comment
  * - Ctrl+M (Ctrl+Shift+M on MacOS): Toggle Tab capturing
+ *
  * @param selfClosePairs Pairs of self-closing brackets and quotes.
  * Must be an array of strings with 2 characters each.
  * Defaults to `['""', "''", '``', '()', '[]', '{}']`.
@@ -200,7 +201,7 @@ const defaultCommands =
 				const line = getLineBefore(value, start)
 				const tabSize = options.tabSize || 2
 				const isPair = selfClosePairs.includes(value.slice(start - 1, start + 1))
-				const indenationCount = /[^ ]/.test(line) ? 0 : line.length % tabSize || tabSize
+				const indenationCount = /[^ ]/.test(line) ? 0 : (line.length - 1) % tabSize + 1
 
 				if (isPair || indenationCount > 1) {
 					insertText(editor, "", start - (isPair ? 1 : indenationCount), start + <any>isPair)
