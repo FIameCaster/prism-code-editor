@@ -78,7 +78,10 @@
 			</div>
 		</div>
 		<button class="btn" style="width: max-content;">Open search</button>
-		<prism-editor line-numbers language="javascript" theme="github-dark"></prism-editor>
+		<form id="form">
+			<prism-editor name="editor" line-numbers language="javascript" theme="github-dark"></prism-editor>
+		</form>
+		<button class="btn" form="form" style="width: max-content;" type="submit">Send as form data</button>
 	</section>
 	<section>
 		<readonly-editor readonly line-numbers language="markdown" theme="github-dark"></readonly-editor>
