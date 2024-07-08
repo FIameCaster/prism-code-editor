@@ -32,8 +32,10 @@ This library overlays syntax highlighted code over a `<textarea>`. Libraries lik
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
 - [Advanced usage](#advanced-usage)
-- [Importing Prism](#importing-prism)
+- [Usage with frameworks](#usage-with-frameworks)
+- [Options](#options)
 - [Events](#events)
+- [Importing Prism](#importing-prism)
   - [Importing grammars](#importing-grammars)
 - [Usage with Node.js](#usage-with-nodejs)
 - [Examples](#examples)
@@ -146,6 +148,13 @@ editor.addExtensions(
 )
 ```
 
+## Usage with frameworks
+
+This library has been rewritten for React and SolidJS. These rewrites better integrate with their respective framework than any wrapper ever could and are highly recommended if you're already using React or SolidJS.
+
+- [React rewrite](https://github.com/FIameCaster/prism-react-editor)
+- [SolidJS rewrite](https://github.com/FIameCaster/solid-prism-editor)
+
 ## Options
 
 | Name | Type | Description |
@@ -244,7 +253,7 @@ The entry points `prism-code-editor/prism`, `prism-code-editor/prism/utils` and 
 - [Simple tooltip example](https://stackblitz.com/edit/vitejs-vite-z2fgpu?file=src%2Fmain.ts)
 - [Formatting with Prettier](https://stackblitz.com/edit/vitejs-vite-x7tzhu?file=src%2Fmain.ts,src%2Fextensions.ts)
 - [Relative line numbers](https://stackblitz.com/edit/vitejs-vite-2wytja?file=src%2Fextensions.ts,src%2Fmain.ts)
-- [Usage with React](https://stackblitz.com/edit/vitejs-vite-cahjr5?file=src%2FApp.tsx)
+- [Usage in forms](https://stackblitz.com/edit/vitejs-vite-pk9ud7?file=src%2Fmain.ts)
 - [Adding elements to code lines](https://stackblitz.com/edit/vitejs-vite-y5pwon?file=src%2Fmain.ts,readme.md)
 - [Custom cursor](https://stackblitz.com/edit/vitejs-vite-sza5zx?file=src%2Fstyle.css,src%2Fextensions.ts)
 
