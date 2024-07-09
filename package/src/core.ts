@@ -270,13 +270,13 @@ const createEditor = (
  * element, the editor replaces it.
  *
  * The `textContent` of the placeholder will be the code in the editor unless `options.value` is defined.
- * @param placeholder Element or selector which will be replaced by the editor.
+ * @param placeholder Node or selector which will be replaced by the editor.
  * @param options Options the editor is initialized with.
  * @param extensions Extensions added before the first render. You can still add extensions later.
  * @returns Object to interact with the created editor.
  */
 const editorFromPlaceholder = (
-	placeholder: string | HTMLElement,
+	placeholder: string | ChildNode,
 	options: Partial<EditorOptions>,
 	...extensions: EditorExtension[]
 ) => {
@@ -305,7 +305,7 @@ const addTextareaListener = <T extends keyof HTMLElementEventMap>(
 	options?: boolean | AddEventListenerOptions,
 ) => editor.textarea.addEventListener(type, listener, options)
 
-const getElement = <T extends ParentNode>(el?: T | string | null) =>
+const getElement = <T extends Node>(el?: T | string | null) =>
 	typeof el == "string" ? document.querySelector<HTMLElement>(el) : el
 
 const userAgent = navigator.userAgent
