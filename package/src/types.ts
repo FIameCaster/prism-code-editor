@@ -103,9 +103,9 @@ export type EditorEventMap = {
 
 export interface EventHandler<EventMap extends Record<string, (...args: any) => any>> {
 	/** Adds a listener for events with the specified name. */
-	addListener<T extends keyof EventMap>(name: T, listener: EventMap[T]): void
+	addListener<T extends keyof EventMap>(this: void, name: T, listener: EventMap[T]): void
 	/** Removes a listener for events with the specified name. */
-	removeListener<T extends keyof EventMap>(name: T, listener: EventMap[T]): void
+	removeListener<T extends keyof EventMap>(this: void, name: T, listener: EventMap[T]): void
 }
 
 export interface PrismEditor extends EventHandler<EditorEventMap> {
@@ -156,11 +156,11 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	 * Set new options for the editor. Ommitted properties will use their old value.
 	 * @param options New options for the editor
 	 */
-	setOptions(options: Partial<EditorOptions>): void
+	setOptions(this: void, options: Partial<EditorOptions>): void
 	/** Forces the editor to update. Can be useful after adding a tokenize listener or modifying a grammar. */
-	update(): void
+	update(this: void): void
 	/** Gets `selectionStart`, `selectionEnd` and `selectionDirection` for the `textarea`. */
-	getSelection(): InputSelection
+	getSelection(this: void): InputSelection
 	/**
 	 * Sets the selection for the `textarea` and synchronously runs the selectionChange listeners.
 	 * If you don't want to synchronously run the listeners, use `textarea.setSelectionRange` instead.
@@ -168,9 +168,9 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	 * @param end New selectionEnd. Defaults to `start`.
 	 * @param direction New direction.
 	 */
-	setSelection(start: number, end?: number, direction?: "backward" | "forward" | "none"): void
+	setSelection(this: void, start: number, end?: number, direction?: "backward" | "forward" | "none"): void
 	/** Adds extensions to the editor and calls their update methods. */
-	addExtensions(...extensions: EditorExtension[]): void
+	addExtensions(this: void, ...extensions: EditorExtension[]): void
 	/** Removes the editor from the DOM and marks the editor as removed. */
-	remove(): void
+	remove(this: void): void
 }
