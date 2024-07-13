@@ -90,7 +90,6 @@
 	color: #6f42c1;
 }
 
-.token.token.interpolation-punctuation,
 .token.attr-value,
 .token.string,
 .token.char,
@@ -175,6 +174,10 @@
 .token.bracket-level-5,
 .token.bracket-level-11 {
 	color: #8a3ddb;
+}
+
+.token.interpolation-punctuation {
+	color: #032f62;
 }
 
 .token.bracket-error {

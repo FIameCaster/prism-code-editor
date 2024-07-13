@@ -79,7 +79,6 @@ Original: https://github.com/dracula/visual-studio-code */
 .token.token.anchor,
 .token.regex-flags,
 .token.atrule .rule,
-.token.token.interpolation-punctuation,
 .language-markdown .url .content {
 	color: #ff79c6;
 }
@@ -206,6 +205,10 @@ Original: https://github.com/dracula/visual-studio-code */
 .token.bracket-level-5,
 .token.bracket-level-11 {
 	color: #ffb86c;
+}
+
+.token.interpolation-punctuation {
+	color: #ff79c6;
 }
 
 .token.bracket-error {

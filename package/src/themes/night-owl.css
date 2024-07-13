@@ -122,10 +122,6 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #d7dbe0;
 }
 
-.token.token.interpolation-punctuation {
-	color: #d3423e;
-}
-
 .token.tag > .punctuation,
 .token.doctype > .punctuation,
 .selector .combinator,
@@ -239,6 +235,10 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.bracket-level-8,
 .token.bracket-level-11 {
 	color: #179fff;
+}
+
+.token.interpolation-punctuation {
+	color: #d3423e;
 }
 
 .token.bracket-error {

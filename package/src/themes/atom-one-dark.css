@@ -114,8 +114,7 @@
 .token.attr-value,
 .token.string.url,
 .token.attr-value > .punctuation,
-.token.code-snippet.code,
-.token.token.interpolation-punctuation {
+.token.code-snippet.code {
 	color: #98c379;
 }
 
@@ -210,6 +209,10 @@
 .token.bracket-level-8,
 .token.bracket-level-11 {
 	color: #179fff;
+}
+
+.token.interpolation-punctuation {
+	color: #98c379;
 }
 
 .token.bracket-error {

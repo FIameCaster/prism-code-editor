@@ -96,7 +96,6 @@
 .token.operator.arrow,
 .token.keyword,
 .token.important,
-.token.token.interpolation-punctuation,
 .token.boolean,
 .token.tag,
 .token.entity,
@@ -252,6 +251,10 @@
 .token.bracket-level-8,
 .token.bracket-level-11 {
 	color: #179fff;
+}
+
+.token.interpolation-punctuation {
+	color: #569cd6;
 }
 
 .token.bracket-error {
