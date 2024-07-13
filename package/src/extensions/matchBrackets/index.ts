@@ -52,6 +52,8 @@ export const matchBrackets = (
 	closingBrackets = ")]}",
 ) => {
 	let bracketIndex: number
+	let sp: number
+	const stack: [number, number][] = []
 	const self: BracketMatcher = editor => {
 		editor.extensions.matchBrackets = self
 		editor.addListener("tokenize", matchBrackets)
@@ -63,29 +65,29 @@ export const matchBrackets = (
 	// @ts-expect-error
 	const pairMap: number[] = (self.pairs = [])
 	const matchBrackets = (tokens: TokenStream) => {
-		pairMap.length = brackets.length = bracketIndex = 0
-		matchRecursive(tokens, 0, 0)
+		pairMap.length = brackets.length = sp = bracketIndex = 0
+		matchRecursive(tokens, 0)
+
 		if (rainbowBrackets) {
 			for (let i = 0, bracket: Bracket; (bracket = brackets[i]); ) {
 				let alias = bracket[0].alias
 
 				bracket[0].alias =
 					(alias ? alias + " " : "") +
-					`bracket-${pairMap[i++] == null ? "error" : "level-" + (bracket[2] % 12)}`
+					`bracket-${i++ in pairMap ? "level-" + (bracket[2] % 12) : "error"}`
 			}
 		}
 	}
-	const matchRecursive = (tokens: TokenStream, position: number, level: number) => {
-		let stack: [number, number][] = []
-		let sp = 0
+	const matchRecursive = (tokens: TokenStream, position: number) => {
 		let token: string | Token
-		for (let i = 0; (token = tokens[i++]); ) {
+		let i = 0
+		for (; (token = tokens[i++]); ) {
 			let length = token.length
 			if (typeof token != "string") {
 				let content = token.content
 
 				if (Array.isArray(content)) {
-					matchRecursive(content, position, sp + level)
+					matchRecursive(content, position)
 				} else if ((token.alias || token.type) == "punctuation") {
 					let openingType = testBracket(content, openingBrackets, length - 1)
 					let closingType = openingType || testBracket(content, closingBrackets, length - 1)
@@ -98,8 +100,7 @@ export const matchBrackets = (
 								let [index, type] = stack[--i]
 								if (closingType == type) {
 									pairMap[(pairMap[bracketIndex] = index)] = bracketIndex
-									brackets[bracketIndex][2] = brackets[index][2] = i + level
-									sp = i
+									brackets[bracketIndex][2] = brackets[index][2] = sp = i
 									i = 0
 								}
 							}

@@ -45,18 +45,20 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 	let code: string
 	let tags: Tag[] = []
 	let tagIndex: number
+	let sp: number
+	let stack: [number, string][] = []
 
 	let matchTags = (tokens: TokenStream, language: string, value: string) => {
 		code = value
-		tags.length = pairMap.length = tagIndex = 0
+		tags.length = pairMap.length = tagIndex = sp = 0
 		matchTagsRecursive(tokens, language, 0)
 	}
 
 	let matchTagsRecursive = (tokens: TokenStream, language: string, position: number) => {
 		let noVoidTags = voidlessLangs.includes(language)
-		let stack: [number, string][] = []
-		let sp = 0
-		for (let i = 0, l = tokens.length; i < l; ) {
+		let i = 0
+		let l = tokens.length
+		for (; i < l; ) {
 			const token = <Token>tokens[i++]
 			const content = token.content
 			const length = token.length
