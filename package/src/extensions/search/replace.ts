@@ -22,12 +22,13 @@ export interface ReplaceAPI extends SearchAPI {
 	selectMatch(index: number, scrollPadding?: number): void
 	/**
 	 * If a match is selected and it's different to the provided string, it's replaced,
-	 * else the index of the next match is returned.
+	 * else the index of the closest match is returned.
 	 * If there's no selected match, the index of the closest match is returned.
 	 */
 	replace(str: string): number | undefined
 	/**
-	 * @param value Value
+	 * Replaces all search matches with the specified string.
+	 * @param str String to replace all matches with.
 	 * @param selection Does nothing. Kept for backwards compatibility.
 	 */
 	replaceAll(value: string, selection?: [number, number]): void
@@ -109,7 +110,7 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 				let notSelected = start != caretStart || end != caretEnd
 
 				if (notSelected) return index
-				if (editor.value.slice(start, end) == str) return (index = (index + 1) % matches.length)
+				if (editor.value.slice(start, end) == str) return matches[++index] ? index : 0
 				return insertText(editor, str)!
 			}
 		},

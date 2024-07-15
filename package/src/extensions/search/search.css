@@ -6,7 +6,7 @@
 	padding: 0.3em;
 	border-radius: 0.3em;
 	margin: -99in 0 0 0;
-	font: 400 1em/1.5 Arial, Helvetica, sans-serif;
+	line-height: 1.5;
 	color: var(--widget__color);
 	background: var(--widget__bg);
 	position: sticky;
@@ -50,14 +50,18 @@
 }
 
 .pce-match-count {
-	margin-right: auto;
+	margin: 1px auto 1px 0;
+}
+
+.pce-match-count,
+.pce-input {
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .pce-options {
 	color: var(--widget__color-options);
 	font-size: 80%;
 	gap: 0.25em;
-	align-items: center;
 }
 
 .pce-options button {
@@ -65,7 +69,6 @@
 	border-radius: 0.2em;
 	width: 1.2em;
 	text-align: center;
-	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 }
 
 .pce-options button span {
@@ -86,7 +89,6 @@
 .prism-search .pce-input {
 	display: flex;
 	position: relative;
-	justify-content: flex-end;
 	background: var(--widget__bg-input);
 	border-radius: 0.15em;
 	height: 1.5em;
@@ -100,18 +102,18 @@
 	--_border: var(--widget__focus-ring);
 }
 
-.pce-input.pce-find button {
+.pce-find button {
 	display: grid;
 	align-items: center;
 	padding: 0 0.4em;
 }
 
-.pce-input.pce-replace button {
+.pce-replace button {
 	width: 7.3ch;
 	text-align: center;
 }
 
-.pce-input.pce-replace :last-child {
+.pce-replace :last-child {
 	width: 2.7ch;
 }
 
@@ -145,9 +147,8 @@
 	border-radius: 0 0.15em 0.15em 0;
 }
 
-.pce-input.pce-find.pce-error {
+.pce-input.pce-error {
 	--_border: var(--widget__error-ring);
-	position: relative;
 }
 
 .search-error {
@@ -177,7 +178,7 @@ button.pce-close {
 	border-radius: 0.3em;
 }
 
-.pce-input.pce-find button::before,
+.pce-find button::before,
 .pce-expand::before,
 .pce-close::before {
 	content: "";
@@ -229,7 +230,7 @@ button.pce-expand {
 	transform: rotate(180deg);
 }
 
-.pce-input.pce-find button::before,
+.pce-find button::before,
 .pce-expand::before {
 	width: 0.84em;
 	clip-path: polygon(50% 28.96%, 0% 63.96%, 10.1% 71.04%, 50% 43.11%, 89.9% 71.04%, 100% 63.96%);
@@ -237,12 +238,10 @@ button.pce-expand {
 
 button.pce-regex {
 	display: flex;
-	align-self: stretch;
 }
 
 .pce-regex span {
 	display: flex;
-	align-self: stretch;
 	align-items: flex-end;
 }
 
@@ -264,7 +263,6 @@ button.pce-regex {
 button.pce-in-selection {
 	display: grid;
 	place-items: center;
-	align-self: stretch;
 }
 
 button.pce-whole {
