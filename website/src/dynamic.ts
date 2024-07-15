@@ -91,23 +91,13 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 		activeEditor = +!activeEditor
 	}
 
-const langs = [
-	"tsx",
-	"jsx",
-	"typescript",
-	"typescript",
-	"typescript",
-	"html",
-	"javascript",
-	"markdown",
-]
+const langs = ["typescript", "typescript", "typescript", "html", "javascript", "markdown"]
 
-const addWordHighlight = (editor: PrismEditor, jsx?: boolean) => {
-	let selector =
-		".string,.comment,.keyword,.regex" + (jsx ? ",.tag>.tag,.tag>.attr-value,.plain-text" : "")
-
+const addWordHighlight = (editor: PrismEditor) => {
 	editor.addExtensions(
-		highlightCurrentWord(start => !getClosestToken(editor, selector, 0, 0, start)),
+		highlightCurrentWord(
+			start => !getClosestToken(editor, ".string,.comment,.keyword,.regex", 0, 0, start),
+		),
 	)
 }
 
@@ -123,7 +113,7 @@ const observer = new IntersectionObserver(entries =>
 			const editor = (editors[index] = editorFromPlaceholder(
 				target,
 				{
-					readOnly: index > 7 || inputs[0].checked,
+					readOnly: index > 5 || inputs[0].checked,
 					wordWrap: inputs[1].checked,
 					lineNumbers: inputs[2].checked,
 					language: langs[index - 1],
@@ -134,10 +124,10 @@ const observer = new IntersectionObserver(entries =>
 				copyButton(),
 			))
 			addExtensions(editor)
-			if (index < 6 || index == 7) {
-				addWordHighlight(editor, index < 3)
+			if (index < 4 || index == 5) {
+				addWordHighlight(editor)
 			}
-			if (index == 8) {
+			if (index == 6) {
 				const tooltip = document.createElement("div")
 				const [show, hide] = addTooltip(editor, tooltip, false)
 				const textarea = editor.textarea
@@ -168,7 +158,7 @@ runBtn.onclick = () => {
 	runBtn.setAttribute("aria-hidden", "true")
 	let options: any
 	try {
-		options = new Function(currentOptions + "\n;return options")() || {}
+		options = Function(currentOptions + "\n;return options")() || {}
 	} catch (error) {
 		errorEl.removeAttribute("aria-hidden")
 		errorMessage.textContent = <string>error

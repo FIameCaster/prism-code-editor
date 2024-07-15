@@ -1,43 +1,4 @@
 export const code = [
-	`import { ForwardedRef, forwardRef, useEffect, useRef } from "react"
-import { PrismEditor } from "prism-code-editor"
-import { basicEditor, SetupOptions, updateTheme } from "prism-code-editor/setups"
-
-export const PrismEditorReact = forwardRef((
-  props: SetupOptions,
-  ref: ForwardedRef<PrismEditor>
-) => {
-  const divRef = useRef<HTMLDivElement>(null)
-  const editorRef = useRef<PrismEditor>()
-
-  useEffect(() => {
-    editorRef.current?.setOptions(props)
-  }, [props])
-
-  useEffect(() => {
-    editorRef.current && updateTheme(editorRef.current, props.theme)
-  }, [props.theme])
-
-  useEffect(() => {
-    const editor = editorRef.current = basicEditor(divRef.current!, props)
-    if (ref) typeof ref == "function" ? ref(editor) : ref.current = editor
-    return editor.remove
-  }, [])
-
-  return <div className="prism-editor-react" ref={divRef} />
-})`,
-
-	`export const App = () => {
-  const [code, setCode] = useState("")
-  return <PrismEditorReact
-    ref={editor => console.log(editor)}
-    theme="github-dark"
-    language="html"
-    value={code}
-    onUpdate={setCode}
-  />
-}`,
-
 	`// index.ts
 import "prism-code-editor/prism/languages/markup"
 import "prism-code-editor/prism/languages/css-extras"
