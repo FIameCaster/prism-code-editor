@@ -1,0 +1,40 @@
+.pce-ac-tooltip {
+	width: min(25em, var(--width) - var(--padding-left) - 1em);
+	max-height: min(var(--height) - 5em, 17em);
+	background: var(--widget__bg);
+	border: 1px solid var(--widget__border);
+	z-index: 4;
+	pointer-events: auto;
+	box-sizing: border-box;
+	position: sticky;
+	right: 0.5em;
+	left: 0.5em;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+.pce-ac-tooltip > ul {
+	all: unset;
+	display: block;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.pce-ac-row {
+	display: flex;
+	padding: 0 0.3em;
+	height: 1.4em;
+	align-items: center;
+}
+
+.pce-ac-row span {
+	color: #52b1ff;
+}
+
+.pce-ac-row:hover {
+	background: #7772;
+}
+
+.pce-ac-row[aria-selected] {
+	background: #1094ff36;
+}
