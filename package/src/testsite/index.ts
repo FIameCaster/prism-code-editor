@@ -8,6 +8,7 @@ import "../prism/languages/markdown"
 import "../prism/languages/regex"
 import "../extensions/copyButton/copy.css"
 import "../extensions/folding/folding.css"
+import "../extensions/autocomplete/style.css"
 import { cursorPosition } from "../extensions/cursor"
 import { indentGuides } from "../extensions/guides"
 import guides from "../prism/core?raw"
@@ -25,6 +26,9 @@ import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
+import { autoComplete, register } from "../extensions/autocomplete"
+import { completeScope, jsContext } from "../extensions/autocomplete/javascript"
+import { fuzzyFilter } from "../extensions/autocomplete/filter"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -45,6 +49,9 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			searchWidget(),
 			defaultCommands(),
 			editHistory(),
+			autoComplete({
+				filter: fuzzyFilter,
+			}),
 		),
 	startCode = `<!DOCTYPE html>
 <html lang="en">
@@ -211,5 +218,10 @@ Form submission results:
 ===
 ${data.get("editor")}`)
 }
+
+register(["javascript", "js"], {
+	context: jsContext,
+	sources: [completeScope(window)],
+})
 
 setTimeout(() => import("../prism/languages"), 500)
