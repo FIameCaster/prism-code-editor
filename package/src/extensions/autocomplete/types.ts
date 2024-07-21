@@ -31,6 +31,6 @@ export type CompletionDefinition<T extends object> = {
 	sources: CompletionSource<T>[]
 }
 
-export type HTMLAttributes = Record<string, 0 | null | string[]>
+export type AttributeConfig = Record<string, 0 | null | string[]>
 
-export type HTMLTags = Record<string, HTMLAttributes>
+export type TagConfig = Record<string, AttributeConfig>

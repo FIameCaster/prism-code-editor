@@ -1,6 +1,6 @@
 // generated from @vscode/web-custom-data package
 
-import { HTMLAttributes, HTMLTags } from "../types"
+import { AttributeConfig, TagConfig } from "../types"
 
 const attrValueB = ["true", "false"]
 const attrValueU = ["true", "false", "undefined"]
@@ -37,7 +37,7 @@ const attrValueDecoding = ["sync", "async", "auto"]
 const attrValueLoading = ["eager", "lazy"]
 const attrValueReferrerpolicy = ["no-referrer", "no-referrer-when-downgrade", "origin", "origin-when-cross-origin", "same-origin", "strict-origin", "strict-origin-when-cross-origin", "unsafe-url"]
 
-const globalAttributes: HTMLAttributes = {
+const globalAttributes: AttributeConfig = {
 	accesskey: 0,
 	autocapitalize: 0,
 	class: 0,
@@ -183,7 +183,9 @@ const globalAttributes: HTMLAttributes = {
 	"aria-keyshortcuts": 0,
 }
 
-const tags: HTMLTags = {
+const empty: AttributeConfig = {}
+
+const htmlTags: TagConfig = {
 	html: {
 		manifest: 0,
 		version: 0,
@@ -192,7 +194,7 @@ const tags: HTMLTags = {
 	head: {
 		profile: 0,
 	},
-	title: {},
+	title: empty,
 	base: {
 		href: 0,
 		target: attrValueTarget,
@@ -250,20 +252,20 @@ const tags: HTMLTags = {
 		topmargin: 0,
 		vlink: 0,
 	},
-	article: {},
-	section: {},
-	nav: {},
-	aside: {},
-	h1: {},
-	h2: {},
-	h3: {},
-	h4: {},
-	h5: {},
-	h6: {},
-	header: {},
-	footer: {},
-	address: {},
-	p: {},
+	article: empty,
+	section: empty,
+	nav: empty,
+	aside: empty,
+	h1: empty,
+	h2: empty,
+	h3: empty,
+	h4: empty,
+	h5: empty,
+	h6: empty,
+	header: empty,
+	footer: empty,
+	address: empty,
+	p: empty,
 	hr: {
 		align: 0,
 		color: 0,
@@ -292,15 +294,15 @@ const tags: HTMLTags = {
 		value: 0,
 		type: 0,
 	},
-	dl: {},
-	dt: {},
+	dl: empty,
+	dt: empty,
 	dd: {
 		nowrap: 0,
 	},
-	figure: {},
-	figcaption: {},
-	main: {},
-	div: {},
+	figure: empty,
+	figcaption: empty,
+	main: empty,
+	div: empty,
 	a: {
 		href: 0,
 		target: attrValueTarget,
@@ -311,41 +313,41 @@ const tags: HTMLTags = {
 		type: 0,
 		referrerpolicy: 0,
 	},
-	em: {},
-	strong: {},
-	small: {},
-	s: {},
-	cite: {},
+	em: empty,
+	strong: empty,
+	small: empty,
+	s: empty,
+	cite: empty,
 	q: {
 		cite: 0,
 	},
-	dfn: {},
-	abbr: {},
-	ruby: {},
-	rb: {},
-	rt: {},
-	rp: {},
+	dfn: empty,
+	abbr: empty,
+	ruby: empty,
+	rb: empty,
+	rt: empty,
+	rp: empty,
 	time: {
 		datetime: 0,
 	},
-	code: {},
-	var: {},
-	samp: {},
-	kbd: {},
-	sub: {},
-	sup: {},
-	i: {},
-	b: {},
-	u: {},
-	mark: {},
-	bdi: {},
+	code: empty,
+	var: empty,
+	samp: empty,
+	kbd: empty,
+	sub: empty,
+	sup: empty,
+	i: empty,
+	b: empty,
+	u: empty,
+	mark: empty,
+	bdi: empty,
 	bdo: {
 	},
-	span: {},
+	span: empty,
 	br: {
 		clear: 0,
 	},
-	wbr: {},
+	wbr: empty,
 	ins: {
 		cite: 0,
 		datetime: 0,
@@ -354,7 +356,7 @@ const tags: HTMLTags = {
 		cite: 0,
 		datetime: 0,
 	},
-	picture: {},
+	picture: empty,
 	img: {
 		alt: 0,
 		src: 0,
@@ -586,7 +588,7 @@ const tags: HTMLTags = {
 		required: 0,
 		size: 0,
 	},
-	datalist: {},
+	datalist: empty,
 	optgroup: {
 		disabled: 0,
 		label: 0,
@@ -636,11 +638,11 @@ const tags: HTMLTags = {
 		form: 0,
 		name: 0,
 	},
-	legend: {},
+	legend: empty,
 	details: {
 		open: 0,
 	},
-	summary: {},
+	summary: empty,
 	dialog: {
 		open: 0,
 	},
@@ -657,8 +659,8 @@ const tags: HTMLTags = {
 		referrerpolicy: 0,
 		text: 0,
 	},
-	noscript: {},
-	template: {},
+	noscript: empty,
+	template: empty,
 	canvas: {
 		width: 0,
 		height: 0,
@@ -670,8 +672,8 @@ const tags: HTMLTags = {
 	data: {
 		value: 0,
 	},
-	hgroup: {},
-	menu: {},
+	hgroup: empty,
+	menu: empty,
 }
 
-export { globalAttributes, tags }
+export { globalAttributes, htmlTags }

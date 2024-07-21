@@ -48,10 +48,10 @@ const getPropName = name => {
 const lines = [
 	"// generated from @vscode/web-custom-data package",
 	"",
-	'import { HTMLAttributes, HTMLTags } from "../types"',
+	'import { AttributeConfig, TagConfig } from "../types"',
 	"",
 	"",
-	"const globalAttributes: HTMLAttributes = {",
+	"const globalAttributes: AttributeConfig = {",
 ]
 
 const globals = new Set()
@@ -62,11 +62,11 @@ data.globalAttributes.forEach(attr => {
 	lines.push(`\t${getPropName(attr.name)}: ${getAttrVariable(attr.valueSet)},`)
 })
 
-lines.push("}", "", "const tags: HTMLTags = {")
+lines.push("}", "", "const empty: AttributeConfig = {}", "", "const htmlTags: TagConfig = {")
 
 data.tags.forEach(tag => {
 	const attrs = tag.attributes
-	if (!attrs.length) lines.push(`\t${tag.name}: {},`)
+	if (!attrs.length) lines.push(`\t${tag.name}: empty,`)
 	else {
 		lines.push(`\t${tag.name}: {`)
 		const seen = new Set()
@@ -79,7 +79,7 @@ data.tags.forEach(tag => {
 	}
 })
 
-lines.push("}", "", "export { globalAttributes, tags }", "")
+lines.push("}", "", "export { globalAttributes, htmlTags }", "")
 
 const valueSets = []
 
