@@ -115,10 +115,10 @@ const autoComplete =
 		}
 
 		const startQuery = (explicit = false) => {
-			pos = editor.getSelection()[0]
-			const language = getLanguage(editor, pos)
+			const selection = editor.getSelection()
+			const language = getLanguage(editor, (pos = selection[0]))
 			const definition = map[language]
-			if (definition && editor.extensions.cursor) {
+			if (definition && editor.extensions.cursor && (explicit || pos == selection[1])) {
 				const value = editor.value
 				const lineBefore = getLineBefore(value, pos)
 				const before = value.slice(0, pos)
@@ -206,11 +206,17 @@ const autoComplete =
 			if (!isTyping) hide()
 			else isTyping = false
 		})
-		addTextareaListener(editor, "beforeinput", e => {
-			shouldOpen =
-				(e.inputType == "insertText" && !prevSelection) ||
-				(e.inputType == "deleteContentBackward" && isOpen)
-		})
+		addTextareaListener(
+			editor,
+			"beforeinput",
+			e => {
+				shouldOpen =
+					shouldOpen ||
+					(e.inputType == "insertText" && !prevSelection) ||
+					(e.inputType == "deleteContentBackward" && isOpen)
+			},
+			true,
+		)
 		// addTextareaListener(editor, "blur", hide)
 		addTextareaListener(
 			editor,
@@ -264,7 +270,7 @@ const autoComplete =
 		)
 
 		list.onclick = e => {
-			insertOption([].indexOf.call(rows, (e.target as HTMLElement).closest("li") as never))
+			insertOption([].indexOf.call(rows, (e.target as HTMLElement).closest("li") as never) + offset)
 		}
 	}
 
