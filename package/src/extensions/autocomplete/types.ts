@@ -10,7 +10,7 @@ export interface CompletionResult {
 	options: Completion[]
 }
 
-export type CompletionSource<T extends object> = (
+export type CompletionSource<T extends object = object> = (
 	context: CompletionContext & T,
 	editor: PrismEditor,
 ) => CompletionResult | undefined | null
@@ -23,8 +23,11 @@ export interface CompletionContext {
 	explicit: boolean
 }
 
-export interface CompletionDefinition<T extends object> {
-	context?(context: CompletionContext, editor: PrismEditor): T
+export type CompletionDefinition<T extends object> = {
+	context?: null,
+	sources: CompletionSource[]
+} | {
+	context(context: CompletionContext, editor: PrismEditor): T
 	sources: CompletionSource<T>[]
 }
 
