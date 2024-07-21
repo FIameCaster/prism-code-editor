@@ -49,6 +49,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && node scripts/build.mjs",
+    "build-html-data": "node scripts/buildHTMLData.mjs",
     "preview": "vite preview",
     "regex-coverage": "mocha src/prism/tests/coverage.js",
     "test": "mocha src/prism/tests/*.js",
@@ -63,6 +64,7 @@
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.11.0",
     "@types/yargs": "^17.0.32",
+    "@vscode/web-custom-data": "^0.4.11",
     "chai": "^5.0.0",
     "magic-string": "^0.30.5",
     "mocha": "^10.2.0",

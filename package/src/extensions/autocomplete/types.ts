@@ -27,3 +27,7 @@ export interface CompletionDefinition<T extends object> {
 	context?(context: CompletionContext, editor: PrismEditor): T
 	sources: CompletionSource<T>[]
 }
+
+export type HTMLAttributes = Record<string, 0 | null | string[]>
+
+export type HTMLTags = Record<string, HTMLAttributes>
