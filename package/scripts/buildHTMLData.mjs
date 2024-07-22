@@ -35,7 +35,7 @@ const usedValueSets = new Set()
 
 /** @param {string} name */
 const getAttrVariable = name => {
-	if (!name || name == "v") return "0"
+	if (!name || name == "v") return "null"
 	usedValueSets.add(name)
 	return "attrValue" + name[0].toUpperCase() + name.slice(1)
 }

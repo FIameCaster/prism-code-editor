@@ -31,6 +31,6 @@ export type CompletionDefinition<T extends object> = {
 	sources: CompletionSource<T>[]
 }
 
-export type AttributeConfig = Record<string, 0 | null | string[]>
+export type AttributeConfig = Record<string, null | string[]>
 
 export type TagConfig = Record<string, AttributeConfig>
