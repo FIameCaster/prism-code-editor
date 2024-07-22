@@ -201,7 +201,7 @@ const defaultCommands =
 				const line = getLineBefore(value, start)
 				const tabSize = options.tabSize || 2
 				const isPair = selfClosePairs.includes(value.slice(start - 1, start + 1))
-				const indenationCount = /[^ ]/.test(line) ? 0 : (line.length - 1) % tabSize + 1
+				const indenationCount = /[^ ]/.test(line) ? 0 : ((line.length - 1) % tabSize) + 1
 
 				if (isPair || indenationCount > 1) {
 					insertText(editor, "", start - (isPair ? 1 : indenationCount), start + <any>isPair)
@@ -243,13 +243,7 @@ const defaultCommands =
 			const [start, end, dir] = getSelection()
 
 			if (code == mod && (keyCode == 221 || keyCode == 219)) {
-				indent(
-					keyCode == 219,
-					...getLines(editor.value, start, end),
-					start,
-					end,
-					...getIndent(),
-				)
+				indent(keyCode == 219, ...getLines(editor.value, start, end), start, end, ...getIndent())
 				return scroll()
 			}
 			if (code == (isMac ? 0b1010 : 0b0010) && keyCode == 77) {
@@ -465,8 +459,7 @@ const editHistory = (historyLimit = 999) => {
 				!(isMerge =
 					allowMerge &&
 					prevInputType == inputType &&
-					e.isTrusted &&
-					!data?.includes("\n") &&
+					!prevSelection &&
 					(data != " " || prevData == data))
 			) {
 				stack[sp][2] = prevSelection || getSelection()

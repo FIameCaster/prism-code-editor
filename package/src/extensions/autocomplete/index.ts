@@ -2,6 +2,7 @@ import { BasicExtension } from "../.."
 import { addTextareaListener, createTemplate, preventDefault } from "../../core"
 import { addTooltip } from "../../tooltips"
 import { getLanguage, getLineBefore, getModifierCode, insertText, prevSelection } from "../../utils"
+import { Cursor } from "../cursor"
 import { CompletionFilter } from "./filter"
 import { Completion, CompletionContext, CompletionDefinition } from "./types"
 
@@ -32,6 +33,7 @@ const autoComplete =
 		let pos: number
 		let offset = 0
 		let rowHeight: number
+		let cursor: Cursor | undefined
 
 		const windowSize = 13
 		const textarea = editor.textarea
@@ -42,10 +44,12 @@ const autoComplete =
 		const rows = list.children as HTMLCollectionOf<HTMLLIElement>
 		const add = editor.addListener
 		const hide = () => {
-			_hide()
-			textarea.removeAttribute("aria-haspopup")
-			textarea.removeAttribute("aria-activedescendant")
-			isOpen = false
+			if (isOpen) {
+				_hide()
+				textarea.removeAttribute("aria-haspopup")
+				textarea.removeAttribute("aria-activedescendant")
+				isOpen = false
+			}
 		}
 
 		const updateNode = (node: Text, text: string) => {
@@ -56,7 +60,8 @@ const autoComplete =
 			rowHeight = parseFloat(getComputedStyle(rows[0]).height)
 		}
 
-		const updateRow = (option: [number, number[], number, Completion], index: number) => {
+		const updateRow = (index: number) => {
+			const option = currentOptions[index + offset]
 			const nodes = rows[index].childNodes
 			const label = option[3].label
 			const matched = option[1]
@@ -111,14 +116,14 @@ const autoComplete =
 
 		const insertOption = (index: number) => {
 			insertText(editor, currentOptions[index][3].label, currentOptions[index][2], pos)
-			editor.extensions.cursor!.scrollIntoView()
+			cursor!.scrollIntoView()
 		}
 
 		const startQuery = (explicit = false) => {
 			const selection = editor.getSelection()
 			const language = getLanguage(editor, (pos = selection[0]))
 			const definition = map[language]
-			if (definition && editor.extensions.cursor && (explicit || pos == selection[1])) {
+			if (definition && cursor && (explicit || pos == selection[1])) {
 				const value = editor.value
 				const lineBefore = getLineBefore(value, pos)
 				const before = value.slice(0, pos)
@@ -155,9 +160,10 @@ const autoComplete =
 				if (currentOptions[0]) {
 					currentOptions.sort((a, b) => b[0] - a[0] || a[3].label.localeCompare(b[3].label))
 					numOptions = currentOptions.length
+					activeIndex = offset = 0
 
 					for (let i = 0, l = numOptions < windowSize ? numOptions : windowSize; i < l; ) {
-						updateRow(currentOptions[i], i++)
+						updateRow(i++)
 					}
 
 					list.style.paddingTop = ""
@@ -167,7 +173,6 @@ const autoComplete =
 					isOpen = true
 					show()
 					textarea.setAttribute("aria-haspopup", "listbox")
-					activeIndex = offset = 0
 					updateActive()
 				} else hide()
 			} else hide()
@@ -187,8 +192,8 @@ const autoComplete =
 			if (newOffset == offset || newOffset < 0) return
 
 			offset = newOffset
-			for (let i = 0; i < windowSize; i++) {
-				updateRow(currentOptions[offset + i], i)
+			for (let i = 0; i < windowSize; i) {
+				updateRow(i++)
 			}
 
 			list.style.paddingTop = offset * rowHeight + "px"
@@ -196,15 +201,19 @@ const autoComplete =
 		}
 
 		add("update", () => {
-			isTyping = true
-			if (shouldOpen) {
-				shouldOpen = false
-				queueMicrotask(startQuery)
-			} else hide()
-		})
-		add("selectionChange", () => {
-			if (!isTyping) hide()
-			else isTyping = false
+			isTyping = shouldOpen
+			shouldOpen = false
+			if (!cursor) {
+				if ((cursor = editor.extensions.cursor)) {
+					// Must be added after the cursor's selectionChange handler
+					add("selectionChange", () => {
+						if (isTyping) {
+							isTyping = false
+							startQuery()
+						} else hide()
+					})
+				}
+			}
 		})
 		addTextareaListener(
 			editor,
@@ -225,6 +234,9 @@ const autoComplete =
 				const key = e.key
 				const code = getModifierCode(e)
 				const style = tooltip.style
+				const height = editor.scrollContainer.clientHeight
+				style.setProperty("--width", editor.scrollContainer.clientWidth + "px")
+				style.setProperty("--height", height + "px")
 				if (key == " " && code == 2) {
 					startQuery(true)
 					preventDefault(e)
@@ -262,9 +274,6 @@ const autoComplete =
 						preventDefault(e)
 					}
 				}
-
-				style.setProperty("--width", editor.scrollContainer.clientWidth + "px")
-				style.setProperty("--height", editor.scrollContainer.clientHeight + "px")
 			},
 			true,
 		)
