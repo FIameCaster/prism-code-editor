@@ -28,6 +28,7 @@ import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
 import { autoComplete, register } from "../extensions/autocomplete"
 import { completeScope, jsContext } from "../extensions/autocomplete/javascript"
+import { htmlCompletion, htmlTags, globalAttributes } from "../extensions/autocomplete/html"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
@@ -222,6 +223,10 @@ ${data.get("editor")}`)
 register(["javascript", "js"], {
 	context: jsContext,
 	sources: [completeScope(window)],
+})
+
+register(["html", "markup"], {
+	sources: [htmlCompletion(htmlTags, globalAttributes)],
 })
 
 setTimeout(() => import("../prism/languages"), 500)
