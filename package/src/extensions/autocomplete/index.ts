@@ -20,8 +20,15 @@ const register = <T extends object>(langs: string[], definition: CompletionDefin
 	langs.forEach(lang => (map[lang] = definition))
 }
 
+export type AutoCompleteConfig = {
+	filter: CompletionFilter
+	preferAbove?: boolean
+	closeOnBlur?: boolean
+	explicitOnly?: boolean
+}
+
 const autoComplete =
-	(config: { filter: CompletionFilter }): BasicExtension =>
+	(config: AutoCompleteConfig): BasicExtension =>
 	editor => {
 		let isTyping: boolean
 		let isOpen: boolean
@@ -123,7 +130,7 @@ const autoComplete =
 			const selection = editor.getSelection()
 			const language = getLanguage(editor, (pos = selection[0]))
 			const definition = map[language]
-			if (definition && cursor && (explicit || pos == selection[1])) {
+			if (definition && (explicit || pos == selection[1])) {
 				const value = editor.value
 				const lineBefore = getLineBefore(value, pos)
 				const before = value.slice(0, pos)
@@ -171,7 +178,7 @@ const autoComplete =
 					tooltip.scrollTop = 0
 
 					isOpen = true
-					show()
+					show(config.preferAbove)
 					textarea.setAttribute("aria-haspopup", "listbox")
 					updateActive()
 				} else hide()
@@ -220,13 +227,16 @@ const autoComplete =
 			"beforeinput",
 			e => {
 				shouldOpen =
-					shouldOpen ||
-					(e.inputType == "insertText" && !prevSelection) ||
-					(e.inputType == "deleteContentBackward" && isOpen)
+					!config.explicitOnly &&
+					(shouldOpen ||
+						(e.inputType == "insertText" && !prevSelection) ||
+						(e.inputType == "deleteContentBackward" && isOpen))
 			},
 			true,
 		)
-		// addTextareaListener(editor, "blur", hide)
+		addTextareaListener(editor, "blur", () => {
+			if (config.closeOnBlur != false) hide()
+		})
 		addTextareaListener(
 			editor,
 			"keydown",
@@ -238,7 +248,7 @@ const autoComplete =
 				style.setProperty("--width", editor.scrollContainer.clientWidth + "px")
 				style.setProperty("--height", height + "px")
 				if (key == " " && code == 2) {
-					startQuery(true)
+					if (cursor) startQuery(true)
 					preventDefault(e)
 				} else if (!code && isOpen) {
 					if (/^Arrow[UD]/.test(key)) {
