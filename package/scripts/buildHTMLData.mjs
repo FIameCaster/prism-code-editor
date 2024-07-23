@@ -83,7 +83,7 @@ lines.push("}", "", "export { globalAttributes, htmlTags }", "")
 
 const valueSets = []
 
-data.valueSets.forEach((valueSet, i) => {
+data.valueSets.forEach(valueSet => {
 	if (usedValueSets.has(valueSet.name)) {
 		let line = `const ${getAttrVariable(valueSet.name)} = [`
 		let hasBools = !!valueSet.values.find(value => value.name == "true")
@@ -91,7 +91,7 @@ data.valueSets.forEach((valueSet, i) => {
 		if (hasBools) line += '"true", "false"'
 
 		valueSet.values.forEach(({ name }, i) => {
-			if (name == "true" || name == "false") return
+			if (name == "true" || name == "false" || /\s/.test(name)) return
 			if (i || hasBools) line += ", "
 			line += `"${name}"`
 		})
