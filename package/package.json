@@ -50,6 +50,7 @@
     "dev": "vite",
     "build": "tsc && vite build && node scripts/build.mjs",
     "build-html-data": "node scripts/buildHTMLData.mjs",
+    "build-css-data": "node scripts/buildCSSData.mjs",
     "preview": "vite preview",
     "regex-coverage": "mocha src/prism/tests/coverage.js",
     "test": "mocha src/prism/tests/*.js",
