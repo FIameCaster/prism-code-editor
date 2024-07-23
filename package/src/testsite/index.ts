@@ -30,6 +30,7 @@ import { autoComplete, register } from "../extensions/autocomplete"
 import { completeScope, jsContext } from "../extensions/autocomplete/javascript"
 import { htmlCompletion, htmlTags, globalAttributes } from "../extensions/autocomplete/html"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
+import { cssCompletion } from "../extensions/autocomplete/css"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -227,6 +228,10 @@ register(["javascript", "js"], {
 
 register(["html", "markup"], {
 	sources: [htmlCompletion(htmlTags, globalAttributes)],
+})
+
+register(["css"], {
+	sources: [cssCompletion],
 })
 
 setTimeout(() => import("../prism/languages"), 500)
