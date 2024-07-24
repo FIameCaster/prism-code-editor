@@ -12,6 +12,7 @@ const attrValueM = ["get", "post", "dialog"]
 const attrValueFm = ["get", "post"]
 const attrValueS = ["row", "col", "rowgroup", "colgroup"]
 const attrValueT = ["hidden", "text", "search", "tel", "url", "email", "password", "datetime", "date", "month", "week", "time", "datetime-local", "number", "range", "color", "checkbox", "radio", "file", "submit", "image", "reset", "button"]
+const attrValueIm = ["none", "text", "decimal", "numeric", "tel", "search", "email", "url"]
 const attrValueBt = ["button", "submit", "reset", "menu"]
 const attrValueLt = ["1", "a", "A", "i", "I"]
 const attrValueEt = ["application/x-www-form-urlencoded", "multipart/form-data", "text/plain"]
@@ -31,25 +32,29 @@ const attrValueLive = ["off", "polite", "assertive"]
 const attrValueOrientation = ["vertical", "horizontal", "undefined"]
 const attrValueRelevant = ["additions", "removals", "text", "all"]
 const attrValueSort = ["ascending", "descending", "none", "other"]
-const attrValueRoles = ["alert", "alertdialog", "button", "checkbox", "dialog", "gridcell", "link", "log", "marquee", "menuitem", "menuitemcheckbox", "menuitemradio", "option", "progressbar", "radio", "scrollbar", "searchbox", "slider", "spinbutton", "status", "switch", "tab", "tabpanel", "textbox", "timer", "tooltip", "treeitem", "combobox", "grid", "listbox", "menu", "menubar", "radiogroup", "tablist", "tree", "treegrid", "application", "article", "cell", "columnheader", "definition", "directory", "document", "feed", "figure", "group", "heading", "img", "list", "listitem", "math", "none", "note", "presentation", "region", "row", "rowgroup", "rowheader", "separator", "table", "term", "text", "toolbar", "banner", "complementary", "contentinfo", "form", "main", "navigation", "region", "search", "doc-abstract", "doc-acknowledgments", "doc-afterword", "doc-appendix", "doc-backlink", "doc-biblioentry", "doc-bibliography", "doc-biblioref", "doc-chapter", "doc-colophon", "doc-conclusion", "doc-cover", "doc-credit", "doc-credits", "doc-dedication", "doc-endnote", "doc-endnotes", "doc-epigraph", "doc-epilogue", "doc-errata", "doc-example", "doc-footnote", "doc-foreword", "doc-glossary", "doc-glossref", "doc-index", "doc-introduction", "doc-noteref", "doc-notice", "doc-pagebreak", "doc-pagelist", "doc-part", "doc-preface", "doc-prologue", "doc-pullquote", "doc-qna", "doc-subtitle", "doc-tip", "doc-toc"]
+const attrValueRoles = ["alert", "alertdialog", "button", "checkbox", "dialog", "gridcell", "link", "log", "marquee", "menuitem", "menuitemcheckbox", "menuitemradio", "option", "progressbar", "radio", "scrollbar", "searchbox", "slider", "spinbutton", "status", "switch", "tab", "tabpanel", "textbox", "timer", "tooltip", "treeitem", "combobox", "grid", "listbox", "menu", "menubar", "radiogroup", "tablist", "tree", "treegrid", "application", "article", "cell", "columnheader", "definition", "directory", "document", "feed", "figure", "group", "heading", "img", "list", "listitem", "math", "none", "note", "presentation", "region", "row", "rowgroup", "rowheader", "separator", "table", "term", "text", "toolbar", "banner", "complementary", "contentinfo", "form", "main", "navigation", "region", "search"]
 const attrValueHaspopup = ["true", "false", "menu", "listbox", "tree", "grid", "dialog"]
 const attrValueDecoding = ["sync", "async", "auto"]
 const attrValueLoading = ["eager", "lazy"]
 const attrValueReferrerpolicy = ["no-referrer", "no-referrer-when-downgrade", "origin", "origin-when-cross-origin", "same-origin", "strict-origin", "strict-origin-when-cross-origin", "unsafe-url"]
+const attrValueEkh = ["enter", "done", "go", "next", "previous", "search", "send"]
+const attrValueCe = ["true", "false", "plaintext-only"]
 
 const globalAttributes: AttributeConfig = {
 	accesskey: null,
 	autocapitalize: null,
 	class: null,
-	contenteditable: null,
+	contenteditable: attrValueCe,
 	contextmenu: null,
 	dir: attrValueD,
 	draggable: attrValueB,
 	dropzone: null,
+	enterkeyhint: attrValueEkh,
 	exportparts: null,
 	hidden: null,
 	id: null,
-	inputmode: null,
+	inert: null,
+	inputmode: attrValueIm,
 	is: null,
 	itemid: null,
 	itemprop: null,

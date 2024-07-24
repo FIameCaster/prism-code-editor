@@ -56,6 +56,24 @@ const lines = [
 
 const globals = new Set()
 
+data.globalAttributes.splice(
+	data.globalAttributes.findIndex(attr => attr.name == "exportparts"),
+	0,
+	{
+		name: "enterkeyhint",
+		valueSet: "ekh",
+	},
+)
+
+data.globalAttributes.splice(
+	data.globalAttributes.findIndex(attr => attr.name == "inputmode"),
+	0,
+	{ name: "inert" },
+)
+
+data.globalAttributes.find(attr => attr.name == "inputmode").valueSet = "im"
+data.globalAttributes.find(attr => attr.name == "contenteditable").valueSet = "ce"
+
 data.globalAttributes.forEach(attr => {
 	if (globals.has(attr.name)) return
 	globals.add(attr.name)
@@ -83,6 +101,28 @@ lines.push("}", "", "export { globalAttributes, htmlTags }", "")
 
 const valueSets = []
 
+data.valueSets.push(
+	{
+		name: "ekh",
+		values: ["enter", "done", "go", "next", "previous", "search", "send"].map(name => ({ name })),
+	},
+	{
+		name: "ce",
+		values: ["true", "false", "plaintext-only"].map(name => ({ name })),
+	},
+)
+
+data.valueSets.find(set => set.name == "im").values = [
+	"none",
+	"text",
+	"decimal",
+	"numeric",
+	"tel",
+	"search",
+	"email",
+	"url",
+].map(name => ({ name }))
+
 data.valueSets.forEach(valueSet => {
 	if (usedValueSets.has(valueSet.name)) {
 		let line = `const ${getAttrVariable(valueSet.name)} = [`
@@ -91,7 +131,7 @@ data.valueSets.forEach(valueSet => {
 		if (hasBools) line += '"true", "false"'
 
 		valueSet.values.forEach(({ name }, i) => {
-			if (name == "true" || name == "false" || /\s/.test(name)) return
+			if (/^true$|^false$|^doc-|\s/.test(name)) return
 			if (i || hasBools) line += ", "
 			line += `"${name}"`
 		})
