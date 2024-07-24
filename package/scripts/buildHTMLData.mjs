@@ -51,7 +51,7 @@ const lines = [
 	'import { AttributeConfig, TagConfig } from "../types"',
 	"",
 	"",
-	"const globalAttributes: AttributeConfig = {",
+	"const globalHtmlAttributes: AttributeConfig = {",
 ]
 
 const globals = new Set()
@@ -97,8 +97,6 @@ data.tags.forEach(tag => {
 	}
 })
 
-lines.push("}", "", "export { globalAttributes, htmlTags }", "")
-
 const valueSets = []
 
 data.valueSets.push(
@@ -123,11 +121,15 @@ data.valueSets.find(set => set.name == "im").values = [
 	"url",
 ].map(name => ({ name }))
 
+lines.push("}", "", "export {", "\tglobalHtmlAttributes,", "\thtmlTags,")
+
 data.valueSets.forEach(valueSet => {
 	if (usedValueSets.has(valueSet.name)) {
-		let line = `const ${getAttrVariable(valueSet.name)} = [`
+		let setName = getAttrVariable(valueSet.name)
+		let line = `const ${setName} = [`
 		let hasBools = !!valueSet.values.find(value => value.name == "true")
 
+		lines.push(`\t${setName},`)
 		if (hasBools) line += '"true", "false"'
 
 		valueSet.values.forEach(({ name }, i) => {
@@ -140,5 +142,6 @@ data.valueSets.forEach(valueSet => {
 })
 
 lines.splice(4, 0, ...valueSets)
+lines.push("}", "")
 
 fs.writeFile("./src/extensions/autocomplete/html/data.ts", lines.join("\r\n"))

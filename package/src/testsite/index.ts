@@ -28,7 +28,7 @@ import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
 import { autoComplete, register } from "../extensions/autocomplete"
 import { completeScope, jsContext } from "../extensions/autocomplete/javascript"
-import { htmlCompletion, htmlTags, globalAttributes } from "../extensions/autocomplete/html"
+import { htmlCompletion, htmlTags, globalHtmlAttributes } from "../extensions/autocomplete/html"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
 import { cssCompletion } from "../extensions/autocomplete/css"
 
@@ -53,6 +53,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			editHistory(),
 			autoComplete({
 				filter: fuzzyFilter,
+				closeOnBlur: false,
 			}),
 		),
 	startCode = `<!DOCTYPE html>
@@ -227,7 +228,7 @@ register(["javascript", "js"], {
 })
 
 register(["html", "markup"], {
-	sources: [htmlCompletion(htmlTags, globalAttributes)],
+	sources: [htmlCompletion(htmlTags, globalHtmlAttributes)],
 })
 
 register(["css"], {

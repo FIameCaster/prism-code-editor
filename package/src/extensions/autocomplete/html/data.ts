@@ -40,7 +40,7 @@ const attrValueReferrerpolicy = ["no-referrer", "no-referrer-when-downgrade", "o
 const attrValueEkh = ["enter", "done", "go", "next", "previous", "search", "send"]
 const attrValueCe = ["true", "false", "plaintext-only"]
 
-const globalAttributes: AttributeConfig = {
+const globalHtmlAttributes: AttributeConfig = {
 	accesskey: null,
 	autocapitalize: null,
 	class: null,
@@ -681,4 +681,44 @@ const htmlTags: TagConfig = {
 	menu: empty,
 }
 
-export { globalAttributes, htmlTags }
+export {
+	globalHtmlAttributes,
+	htmlTags,
+	attrValueB,
+	attrValueU,
+	attrValueO,
+	attrValueY,
+	attrValueW,
+	attrValueD,
+	attrValueM,
+	attrValueFm,
+	attrValueS,
+	attrValueT,
+	attrValueIm,
+	attrValueBt,
+	attrValueLt,
+	attrValueEt,
+	attrValueTk,
+	attrValuePl,
+	attrValueSh,
+	attrValueXo,
+	attrValueTarget,
+	attrValueSb,
+	attrValueTristate,
+	attrValueInputautocomplete,
+	attrValueAutocomplete,
+	attrValueCurrent,
+	attrValueDropeffect,
+	attrValueInvalid,
+	attrValueLive,
+	attrValueOrientation,
+	attrValueRelevant,
+	attrValueSort,
+	attrValueRoles,
+	attrValueHaspopup,
+	attrValueDecoding,
+	attrValueLoading,
+	attrValueReferrerpolicy,
+	attrValueEkh,
+	attrValueCe,
+}

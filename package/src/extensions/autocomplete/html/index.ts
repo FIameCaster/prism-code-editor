@@ -48,6 +48,6 @@ const htmlCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): Com
 	}
 }
 
-export { htmlTags, globalAttributes } from "./data.js"
+export { htmlTags, globalHtmlAttributes } from "./data.js"
 
 export { htmlCompletion }
