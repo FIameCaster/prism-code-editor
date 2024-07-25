@@ -51,7 +51,7 @@ const lines = [
 	'import { AttributeConfig, TagConfig } from "../types"',
 	"",
 	"",
-	"const globalHtmlAttributes: AttributeConfig = {",
+	"const htmlEventHandlers: AttributeConfig = {",
 ]
 
 const globals = new Set()
@@ -73,6 +73,28 @@ data.globalAttributes.splice(
 
 data.globalAttributes.find(attr => attr.name == "inputmode").valueSet = "im"
 data.globalAttributes.find(attr => attr.name == "contenteditable").valueSet = "ce"
+
+data.globalAttributes.forEach(({ name, valueSet }) => {
+	if (name.slice(0, 2) != "on" || globals.has(name)) return
+	globals.add(name)
+	lines.push(`\t${getPropName(name)}: ${getAttrVariable(valueSet)},`)
+})
+
+lines.push("}", "", "const ariaAttributes: AttributeConfig = {")
+
+data.globalAttributes.forEach(({ name, valueSet }) => {
+	if (name.slice(0, 5) != "aria-" || globals.has(name)) return
+	globals.add(name)
+	lines.push(`\t${getPropName(name)}: ${getAttrVariable(valueSet)},`)
+})
+
+lines.push(
+	"}",
+	"",
+	"const globalHtmlAttributes: AttributeConfig = {",
+	"\t...ariaAttributes,",
+	"\t...htmlEventHandlers,",
+)
 
 data.globalAttributes.forEach(attr => {
 	if (globals.has(attr.name)) return
@@ -121,7 +143,15 @@ data.valueSets.find(set => set.name == "im").values = [
 	"url",
 ].map(name => ({ name }))
 
-lines.push("}", "", "export {", "\tglobalHtmlAttributes,", "\thtmlTags,")
+lines.push(
+	"}",
+	"",
+	"export {",
+	"\tglobalHtmlAttributes,",
+	"\thtmlTags,",
+	"\tariaAttributes,",
+	"\thtmlEventHandlers,",
+)
 
 data.valueSets.forEach(valueSet => {
 	if (usedValueSets.has(valueSet.name)) {

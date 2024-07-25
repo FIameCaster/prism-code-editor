@@ -40,36 +40,7 @@ const attrValueReferrerpolicy = ["no-referrer", "no-referrer-when-downgrade", "o
 const attrValueEkh = ["enter", "done", "go", "next", "previous", "search", "send"]
 const attrValueCe = ["true", "false", "plaintext-only"]
 
-const globalHtmlAttributes: AttributeConfig = {
-	accesskey: null,
-	autocapitalize: null,
-	class: null,
-	contenteditable: attrValueCe,
-	contextmenu: null,
-	dir: attrValueD,
-	draggable: attrValueB,
-	dropzone: null,
-	enterkeyhint: attrValueEkh,
-	exportparts: null,
-	hidden: null,
-	id: null,
-	inert: null,
-	inputmode: attrValueIm,
-	is: null,
-	itemid: null,
-	itemprop: null,
-	itemref: null,
-	itemscope: null,
-	itemtype: null,
-	lang: null,
-	part: null,
-	role: attrValueRoles,
-	slot: null,
-	spellcheck: attrValueB,
-	style: null,
-	tabindex: null,
-	title: null,
-	translate: attrValueY,
+const htmlEventHandlers: AttributeConfig = {
 	onabort: null,
 	onblur: null,
 	oncanplay: null,
@@ -138,6 +109,9 @@ const globalHtmlAttributes: AttributeConfig = {
 	onpointerout: null,
 	onpointerover: null,
 	onpointerup: null,
+}
+
+const ariaAttributes: AttributeConfig = {
 	"aria-activedescendant": null,
 	"aria-atomic": attrValueB,
 	"aria-autocomplete": attrValueAutocomplete,
@@ -186,6 +160,40 @@ const globalHtmlAttributes: AttributeConfig = {
 	"aria-valuetext": null,
 	"aria-details": null,
 	"aria-keyshortcuts": null,
+}
+
+const globalHtmlAttributes: AttributeConfig = {
+	...ariaAttributes,
+	...htmlEventHandlers,
+	accesskey: null,
+	autocapitalize: null,
+	class: null,
+	contenteditable: attrValueCe,
+	contextmenu: null,
+	dir: attrValueD,
+	draggable: attrValueB,
+	dropzone: null,
+	enterkeyhint: attrValueEkh,
+	exportparts: null,
+	hidden: null,
+	id: null,
+	inert: null,
+	inputmode: attrValueIm,
+	is: null,
+	itemid: null,
+	itemprop: null,
+	itemref: null,
+	itemscope: null,
+	itemtype: null,
+	lang: null,
+	part: null,
+	role: attrValueRoles,
+	slot: null,
+	spellcheck: attrValueB,
+	style: null,
+	tabindex: null,
+	title: null,
+	translate: attrValueY,
 }
 
 const empty: AttributeConfig = {}
@@ -684,6 +692,8 @@ const htmlTags: TagConfig = {
 export {
 	globalHtmlAttributes,
 	htmlTags,
+	ariaAttributes,
+	htmlEventHandlers,
 	attrValueB,
 	attrValueU,
 	attrValueO,
