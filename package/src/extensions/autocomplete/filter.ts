@@ -1,5 +1,22 @@
+/**
+ * Function that matches an option against the query. If the option matches the query,
+ * the function returns an array containing two entries:
+ * 1) The score of the match. A higher score means a better match.
+ * 2) An array of matched ranges. Each even index defines the start of a range. The
+ * subsequent index defines the end of that range.
+ */
 export type CompletionFilter = (query: string, option: string) => [number, number[]] | undefined
 
+/**
+ * Fuzzy filter that only requires that the option includes all the characters in the
+ * query string in order with any number of character between each.
+ *
+ * Occurrences that result in score penalties:
+ * - Skipping characters in the option.
+ * - The case of the characters doesn't match.
+ * - The match doesn't start at the beginning.
+ * - The option is longer than the query.
+ */
 const fuzzyFilter: CompletionFilter = (query: string, option: string) => {
 	const optionLen = option.length
 	const queryLen = query.length
@@ -37,6 +54,13 @@ const fuzzyFilter: CompletionFilter = (query: string, option: string) => {
 	return [score - optionLen - (queryLen < optionLen ? 100 : 0), matched]
 }
 
+/**
+ * Strict filter that requires the option to start with the query string.
+ *
+ * Occurrences that result in score penalties:
+ * - The case of the query and the start of the option is different.
+ * - The option is longer than the query.
+ */
 const strictFilter: CompletionFilter = (query: string, option: string) => {
 	const optionLen = option.length
 	const queryLen = query.length

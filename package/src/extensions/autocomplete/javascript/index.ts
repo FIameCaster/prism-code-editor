@@ -47,6 +47,9 @@ const tagPattern = /* @__PURE__ */ re(
 	[space, braces, spread],
 )
 
+/**
+ * Adds extra properties to the completion context used by JavaScript completion sources.
+ */
 const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext => {
 	const before = context.before
 	const pos = context.pos
@@ -115,6 +118,10 @@ const enumerateOwnProperties = (obj: any) => {
 	return options
 }
 
+/**
+ * Returns a completion source that adds completions for a scope object.
+ * @param scope Scope object you want to provide completions for. For example `window`.
+ */
 const completeScope =
 	(scope: any): CompletionSource<{ path: string[] | null }> =>
 	({ path, pos, explicit }) => {

@@ -5,6 +5,12 @@ import { optionsFromKeys } from "../utils.js"
 const tagPattern =
 	/<$|<(?![!\d])([^\s/=>$<%]+)(?:\s(?:\s*([^\s/"'=>]+)(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?!\S))?|(?![^\s=])))*\s*(?:=\s*(?:"[^"]*|'[^']*))?)?$/
 
+	/**
+ * Completion source that adds auto completion for HTML tags.
+ * @param tags Object mapping tag-names to completable attributes for that tag.
+ * @param globalAttributes Completable attributes shared by all tags.
+ * @returns A Completion source.
+ */
 const htmlCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): CompletionSource => {
 	const tagOptions = optionsFromKeys(tags)
 	const attrOptions = optionsFromKeys(globalAttributes)

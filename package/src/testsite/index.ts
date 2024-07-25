@@ -26,7 +26,7 @@ import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
-import { autoComplete, register } from "../extensions/autocomplete"
+import { autoComplete, registerCompletions } from "../extensions/autocomplete"
 import { completeScope, jsContext, jsxTagCompletion } from "../extensions/autocomplete/javascript"
 import { htmlCompletion, htmlTags, globalHtmlAttributes } from "../extensions/autocomplete/html"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
@@ -223,16 +223,16 @@ Form submission results:
 ${data.get("editor")}`)
 }
 
-register(["javascript", "js", "jsx", "tsx"], {
+registerCompletions(["javascript", "js", "jsx", "tsx"], {
 	context: jsContext,
 	sources: [completeScope(window), jsxTagCompletion(reactTags, globalReactAttributes)],
 })
 
-register(["html", "markup"], {
+registerCompletions(["html", "markup"], {
 	sources: [htmlCompletion(htmlTags, globalHtmlAttributes)],
 })
 
-register(["css"], {
+registerCompletions(["css"], {
 	sources: [cssCompletion],
 })
 

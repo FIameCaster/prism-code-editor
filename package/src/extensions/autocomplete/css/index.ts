@@ -31,6 +31,10 @@ const getProperties = () => {
 	return properties
 }
 
+/**
+ * Completion context for CSS that adds completion for HTML tags, pseudo-elements,
+ * pseudo-classes, at-rules, CSS properties and property values.
+ */
 const cssCompletion: CompletionSource = (context: CompletionContext, editor: PrismEditor) => {
 	let before = context.before
 	let pos = context.pos

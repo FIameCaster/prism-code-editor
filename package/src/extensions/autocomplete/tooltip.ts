@@ -16,17 +16,45 @@ const matchTemplate = createTemplate("<span> ")
 
 const map: Record<string, CompletionDefinition<any>> = {}
 
-const register = <T extends object>(langs: string[], definition: CompletionDefinition<T>) => {
+/**
+ * Registers completion sources for a set of languages.
+ * If any of the languages already have completion sources, they're overridden.
+ * @param langs Array of languages you want the completions to apply for.
+ * @param definition Defines the completion sources for the languages along with additional
+ * properties on the context passed to the completion sources.
+ */
+const registerCompletions = <T extends object>(
+	langs: string[],
+	definition: CompletionDefinition<T>,
+) => {
 	langs.forEach(lang => (map[lang] = definition))
 }
 
 export type AutoCompleteConfig = {
+	/** Function used to filter and rank options. */
 	filter: CompletionFilter
+	/**
+	 * If `true`, the tooltip will be placed above the cursor when there's space.
+	 * Defaults to `false`.
+	 */
 	preferAbove?: boolean
+	/**
+	 * Whether the tooltip is closed when the `textarea` loses focus. Defaults to `true`.
+	 */
 	closeOnBlur?: boolean
+	/**
+	 * If true, the tooltip will only be shown when explicitly opened using Ctrl+Space.
+	 * Defaults to `false`.
+	 */
 	explicitOnly?: boolean
 }
 
+/**
+ * Extension adding basic auto-complete to an editor. For auto-completion to work, you need to
+ * {@link registerCompletions} for specific languages.
+ *
+ * @param config Object used to configure the extension. The `filter` property is required.
+ */
 const autoComplete =
 	(config: AutoCompleteConfig): BasicExtension =>
 	editor => {
@@ -293,4 +321,4 @@ const autoComplete =
 		}
 	}
 
-export { autoComplete, register }
+export { autoComplete, registerCompletions }
