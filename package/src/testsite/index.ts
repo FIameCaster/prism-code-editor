@@ -27,10 +27,11 @@ import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
 import { autoComplete, register } from "../extensions/autocomplete"
-import { completeScope, jsContext } from "../extensions/autocomplete/javascript"
+import { completeScope, jsContext, jsxTagCompletion } from "../extensions/autocomplete/javascript"
 import { htmlCompletion, htmlTags, globalHtmlAttributes } from "../extensions/autocomplete/html"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
 import { cssCompletion } from "../extensions/autocomplete/css"
+import { globalReactAttributes, reactTags } from "../extensions/autocomplete/javascript/reactData"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -222,9 +223,9 @@ Form submission results:
 ${data.get("editor")}`)
 }
 
-register(["javascript", "js"], {
+register(["javascript", "js", "jsx", "tsx"], {
 	context: jsContext,
-	sources: [completeScope(window)],
+	sources: [completeScope(window), jsxTagCompletion(reactTags, globalReactAttributes)],
 })
 
 register(["html", "markup"], {

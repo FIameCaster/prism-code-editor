@@ -1,10 +1,9 @@
 import { getClosestToken } from "../../../utils/index.js"
 import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"
+import { optionsFromKeys } from "../utils.js"
 
 const tagPattern =
 	/<$|<(?![!\d])([^\s/=>$<%]+)(?:\s(?:\s*([^\s/"'=>]+)(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?!\S))?|(?![^\s=])))*\s*(?:=\s*(?:"[^"]*|'[^']*))?)?$/
-
-const optionsFromKeys = (obj: object): Completion[] => Object.keys(obj).map(tag => ({ label: tag }))
 
 const htmlCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): CompletionSource => {
 	const tagOptions = optionsFromKeys(tags)
