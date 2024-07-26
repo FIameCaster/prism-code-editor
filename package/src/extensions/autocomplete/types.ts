@@ -1,4 +1,5 @@
 import { PrismEditor } from "../../index.js"
+import { CompletionFilter } from "./filter.js"
 
 export interface Completion {
 	label: string
@@ -49,6 +50,25 @@ export type CompletionDefinition<T extends object> = {
 } | {
 	context(context: CompletionContext, editor: PrismEditor): T
 	sources: CompletionSource<T>[]
+}
+
+export type AutoCompleteConfig = {
+	/** Function used to filter and rank options. */
+	filter: CompletionFilter
+	/**
+	 * If `true`, the tooltip will be placed above the cursor when there's space.
+	 * Defaults to `false`.
+	 */
+	preferAbove?: boolean
+	/**
+	 * Whether the tooltip is closed when the `textarea` loses focus. Defaults to `true`.
+	 */
+	closeOnBlur?: boolean
+	/**
+	 * If `true`, the tooltip will only be shown when explicitly opened using Ctrl+Space.
+	 * Defaults to `false`.
+	 */
+	explicitOnly?: boolean
 }
 
 export type AttributeConfig = Record<string, null | string[]>

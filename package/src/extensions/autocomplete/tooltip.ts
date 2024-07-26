@@ -1,10 +1,15 @@
 import { BasicExtension } from "../../index.js"
 import { addTextareaListener, createTemplate, preventDefault } from "../../core.js"
 import { addTooltip } from "../../tooltips.js"
-import { getLanguage, getLineBefore, getModifierCode, insertText, prevSelection } from "../../utils/index.js"
+import {
+	getLanguage,
+	getLineBefore,
+	getModifierCode,
+	insertText,
+	prevSelection,
+} from "../../utils/index.js"
 import { Cursor } from "../cursor.js"
-import { CompletionFilter } from "./filter.js"
-import { Completion, CompletionContext, CompletionDefinition } from "./types.js"
+import { AutoCompleteConfig, Completion, CompletionContext, CompletionDefinition } from "./types.js"
 
 let count = 0
 
@@ -28,25 +33,6 @@ const registerCompletions = <T extends object>(
 	definition: CompletionDefinition<T>,
 ) => {
 	langs.forEach(lang => (map[lang] = definition))
-}
-
-export type AutoCompleteConfig = {
-	/** Function used to filter and rank options. */
-	filter: CompletionFilter
-	/**
-	 * If `true`, the tooltip will be placed above the cursor when there's space.
-	 * Defaults to `false`.
-	 */
-	preferAbove?: boolean
-	/**
-	 * Whether the tooltip is closed when the `textarea` loses focus. Defaults to `true`.
-	 */
-	closeOnBlur?: boolean
-	/**
-	 * If `true`, the tooltip will only be shown when explicitly opened using Ctrl+Space.
-	 * Defaults to `false`.
-	 */
-	explicitOnly?: boolean
 }
 
 /**

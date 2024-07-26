@@ -1,11 +1,11 @@
+/** @module autocomplete/css */
+
 import { PrismEditor } from "../../../index.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../matchBrackets/index.js"
 import { htmlTags } from "../html/index.js"
 import { Completion, CompletionContext, CompletionSource } from "../types.js"
 import { atRules, cssValues, pseudoClasses, pseudoElements } from "./data.js"
-
-let properties: Completion[]
 
 const hasStyleRules = ["container", "supports", "layer", "media", "scope"]
 
@@ -97,5 +97,7 @@ const cssCompletion: CompletionSource = (context: CompletionContext, editor: Pri
 		}
 	}
 }
+
+let properties: Completion[]
 
 export { cssCompletion, cssValues, pseudoClasses, pseudoElements, atRules }

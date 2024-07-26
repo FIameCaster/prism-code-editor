@@ -1,4 +1,4 @@
-import { JSContext } from "."
+import { JSContext } from "./index.js"
 import { Completion, CompletionSource } from "../types.js"
 
 const jsKeyWords: Completion[] =
@@ -12,6 +12,9 @@ const tsKeywords: Completion[] = jsKeyWords.concat(
 		.map(name => ({ label: name })),
 )
 
+/**
+ * Completion source that adds auto completion for JS/TS keywords
+ */
 const completeKeywords: CompletionSource<JSContext> = ({ path, explicit, language, pos }) => {
 	if (path?.length == 1 && (path[0] || explicit)) {
 		return {

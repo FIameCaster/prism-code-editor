@@ -1,3 +1,5 @@
+/** @module autocomplete/html */
+
 import { getClosestToken } from "../../../utils/index.js"
 import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"
 import { optionsFromKeys } from "../utils.js"

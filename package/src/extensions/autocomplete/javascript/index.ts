@@ -1,3 +1,5 @@
+/** @module autocomplete/javascript */
+
 import { PrismEditor } from "../../../index.js"
 import { braces, space, spread } from "../../../prism/utils/jsx-shared.js"
 import { re } from "../../../prism/utils/shared.js"
@@ -145,4 +147,5 @@ const completeScope =
 
 export { jsxTagCompletion } from "./jsx.js"
 export { completeKeywords } from "./keywords.js"
+export { globalReactAttributes, reactTags } from "./reactData.js"
 export { jsContext, completeScope }
