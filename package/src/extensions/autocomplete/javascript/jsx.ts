@@ -1,6 +1,6 @@
-import { JSContext } from "."
-import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types"
-import { optionsFromKeys } from "../utils"
+import { JSContext } from "./index.js"
+import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"
+import { optionsFromKeys } from "../utils.js"
 
 /**
  * Completion source that adds auto completion for JSX tags.

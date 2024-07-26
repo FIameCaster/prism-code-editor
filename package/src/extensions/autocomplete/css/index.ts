@@ -1,9 +1,9 @@
-import { PrismEditor } from "../../.."
-import { getClosestToken } from "../../../utils"
-import { Bracket } from "../../matchBrackets"
-import { htmlTags } from "../html"
-import { Completion, CompletionContext, CompletionSource } from "../types"
-import { atRules, cssValues, pseudoClasses, pseudoElements } from "./data"
+import { PrismEditor } from "../../../index.js"
+import { getClosestToken } from "../../../utils/index.js"
+import { Bracket } from "../../matchBrackets/index.js"
+import { htmlTags } from "../html/index.js"
+import { Completion, CompletionContext, CompletionSource } from "../types.js"
+import { atRules, cssValues, pseudoClasses, pseudoElements } from "./data.js"
 
 let properties: Completion[]
 

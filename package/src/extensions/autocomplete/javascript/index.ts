@@ -1,9 +1,9 @@
-import { PrismEditor } from "../../.."
-import { braces, space, spread } from "../../../prism/utils/jsx-shared"
-import { re } from "../../../prism/utils/shared"
-import { getClosestToken } from "../../../utils"
-import { Bracket } from "../../matchBrackets"
-import { Completion, CompletionContext, CompletionSource } from "../types"
+import { PrismEditor } from "../../../index.js"
+import { braces, space, spread } from "../../../prism/utils/jsx-shared.js"
+import { re } from "../../../prism/utils/shared.js"
+import { getClosestToken } from "../../../utils/index.js"
+import { Bracket } from "../../matchBrackets/index.js"
+import { Completion, CompletionContext, CompletionSource } from "../types.js"
 
 export type JSContext = {
 	/**

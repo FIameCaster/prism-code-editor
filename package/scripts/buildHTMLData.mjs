@@ -48,7 +48,7 @@ const getPropName = name => {
 const lines = [
 	"// generated from @vscode/web-custom-data package",
 	"",
-	'import { AttributeConfig, TagConfig } from "../types"',
+	'import { AttributeConfig, TagConfig } from "../types.js"',
 	"",
 	"",
 	"const htmlEventHandlers: AttributeConfig = {",

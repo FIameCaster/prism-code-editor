@@ -1,4 +1,4 @@
-import { PrismEditor } from "../.."
+import { PrismEditor } from "../../index.js"
 
 export interface Completion {
 	label: string

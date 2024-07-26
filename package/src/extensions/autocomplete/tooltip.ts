@@ -1,10 +1,10 @@
-import { BasicExtension } from "../.."
-import { addTextareaListener, createTemplate, preventDefault } from "../../core"
-import { addTooltip } from "../../tooltips"
-import { getLanguage, getLineBefore, getModifierCode, insertText, prevSelection } from "../../utils"
-import { Cursor } from "../cursor"
-import { CompletionFilter } from "./filter"
-import { Completion, CompletionContext, CompletionDefinition } from "./types"
+import { BasicExtension } from "../../index.js"
+import { addTextareaListener, createTemplate, preventDefault } from "../../core.js"
+import { addTooltip } from "../../tooltips.js"
+import { getLanguage, getLineBefore, getModifierCode, insertText, prevSelection } from "../../utils/index.js"
+import { Cursor } from "../cursor.js"
+import { CompletionFilter } from "./filter.js"
+import { Completion, CompletionContext, CompletionDefinition } from "./types.js"
 
 let count = 0
 

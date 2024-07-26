@@ -26,8 +26,8 @@ import {
 	attrValueW,
 	attrValueXo,
 	attrValueY,
-} from "../html/data"
-import { AttributeConfig, TagConfig } from "../types"
+} from "../html/data.js"
+import { AttributeConfig, TagConfig } from "../types.js"
 
 const fetchPriority = ["high", "low", "auto"]
 

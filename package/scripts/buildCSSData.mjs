@@ -199,7 +199,7 @@ data.properties.forEach(({ name, values }) => {
 const lines = [
 	"// generated from @vscode/web-custom-data package",
 	"",
-	'import { Completion } from "../types"',
+	'import { Completion } from "../types.js"',
 	"",
 	"const toCompletions = (prefix: string, values: string): Completion[] => {",
 	'\treturn values.split(",").map(val => ({ label: prefix + val }))',
