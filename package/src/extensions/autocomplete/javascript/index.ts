@@ -144,4 +144,5 @@ const completeScope =
 	}
 
 export { jsxTagCompletion } from "./jsx.js"
+export { completeKeywords } from "./keywords.js"
 export { jsContext, completeScope }

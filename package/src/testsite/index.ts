@@ -27,7 +27,12 @@ import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
 import { autoComplete, registerCompletions } from "../extensions/autocomplete"
-import { completeScope, jsContext, jsxTagCompletion } from "../extensions/autocomplete/javascript"
+import {
+	completeKeywords,
+	completeScope,
+	jsContext,
+	jsxTagCompletion,
+} from "../extensions/autocomplete/javascript"
 import { htmlCompletion, htmlTags, globalHtmlAttributes } from "../extensions/autocomplete/html"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
 import { cssCompletion } from "../extensions/autocomplete/css"
@@ -89,7 +94,7 @@ const options = {
   rtl: false,
   onUpdate(code) {},
   onSelectionChange([start, end, direction], code) {},
-  onTokenize({ language, code, grammar, tokens }) {}
+  onTokenize(tokens, language, code) {}
 }`,
 	activeEditor = 0,
 	scrollPos: [number, number] = [0, 0]
@@ -223,9 +228,13 @@ Form submission results:
 ${data.get("editor")}`)
 }
 
-registerCompletions(["javascript", "js", "jsx", "tsx"], {
+registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 	context: jsContext,
-	sources: [completeScope(window), jsxTagCompletion(reactTags, globalReactAttributes)],
+	sources: [
+		completeScope(window),
+		completeKeywords,
+		jsxTagCompletion(reactTags, globalReactAttributes),
+	],
 })
 
 registerCompletions(["html", "markup"], {
