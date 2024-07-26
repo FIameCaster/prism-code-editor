@@ -10,7 +10,7 @@ let count = 0
 
 const template = createTemplate("<div class=pce-ac-tooltip><ul role=listbox>")
 const rowTemplate = createTemplate(
-	"<li class=pce-ac-row role=option> <span> </span> <div class=pce-ac-details>",
+	"<li class=pce-ac-row role=option><div> <span> </span> </div><div class=pce-ac-details> ",
 )
 const matchTemplate = createTemplate("<span> ")
 
@@ -97,11 +97,11 @@ const autoComplete =
 
 		const updateRow = (index: number) => {
 			const option = currentOptions[index + offset]
-			const nodes = rows[index].childNodes
+			const nodes = rows[index].firstChild!.childNodes
 			const label = option[3].label
 			const matched = option[1]
 
-			let nodeCount = nodes.length - 2
+			let nodeCount = nodes.length - 1
 			let pos = 0
 			let i = 0
 			let l = matched.length
@@ -117,6 +117,7 @@ const autoComplete =
 				nodes[--nodeCount].remove()
 			}
 			updateNode(nodes[l] as Text, label.slice(pos))
+			updateNode(rows[index].lastChild!.firstChild as Text, option[3].detail || "")
 		}
 
 		const scrollActiveIntoView = () => {

@@ -7,6 +7,8 @@ export interface Completion {
 	 * A positive number moves it up the list, while a negative one moves it down.
 	 */
 	boost?: number
+	/** Optional, short piece of information displayed after the label. */
+	detail?: string
 }
 
 export interface CompletionResult {

@@ -11,6 +11,7 @@
 	left: 0.5em;
 	overflow: auto;
 	border-radius: 0.3em;
+	white-space: pre;
 }
 
 .pce-ac-tooltip > ul {
@@ -25,14 +26,33 @@
 	padding: 0 0.3em;
 	height: 1.4em;
 	align-items: center;
+	justify-content: space-between;
+	gap: 0.5em;
+	cursor: pointer;
 }
 
 .pce-ac-row span {
 	color: #52b1ff;
 }
 
-.pce-ac-row:hover {
-	background: #7772;
+.pce-ac-row div {
+	overflow-x: hidden;
+	text-overflow: ellipsis;
+}
+
+.pce-ac-details {
+	opacity: 0.8;
+	font-size: 90%;
+}
+
+.pce-ac-details:empty {
+	display: none;
+}
+
+@media (hover: hover) {
+	.pce-ac-row:hover {
+		background: #7772;
+	}
 }
 
 .pce-ac-row[aria-selected] {
