@@ -53,6 +53,8 @@ const isMultiline = (str: string, start: number, end: number) =>
  * @param providers Callbacks that can add extra foldable ranges.
  *
  * Very minimal downsides to adding this extension dynamically.
+ *
+ * Requires styles from `prism-code-editor/code-folding.css`
  */
 const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCodeFolding => {
 	let cEditor: PrismEditor

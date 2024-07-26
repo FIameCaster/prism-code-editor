@@ -119,10 +119,11 @@ languageMap.whatever = {
 
 	`## How to add
 
-To add code-folding, you must import it.
+To add code-folding, you must import it along with its styles.
 
 \`\`\`javascript
 import { readOnlyCodeFolding } from "prism-code-editor/code-folding"
+import "prism-code-editor/code-folding.css"
 \`\`\`
 
 This will allow folding of square- and curly brackets and XML/HTML tags.
