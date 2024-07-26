@@ -54,7 +54,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			editHistory(),
 			autoComplete({
 				filter: fuzzyFilter,
-				closeOnBlur: false,
+				// closeOnBlur: false,
 			}),
 		),
 	startCode = `<!DOCTYPE html>

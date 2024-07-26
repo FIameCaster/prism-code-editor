@@ -43,7 +43,7 @@ export type AutoCompleteConfig = {
 	 */
 	closeOnBlur?: boolean
 	/**
-	 * If true, the tooltip will only be shown when explicitly opened using Ctrl+Space.
+	 * If `true`, the tooltip will only be shown when explicitly opened using Ctrl+Space.
 	 * Defaults to `false`.
 	 */
 	explicitOnly?: boolean
@@ -263,8 +263,8 @@ const autoComplete =
 			},
 			true,
 		)
-		addTextareaListener(editor, "blur", () => {
-			if (config.closeOnBlur != false) hide()
+		addTextareaListener(editor, "blur", e => {
+			if (config.closeOnBlur != false && !list.contains(e.relatedTarget as Element)) hide()
 		})
 		addTextareaListener(
 			editor,
@@ -317,9 +317,14 @@ const autoComplete =
 			true,
 		)
 
-		list.onclick = e => {
+		list.onmousedown = e => {
 			insertOption([].indexOf.call(rows, (e.target as HTMLElement).closest("li") as never) + offset)
+			preventDefault(e)
 		}
+
+		list.addEventListener("focusout", e => {
+			if (config.closeOnBlur != false && e.relatedTarget != textarea) hide()
+		})
 	}
 
 export { autoComplete, registerCompletions }
