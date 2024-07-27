@@ -115,11 +115,11 @@ section h2 {
 	display: grid;
 	grid-template-rows: auto 1fr;
 	font-weight: 400;
-	max-height: 44.5rem;
-	height: calc(100vh - 16rem);
+	height: 44.5rem;
 	width: 100%;
 	border-radius: 0.5rem;
 	border: 1px solid var(--border);
+	resize: vertical;
 }
 
 .prism-code-editor {

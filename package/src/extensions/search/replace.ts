@@ -25,13 +25,13 @@ export interface ReplaceAPI extends SearchAPI {
 	 * else the index of the closest match is returned.
 	 * If there's no selected match, the index of the closest match is returned.
 	 */
-	replace(str: string): number | undefined
+	replace(replacement: string): number | undefined
 	/**
 	 * Replaces all search matches with the specified string.
-	 * @param str String to replace all matches with.
+	 * @param replacement String to replace all matches with.
 	 * @param selection Does nothing. Kept for backwards compatibility.
 	 */
-	replaceAll(value: string, selection?: [number, number]): void
+	replaceAll(replacement: string, selection?: [number, number]): void
 	/** Removes the highlight container from the DOM and all potential event listeners. */
 	destroy(): void
 }

@@ -23,7 +23,7 @@ const options = {
   rtl: false,
   onUpdate(code) {},
   onSelectionChange([start, end, direction], code) {},
-  onTokenize({ language, code, grammar, tokens }) {}
+  onTokenize(tokens, language, code) {}
 }`,
 
 basicUsage = `import {

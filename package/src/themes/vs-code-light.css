@@ -79,6 +79,7 @@
 	text-decoration: underline;
 }
 
+.pce-tooltip,
 .token.operator,
 .token.combinator,
 .token.punctuation,

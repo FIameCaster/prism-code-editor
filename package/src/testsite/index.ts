@@ -8,6 +8,7 @@ import "../prism/languages/markdown"
 import "../prism/languages/regex"
 import "../extensions/copyButton/copy.css"
 import "../extensions/folding/folding.css"
+import "../extensions/autocomplete/style.css"
 import { cursorPosition } from "../extensions/cursor"
 import { indentGuides } from "../extensions/guides"
 import guides from "../prism/core?raw"
@@ -25,6 +26,17 @@ import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
+import { autoComplete, registerCompletions } from "../extensions/autocomplete"
+import {
+	completeKeywords,
+	completeScope,
+	jsContext,
+	jsxTagCompletion,
+} from "../extensions/autocomplete/javascript"
+import { htmlCompletion, htmlTags, globalHtmlAttributes } from "../extensions/autocomplete/html"
+import { fuzzyFilter } from "../extensions/autocomplete/filter"
+import { cssCompletion } from "../extensions/autocomplete/css"
+import { globalReactAttributes, reactTags } from "../extensions/autocomplete/javascript/reactData"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -45,6 +57,10 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			searchWidget(),
 			defaultCommands(),
 			editHistory(),
+			autoComplete({
+				filter: fuzzyFilter,
+				// closeOnBlur: false,
+			}),
 		),
 	startCode = `<!DOCTYPE html>
 <html lang="en">
@@ -78,7 +94,7 @@ const options = {
   rtl: false,
   onUpdate(code) {},
   onSelectionChange([start, end, direction], code) {},
-  onTokenize({ language, code, grammar, tokens }) {}
+  onTokenize(tokens, language, code) {}
 }`,
 	activeEditor = 0,
 	scrollPos: [number, number] = [0, 0]
@@ -211,5 +227,22 @@ Form submission results:
 ===
 ${data.get("editor")}`)
 }
+
+registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
+	context: jsContext,
+	sources: [
+		completeScope(window),
+		completeKeywords,
+		jsxTagCompletion(reactTags, globalReactAttributes),
+	],
+})
+
+registerCompletions(["html", "markup"], {
+	sources: [htmlCompletion(htmlTags, globalHtmlAttributes)],
+})
+
+registerCompletions(["css"], {
+	sources: [cssCompletion],
+})
 
 setTimeout(() => import("../prism/languages"), 500)
