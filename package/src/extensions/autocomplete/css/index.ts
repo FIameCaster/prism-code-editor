@@ -60,6 +60,7 @@ const cssCompletion: CompletionSource = (context: CompletionContext, editor: Pri
 			let i = 0
 			let bracket: Bracket
 			let inSelector = true
+			let charBefore = before[from - 1]
 			for (; (bracket = brackets[i]); i++) {
 				if (
 					bracket[3] == "{" &&
@@ -73,7 +74,7 @@ const cssCompletion: CompletionSource = (context: CompletionContext, editor: Pri
 			}
 			if (inSelector) {
 				if (!/\[[^\]]*$/.test(currentStatement)) {
-					if (before[from - 1] == ":") {
+					if (charBefore == ":") {
 						if (before[from - 2] == ":") {
 							from -= 2
 							options = pseudoElements
@@ -81,9 +82,7 @@ const cssCompletion: CompletionSource = (context: CompletionContext, editor: Pri
 							from--
 							options = pseudoClasses
 						}
-					} else {
-						options = tagNames
-					}
+					} else if (charBefore != "." && charBefore != "#") options = tagNames
 				}
 			} else {
 				options = currentStatement.includes(":") ? cssValues : getProperties()
