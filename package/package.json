@@ -1,6 +1,6 @@
 {
   "name": "prism-code-editor",
-  "version": "3.3.3",
+  "version": "3.4.0-beta.1",
   "type": "module",
   "description": "Lightweight, extensible code editor component for the web using Prism",
   "main": "./dist/index.js",
