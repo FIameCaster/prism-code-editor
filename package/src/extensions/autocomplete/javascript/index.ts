@@ -112,7 +112,21 @@ const enumerateOwnProperties = (obj: any) => {
 		Object.getOwnPropertyNames(obj).forEach(name => {
 			if (!seen.has(name) && identifier.test(name)) {
 				seen.add(name)
-				options.push({ label: name, boost })
+				let isFunc!: boolean
+				try {
+					isFunc = typeof obj[name] == "function"
+				} catch (_) {}
+				options.push({
+					label: name,
+					boost,
+					icon: isFunc
+						? /[A-Z]/.test(name[0])
+							? "class"
+							: "function"
+						: /^[A-Z_]+$/.test(name)
+						? "constant"
+						: "variable",
+				})
 			}
 		})
 	}
@@ -132,15 +146,21 @@ const completeScope =
 			let last = path.length - 1
 			let i = 0
 			while (i < last && target) {
-				target = target[path[i++]]
-			}
-			if (typeof target == "object") {
-				if (!propertyCache.has(target)) propertyCache.set(target, enumerateOwnProperties(target))
-
-				return {
-					from: pos - path[last].length,
-					options: propertyCache.get(target)!,
+				try {
+					target = target[path[i++]]
+				} catch (_) {
+					return
 				}
+			}
+			if (target === null || target === undefined) return
+			if (typeof target != "object" && typeof target != "function")
+				target = Object.getPrototypeOf(target)
+
+			if (!propertyCache.has(target)) propertyCache.set(target, enumerateOwnProperties(target))
+
+			return {
+				from: pos - path[last].length,
+				options: propertyCache.get(target)!,
 			}
 		}
 	}
