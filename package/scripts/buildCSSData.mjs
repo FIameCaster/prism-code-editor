@@ -201,13 +201,13 @@ const lines = [
 	"",
 	'import { Completion } from "../types.js"',
 	"",
-	"const toCompletions = (prefix: string, values: string): Completion[] => {",
-	'\treturn values.split(",").map(val => ({ label: prefix + val }))',
+	"const toCompletions = (prefix: string, icon: string, values: string): Completion[] => {",
+	'\treturn values.split(",").map(val => ({ label: prefix + val, icon }))',
 	"}",
 	"",
 ]
 
-let line = 'const cssValues = /* @__PURE__ */ toCompletions("", "'
+let line = 'const cssValues = /* @__PURE__ */ toCompletions("", "keyword", "'
 
 cssValues.forEach(val => {
 	line += val + ","
@@ -215,7 +215,7 @@ cssValues.forEach(val => {
 
 lines.push(line.slice(0, -1) + '")', "")
 
-line = 'const atRules = /* @__PURE__ */ toCompletions("@", "'
+line = 'const atRules = /* @__PURE__ */ toCompletions("@", "keyword", "'
 
 data.atDirectives.forEach(({ name }) => {
 	if (name[1] != "-") line += name.slice(1) + ","
@@ -229,7 +229,7 @@ data.pseudoClasses.forEach(({ name }) => {
 	if (name[1] != "-") pseudos.add(name.slice(-2) == "()" ? name.slice(1, -2) : name.slice(1))
 })
 
-line = 'const pseudoClasses = /* @__PURE__ */ toCompletions(":", "'
+line = 'const pseudoClasses = /* @__PURE__ */ toCompletions(":", "function", "'
 pseudos.forEach(pseudo => {
 	line += pseudo + ","
 })
@@ -242,7 +242,7 @@ data.pseudoElements.forEach(({ name }) => {
 	if (name[2] != "-") pseudos.add(name.slice(-2) == "()" ? name.slice(2, -2) : name.slice(2))
 })
 
-line = 'const pseudoElements = /* @__PURE__ */ toCompletions("::", "'
+line = 'const pseudoElements = /* @__PURE__ */ toCompletions("::", "function", "'
 
 pseudos.forEach(pseudo => {
 	line += pseudo + ","

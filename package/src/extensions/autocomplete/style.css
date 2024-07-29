@@ -23,10 +23,9 @@
 
 .pce-ac-row {
 	display: flex;
-	padding: 0 0.3em;
+	padding: 0 0.2em;
 	height: 1.4em;
 	align-items: center;
-	justify-content: space-between;
 	gap: 0.5em;
 	cursor: pointer;
 }
@@ -43,6 +42,7 @@
 .pce-ac-details {
 	opacity: 0.8;
 	font-size: 90%;
+	margin-left: auto;
 }
 
 .pce-ac-details:empty {
@@ -57,4 +57,5 @@
 
 .pce-ac-row[aria-selected] {
 	background: #1094ff36;
+	color: var(--widget__color-active);
 }

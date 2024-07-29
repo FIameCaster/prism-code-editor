@@ -9,6 +9,7 @@ import "../prism/languages/regex"
 import "../extensions/copyButton/copy.css"
 import "../extensions/folding/folding.css"
 import "../extensions/autocomplete/style.css"
+import "../extensions/autocomplete/icons.css"
 import { cursorPosition } from "../extensions/cursor"
 import { indentGuides } from "../extensions/guides"
 import guides from "../prism/core?raw"
@@ -59,7 +60,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			editHistory(),
 			autoComplete({
 				filter: fuzzyFilter,
-				// closeOnBlur: false,
+				closeOnBlur: false,
 			}),
 		),
 	startCode = `<!DOCTYPE html>

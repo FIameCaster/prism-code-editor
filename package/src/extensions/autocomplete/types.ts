@@ -10,6 +10,34 @@ export interface Completion {
 	boost?: number
 	/** Optional, short piece of information displayed after the label. */
 	detail?: string
+	/**
+	 * Name of the icon shown before the label. This name is appended to the class
+	 * `pce-ac-icon-`, so i.e. `.pce-ac-icon-variable` can be used to style icons with the
+	 * name `variable`.
+	 *
+	 * The icon element also gets it color set to the CSS variable `--pce-ac-icon-` followed
+	 * by the icon name. Use these CSS variables to set different colors for different icons.
+	 *
+	 * `prism-code-editor/autocomplete-icons.css` adds 13 icons: `class`, `constant`, `enum`,
+	 * `function`, `interface`, `keyword`, `namespace`, `parameter`, `property`, `snippet`,
+	 * `unit`, and `variable`. You can define your own icons instead.
+	 *
+	 * Defaults to `"variable"`
+	 */
+	icon?:
+		| "class"
+		| "constant"
+		| "enum"
+		| "function"
+		| "interface"
+		| "keyword"
+		| "namespace"
+		| "parameter"
+		| "property"
+		| "snippet"
+		| "unit"
+		| "variable"
+		| (string & {})
 }
 
 export interface CompletionResult {
@@ -39,18 +67,20 @@ export interface CompletionContext {
 
 /**
  * Completion definition for a language.
- * 
+ *
  * The context property can be used to add extra properties to the context
  * passed to the completion sources. This is useful to do certain computations once
  * instead of once for each source.
  */
-export type CompletionDefinition<T extends object> = {
-	context?: null,
-	sources: CompletionSource[]
-} | {
-	context(context: CompletionContext, editor: PrismEditor): T
-	sources: CompletionSource<T>[]
-}
+export type CompletionDefinition<T extends object> =
+	| {
+			context?: null
+			sources: CompletionSource[]
+	  }
+	| {
+			context(context: CompletionContext, editor: PrismEditor): T
+			sources: CompletionSource<T>[]
+	  }
 
 export type AutoCompleteConfig = {
 	/** Function used to filter and rank options. */

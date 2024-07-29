@@ -15,7 +15,7 @@ let count = 0
 
 const template = createTemplate("<div class=pce-ac-tooltip><ul role=listbox>")
 const rowTemplate = createTemplate(
-	"<li class=pce-ac-row role=option><div> <span> </span> </div><div class=pce-ac-details> ",
+	"<li class=pce-ac-row role=option><div></div><div> <span> </span> </div><div class=pce-ac-details> ",
 )
 const matchTemplate = createTemplate("<span> ")
 
@@ -36,7 +36,7 @@ const registerCompletions = <T extends object>(
 }
 
 /**
- * Extension adding basic auto-complete to an editor. For auto-completion to work, you need to
+ * Extension adding basic autocomplete to an editor. For autocompletion to work, you need to
  * {@link registerCompletions} for specific languages.
  *
  * @param config Object used to configure the extension. The `filter` property is required.
@@ -64,6 +64,7 @@ const autoComplete =
 		const id = (list.id = "pce-ac-" + count++)
 		const rows = list.children as HTMLCollectionOf<HTMLLIElement>
 		const add = editor.addListener
+		const prevIcons: string[] = []
 		const hide = () => {
 			if (isOpen) {
 				_hide()
@@ -83,8 +84,11 @@ const autoComplete =
 
 		const updateRow = (index: number) => {
 			const option = currentOptions[index + offset]
-			const nodes = rows[index].firstChild!.childNodes
-			const label = option[3].label
+			const [iconEl, labelEl, detailsEl] = rows[index].children as HTMLCollectionOf<HTMLDivElement>
+			const nodes = labelEl.childNodes
+			const completion = option[3]
+			const label = completion.label
+			const icon = completion.icon || "variable"
 			const matched = option[1]
 
 			let nodeCount = nodes.length - 1
@@ -103,7 +107,11 @@ const autoComplete =
 				nodes[--nodeCount].remove()
 			}
 			updateNode(nodes[l] as Text, label.slice(pos))
-			updateNode(rows[index].lastChild!.firstChild as Text, option[3].detail || "")
+			updateNode(detailsEl.firstChild as Text, completion.detail || "")
+			if (prevIcons[index] != icon) {
+				iconEl.className = `pce-ac-icon pce-ac-icon-${(prevIcons[index] = icon)}`
+				iconEl.style.color = `var(--pce-ac-icon-${icon})`
+			}
 		}
 
 		const scrollActiveIntoView = () => {
