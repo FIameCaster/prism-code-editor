@@ -22,6 +22,11 @@
 	--editor__bg-scrollbar: 0, 0%, 25%;
 	--editor__bg-fold: #424242;
 	--bg-guide-indent: #3333;
+	--pce-ac-icon-class: #d67e00;
+	--pce-ac-icon-enum: #d67e00;
+	--pce-ac-icon-function: #652d90;
+	--pce-ac-icon-interface: #007acc;
+	--pce-ac-icon-variable: #007acc;
 	color-scheme: light;
 }
 
@@ -45,6 +50,10 @@
 
 .guide-indents .active {
 	--bg-guide-indent: #0006;
+}
+
+.pce-tooltip {
+	color: #333;
 }
 
 /* Tokens */
@@ -79,7 +88,6 @@
 	text-decoration: underline;
 }
 
-.pce-tooltip,
 .token.operator,
 .token.combinator,
 .token.punctuation,
