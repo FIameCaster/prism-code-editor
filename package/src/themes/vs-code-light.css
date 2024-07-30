@@ -5,7 +5,7 @@
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--editor__bg: #fff;
 	--widget__border: #bfbfbf;
-	--widget__bg: #f2f2f2;
+	--widget__bg: #f8f8f8;
 	--widget__color: #444;
 	--widget__color-active: #000;
 	--widget__color-options: #666;
@@ -27,6 +27,7 @@
 	--pce-ac-icon-function: #652d90;
 	--pce-ac-icon-interface: #007acc;
 	--pce-ac-icon-variable: #007acc;
+	--pce-ac-match: #0066bf;
 	color-scheme: light;
 }
 
