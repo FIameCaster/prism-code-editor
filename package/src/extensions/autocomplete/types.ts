@@ -2,6 +2,10 @@ import { PrismEditor } from "../../index.js"
 import { CompletionFilter } from "./filter.js"
 
 export interface Completion {
+	/**
+	 * Label of the option. The label is displayed in the option and used to filter and sort
+	 * options. By default, this is the text inserted when the option is selected.
+	 */
 	label: string
 	/**
 	 * Can be used to adjust how the completion is ranked compared to other options.
@@ -38,6 +42,27 @@ export interface Completion {
 		| "unit"
 		| "variable"
 		| (string & {})
+	/**
+	 * Text to insert when the completion is selected. Tabs are replaced with spaces when
+	 * `options.insertSpaces` isn't set to `false`. Line feeds are replaced by the
+	 * indentation at the current line.
+	 * 
+	 * If omitted, the inserted text defaults to `label`.
+	 */
+	insert?: string
+	/**
+	 * Array of ranges. Each even index defines the start of a range. The subsequent index
+	 * defines the end of that range. The ranges are relative to the start of the inserted
+	 * text. The first range is selected initially.
+	 *
+	 * The ranges must not overlap.
+	 *
+	 * If the last range only contains one number, the second defaults to the first.
+	 *
+	 * **Note**: Only one range to change the initial cursor position when the option is
+	 * selected is supported. Tab stops might be added in the future.
+	 */
+	tabStops?: number[]
 }
 
 export interface CompletionResult {

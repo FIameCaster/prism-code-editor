@@ -43,7 +43,7 @@ const registerCompletions = <T extends object>(
  */
 const autoComplete =
 	(config: AutoCompleteConfig): BasicExtension =>
-	editor => {
+	(editor, options) => {
 		let isTyping: boolean
 		let isOpen: boolean
 		let shouldOpen: boolean
@@ -145,7 +145,31 @@ const autoComplete =
 		}
 
 		const insertOption = (index: number) => {
-			insertText(editor, currentOptions[index][3].label, currentOptions[index][2], pos)
+			let [,,start, completion] = currentOptions[index]
+			let { label, tabStops = [], insert } = completion
+			tabStops = tabStops.map(stop => stop + start)
+
+			if (insert) {
+				let indent = "\n" + getLineBefore(editor.value, pos).match(/\s*/)![0]
+				let stops = tabStops.length
+				let tab = options.insertSpaces == false ? "\t" : " ".repeat(options.tabSize || 2)
+				let temp = tabStops.slice()
+
+				insert = insert.replace(/\n|\t/g, (match, index: number) => {
+					let replacement = match == "\t" ? tab : indent
+					let l = replacement.length - 1
+					let i = 0
+					while (i < stops) {
+						if (temp[i] > index + start) tabStops[i] += l
+						i++
+					}
+					
+					return replacement
+				})
+
+			} else insert = label
+
+			insertText(editor, insert, start, pos, tabStops[0], tabStops[1])
 			cursor!.scrollIntoView()
 		}
 
