@@ -31,7 +31,9 @@ import { autoComplete, registerCompletions } from "../extensions/autocomplete"
 import {
 	completeKeywords,
 	completeScope,
+	completeSnippets,
 	jsContext,
+	jsSnipets,
 	jsxTagCompletion,
 } from "../extensions/autocomplete/javascript"
 import { markupCompletion, htmlTags, globalHtmlAttributes } from "../extensions/autocomplete/markup"
@@ -235,6 +237,7 @@ registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 		completeScope(window),
 		completeKeywords,
 		jsxTagCompletion(reactTags, globalReactAttributes),
+		completeSnippets(jsSnipets),
 	],
 })
 
