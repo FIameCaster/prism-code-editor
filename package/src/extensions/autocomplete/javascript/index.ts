@@ -107,9 +107,10 @@ const enumerateOwnProperties = (obj: any) => {
 	let options: Completion[] = []
 	let seen = new Set<string>()
 	let boost = 0
+	let temp = obj
 
-	for (; obj; obj = Object.getPrototypeOf(obj), boost--) {
-		Object.getOwnPropertyNames(obj).forEach(name => {
+	for (; temp; temp = Object.getPrototypeOf(temp), boost--) {
+		Object.getOwnPropertyNames(temp).forEach(name => {
 			if (!seen.has(name) && identifier.test(name)) {
 				seen.add(name)
 				let isFunc!: boolean
@@ -145,16 +146,15 @@ const completeScope =
 			let target = scope
 			let last = path.length - 1
 			let i = 0
-			while (i < last && target) {
+			while (i < last) {
 				try {
 					target = target[path[i++]]
+					if (target == null) return
 				} catch (_) {
 					return
 				}
 			}
-			if (target === null || target === undefined) return
-			if (typeof target != "object" && typeof target != "function")
-				target = Object.getPrototypeOf(target)
+			target = Object(target)
 
 			if (!propertyCache.has(target)) propertyCache.set(target, enumerateOwnProperties(target))
 
