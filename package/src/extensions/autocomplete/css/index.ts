@@ -23,7 +23,12 @@ const getProperties = () => {
 				key = key.replace(/[A-Z]/g, char => "-" + char.toLowerCase())
 				if (!seen.has(key)) {
 					seen.add(key)
-					properties.push({ label: key, icon: "property" })
+					properties.push({
+						label: key,
+						icon: "property",
+						insert: key + ": ;",
+						tabStops: [key.length + 2],
+					})
 				}
 			}
 		}

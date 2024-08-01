@@ -175,10 +175,62 @@ const colors = [
 ]
 
 const cssValues = new Set(colors)
-
 const excludedProperties = new Set(["font-family", "font-feature-settings", "unicode-range"])
 
-cssValues.add("var")
+const functions = new Set([
+	"calc",
+	"min",
+	"max",
+	"clamp",
+	"round",
+	"mod",
+	"rem",
+	"sin",
+	"cos",
+	"asin",
+	"acos",
+	"atan",
+	"atan2",
+	"pow",
+	"sqrt",
+	"hypot",
+	"log",
+	"exp",
+	"abs",
+	"sign",
+	"rgb",
+	"hsl",
+	"hwb",
+	"lch",
+	"oklch",
+	"lab",
+	"oklab",
+	"color",
+	"color-mix",
+	"linear-gradient",
+	"radial-gradient",
+	"conic-gradient",
+	"repeating-linear-gradient",
+	"repeating-radial-gradient",
+	"repeating-conic-gradient",
+	"image-set",
+	"cross-fade",
+	"paint",
+	"counters",
+	"ellipse",
+	"rect",
+	"xywh",
+	"polygon",
+	"shape",
+	"env",
+	"var",
+	"cubic-bezier",
+	"steps",
+	"view",
+	"anchor",
+	"anchor-size",
+])
+
 cssValues.add("unset")
 cssValues.add("initial")
 cssValues.add("revert")
@@ -186,15 +238,27 @@ cssValues.add("revert-layer")
 cssValues.add("pre")
 cssValues.add("pre-wrap")
 cssValues.add("white-space")
-
-
+cssValues.add("linear")
+cssValues.add("ease")
+cssValues.add("ease-in")
+cssValues.add("ease-in-out")
+cssValues.add("ease-out")
 
 data.properties.forEach(({ name, values }) => {
 	if (excludedProperties.has(name) || name[0] == "-") return
-	values?.forEach(({ name }) => {
-		if (name[0] != "-") cssValues.add(name.replace(/\([^)]*\)/g, ""))
+	values?.forEach(({ name: value }) => {
+		if (value[0] == "-") return
+		const bracketIndex = value.indexOf("(")
+		const isFunction = bracketIndex >= 0
+		const name = isFunction ? value.slice(0, bracketIndex) : value
+
+		if (isFunction && !cssValues.has(name)) functions.add(name)
+		if (!isFunction && functions.has(name)) functions.delete(name)
+		cssValues.add(name)
 	})
 })
+
+functions.forEach(f => cssValues.add(f))
 
 const lines = [
 	"// generated from @vscode/web-custom-data package",
@@ -202,15 +266,18 @@ const lines = [
 	'import { Completion } from "../types.js"',
 	"",
 	"const toCompletions = (prefix: string, icon: string, values: string): Completion[] => {",
-	'\treturn values.split(",").map(val => ({ label: prefix + val, icon }))',
+	'\treturn values.split(",").map(val => val.includes("(") ?',
+	'\t\t{ label: prefix + val.slice(0, -2), icon: "function", insert: prefix + val, tabStops: [val.length + prefix.length - 1] } :',
+	"\t\t{ label: prefix + val, icon }",
+	"\t)",
 	"}",
 	"",
 ]
 
-let line = 'const cssValues = /* @__PURE__ */ toCompletions("", "keyword", "'
+let line = 'const cssValues = /* @__PURE__ */ toCompletions("", "enum", "'
 
 cssValues.forEach(val => {
-	line += val + ","
+	line += val + (functions.has(val) ? "()" : "") + ","
 })
 
 lines.push(line.slice(0, -1) + '")', "")
@@ -224,28 +291,54 @@ data.atDirectives.forEach(({ name }) => {
 lines.push(line.slice(0, -1) + '")', "")
 
 const pseudos = new Set()
+functions.clear()
 
-data.pseudoClasses.forEach(({ name }) => {
-	if (name[1] != "-") pseudos.add(name.slice(-2) == "()" ? name.slice(1, -2) : name.slice(1))
+data.pseudoClasses.forEach(({ name: value }) => {
+	value = value.slice(1)
+	if (value[0] == "-") return
+	const bracketIndex = value.indexOf("(")
+	const isFunction = bracketIndex >= 0
+	const name = isFunction ? value.slice(0, bracketIndex) : value
+
+	if (isFunction && !pseudos.has(name)) functions.add(name)
+	if (!isFunction && functions.has(name)) functions.delete(name)
+	pseudos.add(name)
 })
+
+functions.add("has")
+functions.add("is")
+functions.add("where")
+functions.add("dir")
 
 line = 'const pseudoClasses = /* @__PURE__ */ toCompletions(":", "function", "'
 pseudos.forEach(pseudo => {
-	line += pseudo + ","
+	line += pseudo + (functions.has(pseudo) ? "()" : "") + ","
 })
 
 lines.push(line.slice(0, -1) + '")', "")
 
 pseudos.clear()
+functions.clear()
 
-data.pseudoElements.forEach(({ name }) => {
-	if (name[2] != "-") pseudos.add(name.slice(-2) == "()" ? name.slice(2, -2) : name.slice(2))
+data.pseudoElements.forEach(({ name: value }) => {
+	value = value.slice(2)
+	if (value[0] == "-") return
+	const bracketIndex = value.indexOf("(")
+	const isFunction = bracketIndex >= 0
+	const name = isFunction ? value.slice(0, bracketIndex) : value
+
+	if (isFunction && !pseudos.has(name)) functions.add(name)
+	if (!isFunction && functions.has(name)) functions.delete(name)
+	pseudos.add(name)
 })
+
+functions.add("part")
+functions.add("slotted")
 
 line = 'const pseudoElements = /* @__PURE__ */ toCompletions("::", "function", "'
 
 pseudos.forEach(pseudo => {
-	line += pseudo + ","
+	line += pseudo + (functions.has(pseudo) ? "()" : "") + ","
 })
 
 lines.push(line.slice(0, -1) + '")', "")
