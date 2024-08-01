@@ -1,4 +1,4 @@
-/** @module autocomplete/html */
+/** @module autocomplete/markup */
 
 import { getClosestToken } from "../../../utils/index.js"
 import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"
@@ -13,7 +13,7 @@ const tagPattern =
  * @param globalAttributes Completable attributes shared by all tags.
  * @returns A Completion source.
  */
-const htmlCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): CompletionSource => {
+const markupCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): CompletionSource => {
 	const tagOptions = optionsFromKeys(tags, "property")
 	const attrOptions = optionsFromKeys(globalAttributes, "enum")
 
@@ -58,4 +58,4 @@ const htmlCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): Com
 
 export { htmlTags, globalHtmlAttributes } from "./data.js"
 
-export { htmlCompletion }
+export { markupCompletion }

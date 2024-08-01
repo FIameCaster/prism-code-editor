@@ -34,7 +34,7 @@ import {
 	jsContext,
 	jsxTagCompletion,
 } from "../extensions/autocomplete/javascript"
-import { htmlCompletion, htmlTags, globalHtmlAttributes } from "../extensions/autocomplete/html"
+import { markupCompletion, htmlTags, globalHtmlAttributes } from "../extensions/autocomplete/markup"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
 import { cssCompletion } from "../extensions/autocomplete/css"
 import { globalReactAttributes, reactTags } from "../extensions/autocomplete/javascript/reactData"
@@ -239,7 +239,7 @@ registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 })
 
 registerCompletions(["html", "markup"], {
-	sources: [htmlCompletion(htmlTags, globalHtmlAttributes)],
+	sources: [markupCompletion(htmlTags, globalHtmlAttributes)],
 })
 
 registerCompletions(["css"], {

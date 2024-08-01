@@ -21,7 +21,7 @@ const entries = {
 	"extensions/folding/index": "src/extensions/folding/index.ts",
 	"extensions/autocomplete/index": "src/extensions/autocomplete/index.ts",
 	"extensions/autocomplete/css/index": "src/extensions/autocomplete/css/index.ts",
-	"extensions/autocomplete/html/index": "src/extensions/autocomplete/html/index.ts",
+	"extensions/autocomplete/markup/index": "src/extensions/autocomplete/markup/index.ts",
 	"extensions/autocomplete/javascript/index": "src/extensions/autocomplete/javascript/index.ts",
 	autocomplete: "src/extensions/autocomplete/style.css",
 	folding: "src/extensions/folding/folding.css",

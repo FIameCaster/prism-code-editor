@@ -3,7 +3,7 @@
 import { PrismEditor } from "../../../index.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../matchBrackets/index.js"
-import { htmlTags } from "../html/index.js"
+import { htmlTags } from "../markup/index.js"
 import { Completion, CompletionContext, CompletionSource } from "../types.js"
 import { atRules, cssValues, pseudoClasses, pseudoElements } from "./data.js"
 
