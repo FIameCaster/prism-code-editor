@@ -36,7 +36,13 @@ import {
 	jsSnipets,
 	jsxTagCompletion,
 } from "../extensions/autocomplete/javascript"
-import { markupCompletion, htmlTags, globalHtmlAttributes } from "../extensions/autocomplete/markup"
+import {
+	markupCompletion,
+	htmlTags,
+	globalHtmlAttributes,
+	globalSvgAttributes,
+	svgTags,
+} from "../extensions/autocomplete/markup"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
 import { cssCompletion } from "../extensions/autocomplete/css"
 import { globalReactAttributes, reactTags } from "../extensions/autocomplete/javascript/reactData"
@@ -243,6 +249,10 @@ registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 
 registerCompletions(["html", "markup"], {
 	sources: [markupCompletion(htmlTags, globalHtmlAttributes)],
+})
+
+registerCompletions(["svg"], {
+	sources: [markupCompletion(svgTags, globalSvgAttributes)],
 })
 
 registerCompletions(["css"], {

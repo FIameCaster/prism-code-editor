@@ -57,5 +57,5 @@ const markupCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): C
 }
 
 export { htmlTags, globalHtmlAttributes } from "./data.js"
-
+export { svgTags, globalSvgAttributes } from "./svgData.js"
 export { markupCompletion }
