@@ -1,4 +1,4 @@
-import { BasicExtension } from "../../index.js"
+import { BasicExtension, InputSelection } from "../../index.js"
 import { addTextareaListener, createTemplate, preventDefault } from "../../core.js"
 import { addTooltip } from "../../tooltips.js"
 import {
@@ -10,14 +10,15 @@ import {
 } from "../../utils/index.js"
 import { Cursor } from "../cursor.js"
 import { AutoCompleteConfig, Completion, CompletionContext, CompletionDefinition } from "./types.js"
+import { searchTemplate } from "../search/search.js"
+import { updateMatched, updateNode } from "./utils.js"
 
 let count = 0
 
 const template = createTemplate("<div class=pce-ac-tooltip><ul role=listbox>")
 const rowTemplate = createTemplate(
-	"<li class=pce-ac-row role=option><div></div><div> <span> </span> </div><div class=pce-ac-details> ",
+	"<li class=pce-ac-row role=option><div></div><div> </div><div class=pce-ac-details> ",
 )
-const matchTemplate = createTemplate("<span> ")
 
 const map: Record<string, CompletionDefinition<any>> = {}
 
@@ -55,10 +56,17 @@ const autoComplete =
 		let offset = 0
 		let rowHeight: number
 		let cursor: Cursor | undefined
+		let stops: null | number[]
+		let activeStop: number
+		let currentSelection: InputSelection
+		let prevLength: number
+		let isDeleteForwards: boolean
 
 		const windowSize = 13
 		const textarea = editor.textarea
+		const getSelection = editor.getSelection
 		const tooltip = template()
+		const tabStopsContainer = searchTemplate()
 		const [show, _hide] = addTooltip(editor, tooltip)
 		const list = tooltip.firstChild as HTMLUListElement
 		const id = (list.id = "pce-ac-" + count++)
@@ -74,10 +82,6 @@ const autoComplete =
 			}
 		}
 
-		const updateNode = (node: Text, text: string) => {
-			if (node.data != text) node.data = text
-		}
-
 		const setRowHeight = () => {
 			rowHeight = parseFloat(getComputedStyle(rows[0]).height)
 		}
@@ -85,29 +89,12 @@ const autoComplete =
 		const updateRow = (index: number) => {
 			const option = currentOptions[index + offset]
 			const [iconEl, labelEl, detailsEl] = rows[index].children as HTMLCollectionOf<HTMLDivElement>
-			const nodes = labelEl.childNodes
 			const completion = option[3]
-			const label = completion.label
 			const icon = completion.icon || "variable"
-			const matched = option[1]
 
-			let nodeCount = nodes.length - 1
-			let pos = 0
-			let i = 0
-			let l = matched.length
-
-			for (; i < l; ) {
-				if (i >= nodeCount) {
-					nodes[i].before("", matchTemplate())
-				}
-				updateNode(nodes[i] as Text, label.slice(pos, (pos = matched[i++])))
-				updateNode(nodes[i].firstChild as Text, label.slice(pos, (pos = matched[i++])))
-			}
-			for (; nodeCount > i; ) {
-				nodes[--nodeCount].remove()
-			}
-			updateNode(nodes[l] as Text, label.slice(pos))
+			updateMatched(labelEl, option[1], completion.label)
 			updateNode(detailsEl.firstChild as Text, completion.detail || "")
+
 			if (prevIcons[index] != icon) {
 				iconEl.className = `pce-ac-icon pce-ac-icon-${(prevIcons[index] = icon)}`
 				iconEl.style.color = `var(--pce-ac-icon-${icon})`
@@ -145,36 +132,64 @@ const autoComplete =
 		}
 
 		const insertOption = (index: number) => {
-			let [,,start, completion] = currentOptions[index]
-			let { label, tabStops = [], insert } = completion
+			let [, , start, completion] = currentOptions[index]
+			let { label, tabStops: tabStops = [], insert } = completion
+			let l = tabStops.length
 			tabStops = tabStops.map(stop => stop + start)
 
 			if (insert) {
 				let indent = "\n" + getLineBefore(editor.value, pos).match(/\s*/)![0]
-				let stops = tabStops.length
 				let tab = options.insertSpaces == false ? "\t" : " ".repeat(options.tabSize || 2)
 				let temp = tabStops.slice()
 
 				insert = insert.replace(/\n|\t/g, (match, index: number) => {
 					let replacement = match == "\t" ? tab : indent
-					let l = replacement.length - 1
+					let diff = replacement.length - 1
 					let i = 0
-					while (i < stops) {
-						if (temp[i] > index + start) tabStops[i] += l
+					while (i < l) {
+						if (temp[i] > index + start) tabStops[i] += diff
 						i++
 					}
-					
+
 					return replacement
 				})
-
 			} else insert = label
 
+			if (l % 2) tabStops[l] = tabStops[l - 1]
+
 			insertText(editor, insert, start, pos, tabStops[0], tabStops[1])
+
+			if (l > 2) {
+				stops = tabStops
+				activeStop = 0
+				prevLength = editor.value.length
+				updateStops()
+				if (!tabStopsContainer.parentNode) editor.overlays.append(tabStopsContainer)
+			}
 			cursor!.scrollIntoView()
 		}
 
+		const moveActiveStop = (offset: number) => {
+			activeStop += offset
+			editor.setSelection(stops![activeStop], stops![activeStop + 1])
+			cursor!.scrollIntoView()
+		}
+
+		const clearStops = () => {
+			tabStopsContainer.remove()
+			stops = null
+		}
+
+		const updateStops = () => {
+			let sorted: [number, number][] = []
+			let i = 0
+			for (; i < stops!.length; ) sorted[i / 2] = [stops![i++], stops![i++]]
+			sorted.sort((a, b) => a[0] - b[0])
+			updateMatched(tabStopsContainer, sorted.flat(), editor.value)
+		}
+
 		const startQuery = (explicit = false) => {
-			const selection = editor.getSelection()
+			const selection = getSelection()
 			const language = getLanguage(editor, (pos = selection[0]))
 			const definition = map[language]
 			if (definition && (explicit || pos == selection[1])) {
@@ -232,6 +247,7 @@ const autoComplete =
 			} else hide()
 		}
 
+		tabStopsContainer.className = "pce-tabstops"
 		textarea.setAttribute("aria-controls", id)
 		textarea.setAttribute("aria-autocomplete", "list")
 
@@ -260,7 +276,13 @@ const autoComplete =
 			if (!cursor) {
 				if ((cursor = editor.extensions.cursor)) {
 					// Must be added after the cursor's selectionChange handler
-					add("selectionChange", () => {
+					add("selectionChange", selection => {
+						if (
+							stops &&
+							(selection[0] < stops[activeStop] || selection[1] > stops[activeStop + 1])
+						) {
+							clearStops()
+						}
 						if (isTyping) {
 							isTyping = false
 							startQuery()
@@ -268,16 +290,69 @@ const autoComplete =
 					})
 				}
 			}
+
+			if (stops) {
+				let value = editor.value
+				let diff = prevLength - (prevLength = value.length)
+				// let offset = diff < 0 || isDeleteForwards ? 1 : 0
+				let [start, end] = currentSelection
+				let i = 0
+				let l = stops.length
+				let activeStart = stops[activeStop]
+				let activeEnd = stops[activeStop + 1]
+				if (start < stops[activeStop] || end > activeEnd) {
+					clearStops()
+				} else {
+					if (isDeleteForwards) end++
+					if (end <= activeEnd) stops[activeStop + 1] -= diff
+					if (end <= activeStart && diff > 0) stops[activeStop] -= diff
+					for (; i < l; i += 2) {
+						if (i != activeStop && stops[i] >= activeEnd) {
+							stops[i] = Math.max(stops[i] - diff, stops[activeStop + 1])
+							stops[i + 1] = Math.max(stops[i + 1] - diff, stops[activeStop + 1])
+						}
+					}
+					updateStops()
+				}
+				isDeleteForwards = false
+				currentSelection = getSelection()
+			}
+		})
+		addTextareaListener(editor, "mousedown", () => {
+			if (stops) {
+				setTimeout(() => {
+					if (stops) {
+						// Timeout runs before selectionChange, but after
+						// the selection changes as a result of the click
+						const [start, end] = getSelection()
+						if (start < stops[activeStop] || end > stops[activeStop + 1]) {
+							for (let i = 0; i < stops.length; i++) {
+								if (start >= stops[i] && end <= stops[i + 1]) {
+									activeStop = i
+									break
+								}
+							}
+						}
+					}
+				})
+			}
 		})
 		addTextareaListener(
 			editor,
 			"beforeinput",
 			e => {
+				let inputType = e.inputType
+				let isDelete = inputType[0] == "d"
+				if (stops) {
+					currentSelection = getSelection()
+					isDeleteForwards =
+						isDelete && inputType[13] == "F" && currentSelection[0] == currentSelection[1]
+				}
 				shouldOpen =
 					!config.explicitOnly &&
 					(shouldOpen ||
-						(e.inputType == "insertText" && !prevSelection) ||
-						(e.inputType == "deleteContentBackward" && isOpen))
+						(inputType == "insertText" && !prevSelection) ||
+						(isDelete && inputType[13] == "B" && isOpen))
 			},
 			true,
 		)
@@ -330,6 +405,18 @@ const autoComplete =
 						updateActive()
 						preventDefault(e)
 					}
+				} else if ((code & 7) == 0 && !isOpen && key == "Tab" && stops) {
+					if (!code) {
+						moveActiveStop(2)
+						if (activeStop + 3 > stops.length) clearStops()
+						preventDefault(e)
+					} else if (activeStop) {
+						moveActiveStop(-2)
+						preventDefault(e)
+					}
+				} else if (!isOpen && !code && key == "Escape") {
+					clearStops()
+					preventDefault(e)
 				}
 			},
 			true,

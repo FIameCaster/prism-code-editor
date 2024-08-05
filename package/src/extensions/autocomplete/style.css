@@ -40,7 +40,7 @@
 }
 
 .pce-ac-details {
-	opacity: 0.8;
+	opacity: 0.75;
 	font-size: 90%;
 	margin-left: auto;
 }
@@ -58,4 +58,13 @@
 .pce-ac-row[aria-selected] {
 	background: #1094ff36;
 	color: var(--widget__color-active);
+}
+
+.pce-tabstops span {
+	background: var(--pce-tabstop, #7c7c7c4d);
+}
+
+.pce-tabstops :empty {
+	padding: 0 1px;
+	margin: 0 -1px;
 }

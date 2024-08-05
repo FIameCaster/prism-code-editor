@@ -22,7 +22,7 @@ const fuzzyFilter: CompletionFilter = (query: string, option: string) => {
 	const queryLen = query.length
 
 	if (queryLen > optionLen) return
-	if (queryLen < 2 || queryLen == optionLen) return strictFilter(query, option)
+	if (queryLen == 1 || queryLen == optionLen) return strictFilter(query, option)
 
 	const queryLc = query.toLowerCase()
 	const optionLc = option.toLowerCase()

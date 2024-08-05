@@ -54,13 +54,13 @@ export interface Completion {
 	 * Array of ranges. Each even index defines the start of a range. The subsequent index
 	 * defines the end of that range. The ranges are relative to the start of the inserted
 	 * text. The first range is selected initially.
+	 * 
+	 * If there are multiple ranges, the Tab key can ke used to select the next tab stop.
+	 * Once the final tab stop is selected or Escape is pressed, the tab stops disappear.
 	 *
 	 * The ranges must not overlap.
 	 *
 	 * If the last range only contains one number, the second defaults to the first.
-	 *
-	 * **Note**: Only one range to change the initial cursor position when the option is
-	 * selected is supported. Tab stops might be added in the future.
 	 */
 	tabStops?: number[]
 }
