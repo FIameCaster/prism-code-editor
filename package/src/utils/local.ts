@@ -27,4 +27,7 @@ const addListener = <T extends keyof EditorEventMap>(
 	return () => editor.removeListener(type, listener)
 }
 
-export { scrollToEl, getLineStart, getLineEnd, addListener }
+const getStyleValue = (el: HTMLElement, prop: keyof CSSStyleDeclaration) =>
+	parseFloat(<string>getComputedStyle(el)[prop])
+
+export { scrollToEl, getLineStart, getLineEnd, addListener, getStyleValue }

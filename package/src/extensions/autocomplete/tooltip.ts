@@ -12,6 +12,7 @@ import { Cursor } from "../cursor.js"
 import { AutoCompleteConfig, Completion, CompletionContext, CompletionDefinition } from "./types.js"
 import { searchTemplate } from "../search/search.js"
 import { updateMatched, updateNode } from "./utils.js"
+import { getStyleValue } from "../../utils/local.js"
 
 let count = 0
 
@@ -83,7 +84,7 @@ const autoComplete =
 		}
 
 		const setRowHeight = () => {
-			rowHeight = parseFloat(getComputedStyle(rows[0]).height)
+			rowHeight = getStyleValue(rows[0], "height")
 		}
 
 		const updateRow = (index: number) => {
@@ -391,14 +392,14 @@ const autoComplete =
 							newActive = Math.ceil(top / rowHeight)
 							activeIndex =
 								activeIndex == newActive || newActive - 1 == activeIndex
-									? Math.ceil(Math.max(0, (top - height) / rowHeight) + 1)
+									? Math.ceil(Math.max(0, (top - height) / rowHeight + 1))
 									: newActive
 						} else {
 							top += height + 1
 							newActive = Math.ceil(top / rowHeight - 2)
 							activeIndex =
 								activeIndex == newActive || newActive + 1 == activeIndex
-									? Math.ceil(Math.min(numOptions - 1, (top + height) / rowHeight) - 3)
+									? Math.ceil(Math.min(numOptions - 1, (top + height) / rowHeight - 3))
 									: newActive
 						}
 						scrollActiveIntoView()
