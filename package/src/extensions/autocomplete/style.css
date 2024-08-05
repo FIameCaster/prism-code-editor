@@ -1,9 +1,6 @@
 .pce-ac-tooltip {
-	width: min(25em, var(--width) - var(--padding-left) - 1em);
-	max-height: min(var(--height) - 5em, 17em);
 	background: var(--widget__bg);
 	border: 1px solid var(--widget__border);
-	z-index: 4;
 	pointer-events: auto;
 	box-sizing: border-box;
 	position: sticky;

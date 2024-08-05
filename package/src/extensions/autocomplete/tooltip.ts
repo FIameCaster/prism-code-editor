@@ -236,6 +236,14 @@ const autoComplete =
 						updateRow(i++)
 					}
 
+					if (!isOpen) {
+						const { clientHeight, clientWidth } = editor.scrollContainer
+						const pos = cursor!.getPosition()
+						const max = Math.max(pos.bottom, pos.top)
+						tooltip.style.width = `min(25em, ${clientWidth}px - var(--padding-left) - 1em)`
+						tooltip.style.maxHeight = `min(17em, ${max}px + .25em, ${clientHeight}px - 2em)`
+					}
+
 					list.style.paddingTop = ""
 					list.style.height = rowHeight ? rowHeight * numOptions + "px" : 1.4 * numOptions + "em"
 					tooltip.scrollTop = 0
@@ -366,10 +374,7 @@ const autoComplete =
 			e => {
 				const key = e.key
 				const code = getModifierCode(e)
-				const style = tooltip.style
-				const height = editor.scrollContainer.clientHeight
-				style.setProperty("--width", editor.scrollContainer.clientWidth + "px")
-				style.setProperty("--height", height + "px")
+
 				if (key == " " && code == 2) {
 					if (cursor) startQuery(true)
 					preventDefault(e)
