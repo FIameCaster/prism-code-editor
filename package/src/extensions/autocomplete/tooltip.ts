@@ -330,16 +330,15 @@ const autoComplete =
 		addTextareaListener(editor, "mousedown", () => {
 			if (stops) {
 				setTimeout(() => {
-					if (stops) {
-						// Timeout runs before selectionChange, but after
-						// the selection changes as a result of the click
-						const [start, end] = getSelection()
-						if (start < stops[activeStop] || end > stops[activeStop + 1]) {
-							for (let i = 0; i < stops.length; i++) {
-								if (start >= stops[i] && end <= stops[i + 1]) {
-									activeStop = i
-									break
-								}
+					// Timeout runs before selectionChange, but after
+					// the selection changes as a result of the click
+					const [start, end] = getSelection()
+					if (stops && (start < stops[activeStop] || end > stops[activeStop + 1])) {
+						for (let i = 0, l = stops.length; i < stops.length; i += 2) {
+							if (start >= stops[i] && end <= stops[i + 1]) {
+								if (i + 3 > l) clearStops()
+								else activeStop = i
+								break
 							}
 						}
 					}
