@@ -27,6 +27,7 @@ const fuzzyFilter: CompletionFilter = (query: string, option: string) => {
 	const queryLc = query.toLowerCase()
 	const optionLc = option.toLowerCase()
 	const matched: number[] = []
+	const fullMatch = optionLc.indexOf(queryLc)
 
 	let score = 0
 	let i = 0
@@ -34,7 +35,7 @@ const fuzzyFilter: CompletionFilter = (query: string, option: string) => {
 	let j = 0
 	for (; i < queryLen; i++) {
 		const char = queryLc[i]
-		const pos = optionLc.indexOf(char, prevPos)
+		const pos = fullMatch > -1 ? i + fullMatch : optionLc.indexOf(char, prevPos)
 		const hasSkipped = pos > prevPos
 
 		if (pos < 0) return
