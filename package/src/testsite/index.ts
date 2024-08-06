@@ -18,6 +18,7 @@ import { matchBrackets } from "../extensions/matchBrackets"
 import { highlightBracketPairs } from "../extensions/matchBrackets/highlight"
 import { highlightCurrentWord, highlightSelectionMatches, searchWidget } from "../extensions/search"
 import "../extensions/search/search.css"
+import "../extensions/search/invisibles.css"
 import "../languages"
 import "../layout.css"
 import "../rtl-layout.css"
@@ -46,6 +47,7 @@ import {
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
 import { cssCompletion } from "../extensions/autocomplete/css"
 import { globalReactAttributes, reactTags } from "../extensions/autocomplete/javascript/reactData"
+import { showInvisibles } from "../extensions/search/invisibles"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -66,6 +68,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			searchWidget(),
 			defaultCommands(),
 			editHistory(),
+			showInvisibles(),
 			autoComplete({
 				filter: fuzzyFilter,
 				closeOnBlur: false,

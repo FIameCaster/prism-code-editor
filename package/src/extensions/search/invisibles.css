@@ -1,0 +1,27 @@
+.pce-invisibles span {
+	/* --mask: 50% no-repeat
+	url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="2.4"/></svg>');
+	-webkit-mask: var(--mask);
+	mask: var(--mask); */
+	/* Mask images had poor performance, so I used clip-path instead. */
+	clip-path: circle(0.15ch);
+	background: var(--pce-invisibles, #e3e4e229);
+	display: inline-block;
+}
+
+span.pce-tab {
+	/* --mask: 0 50% / 1em 1em no-repeat
+		url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m0 7.4h7.1l-1.45-1.45.7-.7 2.45 2.45 0 .6-2.45 2.45-.7-.7 1.45-1.45h-7.4z"/></svg>'); */
+	clip-path: polygon(
+		0 calc(50% - 0.038em),
+		0.444em calc(50% - 0.038em),
+		0.353em calc(50% - 0.128em),
+		0.397em calc(50% - 0.172em),
+		0.55em calc(50% - 0.019em),
+		0.55em calc(50% + 0.019em),
+		0.397em calc(50% + 0.172em),
+		0.353em calc(50% + 0.128em),
+		0.444em calc(50% + 0.038em),
+		0 calc(50% + 0.038em)
+	);
+}
