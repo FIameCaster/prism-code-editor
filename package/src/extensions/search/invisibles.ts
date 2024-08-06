@@ -1,5 +1,5 @@
-import { BasicExtension } from "../.."
-import { createSearchAPI } from "./search"
+import { BasicExtension } from "../../index.js"
+import { createSearchAPI } from "./search.js"
 
 /**
  * Extension that shows tabs and spaces.

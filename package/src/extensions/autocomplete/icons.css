@@ -32,7 +32,6 @@
 .pce-ac-icon-snippet {
 	--mask: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path stroke="red" fill="none" stroke-linejoin="bevel" d="m2.5 13v-11.5h12v11.5m-12.5 1.5h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1"/></svg>');
 }
-.pce-ac-icon-value,
 .pce-ac-icon-enum {
 	--mask: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m2 7h6l1 1v5l-1 1h-6l-1-1v-5zv6h6v-5h-6zm1 2h4v1h-4zm0 2h4v1h-4zm4-5v-3l1-1h6l1 1v5l-1 1h-4v-1h4v-5h-6v3zm2-2h4v1h-4zm0 2h4v1h-3.59l-.41-.41z"/></svg>');
 }

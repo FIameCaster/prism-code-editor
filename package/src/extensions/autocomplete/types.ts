@@ -22,9 +22,9 @@ export interface Completion {
 	 * The icon element also gets it color set to the CSS variable `--pce-ac-icon-` followed
 	 * by the icon name. Use these CSS variables to set different colors for different icons.
 	 *
-	 * `prism-code-editor/autocomplete-icons.css` adds 13 icons: `class`, `constant`, `enum`,
-	 * `function`, `interface`, `keyword`, `namespace`, `parameter`, `property`, `snippet`,
-	 * `unit`, and `variable`. You can define your own icons instead.
+	 * `prism-code-editor/autocomplete-icons.css` adds 13 icons from VSCode: `class`,
+	 * `constant`, `enum`, `function`, `interface`, `keyword`, `namespace`, `parameter`,
+	 * `property`, `snippet`, `unit`, and `variable`. You can import your own icons instead.
 	 *
 	 * Defaults to `"variable"`
 	 */
@@ -46,7 +46,7 @@ export interface Completion {
 	 * Text to insert when the completion is selected. Tabs are replaced with spaces when
 	 * `options.insertSpaces` isn't set to `false`. Line feeds are replaced by the
 	 * indentation at the current line.
-	 * 
+	 *
 	 * If omitted, the inserted text defaults to `label`.
 	 */
 	insert?: string
@@ -54,7 +54,7 @@ export interface Completion {
 	 * Array of ranges. Each even index defines the start of a range. The subsequent index
 	 * defines the end of that range. The ranges are relative to the start of the inserted
 	 * text. The first range is selected initially.
-	 * 
+	 *
 	 * If there are multiple ranges, the Tab key can ke used to select the next tab stop.
 	 * Once the final tab stop is selected or Escape is pressed, the tab stops disappear.
 	 *

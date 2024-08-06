@@ -42,6 +42,12 @@ const registerCompletions = <T extends object>(
  * {@link registerCompletions} for specific languages.
  *
  * @param config Object used to configure the extension. The `filter` property is required.
+ * 
+ * Requires styling from `prism-code-editor/autocomplete.css`. Also requires a stylesheet
+ * for icons. `prism-code-editor/autocomplete-icons.css` adds some icons from VSCode, but
+ * you can define your own icons instead.
+ * 
+ * @see {@link Completion.icon} for how to style your own icons.
  */
 const autoComplete =
 	(config: AutoCompleteConfig): BasicExtension =>
@@ -54,7 +60,7 @@ const autoComplete =
 		let activeIndex: number
 		let active: HTMLLIElement | undefined
 		let pos: number
-		let offset = 0
+		let offset: number
 		let rowHeight: number
 		let cursor: Cursor | undefined
 		let stops: null | number[]
