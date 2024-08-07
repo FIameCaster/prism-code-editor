@@ -11,7 +11,7 @@ import {
 	getModifierCode,
 	prevSelection,
 } from "../utils/index.js"
-import { getLineStart } from "../utils/local.js"
+import { getLineEnd, getLineStart, getStyleValue } from "../utils/local.js"
 
 let ignoreTab = false
 const clipboard = navigator.clipboard
@@ -28,6 +28,7 @@ const whitespaceEnd = (str: string) => str.search(/\S|$/)
  * quotes and tags along with the following commands:
  *
  * - Alt+ArrowUp/Down: Move line up/down
+ * - Ctrl+ArrowUp/Down (Not on MacOS): Scroll up/down 1 line
  * - Shift+Alt+ArrowUp/Down: Copy line up/down
  * - Ctrl+Enter (Cmd+Enter on MacOS): Insert blank line
  * - Ctrl+[ (Cmd+[ on MacOS): Outdent line
@@ -51,7 +52,7 @@ const defaultCommands =
 	): BasicExtension =>
 	(editor, options) => {
 		let prevCopy: string
-		const { keyCommandMap, inputCommandMap, getSelection } = editor
+		const { keyCommandMap, inputCommandMap, getSelection, scrollContainer } = editor
 
 		const getIndent = ({ insertSpaces = true, tabSize } = options) =>
 			[insertSpaces ? " " : "\t", insertSpaces ? tabSize || 2 : 1] as const
@@ -210,32 +211,36 @@ const defaultCommands =
 			}
 		}
 
-		for (let i = 0; i < 2; i++)
+		for (let i = 0; i < 2; i++) {
 			keyCommandMap[i ? "ArrowDown" : "ArrowUp"] = (e, [start, end], value) => {
 				const code = getModifierCode(e)
-				if ((code & 0b111) == 1) {
-					if (code == 1) {
-						// Moving lines
-						const newStart = i ? start : getLineStart(value, start) - 1
-						const newEnd = i ? value.indexOf("\n", end) + 1 : end
-						if (newStart > -1 && newEnd > 0) {
-							const [lines, start1, end1] = getLines(value, newStart, newEnd)
-							const line = lines[i ? "pop" : "shift"]()!
-							const offset = (line.length + 1) * (i ? 1 : -1)
 
-							lines[i ? "unshift" : "push"](line)
-							insertText(editor, lines.join("\n"), start1, end1, start + offset, end + offset)
-						}
-					} else {
-						// Copying lines
-						const [lines, start1, end1] = getLines(value, start, end)
-						const str = lines.join("\n")
-						const offset = i ? str.length + 1 : 0
-						insertText(editor, str + "\n" + str, start1, end1, start + offset, end + offset)
+				if (code == 1) {
+					// Moving lines
+					const newStart = i ? start : getLineStart(value, start) - 1
+					const newEnd = i ? value.indexOf("\n", end) + 1 : end
+					if (newStart > -1 && newEnd > 0) {
+						const [lines, start1, end1] = getLines(value, newStart, newEnd)
+						const line = lines[i ? "pop" : "shift"]()!
+						const offset = (line.length + 1) * (i ? 1 : -1)
+
+						lines[i ? "unshift" : "push"](line)
+						insertText(editor, lines.join("\n"), start1, end1, start + offset, end + offset)
 					}
 					return scroll()
+				} else if (code == 9) {
+					// Copying lines
+					const [lines, start1, end1] = getLines(value, start, end)
+					const str = lines.join("\n")
+					const offset = i ? str.length + 1 : 0
+					insertText(editor, str + "\n" + str, start1, end1, start + offset, end + offset)
+					return scroll()
+				} else if (code == 2 && !isMac) {
+					scrollContainer.scrollBy(0, getStyleValue(scrollContainer, "lineHeight") * (i ? 1 : -1))
+					return true
 				}
 			}
+		}
 
 		addTextareaListener(editor, "keydown", e => {
 			const code = getModifierCode(e)
@@ -244,9 +249,9 @@ const defaultCommands =
 
 			if (code == mod && (keyCode == 221 || keyCode == 219)) {
 				indent(keyCode == 219, ...getLines(editor.value, start, end), start, end, ...getIndent())
-				return scroll()
-			}
-			if (code == (isMac ? 0b1010 : 0b0010) && keyCode == 77) {
+				scroll()
+				preventDefault(e)
+			} else if (code == (isMac ? 0b1010 : 0b0010) && keyCode == 77) {
 				setIgnoreTab(!ignoreTab)
 				preventDefault(e)
 			} else if ((keyCode == 191 && code == mod) || (keyCode == 65 && code == 9)) {
@@ -285,6 +290,7 @@ const defaultCommands =
 								end + open.length + 1,
 							)
 						scroll()
+						preventDefault(e)
 					}
 				} else {
 					if (line) {
@@ -300,6 +306,7 @@ const defaultCommands =
 						)
 						insertLines(lines, newLines, start1, end1, start, end)
 						scroll()
+						preventDefault(e)
 					} else if (block) {
 						const [open, close] = block
 						const insertionPoint = whitespaceEnd(lines[0])
@@ -325,13 +332,14 @@ const defaultCommands =
 								: Math.min(Math.max(firstInsersion, end + diff), start1 + newText.length)
 						insertText(editor, newText, start1, end1, newStart, Math.max(newStart, newEnd))
 						scroll()
+						preventDefault(e)
 					}
 				}
 			} else if (code == 8 + mod && keyCode == 75) {
 				const value = editor.value
 				const [lines, start1, end1] = getLines(value, start, end)
-				const column = dir == "forward" ? end - end1 + lines.pop()!.length : start - start1
-				const newLineLen = getLines(value, end1 + 1)[0][0].length
+				const column = dir > "f" ? end - end1 + lines.pop()!.length : start - start1
+				const newLineLen = getLineEnd(value, end1 + 1) - end1 - 1
 				insertText(
 					editor,
 					"",
@@ -339,7 +347,8 @@ const defaultCommands =
 					end1 + <any>!start1,
 					start1 + Math.min(column, newLineLen),
 				)
-				return scroll()
+				scroll()
+				preventDefault(e)
 			}
 		})
 		;(["copy", "cut", "paste"] as const).forEach(type =>
@@ -413,6 +422,7 @@ const editHistory = (historyLimit = 999) => {
 	let isTyping = false
 	let prevInputType: string
 	let prevData: string | null
+	let prevTime: number
 	let isMerge: boolean
 	let textarea: HTMLTextAreaElement
 	let getSelection: PrismEditor["getSelection"]
@@ -451,6 +461,7 @@ const editHistory = (historyLimit = 999) => {
 		addTextareaListener(editor, "beforeinput", e => {
 			let data = e.data
 			let inputType = e.inputType
+			let time = e.timeStamp
 
 			if (/history/.test(inputType)) {
 				setEditorState(sp + (inputType[7] == "U" ? -1 : 1))
@@ -458,7 +469,7 @@ const editHistory = (historyLimit = 999) => {
 			} else if (
 				!(isMerge =
 					allowMerge &&
-					prevInputType == inputType &&
+					(prevInputType == inputType || (time - prevTime < 99 && inputType.slice(-4) == "Drop")) &&
 					!prevSelection &&
 					(data != " " || prevData == data))
 			) {
@@ -466,6 +477,7 @@ const editHistory = (historyLimit = 999) => {
 			}
 			isTyping = true
 			prevData = data
+			prevTime = time
 			prevInputType = inputType
 		})
 		addTextareaListener(editor, "input", () => update(sp + <any>!isMerge))

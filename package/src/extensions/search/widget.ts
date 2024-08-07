@@ -9,7 +9,7 @@ import {
 } from "../../core.js"
 import { regexEscape, getModifierCode } from "../../utils/index.js"
 import { createReplaceAPI } from "./replace.js"
-import { addListener, getLineEnd, getLineStart } from "../../utils/local.js"
+import { addListener, getLineEnd, getLineStart, getStyleValue } from "../../utils/local.js"
 
 const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
 
@@ -21,9 +21,6 @@ const template = createTemplate(
 
 const toggleAttr = (el: Element, name: string) =>
 	el.setAttribute(name, <any>(el.getAttribute(name) == "false"))
-
-const getStyleValue = (el: HTMLElement, prop: keyof CSSStyleDeclaration) =>
-	parseFloat(<string>getComputedStyle(el)[prop])
 
 export interface SearchWidget extends BasicExtension {
 	/** The search widget's outer element. */

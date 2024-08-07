@@ -24,6 +24,17 @@
 	--editor__bg-scrollbar: 210, 10%, 32%;
 	--editor__bg-fold: #7d8590;
 	--bg-guide-indent: #e6edf31f;
+	--pce-ac-icon-class: #f0883e;
+	--pce-ac-icon-enum: #f0883e;
+	--pce-ac-icon-function: #bc8cff;
+	--pce-ac-icon-interface: #f0883e;
+	--pce-ac-icon-keyword: #ff7b72;
+	--pce-ac-icon-namespace: #ff7b72;
+	--pce-ac-icon-parameter: #79c0ff;
+	--pce-ac-icon-property: #f0883e;
+	--pce-ac-icon-snippet: #58a6ff;
+	--pce-ac-icon-unit: #58a6ff;
+	--pce-ac-icon-variable: #f0883e;
 	color-scheme: dark;
 }
 

@@ -3,7 +3,7 @@
 import { PrismEditor } from "../../../index.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../matchBrackets/index.js"
-import { htmlTags } from "../html/index.js"
+import { htmlTags } from "../markup/index.js"
 import { Completion, CompletionContext, CompletionSource } from "../types.js"
 import { atRules, cssValues, pseudoClasses, pseudoElements } from "./data.js"
 
@@ -11,7 +11,7 @@ const hasStyleRules = ["container", "supports", "layer", "media", "scope"]
 
 const atRule = /@([\w-]*)(?!\w|-)(?:[^;{"']|"(?:\\[\s\S]|[^\\\n"])*"|'(?:\\[\s\S]|[^\\\n'])*')*$/
 
-const tagNames: Completion[] = Object.keys(htmlTags).map(tag => ({ label: tag }))
+const tagNames: Completion[] = Object.keys(htmlTags).map(tag => ({ label: tag, icon: "keyword" }))
 
 const getProperties = () => {
 	if (!properties) {
@@ -23,7 +23,12 @@ const getProperties = () => {
 				key = key.replace(/[A-Z]/g, char => "-" + char.toLowerCase())
 				if (!seen.has(key)) {
 					seen.add(key)
-					properties.push({ label: key })
+					properties.push({
+						label: key,
+						icon: "property",
+						insert: key + ": ;",
+						tabStops: [key.length + 2],
+					})
 				}
 			}
 		}

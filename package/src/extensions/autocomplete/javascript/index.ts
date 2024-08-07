@@ -107,12 +107,27 @@ const enumerateOwnProperties = (obj: any) => {
 	let options: Completion[] = []
 	let seen = new Set<string>()
 	let boost = 0
+	let temp = obj
 
-	for (; obj; obj = Object.getPrototypeOf(obj), boost--) {
-		Object.getOwnPropertyNames(obj).forEach(name => {
+	for (; temp; temp = Object.getPrototypeOf(temp), boost--) {
+		Object.getOwnPropertyNames(temp).forEach(name => {
 			if (!seen.has(name) && identifier.test(name)) {
 				seen.add(name)
-				options.push({ label: name, boost })
+				let isFunc!: boolean
+				try {
+					isFunc = typeof obj[name] == "function"
+				} catch (_) {}
+				options.push({
+					label: name,
+					boost,
+					icon: isFunc
+						? /[A-Z]/.test(name[0])
+							? "class"
+							: "function"
+						: /^[A-Z_]+$/.test(name)
+						? "constant"
+						: "variable",
+				})
 			}
 		})
 	}
@@ -131,16 +146,21 @@ const completeScope =
 			let target = scope
 			let last = path.length - 1
 			let i = 0
-			while (i < last && target) {
-				target = target[path[i++]]
-			}
-			if (typeof target == "object") {
-				if (!propertyCache.has(target)) propertyCache.set(target, enumerateOwnProperties(target))
-
-				return {
-					from: pos - path[last].length,
-					options: propertyCache.get(target)!,
+			while (i < last) {
+				try {
+					target = target[path[i++]]
+					if (target == null) return
+				} catch (_) {
+					return
 				}
+			}
+			target = Object(target)
+
+			if (!propertyCache.has(target)) propertyCache.set(target, enumerateOwnProperties(target))
+
+			return {
+				from: pos - path[last].length,
+				options: propertyCache.get(target)!,
 			}
 		}
 	}
@@ -148,4 +168,5 @@ const completeScope =
 export { jsxTagCompletion } from "./jsx.js"
 export { completeKeywords } from "./keywords.js"
 export { globalReactAttributes, reactTags } from "./reactData.js"
+export { completeSnippets, jsSnipets } from "./snippets.js"
 export { jsContext, completeScope }

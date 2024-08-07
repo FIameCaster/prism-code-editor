@@ -23,6 +23,11 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	--editor__bg-scrollbar: 206, 88%, 27%;
 	--editor__bg-fold: #c5c5c5;
 	--bg-guide-indent: #5e81ce52;
+	--pce-ac-icon-class: #ee9d28;
+	--pce-ac-icon-enum: #ee9d28;
+	--pce-ac-icon-function: #b180d7;
+	--pce-ac-icon-interface: #75beff;
+	--pce-ac-icon-variable: #75beff;
 	color-scheme: dark;
 }
 

@@ -16,6 +16,7 @@
     "./code-folding.css": "./dist/folding.css",
     "./scrollbar.css": "./dist/scrollbar.css",
     "./autocomplete.css": "./dist/autocomplete.css",
+    "./autocomplete-icons.css": "./dist/autocomplete-icons.css",
     "./setups": "./dist/setups/index.js",
     "./utils": "./dist/utils/index.js",
     "./layout.css": "./dist/layout.css",
@@ -32,14 +33,15 @@
     "./tooltips": "./dist/tooltips.js",
     "./experimental_autocomplete": "./dist/extensions/autocomplete/index.js",
     "./experimental_autocomplete/css": "./dist/extensions/autocomplete/css/index.js",
-    "./experimental_autocomplete/html": "./dist/extensions/autocomplete/html/index.js",
+    "./experimental_autocomplete/markup": "./dist/extensions/autocomplete/markup/index.js",
     "./experimental_autocomplete/javascript": "./dist/extensions/autocomplete/javascript/index.js",
     "./commands": "./dist/extensions/commands.js",
     "./cursor": "./dist/extensions/cursor.js",
     "./code-folding": "./dist/extensions/folding/index.js",
     "./search": "./dist/extensions/search/index.js",
     "./search/api": "./dist/extensions/search/api.js",
-    "./search.css": "./dist/search.css"
+    "./search.css": "./dist/search.css",
+    "./invisibles.css": "./dist/invisibles.css"
   },
   "typesVersions": {
     "*": {

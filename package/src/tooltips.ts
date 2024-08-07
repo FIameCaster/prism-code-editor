@@ -1,9 +1,10 @@
 import { PrismEditor } from "./index.js"
 import { createTemplate } from "./core.js"
 import { cursorPosition } from "./extensions/cursor.js"
+import { getStyleValue } from "./utils/local.js"
 
 const template = /* @__PURE__ */ createTemplate(
-	'<div class=pce-tooltip style=z-index:5;top:auto;display:flex;overflow-x:clip><div>',
+	"<div class=pce-tooltip style=z-index:5;top:auto;display:flex;overflow-x:clip><div>",
 )
 
 /**
@@ -73,9 +74,10 @@ const observer =
 		e.forEach(entry => {
 			const el = entry.target
 			const wrapper = el.querySelector<HTMLDivElement>(".pce-wrapper")!
-			const style = getComputedStyle(wrapper)
 			wrapper.style.paddingBottom = `${
-				el.clientHeight - parseFloat(style.marginBottom) - parseFloat(style.lineHeight)
+				el.clientHeight -
+				getStyleValue(wrapper, "marginBottom") -
+				getStyleValue(wrapper, "lineHeight")
 			}px`
 		}),
 	)

@@ -174,4 +174,4 @@ data.valueSets.forEach(valueSet => {
 lines.splice(4, 0, ...valueSets)
 lines.push("}", "")
 
-fs.writeFile("./src/extensions/autocomplete/html/data.ts", lines.join("\r\n"))
+fs.writeFile("./src/extensions/autocomplete/markup/data.ts", lines.join("\r\n"))

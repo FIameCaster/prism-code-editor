@@ -19,7 +19,15 @@
 	--editor__line-number: #53abc6;
 	--editor__bg-scrollbar: 0, 0%, 25%;
 	--editor__bg-fold: #424242;
+	--pce-ac-icon-class: #d67e00;
+	--pce-ac-icon-enum: #d67e00;
+	--pce-ac-icon-function: #652d90;
+	--pce-ac-icon-interface: #007acc;
+	--pce-ac-icon-variable: #007acc;
+	--pce-ac-match: #0066bf;
 	--bg-guide-indent: #1d333a40;
+	--pce-tabstop: #0a326433;
+	--pce-invisibles: #3333;
 	color-scheme: light;
 }
 

@@ -2,8 +2,8 @@ import { regexEscape } from "../../utils/index.js"
 import { createTemplate } from "../../core.js"
 import { PrismEditor } from "../../types.js"
 
-const template = createTemplate(
-	'<div style="color:#0000;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true>',
+const searchTemplate = createTemplate(
+	'<div style="color:#0000;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true> ',
 )
 
 const matchTemplate = createTemplate("<span> ")
@@ -57,19 +57,19 @@ export interface SearchAPI {
 
 /** Function adding search functionality to an editor. */
 const createSearchAPI = (editor: PrismEditor): SearchAPI => {
-	const nodes: ChildNode[] = [new Text()],
-		nodeValues: string[] = [],
-		container = template(),
-		matchPositions: [number, number][] = [],
-		stopSearch = () => {
-			if (matchPositions[0]) {
-				matchPositions.length = 0
-				container.remove()
-			}
+	const container = searchTemplate()
+	const nodes: ChildNode[] = [container.firstChild!]
+	const nodeValues: string[] = [" "]
+	const matchPositions: [number, number][] = []
+	const stopSearch = () => {
+		if (matchPositions[0]) {
+			matchPositions.length = 0
+			container.remove()
 		}
+	}
 
 	let regex: RegExp
-	let nodeCount = 0
+	let nodeCount = 1
 
 	return {
 		search(str, caseSensitive, wholeWord, useRegExp, selection, filter, pattern) {
@@ -139,4 +139,4 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	}
 }
 
-export { createSearchAPI }
+export { createSearchAPI, searchTemplate, matchTemplate }

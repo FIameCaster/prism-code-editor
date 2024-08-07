@@ -1,9 +1,6 @@
 .pce-ac-tooltip {
-	width: min(25em, var(--width) - var(--padding-left) - 1em);
-	max-height: min(var(--height) - 5em, 17em);
 	background: var(--widget__bg);
 	border: 1px solid var(--widget__border);
-	z-index: 4;
 	pointer-events: auto;
 	box-sizing: border-box;
 	position: sticky;
@@ -23,16 +20,15 @@
 
 .pce-ac-row {
 	display: flex;
-	padding: 0 0.3em;
+	padding: 0 0.2em;
 	height: 1.4em;
 	align-items: center;
-	justify-content: space-between;
 	gap: 0.5em;
 	cursor: pointer;
 }
 
 .pce-ac-row span {
-	color: #52b1ff;
+	color: var(--pce-ac-match, #52b1ff);
 }
 
 .pce-ac-row div {
@@ -41,8 +37,9 @@
 }
 
 .pce-ac-details {
-	opacity: 0.8;
+	opacity: 0.75;
 	font-size: 90%;
+	margin-left: auto;
 }
 
 .pce-ac-details:empty {
@@ -57,4 +54,14 @@
 
 .pce-ac-row[aria-selected] {
 	background: #1094ff36;
+	color: var(--widget__color-active);
+}
+
+.pce-tabstops span {
+	background: var(--pce-tabstop, #7c7c7c4d);
+}
+
+.pce-tabstops :empty {
+	padding: 0 1px;
+	margin: 0 -1px;
 }

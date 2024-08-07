@@ -1,4 +1,4 @@
-/** @module autocomplete/html */
+/** @module autocomplete/markup */
 
 import { getClosestToken } from "../../../utils/index.js"
 import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"
@@ -7,15 +7,15 @@ import { optionsFromKeys } from "../utils.js"
 const tagPattern =
 	/<$|<(?![!\d])([^\s/=>$<%]+)(?:\s(?:\s*([^\s/"'=>]+)(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?!\S))?|(?![^\s=])))*\s*(?:=\s*(?:"[^"]*|'[^']*))?)?$/
 
-	/**
+/**
  * Completion source that adds auto completion for HTML tags.
  * @param tags Object mapping tag-names to completable attributes for that tag.
  * @param globalAttributes Completable attributes shared by all tags.
  * @returns A Completion source.
  */
-const htmlCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): CompletionSource => {
-	const tagOptions = optionsFromKeys(tags)
-	const attrOptions = optionsFromKeys(globalAttributes)
+const markupCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): CompletionSource => {
+	const tagOptions = optionsFromKeys(tags, "property")
+	const attrOptions = optionsFromKeys(globalAttributes, "enum")
 
 	return ({ before, explicit }, editor) => {
 		if (
@@ -39,9 +39,10 @@ const htmlCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): Com
 				if (/=\s*(?:"[^"]*|'[^']*|[^\s"'=>]*)$/.test(tag)) {
 					options = (globalAttributes[lastAttr] || tagAttrs?.[lastAttr])?.map(val => ({
 						label: val,
+						icon: "unit",
 					}))
 				} else {
-					options = tagAttrs ? attrOptions.concat(optionsFromKeys(tagAttrs)) : attrOptions
+					options = tagAttrs ? attrOptions.concat(optionsFromKeys(tagAttrs, "enum")) : attrOptions
 				}
 			}
 
@@ -56,5 +57,5 @@ const htmlCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): Com
 }
 
 export { htmlTags, globalHtmlAttributes } from "./data.js"
-
-export { htmlCompletion }
+export { svgTags, globalSvgAttributes } from "./svgData.js"
+export { markupCompletion }

@@ -9,6 +9,7 @@ import "../prism/languages/regex"
 import "../extensions/copyButton/copy.css"
 import "../extensions/folding/folding.css"
 import "../extensions/autocomplete/style.css"
+import "../extensions/autocomplete/icons.css"
 import { cursorPosition } from "../extensions/cursor"
 import { indentGuides } from "../extensions/guides"
 import guides from "../prism/core?raw"
@@ -17,6 +18,7 @@ import { matchBrackets } from "../extensions/matchBrackets"
 import { highlightBracketPairs } from "../extensions/matchBrackets/highlight"
 import { highlightCurrentWord, highlightSelectionMatches, searchWidget } from "../extensions/search"
 import "../extensions/search/search.css"
+import "../extensions/search/invisibles.css"
 import "../languages"
 import "../layout.css"
 import "../rtl-layout.css"
@@ -30,13 +32,22 @@ import { autoComplete, registerCompletions } from "../extensions/autocomplete"
 import {
 	completeKeywords,
 	completeScope,
+	completeSnippets,
 	jsContext,
+	jsSnipets,
 	jsxTagCompletion,
 } from "../extensions/autocomplete/javascript"
-import { htmlCompletion, htmlTags, globalHtmlAttributes } from "../extensions/autocomplete/html"
+import {
+	markupCompletion,
+	htmlTags,
+	globalHtmlAttributes,
+	globalSvgAttributes,
+	svgTags,
+} from "../extensions/autocomplete/markup"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
 import { cssCompletion } from "../extensions/autocomplete/css"
 import { globalReactAttributes, reactTags } from "../extensions/autocomplete/javascript/reactData"
+import { showInvisibles } from "../extensions/search/invisibles"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -57,9 +68,10 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			searchWidget(),
 			defaultCommands(),
 			editHistory(),
+			showInvisibles(),
 			autoComplete({
 				filter: fuzzyFilter,
-				// closeOnBlur: false,
+				closeOnBlur: false,
 			}),
 		),
 	startCode = `<!DOCTYPE html>
@@ -234,11 +246,16 @@ registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 		completeScope(window),
 		completeKeywords,
 		jsxTagCompletion(reactTags, globalReactAttributes),
+		completeSnippets(jsSnipets),
 	],
 })
 
 registerCompletions(["html", "markup"], {
-	sources: [htmlCompletion(htmlTags, globalHtmlAttributes)],
+	sources: [markupCompletion(htmlTags, globalHtmlAttributes)],
+})
+
+registerCompletions(["svg"], {
+	sources: [markupCompletion(svgTags, globalSvgAttributes)],
 })
 
 registerCompletions(["css"], {

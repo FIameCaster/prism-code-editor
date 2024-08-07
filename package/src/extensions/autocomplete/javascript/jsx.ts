@@ -12,8 +12,8 @@ const jsxTagCompletion = (
 	tags: TagConfig,
 	globalAttributes: AttributeConfig,
 ): CompletionSource<JSContext> => {
-	const tagOptions = optionsFromKeys(tags)
-	const attrOptions = optionsFromKeys(globalAttributes)
+	const tagOptions = optionsFromKeys(tags, "property")
+	const attrOptions = optionsFromKeys(globalAttributes, "enum")
 
 	return ({ tagMatch, explicit }) => {
 		if (tagMatch && (explicit || !/\s/.test(tagMatch[0].slice(-1)))) {
@@ -29,13 +29,14 @@ const jsxTagCompletion = (
 				if (lastAttrValue) {
 					options = (globalAttributes[lastAttr] || tagAttrs?.[lastAttr])?.map(val => ({
 						label: val,
+						icon: "unit",
 					}))
 				} else {
 					options =
 						tag.slice(-1) == "="
 							? 0
 							: tagAttrs
-							? attrOptions.concat(optionsFromKeys(tagAttrs))
+							? attrOptions.concat(optionsFromKeys(tagAttrs, "enum"))
 							: attrOptions
 				}
 			}

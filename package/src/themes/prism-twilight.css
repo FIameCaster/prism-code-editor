@@ -25,6 +25,11 @@
 	--editor__bg-scrollbar: 0, 0%, 45%;
 	--editor__bg-fold: #c5c5c5;
 	--bg-guide-indent: #ededed1f;
+	--pce-ac-icon-class: #ee9d28;
+	--pce-ac-icon-enum: #ee9d28;
+	--pce-ac-icon-function: #b180d7;
+	--pce-ac-icon-interface: #75beff;
+	--pce-ac-icon-variable: #75beff;
 	color-scheme: dark;
 }
 

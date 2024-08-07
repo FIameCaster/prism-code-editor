@@ -2,6 +2,10 @@ import { PrismEditor } from "../../index.js"
 import { CompletionFilter } from "./filter.js"
 
 export interface Completion {
+	/**
+	 * Label of the option. The label is displayed in the option and used to filter and sort
+	 * options. By default, this is the text inserted when the option is selected.
+	 */
 	label: string
 	/**
 	 * Can be used to adjust how the completion is ranked compared to other options.
@@ -10,6 +14,55 @@ export interface Completion {
 	boost?: number
 	/** Optional, short piece of information displayed after the label. */
 	detail?: string
+	/**
+	 * Name of the icon shown before the label. This name is appended to the class
+	 * `pce-ac-icon-`, so i.e. `.pce-ac-icon-variable` can be used to style icons with the
+	 * name `variable`.
+	 *
+	 * The icon element also gets it color set to the CSS variable `--pce-ac-icon-` followed
+	 * by the icon name. Use these CSS variables to set different colors for different icons.
+	 *
+	 * `prism-code-editor/autocomplete-icons.css` adds 13 icons from VSCode: `class`,
+	 * `constant`, `enum`, `function`, `interface`, `keyword`, `namespace`, `parameter`,
+	 * `property`, `snippet`, `unit`, and `variable`. You can import your own icons instead.
+	 *
+	 * Defaults to `"variable"`
+	 */
+	icon?:
+		| "class"
+		| "constant"
+		| "enum"
+		| "function"
+		| "interface"
+		| "keyword"
+		| "namespace"
+		| "parameter"
+		| "property"
+		| "snippet"
+		| "unit"
+		| "variable"
+		| (string & {})
+	/**
+	 * Text to insert when the completion is selected. Tabs are replaced with spaces when
+	 * `options.insertSpaces` isn't set to `false`. Line feeds are replaced by the
+	 * indentation at the current line.
+	 *
+	 * If omitted, the inserted text defaults to `label`.
+	 */
+	insert?: string
+	/**
+	 * Array of ranges. Each even index defines the start of a range. The subsequent index
+	 * defines the end of that range. The ranges are relative to the start of the inserted
+	 * text. The first range is selected initially.
+	 *
+	 * If there are multiple ranges, the Tab key can ke used to select the next tab stop.
+	 * Once the final tab stop is selected or Escape is pressed, the tab stops disappear.
+	 *
+	 * The ranges must not overlap.
+	 *
+	 * If the last range only contains one number, the second defaults to the first.
+	 */
+	tabStops?: number[]
 }
 
 export interface CompletionResult {
@@ -39,18 +92,20 @@ export interface CompletionContext {
 
 /**
  * Completion definition for a language.
- * 
+ *
  * The context property can be used to add extra properties to the context
  * passed to the completion sources. This is useful to do certain computations once
  * instead of once for each source.
  */
-export type CompletionDefinition<T extends object> = {
-	context?: null,
-	sources: CompletionSource[]
-} | {
-	context(context: CompletionContext, editor: PrismEditor): T
-	sources: CompletionSource<T>[]
-}
+export type CompletionDefinition<T extends object> =
+	| {
+			context?: null
+			sources: CompletionSource[]
+	  }
+	| {
+			context(context: CompletionContext, editor: PrismEditor): T
+			sources: CompletionSource<T>[]
+	  }
 
 export type AutoCompleteConfig = {
 	/** Function used to filter and rank options. */

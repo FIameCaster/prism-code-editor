@@ -5,7 +5,7 @@
 	font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
 	--editor__bg: #fff;
 	--widget__border: #bfbfbf;
-	--widget__bg: #f2f2f2;
+	--widget__bg: #f8f8f8;
 	--widget__color: #444;
 	--widget__color-active: #000;
 	--widget__color-options: #666;
@@ -22,6 +22,14 @@
 	--editor__bg-scrollbar: 0, 0%, 25%;
 	--editor__bg-fold: #424242;
 	--bg-guide-indent: #3333;
+	--pce-ac-icon-class: #d67e00;
+	--pce-ac-icon-enum: #d67e00;
+	--pce-ac-icon-function: #652d90;
+	--pce-ac-icon-interface: #007acc;
+	--pce-ac-icon-variable: #007acc;
+	--pce-ac-match: #0066bf;
+	--pce-tabstop: #0a326433;
+	--pce-invisibles: #3333;
 	color-scheme: light;
 }
 
@@ -45,6 +53,10 @@
 
 .guide-indents .active {
 	--bg-guide-indent: #0006;
+}
+
+.pce-tooltip {
+	color: #333;
 }
 
 /* Tokens */
@@ -79,7 +91,6 @@
 	text-decoration: underline;
 }
 
-.pce-tooltip,
 .token.operator,
 .token.combinator,
 .token.punctuation,
