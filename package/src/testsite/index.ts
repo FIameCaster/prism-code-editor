@@ -71,7 +71,7 @@ const runBtn = <HTMLButtonElement>document.getElementById("run"),
 			showInvisibles(),
 			autoComplete({
 				filter: fuzzyFilter,
-				closeOnBlur: false,
+				// closeOnBlur: false,
 			}),
 		),
 	startCode = `<!DOCTYPE html>
