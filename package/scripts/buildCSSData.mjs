@@ -288,7 +288,7 @@ data.atDirectives.forEach(({ name }) => {
 	if (name[1] != "-") line += name.slice(1) + ","
 })
 
-lines.push(line.slice(0, -1) + '")', "")
+lines.push(line + 'container,scope,position-try,starting-style,view-transition")', "")
 
 const pseudos = new Set()
 functions.clear()
