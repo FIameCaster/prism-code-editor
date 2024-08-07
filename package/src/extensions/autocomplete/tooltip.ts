@@ -371,7 +371,7 @@ const autoComplete =
 			true,
 		)
 		addTextareaListener(editor, "blur", e => {
-			if (config.closeOnBlur != false && !list.contains(e.relatedTarget as Element)) hide()
+			if (config.closeOnBlur != false && !tooltip.contains(e.relatedTarget as Element)) hide()
 		})
 		addTextareaListener(
 			editor,
@@ -438,7 +438,7 @@ const autoComplete =
 			preventDefault(e)
 		}
 
-		list.addEventListener("focusout", e => {
+		tooltip.addEventListener("focusout", e => {
 			if (config.closeOnBlur != false && e.relatedTarget != textarea) hide()
 		})
 	}
