@@ -37,11 +37,11 @@ export type JSContext = {
 	tagMatch: null | RegExpMatchArray
 }
 
-const identifierPattern = [/(?!\d)(?:(?!\s)[$\w\xa0-\uffff])/.source]
+const identifierPattern = [/(?!\s)[$\w\xa0-\uffff]/.source]
 
-const identifier = /* @__PURE__ */ re("^<0>+$", identifierPattern)
+const identifier = /* @__PURE__ */ re("^(?!\d)<0>+$", identifierPattern)
 
-const pathRE = /* @__PURE__ */ re(/(?:<0>+\s*\??\.\s*)*<0>*$/.source, identifierPattern)
+const pathRE = /* @__PURE__ */ re(/(?:(?!\d)<0>+\s*\??\.\s*)*(?!\d)<0>*$/.source, identifierPattern)
 
 const tagPattern = /* @__PURE__ */ re(
 	/(?:^|[^$\w])(?:<|<(?!\d)([^\s/=><%]+)(?:<0>(?:<0>*(?:([^\s"'{=<>/*]+)(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?![^\s=]))|<2>))*<0>*(?:=<0>*("[^"]*|'[^']*))?)?)$/
