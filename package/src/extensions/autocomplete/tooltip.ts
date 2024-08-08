@@ -8,7 +8,7 @@ import {
 	insertText,
 	prevSelection,
 } from "../../utils/index.js"
-import { Cursor } from "../cursor.js"
+import { Cursor, cursorPosition } from "../cursor.js"
 import { AutoCompleteConfig, Completion, CompletionContext, CompletionDefinition } from "./types.js"
 import { searchTemplate } from "../search/search.js"
 import { updateMatched, updateNode } from "./utils.js"
@@ -42,11 +42,13 @@ const registerCompletions = <T extends object>(
  * {@link registerCompletions} for specific languages.
  *
  * @param config Object used to configure the extension. The `filter` property is required.
- * 
+ *
+ * Requires the {@link cursorPosition} extension to work.
+ *
  * Requires styling from `prism-code-editor/autocomplete.css`. Also requires a stylesheet
  * for icons. `prism-code-editor/autocomplete-icons.css` adds some icons from VSCode, but
  * you can define your own icons instead.
- * 
+ *
  * @see {@link Completion.icon} for how to style your own icons.
  */
 const autoComplete =
@@ -262,6 +264,21 @@ const autoComplete =
 			} else hide()
 		}
 
+		const addSelectionHandler = () => {
+			if (!cursor && (cursor = editor.extensions.cursor)) {
+				// Must be added after the cursor's selectionChange handler
+				add("selectionChange", selection => {
+					if (stops && (selection[0] < stops[activeStop] || selection[1] > stops[activeStop + 1])) {
+						clearStops()
+					}
+					if (isTyping) {
+						isTyping = false
+						startQuery()
+					} else hide()
+				})
+			}
+		}
+
 		tabStopsContainer.className = "pce-tabstops"
 		textarea.setAttribute("aria-controls", id)
 		textarea.setAttribute("aria-autocomplete", "list")
@@ -288,33 +305,17 @@ const autoComplete =
 		add("update", () => {
 			isTyping = shouldOpen
 			shouldOpen = false
-			if (!cursor) {
-				if ((cursor = editor.extensions.cursor)) {
-					// Must be added after the cursor's selectionChange handler
-					add("selectionChange", selection => {
-						if (
-							stops &&
-							(selection[0] < stops[activeStop] || selection[1] > stops[activeStop + 1])
-						) {
-							clearStops()
-						}
-						if (isTyping) {
-							isTyping = false
-							startQuery()
-						} else hide()
-					})
-				}
-			}
+			addSelectionHandler()
 
 			if (stops) {
 				let value = editor.value
 				let diff = prevLength - (prevLength = value.length)
-				// let offset = diff < 0 || isDeleteForwards ? 1 : 0
 				let [start, end] = currentSelection
 				let i = 0
 				let l = stops.length
 				let activeStart = stops[activeStop]
 				let activeEnd = stops[activeStop + 1]
+
 				if (start < stops[activeStop] || end > activeEnd) {
 					clearStops()
 				} else {
@@ -381,6 +382,7 @@ const autoComplete =
 				const code = getModifierCode(e)
 
 				if (key == " " && code == 2) {
+					addSelectionHandler()
 					if (cursor) startQuery(true)
 					preventDefault(e)
 				} else if (!code && isOpen) {
