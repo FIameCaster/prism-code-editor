@@ -57,7 +57,7 @@ const autoComplete =
 		let isTyping: boolean
 		let isOpen: boolean
 		let shouldOpen: boolean
-		let currentOptions: [number, number[], number, Completion][]
+		let currentOptions: [number, number[], number, number, Completion][]
 		let numOptions: number
 		let activeIndex: number
 		let active: HTMLLIElement | undefined
@@ -98,7 +98,7 @@ const autoComplete =
 		const updateRow = (index: number) => {
 			const option = currentOptions[index + offset]
 			const [iconEl, labelEl, detailsEl] = rows[index].children as HTMLCollectionOf<HTMLDivElement>
-			const completion = option[3]
+			const completion = option[4]
 			const icon = completion.icon || "variable"
 
 			updateMatched(labelEl, option[1], completion.label)
@@ -141,7 +141,7 @@ const autoComplete =
 		}
 
 		const insertOption = (index: number) => {
-			let [, , start, completion] = currentOptions[index]
+			let [, , start, end, completion] = currentOptions[index]
 			let { label, tabStops: tabStops = [], insert } = completion
 			let l = tabStops.length
 			tabStops = tabStops.map(stop => stop + start)
@@ -166,7 +166,7 @@ const autoComplete =
 
 			if (l % 2) tabStops[l] = tabStops[l - 1]
 
-			insertText(editor, insert, start, pos, tabStops[0], tabStops[1])
+			insertText(editor, insert, start, end, tabStops[0], tabStops[1])
 
 			if (l > 2) {
 				stops = tabStops
@@ -227,7 +227,7 @@ const autoComplete =
 							if (filterResult) {
 								filterResult[0] += option.boost || 0
 								// @ts-expect-error Allow mutation
-								filterResult.push(from, option)
+								filterResult.push(from, result.to ?? pos, option)
 								// @ts-expect-error Allow mutation
 								currentOptions.push(filterResult)
 							}
@@ -236,7 +236,7 @@ const autoComplete =
 				})
 
 				if (currentOptions[0]) {
-					currentOptions.sort((a, b) => b[0] - a[0] || a[3].label.localeCompare(b[3].label))
+					currentOptions.sort((a, b) => b[0] - a[0] || a[4].label.localeCompare(b[4].label))
 					numOptions = currentOptions.length
 					activeIndex = offset = 0
 

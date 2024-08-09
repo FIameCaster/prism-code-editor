@@ -68,6 +68,12 @@ export interface Completion {
 export interface CompletionResult {
 	/** The start of the range that's being completed. */
 	from: number
+	/**
+	 * The end of the range that will be replaced when one of the options is selected.
+	 * This is not used when sorting or filtering the options. Defaults to the cursor's
+	 * position.
+	 */
+	to?: number
 	/** The completions returned by the source. */
 	options: Completion[]
 }
