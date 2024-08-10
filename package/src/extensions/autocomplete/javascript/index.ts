@@ -6,6 +6,7 @@ import { re } from "../../../prism/utils/shared.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../matchBrackets/index.js"
 import { Completion, CompletionContext, CompletionSource } from "../types.js"
+import { findIdentifiers } from "../utils.js"
 
 export type JSContext = {
 	/**
@@ -39,7 +40,7 @@ export type JSContext = {
 
 const identifierPattern = [/(?!\s)[$\w\xa0-\uffff]/.source]
 
-const identifier = /* @__PURE__ */ re("^(?!\d)<0>+$", identifierPattern)
+const identifier = /* @__PURE__ */ re("^(?!d)<0>+$", identifierPattern)
 
 const pathRE = /* @__PURE__ */ re(/(?:(?!\d)<0>+\s*\??\.\s*)*(?!\d)<0>*$/.source, identifierPattern)
 
@@ -165,8 +166,36 @@ const completeScope =
 		}
 	}
 
+const includedTypes = new Set([
+	"parameter",
+	"class-name",
+	"constant",
+	"function",
+	"maybe-class-name",
+	"generic-function",
+])
+
+const identifierSearch = re(/<0>+/.source, identifierPattern, "g")
+
+const completeIdentifiers: CompletionSource<JSContext> = (context, editor) => {
+	const path = context.path
+	if (path && (path[0] || context.explicit)) {
+		return {
+			from: context.pos - path[path.length - 1].length,
+			options: findIdentifiers(
+				context,
+				editor,
+				type => includedTypes.has(type),
+				identifierSearch,
+			).map(label => ({
+				label,
+			})),
+		}
+	}
+}
+
 export { jsxTagCompletion } from "./jsx.js"
 export { completeKeywords } from "./keywords.js"
 export { globalReactAttributes, reactTags } from "./reactData.js"
 export { completeSnippets, jsSnipets } from "./snippets.js"
-export { jsContext, completeScope }
+export { jsContext, completeScope, completeIdentifiers }
