@@ -68,13 +68,15 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 				tagMatch.index++
 			}
 		}
-		if (tagMatch && getClosestToken(editor, ".string", 0, 0, tagMatch.index! + 1)) {
+		if (tagMatch && getClosestToken(editor, ".string", 0, 0, tagMatch.index + 1)) {
 			tagMatch = null
 		}
 		if (!tagMatch) {
 			enabled =
 				!getClosestToken(editor, ".string") &&
-				!/\b(?:const|let|var|class|enum|interface|type)\s+(?:(?!\s)[$\w\xa0-\uffff])*$/.test(before)
+				!/\b(?:const|let|var|class|enum|interface|type)\s+(?:(?!\s)[$\w\xa0-\uffff])*$/.test(
+					context.lineBefore,
+				)
 		}
 	}
 
@@ -98,7 +100,13 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 	return {
 		tagMatch,
 		disabled: !enabled,
-		path: enabled && !tagMatch ? before.match(pathRE)![0].split(/[\s?.]+/) : null,
+		path:
+			enabled && !tagMatch
+				? before
+						.slice(-999)
+						.match(pathRE)![0]
+						.split(/[\s?.]+/)
+				: null,
 	}
 }
 

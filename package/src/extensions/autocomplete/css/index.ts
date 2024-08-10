@@ -2,6 +2,7 @@
 
 import { PrismEditor } from "../../../index.js"
 import { getClosestToken } from "../../../utils/index.js"
+import { getLineStart } from "../../../utils/local.js"
 import { Bracket } from "../../matchBrackets/index.js"
 import { htmlTags } from "../markup/index.js"
 import { Completion, CompletionContext, CompletionSource } from "../types.js"
@@ -45,19 +46,21 @@ const cssCompletion: CompletionSource = (context: CompletionContext, editor: Pri
 	let before = context.before
 	let pos = context.pos
 	let matcher = editor.extensions.matchBrackets
-	let from = before.search(/[\w-]*$/)
+	let from = context.lineBefore.search(/[\w-]*$/) + getLineStart(before, pos)
 	let options: Completion[] | undefined
-	let currentStatement = before.match(/[^{};]*$/)![0].trimStart()
+	let currentStatement = before
+		.slice(Math.max(...["{", "}", ";"].map(c => before.lastIndexOf(c) + 1)))
+		.trimStart()
 
 	if (getClosestToken(editor, ".comment,.string")) return
 
 	if (getClosestToken(editor, ".attr-value")) {
 		options = currentStatement.includes(":") ? cssValues : getProperties()
 	} else {
-		const atRuleMatch = before.match(atRule)
+		const atRuleMatch = atRule.exec(before)
 
 		if (atRuleMatch) {
-			if (atRuleMatch.index! + atRuleMatch[1].length + 2 > pos) {
+			if (atRuleMatch.index + atRuleMatch[1].length + 2 > pos) {
 				from--
 				options = atRules
 			}
@@ -96,7 +99,7 @@ const cssCompletion: CompletionSource = (context: CompletionContext, editor: Pri
 							/.+/g,
 							true,
 						).map(name => ({ label: name, icon: "keyword" }))
-						from --
+						from--
 					} else if (charBefore != "#") options = tagNames
 				}
 			} else {
