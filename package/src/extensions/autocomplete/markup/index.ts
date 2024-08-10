@@ -12,7 +12,7 @@ import {
 import { optionsFromKeys } from "../utils.js"
 
 const tagPattern =
-	/<$|<(?![!\d])([^\s/=>$<%]+)(?:\s(?:\s*([^\s/"'=>]+)(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?!\S))?|(?![^\s=])))*\s*(?:=\s*(?:"[^"]*|'[^']*))?)?$/
+	/<$|<(?![!\d])([^\s/=>$<%]+)(?:\s(?:\s*([^\s/"'=>]+)(?:\s*=\s*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|[^\s"'=>]+(?!\S))?|(?![^\s=])))*\s*)?$/
 
 /**
  * `false` is returned if completion shouldn't happen at the current position.
@@ -44,7 +44,7 @@ const markupCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): C
 
 		if (tagMatch) {
 			let [tag, tagName, lastAttr] = tagMatch
-			let start = tagMatch.index!
+			let start = tagMatch.index
 			let from = start + 1
 			let options: Completion[] | undefined = tagOptions
 

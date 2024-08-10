@@ -35,7 +35,7 @@ export type JSContext = {
 	 * 2) The last attribute's name
 	 * 3) Is present if the cursor is inside an attribute value
 	 */
-	tagMatch: null | RegExpMatchArray
+	tagMatch: null | RegExpExecArray
 }
 
 const identifierPattern = [/(?!\s)[$\w\xa0-\uffff]/.source]
@@ -45,7 +45,7 @@ const identifier = /* @__PURE__ */ re("^(?!d)<0>+$", identifierPattern)
 const pathRE = /* @__PURE__ */ re(/(?:(?!\d)<0>+\s*\??\.\s*)*(?!\d)<0>*$/.source, identifierPattern)
 
 const tagPattern = /* @__PURE__ */ re(
-	/(?:^|[^$\w])(?:<|<(?!\d)([^\s/=><%]+)(?:<0>(?:<0>*(?:([^\s"'{=<>/*]+)(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?![^\s=]))|<2>))*<0>*(?:=<0>*("[^"]*|'[^']*))?)?)$/
+	/(?:^|[^$\w])(?:<|<(?!\d)([^\s/=><%]+)(?:<0>(?:<0>*(?:([^\s"'{=<>/*]+)(?:<0>*=<0>*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|<1>)?|(?![^\s=]))|<2>))*<0>*)?)$/
 		.source,
 	[space, braces, spread],
 )
@@ -58,14 +58,14 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 	const pos = context.pos
 	const matcher = editor.extensions.matchBrackets
 	let enabled = !getClosestToken(editor, ".regex,.comment")
-	let tagMatch: null | RegExpMatchArray = null
+	let tagMatch: null | RegExpExecArray = null
 
 	if (enabled) {
 		if (context.language.slice(1) == "sx") {
-			tagMatch = before.match(tagPattern)
+			tagMatch = tagPattern.exec(before)
 			if (tagMatch?.[0][1] == "<") {
-				tagMatch![0] = tagMatch![0].slice(1)
-				tagMatch!.index!++
+				tagMatch[0] = tagMatch[0].slice(1)
+				tagMatch.index++
 			}
 		}
 		if (tagMatch && getClosestToken(editor, ".string", 0, 0, tagMatch.index! + 1)) {

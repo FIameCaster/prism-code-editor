@@ -17,12 +17,12 @@ const jsxTagCompletion = (
 
 	return ({ tagMatch, explicit }) => {
 		if (tagMatch && (explicit || !/\s/.test(tagMatch[0].slice(-1)))) {
-			let [tag, tagName, lastAttr, lastAttrValue] = tagMatch!
-			let start = tagMatch!.index!
+			let [tag, tagName, lastAttr, lastAttrValue] = tagMatch
+			let start = tagMatch.index
 			let from = start + 1
 			let options: Completion[] | undefined | 0 = tagOptions
 
-			if (/[\s/]/.test(tagMatch![0])) {
+			if (/[\s/]/.test(tagMatch[0])) {
 				let tagAttrs = tags[tagName]
 				from = start + tag.search(/[^\s="'{}]*$/)
 
