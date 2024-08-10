@@ -5,6 +5,7 @@ import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../matchBrackets/index.js"
 import { htmlTags } from "../markup/index.js"
 import { Completion, CompletionContext, CompletionSource } from "../types.js"
+import { findIdentifiers } from "../utils.js"
 import { atRules, cssValues, pseudoClasses, pseudoElements } from "./data.js"
 
 const hasStyleRules = ["container", "supports", "layer", "media", "scope"]
@@ -19,7 +20,7 @@ const getProperties = () => {
 		const style = document.body.style
 		const seen = new Set<string>()
 		for (let key in style) {
-			if (typeof style[key] == "string" && !/-|^moz|^webkit/.test(key)) {
+			if (typeof style[key] == "string" && !/-|^moz|^webkit/i.test(key)) {
 				key = key.replace(/[A-Z]/g, char => "-" + char.toLowerCase())
 				if (!seen.has(key)) {
 					seen.add(key)
@@ -87,10 +88,23 @@ const cssCompletion: CompletionSource = (context: CompletionContext, editor: Pri
 							from--
 							options = pseudoClasses
 						}
-					} else if (charBefore != "." && charBefore != "#") options = tagNames
+					} else if (charBefore == ".") {
+						options = findIdentifiers(
+							context,
+							editor,
+							type => type == "selector" || type == "class",
+							/.+/g,
+							true,
+						).map(name => ({ label: name, icon: "keyword" }))
+						from --
+					} else if (charBefore != "#") options = tagNames
 				}
 			} else {
-				options = currentStatement.includes(":") ? cssValues : getProperties()
+				options = (currentStatement.includes(":") ? cssValues : getProperties()).concat(
+					findIdentifiers(context, editor, type => type == "variable", /.+/g, true).map(name => ({
+						label: name,
+					})),
+				)
 			}
 		}
 	}
