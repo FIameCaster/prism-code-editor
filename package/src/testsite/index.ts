@@ -28,11 +28,10 @@ import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
-import { autoComplete, registerCompletions } from "../extensions/autocomplete"
+import { autoComplete, completeSnippets, registerCompletions } from "../extensions/autocomplete"
 import {
 	completeKeywords,
 	completeScope,
-	completeSnippets,
 	jsContext,
 	jsDocCompletion,
 	jsSnipets,

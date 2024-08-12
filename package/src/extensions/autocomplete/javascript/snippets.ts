@@ -1,5 +1,4 @@
-import { JSContext } from "./index.js"
-import { Completion, CompletionSource } from "../types.js"
+import { Completion } from "../types.js"
 
 const jsSnipets: Completion[] = [
 	{
@@ -123,15 +122,4 @@ const jsSnipets: Completion[] = [
 	},
 ]
 
-const completeSnippets = (snippets: Completion[]): CompletionSource<JSContext> => {
-	return ({ path, explicit, pos }) => {
-		if (path?.length == 1 && (path[0] || explicit)) {
-			return {
-				from: pos - path[0].length,
-				options: snippets,
-			}
-		}
-	}
-}
-
-export { jsSnipets, completeSnippets }
+export { jsSnipets }

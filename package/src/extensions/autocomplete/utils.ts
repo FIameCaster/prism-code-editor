@@ -2,7 +2,7 @@ import { PrismEditor } from "../../index.js"
 import { Token } from "../../prism/core.js"
 import { TokenStream } from "../../prism/types.js"
 import { matchTemplate } from "../search/search.js"
-import { Completion, CompletionContext } from "./types.js"
+import { Completion, CompletionContext, CompletionSource } from "./types.js"
 
 const optionsFromKeys = (obj: object, icon?: string): Completion[] =>
 	Object.keys(obj).map(tag => ({ label: tag, icon }))
@@ -29,6 +29,22 @@ const updateMatched = (container: HTMLElement, matched: number[], text: string) 
 		nodes[--nodeCount].remove()
 	}
 	updateNode(nodes[l] as Text, text.slice(pos))
+}
+
+/**
+ * Completion source that returns a list of snippets if `path` property of the context
+ * is present and only contains a single string.
+ * @param snippets Snippets to complete.
+ */
+const completeSnippets = (snippets: Completion[]): CompletionSource<{ path: string[] | null }> => {
+	return ({ path, explicit, pos }) => {
+		if (path?.length == 1 && (path[0] || explicit)) {
+			return {
+				from: pos - path[0].length,
+				options: snippets,
+			}
+		}
+	}
 }
 
 /**
@@ -107,4 +123,4 @@ const findWords = (
 	return [...result]
 }
 
-export { optionsFromKeys, updateMatched, updateNode, findWords }
+export { optionsFromKeys, updateMatched, updateNode, findWords, completeSnippets }
