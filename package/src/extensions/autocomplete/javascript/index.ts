@@ -6,7 +6,7 @@ import { re } from "../../../prism/utils/shared.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../matchBrackets/index.js"
 import { Completion, CompletionContext, CompletionSource } from "../types.js"
-import { findIdentifiers } from "../utils.js"
+import { findWords } from "../utils.js"
 
 export type JSContext = {
 	/**
@@ -190,7 +190,7 @@ const completeIdentifiers: CompletionSource<JSContext> = (context, editor) => {
 	if (path && (path[0] || context.explicit)) {
 		return {
 			from: context.pos - path[path.length - 1].length,
-			options: findIdentifiers(
+			options: findWords(
 				context,
 				editor,
 				type => includedTypes.has(type),

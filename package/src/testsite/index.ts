@@ -261,7 +261,7 @@ registerCompletions(["svg"], {
 })
 
 registerCompletions(["css"], {
-	sources: [cssCompletion],
+	sources: [cssCompletion()],
 })
 
 setTimeout(() => import("../prism/languages"), 500)
