@@ -206,4 +206,5 @@ export { jsxTagCompletion } from "./jsx.js"
 export { completeKeywords } from "./keywords.js"
 export { globalReactAttributes, reactTags } from "./reactData.js"
 export { completeSnippets, jsSnipets } from "./snippets.js"
+export { jsDocCompletion } from "./jsdoc.js"
 export { jsContext, completeScope, completeIdentifiers }
