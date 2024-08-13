@@ -54,7 +54,6 @@ const registerCompletions = <T extends object>(
 const autoComplete =
 	(config: AutoCompleteConfig): BasicExtension =>
 	(editor, options) => {
-		let isTyping: boolean
 		let isOpen: boolean
 		let shouldOpen: boolean
 		let currentOptions: [number, number[], number, number, Completion][]
@@ -141,6 +140,7 @@ const autoComplete =
 		}
 
 		const insertOption = (index: number) => {
+			if (options.readOnly) return
 			let [, , start, end, completion] = currentOptions[index]
 			let { label, tabStops: tabStops = [], insert } = completion
 			let l = tabStops.length
@@ -173,6 +173,7 @@ const autoComplete =
 				activeStop = 0
 				prevLength = editor.value.length
 				updateStops()
+				currentSelection = getSelection()
 				if (!tabStopsContainer.parentNode) editor.overlays.append(tabStopsContainer)
 			}
 			cursor!.scrollIntoView()
@@ -201,7 +202,7 @@ const autoComplete =
 			const selection = getSelection()
 			const language = getLanguage(editor, (pos = selection[0]))
 			const definition = map[language]
-			if (definition && (explicit || pos == selection[1])) {
+			if (definition && (explicit || pos == selection[1]) && !options.readOnly) {
 				const value = editor.value
 				const lineBefore = getLineBefore(value, pos)
 				const before = value.slice(0, pos)
@@ -271,8 +272,8 @@ const autoComplete =
 					if (stops && (selection[0] < stops[activeStop] || selection[1] > stops[activeStop + 1])) {
 						clearStops()
 					}
-					if (isTyping) {
-						isTyping = false
+					if (shouldOpen) {
+						shouldOpen = false
 						startQuery()
 					} else hide()
 				})
@@ -303,8 +304,6 @@ const autoComplete =
 		}
 
 		add("update", () => {
-			isTyping = shouldOpen
-			shouldOpen = false
 			addSelectionHandler()
 
 			if (stops) {
