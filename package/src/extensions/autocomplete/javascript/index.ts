@@ -40,7 +40,7 @@ export type JSContext = {
 
 const identifierPattern = [/(?!\s)[$\w\xa0-\uffff]/.source]
 
-const identifier = /* @__PURE__ */ re("^(?!d)<0>+$", identifierPattern)
+const identifier = /* @__PURE__ */ re("^(?!\\d)<0>+$", identifierPattern)
 
 const pathRE = /* @__PURE__ */ re(/(?:(?!\d)<0>+\s*\??\.\s*)*(?!\d)<0>*$/.source, identifierPattern)
 
