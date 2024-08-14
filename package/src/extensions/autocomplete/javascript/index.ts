@@ -110,9 +110,7 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 	}
 }
 
-const propertyCache = new WeakMap<any, Completion[]>()
-
-const enumerateOwnProperties = (obj: any) => {
+const enumerateOwnProperties = (obj: any, commitChars?: string) => {
 	let options: Completion[] = []
 	let seen = new Set<string>()
 	let boost = 0
@@ -129,6 +127,7 @@ const enumerateOwnProperties = (obj: any) => {
 				options.push({
 					label: name,
 					boost,
+					commitChars,
 					icon: isFunc
 						? /[A-Z]/.test(name[0])
 							? "class"
@@ -147,10 +146,15 @@ const enumerateOwnProperties = (obj: any) => {
 /**
  * Returns a completion source that adds completions for a scope object.
  * @param scope Scope object you want to provide completions for. For example `window`.
+ * @param commitChars If a character in this string is typed and and of these options
+ * is selected, the option is inserted right before typing that character.
  */
-const completeScope =
-	(scope: any): CompletionSource<{ path: string[] | null }> =>
-	({ path, pos, explicit }) => {
+const completeScope = (
+	scope: any,
+	commitChars?: string,
+): CompletionSource<{ path: string[] | null }> => {
+	const cache = new WeakMap<any, Completion[]>()
+	return ({ path, pos, explicit }) => {
 		if (path && (path[0] || explicit)) {
 			let target = scope
 			let last = path.length - 1
@@ -165,14 +169,15 @@ const completeScope =
 			}
 			target = Object(target)
 
-			if (!propertyCache.has(target)) propertyCache.set(target, enumerateOwnProperties(target))
+			if (!cache.has(target)) cache.set(target, enumerateOwnProperties(target, commitChars))
 
 			return {
 				from: pos - path[last].length,
-				options: propertyCache.get(target)!,
+				options: cache.get(target)!,
 			}
 		}
 	}
+}
 
 const includedTypes = new Set([
 	"parameter",
@@ -190,14 +195,11 @@ const completeIdentifiers: CompletionSource<JSContext> = (context, editor) => {
 	if (path && (path[0] || context.explicit)) {
 		return {
 			from: context.pos - path[path.length - 1].length,
-			options: findWords(
-				context,
-				editor,
-				type => includedTypes.has(type),
-				identifierSearch,
-			).map(label => ({
-				label,
-			})),
+			options: findWords(context, editor, type => includedTypes.has(type), identifierSearch).map(
+				label => ({
+					label,
+				}),
+			),
 		}
 	}
 }
