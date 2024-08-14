@@ -17,13 +17,13 @@ const tagPattern =
 /**
  * `false` is returned if completion shouldn't happen at the current position.
  * `null` is returned if the cursor isn't in a tag.
- * 
+ *
  * If completion should happen and the cursor is in a tag, a match array is
  * returned. The match has two capturing groups; the tag's name and the last attribute's
  * name.
  */
-const getTagMatch = ({ explicit, before }: CompletionContext, editor: PrismEditor) => {
-	return getClosestToken(editor, ".comment,.cdata,.prolog,.doctype") ||
+const getTagMatch = ({ explicit, before, pos }: CompletionContext, editor: PrismEditor) => {
+	return getClosestToken(editor, ".comment,.cdata,.prolog,.doctype", 0, 0, pos) ||
 		(!explicit && /\s/.test(before.slice(-1)))
 		? false
 		: tagPattern.exec(before)

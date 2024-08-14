@@ -45,7 +45,7 @@ const identifier = /* @__PURE__ */ re("^(?!\\d)<0>+$", identifierPattern)
 const pathRE = /* @__PURE__ */ re(/(?:(?!\d)<0>+\s*\??\.\s*)*(?!\d)<0>*$/.source, identifierPattern)
 
 const tagPattern = /* @__PURE__ */ re(
-	/(?:^|[^$\w])(?:<|<(?!\d)([^\s/=><%]+)(?:<0>(?:<0>*(?:([^\s"'{=<>/*]+)(?:<0>*=<0>*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|<1>)?|(?![^\s=]))|<2>))*<0>*)?)$/
+	/(?:^|[^$\w])(?:<|<(?!\d)([^\s/=><%]+)(?:<0>(?:<0>*(?:([^\s"'{=<>/*]+)(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?![^\s=]))|<2>))*<0>*(?:=<0>*("[^"]*|'[^']*))?)?)$/
 		.source,
 	[space, braces, spread],
 )
@@ -57,7 +57,7 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 	const before = context.before
 	const pos = context.pos
 	const matcher = editor.extensions.matchBrackets
-	let enabled = !getClosestToken(editor, ".regex,.comment")
+	let enabled = !getClosestToken(editor, ".comment,.regex", 0, 0, pos)
 	let tagMatch: null | RegExpExecArray = null
 
 	if (enabled) {
@@ -68,12 +68,12 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 				tagMatch.index++
 			}
 		}
-		if (tagMatch && getClosestToken(editor, ".string", 0, 0, tagMatch.index + 1)) {
+		if (tagMatch && getClosestToken(editor, ".string,.comment,.regex", 0, 0, tagMatch.index + 1)) {
 			tagMatch = null
 		}
 		if (!tagMatch) {
 			enabled =
-				!getClosestToken(editor, ".string") &&
+				!getClosestToken(editor, ".string", 0, 0, pos) &&
 				!/\b(?:const|let|var|class|enum|function|interface|type)\s+(?:(?!\s)[$\w\xa0-\uffff])*$/.test(
 					context.lineBefore,
 				)

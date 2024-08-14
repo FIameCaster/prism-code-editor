@@ -62,9 +62,9 @@ const cssCompletion = (
 			.slice(Math.max(...["{", "}", ";"].map(c => before.lastIndexOf(c) + 1)))
 			.trimStart()
 
-		if (getClosestToken(editor, ".comment,.string")) return
+		if (getClosestToken(editor, ".comment,.string", 0, 0, pos)) return
 
-		if (getClosestToken(editor, ".attr-value")) {
+		if (getClosestToken(editor, ".tag", 0, 0, pos)) {
 			options = currentStatement.includes(":") ? cssValues : getProperties()
 		} else {
 			const atRuleMatch = atRule.exec(before)

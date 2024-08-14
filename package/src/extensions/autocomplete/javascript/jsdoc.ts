@@ -7,7 +7,10 @@ const tags: Completion[] =
 		.map(label => ({ label, icon: "keyword" }))
 
 const jsDocCompletion: CompletionSource = (context, editor) => {
-	if (getClosestToken(editor, ".doc-comment") && /@[a-z]*$/.test(context.lineBefore)) {
+	if (
+		getClosestToken(editor, ".doc-comment", 0, 0, context.pos) &&
+		/@[a-z]*$/.test(context.lineBefore)
+	) {
 		return {
 			from: context.before.lastIndexOf("@") + 1,
 			options: tags,
