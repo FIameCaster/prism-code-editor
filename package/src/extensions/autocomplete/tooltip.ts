@@ -357,6 +357,19 @@ const autoComplete =
 			e => {
 				let inputType = e.inputType
 				let isDelete = inputType[0] == "d"
+				let isInsert = inputType == "insertText"
+				let data = e.data
+				if (
+					isOpen &&
+					isInsert &&
+					!prevSelection &&
+					data &&
+					!data[1] &&
+					currentOptions[activeIndex][4].commitChars?.includes(data)
+				) {
+					insertOption(activeIndex)
+				}
+
 				if (stops) {
 					currentSelection = getSelection()
 					isDeleteForwards =
@@ -364,9 +377,7 @@ const autoComplete =
 				}
 				shouldOpen =
 					!config.explicitOnly &&
-					(shouldOpen ||
-						(inputType == "insertText" && !prevSelection) ||
-						(isDelete && inputType[13] == "B" && isOpen))
+					(shouldOpen || (isInsert && !prevSelection) || (isDelete && isOpen))
 			},
 			true,
 		)

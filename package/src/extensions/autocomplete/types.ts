@@ -63,6 +63,11 @@ export interface Completion {
 	 * If the last range only contains one number, the second defaults to the first.
 	 */
 	tabStops?: number[]
+	/**
+	 * If this option is selected and the user types a character present in this string,
+	 * then the option is inserted right before the character is typed.
+	 */
+	commitChars?: string
 }
 
 export interface CompletionResult {
