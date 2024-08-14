@@ -70,8 +70,7 @@ export interface CompletionResult {
 	from: number
 	/**
 	 * The end of the range that will be replaced when one of the options is selected.
-	 * This is not used when sorting or filtering the options. Defaults to the cursor's
-	 * position.
+	 * This is not used when sorting or filtering the options. Defaults to `selectionEnd`.
 	 */
 	to?: number
 	/** The completions returned by the source. */

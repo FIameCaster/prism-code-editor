@@ -199,10 +199,10 @@ const autoComplete =
 		}
 
 		const startQuery = (explicit = false) => {
-			const selection = getSelection()
-			const language = getLanguage(editor, (pos = selection[0]))
+			const [start, end, dir] = getSelection()
+			const language = getLanguage(editor, (pos = dir < "f" ? start : end))
 			const definition = map[language]
-			if (definition && (explicit || pos == selection[1]) && !options.readOnly) {
+			if (definition && (explicit || start == end) && !options.readOnly) {
 				const value = editor.value
 				const lineBefore = getLineBefore(value, pos)
 				const before = value.slice(0, pos)
@@ -228,7 +228,7 @@ const autoComplete =
 							if (filterResult) {
 								filterResult[0] += option.boost || 0
 								// @ts-expect-error Allow mutation
-								filterResult.push(from, result.to ?? pos, option)
+								filterResult.push(from, result.to ?? end, option)
 								// @ts-expect-error Allow mutation
 								currentOptions.push(filterResult)
 							}
