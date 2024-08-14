@@ -74,7 +74,7 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 		if (!tagMatch) {
 			enabled =
 				!getClosestToken(editor, ".string") &&
-				!/\b(?:const|let|var|class|enum|interface|type)\s+(?:(?!\s)[$\w\xa0-\uffff])*$/.test(
+				!/\b(?:const|let|var|class|enum|function|interface|type)\s+(?:(?!\s)[$\w\xa0-\uffff])*$/.test(
 					context.lineBefore,
 				)
 		}
@@ -184,22 +184,35 @@ const includedTypes = new Set([
 	"class-name",
 	"constant",
 	"function",
+	"property-access",
 	"maybe-class-name",
 	"generic-function",
 ])
 
 const identifierSearch = re(/<0>+/.source, identifierPattern, "g")
 
-const completeIdentifiers: CompletionSource<JSContext> = (context, editor) => {
-	const path = context.path
-	if (path && (path[0] || context.explicit)) {
-		return {
-			from: context.pos - path[path.length - 1].length,
-			options: findWords(context, editor, type => includedTypes.has(type), identifierSearch).map(
-				label => ({
+/**
+ * Completion source that searches the editor for identifiers and returns them as
+ * completions. Best to avoid using this and {@link completeScope} at the same time.
+ * @param identifers List of identifiers that should be completed even if they're not
+ * found in the editor.
+ */
+const completeIdentifiers = (identifiers?: Iterable<string>): CompletionSource<JSContext> => {
+	return (context, editor) => {
+		const path = context.path
+		if (path && (path[0] || context.explicit)) {
+			return {
+				from: context.pos - path[path.length - 1].length,
+				options: findWords(
+					context,
+					editor,
+					type => includedTypes.has(type),
+					identifierSearch,
+					identifiers,
+				).map(label => ({
 					label,
-				}),
-			),
+				})),
+			}
 		}
 	}
 }
