@@ -37,6 +37,10 @@ const whitespaceEnd = (str: string) => str.search(/\S|$/)
  * - Ctrl+/ (Cmd+/ on MacOS): Toggle comment
  * - Shift+Alt+A: Toggle block comment
  * - Ctrl+M (Ctrl+Shift+M on MacOS): Toggle Tab capturing
+ * 
+ * The shortcuts for the commands are not easily customizable. If you want to customize
+ * them, you can copy the {@link https://github.com/FIameCaster/prism-code-editor/blob/main/package/src/extensions/commands.ts|source}
+ * and change the conditions.
  *
  * @param selfClosePairs Pairs of self-closing brackets and quotes.
  * Must be an array of strings with 2 characters each.
@@ -383,7 +387,7 @@ export interface EditHistory extends BasicExtension {
 	 * `EditHistory.go(-1)` would be equivalent to an undo while `EditHistory.go(1)` would
 	 * be equivalent to a redo.
 	 *
-	 * If there's no entry at the specified position, the call does nothing.
+	 * If there's no entry at the specified offset, the call does nothing.
 	 */
 	go(offset: number): void
 	/**

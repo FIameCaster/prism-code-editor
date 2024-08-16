@@ -8,7 +8,7 @@ import {
 	insertText,
 	prevSelection,
 } from "../../utils/index.js"
-import { Cursor } from "../cursor.js"
+import { Cursor, cursorPosition } from "../cursor.js"
 import { AutoCompleteConfig, Completion, CompletionContext, CompletionDefinition } from "./types.js"
 import { searchTemplate } from "../search/search.js"
 import { updateMatched, updateNode } from "./utils.js"
@@ -42,20 +42,21 @@ const registerCompletions = <T extends object>(
  * {@link registerCompletions} for specific languages.
  *
  * @param config Object used to configure the extension. The `filter` property is required.
- * 
+ *
+ * Requires the {@link cursorPosition} extension to work.
+ *
  * Requires styling from `prism-code-editor/autocomplete.css`. Also requires a stylesheet
  * for icons. `prism-code-editor/autocomplete-icons.css` adds some icons from VSCode, but
  * you can define your own icons instead.
- * 
+ *
  * @see {@link Completion.icon} for how to style your own icons.
  */
 const autoComplete =
 	(config: AutoCompleteConfig): BasicExtension =>
 	(editor, options) => {
-		let isTyping: boolean
 		let isOpen: boolean
 		let shouldOpen: boolean
-		let currentOptions: [number, number[], number, Completion][]
+		let currentOptions: [number, number[], number, number, Completion][]
 		let numOptions: number
 		let activeIndex: number
 		let active: HTMLLIElement | undefined
@@ -96,7 +97,7 @@ const autoComplete =
 		const updateRow = (index: number) => {
 			const option = currentOptions[index + offset]
 			const [iconEl, labelEl, detailsEl] = rows[index].children as HTMLCollectionOf<HTMLDivElement>
-			const completion = option[3]
+			const completion = option[4]
 			const icon = completion.icon || "variable"
 
 			updateMatched(labelEl, option[1], completion.label)
@@ -139,7 +140,8 @@ const autoComplete =
 		}
 
 		const insertOption = (index: number) => {
-			let [, , start, completion] = currentOptions[index]
+			if (options.readOnly) return
+			let [, , start, end, completion] = currentOptions[index]
 			let { label, tabStops: tabStops = [], insert } = completion
 			let l = tabStops.length
 			tabStops = tabStops.map(stop => stop + start)
@@ -164,13 +166,14 @@ const autoComplete =
 
 			if (l % 2) tabStops[l] = tabStops[l - 1]
 
-			insertText(editor, insert, start, pos, tabStops[0], tabStops[1])
+			insertText(editor, insert, start, end, tabStops[0], tabStops[1])
 
 			if (l > 2) {
 				stops = tabStops
 				activeStop = 0
 				prevLength = editor.value.length
 				updateStops()
+				currentSelection = getSelection()
 				if (!tabStopsContainer.parentNode) editor.overlays.append(tabStopsContainer)
 			}
 			cursor!.scrollIntoView()
@@ -196,10 +199,10 @@ const autoComplete =
 		}
 
 		const startQuery = (explicit = false) => {
-			const selection = getSelection()
-			const language = getLanguage(editor, (pos = selection[0]))
+			const [start, end, dir] = getSelection()
+			const language = getLanguage(editor, (pos = dir < "f" ? start : end))
 			const definition = map[language]
-			if (definition && (explicit || pos == selection[1])) {
+			if (definition && (explicit || start == end) && !options.readOnly) {
 				const value = editor.value
 				const lineBefore = getLineBefore(value, pos)
 				const before = value.slice(0, pos)
@@ -225,7 +228,7 @@ const autoComplete =
 							if (filterResult) {
 								filterResult[0] += option.boost || 0
 								// @ts-expect-error Allow mutation
-								filterResult.push(from, option)
+								filterResult.push(from, result.to ?? end, option)
 								// @ts-expect-error Allow mutation
 								currentOptions.push(filterResult)
 							}
@@ -234,7 +237,7 @@ const autoComplete =
 				})
 
 				if (currentOptions[0]) {
-					currentOptions.sort((a, b) => b[0] - a[0] || a[3].label.localeCompare(b[3].label))
+					currentOptions.sort((a, b) => b[0] - a[0] || a[4].label.localeCompare(b[4].label))
 					numOptions = currentOptions.length
 					activeIndex = offset = 0
 
@@ -262,6 +265,21 @@ const autoComplete =
 			} else hide()
 		}
 
+		const addSelectionHandler = () => {
+			if (!cursor && (cursor = editor.extensions.cursor)) {
+				// Must be added after the cursor's selectionChange handler
+				add("selectionChange", selection => {
+					if (stops && (selection[0] < stops[activeStop] || selection[1] > stops[activeStop + 1])) {
+						clearStops()
+					}
+					if (shouldOpen) {
+						shouldOpen = false
+						startQuery()
+					} else hide()
+				})
+			}
+		}
+
 		tabStopsContainer.className = "pce-tabstops"
 		textarea.setAttribute("aria-controls", id)
 		textarea.setAttribute("aria-autocomplete", "list")
@@ -286,35 +304,17 @@ const autoComplete =
 		}
 
 		add("update", () => {
-			isTyping = shouldOpen
-			shouldOpen = false
-			if (!cursor) {
-				if ((cursor = editor.extensions.cursor)) {
-					// Must be added after the cursor's selectionChange handler
-					add("selectionChange", selection => {
-						if (
-							stops &&
-							(selection[0] < stops[activeStop] || selection[1] > stops[activeStop + 1])
-						) {
-							clearStops()
-						}
-						if (isTyping) {
-							isTyping = false
-							startQuery()
-						} else hide()
-					})
-				}
-			}
+			addSelectionHandler()
 
 			if (stops) {
 				let value = editor.value
 				let diff = prevLength - (prevLength = value.length)
-				// let offset = diff < 0 || isDeleteForwards ? 1 : 0
 				let [start, end] = currentSelection
 				let i = 0
 				let l = stops.length
 				let activeStart = stops[activeStop]
 				let activeEnd = stops[activeStop + 1]
+
 				if (start < stops[activeStop] || end > activeEnd) {
 					clearStops()
 				} else {
@@ -357,6 +357,19 @@ const autoComplete =
 			e => {
 				let inputType = e.inputType
 				let isDelete = inputType[0] == "d"
+				let isInsert = inputType == "insertText"
+				let data = e.data
+				if (
+					isOpen &&
+					isInsert &&
+					!prevSelection &&
+					data &&
+					!data[1] &&
+					currentOptions[activeIndex][4].commitChars?.includes(data)
+				) {
+					insertOption(activeIndex)
+				}
+
 				if (stops) {
 					currentSelection = getSelection()
 					isDeleteForwards =
@@ -364,9 +377,7 @@ const autoComplete =
 				}
 				shouldOpen =
 					!config.explicitOnly &&
-					(shouldOpen ||
-						(inputType == "insertText" && !prevSelection) ||
-						(isDelete && inputType[13] == "B" && isOpen))
+					(shouldOpen || (isInsert && !prevSelection) || (isDelete && isOpen))
 			},
 			true,
 		)
@@ -381,6 +392,7 @@ const autoComplete =
 				const code = getModifierCode(e)
 
 				if (key == " " && code == 2) {
+					addSelectionHandler()
 					if (cursor) startQuery(true)
 					preventDefault(e)
 				} else if (!code && isOpen) {

@@ -303,6 +303,8 @@ const globalReactAttributes: AttributeConfig = {
 const empty: AttributeConfig = {}
 
 const reactTags: TagConfig = {
+	// @ts-expect-error Allow null-prototype
+	__proto__: null,
 	html: {
 		manifest: null,
 	},

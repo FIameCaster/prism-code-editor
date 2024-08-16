@@ -1,11 +1,4 @@
-/**
- * Function that matches an option against the query. If the option matches the query,
- * the function returns an array containing two entries:
- * 1) The score of the match. A higher score means a better match.
- * 2) An array of matched ranges. Each even index defines the start of a range. The
- * subsequent index defines the end of that range.
- */
-export type CompletionFilter = (query: string, option: string) => [number, number[]] | undefined
+import { CompletionFilter } from "./types"
 
 /**
  * Fuzzy filter that only requires that the option includes all the characters in the

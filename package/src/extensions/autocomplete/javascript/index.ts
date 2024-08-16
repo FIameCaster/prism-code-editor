@@ -6,6 +6,7 @@ import { re } from "../../../prism/utils/shared.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../matchBrackets/index.js"
 import { Completion, CompletionContext, CompletionSource } from "../types.js"
+import { findWords } from "../utils.js"
 
 export type JSContext = {
 	/**
@@ -30,18 +31,18 @@ export type JSContext = {
 	 * will be present.
 	 *
 	 * There are three capture groups:
-	 * 1) The tags' name
+	 * 1) The tag's name
 	 * 2) The last attribute's name
 	 * 3) Is present if the cursor is inside an attribute value
 	 */
-	tagMatch: null | RegExpMatchArray
+	tagMatch: null | RegExpExecArray
 }
 
-const identifierPattern = [/(?!\d)(?:(?!\s)[$\w\xa0-\uffff])/.source]
+const identifierPattern = [/(?!\s)[$\w\xa0-\uffff]/.source]
 
-const identifier = /* @__PURE__ */ re("^<0>+$", identifierPattern)
+const identifier = /* @__PURE__ */ re("^(?!\\d)<0>+$", identifierPattern)
 
-const pathRE = /* @__PURE__ */ re(/(?:<0>+\s*\??\.\s*)*<0>*$/.source, identifierPattern)
+const pathRE = /* @__PURE__ */ re(/(?:(?!\d)<0>+\s*\??\.\s*)*(?!\d)<0>*$/.source, identifierPattern)
 
 const tagPattern = /* @__PURE__ */ re(
 	/(?:^|[^$\w])(?:<|<(?!\d)([^\s/=><%]+)(?:<0>(?:<0>*(?:([^\s"'{=<>/*]+)(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?![^\s=]))|<2>))*<0>*(?:=<0>*("[^"]*|'[^']*))?)?)$/
@@ -56,24 +57,26 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 	const before = context.before
 	const pos = context.pos
 	const matcher = editor.extensions.matchBrackets
-	let enabled = !getClosestToken(editor, ".regex,.comment")
-	let tagMatch: null | RegExpMatchArray = null
+	let enabled = !getClosestToken(editor, ".comment,.regex", 0, 0, pos)
+	let tagMatch: null | RegExpExecArray = null
 
 	if (enabled) {
 		if (context.language.slice(1) == "sx") {
-			tagMatch = before.match(tagPattern)
+			tagMatch = tagPattern.exec(before)
 			if (tagMatch?.[0][1] == "<") {
-				tagMatch![0] = tagMatch![0].slice(1)
-				tagMatch!.index!++
+				tagMatch[0] = tagMatch[0].slice(1)
+				tagMatch.index++
 			}
 		}
-		if (tagMatch && getClosestToken(editor, ".string", 0, 0, tagMatch.index! + 1)) {
+		if (tagMatch && getClosestToken(editor, ".string,.comment,.regex", 0, 0, tagMatch.index + 1)) {
 			tagMatch = null
 		}
 		if (!tagMatch) {
 			enabled =
-				!getClosestToken(editor, ".string") &&
-				!/\b(?:const|let|var|class|enum|interface|type)\s+(?:(?!\s)[$\w\xa0-\uffff])*$/.test(before)
+				!getClosestToken(editor, ".string,.plain-text", 0, 0, pos) &&
+				!/\b(?:const|let|var|class|enum|function|interface|type)\s+(?:(?!\s)[$\w\xa0-\uffff])*$/.test(
+					context.lineBefore,
+				)
 		}
 	}
 
@@ -97,13 +100,17 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 	return {
 		tagMatch,
 		disabled: !enabled,
-		path: enabled && !tagMatch ? before.match(pathRE)![0].split(/[\s?.]+/) : null,
+		path:
+			enabled && !tagMatch
+				? before
+						.slice(-999)
+						.match(pathRE)![0]
+						.split(/[\s?.]+/)
+				: null,
 	}
 }
 
-const propertyCache = new WeakMap<any, Completion[]>()
-
-const enumerateOwnProperties = (obj: any) => {
+const enumerateOwnProperties = (obj: any, commitChars?: string) => {
 	let options: Completion[] = []
 	let seen = new Set<string>()
 	let boost = 0
@@ -120,6 +127,7 @@ const enumerateOwnProperties = (obj: any) => {
 				options.push({
 					label: name,
 					boost,
+					commitChars,
 					icon: isFunc
 						? /[A-Z]/.test(name[0])
 							? "class"
@@ -138,10 +146,15 @@ const enumerateOwnProperties = (obj: any) => {
 /**
  * Returns a completion source that adds completions for a scope object.
  * @param scope Scope object you want to provide completions for. For example `window`.
+ * @param commitChars If a character in this string is typed and and of these options
+ * is selected, the option is inserted right before typing that character.
  */
-const completeScope =
-	(scope: any): CompletionSource<{ path: string[] | null }> =>
-	({ path, pos, explicit }) => {
+const completeScope = (
+	scope: any,
+	commitChars?: string,
+): CompletionSource<{ path: string[] | null }> => {
+	const cache = new WeakMap<any, Completion[]>()
+	return ({ path, pos, explicit }) => {
 		if (path && (path[0] || explicit)) {
 			let target = scope
 			let last = path.length - 1
@@ -156,17 +169,57 @@ const completeScope =
 			}
 			target = Object(target)
 
-			if (!propertyCache.has(target)) propertyCache.set(target, enumerateOwnProperties(target))
+			if (!cache.has(target)) cache.set(target, enumerateOwnProperties(target, commitChars))
 
 			return {
 				from: pos - path[last].length,
-				options: propertyCache.get(target)!,
+				options: cache.get(target)!,
 			}
 		}
 	}
+}
+
+const includedTypes = new Set([
+	"parameter",
+	"class-name",
+	"constant",
+	"function",
+	"property-access",
+	"maybe-class-name",
+	"generic-function",
+])
+
+const identifierSearch = re(/<0>+/.source, identifierPattern, "g")
+
+/**
+ * Completion source that searches the editor for identifiers and returns them as
+ * completions. Best to avoid using this and {@link completeScope} at the same time.
+ * @param identifers List of identifiers that should be completed even if they're not
+ * found in the editor.
+ */
+const completeIdentifiers = (identifiers?: Iterable<string>): CompletionSource<JSContext> => {
+	return (context, editor) => {
+		const path = context.path
+		if (path && (path[0] || context.explicit)) {
+			return {
+				from: context.pos - path[path.length - 1].length,
+				options: findWords(
+					context,
+					editor,
+					type => includedTypes.has(type),
+					identifierSearch,
+					identifiers,
+				).map(label => ({
+					label,
+				})),
+			}
+		}
+	}
+}
 
 export { jsxTagCompletion } from "./jsx.js"
 export { completeKeywords } from "./keywords.js"
 export { globalReactAttributes, reactTags } from "./reactData.js"
-export { completeSnippets, jsSnipets } from "./snippets.js"
-export { jsContext, completeScope }
+export { jsSnipets } from "./snippets.js"
+export { jsDocCompletion } from "./jsdoc.js"
+export { jsContext, completeScope, completeIdentifiers }

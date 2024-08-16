@@ -3,6 +3,8 @@ import "prism-code-editor/search.css"
 import "prism-code-editor/copy-button.css"
 import "prism-code-editor/code-folding.css"
 import "prism-code-editor/rtl-layout.css"
+import "prism-code-editor/autocomplete.css"
+import "prism-code-editor/autocomplete-icons.css"
 import "prism-code-editor/languages/clike"
 import "prism-code-editor/languages/css"
 import "prism-code-editor/languages/html"
@@ -30,6 +32,29 @@ import { markdownFolding, readOnlyCodeFolding } from "prism-code-editor/code-fol
 import { matchTags } from "prism-code-editor/match-tags"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
 import { addOverscroll, addTooltip } from "prism-code-editor/tooltips"
+import {
+	autoComplete,
+	AutoCompleteConfig,
+	completeSnippets,
+	fuzzyFilter,
+	registerCompletions,
+} from "prism-code-editor/autocomplete"
+import {
+	completeIdentifiers,
+	completeKeywords,
+	globalReactAttributes,
+	jsContext,
+	jsDocCompletion,
+	jsSnipets,
+	jsxTagCompletion,
+	reactTags,
+} from "prism-code-editor/autocomplete/javascript"
+import {
+	globalHtmlAttributes,
+	htmlTags,
+	markupCompletion,
+} from "prism-code-editor/autocomplete/markup"
+import { cssCompletion } from "prism-code-editor/autocomplete/css"
 
 import { EditorOptions, PrismEditor, createEditor, editorFromPlaceholder } from "prism-code-editor"
 import { getClosestToken } from "prism-code-editor/utils"
@@ -54,6 +79,11 @@ const makeEditor = (add: boolean, options?: Partial<EditorOptions>) =>
 
 const runBtn = <HTMLButtonElement>document.getElementById("run")
 
+const autocompleteConfig: AutoCompleteConfig = {
+	filter: fuzzyFilter,
+	explicitOnly: true,
+}
+
 const theme = <HTMLSelectElement>document.getElementById("themes"),
 	addExtensions = (editor: PrismEditor) => {
 		editor.addExtensions(
@@ -64,6 +94,7 @@ const theme = <HTMLSelectElement>document.getElementById("themes"),
 			defaultCommands(),
 			cursorPosition(),
 			editHistory(),
+			autoComplete(autocompleteConfig),
 		)
 		editor.textarea.setAttribute("aria-label", "Code editor")
 	},
@@ -101,7 +132,7 @@ const addWordHighlight = (editor: PrismEditor) => {
 	)
 }
 
-const inputs = ["readOnly", "wordWrap", "lineNumbers"].map(
+const inputs = ["readOnly", "wordWrap", "lineNumbers", "autocomplete"].map(
 	id => <HTMLInputElement>document.getElementById(id)!,
 )
 
@@ -184,12 +215,16 @@ runBtn.onclick = () => {
 inputs.forEach(
 	input =>
 		(input.onchange = () => {
-			let options = {
-				[input.id]: input.checked,
+			if (input == inputs[3]) {
+				autocompleteConfig.explicitOnly = !input.checked
+			} else {
+				let options = {
+					[input.id]: input.checked,
+				}
+				editors.forEach((editor, i) => {
+					if (input.id != "readOnly" || i < 8) editor.setOptions(options)
+				})
 			}
-			editors.forEach((editor, i) => {
-				if (input.id != "readOnly" || i < 8) editor.setOptions(options)
-			})
 		}),
 )
 addExtensions(editor)
@@ -205,3 +240,22 @@ theme.oninput = () => {
 ;(<HTMLDivElement>wrapper.firstElementChild).onclick = e => {
 	if ((<HTMLElement>e.target).matches(".tab:not(.active)")) toggleActive()
 }
+
+registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
+	context: jsContext,
+	sources: [
+		completeIdentifiers(),
+		completeKeywords,
+		jsDocCompletion,
+		jsxTagCompletion(reactTags, globalReactAttributes),
+		completeSnippets(jsSnipets),
+	],
+})
+
+registerCompletions(["html", "markup"], {
+	sources: [markupCompletion(htmlTags, globalHtmlAttributes)],
+})
+
+registerCompletions(["css"], {
+	sources: [cssCompletion()],
+})

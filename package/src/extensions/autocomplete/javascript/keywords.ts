@@ -13,7 +13,7 @@ const tsKeywords: Completion[] = jsKeyWords.concat(
 )
 
 /**
- * Completion source that adds autocompletion for JS/TS keywords
+ * Completion source that adds autocompletion for JS/TS keywords.
  */
 const completeKeywords: CompletionSource<JSContext> = ({ path, explicit, language, pos }) => {
 	if (path?.length == 1 && (path[0] || explicit)) {

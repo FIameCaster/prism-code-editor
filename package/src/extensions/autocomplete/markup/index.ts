@@ -1,11 +1,33 @@
 /** @module autocomplete/markup */
 
+import { PrismEditor } from "../../../index.js"
 import { getClosestToken } from "../../../utils/index.js"
-import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"
+import {
+	AttributeConfig,
+	Completion,
+	CompletionContext,
+	CompletionSource,
+	TagConfig,
+} from "../types.js"
 import { optionsFromKeys } from "../utils.js"
 
 const tagPattern =
-	/<$|<(?![!\d])([^\s/=>$<%]+)(?:\s(?:\s*([^\s/"'=>]+)(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?!\S))?|(?![^\s=])))*\s*(?:=\s*(?:"[^"]*|'[^']*))?)?$/
+	/<$|<(?![!\d])([^\s/=>$<%]+)(?:\s(?:\s*([^\s/"'=>]+)(?:\s*=\s*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|[^\s"'=>]+(?!\S))?|(?![^\s=])))*\s*)?$/
+
+/**
+ * `false` is returned if completion shouldn't happen at the current position.
+ * `null` is returned if the cursor isn't in a tag.
+ *
+ * If completion should happen and the cursor is in a tag, a match array is
+ * returned. The match has two capturing groups; the tag's name and the last attribute's
+ * name.
+ */
+const getTagMatch = ({ explicit, before, pos }: CompletionContext, editor: PrismEditor) => {
+	return getClosestToken(editor, ".comment,.cdata,.prolog,.doctype", 0, 0, pos) ||
+		(!explicit && /\s/.test(before.slice(-1)))
+		? false
+		: tagPattern.exec(before)
+}
 
 /**
  * Completion source that adds auto completion for HTML tags.
@@ -17,26 +39,20 @@ const markupCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): C
 	const tagOptions = optionsFromKeys(tags, "property")
 	const attrOptions = optionsFromKeys(globalAttributes, "enum")
 
-	return ({ before, explicit }, editor) => {
-		if (
-			getClosestToken(editor, ".comment,.cdata,.prolog") ||
-			(!explicit && /\s/.test(before.slice(-1)))
-		) {
-			return
-		}
-		const tagMatch = before.match(tagPattern)
+	return (context, editor) => {
+		const tagMatch = getTagMatch(context, editor)
 
 		if (tagMatch) {
 			let [tag, tagName, lastAttr] = tagMatch
-			let start = tagMatch.index!
+			let start = tagMatch.index
 			let from = start + 1
 			let options: Completion[] | undefined = tagOptions
 
-			if (/\s/.test(tagMatch[0])) {
+			if (/\s/.test(tag)) {
 				let tagAttrs = tags[tagName]
-				from = start + tag.search(/[^\s="']*$/)
+				from = start + tag.search(/[^\s"'=]*$/)
 
-				if (/=\s*(?:"[^"]*|'[^']*|[^\s"'=>]*)$/.test(tag)) {
+				if (/=\s*(?:"[^"]*|'[^']*|[^\s"'=]*)$/.test(tag)) {
 					options = (globalAttributes[lastAttr] || tagAttrs?.[lastAttr])?.map(val => ({
 						label: val,
 						icon: "unit",
@@ -58,4 +74,4 @@ const markupCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): C
 
 export { htmlTags, globalHtmlAttributes } from "./data.js"
 export { svgTags, globalSvgAttributes } from "./svgData.js"
-export { markupCompletion }
+export { markupCompletion, getTagMatch }

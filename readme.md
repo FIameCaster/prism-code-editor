@@ -20,7 +20,7 @@ There are multiple fully featured code editors for the web such as Monaco, Ace a
 
 ## How?
 
-This library overlays syntax highlighted code over a `<textarea>`. Libraries like [CodeFlask](https://github.com/kazzkiq/CodeFlask), [react-simple-code-editor](https://github.com/react-simple-code-editor/react-simple-code-editor) and many others have been doing this for years, but this library offers some distinct advantages:
+This library overlays syntax highlighted code over a `<textarea>`. Libraries like [CodeFlask](https://github.com/kazzkiq/CodeFlask), [react-simple-code-editor](https://github.com/react-simple-code-editor/react-simple-code-editor), and many others have been doing this for years, but this library offers some distinct advantages:
 
 - It uses a trimmed Prism's core less than ⅓ the size that no longer relies on global variables.
 - It re-exports Prism's languages that now automatically import their required dependencies and embedded languages are resolved at runtime.
@@ -44,6 +44,7 @@ This library overlays syntax highlighted code over a `<textarea>`. Libraries lik
   - [Creating your own](#creating-your-own)
 - [Styling](#styling)
   - [Importing themes](#importing-themes)
+  - [Adding themes](#adding-themes)
   - [Scrollbar styling](#scrollbar-styling)
   - [Advanced styling](#advanced-styling)
     - [Creating a theme](#creating-a-theme)
@@ -251,6 +252,7 @@ The entry points `prism-code-editor/prism`, `prism-code-editor/prism/utils` and 
 
 - [`height: auto` without layout shifts](https://stackblitz.com/edit/vitejs-vite-sbvab7?file=index.html,src%2Fstyle.css,src%2Fmain.ts,readme.md)
 - [Simple tooltip example](https://stackblitz.com/edit/vitejs-vite-z2fgpu?file=src%2Fmain.ts)
+- [Autocomplete example](https://stackblitz.com/edit/vitejs-vite-tjcjyl?file=src%2Fautocomplete.ts)
 - [Formatting with Prettier](https://stackblitz.com/edit/vitejs-vite-x7tzhu?file=src%2Fmain.ts,src%2Fextensions.ts)
 - [Relative line numbers](https://stackblitz.com/edit/vitejs-vite-2wytja?file=src%2Fextensions.ts,src%2Fmain.ts)
 - [Usage in forms](https://stackblitz.com/edit/vitejs-vite-pk9ud7?file=src%2Fmain.ts)
@@ -283,6 +285,7 @@ And it includes these commands:
 
 - Alt+ArrowUp/Down: Move line up/down
 - Shift+Alt+ArrowUp/Down: Copy line up/down
+- Ctrl+ArrowUp/Down (Not on MacOS): Scroll up/down 1 line
 - Ctrl+Enter (Cmd+Enter on MacOS) Insert blank line
 - Ctrl+[ (Cmd+[ on MacOS): Outdent line
 - Ctrl+] (Cmd+] on MacOS): Indent line
@@ -298,7 +301,10 @@ import { matchBrackets } from "prism-code-editor/match-brackets"
 import { matchTags } from "prism-code-editor/match-tags"
 import { indentGuides } from "prism-code-editor/guides"
 import {
-  searchWidget, highlightSelectionMatches, highlightCurrentWord
+  searchWidget,
+  highlightSelectionMatches,
+  highlightCurrentWord,
+  showInvisibles
 } from "prism-code-editor/search"
 import { defaultCommands, editHistory } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
@@ -309,11 +315,15 @@ import {
   markdownFolding,
   blockCommentFolding
 } from "prism-code-editor/code-folding"
+import { autoComplete } from "prism-code-editor/autocomplete"
 
 // And CSS
 import "prism-code-editor/search.css"
 import "prism-code-editor/copy-button.css"
 import "prism-code-editor/code-folding.css"
+import "prism-code-editor/invisibles.css"
+import "prism-code-editor/autocomplete.css"
+import "prism-code-editor/autocomplete-icons.css"
 ```
 
 ### Creating your own
@@ -380,6 +390,16 @@ const isDark = matchMedia("(prefers-color-scheme: dark)").matches
 loadTheme(isDark ? "github-dark" : "github-light").then(theme => {
   console.log(theme)
 })
+```
+
+### Adding themes
+
+If you're using the setups or web components, you can override the existing themes or add new ones. The example below might be different if you're not using Vite as your bundler.
+
+```javascript
+import { registerTheme } from "prism-code-editor/themes"
+
+registerTheme("my-theme", () => import("./my-theme.css?inline"))
 ```
 
 ### Scrollbar styling

@@ -3,7 +3,7 @@ import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../typ
 import { optionsFromKeys } from "../utils.js"
 
 /**
- * Completion source that adds auto completion for JSX tags.
+ * Completion source that adds autocompletion for JSX tags.
  * @param tags Object mapping tag-names to completable attributes for that tag.
  * @param globalAttributes Completable attributes shared by all tags.
  * @returns A Completion source. Requires a JavaScript context to work.
@@ -17,12 +17,12 @@ const jsxTagCompletion = (
 
 	return ({ tagMatch, explicit }) => {
 		if (tagMatch && (explicit || !/\s/.test(tagMatch[0].slice(-1)))) {
-			let [tag, tagName, lastAttr, lastAttrValue] = tagMatch!
-			let start = tagMatch!.index!
+			let [tag, tagName, lastAttr, lastAttrValue] = tagMatch
+			let start = tagMatch.index
 			let from = start + 1
 			let options: Completion[] | undefined | 0 = tagOptions
 
-			if (/[\s/]/.test(tagMatch![0])) {
+			if (/[\s/]/.test(tagMatch[0])) {
 				let tagAttrs = tags[tagName]
 				from = start + tag.search(/[^\s="'{}]*$/)
 
@@ -33,11 +33,9 @@ const jsxTagCompletion = (
 					}))
 				} else {
 					options =
-						tag.slice(-1) == "="
+						tag.slice(-1) == "=" || !tagAttrs
 							? 0
-							: tagAttrs
-							? attrOptions.concat(optionsFromKeys(tagAttrs, "enum"))
-							: attrOptions
+							: attrOptions.concat(optionsFromKeys(tagAttrs, "enum"))
 				}
 			}
 

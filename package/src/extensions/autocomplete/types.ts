@@ -1,5 +1,4 @@
 import { PrismEditor } from "../../index.js"
-import { CompletionFilter } from "./filter.js"
 
 export interface Completion {
 	/**
@@ -63,11 +62,21 @@ export interface Completion {
 	 * If the last range only contains one number, the second defaults to the first.
 	 */
 	tabStops?: number[]
+	/**
+	 * If this option is selected and the user types a character present in this string,
+	 * then the option is inserted right before the character is typed.
+	 */
+	commitChars?: string
 }
 
 export interface CompletionResult {
 	/** The start of the range that's being completed. */
 	from: number
+	/**
+	 * The end of the range that will be replaced when one of the options is selected.
+	 * This is not used when sorting or filtering the options. Defaults to `selectionEnd`.
+	 */
+	to?: number
 	/** The completions returned by the source. */
 	options: Completion[]
 }
@@ -125,6 +134,15 @@ export type AutoCompleteConfig = {
 	 */
 	explicitOnly?: boolean
 }
+
+/**
+ * Function that matches an option against the query. If the option matches the query,
+ * the function returns an array containing two entries:
+ * 1) The score of the match. A higher score means a better match.
+ * 2) An array of matched ranges. Each even index defines the start of a range. The
+ * subsequent index defines the end of that range.
+ */
+export type CompletionFilter = (query: string, option: string) => [number, number[]] | undefined
 
 export type AttributeConfig = Record<string, null | string[]>
 

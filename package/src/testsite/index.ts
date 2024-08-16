@@ -28,12 +28,12 @@ import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
-import { autoComplete, registerCompletions } from "../extensions/autocomplete"
+import { autoComplete, completeSnippets, registerCompletions } from "../extensions/autocomplete"
 import {
 	completeKeywords,
-	completeScope,
-	completeSnippets,
+	completeIdentifiers,
 	jsContext,
+	jsDocCompletion,
 	jsSnipets,
 	jsxTagCompletion,
 } from "../extensions/autocomplete/javascript"
@@ -243,8 +243,10 @@ ${data.get("editor")}`)
 registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 	context: jsContext,
 	sources: [
-		completeScope(window),
+		// completeScope(window),
+		completeIdentifiers(),
 		completeKeywords,
+		jsDocCompletion,
 		jsxTagCompletion(reactTags, globalReactAttributes),
 		completeSnippets(jsSnipets),
 	],
@@ -259,7 +261,7 @@ registerCompletions(["svg"], {
 })
 
 registerCompletions(["css"], {
-	sources: [cssCompletion],
+	sources: [cssCompletion()],
 })
 
 setTimeout(() => import("../prism/languages"), 500)
