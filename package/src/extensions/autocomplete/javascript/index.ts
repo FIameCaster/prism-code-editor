@@ -31,7 +31,7 @@ export type JSContext = {
 	 * will be present.
 	 *
 	 * There are three capture groups:
-	 * 1) The tags' name
+	 * 1) The tag's name
 	 * 2) The last attribute's name
 	 * 3) Is present if the cursor is inside an attribute value
 	 */

@@ -3,7 +3,7 @@ import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../typ
 import { optionsFromKeys } from "../utils.js"
 
 /**
- * Completion source that adds auto completion for JSX tags.
+ * Completion source that adds autocompletion for JSX tags.
  * @param tags Object mapping tag-names to completable attributes for that tag.
  * @param globalAttributes Completable attributes shared by all tags.
  * @returns A Completion source. Requires a JavaScript context to work.
