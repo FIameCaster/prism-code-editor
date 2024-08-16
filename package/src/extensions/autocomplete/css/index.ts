@@ -15,7 +15,7 @@ const atRule = /@([\w-]*)(?!\w|-)(?:[^;{"']|"(?:\\[\s\S]|[^\\\n"])*"|'(?:\\[\s\S
 
 const tagNames: Completion[] = Object.keys(htmlTags).map(tag => ({ label: tag, icon: "keyword" }))
 
-const getProperties = () => {
+const getCSSProperties = () => {
 	if (!properties) {
 		properties = []
 		const style = document.body.style
@@ -65,7 +65,7 @@ const cssCompletion = (
 		if (getClosestToken(editor, ".comment,.string", 0, 0, pos)) return
 
 		if (getClosestToken(editor, ".tag", 0, 0, pos)) {
-			options = currentStatement.includes(":") ? cssValues : getProperties()
+			options = currentStatement.includes(":") ? cssValues : getCSSProperties()
 		} else {
 			const atRuleMatch = atRule.exec(before)
 
@@ -124,7 +124,7 @@ const cssCompletion = (
 					).map(name => ({
 						label: name,
 					}))
-					options.push(...(currentStatement.includes(":") ? cssValues : getProperties()))
+					options.push(...(currentStatement.includes(":") ? cssValues : getCSSProperties()))
 				}
 			}
 		}
@@ -139,4 +139,4 @@ const cssCompletion = (
 
 let properties: Completion[]
 
-export { cssCompletion, cssValues, pseudoClasses, pseudoElements, atRules }
+export { cssCompletion, cssValues, pseudoClasses, pseudoElements, atRules, getCSSProperties }
