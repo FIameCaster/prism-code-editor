@@ -73,7 +73,7 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 		}
 		if (!tagMatch) {
 			enabled =
-				!getClosestToken(editor, ".string", 0, 0, pos) &&
+				!getClosestToken(editor, ".string,.plain-text", 0, 0, pos) &&
 				!/\b(?:const|let|var|class|enum|function|interface|type)\s+(?:(?!\s)[$\w\xa0-\uffff])*$/.test(
 					context.lineBefore,
 				)
