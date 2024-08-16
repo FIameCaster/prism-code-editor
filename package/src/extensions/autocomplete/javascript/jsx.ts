@@ -33,11 +33,9 @@ const jsxTagCompletion = (
 					}))
 				} else {
 					options =
-						tag.slice(-1) == "="
+						tag.slice(-1) == "=" || !tagAttrs
 							? 0
-							: tagAttrs
-							? attrOptions.concat(optionsFromKeys(tagAttrs, "enum"))
-							: attrOptions
+							: attrOptions.concat(optionsFromKeys(tagAttrs, "enum"))
 				}
 			}
 
