@@ -94,9 +94,7 @@ const findWords = (
 				if (typeof token != "string") {
 					const type = token.type
 					const content = token.content
-					const end = pos + token.length
-					if (end > cursorPos) return
-					if (pos <= cursorPos && Array.isArray(content)) {
+					if (Array.isArray(content)) {
 						const aliasType = token.alias || type
 						search(
 							content,
