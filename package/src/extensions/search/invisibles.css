@@ -1,17 +1,31 @@
-.pce-invisibles span {
-	/* --mask: 50% no-repeat
+.pce-invisibles ::before {
+	content: "·";
+	position: absolute;
+	color: var(--pce-invisibles, #e3e4e229);
+}
+
+.pce-tab::before {
+	content: "→";
+}
+
+/*
+ * Clip paths and mask images didn't work properly on inline elements in Safari or Chrome
+ * so I scrapped it for pseudo-elements with unicode characters instead.
+ */
+
+/* .pce-invisibles span {
+	--mask: 50% no-repeat
 	url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="2.4"/></svg>');
 	-webkit-mask: var(--mask);
-	mask: var(--mask); */
-	/* Mask images had poor performance, so I used clip-path instead. */
+	mask: var(--mask);
 	clip-path: circle(0.15ch);
 	background: var(--pce-invisibles, #e3e4e229);
 	display: inline-block;
 }
 
 span.pce-tab {
-	/* --mask: 0 50% / 1em 1em no-repeat
-		url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m0 7.4h7.1l-1.45-1.45.7-.7 2.45 2.45 0 .6-2.45 2.45-.7-.7 1.45-1.45h-7.4z"/></svg>'); */
+	--mask: 0 50% / 1em 1em no-repeat
+		url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m0 7.4h7.1l-1.45-1.45.7-.7 2.45 2.45 0 .6-2.45 2.45-.7-.7 1.45-1.45h-7.4z"/></svg>');
 	clip-path: polygon(
 		0 calc(50% - 0.038em),
 		0.444em calc(50% - 0.038em),
@@ -24,4 +38,4 @@ span.pce-tab {
 		0.444em calc(50% + 0.038em),
 		0 calc(50% + 0.038em)
 	);
-}
+} */
