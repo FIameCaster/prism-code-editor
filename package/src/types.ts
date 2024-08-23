@@ -103,9 +103,7 @@ export type EditorEventMap = {
 
 export interface EventHandler<EventMap extends Record<string, (...args: any) => any>> {
 	/** Adds a listener for events with the specified name. */
-	addListener<T extends keyof EventMap>(this: void, name: T, listener: EventMap[T]): void
-	/** Removes a listener for events with the specified name. */
-	removeListener<T extends keyof EventMap>(this: void, name: T, listener: EventMap[T]): void
+	on<T extends keyof EventMap>(this: void, name: T, listener: EventMap[T]): () => void
 }
 
 export interface PrismEditor extends EventHandler<EditorEventMap> {

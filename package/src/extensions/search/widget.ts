@@ -1,14 +1,8 @@
 import { InputSelection, BasicExtension, isWebKit } from "../../index.js"
-import {
-	isMac,
-	createTemplate,
-	preventDefault,
-	addTextareaListener,
-	numLines,
-} from "../../core.js"
+import { isMac, createTemplate, preventDefault, addListener, numLines } from "../../core.js"
 import { regexEscape, getModifierCode } from "../../utils/index.js"
 import { createReplaceAPI } from "./replace.js"
-import { addListener, getLineEnd, getLineStart, getStyleValue } from "../../utils/local.js"
+import { getLineEnd, getLineStart, getStyleValue } from "../../utils/local.js"
 
 const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
 
@@ -206,11 +200,11 @@ export const searchWidget = (): SearchWidget => {
 			],
 		])
 
-		addTextareaListener(editor, "keydown", keydown)
-		addTextareaListener(editor, "beforeinput", () => {
+		addListener(textarea, "keydown", keydown)
+		addListener(textarea, "beforeinput", () => {
 			if (isOpen && searchSelection) currentSelection = getSelection()
 		})
-		addListener(editor, "update", () => {
+		editor.on("update", () => {
 			if (!isOpen) return
 			if (searchSelection && currentSelection) {
 				// This preserves the selection well for normal typing,
@@ -225,13 +219,13 @@ export const searchWidget = (): SearchWidget => {
 			}
 			startSearch()
 		})
-		addListener(editor, "selectionChange", selection => {
+		editor.on("selectionChange", selection => {
 			if (isOpen && editor.focused) prevUserSelection = selection
 		})
 
-		container.addEventListener("click", e => {
+		addListener(container, "click", e => {
 			const target = <HTMLElement>e.target
-			const remove = addListener(editor, "update", () => target.focus())
+			const remove = editor.on("update", () => target.focus())
 			elementHandlerMap.get(target)?.()
 			if (target.matches(".pce-options>button")) {
 				toggleAttr(target, "aria-pressed")
@@ -240,9 +234,9 @@ export const searchWidget = (): SearchWidget => {
 			remove()
 		})
 
-		findInput.oninput = () => isOpen && startSearch(true)
+		addListener(findInput, "input", () => isOpen && startSearch(true))
 
-		container.addEventListener("keydown", e => {
+		addListener(container, "keydown", e => {
 			const shortcut = getModifierCode(e)
 			const target = <HTMLElement>e.target
 			const keyCode = e.keyCode

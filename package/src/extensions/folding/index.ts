@@ -2,11 +2,11 @@
 
 import { Extension, PrismEditor, numLines } from "../../index.js"
 import { getLineBefore } from "../../utils/index.js"
-import { createTemplate, languageMap } from "../../core.js"
+import { createTemplate, languageMap, addListener } from "../../core.js"
 import { BracketMatcher } from "../matchBrackets/index.js"
 import { TagMatcher } from "../matchTags.js"
 import { TokenStream, Token } from "../../prism/index.js"
-import { addListener, getLineEnd } from "../../utils/local.js"
+import { getLineEnd } from "../../utils/local.js"
 
 /**
  * Callback used to add extra foldable ranges to an editor.
@@ -151,7 +151,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 				let pos2 = getPosition(foldPositions[line]![1])
 				if (!el) {
 					el = foldToggles[line] = template()
-					el.onclick = () => toggleAndUpdate(line)
+					addListener(el, "click", () => toggleAndUpdate(line))
 				}
 				if (parent != el.parentNode && parent != prev!) parent.prepend(el)
 				prev = parent
@@ -161,7 +161,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 				if (isClosed) {
 					if (!el) {
 						el = foldPlaceholders[line] = template2()
-						el.onclick = () => toggleAndUpdate(line)
+						addListener(el, "click", () => toggleAndUpdate(line))
 					}
 					;(<Text>el.firstChild).data = getLineBefore(value, pos)
 					;(<Text>el.lastChild).data = value.slice(pos2, getLineEnd(value, pos2))
@@ -229,7 +229,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 				"--padding-left",
 				options.lineNumbers == false ? "calc(var(--_pse) + var(--_ns))" : "",
 			)
-			setTimeout(addListener(editor, "update", createFolds))
+			setTimeout(editor.on("update", createFolds))
 		},
 		get fullCode() {
 			return code

@@ -3,7 +3,7 @@
 import { BasicExtension } from "../../index.js"
 import { Bracket, BracketMatcher } from "./index.js"
 import { getClosestToken } from "../../utils/index.js"
-import { addTextareaListener } from "../../core.js"
+import { addTextareaListener } from "../../utils/local.js"
 
 /**
  * Extension adding a `selectionChange` handler to highlight the closest bracket pair.
@@ -55,8 +55,8 @@ export const highlightBracketPairs = (): BasicExtension => editor => {
 
 	addTextareaListener(editor, "focus", selectionChange)
 	addTextareaListener(editor, "blur", selectionChange)
-	editor.addListener("selectionChange", selectionChange)
-	editor.addListener("update", () => {
+	editor.on("selectionChange", selectionChange)
+	editor.on("update", () => {
 		toggleActive()
 		activeID = -1
 	})

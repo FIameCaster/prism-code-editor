@@ -3,7 +3,7 @@
 import { PrismEditor, BasicExtension } from "../index.js"
 import { Token, TokenStream } from "../prism/index.js"
 import { getClosestToken } from "../utils/index.js"
-import { addTextareaListener } from "../core.js"
+import { addTextareaListener } from "../utils/local.js"
 
 const voidlessLangs = "xml,rss,atom,jsx,tsx,xquery,actionscript".split(",")
 const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
@@ -105,7 +105,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 		}
 	}
 
-	editor.addListener("tokenize", matchTags)
+	editor.on("tokenize", matchTags)
 
 	matchTags(editor.tokens, editor.options.language, editor.value)
 
@@ -133,7 +133,7 @@ export const matchTags = (): BasicExtension => editor => {
 			el && el.classList.toggle("active-tagname", !remove)
 		})
 
-	editor.addListener("selectionChange", ([start, end]) => {
+	editor.on("selectionChange", ([start, end]) => {
 		let newEl1: Element | undefined
 		let newEl2: Element | undefined
 		let index: number
@@ -196,7 +196,7 @@ export const highlightTagPunctuation =
 				highlight()
 			}
 		}
-		editor.addListener("selectionChange", selectionChange)
+		editor.on("selectionChange", selectionChange)
 		addTextareaListener(editor, "focus", selectionChange)
 		addTextareaListener(editor, "blur", selectionChange)
 	}

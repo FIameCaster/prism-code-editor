@@ -120,8 +120,8 @@ export const indentGuides = (): IndentGuides => {
 				currentEditor = editor
 				editor.extensions.indentGuides = this
 				editor.overlays.append(container)
-				editor.addListener("update", update)
-				editor.addListener("selectionChange", updateActive)
+				editor.on("update", update)
+				editor.on("selectionChange", updateActive)
 			}
 			container.style.display = options.wordWrap ? "none" : ""
 

@@ -1,4 +1,5 @@
-import { EditorEventMap, isChrome, PrismEditor } from "../index.js"
+import { isChrome, PrismEditor } from "../index.js"
+import { addListener } from "../core.js"
 
 const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
 	const style1 = editor.scrollContainer.style,
@@ -18,16 +19,14 @@ const getLineStart = (text: string, position: number) =>
 const getLineEnd = (text: string, position: number) =>
 	(position = text.indexOf("\n", position)) + 1 ? position : text.length
 
-const addListener = <T extends keyof EditorEventMap>(
+const addTextareaListener = <T extends keyof HTMLElementEventMap>(
 	editor: PrismEditor,
 	type: T,
-	listener: EditorEventMap[T],
-) => {
-	editor.addListener(type, listener)
-	return () => editor.removeListener(type, listener)
-}
+	listener: (this: HTMLElement, ev: HTMLElementEventMap[T]) => any,
+	options?: boolean | AddEventListenerOptions,
+) => addListener(editor.textarea, type, listener, options)
 
 const getStyleValue = (el: HTMLElement, prop: keyof CSSStyleDeclaration) =>
 	parseFloat(<string>getComputedStyle(el)[prop])
 
-export { scrollToEl, getLineStart, getLineEnd, addListener, getStyleValue }
+export { scrollToEl, getLineStart, getLineEnd, getStyleValue, addTextareaListener }

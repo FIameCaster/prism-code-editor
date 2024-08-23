@@ -56,7 +56,7 @@ export const matchBrackets = (
 	const stack: [number, number][] = []
 	const self: BracketMatcher = editor => {
 		editor.extensions.matchBrackets = self
-		editor.addListener("tokenize", matchBrackets)
+		editor.on("tokenize", matchBrackets)
 		if (rainbowBrackets && editor.tokens[0]) editor.update()
 		else matchBrackets(editor.tokens)
 	}
@@ -92,15 +92,22 @@ export const matchBrackets = (
 					let openingType = testBracket(content, openingBrackets, length - 1)
 					let closingType = openingType || testBracket(content, closingBrackets, length - 1)
 					if (closingType) {
-						brackets[bracketIndex] = [token, position, 0, content, !!openingType, position + length]
+						brackets[bracketIndex] = [
+							token,
+							position,
+							sp,
+							content,
+							!!openingType,
+							position + length,
+						]
 
 						if (openingType) stack[sp++] = [bracketIndex, openingType]
 						else {
 							for (let i = sp; i; ) {
-								let [index, type] = stack[--i]
-								if (closingType == type) {
-									pairMap[(pairMap[bracketIndex] = index)] = bracketIndex
-									brackets[bracketIndex][2] = brackets[index][2] = sp = i
+								let entry = stack[--i]
+								if (closingType == entry[1]) {
+									pairMap[(pairMap[bracketIndex] = entry[0])] = bracketIndex
+									brackets[bracketIndex][2] = sp = i
 									i = 0
 								}
 							}

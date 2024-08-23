@@ -33,7 +33,7 @@ const showInvisibles = (alwaysShow?: boolean): BasicExtension => {
 
 		container.className = "pce-invisibles"
 		if (editor.value) update()
-		editor.addListener("selectionChange", update)
+		editor.on("selectionChange", update)
 	}
 }
 

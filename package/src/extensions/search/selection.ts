@@ -33,7 +33,7 @@ const highlightSelectionMatches = (caseSensitive?: boolean, minLength = 1, maxLe
 		container.style.zIndex = <any>-1
 		container.className = "selection-matches"
 
-		editor.addListener("selectionChange", ([start, end], value) => {
+		editor.on("selectionChange", ([start, end], value) => {
 			value = editor.focused ? value.slice(start, end) : ""
 			start += value.search(/\S/)
 			value = value.trim()
@@ -87,8 +87,8 @@ const highlightCurrentWord = (
 		container.style.zIndex = <any>-1
 		container.className = "word-matches"
 
-		editor.addListener("update", () => (noHighlight = true))
-		editor.addListener("selectionChange", ([start, end], value) => {
+		editor.on("update", () => (noHighlight = true))
+		editor.on("selectionChange", ([start, end], value) => {
 			if (start < end || !editor.focused || noHighlight) searchAPI.search("")
 			else {
 				let group = `[_$\\p{L}\\d${includeHyphens && includeHyphens(start) ? "-" : ""}]`

@@ -1,6 +1,6 @@
 /** @module copy-button */
 
-import { createTemplate } from "../../core.js"
+import { addListener, createTemplate } from "../../core.js"
 import { BasicExtension } from "../../types.js"
 import { setSelection } from "../../utils/index.js"
 
@@ -18,7 +18,7 @@ export const copyButton = (): BasicExtension => editor => {
 	const container = template(),
 		btn = <HTMLButtonElement>container.firstChild!
 
-	btn.addEventListener("click", () => {
+	addListener(btn, "click", () => {
 		btn.setAttribute("aria-label", "Copied!")
 		if (clipboard) clipboard.writeText(editor.extensions.codeFold?.fullCode ?? editor.value)
 		else {
@@ -28,7 +28,7 @@ export const copyButton = (): BasicExtension => editor => {
 		}
 	})
 
-	btn.addEventListener("pointerenter", () => btn.setAttribute("aria-label", "Copy"))
+	addListener(btn, "pointerenter", () => btn.setAttribute("aria-label", "Copy"))
 
 	editor.overlays.append(container)
 }

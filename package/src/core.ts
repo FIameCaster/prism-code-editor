@@ -201,11 +201,9 @@ const createEditor = (
 		addExtensions(...extensions) {
 			updateExtensions(extensions)
 		},
-		addListener(name, handler) {
+		on: (name, handler) => {
 			;(listeners[name] ||= new Set<any>()).add(handler)
-		},
-		removeListener(name, handler) {
-			listeners[name]?.delete(handler)
+			return () => listeners[name]!.delete(handler)
 		},
 		remove() {
 			scrollContainer.remove()
@@ -213,30 +211,30 @@ const createEditor = (
 		},
 	}
 
-	addTextareaListener(self, "keydown", e => {
+	addListener(textarea, "keydown", e => {
 		keyCommandMap[e.key]?.(e, getInputSelection(), value) && preventDefault(e)
 	})
 
-	addTextareaListener(self, "beforeinput", e => {
+	addListener(textarea, "beforeinput", e => {
 		if (
 			readOnly ||
 			(e.inputType == "insertText" && inputCommandMap[e.data!]?.(e, getInputSelection(), value))
 		)
 			preventDefault(e)
 	})
-	addTextareaListener(self, "input", update)
-	addTextareaListener(self, "blur", () => {
+	addListener(textarea, "input", update)
+	addListener(textarea, "blur", () => {
 		selectionChange = null
 		focused = false
 		updateClassName()
 	})
-	addTextareaListener(self, "focus", () => {
+	addListener(textarea, "focus", () => {
 		selectionChange = dispatchSelection
 		focused = true
 		updateClassName()
 	})
 	// For browsers that support selectionchange on textareas
-	addTextareaListener(self, "selectionchange", e => {
+	addListener(textarea, "selectionchange", e => {
 		dispatchSelection()
 		preventDefault(e)
 	})
@@ -279,12 +277,12 @@ const createTemplate = <T extends Element = HTMLDivElement>(html: string) => {
 	return () => <T>node.cloneNode(true)
 }
 
-const addTextareaListener = <T extends keyof HTMLElementEventMap>(
-	editor: PrismEditor,
+const addListener = <T extends keyof HTMLElementEventMap>(
+	target: HTMLElement,
 	type: T,
-	listener: (this: HTMLTextAreaElement, ev: HTMLElementEventMap[T]) => any,
+	listener: (this: HTMLElement, ev: HTMLElementEventMap[T]) => any,
 	options?: boolean | AddEventListenerOptions,
-) => editor.textarea.addEventListener(type, listener, options)
+) => target.addEventListener(type, listener, options)
 
 const getElement = <T extends Node>(el?: T | string | null) =>
 	typeof el == "string" ? document.querySelector<HTMLElement>(el) : el
@@ -318,7 +316,8 @@ const preventDefault = (e: Event) => {
 
 let selectionChange: null | undefined | ((force?: boolean) => void)
 
-document.addEventListener("selectionchange", () => selectionChange?.())
+// @ts-expect-error Allow adding listener to document
+addListener(document, "selectionchange", () => selectionChange?.())
 
 export {
 	createEditor,
@@ -331,6 +330,6 @@ export {
 	getElement,
 	preventDefault,
 	editorFromPlaceholder,
-	addTextareaListener,
+	addListener,
 	selectionChange,
 }

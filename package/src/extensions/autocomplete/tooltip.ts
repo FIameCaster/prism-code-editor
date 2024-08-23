@@ -1,5 +1,5 @@
 import { BasicExtension, InputSelection } from "../../index.js"
-import { addTextareaListener, createTemplate, preventDefault } from "../../core.js"
+import { addListener, createTemplate, preventDefault } from "../../core.js"
 import { addTooltip } from "../../tooltips.js"
 import {
 	getLanguage,
@@ -80,7 +80,6 @@ const autoComplete =
 		const list = tooltip.firstChild as HTMLUListElement
 		const id = (list.id = "pce-ac-" + count++)
 		const rows = list.children as HTMLCollectionOf<HTMLLIElement>
-		const add = editor.addListener
 		const prevIcons: string[] = []
 		const hide = () => {
 			if (isOpen) {
@@ -269,7 +268,7 @@ const autoComplete =
 		const addSelectionHandler = () => {
 			if (!cursor && (cursor = editor.extensions.cursor)) {
 				// Must be added after the cursor's selectionChange handler
-				add("selectionChange", selection => {
+				editor.on("selectionChange", selection => {
 					if (stops && (selection[0] < stops[activeStop] || selection[1] > stops[activeStop + 1])) {
 						clearStops()
 					}
@@ -290,7 +289,7 @@ const autoComplete =
 			rows[i].id = id + "-" + i++
 		}
 
-		tooltip.onscroll = () => {
+		addListener(tooltip, "scroll", () => {
 			setRowHeight()
 			const newOffset = Math.min(Math.floor(tooltip.scrollTop / rowHeight), numOptions - windowSize)
 			if (newOffset == offset || newOffset < 0) return
@@ -302,9 +301,9 @@ const autoComplete =
 
 			list.style.paddingTop = offset * rowHeight + "px"
 			updateActive()
-		}
+		})
 
-		add("update", () => {
+		editor.on("update", () => {
 			addSelectionHandler()
 
 			if (stops) {
@@ -334,7 +333,7 @@ const autoComplete =
 				currentSelection = getSelection()
 			}
 		})
-		addTextareaListener(editor, "mousedown", () => {
+		addListener(textarea, "mousedown", () => {
 			if (stops) {
 				setTimeout(() => {
 					// Timeout runs before selectionChange, but after
@@ -352,8 +351,8 @@ const autoComplete =
 				})
 			}
 		})
-		addTextareaListener(
-			editor,
+		addListener(
+			textarea,
 			"beforeinput",
 			e => {
 				let inputType = e.inputType
@@ -382,11 +381,11 @@ const autoComplete =
 			},
 			true,
 		)
-		addTextareaListener(editor, "blur", e => {
+		addListener(textarea, "blur", e => {
 			if (config.closeOnBlur != false && !tooltip.contains(e.relatedTarget as Element)) hide()
 		})
-		addTextareaListener(
-			editor,
+		addListener(
+			textarea,
 			"keydown",
 			e => {
 				const key = e.key
@@ -446,12 +445,12 @@ const autoComplete =
 			true,
 		)
 
-		list.onmousedown = e => {
+		addListener(list, "mousedown", e => {
 			insertOption([].indexOf.call(rows, (e.target as HTMLElement).closest("li") as never) + offset)
 			preventDefault(e)
-		}
+		})
 
-		tooltip.addEventListener("focusout", e => {
+		addListener(tooltip, "focusout", e => {
 			if (config.closeOnBlur != false && e.relatedTarget != textarea) hide()
 		})
 	}

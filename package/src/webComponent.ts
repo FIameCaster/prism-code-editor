@@ -49,7 +49,7 @@ const addComponent = (name: string, createEditor: typeof basicEditor) => {
 					this.dispatchEvent(new CustomEvent("ready")),
 				)
 				if (internals) {
-					this.editor.addListener("update", internals.setFormValue.bind(internals))
+					this.editor.on("update", internals.setFormValue.bind(internals))
 				}
 
 				for (const attr in attributeMap)

@@ -1,9 +1,9 @@
 /** @module cursor */
 
 import { BasicExtension, InputSelection, PrismEditor } from "../index.js"
-import { createTemplate, addTextareaListener } from "../core.js"
+import { createTemplate } from "../core.js"
 import { getLineBefore } from "../utils/index.js"
-import { getLineEnd, scrollToEl } from "../utils/local.js"
+import { getLineEnd, scrollToEl, addTextareaListener } from "../utils/local.js"
 import { defaultCommands } from "./commands.js"
 
 /** Postion of the cursor relative to the editors overlays. */
@@ -56,7 +56,7 @@ export const cursorPosition = () => {
 	const scrollIntoView = () => scrollToEl(cEditor, cursor)
 
 	const self: Cursor = editor => {
-		editor.addListener("selectionChange", selectionChange)
+		editor.on("selectionChange", selectionChange)
 		cEditor = editor
 
 		editor.extensions.cursor = self

@@ -1,6 +1,6 @@
 import { InputSelection, PrismEditor } from "../index.js"
-import { numLines, isChrome, isWebKit, addTextareaListener, selectionChange } from "../core.js"
-import { addListener, getLineEnd, getLineStart } from "./local.js"
+import { numLines, isChrome, isWebKit, addListener, selectionChange } from "../core.js"
+import { getLineEnd, getLineStart } from "./local.js"
 
 let prevSelection: InputSelection | 0
 
@@ -114,7 +114,7 @@ const insertText = (
 	if (start != null) textarea.setSelectionRange(start, end!)
 
 	if (newCursorStart != null) {
-		removeListener = addListener(editor, "update", () => {
+		removeListener = editor.on("update", () => {
 			textarea.setSelectionRange(
 				newCursorStart,
 				newCursorEnd ?? newCursorStart,
@@ -166,8 +166,8 @@ const setSelection = (
 	let textarea = editor.textarea
 	let relatedTarget!: HTMLElement | null
 	if (!focused) {
-		addTextareaListener(
-			editor,
+		addListener(
+			textarea,
 			"focus",
 			e => {
 				relatedTarget = e.relatedTarget as HTMLElement

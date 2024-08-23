@@ -1,7 +1,7 @@
 /** @module commands */
 
 import { InputSelection, BasicExtension, PrismEditor } from "../index.js"
-import { isMac, preventDefault, languageMap, addTextareaListener } from "../core.js"
+import { isMac, preventDefault, languageMap } from "../core.js"
 import {
 	getLanguage,
 	insertText,
@@ -12,7 +12,7 @@ import {
 	prevSelection,
 	setSelection,
 } from "../utils/index.js"
-import { getLineEnd, getLineStart, getStyleValue } from "../utils/local.js"
+import { addTextareaListener, getLineEnd, getLineStart, getStyleValue } from "../utils/local.js"
 
 let ignoreTab = false
 const clipboard = navigator.clipboard
@@ -458,7 +458,7 @@ const editHistory = (historyLimit = 999) => {
 		textarea || update(0)
 		textarea = editor.textarea
 
-		editor.addListener("selectionChange", () => {
+		editor.on("selectionChange", () => {
 			allowMerge = isTyping
 			isTyping = false
 		})
