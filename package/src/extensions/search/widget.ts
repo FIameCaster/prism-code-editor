@@ -1,6 +1,5 @@
 import { InputSelection, BasicExtension, isWebKit } from "../../index.js"
 import {
-	isChrome,
 	isMac,
 	createTemplate,
 	preventDefault,
@@ -230,15 +229,6 @@ export const searchWidget = (): SearchWidget => {
 			if (isOpen && editor.focused) prevUserSelection = selection
 		})
 
-		// Patches a bug where Chrome lies about the textarea's selection
-		if (isChrome) {
-			container.addEventListener("focusin", e => {
-				if (!container.contains(<Element>e.relatedTarget)) {
-					findInput.focus()
-					;(<HTMLElement>e.target).focus()
-				}
-			})
-		}
 		container.addEventListener("click", e => {
 			const target = <HTMLElement>e.target
 			const remove = addListener(editor, "update", () => target.focus())

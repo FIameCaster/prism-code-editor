@@ -1,5 +1,5 @@
 import { PrismEditor } from "../../index.js"
-import { insertText } from "../../utils/index.js"
+import { insertText, setSelection } from "../../utils/index.js"
 import { scrollToEl } from "../../utils/local.js"
 import { SearchAPI, createSearchAPI } from "./search.js"
 import { addTextareaListener } from "../../core.js"
@@ -92,7 +92,7 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 		selectMatch(index: number, scrollPadding?: number) {
 			removeSelection()
 			if (matches[index]) {
-				editor.setSelection(...matches[index])
+				setSelection(editor, ...matches[index])
 				currentLine = editor.activeLine!
 				currentMatch = <HTMLSpanElement>container.children[index]
 				hasSelected = true

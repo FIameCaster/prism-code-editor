@@ -61,9 +61,10 @@ const createEditor = (
 		updateExtensions()
 
 		if (isNewVal) {
-			focusRelatedTarget()
+			if (!focused) textarea.remove()
 			textarea.value = value
 			textarea.selectionEnd = 0
+			if (!focused) overlays.prepend(textarea)
 		}
 
 		if (isNewVal || isNewLang) {
@@ -141,21 +142,6 @@ const createEditor = (
 
 	const inputCommandMap: Record<string, InputCommandCallback | null> = {}
 
-	// Safari focuses the textarea if you change its selection or value programmatically
-	const focusRelatedTarget = () =>
-		isWebKit &&
-		!focused &&
-		addTextareaListener(
-			self,
-			"focus",
-			e => {
-				let relatedTarget = <HTMLElement>e.relatedTarget
-				if (relatedTarget) relatedTarget.focus()
-				else textarea.blur()
-			},
-			{ once: true },
-		)
-
 	const dispatchEvent = <T extends keyof EditorEventMap>(
 		name: T,
 		...args: Parameters<EditorEventMap[T]>
@@ -212,11 +198,6 @@ const createEditor = (
 		setOptions,
 		update,
 		getSelection: getInputSelection,
-		setSelection(start, end = start, direction) {
-			focusRelatedTarget()
-			textarea.setSelectionRange(start, end, direction)
-			dispatchSelection(true)
-		},
 		addExtensions(...extensions) {
 			updateExtensions(extensions)
 		},
@@ -335,7 +316,7 @@ const preventDefault = (e: Event) => {
 	e.stopImmediatePropagation()
 }
 
-let selectionChange: null | (() => void)
+let selectionChange: null | undefined | ((force?: boolean) => void)
 
 document.addEventListener("selectionchange", () => selectionChange?.())
 
@@ -351,4 +332,5 @@ export {
 	preventDefault,
 	editorFromPlaceholder,
 	addTextareaListener,
+	selectionChange,
 }

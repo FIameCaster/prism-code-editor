@@ -10,6 +10,7 @@ import {
 	regexEscape,
 	getModifierCode,
 	prevSelection,
+	setSelection,
 } from "../utils/index.js"
 import { getLineEnd, getLineStart, getStyleValue } from "../utils/local.js"
 
@@ -37,7 +38,7 @@ const whitespaceEnd = (str: string) => str.search(/\S|$/)
  * - Ctrl+/ (Cmd+/ on MacOS): Toggle comment
  * - Shift+Alt+A: Toggle block comment
  * - Ctrl+M (Ctrl+Shift+M on MacOS): Toggle Tab capturing
- * 
+ *
  * The shortcuts for the commands are not easily customizable. If you want to customize
  * them, you can copy the {@link https://github.com/FIameCaster/prism-code-editor/blob/main/package/src/extensions/commands.ts|source}
  * and change the conditions.
@@ -79,7 +80,7 @@ const defaultCommands =
 			!insertText(editor, open + value.slice(start, end) + close, null, null, start + 1, end + 1)!
 
 		const skipIfEqual = ([start, end]: InputSelection, char: string, value: string) =>
-			start == end && value[end] == char && !editor.setSelection(start + 1)!
+			start == end && value[end] == char && !setSelection(editor, start + 1)!
 
 		/**
 		 * Inserts slightly altered lines while keeping the same selection.

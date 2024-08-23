@@ -7,6 +7,7 @@ import {
 	getModifierCode,
 	insertText,
 	prevSelection,
+	setSelection,
 } from "../../utils/index.js"
 import { Cursor, cursorPosition } from "../cursor.js"
 import { AutoCompleteConfig, Completion, CompletionContext, CompletionDefinition } from "./types.js"
@@ -181,7 +182,7 @@ const autoComplete =
 
 		const moveActiveStop = (offset: number) => {
 			activeStop += offset
-			editor.setSelection(stops![activeStop], stops![activeStop + 1])
+			setSelection(editor, stops![activeStop], stops![activeStop + 1])
 			cursor!.scrollIntoView()
 		}
 

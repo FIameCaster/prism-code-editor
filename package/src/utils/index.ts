@@ -1,5 +1,5 @@
 import { InputSelection, PrismEditor } from "../index.js"
-import { numLines, isChrome, isWebKit } from "../core.js"
+import { numLines, isChrome, isWebKit, addTextareaListener, selectionChange } from "../core.js"
 import { addListener, getLineEnd, getLineStart } from "./local.js"
 
 let prevSelection: InputSelection | 0
@@ -149,6 +149,41 @@ const insertText = (
 }
 
 /**
+ * Sets the selection for the `textarea` and synchronously runs the selectionChange listeners.
+ * If you don't want to synchronously run the listeners, use `textarea.setSelectionRange` instead.
+ * @param editor Editor you want to change the selection of.
+ * @param start New selectionStart.
+ * @param end New selectionEnd. Defaults to `start`.
+ * @param direction New direction.
+ */
+const setSelection = (
+	editor: PrismEditor,
+	start: number,
+	end = start,
+	direction?: "backward" | "forward" | "none",
+) => {
+	let focused = editor.focused
+	let textarea = editor.textarea
+	let relatedTarget!: HTMLElement | null
+	if (!focused) {
+		addTextareaListener(
+			editor,
+			"focus",
+			e => {
+				relatedTarget = e.relatedTarget as HTMLElement
+			},
+			{ once: true },
+		)
+		textarea.focus()
+	}
+	textarea.setSelectionRange(start, end, direction)
+
+	// Blurs the textarea if it wasn't focused before and calls `selectionChange` with `true`
+	// This will set `selectionChange` to null, so we must access the variable before
+	selectionChange!(!(!focused && (relatedTarget ? relatedTarget.focus() : textarea.blur())))
+}
+
+/**
  * Returns a 4 bit integer where each bit represents whether
  * each modifier is pressed in the order Shift, Meta, Ctrl, Alt
  * ```javascript
@@ -169,5 +204,6 @@ export {
 	getLanguage,
 	insertText,
 	getModifierCode,
+	setSelection,
 	prevSelection,
 }
