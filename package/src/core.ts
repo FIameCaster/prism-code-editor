@@ -8,7 +8,7 @@ import type {
 	InputSelection,
 	EditorExtension,
 } from "./types.js"
-import { highlightTokens, languages, tokenizeText, Grammar, TokenStream } from "./prism/index.js"
+import { highlightTokens, languages, tokenizeText, TokenStream } from "./prism/index.js"
 
 /**
  * Creates a code editor using the specified container and options.
@@ -26,7 +26,6 @@ const createEditor = (
 	...extensions: EditorExtension[]
 ): PrismEditor => {
 	let language: string
-	let grammar: Grammar
 	let prevLines: string[] = []
 	let activeLine: HTMLDivElement
 	let value = ""
@@ -51,28 +50,29 @@ const createEditor = (
 
 	const setOptions = (options: Partial<EditorOptions>) => {
 		Object.assign(currentOptions, options)
-		value = options.value ?? value
-		language = currentOptions.language
-
-		if (!languages[language]) throw Error(`Language '${language}' has no grammar.`)
+		let isNewVal = value != (value = options.value ?? value)
+		let isNewLang = language != (language = currentOptions.language)
 
 		readOnly = !!currentOptions.readOnly
 		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
 		textarea.inputMode = readOnly ? "none" : ""
 		textarea.setAttribute("aria-readonly", <any>readOnly)
 		updateClassName()
-
 		updateExtensions()
-		if (grammar != (grammar = languages[language]) || value != textarea.value) {
+
+		if (isNewVal) {
 			focusRelatedTarget()
 			textarea.value = value
 			textarea.selectionEnd = 0
+		}
+
+		if (isNewVal || isNewLang) {
 			update()
 		}
 	}
 
 	const update = () => {
-		tokens = tokenizeText((value = textarea.value), grammar)
+		tokens = tokenizeText((value = textarea.value), languages[language] || {})
 		dispatchEvent("tokenize", tokens, language, value)
 
 		let newLines = highlightTokens(tokens).split("\n")
