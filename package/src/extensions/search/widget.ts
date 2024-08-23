@@ -1,6 +1,6 @@
-import { InputSelection, BasicExtension, isWebKit } from "../../index.js"
-import { isMac, createTemplate, preventDefault, addListener, numLines } from "../../core.js"
-import { regexEscape, getModifierCode } from "../../utils/index.js"
+import { InputSelection, BasicExtension } from "../../index.js"
+import { createTemplate, preventDefault, addListener, numLines, doc } from "../../core.js"
+import { regexEscape, getModifierCode, isMac, isWebKit } from "../../utils/index.js"
 import { createReplaceAPI } from "./replace.js"
 import { getLineEnd, getLineStart, getStyleValue } from "../../utils/local.js"
 
@@ -86,7 +86,7 @@ export const searchWidget = (): SearchWidget => {
 				if (/^$|\n/.test(word)) startSearch()
 				else {
 					if (useRegExp) word = regexEscape(word)
-					document.execCommand("insertText", false, word)
+					doc!.execCommand("insertText", false, word)
 					findInput.select()
 				}
 			}

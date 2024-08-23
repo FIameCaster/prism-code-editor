@@ -1,7 +1,7 @@
 /** @module commands */
 
 import { InputSelection, BasicExtension, PrismEditor } from "../index.js"
-import { isMac, preventDefault, languageMap } from "../core.js"
+import { preventDefault, languageMap } from "../core.js"
 import {
 	getLanguage,
 	insertText,
@@ -11,6 +11,7 @@ import {
 	getModifierCode,
 	prevSelection,
 	setSelection,
+	isMac,
 } from "../utils/index.js"
 import { addTextareaListener, getLineEnd, getLineStart, getStyleValue } from "../utils/local.js"
 

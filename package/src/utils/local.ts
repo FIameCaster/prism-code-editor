@@ -1,9 +1,10 @@
-import { isChrome, PrismEditor } from "../index.js"
-import { addListener } from "../core.js"
+import { PrismEditor } from "../index.js"
+import { addListener, doc } from "../core.js"
+import { isChrome } from "./index.js"
 
 const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
 	const style1 = editor.scrollContainer.style,
-		style2 = document.documentElement.style
+		style2 = doc!.documentElement.style
 
 	style1.scrollPaddingBlock = style2.scrollPaddingBlock = `${paddingTop}px ${
 		isChrome && !el.textContent ? el.offsetHeight : 0

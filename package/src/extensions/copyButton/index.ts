@@ -1,6 +1,6 @@
 /** @module copy-button */
 
-import { addListener, createTemplate } from "../../core.js"
+import { addListener, createTemplate, doc } from "../../core.js"
 import { BasicExtension } from "../../types.js"
 import { setSelection } from "../../utils/index.js"
 
@@ -23,7 +23,7 @@ export const copyButton = (): BasicExtension => editor => {
 		if (clipboard) clipboard.writeText(editor.extensions.codeFold?.fullCode ?? editor.value)
 		else {
 			editor.textarea.select()
-			document.execCommand("copy")
+			doc!.execCommand("copy")
 			setSelection(editor, 0)
 		}
 	})

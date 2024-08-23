@@ -269,12 +269,17 @@ const editorFromPlaceholder = (
 	return editor
 }
 
-const templateEl = /* @__PURE__ */ document.createElement("div")
+/** Equivalent to `document` in a browser setting, `null` otherwise. */
+const doc = "u" > typeof window ? document : null
 
-const createTemplate = <T extends Element = HTMLDivElement>(html: string) => {
-	templateEl.innerHTML = html
-	const node = templateEl.firstChild!
-	return () => <T>node.cloneNode(true)
+const templateEl = /* @__PURE__ */ doc?.createElement("div")
+
+const createTemplate = <T extends Element = HTMLDivElement>(html: string, node?: Node) => {
+	if (templateEl) {
+		templateEl.innerHTML = html
+		node = templateEl.firstChild!
+	}
+	return () => <T>node?.cloneNode(true)
 }
 
 const addListener = <T extends keyof HTMLElementEventMap>(
@@ -285,12 +290,7 @@ const addListener = <T extends keyof HTMLElementEventMap>(
 ) => target.addEventListener(type, listener, options)
 
 const getElement = <T extends Node>(el?: T | string | null) =>
-	typeof el == "string" ? document.querySelector<HTMLElement>(el) : el
-
-const userAgent = navigator.userAgent
-const isMac = /Mac|iPhone|iPod|iPad/i.test(navigator.platform)
-const isChrome = /Chrome\//.test(userAgent)
-const isWebKit = !isChrome && /AppleWebKit\//.test(userAgent)
+	typeof el == "string" ? doc!.querySelector<HTMLElement>(el) : el
 
 /**
  * Counts number of lines in the string between `start` and `end`.
@@ -317,19 +317,17 @@ const preventDefault = (e: Event) => {
 let selectionChange: null | undefined | ((force?: boolean) => void)
 
 // @ts-expect-error Allow adding listener to document
-addListener(document, "selectionchange", () => selectionChange?.())
+if (doc) addListener(doc, "selectionchange", () => selectionChange?.())
 
 export {
 	createEditor,
 	languageMap,
 	numLines,
 	createTemplate,
-	isMac,
-	isChrome,
-	isWebKit,
 	getElement,
 	preventDefault,
 	editorFromPlaceholder,
 	addListener,
 	selectionChange,
+	doc,
 }

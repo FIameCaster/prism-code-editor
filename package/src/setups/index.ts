@@ -1,5 +1,5 @@
 import { EditorOptions, PrismEditor, createEditor } from "../index.js"
-import { getElement } from "../core.js"
+import { doc, getElement } from "../core.js"
 import { defaultCommands, editHistory } from "../extensions/commands.js"
 import { copyButton } from "../extensions/copyButton/index.js"
 import { readOnlyCodeFolding } from "../extensions/folding/index.js"
@@ -14,7 +14,7 @@ import { loadTheme } from "../themes/index.js"
 export type SetupOptions = Partial<EditorOptions> & { theme: string }
 
 const addStyles = (shadow: ShadowRoot, styles: string, id?: string) => {
-	const style = document.createElement("style")
+	const style = doc!.createElement("style")
 	style.textContent = styles
 	if (id) style.id = id
 	shadow.append(style)

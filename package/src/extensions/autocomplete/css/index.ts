@@ -1,5 +1,6 @@
 /** @module autocomplete/css */
 
+import { doc } from "../../../core.js"
 import { PrismEditor } from "../../../index.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { getLineStart } from "../../../utils/local.js"
@@ -18,7 +19,7 @@ const tagNames: Completion[] = Object.keys(htmlTags).map(tag => ({ label: tag, i
 const getCSSProperties = () => {
 	if (!properties) {
 		properties = []
-		const style = document.body.style
+		const style = doc!.body.style
 		const seen = new Set<string>()
 		for (let key in style) {
 			if (typeof style[key] == "string" && !/-|^moz|^webkit/i.test(key)) {

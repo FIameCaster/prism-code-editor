@@ -1,5 +1,5 @@
 import { InputSelection, PrismEditor } from "../index.js"
-import { numLines, isChrome, isWebKit, addListener, selectionChange } from "../core.js"
+import { numLines, addListener, selectionChange, doc } from "../core.js"
 import { getLineEnd, getLineStart } from "./local.js"
 
 let prevSelection: InputSelection | 0
@@ -53,7 +53,7 @@ const getClosestToken = (
 	const value = editor.value
 	const line = editor.wrapper.children[numLines(value, 0, position)]
 	// We unfortunitely have to include elements, else we can't get empty tokens
-	const walker = document.createTreeWalker(line, 5)
+	const walker = doc!.createTreeWalker(line, 5)
 
 	let node = walker.lastChild()
 	let offset = getLineEnd(value, position) + 1 - position - (<Text>node).length
@@ -137,13 +137,13 @@ const insertText = (
 		}
 		// New line at the end is always ignored in Safari
 		if (isWebKit) text += "\n"
-		document.execCommand(
+		doc!.execCommand(
 			text ? "insertHTML" : "delete",
 			false,
 			text.replace(/&/g, "&amp;").replace(/</g, "&lt;"),
 		)
 		if (avoidBug) textarea.selectionStart++
-	} else document.execCommand(text ? "insertText" : "delete", false, text)
+	} else doc!.execCommand(text ? "insertText" : "delete", false, text)
 
 	prevSelection = 0
 }
@@ -183,6 +183,11 @@ const setSelection = (
 	selectionChange!(!(!focused && (relatedTarget ? relatedTarget.focus() : textarea.blur())))
 }
 
+const userAgent = doc ? navigator.userAgent : ""
+const isMac = doc ? /Mac|iPhone|iPod|iPad/i.test(navigator.platform) : false
+const isChrome = /Chrome\//.test(userAgent)
+const isWebKit = !isChrome && /AppleWebKit\//.test(userAgent)
+
 /**
  * Returns a 4 bit integer where each bit represents whether
  * each modifier is pressed in the order Shift, Meta, Ctrl, Alt
@@ -205,5 +210,8 @@ export {
 	insertText,
 	getModifierCode,
 	setSelection,
+	isMac,
+	isChrome,
+	isWebKit,
 	prevSelection,
 }
