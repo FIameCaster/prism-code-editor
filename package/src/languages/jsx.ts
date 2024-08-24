@@ -33,7 +33,7 @@ const inJsxContext = (
 				if (
 					bracket[1] >= tag[2] &&
 					bracket[1] < position &&
-					bracket[3] == "{" &&
+					bracket[4] == "{" &&
 					!(brackets[bracketPairs[i]!]?.[1] < position)
 				) {
 					return

@@ -8,12 +8,10 @@ export interface BracketMatcher extends BasicExtension {
 	 * Array of tuples containing in the following order:
 	 * - The bracket's `Token`
 	 * - Its starting position
+	 * - Its ending position
 	 * - Its level of nesting
 	 * - Its text content
 	 * - Whether it's an opening bracket
-	 * - Its ending position
-	 *
-	 * The order will likely change in the next major release
 	 */
 	readonly brackets: Bracket[]
 	/** Array mapping the index of a bracket to the index of its matching bracket. */
@@ -24,14 +22,12 @@ export interface BracketMatcher extends BasicExtension {
  * Tuple containing in the following order:
  * - The bracket's `Token`
  * - Its starting position
+ * - Its ending position
  * - Its level of nesting
  * - Its text content
  * - Whether it's an opening bracket
- * - Its ending position
- *
- * The order will likely change in the next major release
  */
-export type Bracket = [Token, number, number, string, boolean, number]
+export type Bracket = [Token, number, number, number, string, boolean]
 
 /**
  * Extension that matches punctuation tokens together. Intended for matching brackets.
@@ -74,7 +70,7 @@ export const matchBrackets = (
 
 				bracket[0].alias =
 					(alias ? alias + " " : "") +
-					`bracket-${i++ in pairMap ? "level-" + (bracket[2] % 12) : "error"}`
+					`bracket-${i++ in pairMap ? "level-" + (bracket[3] % 12) : "error"}`
 			}
 		}
 	}
@@ -95,10 +91,10 @@ export const matchBrackets = (
 						brackets[bracketIndex] = [
 							token,
 							position,
+							position + length,
 							sp,
 							content,
 							!!openingType,
-							position + length,
 						]
 
 						if (openingType) stack[sp++] = [bracketIndex, openingType]
@@ -107,7 +103,7 @@ export const matchBrackets = (
 								let entry = stack[--i]
 								if (closingType == entry[1]) {
 									pairMap[(pairMap[bracketIndex] = entry[0])] = bracketIndex
-									brackets[bracketIndex][2] = sp = i
+									brackets[bracketIndex][3] = sp = i
 									i = 0
 								}
 							}

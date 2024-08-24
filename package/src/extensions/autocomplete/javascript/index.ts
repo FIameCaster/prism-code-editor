@@ -86,9 +86,9 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 		let bracket: Bracket
 		for (; (bracket = brackets[i]); i++) {
 			if (
-				bracket[4] &&
+				bracket[5] &&
 				bracket[1] < pos &&
-				brackets[pairs[i]!]?.[5] > pos &&
+				brackets[pairs[i]!]?.[2] > pos &&
 				/\b(?:const|let|var)\s*$/.test(before.slice(0, bracket[1]))
 			) {
 				enabled = false

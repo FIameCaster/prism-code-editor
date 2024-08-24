@@ -198,10 +198,10 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 			for (let i = 0, j: number, l = pairs.length; i < l; i++) {
 				if (
 					(j = pairs[i]!) > i &&
-					brackets[i][3] != "(" &&
+					brackets[i][4] != "(" &&
 					isMultiline(value, brackets[i][1], brackets[j][1])
 				)
-					folds.push([brackets[i][1] + brackets[i][3].length, brackets[j][1]])
+					folds.push([brackets[i][2], brackets[j][1]])
 			}
 		}
 		providers.forEach(clb => folds.push(...clb(cEditor, folds)))

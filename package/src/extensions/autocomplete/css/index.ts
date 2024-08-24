@@ -83,9 +83,9 @@ const cssCompletion = (
 				let charBefore = before[from - 1]
 				for (; (bracket = brackets[i]); i++) {
 					if (
-						bracket[3] == "{" &&
+						bracket[4] == "{" &&
 						bracket[1] < pos &&
-						brackets[pairs[i]!]?.[5] > pos &&
+						brackets[pairs[i]!]?.[2] > pos &&
 						!hasStyleRules.includes(before.slice(0, bracket[1]).match(atRule)?.[1]!)
 					) {
 						inSelector = "&+>~:.#[".includes(currentStatement[0])
