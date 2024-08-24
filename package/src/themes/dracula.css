@@ -36,7 +36,7 @@ Original: https://github.com/dracula/visual-studio-code */
 }
 
 /* Selection */
-.prism-code-editor textarea::selection {
+.pce-textarea::selection {
 	background: #44475a;
 	color: #0000;
 }

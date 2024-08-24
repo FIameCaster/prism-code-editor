@@ -35,7 +35,7 @@
 }
 
 /* Selection */
-.prism-code-editor textarea::selection {
+.pce-textarea::selection {
 	background: #575a5a;
 	color: #0000;
 }

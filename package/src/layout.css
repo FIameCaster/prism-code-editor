@@ -26,7 +26,7 @@
 	text-size-adjust: none;
 }
 
-.prism-code-editor textarea {
+.pce-textarea {
 	all: unset;
 	box-sizing: border-box;
 	height: 100%;
@@ -79,7 +79,7 @@
 }
 
 .pce-overlays,
-div.pce-overlays > *,
+.pce-overlays > *,
 .pce-no-selection .active-line::after,
 .active-line.match-highlight::after {
 	content: "";

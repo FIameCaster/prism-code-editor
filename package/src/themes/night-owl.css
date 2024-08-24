@@ -36,7 +36,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 }
 
 /* Selection */
-.prism-code-editor textarea::selection {
+.pce-textarea::selection {
 	background: #1d3b53;
 	color: #0000;
 }

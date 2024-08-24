@@ -298,7 +298,7 @@ const numLines = (str: string, start = 0, end = Infinity) => {
 const languageMap: Record<string, Language> = {}
 
 const editorTemplate = /* @__PURE__ */ createTemplate(
-	"<div><div class=pce-wrapper><div class=pce-overlays><textarea spellcheck=false autocapitalize=off autocomplete=off>",
+	"<div><div class=pce-wrapper><div class=pce-overlays><textarea class=pce-textarea spellcheck=false autocapitalize=off autocomplete=off>",
 )
 
 const preventDefault = (e: Event) => {

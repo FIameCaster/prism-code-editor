@@ -42,9 +42,9 @@
 	color-scheme: light;
 }
 
-.prism-code-editor textarea::selection {
-	color: #0000;
+.pce-textarea::selection {
 	background: #add6ff;
+	color: #0000;
 }
 
 .pce-matches .match {
