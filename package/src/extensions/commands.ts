@@ -58,7 +58,7 @@ const defaultCommands =
 	): BasicExtension =>
 	(editor, options) => {
 		let prevCopy: string
-		const { keyCommandMap, inputCommandMap, getSelection, scrollContainer } = editor
+		const { keyCommandMap, inputCommandMap, getSelection, container } = editor
 
 		const getIndent = ({ insertSpaces = true, tabSize } = options) =>
 			[insertSpaces ? " " : "\t", insertSpaces ? tabSize || 2 : 1] as const
@@ -242,7 +242,7 @@ const defaultCommands =
 					insertText(editor, str + "\n" + str, start1, end1, start + offset, end + offset)
 					return scroll()
 				} else if (code == 2 && !isMac) {
-					scrollContainer.scrollBy(0, getStyleValue(scrollContainer, "lineHeight") * (i ? 1 : -1))
+					container.scrollBy(0, getStyleValue(container, "lineHeight") * (i ? 1 : -1))
 					return true
 				}
 			}

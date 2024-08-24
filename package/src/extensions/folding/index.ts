@@ -136,7 +136,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 		for (let i = 1, j = 0, l = lines.length; i < l; i++)
 			lines[i].setAttribute("data-line", <any>(j += skippedLines[i - 1] || 1))
 
-		cEditor.scrollContainer.style.setProperty("--number-width", lineNumberWidth)
+		cEditor.container.style.setProperty("--number-width", lineNumberWidth)
 		updateFolds()
 	}
 
@@ -222,10 +222,10 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 				cEditor = editor
 				textarea = editor.textarea
 				editor.extensions.codeFold = this
-				lines = editor.wrapper.children
+				lines = editor.lines
 				if (editor.tokens[0]) createFolds()
 			}
-			editor.scrollContainer.style.setProperty(
+			editor.container.style.setProperty(
 				"--padding-left",
 				options.lineNumbers == false ? "calc(var(--_pse) + var(--_ns))" : "",
 			)

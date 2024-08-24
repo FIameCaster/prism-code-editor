@@ -2,6 +2,7 @@ import { BasicExtension, InputSelection } from "../../index.js"
 import { addListener, createTemplate, preventDefault } from "../../core.js"
 import { addTooltip } from "../../tooltips.js"
 import {
+	addOverlay,
 	getLanguage,
 	getLineBefore,
 	getModifierCode,
@@ -174,7 +175,7 @@ const autoComplete =
 				prevLength = editor.value.length
 				updateStops()
 				currentSelection = getSelection()
-				if (!tabStopsContainer.parentNode) editor.overlays.append(tabStopsContainer)
+				if (!tabStopsContainer.parentNode) addOverlay(editor, tabStopsContainer)
 			}
 			cursor!.scrollIntoView()
 		}
@@ -246,7 +247,7 @@ const autoComplete =
 					}
 
 					if (!isOpen) {
-						const { clientHeight, clientWidth } = editor.scrollContainer
+						const { clientHeight, clientWidth } = editor.container
 						const pos = cursor!.getPosition()
 						const max = Math.max(pos.bottom, pos.top)
 						tooltip.style.width = `min(25em, ${clientWidth}px - var(--padding-left) - 1em)`

@@ -1,6 +1,6 @@
 import { InputSelection, BasicExtension } from "../../index.js"
 import { createTemplate, preventDefault, addListener, numLines, doc } from "../../core.js"
-import { regexEscape, getModifierCode, isMac, isWebKit } from "../../utils/index.js"
+import { regexEscape, getModifierCode, isMac, isWebKit, addOverlay } from "../../utils/index.js"
 import { createReplaceAPI } from "./replace.js"
 import { getLineEnd, getLineStart, getStyleValue } from "../../utils/local.js"
 
@@ -50,7 +50,7 @@ export const searchWidget = (): SearchWidget => {
 	const self: SearchWidget = editor => {
 		editor.extensions.searchWidget = self
 
-		const { textarea, wrapper, overlays, scrollContainer, getSelection } = editor
+		const { textarea, wrapper, container, getSelection } = editor
 		const replaceAPI = createReplaceAPI(editor)
 
 		const startSearch = (selectMatch?: boolean) => {
@@ -97,10 +97,10 @@ export const searchWidget = (): SearchWidget => {
 				isOpen = true
 				if (marginTop == null) prevMargin = marginTop = getStyleValue(wrapper, "marginTop")
 				prevUserSelection = getSelection()
-				overlays.append(container)
+				addOverlay(editor, searchContainer)
 				updateMargin()
 				resize()
-				observer?.observe(scrollContainer)
+				observer?.observe(container)
 			}
 			if (focusInput) findInput.select()
 		}
@@ -109,7 +109,7 @@ export const searchWidget = (): SearchWidget => {
 			if (isOpen) {
 				isOpen = false
 				replaceAPI.stopSearch()
-				container.remove()
+				searchContainer.remove()
 				updateMargin()
 				observer?.disconnect()
 				focusTextarea && textarea.focus()
@@ -128,17 +128,17 @@ export const searchWidget = (): SearchWidget => {
 			const newMargin = isOpen
 				? getStyleValue(search, "top") + getStyleValue(search, "height")
 				: marginTop
-			const newScroll = scrollContainer.scrollTop + newMargin - prevMargin
+			const newScroll = container.scrollTop + newMargin - prevMargin
 
 			wrapper.style.marginTop = isOpen ? newMargin + "px" : ""
-			scrollContainer.scrollTop = newScroll
+			container.scrollTop = newScroll
 			prevMargin = newMargin
 		}
 
 		const resize = () =>
 			div.style.setProperty(
 				"--search-width",
-				`min(${scrollContainer.clientWidth - 2}px - 2.4em - var(--padding-left),20em)`,
+				`min(${container.clientWidth - 2}px - 2.4em - var(--padding-left),20em)`,
 			)
 
 		const observer = window.ResizeObserver && new ResizeObserver(resize)
@@ -223,7 +223,7 @@ export const searchWidget = (): SearchWidget => {
 			if (isOpen && editor.focused) prevUserSelection = selection
 		})
 
-		addListener(container, "click", e => {
+		addListener(searchContainer, "click", e => {
 			const target = <HTMLElement>e.target
 			const remove = editor.on("update", () => target.focus())
 			elementHandlerMap.get(target)?.()
@@ -236,7 +236,7 @@ export const searchWidget = (): SearchWidget => {
 
 		addListener(findInput, "input", () => isOpen && startSearch(true))
 
-		addListener(container, "keydown", e => {
+		addListener(searchContainer, "keydown", e => {
 			const shortcut = getModifierCode(e)
 			const target = <HTMLElement>e.target
 			const keyCode = e.keyCode
@@ -264,9 +264,9 @@ export const searchWidget = (): SearchWidget => {
 		replaceAPI.container.className = "pce-matches"
 	}
 
-	const container = <HTMLDivElement>template()
+	const searchContainer = <HTMLDivElement>template()
 	// @ts-expect-error
-	const search = (self.element = <HTMLDivElement>container.firstChild)
+	const search = (self.element = <HTMLDivElement>searchContainer.firstChild)
 	const [toggle, div] = <[HTMLButtonElement, HTMLDivElement]>(<unknown>search.children)
 	const rows = div.children
 	const [findContainer, closeEl] = <[HTMLDivElement, HTMLButtonElement]>(<unknown>rows[0].children)

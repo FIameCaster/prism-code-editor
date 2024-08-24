@@ -30,7 +30,6 @@ const createEditor = (
 	let activeLine: HTMLDivElement
 	let value = ""
 	let activeLineNumber: number
-	let removed = false
 	let focused = false
 	let handleSelectionChange = true
 	let tokens: TokenStream = []
@@ -96,7 +95,7 @@ const createEditor = (
 			for (i = insertStart + 1; i < lineCount; ) lines[++i].setAttribute("data-line", <any>i)
 			scrollContainer.style.setProperty(
 				"--number-width",
-				Math.ceil(Math.log10(lineCount + 1)) + ".001ch",
+				(0 | Math.log10(lineCount)) + 1 + ".001ch",
 			)
 		}
 
@@ -169,14 +168,11 @@ const createEditor = (
 	}
 
 	const self: PrismEditor = {
-		scrollContainer,
+		container: scrollContainer,
 		wrapper,
-		overlays,
+		lines,
 		textarea,
 		get activeLine() {
-			return activeLine
-		},
-		get activeLineNumber() {
 			return activeLineNumber
 		},
 		get value() {
@@ -185,9 +181,6 @@ const createEditor = (
 		options: currentOptions,
 		get focused() {
 			return focused
-		},
-		get removed() {
-			return removed
 		},
 		get tokens() {
 			return tokens
@@ -207,7 +200,6 @@ const createEditor = (
 		},
 		remove() {
 			scrollContainer.remove()
-			removed = true
 		},
 	}
 
@@ -265,7 +257,7 @@ const editorFromPlaceholder = (
 		Object.assign({ value: el.textContent }, options),
 		...extensions,
 	)
-	el.replaceWith(editor.scrollContainer)
+	el.replaceWith(editor.container)
 	return editor
 }
 
@@ -279,7 +271,7 @@ const createTemplate = <T extends Element = HTMLDivElement>(html: string, node?:
 		templateEl.innerHTML = html
 		node = templateEl.firstChild!
 	}
-	return () => <T>node?.cloneNode(true)
+	return () => <T>node!.cloneNode(true)
 }
 
 const addListener = <T extends keyof HTMLElementEventMap>(

@@ -51,7 +51,7 @@ const getClosestToken = (
 	position = editor.getSelection()[0],
 ) => {
 	const value = editor.value
-	const line = editor.wrapper.children[numLines(value, 0, position)]
+	const line = editor.lines[numLines(value, 0, position)]
 	// We unfortunitely have to include elements, else we can't get empty tokens
 	const walker = doc!.createTreeWalker(line, 5)
 
@@ -201,6 +201,14 @@ const getModifierCode = (
 	e: KeyboardEvent, // @ts-expect-error
 ): number => e.altKey + e.ctrlKey * 2 + e.metaKey * 4 + e.shiftKey * 8
 
+/**
+ * Adds an overlay by appending the element to the editors overlays.
+ * Equivalent to calling `editor.lines[0].append(overlay)`.
+ * @param editor Editor you want to add an overlay to.
+ * @param overlay The overlay you want to add.
+ */
+const addOverlay = (editor: PrismEditor, overlay: HTMLElement) => editor.lines[0].append(overlay)
+
 export {
 	regexEscape,
 	getLineBefore,
@@ -210,6 +218,7 @@ export {
 	insertText,
 	getModifierCode,
 	setSelection,
+	addOverlay,
 	isMac,
 	isChrome,
 	isWebKit,

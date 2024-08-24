@@ -43,7 +43,8 @@ export const cursorPosition = () => {
 	const [before, span] = <[Text, HTMLSpanElement]>(<unknown>cursorContainer.childNodes)
 	const [cursor, after] = <[HTMLSpanElement, Text]>(<unknown>span.childNodes)
 	const selectionChange = (selection: InputSelection) => {
-		let { value, activeLine } = cEditor
+		let value = cEditor.value
+		let activeLine = cEditor.lines[cEditor.activeLine]
 		let position = selection[selection[2] < "f" ? 0 : 1]
 		let newBefore = getLineBefore(value, position)
 		let newAfter = value.slice(position, getLineEnd(value, position))
@@ -69,7 +70,7 @@ export const cursorPosition = () => {
 
 	self.getPosition = () => {
 		const rect1 = cursor.getBoundingClientRect()
-		const rect2 = cEditor.overlays.getBoundingClientRect()
+		const rect2 = cEditor.lines[0].getBoundingClientRect()
 
 		return {
 			top: rect1.y - rect2.y,

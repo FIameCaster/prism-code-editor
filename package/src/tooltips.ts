@@ -2,6 +2,7 @@ import { PrismEditor } from "./index.js"
 import { createTemplate } from "./core.js"
 import { cursorPosition } from "./extensions/cursor.js"
 import { getStyleValue } from "./utils/local.js"
+import { addOverlay } from "./utils/index.js"
 
 const template = /* @__PURE__ */ createTemplate(
 	"<div class=pce-tooltip style=z-index:5;top:auto;display:flex;overflow-x:clip><div>",
@@ -54,7 +55,7 @@ export const addTooltip = (
 			let cursor = editor.extensions.cursor
 			if (cursor) {
 				let { left, right, top, bottom, height } = cursor.getPosition()
-				container.parentNode || editor.overlays.append(container)
+				container.parentNode || addOverlay(editor, container)
 				spacer.style.width = (editor.options.rtl ? right : left) + "px"
 
 				let placeAbove =
@@ -84,11 +85,11 @@ const observer =
 
 /** Allows users to scroll past the last line in the editor by adding padding to the wrapper. */
 export const addOverscroll = (editor: PrismEditor) => {
-	observer && observer.observe(editor.scrollContainer)
+	observer && observer.observe(editor.container)
 }
 
 /** Removes the ability to scroll past the last line in the editor. */
 export const removeOverscroll = (editor: PrismEditor) => {
-	observer && observer.unobserve(editor.scrollContainer)
+	observer && observer.unobserve(editor.container)
 	editor.wrapper.style.paddingBottom = ""
 }

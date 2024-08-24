@@ -108,21 +108,21 @@ export interface EventHandler<EventMap extends Record<string, (...args: any) => 
 
 export interface PrismEditor extends EventHandler<EditorEventMap> {
 	/** This is the outermost element of the editor. */
-	readonly scrollContainer: HTMLDivElement
+	readonly container: HTMLDivElement
 	/** Element wrapping the lines and overlays. */
 	readonly wrapper: HTMLDivElement
 	/**
-	 * Element containing overlays that are absolutely positioned ontop or behind the code.
-	 * It is completely safe to append your own overlays to this element, but they will get
-	 * some default styles.
+	 * Collection containing the overlays as the first element. The rest of the elements
+	 * are the code lines. This means the index of a line is the same as its line number.
 	 */
-	readonly overlays: HTMLDivElement
+	readonly lines: HTMLCollectionOf<HTMLDivElement>
 	/** Underlying `<textarea>` in the editor. */
 	readonly textarea: HTMLTextAreaElement
-	/** The line the cursor is currently on. */
-	readonly activeLine: HTMLDivElement
-	/** The line number of the active line. */
-	readonly activeLineNumber: number
+	/**
+	 * The line number of the line the cursor is currently on. You can use
+	 * `editor.lines[editor.activeLine]` to get the element for the active line.
+	 */
+	readonly activeLine: number
 	/** Whether the `textarea` is focused. */
 	readonly focused: boolean
 	/** Current code in the editor. Same as `textarea.value`. */
@@ -136,8 +136,6 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	readonly inputCommandMap: Record<string, InputCommandCallback | null | undefined>
 	/** Record mapping KeyboardEvent.key to a function called when that key is pressed. */
 	readonly keyCommandMap: Record<string, KeyCommandCallback | null | undefined>
-	/** True if the remove method has been called. */
-	readonly removed: boolean
 	/** Tokens currently displayed in the editor. */
 	readonly tokens: TokenStream
 	/** Object storing some of the extensions added to the editor. */
@@ -161,6 +159,6 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	getSelection(this: void): InputSelection
 	/** Adds extensions to the editor and calls their update methods. */
 	addExtensions(this: void, ...extensions: EditorExtension[]): void
-	/** Removes the editor from the DOM and marks the editor as removed. */
+	/** Removes the editor from the DOM. */
 	remove(this: void): void
 }

@@ -61,7 +61,7 @@ export const indentGuides = (): IndentGuides => {
 	}
 
 	const updateActive = () => {
-		const newActive = lineIndentMap[currentEditor.activeLineNumber - 1] ?? -1
+		const newActive = lineIndentMap[currentEditor.activeLine - 1] ?? -1
 
 		if (newActive != active) {
 			active > -1 && (lines[active].className = "")
@@ -119,7 +119,7 @@ export const indentGuides = (): IndentGuides => {
 			if (!currentEditor) {
 				currentEditor = editor
 				editor.extensions.indentGuides = this
-				editor.overlays.append(container)
+				editor.lines[0].append(container)
 				editor.on("update", update)
 				editor.on("selectionChange", updateActive)
 			}

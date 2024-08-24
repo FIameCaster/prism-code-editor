@@ -126,15 +126,15 @@ const editor = createEditorWrapper(wrapper, {
 	theme = <HTMLLinkElement>document.getElementById("theme"),
 	themes = <HTMLSelectElement>document.getElementById("themes")
 
-editor1.scrollContainer.style.display = "none"
+editor1.container.style.display = "none"
 themes.oninput = () => {
 	theme.href = theme.href.replace(/[^\/]+(?=\.css$)/, themes.value.toLowerCase().replace(/ /g, "-"))
 }
 
 const toggleActive = () => {
 	for (const tab of tabs) tab.classList.toggle("active")
-	const current = (activeEditor ? editor1 : editor).scrollContainer
-	const newEditor = (activeEditor ? editor : editor1).scrollContainer
+	const current = (activeEditor ? editor1 : editor).container
+	const newEditor = (activeEditor ? editor : editor1).container
 	newEditor.style.display = ""
 	newEditor.scrollTo(...scrollPos)
 	scrollPos = [current.scrollLeft, current.scrollTop]
@@ -192,7 +192,7 @@ runBtn.onclick = () => {
 		return
 	}
 
-	wrapper.append(newEditor.scrollContainer)
+	wrapper.append(newEditor.container)
 	editor1.remove()
 	editor1 = newEditor
 	toggleActive()

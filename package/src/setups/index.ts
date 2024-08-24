@@ -13,11 +13,14 @@ import { loadTheme } from "../themes/index.js"
 
 export type SetupOptions = Partial<EditorOptions> & { theme: string }
 
-const addStyles = (shadow: ShadowRoot, styles: string, id?: string) => {
-	const style = doc!.createElement("style")
+const addStyles = (shadow: ShadowRoot, styles: string, id: string) => {
+	let style = shadow.getElementById(id)
+	if (!style) {
+		style = doc!.createElement("style")
+		style.id = id
+		shadow.append(style)
+	}
 	style.textContent = styles
-	if (id) style.id = id
-	shadow.append(style)
 }
 
 /**
@@ -27,13 +30,11 @@ const addStyles = (shadow: ShadowRoot, styles: string, id?: string) => {
  * @param theme Name of the new theme.
  */
 const updateTheme = (editor: PrismEditor, theme: string) => {
-	const el = editor.scrollContainer.parentNode
+	const el = editor.container.parentNode
 	if (el instanceof ShadowRoot) {
-		const style = el.getElementById("theme")
-		if (style)
-			loadTheme(theme).then(theme => {
-				theme && (style.textContent = theme)
-			})
+		loadTheme(theme).then(style => {
+			if (style) addStyles(el, style, "theme")
+		})
 	}
 }
 
@@ -49,15 +50,22 @@ const minimalEditor = (
 	options: SetupOptions,
 	readyCallback?: () => any,
 ) => {
-	const el = <HTMLElement>getElement(container)
+	const el = getElement(container)!
 	const shadow = el.shadowRoot || el.attachShadow({ mode: "open" })
 	const editor = createEditor()
+	const remove = editor.remove
+	let removed: boolean
+
+	editor.remove = () => {
+		remove()
+		removed = true
+	}
 
 	Promise.all([import("./styles"), loadTheme(options.theme)]).then(([style, theme]) => {
-		if (!editor.removed) {
-			addStyles(shadow, style.default)
+		if (!removed) {
+			addStyles(shadow, style.default, "layout-style")
 			addStyles(shadow, theme || "", "theme")
-			shadow.append(editor.scrollContainer)
+			shadow.append(editor.container)
 			editor.setOptions(options)
 			readyCallback && readyCallback()
 		}
@@ -70,7 +78,7 @@ const minimalEditor = (
  * Same as {@link minimalEditor}, but also adds {@link indentGuides}, {@link highlightSelectionMatches},
  * {@link matchBrackets}, {@link highlightBracketPairs}, {@link defaultCommands} and {@link editHistory}
  * extensions and language specific behavior.
- * 
+ *
  * There's also an extension added that clears the history stack every time the value is
  * changed programmatically.
  */
@@ -101,11 +109,11 @@ const fullEditor = (
 		editor.addExtensions(...mod.common())
 	})
 
-	const el = <HTMLElement>getElement(container)
+	const el = getElement(container)!
 	const editor = minimalEditor(el, options, readyCallback)
 
 	import("../extensions/search/search.css?inline").then(module => {
-		editor.removed || addStyles(el.shadowRoot!, module.default)
+		addStyles(el.shadowRoot!, module.default, "search-style")
 	})
 
 	import("./full").then(mod => {
@@ -128,10 +136,10 @@ const readonlyEditor = (
 ) => {
 	import("./readonly").then(mod => {
 		mod.addExtensions(editor)
-		editor.removed || addStyles(el.shadowRoot!, mod.style)
+		addStyles(el.shadowRoot!, mod.style, "readonly-style")
 	})
 
-	const el = <HTMLElement>getElement(container)
+	const el = getElement(container)!
 	const editor = minimalEditor(el, options, readyCallback)
 
 	return editor

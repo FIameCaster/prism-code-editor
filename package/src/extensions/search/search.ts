@@ -1,4 +1,4 @@
-import { regexEscape } from "../../utils/index.js"
+import { addOverlay, regexEscape } from "../../utils/index.js"
 import { createTemplate } from "../../core.js"
 import { PrismEditor } from "../../types.js"
 
@@ -126,7 +126,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 				}
 
 				;(<Text>nodes[l]).data = nodeValues[l] = value.slice(prevEnd)
-				if (!container.parentNode) editor.overlays.append(container)
+				if (!container.parentNode) addOverlay(editor, container)
 				nodeCount = l + 1
 			} else stopSearch()
 		},

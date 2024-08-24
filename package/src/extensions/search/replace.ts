@@ -92,7 +92,7 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 			removeSelection()
 			if (matches[index]) {
 				setSelection(editor, ...matches[index])
-				currentLine = editor.activeLine!
+				currentLine = editor.lines[editor.activeLine]
 				currentMatch = <HTMLSpanElement>container.children[index]
 				hasSelected = true
 				toggleClasses()

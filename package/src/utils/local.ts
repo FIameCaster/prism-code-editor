@@ -3,7 +3,7 @@ import { addListener, doc } from "../core.js"
 import { isChrome } from "./index.js"
 
 const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
-	const style1 = editor.scrollContainer.style,
+	const style1 = editor.container.style,
 		style2 = doc!.documentElement.style
 
 	style1.scrollPaddingBlock = style2.scrollPaddingBlock = `${paddingTop}px ${
