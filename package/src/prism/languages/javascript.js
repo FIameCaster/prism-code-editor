@@ -61,7 +61,7 @@ languages.js = languages.javascript = Object.assign(js, {
 	},
 	'class-name': [
 		{
-			pattern: /(\b(?:class|extends|implements|instanceof|interface|new)\s+)(?!\d)(?:(?!\s)[$\w.\xa0-\uffff])+/,
+			pattern: /(\b(?:class|extends|implements|instanceof|interface|new)\s+)(?!\d)(?:(?!\s)[$\w\xa0-\uffff.])+/,
 			lookbehind: true,
 			inside: {
 				'punctuation': /\./

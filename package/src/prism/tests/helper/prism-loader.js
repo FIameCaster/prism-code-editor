@@ -14,6 +14,7 @@ import { dependencyGraph } from "./lang-info.js"
 import fs from "fs"
 import { addJsxTag } from "../../utils/jsx-shared.js"
 import { entity, tag } from "../../utils/xml-shared.js"
+import { clikeClass } from "../../utils/clike-class.js"
 
 /** @type {Map<string, Function>} */
 const cache = new Map()
@@ -27,6 +28,7 @@ const imports = {
 	withoutTokenizer,
 	clikeComment,
 	clikeString,
+	clikeClass,
 	clikeNumber,
 	clikePunctuation,
 	boolean,

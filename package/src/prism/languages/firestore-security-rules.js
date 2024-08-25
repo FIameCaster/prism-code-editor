@@ -1,16 +1,9 @@
 import { languages } from '../core.js';
-import { extend, insertBefore } from '../utils/language.js';
-import './clike.js';
+import { boolean, clikeNumber, clikePunctuation, clikeString } from '../utils/patterns.js';
 
-var firestore = languages['firestore-security-rules'] = extend('clike', {
+languages['firestore-security-rules'] = {
 	'comment': /\/\/.*/,
-	'keyword': /\b(?:allow|function|if|match|null|return|rules_version|service)\b/,
-	'operator': /&&|\|\||[!=<>]=?|[%/*+-]|\bi[ns]\b/,
-});
-
-delete firestore['class-name'];
-
-insertBefore(firestore, 'keyword', {
+	'string': clikeString(),
 	'path': {
 		pattern: /(^|[\s(),])(?:\/(?:[\w\xa0-\uffff]+|\{[\w\xa0-\uffff]+(?:=\*\*)?\}|\$\([\w\xa0-\uffff.]+\)))+/g,
 		lookbehind: true,
@@ -36,4 +29,10 @@ insertBefore(firestore, 'keyword', {
 			'punctuation': /,/
 		}
 	},
-});
+	'keyword': /\b(?:allow|function|if|match|null|return|rules_version|service)\b/,
+	'boolean': boolean,
+	'function': /\b\w+(?=\()/,
+	'number': clikeNumber,
+	'operator': /&&|\|\||[!=<>]=?|[%/*+-]|\bi[ns]\b/,
+	'punctuation': clikePunctuation
+};

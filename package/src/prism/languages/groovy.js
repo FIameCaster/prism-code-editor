@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikeClass } from '../utils/clike-class.js';
 import { boolean, clikeComment } from '../utils/patterns.js';
 
 var expression = {
@@ -39,13 +40,7 @@ expression.inside = languages.groovy = {
 		pattern: /'''(?:\\[\s\S]|[^\\])*?'''|'(?:\\.|[^\\\n'])*'/g,
 		greedy: true
 	},
-	'class-name': {
-		pattern: /(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,
-		lookbehind: true,
-		inside: {
-			'punctuation': /[.\\]/
-		}
-	},
+	'class-name': clikeClass(),
 	'keyword': /\b(?:abstract|as|assert|boolean|break|byte|case|catch|char|class|const|continue|def|default|do|double|else|enum|extends|final|finally|float|for|goto|if|implements|import|instanceof|int?|interface|long|native|new|package|private|protected|public|return|short|static|strictfp|super|switch|synchronized|this|throws?|trait|transient|try|void|volatile|while)\b/,
 	'boolean': boolean,
 	'annotation': {

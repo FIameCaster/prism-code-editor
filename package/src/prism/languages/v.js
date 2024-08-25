@@ -1,6 +1,5 @@
 import { languages } from '../core.js';
-import { extend, insertBefore } from '../utils/language.js';
-import './clike.js';
+import { boolean, clikeComment, clikePunctuation } from '../utils/patterns.js';
 
 var interpolationExpr = {
 	pattern: /[\s\S]+/
@@ -11,7 +10,12 @@ var generic = {
 	'class-name': /\w+/
 };
 
-var v = interpolationExpr.inside = languages.v = extend('clike', {
+interpolationExpr.inside = languages.v = {
+	'comment': clikeComment(),
+	'char': {
+		pattern: /`(?:\\`|\\?[^`]{1,2})`/, // using {1,2} instead of `u` flag for compatibility
+		alias: 'rune'
+	},
 	'string': {
 		pattern: /r?(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/g,
 		alias: 'quoted-string',
@@ -39,19 +43,20 @@ var v = interpolationExpr.inside = languages.v = extend('clike', {
 		lookbehind: true
 	},
 	'keyword': /(?:\b(?:__global|asm?|assert|atomic|break|chan|const|continue|defer|else|embed|enum|fn|f?or|goto|go|i[fns]|import|interface|match|module|mut|none|pub|return|r?lock|select|shared|sizeof|static|struct|typeof|type|union|unsafe)|\$(?:else|for|if)|#(?:flag|include))\b/,
+	'boolean': boolean,
+	'generic-function': {
+		// e.g. foo<T>( ...
+		pattern: /\b\w+\s*<\w+>(?=\()/,
+		inside: {
+			'function': /^\w+/,
+			'generic': {
+				pattern: /<\w+>/,
+				inside: generic
+			}
+		}
+	},
+	'function': /\b\w+(?=\()/,
 	'number': /\b(?:0x[a-f\d]+(?:_[a-f\d]+)*|0b[01]+(?:_[01]+)*|0o[0-7]+(?:_[0-7]+)*|\d+(?:_\d+)*(?:\.\d+(?:_\d+)*)?)\b/i,
-	'operator': /--|\+\+|\|\||&&|&\^=?|<-|<<=?|>>=?|[%&|^!=<>/*+-]=?|:=|\.{2,3}|[~?]/,
-	'builtin': /\b(?:any(?:_float|_int)?|bool|byte(?:ptr)?|charptr|f(?:32|64)|[iu](?:16|64|128)|i8|int|rune|size_t|string|voidptr)\b/
-});
-
-insertBefore(v, 'string', {
-	'char': {
-		pattern: /`(?:\\`|\\?[^`]{1,2})`/, // using {1,2} instead of `u` flag for compatibility
-		alias: 'rune'
-	}
-});
-
-insertBefore(v, 'operator', {
 	'attribute': {
 		pattern: /(^[ \t]*)\[(?:deprecated|direct_array_access|flag|inline|live|ref_only|typedef|unsafe_fn|windows_stdcall)\]/m,
 		lookbehind: true,
@@ -64,19 +69,8 @@ insertBefore(v, 'operator', {
 	'generic': {
 		pattern: /<\w+>(?=\s*[\)\{])/,
 		inside: generic
-	}
-});
-
-insertBefore(v, 'function', {
-	'generic-function': {
-		// e.g. foo<T>( ...
-		pattern: /\b\w+\s*<\w+>(?=\()/,
-		inside: {
-			'function': /^\w+/,
-			'generic': {
-				pattern: /<\w+>/,
-				inside: generic
-			}
-		}
-	}
-});
+	},
+	'operator': /--|\+\+|\|\||&&|&\^=?|<-|<<=?|>>=?|[%&|^!=<>/*+-]=?|:=|\.{2,3}|[~?]/,
+	'punctuation': clikePunctuation,
+	'builtin': /\b(?:any(?:_float|_int)?|bool|byte(?:ptr)?|charptr|f(?:32|64)|[iu](?:16|64|128)|i8|int|rune|size_t|string|voidptr)\b/
+};

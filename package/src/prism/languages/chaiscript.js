@@ -1,8 +1,31 @@
 import { languages } from '../core.js';
-import { extend, insertBefore } from '../utils/language.js';
-import './clike.js';
+import { boolean, clikeComment, clikePunctuation } from '../utils/patterns.js';
 
-var chaiscript = languages.chaiscript = extend('clike', {
+languages.chaiscript = {
+	'comment': clikeComment(),
+	'string-interpolation': {
+		pattern: /(^|[^\\])"(?:\\[\s\S]|[^\\$"]|\$(?!\{)|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\})*"/g,
+		lookbehind: true,
+		greedy: true,
+		inside: {
+			'interpolation': {
+				pattern: /((?:^|[^\\])(?:\\\\)*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/,
+				lookbehind: true,
+				inside: {
+					'interpolation-expression': {
+						pattern: /(..)[\s\S]+(?=.)/,
+						lookbehind: true,
+						inside: 'chaiscript'
+					},
+					'interpolation-punctuation': {
+						pattern: /.+/,
+						alias: 'punctuation'
+					}
+				}
+			},
+			'string': /[\s\S]+/
+		}
+	},
 	'string': {
 		pattern: /(^|[^\\])'(?:\\[\s\S]|[^\\'])*'/g,
 		lookbehind: true,
@@ -21,6 +44,8 @@ var chaiscript = languages.chaiscript = extend('clike', {
 		}
 	],
 	'keyword': /\b(?:attr|auto|break|case|catch|class|continue|def|default|else|finally|for|fun|global|if|return|switch|this|try|var|while)\b/,
+	'boolean': boolean,
+	'function': /\b\w+(?=\()/,
 	'number': [
 		{
 			pattern: /(?:\b0b[01']+|\b0x(?:[a-f\d']+(?:\.[a-f\d']*)?|\.[a-f\d']+)(?:p[+-]?[\d']+)?|(?:\b[\d']+(?:\.[\d']*)?|\B\.[\d']+)(?:e[+-]?[\d']+)?)[ful]{0,4}/gi,
@@ -28,40 +53,12 @@ var chaiscript = languages.chaiscript = extend('clike', {
 		},
 		/\b(?:Infinity|NaN)\b/
 	],
-	'operator': /:[:=]|--|\+\+|&&|\|\||>>=?|<<=?|[%&|^!=<>/*+-]=?|[?:~]|`[^\n`]{1,4}`/,
-});
-
-insertBefore(chaiscript, 'operator', {
 	'parameter-type': {
 		// e.g. def foo(int x, Vector y) {...}
 		pattern: /([,(]\s*)\w+(?=\s+\w)/,
 		lookbehind: true,
 		alias: 'class-name'
 	},
-});
-
-insertBefore(chaiscript, 'string', {
-	'string-interpolation': {
-		pattern: /(^|[^\\])"(?:\\[\s\S]|[^\\$"]|\$(?!\{)|\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\})*"/g,
-		lookbehind: true,
-		greedy: true,
-		inside: {
-			'interpolation': {
-				pattern: /((?:^|[^\\])(?:\\\\)*)\$\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/,
-				lookbehind: true,
-				inside: {
-					'interpolation-expression': {
-						pattern: /(..)[\s\S]+(?=.)/,
-						lookbehind: true,
-						inside: chaiscript
-					},
-					'interpolation-punctuation': {
-						pattern: /.+/,
-						alias: 'punctuation'
-					}
-				}
-			},
-			'string': /[\s\S]+/
-		}
-	},
-});
+	'operator': /:[:=]|--|\+\+|&&|\|\||>>=?|<<=?|[%&|^!=<>/*+-]=?|[?:~]|`[^\n`]{1,4}`/,
+	'punctuation': clikePunctuation,
+};
