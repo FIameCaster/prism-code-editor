@@ -82,13 +82,13 @@ var addJsxTag = (grammar, name) => {
 	insertBefore(languages[name] = grammar = clone(grammar), 'regex', {
 		'tag': {
 			pattern: re(
-				/<\/?(?:(?!\d)[^\s/=><%]+(?:<0>(?:<0>*(?:[^\s<>/={*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?=[\s/>]))|<2>))+)?<0>*\/?)?>/.source, [space, braces, spread], 'g'
+				/<\/?(?:(?!\d)[^\s%=<>/]+(?:<0>(?:<0>*(?:[^\s{=<>/*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?=[\s/>]))|<2>))*)?<0>*\/?)?>/.source, [space, braces, spread], 'g'
 			),
 			greedy: true,
 			inside: {
 				'punctuation': /^<\/?|\/?>$/,
 				'tag': {
-					pattern: /^[^\s/]+/,
+					pattern: /^[^\s/<]+/,
 					inside: {
 						'namespace': /^[^:]+:/,
 						'class-name': /^[A-Z]\w*(?:\.[A-Z]\w*)*$/
@@ -126,6 +126,7 @@ var addJsxTag = (grammar, name) => {
 	});
 
 	grammar[tokenize] = (code, grammar) => walkTokens(withoutTokenizer(code, grammar), code, 0);
+	return grammar;
 }
 
 export { addJsxTag, space, braces, spread }

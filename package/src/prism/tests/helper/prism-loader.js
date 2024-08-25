@@ -12,7 +12,7 @@ import { createT4 } from "../../utils/t4-templating.js"
 import { clone, extend, insertBefore } from "../../utils/language.js"
 import { dependencyGraph } from "./lang-info.js"
 import fs from "fs"
-import { addJsxTag } from "../../utils/jsx-shared.js"
+import { addJsxTag, space } from "../../utils/jsx-shared.js"
 import { entity, tag } from "../../utils/xml-shared.js"
 import { clikeClass } from "../../utils/clike-class.js"
 
@@ -43,6 +43,7 @@ const imports = {
 	addJsxTag,
 	tag,
 	entity,
+	space,
 }
 
 const args = Object.keys(imports)

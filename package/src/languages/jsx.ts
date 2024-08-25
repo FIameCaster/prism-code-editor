@@ -8,12 +8,12 @@ import { getClosestToken, getLineBefore } from "../utils"
 import { autoCloseTags, clikeComment, clikeIndent, testBracketPair } from "./shared"
 
 const openingTag = re(
-	/(?:^|[^$\w])<(?:(?!\d)([^\s/=><%]+)(?:<0>(?:<0>*(?:[^\s"'{=<>/*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?=[\s/>]))|<2>))+)?<0>*)?>[ \t]*$/
+	/(?:^|[^$\w])<(?:(?!\d)([^\s%=<>/]+)(?:(?:<0>|<0>*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>)(?:<0>*(?:[^\s"'{=<>/*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?=[\s/>]))|<2>))*)?<0>*)?>[ \t]*$/
 		.source,
 	[space, braces, spread],
 )
 
-const closingTag = /^<\/(?!\d)[^\s/=><%]*\s*>/
+const closingTag = /^<\/(?!\d)[^\s%=<>/]*\s*>/
 
 const inJsxContext = (
 	{ tags, pairs }: TagMatcher,
