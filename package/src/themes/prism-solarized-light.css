@@ -44,7 +44,7 @@
 	--editor__line-number: #0b216f;
 }
 
-.guide-indents .active {
+.active-indent {
 	--bg-guide-indent: #081e2580;
 }
 

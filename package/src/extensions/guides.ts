@@ -57,7 +57,7 @@ const indentGuides = (): Extension => {
 
 		if (newActive != active) {
 			active > -1 && (lines[active].className = "")
-			newActive > -1 && (lines[newActive].className = "active")
+			newActive > -1 && (lines[newActive].className = "active-indent")
 		}
 		active = newActive
 	}

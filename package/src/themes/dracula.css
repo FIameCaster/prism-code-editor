@@ -49,7 +49,7 @@ Original: https://github.com/dracula/visual-studio-code */
 	--editor__line-number: #c6c6c6;
 }
 
-.guide-indents .active {
+.active-indent {
 	--bg-guide-indent: #ffffff45;
 }
 

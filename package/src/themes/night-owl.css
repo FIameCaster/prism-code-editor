@@ -49,7 +49,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	--editor__line-number: #c5e4fd;
 }
 
-.guide-indents .active {
+.active-indent {
 	--bg-guide-indent: #b3cfe7b3;
 }
 
