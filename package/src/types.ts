@@ -83,21 +83,21 @@ export type InputCommandCallback = (
 ) => void | boolean
 export type InputSelection = [number, number, "forward" | "backward" | "none"]
 
-export interface Extension {
+export interface Extension<T extends {} = {}> {
 	/** Function called when the extension is added or the options of the editor change. */
-	update(editor: PrismEditor, options: EditorOptions): any
+	update(editor: PrismEditor<T>, options: EditorOptions & T): any
 }
 
-export interface BasicExtension {
-	(editor: PrismEditor, options: EditorOptions): any
+export interface BasicExtension<T extends {} = {}> {
+	(editor: PrismEditor<T>, options: EditorOptions & T): any
 }
 
-export type EditorExtension = Extension | BasicExtension
+export type EditorExtension<T extends {} = {}> = Extension<T> | BasicExtension<T>
 
-export type EditorEventMap = {
-	update(this: PrismEditor, value: string): any
-	selectionChange(this: PrismEditor, selection: InputSelection, value: string): any
-	tokenize(this: PrismEditor, tokens: TokenStream, language: string, value: string): any
+export type EditorEventMap<T extends {} = {}> = {
+	update(this: PrismEditor<T>, value: string): any
+	selectionChange(this: PrismEditor<T>, selection: InputSelection, value: string): any
+	tokenize(this: PrismEditor<T>, tokens: TokenStream, language: string, value: string): any
 }
 
 export interface EventHandler<EventMap extends Record<string, (...args: any) => any>> {
@@ -105,7 +105,7 @@ export interface EventHandler<EventMap extends Record<string, (...args: any) => 
 	on<T extends keyof EventMap>(this: void, name: T, listener: EventMap[T]): () => void
 }
 
-export interface PrismEditor extends EventHandler<EditorEventMap> {
+export interface PrismEditor<T extends {} = {}> extends EventHandler<EditorEventMap<T>> {
 	/** This is the outermost element of the editor. */
 	readonly container: HTMLDivElement
 	/** Element wrapping the lines and overlays. */
@@ -130,7 +130,7 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	 * Current options for the editor. The event handlers can be changed by
 	 * mutating this object. Use `setOptions` to change the other options.
 	 */
-	readonly options: EditorOptions
+	readonly options: EditorOptions & T
 	/** Record mapping an input to a function called when that input is typed. */
 	readonly inputCommandMap: Record<string, InputCommandCallback | null | undefined>
 	/** Record mapping KeyboardEvent.key to a function called when that key is pressed. */
@@ -150,13 +150,13 @@ export interface PrismEditor extends EventHandler<EditorEventMap> {
 	 * Set new options for the editor. Ommitted properties will use their old value.
 	 * @param options New options for the editor
 	 */
-	setOptions(this: void, options: Partial<EditorOptions>): void
+	setOptions(this: void, options: Partial<EditorOptions & T>): void
 	/** Forces the editor to update. Can be useful after adding a tokenize listener or modifying a grammar. */
 	update(this: void): void
 	/** Gets `selectionStart`, `selectionEnd` and `selectionDirection` for the `textarea`. */
 	getSelection(this: void): InputSelection
 	/** Adds extensions to the editor and calls their update methods. */
-	addExtensions(this: void, ...extensions: EditorExtension[]): void
+	addExtensions(this: void, ...extensions: EditorExtension<T>[]): void
 	/** Removes the editor from the DOM. */
 	remove(this: void): void
 }

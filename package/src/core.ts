@@ -20,10 +20,10 @@ import { highlightTokens, languages, tokenizeText, TokenStream } from "./prism/i
  * @param extensions Extensions added before the first render. You can still add extensions later.
  * @returns Object to interact with the created editor.
  */
-const createEditor = (
+const createEditor = <T extends {} = {}>(
 	container?: ParentNode | string | null,
-	options?: Partial<EditorOptions>,
-	...extensions: EditorExtension[]
+	options?: Partial<EditorOptions> & T,
+	...extensions: EditorExtension<T>[]
 ): PrismEditor => {
 	let language: string
 	let prevLines: string[] = []
@@ -41,13 +41,13 @@ const createEditor = (
 	const lines = <HTMLCollectionOf<HTMLDivElement>>wrapper.children
 	const overlays = lines[0]
 	const textarea = <HTMLTextAreaElement>overlays.firstChild
-	const currentOptions: EditorOptions = { language: "text", value }
+	const currentOptions = { language: "text", value } as EditorOptions & T
 	const currentExtensions = new Set(extensions)
 	const listeners: {
-		[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
+		[P in keyof EditorEventMap]?: Set<EditorEventMap<T>[P]>
 	} = {}
 
-	const setOptions = (options: Partial<EditorOptions>) => {
+	const setOptions = (options: Partial<EditorOptions & T>) => {
 		Object.assign(currentOptions, options)
 		let isNewVal = value != (value = options.value ?? value)
 		let isNewLang = language != (language = currentOptions.language)
@@ -107,7 +107,7 @@ const createEditor = (
 		handleSelectionChange = false
 	}
 
-	const updateExtensions = (newExtensions?: EditorExtension[]) => {
+	const updateExtensions = (newExtensions?: EditorExtension<T>[]) => {
 		;(newExtensions || currentExtensions).forEach(extension => {
 			if (typeof extension == "object") {
 				extension.update(self, currentOptions)
@@ -167,7 +167,7 @@ const createEditor = (
 		}
 	}
 
-	const self: PrismEditor = {
+	const self: PrismEditor<T> = {
 		container: scrollContainer,
 		wrapper,
 		lines,
