@@ -7,7 +7,7 @@
 	left: 0.5em;
 	box-shadow: inset 0 0 0 1px var(--widget__border);
 	margin: -9in 0 0 0;
-	padding: 0.6em;
+	padding: 0.5em;
 	background: var(--widget__bg);
 	z-index: 3;
 	color: var(--widget__color-options);
@@ -21,7 +21,7 @@
 .pce-copy::after,
 .pce-copy::before {
 	opacity: 0;
-	border-radius: 0.4em;
+	border-radius: 0.3em;
 	transition: opacity 0.1s ease-out;
 }
 
@@ -34,7 +34,7 @@
 	text-align: center;
 	width: 8ch;
 	font-size: 80%;
-	padding: 0.3em 0;
+	padding: 0.2em 0;
 	pointer-events: none;
 }
 

@@ -15,10 +15,9 @@
 	left: 0.5em;
 	z-index: 4;
 	pointer-events: auto;
-	box-sizing: border-box;
 }
 
-.prism-search * {
+.prism-search-container * {
 	box-sizing: border-box;
 }
 

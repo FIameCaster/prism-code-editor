@@ -5,9 +5,8 @@ import { BasicExtension } from "../../types.js"
 import { addOverlay, setSelection } from "../../utils/index.js"
 
 const template = createTemplate(
-	'<div style=display:flex;align-items:flex-start;justify-content:flex-end><button type=button dir=ltr style=display:none class=pce-copy aria-label=Copy><svg width=1.2em viewbox="0 0 48 48" overflow=visible stroke-width=4 stroke-linecap=round fill=none stroke=currentColor><rect x=16 y=16 width=30 height=30 rx=3 /><path d="M32 9V5a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v24a3 3 0 0 0 3 3h4"/>',
+	'<div style=display:flex;align-items:flex-start;justify-content:flex-end><button type=button dir=ltr style=display:none class=pce-copy aria-label=Copy><svg width=1.2em viewBox="0 0 16 16" overflow=visible stroke-linecap=round fill=none stroke=currentColor><rect x=4 y=4 width=11 height=11 rx=1 /><path d="M12 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1">',
 )
-const clipboard = navigator.clipboard
 
 /**
  * Extension that adds a copy button to the editor.
@@ -20,8 +19,7 @@ export const copyButton = (): BasicExtension => editor => {
 
 	addListener(btn, "click", () => {
 		btn.setAttribute("aria-label", "Copied!")
-		if (clipboard) clipboard.writeText(editor.extensions.codeFold?.fullCode ?? editor.value)
-		else {
+		if (!navigator.clipboard?.writeText(editor.extensions.codeFold?.fullCode ?? editor.value)) {
 			editor.textarea.select()
 			doc!.execCommand("copy")
 			setSelection(editor, 0)
