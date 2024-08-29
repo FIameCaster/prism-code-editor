@@ -52,7 +52,7 @@ const createReplaceAPI = (editor: PrismEditor): ReplaceAPI => {
 
 	const toggleClasses = () => {
 		currentLine?.classList.toggle("match-highlight")
-		currentMatch?.classList.toggle("match")
+		currentMatch?.classList.toggle("pce-match")
 	}
 
 	const removeSelection = () => {

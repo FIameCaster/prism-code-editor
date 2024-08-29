@@ -41,7 +41,7 @@ Original: https://github.com/dracula/visual-studio-code */
 	color: #0000;
 }
 
-.pce-matches .match {
+.pce-match {
 	--search__bg-find: #ffb86c80;
 }
 

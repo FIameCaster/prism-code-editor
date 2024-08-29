@@ -41,7 +41,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #0000;
 }
 
-.pce-matches .match {
+.pce-match {
 	--search__bg-find: #545a8b;
 }
 
