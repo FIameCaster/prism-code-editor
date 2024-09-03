@@ -23,7 +23,7 @@ import "../languages"
 import "../layout.css"
 import "../rtl-layout.css"
 import "../scrollbar.css"
-import { addFullEditor, addReadonlyEditor, PrismEditorElement } from "../webComponent"
+import { addBasicEditor, addReadonlyEditor, PrismEditorElement } from "../webComponent"
 import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
@@ -199,7 +199,7 @@ runBtn.onclick = () => {
 	newEditor.textarea.focus()
 }
 
-addFullEditor("prism-editor")
+addBasicEditor("prism-editor")
 
 const webComponent = document.querySelector<PrismEditorElement>("prism-editor")!
 const editor2 = webComponent.editor

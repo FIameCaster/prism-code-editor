@@ -76,8 +76,8 @@ const minimalEditor = (
 
 /**
  * Same as {@link minimalEditor}, but also adds {@link indentGuides}, {@link highlightSelectionMatches},
- * {@link matchBrackets}, {@link highlightBracketPairs}, {@link defaultCommands} and {@link editHistory}
- * extensions and language specific behavior.
+ * {@link matchBrackets}, {@link highlightBracketPairs}, {@link defaultCommands}, {@link editHistory},
+ * {@link searchWidget} and {@link matchTags} extensions and language specific behavior.
  *
  * There's also an extension added that clears the history stack every time the value is
  * changed programmatically.
@@ -87,38 +87,16 @@ const basicEditor = (
 	options: SetupOptions,
 	readyCallback?: () => any,
 ) => {
-	import("./common").then(mod => {
-		editor.addExtensions(...mod.common())
+	import("./basic").then(mod => {
+		editor.addExtensions(...mod.basic())
 	})
-
-	const editor = minimalEditor(container, options, readyCallback)
-
-	return editor
-}
-
-/**
- * Same as {@link basicEditor}, but also adds the {@link searchWidget} and {@link matchTags} extensions.
- * @deprecated Will get merged with {@link basicEditor} in the next major release.
- */
-const fullEditor = (
-	container: HTMLElement | string,
-	options: SetupOptions,
-	readyCallback?: () => any,
-) => {
-	import("./common").then(mod => {
-		editor.addExtensions(...mod.common())
-	})
-
-	const el = getElement(container)!
-	const editor = minimalEditor(el, options, readyCallback)
 
 	import("../extensions/search/search.css?inline").then(module => {
 		addStyles(el.shadowRoot!, module.default, "search-style")
 	})
 
-	import("./full").then(mod => {
-		editor.addExtensions(...mod.full())
-	})
+	const el = getElement(container)!
+	const editor = minimalEditor(el, options, readyCallback)
 
 	return editor
 }
@@ -145,4 +123,4 @@ const readonlyEditor = (
 	return editor
 }
 
-export { basicEditor, fullEditor, minimalEditor, readonlyEditor, updateTheme }
+export { basicEditor, minimalEditor, readonlyEditor, updateTheme }
