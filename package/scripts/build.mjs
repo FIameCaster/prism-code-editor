@@ -7,6 +7,7 @@ const themes = [
 	"github-dark",
 	"github-light",
 	"night-owl",
+	"night-owl-light",
 	"prism-okaidia",
 	"prism-solarized-light",
 	"prism-twilight",
