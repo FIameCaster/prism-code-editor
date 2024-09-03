@@ -100,12 +100,7 @@ export type EditorEventMap<T extends {} = {}> = {
 	tokenize(this: PrismEditor<T>, tokens: TokenStream, language: string, value: string): any
 }
 
-export interface EventHandler<EventMap extends Record<string, (...args: any) => any>> {
-	/** Adds a listener for events with the specified name. */
-	on<T extends keyof EventMap>(this: void, name: T, listener: EventMap[T]): () => void
-}
-
-export interface PrismEditor<T extends {} = {}> extends EventHandler<EditorEventMap<T>> {
+export interface PrismEditor<T extends {} = {}> {
 	/** This is the outermost element of the editor. */
 	readonly container: HTMLDivElement
 	/** Element wrapping the lines and overlays. */
@@ -155,6 +150,8 @@ export interface PrismEditor<T extends {} = {}> extends EventHandler<EditorEvent
 	update(this: void): void
 	/** Gets `selectionStart`, `selectionEnd` and `selectionDirection` for the `textarea`. */
 	getSelection(this: void): InputSelection
+	/** Adds a listener for events with the specified name. */
+	on<U extends keyof EditorEventMap>(this: void, name: U, listener: EditorEventMap<T>[U]): () => void
 	/** Adds extensions to the editor and calls their update methods. */
 	addExtensions(this: void, ...extensions: EditorExtension<T>[]): void
 	/** Removes the editor from the DOM. */
