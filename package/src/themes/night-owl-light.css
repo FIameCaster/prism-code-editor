@@ -73,6 +73,11 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #097174;
 }
 
+.token.tag,
+.token.tag > .punctuation,
+.token.doctype > .punctuation,
+.token.doctype-tag,
+.token.attr-equals,
 .token.keyword,
 .token.punctuation,
 .token.literal-property,
@@ -87,7 +92,9 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 [class*="language-"],
 .language-css .punctuation,
 .language-markdown .code.keyword,
-.language-markdown .url .content {
+.language-markdown .url .content,
+.token.atrule,
+.token.parameter {
 	color: #403f53;
 }
 
@@ -95,17 +102,12 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #c792ea;
 }
 
-.token.tag,
-.token.tag > .punctuation,
-.token.doctype > .punctuation,
-.token.doctype-tag,
-.token.attr-equals {
-	color: #8d46b4;
-}
-
 .token.number,
 .regex .escape,
-.token.tag .class-name {
+.token.tag .class-name,
+.token.unit,
+.token.hexcode,
+.selector .id {
 	color: #aa0982;
 }
 
@@ -114,23 +116,9 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #a54a4a;
 }
 
-.token.selector {
-	color: #9b504e;
-}
-
 .language-markdown .token.url,
 .token.deleted {
 	color: #bb374d;
-}
-
-.token.unit,
-.token.hexcode {
-	color: #aa0982;
-}
-
-.token.atrule,
-.token.parameter {
-	color: #403f53;
 }
 
 .token.color,
@@ -148,27 +136,15 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #3a6a90;
 }
 
-.selector .id {
-	color: #aa0982;
-}
-
-.token.attr-value > .punctuation {
-	color: #111;
-}
-
 .token.attr-name,
 .token.doctype,
 .token.variable,
-.token.inserted,
 .selector .class,
 .selector .pseudo-element,
 .selector .pseudo-class,
 .token.builtin,
 .language-markdown .bold *,
-.language-markdown .code.code-snippet {
-	color: #3c63b3;
-}
-
+.language-markdown .code.code-snippet,
 .token.function,
 .token.constant,
 .token.keyword-undefined,
@@ -181,13 +157,19 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #3c63b3;
 }
 
+.token.inserted {
+	color: #5aa329;
+}
+
+.token.selector,
 .token.attr-value,
 .token.char,
 .token.string,
 .token.string-property {
-	color: #c96765;
+	color: #9b504e;
 }
 
+.token.attr-value > .punctuation,
 .token.class-name,
 .token.maybe-class-name {
 	color: #111;
