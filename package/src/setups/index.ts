@@ -1,4 +1,4 @@
-import { EditorOptions, PrismEditor, createEditor } from "../index.js"
+import { EditorOptions, createEditor } from "../index.js"
 import { doc, getElement } from "../core.js"
 import { defaultCommands, editHistory } from "../extensions/commands.js"
 import { copyButton } from "../extensions/copyButton/index.js"
@@ -24,37 +24,31 @@ const addStyles = (shadow: ShadowRoot, styles: string, id: string) => {
 }
 
 /**
- * Updates the theme of an editor. The editor needs to be inside a shadow root with a style
- * element for the theme whoose `id` is `"theme"`. This is the case when using the setups.
- * @param editor Editor you want to change the theme of.
- * @param theme Name of the new theme.
- */
-const updateTheme = (editor: PrismEditor, theme: string) => {
-	const el = editor.container.parentNode
-	if (el instanceof ShadowRoot) {
-		loadTheme(theme).then(style => {
-			if (style) addStyles(el, style, "theme")
-		})
-	}
-}
-
-/**
  * Adds an editor inside a shadow root to the given element and asynchronously loads the styles.
  * @param container Must be an element you can attach a shadow root to
  * @param options Options to create the editor as well as the theme to use.
- * @param readyCallback Function called when the styles are loaded.
+ * @param loadCallback Function called when the styles are loaded and the editor is
+ * appended to the DOM.
  * @returns Object to interact with the editor.
  */
 const minimalEditor = (
 	container: HTMLElement | string,
 	options: SetupOptions,
-	readyCallback?: () => any,
+	onLoad?: () => any,
 ) => {
 	const el = getElement(container)!
 	const shadow = el.shadowRoot || el.attachShadow({ mode: "open" })
-	const editor = createEditor()
+	const editor = createEditor<{ theme: string }>(null, null, {
+		update(_, options) {
+			if (theme != (theme = options.theme))
+				loadTheme(theme).then(style => {
+					if (style && theme == options.theme) addStyles(shadow, style, "theme")
+				})
+		},
+	})
 	const remove = editor.remove
 	let removed: boolean
+	let theme = options.theme
 
 	editor.remove = () => {
 		remove()
@@ -67,7 +61,7 @@ const minimalEditor = (
 			addStyles(shadow, theme || "", "theme")
 			shadow.append(editor.container)
 			editor.setOptions(options)
-			readyCallback && readyCallback()
+			onLoad && onLoad()
 		}
 	})
 
@@ -85,7 +79,7 @@ const minimalEditor = (
 const basicEditor = (
 	container: HTMLElement | string,
 	options: SetupOptions,
-	readyCallback?: () => any,
+	onLoad?: () => any,
 ) => {
 	import("./basic").then(mod => {
 		editor.addExtensions(...mod.basic())
@@ -96,7 +90,7 @@ const basicEditor = (
 	})
 
 	const el = getElement(container)!
-	const editor = minimalEditor(el, options, readyCallback)
+	const editor = minimalEditor(el, options, onLoad)
 
 	return editor
 }
@@ -110,7 +104,7 @@ const basicEditor = (
 const readonlyEditor = (
 	container: HTMLElement | string,
 	options: SetupOptions,
-	readyCallback?: () => any,
+	onLoad?: () => any,
 ) => {
 	import("./readonly").then(mod => {
 		mod.addExtensions(editor)
@@ -118,9 +112,9 @@ const readonlyEditor = (
 	})
 
 	const el = getElement(container)!
-	const editor = minimalEditor(el, options, readyCallback)
+	const editor = minimalEditor(el, options, onLoad)
 
 	return editor
 }
 
-export { basicEditor, minimalEditor, readonlyEditor, updateTheme }
+export { basicEditor, minimalEditor, readonlyEditor }
