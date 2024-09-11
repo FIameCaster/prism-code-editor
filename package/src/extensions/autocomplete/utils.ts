@@ -32,16 +32,16 @@ const updateMatched = (container: HTMLElement, matched: number[], text: string) 
 }
 
 /**
- * Completion source that returns a list of snippets if `path` property of the context
+ * Completion source that returns a list of options if `path` property of the context
  * is present and only contains a single string.
- * @param snippets Snippets to complete.
+ * @param options Options to complete.
  */
-const completeSnippets = (snippets: Completion[]): CompletionSource<{ path: string[] | null }> => {
+const completeFromList = (options: Completion[]): CompletionSource<{ path: string[] | null }> => {
 	return ({ path, explicit, pos }) => {
 		if (path?.length == 1 && (path[0] || explicit)) {
 			return {
 				from: pos - path[0].length,
-				options: snippets,
+				options: options,
 			}
 		}
 	}
@@ -121,4 +121,4 @@ const findWords = (
 	return [...result]
 }
 
-export { optionsFromKeys, updateMatched, updateNode, findWords, completeSnippets }
+export { optionsFromKeys, updateMatched, updateNode, findWords, completeFromList }

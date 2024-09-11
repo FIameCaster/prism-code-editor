@@ -28,7 +28,7 @@ import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
-import { autoComplete, completeSnippets, registerCompletions } from "../extensions/autocomplete"
+import { autoComplete, completeFromList, registerCompletions } from "../extensions/autocomplete"
 import {
 	completeKeywords,
 	completeIdentifiers,
@@ -248,7 +248,7 @@ registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 		completeKeywords,
 		jsDocCompletion,
 		jsxTagCompletion(reactTags, globalReactAttributes),
-		completeSnippets(jsSnipets),
+		completeFromList(jsSnipets),
 	],
 })
 
