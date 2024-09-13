@@ -19,7 +19,8 @@ export interface Completion {
 	 * name `variable`.
 	 *
 	 * The icon element also gets it color set to the CSS variable `--pce-ac-icon-` followed
-	 * by the icon name. Use these CSS variables to set different colors for different icons.
+	 * by the icon's name. Use these CSS variables to set different colors for different
+	 * icons.
 	 *
 	 * `prism-code-editor/autocomplete-icons.css` adds 13 icons from VSCode: `class`,
 	 * `constant`, `enum`, `function`, `interface`, `keyword`, `namespace`, `parameter`,
@@ -125,7 +126,7 @@ export type AutoCompleteConfig = {
 	 */
 	preferAbove?: boolean
 	/**
-	 * Whether the tooltip is closed when the `textarea` loses focus. Defaults to `true`.
+	 * Whether the tooltip should close when the `textarea` loses focus. Defaults to `true`.
 	 */
 	closeOnBlur?: boolean
 	/**

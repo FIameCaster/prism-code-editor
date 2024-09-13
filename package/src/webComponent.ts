@@ -132,14 +132,14 @@ export interface PrismEditorElement extends HTMLElement {
  * Adds a custom element wrapping the {@link minimalEditor} setup.
  * @param name Name of the custom element. Must be a valid custom element name.
  */
-export const addMinimalEditor = addComponent.bind(null, minimalEditor)
+export const addMinimalEditor = (name: string) => addComponent(minimalEditor, name)
 /**
  * Adds a custom element wrapping the {@link basicEditor} setup.
  * @param name Name of the custom element. Must be a valid custom element name.
  */
-export const addBasicEditor = addComponent.bind(null, basicEditor)
+export const addBasicEditor = (name: string) => addComponent(basicEditor, name)
 /**
  * Adds a custom element wrapping the {@link readonlyEditor} setup.
  * @param name Name of the custom element. Must be a valid custom element name.
  */
-export const addReadonlyEditor = addComponent.bind(null, readonlyEditor)
+export const addReadonlyEditor = (name: string) => addComponent(readonlyEditor, name)

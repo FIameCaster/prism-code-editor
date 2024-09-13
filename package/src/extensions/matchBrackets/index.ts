@@ -40,7 +40,7 @@ export type Bracket = [Token, number, number, number, string, boolean]
  *
  * Adding the extension dynamically, will force a rerender to add those extra classes.
  *
- * Without rainbow brackets, this extension can be added dynamically with no side effects.
+ * Without rainbow brackets, this extension can be added dynamically with no downsides.
  */
 export const matchBrackets = (
 	rainbowBrackets = true,

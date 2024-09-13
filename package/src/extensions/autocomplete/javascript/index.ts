@@ -194,7 +194,7 @@ const identifierSearch = re(/<0>+/.source, identifierPattern, "g")
 /**
  * Completion source that searches the editor for identifiers and returns them as
  * completions. Best to avoid using this and {@link completeScope} at the same time.
- * @param identifers List of identifiers that should be completed even if they're not
+ * @param identifiers List of identifiers that should be completed even if they're not
  * found in the editor.
  */
 const completeIdentifiers = (identifiers?: Iterable<string>): CompletionSource<JSContext> => {

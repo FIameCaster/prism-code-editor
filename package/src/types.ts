@@ -21,7 +21,11 @@ export type EditorOptions = {
 	wordWrap?: boolean | undefined
 	/** Code to display in the editor. */
 	value: string
-	/** @experimental Whether the editor uses right to left directionality. @default false */
+	/**
+	 * Whether the editor uses right to left directionality. Requires styles from
+	 * `prism-code-editor/rtl-layout.css` to work unless the setups are used.
+	 * @default false
+	 */
 	rtl?: boolean
 	/** Function called when the code of the editor changes. */
 	onUpdate?: EditorEventMap["update"] | null
