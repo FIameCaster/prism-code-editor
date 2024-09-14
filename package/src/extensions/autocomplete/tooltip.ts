@@ -57,6 +57,7 @@ const autoComplete =
 	(config: AutoCompleteConfig): BasicExtension =>
 	(editor, options) => {
 		let isOpen: boolean
+		let isTyping: boolean
 		let shouldOpen: boolean
 		let currentOptions: [number, number[], number, number, Completion][]
 		let numOptions: number
@@ -277,6 +278,7 @@ const autoComplete =
 						shouldOpen = false
 						startQuery()
 					} else hide()
+					isTyping = false
 				})
 			}
 		}
@@ -333,6 +335,7 @@ const autoComplete =
 				isDeleteForwards = false
 				currentSelection = getSelection()
 			}
+			shouldOpen = isTyping
 		})
 		addListener(textarea, "mousedown", () => {
 			if (stops) {
@@ -376,9 +379,9 @@ const autoComplete =
 					isDeleteForwards =
 						isDelete && inputType[13] == "F" && currentSelection[0] == currentSelection[1]
 				}
-				shouldOpen =
+				isTyping =
 					!config.explicitOnly &&
-					(shouldOpen || (isInsert && !prevSelection) || (isDelete && isOpen))
+					(isTyping || (isInsert && !prevSelection) || (isDelete && isOpen))
 			},
 			true,
 		)
@@ -438,7 +441,7 @@ const autoComplete =
 						moveActiveStop(-2)
 						preventDefault(e)
 					}
-				} else if (!isOpen && !code && key == "Escape") {
+				} else if (!isOpen && !code && key == "Escape" && stops) {
 					clearStops()
 					preventDefault(e)
 				}
