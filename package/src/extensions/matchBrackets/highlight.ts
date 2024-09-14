@@ -13,20 +13,30 @@ import { addTextareaListener } from "../../utils/local.js"
  * The `.active-bracket` CSS selector can be used to highlight the brackets.
  */
 export const highlightBracketPairs = (): BasicExtension => editor => {
-	let brackets: Bracket[],
-		matcher: BracketMatcher | undefined,
-		pairs: (number | undefined)[],
-		activeID = -1,
-		els: HTMLSpanElement[] = [],
-		selectionChange = () => {
-			matcher ||= editor.extensions.matchBrackets
-			let [start, end] = editor.getSelection()
-			let newID = start == end && editor.focused && matcher ? closest(end) || -1 : -1
-			if (newID != activeID) {
+	let prev: Bracket
+	let els: HTMLSpanElement[] = []
+	let selectionChange = () => {
+		let matcher = editor.extensions.matchBrackets
+		let [start, end] = editor.getSelection()
+
+		if (matcher) {
+			let brackets = matcher.brackets
+			let pairs = matcher.pairs
+			let opening!: Bracket
+			let closing!: Bracket
+			if (editor.focused && start == end) {
+				for (let i = 0, bracket: Bracket; (bracket = brackets[++i]); ) {
+					if (!bracket[5] && bracket[2] >= end && brackets[pairs[i]!]?.[1] <= end) {
+						opening = brackets[pairs[i]!]
+						closing = bracket
+						break
+					}
+				}
+			}
+
+			if (closing != prev) {
 				toggleActive()
-				if (newID + 1) {
-					let opening = brackets[pairs[newID]!]
-					let closing = brackets[newID]
+				if (closing) {
 					els = [opening, closing].map(
 						bracket => getClosestToken(editor, ".punctuation", 0, -1, bracket[1])!,
 					)
@@ -38,26 +48,14 @@ export const highlightBracketPairs = (): BasicExtension => editor => {
 					}
 					toggleActive(true)
 				} else els = []
-
-				activeID = newID
 			}
-		},
-		closest = (offset: number) => {
-			;({ brackets, pairs } = matcher!)
-			for (let i = 0, bracket: Bracket; (bracket = brackets[++i]); ) {
-				if (!bracket[5] && bracket[2] >= offset && brackets[pairs[i]!]?.[1] <= offset) {
-					return i
-				}
-			}
-		},
-		toggleActive = (add?: boolean) =>
-			els.forEach(el => el.classList.toggle("active-bracket", !!add))
+			prev = closing
+		}
+	}
+	let toggleActive = (add?: boolean) =>
+		els.forEach(el => el.classList.toggle("active-bracket", !!add))
 
 	addTextareaListener(editor, "focus", selectionChange)
 	addTextareaListener(editor, "blur", selectionChange)
 	editor.on("selectionChange", selectionChange)
-	editor.on("update", () => {
-		toggleActive()
-		activeID = -1
-	})
 }
