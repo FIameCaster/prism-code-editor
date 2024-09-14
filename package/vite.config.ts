@@ -26,6 +26,8 @@ const entries = {
 	"extensions/autocomplete/javascript/index": "src/extensions/autocomplete/javascript/index.ts",
 	autocomplete: "src/extensions/autocomplete/style.css",
 	"autocomplete-icons": "src/extensions/autocomplete/icons.css",
+	"ssr/index": "src/ssr/index.ts",
+	"client/index": "src/client/index.ts",
 	folding: "src/extensions/folding/folding.css",
 	tooltips: "src/tooltips.ts",
 	scrollbar: "src/scrollbar.css",

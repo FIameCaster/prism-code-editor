@@ -22,9 +22,9 @@ import { highlightTokens, languages, tokenizeText, TokenStream } from "./prism/i
  */
 const createEditor = <T extends {} = {}>(
 	container?: ParentNode | string | null,
-	options?: Partial<EditorOptions> & T,
+	options?: Partial<EditorOptions> & T | null,
 	...extensions: EditorExtension<T>[]
-): PrismEditor => {
+): PrismEditor<T> => {
 	let language: string
 	let prevLines: string[] = []
 	let activeLine: HTMLDivElement
@@ -246,13 +246,13 @@ const createEditor = <T extends {} = {}>(
  * @param extensions Extensions added before the first render. You can still add extensions later.
  * @returns Object to interact with the created editor.
  */
-const editorFromPlaceholder = (
+const editorFromPlaceholder = <T extends {} = {}>(
 	placeholder: string | ChildNode,
-	options: Partial<EditorOptions>,
+	options: Partial<EditorOptions> & T,
 	...extensions: EditorExtension[]
 ) => {
 	const el = getElement(placeholder)!
-	const editor = createEditor(
+	const editor = createEditor<T>(
 		null,
 		Object.assign({ value: el.textContent }, options),
 		...extensions,
@@ -306,6 +306,8 @@ const preventDefault = (e: Event) => {
 	e.stopImmediatePropagation()
 }
 
+const setSelectionChange = (f?: (force?: boolean) => void) => (selectionChange = f)
+
 let selectionChange: null | undefined | ((force?: boolean) => void)
 
 // @ts-expect-error Allow adding listener to document
@@ -321,5 +323,6 @@ export {
 	editorFromPlaceholder,
 	addListener,
 	selectionChange,
+	setSelectionChange,
 	doc,
 }
