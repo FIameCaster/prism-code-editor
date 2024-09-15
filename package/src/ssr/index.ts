@@ -64,3 +64,4 @@ const renderEditor = <T extends {} = {}>(
 }
 
 export { renderEditor, rainbowBrackets }
+export * from "./code-block.js"

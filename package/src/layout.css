@@ -80,6 +80,7 @@
 
 .pce-overlays,
 .pce-overlays > *,
+.pce-guides .pce-line::after,
 .pce-no-selection .active-line::after,
 .active-line.match-highlight::after {
 	content: "";

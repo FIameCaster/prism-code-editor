@@ -4,7 +4,11 @@ import { addListener, createTemplate, doc } from "../../core.js"
 import { BasicExtension } from "../../types.js"
 import { addOverlay, setSelection } from "../../utils/index.js"
 
-const template = createTemplate(
+/**
+ * Creates a static copy button that can be added to the overlays of an editor or code
+ * block. The `firstChild` of the element returned is the button itself.
+ */
+const createCopyButton = createTemplate(
 	'<div style=display:flex;align-items:flex-start;justify-content:flex-end><button type=button dir=ltr style=display:none class=pce-copy aria-label=Copy><svg width=1.2em viewBox="0 0 16 16" overflow=visible stroke-linecap=round fill=none stroke=currentColor><rect x=4 y=4 width=11 height=11 rx=1 /><path d="M12 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1">',
 )
 
@@ -13,8 +17,8 @@ const template = createTemplate(
  * Probably best used with a read-only editor.
  * You must also import styles from `prism-code-editor/copy-button.css`.
  */
-export const copyButton = (): BasicExtension => editor => {
-	const container = template()
+const copyButton = (): BasicExtension => editor => {
+	const container = createCopyButton()
 	const btn = <HTMLButtonElement>container.firstChild!
 
 	addListener(btn, "click", () => {
@@ -30,3 +34,5 @@ export const copyButton = (): BasicExtension => editor => {
 
 	addOverlay(editor, container)
 }
+
+export { copyButton, createCopyButton }
