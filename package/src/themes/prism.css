@@ -34,13 +34,8 @@
 	--pce-ac-match: #0066bf;
 	--pce-tabstop: #0a326433;
 	--pce-invisibles: #3333;
+	--pce-selection: #b6d5fc;
 	color-scheme: light;
-}
-
-/* Selection */
-.pce-textarea::selection {
-	background: #b6d5fc;
-	color: #0000;
 }
 
 .pce-match {

@@ -28,12 +28,8 @@
 	--bg-guide-indent: #1d333a40;
 	--pce-tabstop: #0a326433;
 	--pce-invisibles: #3333;
+	--pce-selection: #ede7d4;
 	color-scheme: light;
-}
-
-.pce-textarea::selection {
-	background: #ede7d4;
-	color: #0000;
 }
 
 .pce-match {

@@ -30,17 +30,12 @@
 	--pce-ac-match: #0066bf;
 	--pce-tabstop: #0a326433;
 	--pce-invisibles: #3333;
+	--pce-selection: #add6ff;
 	color-scheme: light;
 }
 
 .match-highlight {
 	--editor__bg-highlight: #eee;
-}
-
-/* Selection */
-.pce-textarea::selection {
-	background: #add6ff;
-	color: #0000;
 }
 
 .pce-match {

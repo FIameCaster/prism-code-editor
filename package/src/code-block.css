@@ -9,6 +9,11 @@ code.pce-wrapper {
 	pointer-events: auto;
 }
 
+.pce-line::selection,
+.pce-line ::selection {
+	background: var(--pce-selection);
+}
+
 pre.show-line-numbers .pce-line::before {
 	counter-increment: line;
 	content: counter(line);

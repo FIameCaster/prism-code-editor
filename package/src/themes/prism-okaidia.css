@@ -31,13 +31,8 @@
 	--pce-ac-icon-function: #b180d7;
 	--pce-ac-icon-interface: #75beff;
 	--pce-ac-icon-variable: #75beff;
+	--pce-selection: #575a5a;
 	color-scheme: dark;
-}
-
-/* Selection */
-.pce-textarea::selection {
-	background: #575a5a;
-	color: #0000;
 }
 
 .pce-match {

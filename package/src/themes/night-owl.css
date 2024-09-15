@@ -28,17 +28,12 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	--pce-ac-icon-function: #b180d7;
 	--pce-ac-icon-interface: #75beff;
 	--pce-ac-icon-variable: #75beff;
+	--pce-selection: #1d3b53;
 	color-scheme: dark;
 }
 
 .match-highlight {
 	--editor__bg-highlight: #7e57c259;
-}
-
-/* Selection */
-.pce-textarea::selection {
-	background: #1d3b53;
-	color: #0000;
 }
 
 .pce-match {

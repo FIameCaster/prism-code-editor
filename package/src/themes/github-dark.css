@@ -35,12 +35,8 @@
 	--pce-ac-icon-snippet: #58a6ff;
 	--pce-ac-icon-unit: #58a6ff;
 	--pce-ac-icon-variable: #f0883e;
+	--pce-selection: #264f78;
 	color-scheme: dark;
-}
-
-.pce-textarea::selection {
-	background: #264f78;
-	color: #0000;
 }
 
 .pce-match {

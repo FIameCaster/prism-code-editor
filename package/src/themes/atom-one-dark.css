@@ -29,14 +29,10 @@
 	--pce-ac-icon-function: #b180d7;
 	--pce-ac-icon-interface: #75beff;
 	--pce-ac-icon-variable: #75beff;
+	--pce-selection: #3e4451;
 	color-scheme: dark;
 }
 
-/* Selection */
-.pce-textarea::selection {
-	background: #3e4451;
-	color: #0000;
-}
 
 .pce-match {
 	--search__bg-find: #515c6a;

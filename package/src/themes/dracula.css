@@ -28,17 +28,12 @@ Original: https://github.com/dracula/visual-studio-code */
 	--pce-ac-icon-function: #b180d7;
 	--pce-ac-icon-interface: #75beff;
 	--pce-ac-icon-variable: #75beff;
+	--pce-selection: #44475a;
 	color-scheme: dark;
 }
 
 .match-highlight {
 	--editor__bg-highlight: #44475a;
-}
-
-/* Selection */
-.pce-textarea::selection {
-	background: #44475a;
-	color: #0000;
 }
 
 .pce-match {

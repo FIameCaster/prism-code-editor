@@ -39,6 +39,11 @@
 	padding: 0 var(--_pse) 0 var(--padding-left);
 }
 
+.pce-textarea::selection {
+	background: var(--pce-selection);
+	color: #0000;
+}
+
 .pce-no-selection textarea:focus {
 	z-index: 1;
 }
