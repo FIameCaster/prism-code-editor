@@ -33,6 +33,7 @@ const entries = {
 	scrollbar: "src/scrollbar.css",
 	"rtl-layout": "src/rtl-layout.css",
 	layout: "src/layout.css",
+	"code-block": "src/code-block.css",
 	"themes/index": "src/themes/index.ts",
 	"utils/index": "src/utils/index.ts",
 	"prism/index": "src/prism/index.ts",

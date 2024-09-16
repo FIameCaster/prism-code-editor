@@ -1,7 +1,7 @@
 import { forEachCodeBlock } from "../client/code-block"
 import { highlightTokens, languages, tokenizeText, TokenStream } from "../prism"
 
-type CodeBlockOptions = {
+export type CodeBlockOptions = {
 	/** Language used for syntax highlighting. */
 	language: string
 	/** Code in the code block */

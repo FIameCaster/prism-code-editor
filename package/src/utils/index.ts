@@ -1,6 +1,7 @@
 import { InputSelection, PrismEditor } from "../index.js"
 import { numLines, addListener, selectionChange, doc } from "../core.js"
 import { getLineEnd, getLineStart } from "./local.js"
+import { PrismCodeBlock } from "../client/code-block.js"
 
 let prevSelection: InputSelection | 0
 
@@ -77,7 +78,7 @@ const getClosestToken = (
  * @param position Position to search in. Defaults to `selectionStart`.
  */
 const getLanguage = (editor: PrismEditor, position?: number) =>
-	getClosestToken(editor, '[class*="language-"]', 0, 0, position)?.className.match(
+	getClosestToken(editor, "[class*=language-]", 0, 0, position)?.className.match(
 		/language-(\S*)/,
 	)![1] || editor.options.language
 
@@ -204,10 +205,11 @@ const getModifierCode = (
 /**
  * Adds an overlay by appending the element to the editors overlays.
  * Equivalent to calling `editor.lines[0].append(overlay)`.
- * @param editor Editor you want to add an overlay to.
+ * @param editor Editor or code block you want to add an overlay to.
  * @param overlay The overlay you want to add.
  */
-const addOverlay = (editor: PrismEditor, overlay: HTMLElement) => editor.lines[0].append(overlay)
+const addOverlay = (editor: PrismEditor | PrismCodeBlock, overlay: HTMLElement) =>
+	editor.lines[0].append(overlay)
 
 export {
 	regexEscape,

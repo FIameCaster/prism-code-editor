@@ -21,6 +21,7 @@
     "./utils": "./dist/utils/index.js",
     "./layout.css": "./dist/layout.css",
     "./rtl-layout.css": "./dist/rtl-layout.css",
+    "./code-block.css": "./dist/code-block.css",
     "./themes/*.css": "./dist/themes/*.css",
     "./themes": "./dist/themes/index.js",
     "./languages": "./dist/languages/index.js",
