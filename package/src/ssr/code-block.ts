@@ -6,13 +6,13 @@ type CodeBlockOptions = {
 	language: string
 	/** Code in the code block */
 	code: string
-	/** Number of spaces a tab is equal to. */
+	/** Number of spaces a tab is equal to. @default 2 */
 	tabSize?: number
-	/** Whether or not to display line numbers. Defaults to `true`. */
+	/** Whether or not to display line numbers. @default false */
 	lineNumbers?: boolean
-	/** Line number of the first line. Defaults to 1 */
+	/** Line number of the first line. @default 1 */
 	lineNumberStart?: number
-	/** Whether or not lines can wrap. */
+	/** Whether or not lines can wrap. @default false */
 	wordWrap?: boolean
 	/**
 	 * Whether or not indentation is preserved on wrapped lines. When `true`, tabs are
@@ -22,13 +22,12 @@ type CodeBlockOptions = {
 	preserveIndent?: boolean
 	/**
 	 * Whether or not to display indentation guides. Does support `wordWrap` unline the
-	 * `indentGuides()` editor extension. Does not work with `rtl`. Defaults to `false`.
+	 * `indentGuides()` editor extension. Does not work with `rtl`. @default false
 	 */
 	guideIndents?: boolean
 	/**
 	 * Whether the code block uses right to left directionality. Requires styles from
-	 * `prism-code-editor/rtl-layout.css` to work.
-	 * @default false
+	 * `prism-code-editor/rtl-layout.css` to work. @default false
 	 */
 	rtl?: boolean
 	/**
@@ -50,7 +49,7 @@ const renderCodeBlock = <T extends {}>(options: CodeBlockOptions & T) => {
 		language,
 		code,
 		tabSize = 2,
-		lineNumbers = true,
+		lineNumbers,
 		lineNumberStart = 1,
 		wordWrap,
 		preserveIndent = wordWrap,
@@ -68,8 +67,7 @@ const renderCodeBlock = <T extends {}>(options: CodeBlockOptions & T) => {
 		.replace(/&/g, "&amp;")
 		.replace(/'/g, "&#39;")}' `
 
-	let indents = getIndents(code, tabSize)
-	let hasIndentStyle = preserveIndent || (guideIndents && !rtl)
+	let indents = preserveIndent || (guideIndents && !rtl) ? getIndents(code, tabSize) : null
 	if (preserveIndent) code = code.replace(/\t/g, " ".repeat(tabSize))
 	let tokens = tokenizeText(
 		code.includes("\r") ? code.replace(/\r?\n/g, "\n") : code,
@@ -86,9 +84,9 @@ const renderCodeBlock = <T extends {}>(options: CodeBlockOptions & T) => {
 	}"><code class=pce-wrapper><div class=pce-overlays></div>`
 
 	while (i < l) {
-		html += `<div class=pce-line${
-			hasIndentStyle && indents[i] ? ` style=--indent:${indents[i]}ch` : ""
-		}>${lines[i++]}\n</div>`
+		html += `<div class=pce-line${indents?.[i] ? ` style=--indent:${indents[i]}ch` : ""}>${
+			lines[i++]
+		}\n</div>`
 	}
 
 	return html + "</code></pre>"

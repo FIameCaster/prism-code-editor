@@ -27,7 +27,7 @@ const addStyles = (shadow: ShadowRoot, styles: string, id: string) => {
  * Adds an editor inside a shadow root to the given element and asynchronously loads the styles.
  * @param container Must be an element you can attach a shadow root to
  * @param options Options to create the editor as well as the theme to use.
- * @param loadCallback Function called when the styles are loaded and the editor is
+ * @param onLoad Function called when the styles are loaded and the editor is
  * appended to the DOM.
  * @returns Object to interact with the editor.
  */
