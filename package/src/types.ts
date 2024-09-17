@@ -89,7 +89,7 @@ export type InputSelection = [number, number, "forward" | "backward" | "none"]
 
 export interface Extension<T extends {} = {}> {
 	/** Function called when the extension is added or the options of the editor change. */
-	update(editor: PrismEditor<T>, options: EditorOptions & T): any
+	update(editor: PrismEditor<T>, options: EditorOptions & Omit<T, keyof EditorOptions>): any
 }
 
 export interface BasicExtension<T extends {} = {}> {
@@ -129,7 +129,7 @@ export interface PrismEditor<T extends {} = {}> {
 	 * Current options for the editor. The event handlers can be changed by
 	 * mutating this object. Use `setOptions` to change the other options.
 	 */
-	readonly options: EditorOptions & T
+	readonly options: EditorOptions & Omit<T, keyof EditorOptions>
 	/** Record mapping an input to a function called when that input is typed. */
 	readonly inputCommandMap: Record<string, InputCommandCallback | null | undefined>
 	/** Record mapping KeyboardEvent.key to a function called when that key is pressed. */
@@ -149,7 +149,7 @@ export interface PrismEditor<T extends {} = {}> {
 	 * Set new options for the editor. Ommitted properties will use their old value.
 	 * @param options New options for the editor
 	 */
-	setOptions(this: void, options: Partial<EditorOptions & T>): void
+	setOptions(this: void, options: Partial<EditorOptions & Omit<T, keyof EditorOptions>>): void
 	/** Forces the editor to update. Can be useful after adding a tokenize listener or modifying a grammar. */
 	update(this: void): void
 	/** Gets `selectionStart`, `selectionEnd` and `selectionDirection` for the `textarea`. */

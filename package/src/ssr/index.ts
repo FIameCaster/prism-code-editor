@@ -27,7 +27,7 @@ export type RenderOptions = {
  * @param renderOptions Options used to customize the HTML string returned.
  */
 const renderEditor = <T extends {} = {}>(
-	options: EditorOptions & T,
+	options: EditorOptions & Omit<T, keyof EditorOptions>,
 	renderOptions?: RenderOptions,
 ) => {
 	let { language, value, lineNumbers, wordWrap, rtl, readOnly, tabSize, ...rest } = options

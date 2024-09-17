@@ -44,7 +44,9 @@ export type CodeBlockOptions = {
  * {@link forEachCodeBlock}.
  * @returns String of HTML for the static code block.
  */
-const renderCodeBlock = <T extends {}>(options: CodeBlockOptions & T) => {
+const renderCodeBlock = <T extends {}>(
+	options: CodeBlockOptions & Omit<T, keyof CodeBlockOptions>,
+) => {
 	let {
 		language,
 		code,

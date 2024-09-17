@@ -22,7 +22,7 @@ import { highlightTokens, languages, tokenizeText, TokenStream } from "./prism/i
  */
 const createEditor = <T extends {} = {}>(
 	container?: ParentNode | string | null,
-	options?: Partial<EditorOptions> & T | null,
+	options?: (Partial<EditorOptions> & Omit<T, keyof EditorOptions>) | null,
 	...extensions: EditorExtension<T>[]
 ): PrismEditor<T> => {
 	let language: string
@@ -47,7 +47,7 @@ const createEditor = <T extends {} = {}>(
 		[P in keyof EditorEventMap]?: Set<EditorEventMap<T>[P]>
 	} = {}
 
-	const setOptions = (options: Partial<EditorOptions & T>) => {
+	const setOptions = (options: Partial<EditorOptions> & Partial<Omit<T, keyof EditorOptions>>) => {
 		Object.assign(currentOptions, options)
 		let isNewVal = value != (value = options.value ?? value)
 		let isNewLang = language != (language = currentOptions.language)
@@ -248,7 +248,7 @@ const createEditor = <T extends {} = {}>(
  */
 const editorFromPlaceholder = <T extends {} = {}>(
 	placeholder: string | ChildNode,
-	options: Partial<EditorOptions> & T,
+	options: Partial<EditorOptions> & Omit<T, keyof EditorOptions>,
 	...extensions: EditorExtension[]
 ) => {
 	const el = getElement(placeholder)!
