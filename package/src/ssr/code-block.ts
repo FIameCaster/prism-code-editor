@@ -81,7 +81,9 @@ const renderCodeBlock = <T extends {}>(
 	let l = lines.length
 	let i = 0
 
-	html += `style="--tab-size:${tabSize};--number-width:${(0 | Math.log10(l)) + 1}.001ch${
+	html += `style="--tab-size:${tabSize};--number-width:${
+		(0 | Math.log10(l + lineNumberStart - 1)) + 1
+	}.001ch${
 		lineNumbers ? `;counter-reset:line ${lineNumberStart - 1}` : ""
 	}"><code class=pce-wrapper><div class=pce-overlays></div>`
 
