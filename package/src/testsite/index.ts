@@ -21,6 +21,7 @@ import "../extensions/search/search.css"
 import "../extensions/search/invisibles.css"
 import "../languages"
 import "../layout.css"
+import "../code-block.css"
 import "../rtl-layout.css"
 import "../scrollbar.css"
 import { addBasicEditor, addReadonlyEditor, PrismEditorElement } from "../webComponent"
@@ -48,6 +49,10 @@ import { fuzzyFilter } from "../extensions/autocomplete/filter"
 import { cssCompletion } from "../extensions/autocomplete/css"
 import { globalReactAttributes, reactTags } from "../extensions/autocomplete/javascript/reactData"
 import { showInvisibles } from "../extensions/search/invisibles"
+import { renderCodeBlock } from "../ssr/code-block"
+import { rainbowBrackets } from "../ssr"
+import { addCopyButton, forEachCodeBlock } from "../client/code-block"
+import { addHoverDescription } from "../client/hover"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -262,6 +267,30 @@ registerCompletions(["svg"], {
 
 registerCompletions(["css"], {
 	sources: [cssCompletion()],
+})
+
+document.body.insertAdjacentHTML(
+	"beforeend",
+	`<section>${renderCodeBlock({
+		language: "javascript",
+		code: guides,
+		lineNumbers: true,
+		guideIndents: true,
+		wordWrap: true,
+		preserveIndent: true,
+		tokenizeCallback: rainbowBrackets(),
+	})}</section>`,
+)
+
+forEachCodeBlock(document, codeBlock => {
+	addCopyButton(codeBlock)
+	addHoverDescription(
+		codeBlock,
+		types => {
+			if (types.includes("string")) return ["this is a string token."]
+		},
+		{},
+	)
 })
 
 setTimeout(() => import("../prism/languages"), 500)

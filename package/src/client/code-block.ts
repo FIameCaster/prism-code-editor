@@ -5,7 +5,7 @@ import { addOverlay } from "../utils"
 export type PrismCodeBlock = {
 	/** Outermost element of the code block. */
 	readonly container: HTMLPreElement
-	/** <code> element wrapping the lines and overlays. */
+	/** `<code>` element wrapping the lines and overlays. */
 	readonly wrapper: HTMLElement
 	/**
 	 * Collection containing the overlays as the first element. The rest of the elements
@@ -19,15 +19,15 @@ export type PrismCodeBlock = {
 }
 
 /**
- * Runs a callback function for each code block under the root. If a callback has
- * previously been run for a code block, it's skipped.
- * 
+ * Runs a callback function for each code block under the root in document order. If a
+ * callback has previously been run for a code block, it's skipped.
+ *
  * The callback function takes the code block as the first argument. The second parameter
  * is any additional properties passed when the code block was created. These options
  * were stringified to JSON and parsed.
  * @param root Root to search for code blocks under.
  * @param callback Function to run for each code block.
- * @returns An array with all visited code blocks.
+ * @returns An array with all visited code blocks in document order.
  */
 const forEachCodeBlock = <T extends {}>(
 	root: Document | Element,
@@ -51,7 +51,7 @@ const forEachCodeBlock = <T extends {}>(
 			wrapper,
 			lines,
 			code,
-			language: /language-(\S*)/.exec(element.className)![1]
+			language: /language-(\S*)/.exec(element.className)![1],
 		}
 
 		element.removeAttribute("data-props")

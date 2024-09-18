@@ -1,6 +1,7 @@
 import { PrismEditor } from "../index.js"
 import { addListener, doc } from "../core.js"
 import { isChrome } from "./index.js"
+import { PrismCodeBlock } from "../client/code-block.js"
 
 const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
 	const style1 = editor.container.style,
@@ -30,4 +31,17 @@ const addTextareaListener = <T extends keyof HTMLElementEventMap>(
 const getStyleValue = (el: HTMLElement, prop: keyof CSSStyleDeclaration) =>
 	parseFloat(<string>getComputedStyle(el)[prop])
 
-export { scrollToEl, getLineStart, getLineEnd, getStyleValue, addTextareaListener }
+const getPosition = (editor: PrismEditor | PrismCodeBlock, el: HTMLElement) => {
+	const rect1 = el.getBoundingClientRect()
+	const rect2 = editor.lines[0].getBoundingClientRect()
+
+	return {
+		top: rect1.y - rect2.y,
+		bottom: rect2.bottom - rect1.bottom,
+		left: rect1.x - rect2.x,
+		right: rect2.right - rect1.x,
+		height: rect1.height,
+	}
+}
+
+export { scrollToEl, getLineStart, getLineEnd, getStyleValue, addTextareaListener, getPosition }

@@ -4,7 +4,7 @@ import { highlightTokens, languages, tokenizeText, TokenStream } from "../prism"
 export type CodeBlockOptions = {
 	/** Language used for syntax highlighting. */
 	language: string
-	/** Code in the code block */
+	/** Code in the code block. */
 	code: string
 	/** Number of spaces a tab is equal to. @default 2 */
 	tabSize?: number

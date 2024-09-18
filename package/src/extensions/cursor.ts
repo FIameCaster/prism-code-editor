@@ -3,7 +3,7 @@
 import { BasicExtension, InputSelection, PrismEditor } from "../index.js"
 import { createTemplate } from "../core.js"
 import { getLineBefore } from "../utils/index.js"
-import { getLineEnd, scrollToEl, addTextareaListener } from "../utils/local.js"
+import { getLineEnd, scrollToEl, addTextareaListener, getPosition } from "../utils/local.js"
 import { defaultCommands } from "./commands.js"
 
 /** Postion of the cursor relative to the editors overlays. */
@@ -68,18 +68,7 @@ export const cursorPosition = () => {
 		if (editor.activeLine) selectionChange(editor.getSelection())
 	}
 
-	self.getPosition = () => {
-		const rect1 = cursor.getBoundingClientRect()
-		const rect2 = cEditor.lines[0].getBoundingClientRect()
-
-		return {
-			top: rect1.y - rect2.y,
-			bottom: rect2.bottom - rect1.bottom,
-			left: rect1.x - rect2.x,
-			right: rect2.right - rect1.x,
-			height: rect1.height,
-		}
-	}
+	self.getPosition = () => getPosition(cEditor, cursor)
 
 	self.scrollIntoView = scrollIntoView
 	self.element = cursor
