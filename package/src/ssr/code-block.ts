@@ -38,7 +38,8 @@ export type CodeBlockOptions = {
 }
 
 /**
- * Renders a static code block as HTML.
+ * Renders a static code block as HTML. Styles from `prism-code-editor/code-block.css`
+ * are required in addition to the normal layout.
  * @param options Options controlling how to render the code block. Any extra properties
  * not in {@link CodeBlockOptions} will be stringified as JSON and later parsed by
  * {@link forEachCodeBlock}.

@@ -52,7 +52,7 @@ import { showInvisibles } from "../extensions/search/invisibles"
 import { renderCodeBlock } from "../ssr/code-block"
 import { rainbowBrackets } from "../ssr"
 import { addCopyButton, forEachCodeBlock } from "../client/code-block"
-import { addHoverDescription } from "../client/hover"
+import { addHoverDescriptions } from "../client/hover"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -284,7 +284,7 @@ document.body.insertAdjacentHTML(
 
 forEachCodeBlock(document, codeBlock => {
 	addCopyButton(codeBlock)
-	addHoverDescription(
+	addHoverDescriptions(
 		codeBlock,
 		types => {
 			if (types.includes("string")) return ["this is a string token."]

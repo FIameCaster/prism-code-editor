@@ -4,8 +4,8 @@ import { getPosition } from "../utils/local.js"
 import { PrismCodeBlock } from "./code-block.js"
 
 export type HoverOptions = {
-	/** Whether to place the tooltip below the token whenever possible. @default false */
-	below?: boolean
+	/** Whether the prefered position of the tooltip is above the token. @default false */
+	above?: boolean
 	/** A CSS length value for the tooltip's max width. */
 	maxWidth?: string
 	/** A CSS length value for the tooltip's max height. */
@@ -33,7 +33,7 @@ const template = createTemplate(
  * If `null` or `undefined` is returned, no tooltip is shown for the token.
  * @param options Options for configuring the size and position of the tooltip.
  */
-const addHoverDescription = (
+const addHoverDescriptions = (
 	codeBlock: PrismCodeBlock,
 	callback: (
 		types: string[],
@@ -44,7 +44,7 @@ const addHoverDescription = (
 	options: HoverOptions = {},
 ) => {
 	let current: HTMLSpanElement
-	const { below, maxHeight, maxWidth } = options
+	const { above, maxHeight, maxWidth } = options
 	const container = template()
 	const pre = codeBlock.container
 	const style = container.style
@@ -74,7 +74,7 @@ const addHoverDescription = (
 			container.parentNode || addOverlay(codeBlock, container)
 
 			let placeAbove =
-				!!below == top > bottom && (below ? bottom : top) < container.clientHeight ? below : !below
+				!above == top > bottom && (above ? top : bottom) < container.clientHeight ? !above : above
 
 			style[placeAbove ? "bottom" : "top"] = height + (placeAbove ? bottom : top) + "px"
 			style[placeAbove ? "top" : "bottom"] = "auto"
@@ -100,4 +100,4 @@ const addHoverDescription = (
 	})
 }
 
-export { addHoverDescription }
+export { addHoverDescriptions }
