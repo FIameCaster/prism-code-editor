@@ -1,15 +1,11 @@
 import { PrismEditor } from "../../index.js"
 import { Token } from "../../prism/core.js"
 import { TokenStream } from "../../prism/types.js"
-import { matchTemplate } from "../search/search.js"
+import { matchTemplate, updateNode } from "../search/search.js"
 import { Completion, CompletionContext, CompletionSource } from "./types.js"
 
 const optionsFromKeys = (obj: object, icon?: string): Completion[] =>
 	Object.keys(obj).map(tag => ({ label: tag, icon }))
-
-const updateNode = (node: Text, text: string) => {
-	if (node.data != text) node.data = text
-}
 
 const updateMatched = (container: HTMLElement, matched: number[], text: string) => {
 	let nodes = container.childNodes

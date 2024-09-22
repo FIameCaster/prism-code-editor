@@ -18,6 +18,10 @@ const testBoundary = (str: string, position: number, pattern = /[_\p{N}\p{L}]{2}
 	)
 }
 
+const updateNode = (node: Text, text: string) => {
+	if (node.data != text) node.data = text
+}
+
 export type SearchFilter = (start: number, end: number) => boolean
 
 /** Object with methods useful for performing a search and highlighting the matches. */
@@ -59,7 +63,6 @@ export interface SearchAPI {
 const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	const container = searchTemplate()
 	const nodes: ChildNode[] = [container.firstChild!]
-	const nodeValues: string[] = [" "]
 	const matchPositions: [number, number][] = []
 	const stopSearch = () => {
 		if (matchPositions[0]) {
@@ -69,7 +72,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	}
 
 	let regex: RegExp
-	let nodeCount = 1
+	let lastNode = 0
 
 	return {
 		search(str, caseSensitive, wholeWord, useRegExp, selection, filter, pattern) {
@@ -111,23 +114,19 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 					nodes[i++] = new Text()
 				}
 
-				for (i = nodeCount - 1; i > l; ) nodes[i--].remove()
-				if (nodeCount <= l) container.append(...nodes.slice(nodeCount, l + 1))
+				for (i = l; i < lastNode; ) nodes[++i].remove()
+				if (lastNode < l) container.append(...nodes.slice(lastNode + 1, l + 1))
 
-				// Diffing from bottom to top as well should be better
 				let prevEnd = 0
-				for (i = 0; i < l; ++i) {
+				for (i = 0; i < l; ) {
 					const [start, end] = matchPositions[i / 2]
-					const before = value.slice(prevEnd, start)
-					const match = value.slice(start, (prevEnd = end))
-
-					if (before != nodeValues[i]) (<Text>nodes[i]).data = nodeValues[i] = before
-					if (match != nodeValues[++i]) (<Text>nodes[i].firstChild).data = nodeValues[i] = match
+					updateNode(nodes[i++] as Text, value.slice(prevEnd, start))
+					updateNode(nodes[i++].firstChild as Text, value.slice(start, (prevEnd = end)))
 				}
 
-				;(<Text>nodes[l]).data = nodeValues[l] = value.slice(prevEnd)
+				updateNode(nodes[l] as Text, value.slice(prevEnd))
 				if (!container.parentNode) addOverlay(editor, container)
-				nodeCount = l + 1
+				lastNode = l
 			} else stopSearch()
 		},
 		container,
@@ -139,4 +138,4 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	}
 }
 
-export { createSearchAPI, searchTemplate, matchTemplate }
+export { createSearchAPI, searchTemplate, matchTemplate, updateNode }
