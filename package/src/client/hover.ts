@@ -93,7 +93,11 @@ const addHoverDescriptions = (
 	addListener(wrapper, "pointerover", e => {
 		const target = e.target as HTMLSpanElement
 		if (!tooltip.contains(target)) {
-			if (target.matches(".token") && !target.childElementCount) {
+			if (
+				target.matches(".token") &&
+				(e.pointerType != "mouse" || !e.buttons) &&
+				!target.childElementCount
+			) {
 				show(target)
 			} else hide()
 		}

@@ -13,8 +13,8 @@ import {
 import { Cursor, cursorPosition } from "../cursor.js"
 import { AutoCompleteConfig, Completion, CompletionContext, CompletionDefinition } from "./types.js"
 import { searchTemplate } from "../search/search.js"
-import { updateMatched, updateNode } from "./utils.js"
-import { getStyleValue } from "../../utils/local.js"
+import { updateMatched } from "./utils.js"
+import { getStyleValue, updateNode } from "../../utils/local.js"
 
 let count = 0
 
@@ -380,8 +380,7 @@ const autoComplete =
 						isDelete && inputType[13] == "F" && currentSelection[0] == currentSelection[1]
 				}
 				isTyping =
-					!config.explicitOnly &&
-					(isTyping || (isInsert && !prevSelection) || (isDelete && isOpen))
+					!config.explicitOnly && (isTyping || (isInsert && !prevSelection) || (isDelete && isOpen))
 			},
 			true,
 		)
@@ -392,58 +391,64 @@ const autoComplete =
 			textarea,
 			"keydown",
 			e => {
-				const key = e.key
-				const code = getModifierCode(e)
+				let key = e.key
+				let code = getModifierCode(e)
+				let top: number
+				let height: number
+				let newActive: number
 
 				if (key == " " && code == 2) {
 					addSelectionHandler()
 					if (cursor) startQuery(true)
 					preventDefault(e)
-				} else if (!code && isOpen) {
-					if (/^Arrow[UD]/.test(key)) {
-						move(key[5] == "U")
-						preventDefault(e)
-					} else if (/Tab|Enter/.test(key)) {
-						insertOption(activeIndex)
-						preventDefault(e)
-					} else if (key == "Escape") {
-						hide()
-						preventDefault(e)
-					} else if (key.slice(0, 4) == "Page") {
-						setRowHeight()
-						let top = tooltip.scrollTop
-						let height = tooltip.clientHeight
-						let newActive: number
-						if (key[4] == "U") {
-							newActive = Math.ceil(top / rowHeight)
-							activeIndex =
-								activeIndex == newActive || newActive - 1 == activeIndex
-									? Math.ceil(Math.max(0, (top - height) / rowHeight + 1))
-									: newActive
-						} else {
-							top += height + 1
-							newActive = Math.ceil(top / rowHeight - 2)
-							activeIndex =
-								activeIndex == newActive || newActive + 1 == activeIndex
-									? Math.ceil(Math.min(numOptions - 1, (top + height) / rowHeight - 3))
-									: newActive
-						}
-						scrollActiveIntoView()
-						updateActive()
-						preventDefault(e)
-					}
-				} else if ((code & 7) == 0 && !isOpen && key == "Tab" && stops) {
+				} else if (isOpen) {
 					if (!code) {
-						moveActiveStop(2)
-						if (activeStop + 3 > stops.length) clearStops()
-						preventDefault(e)
-					} else if (activeStop) {
-						moveActiveStop(-2)
+						if (/^Arrow[UD]/.test(key)) {
+							move(key[5] == "U")
+							preventDefault(e)
+						} else if (key == "Tab" || key == "Enter") {
+							insertOption(activeIndex)
+							preventDefault(e)
+						} else if (key == "Escape") {
+							hide()
+							preventDefault(e)
+						} else if (key.slice(0, 4) == "Page") {
+							setRowHeight()
+							top = tooltip.scrollTop
+							height = tooltip.clientHeight
+							if (key[4] == "U") {
+								newActive = Math.ceil(top / rowHeight)
+								activeIndex =
+									activeIndex == newActive || newActive - 1 == activeIndex
+										? Math.ceil(Math.max(0, (top - height) / rowHeight + 1))
+										: newActive
+							} else {
+								top += height + 1
+								newActive = Math.ceil(top / rowHeight - 2)
+								activeIndex =
+									activeIndex == newActive || newActive + 1 == activeIndex
+										? Math.ceil(Math.min(numOptions - 1, (top + height) / rowHeight - 3))
+										: newActive
+							}
+							scrollActiveIntoView()
+							updateActive()
+							preventDefault(e)
+						}
+					}
+				} else if (stops) {
+					if (!(code & 7) && key == "Tab") {
+						if (!code) {
+							moveActiveStop(2)
+							if (activeStop + 3 > stops.length) clearStops()
+							preventDefault(e)
+						} else if (activeStop) {
+							moveActiveStop(-2)
+							preventDefault(e)
+						}
+					} else if (!code && key == "Escape") {
+						clearStops()
 						preventDefault(e)
 					}
-				} else if (!isOpen && !code && key == "Escape" && stops) {
-					clearStops()
-					preventDefault(e)
 				}
 			},
 			true,

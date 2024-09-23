@@ -6,7 +6,7 @@ import { createTemplate, languageMap, addListener } from "../../core.js"
 import { BracketMatcher } from "../matchBrackets/index.js"
 import { TagMatcher } from "../matchTags.js"
 import { TokenStream, Token } from "../../prism/index.js"
-import { getLineEnd } from "../../utils/local.js"
+import { getLineEnd, updateNode } from "../../utils/local.js"
 
 /**
  * Callback used to add extra foldable ranges to an editor.
@@ -163,8 +163,8 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 						el = foldPlaceholders[line] = template2()
 						addListener(el, "click", () => toggleAndUpdate(line))
 					}
-					;(<Text>el.firstChild).data = getLineBefore(value, pos)
-					;(<Text>el.lastChild).data = value.slice(pos2, getLineEnd(value, pos2))
+					updateNode(el.firstChild as Text, getLineBefore(value, pos))
+					updateNode(el.lastChild as Text, value.slice(pos2, getLineEnd(value, pos2)))
 					if (parent != el.parentNode) parent.prepend(el)
 				} else el?.remove()
 			}

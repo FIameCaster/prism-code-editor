@@ -39,9 +39,21 @@ const getPosition = (editor: PrismEditor | PrismCodeBlock, el: HTMLElement) => {
 		top: rect1.y - rect2.y,
 		bottom: rect2.bottom - rect1.bottom,
 		left: rect1.x - rect2.x,
-		right: rect2.right - rect1.x,
+		right: rect2.right - rect1.right,
 		height: rect1.height,
 	}
 }
 
-export { scrollToEl, getLineStart, getLineEnd, getStyleValue, addTextareaListener, getPosition }
+const updateNode = (node: Text, text: string) => {
+	if (node.data != text) node.data = text
+}
+
+export {
+	scrollToEl,
+	getLineStart,
+	getLineEnd,
+	getStyleValue,
+	addTextareaListener,
+	getPosition,
+	updateNode,
+}

@@ -3,7 +3,7 @@
 import { BasicExtension, InputSelection, PrismEditor } from "../index.js"
 import { createTemplate } from "../core.js"
 import { getLineBefore } from "../utils/index.js"
-import { getLineEnd, scrollToEl, addTextareaListener, getPosition } from "../utils/local.js"
+import { getLineEnd, scrollToEl, addTextareaListener, getPosition, updateNode } from "../utils/local.js"
 import { defaultCommands } from "./commands.js"
 
 /** Postion of the cursor relative to the editors overlays. */
@@ -36,22 +36,17 @@ const cursorTemplate = createTemplate(
  */
 export const cursorPosition = () => {
 	let cEditor: PrismEditor
-	let prevBefore = " "
-	let prevAfter = " "
 
 	const cursorContainer = cursorTemplate()
 	const [before, span] = <[Text, HTMLSpanElement]>(<unknown>cursorContainer.childNodes)
 	const [cursor, after] = <[HTMLSpanElement, Text]>(<unknown>span.childNodes)
 	const selectionChange = (selection: InputSelection) => {
-		let value = cEditor.value
-		let activeLine = cEditor.lines[cEditor.activeLine]
-		let position = selection[selection[2] < "f" ? 0 : 1]
-		let newBefore = getLineBefore(value, position)
-		let newAfter = value.slice(position, getLineEnd(value, position))
+		const value = cEditor.value
+		const activeLine = cEditor.lines[cEditor.activeLine]
+		const position = selection[selection[2] < "f" ? 0 : 1]
 
-		if (!newBefore && !newAfter) newAfter = " "
-		if (prevBefore != newBefore) before.data = prevBefore = newBefore
-		if (prevAfter != newAfter) after.data = prevAfter = newAfter
+		updateNode(before, getLineBefore(value, position))
+		updateNode(after, value.slice(position, getLineEnd(value, position)) + "\n")
 		if (cursorContainer.parentNode != activeLine) activeLine.prepend(cursorContainer)
 	}
 	const scrollIntoView = () => scrollToEl(cEditor, cursor)

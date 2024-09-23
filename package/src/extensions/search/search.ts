@@ -1,6 +1,7 @@
 import { addOverlay, regexEscape } from "../../utils/index.js"
 import { createTemplate } from "../../core.js"
 import { PrismEditor } from "../../types.js"
+import { updateNode } from "../../utils/local.js"
 
 const searchTemplate = createTemplate(
 	'<div style="color:#0000;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true> ',
@@ -16,10 +17,6 @@ const testBoundary = (str: string, position: number, pattern = /[_\p{N}\p{L}]{2}
 			position + (str.codePointAt(position)! > 0xffff ? 2 : 1),
 		),
 	)
-}
-
-const updateNode = (node: Text, text: string) => {
-	if (node.data != text) node.data = text
 }
 
 export type SearchFilter = (start: number, end: number) => boolean
@@ -138,4 +135,4 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	}
 }
 
-export { createSearchAPI, searchTemplate, matchTemplate, updateNode }
+export { createSearchAPI, searchTemplate, matchTemplate }

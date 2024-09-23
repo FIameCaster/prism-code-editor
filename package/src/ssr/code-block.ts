@@ -82,10 +82,12 @@ const renderCodeBlock = <T extends {}>(
 	let l = lines.length
 	let i = 0
 
-	html += `style="--tab-size:${tabSize};--number-width:${
-		(0 | Math.log10(l + lineNumberStart - 1)) + 1
-	}.001ch${
-		lineNumbers ? `;counter-reset:line ${lineNumberStart - 1}` : ""
+	html += `style="--tab-size:${tabSize}${
+		lineNumbers
+			? `;--number-width:${
+					(0 | Math.log10(l + lineNumberStart - 1)) + 1
+			  }.001ch;counter-reset:line ${lineNumberStart - 1}`
+			: ""
 	}"><code class=pce-wrapper><div class=pce-overlays></div>`
 
 	while (i < l) {

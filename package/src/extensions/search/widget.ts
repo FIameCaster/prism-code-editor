@@ -2,7 +2,7 @@ import { InputSelection, BasicExtension } from "../../index.js"
 import { createTemplate, preventDefault, addListener, numLines, doc } from "../../core.js"
 import { regexEscape, getModifierCode, isMac, isWebKit, addOverlay } from "../../utils/index.js"
 import { createReplaceAPI } from "./replace.js"
-import { getLineEnd, getLineStart, getStyleValue } from "../../utils/local.js"
+import { getLineEnd, getLineStart, getStyleValue, updateNode } from "../../utils/local.js"
 
 const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
 
@@ -64,8 +64,10 @@ export const searchWidget = (): SearchWidget => {
 			)
 			const index = error ? -1 : selectNext ? replaceAPI.next() : replaceAPI.closest()
 
-			current.data = <any>index + 1
-			total.data = <any>replaceAPI.matches.length
+			// @ts-expect-error Allow type coercion
+			updateNode(current, index + 1)
+			// @ts-expect-error Allow type coercion
+			updateNode(total, replaceAPI.matches.length)
 			findContainer.classList.toggle("pce-error", !!error)
 
 			if (error) errorEl.textContent = error
@@ -120,7 +122,8 @@ export const searchWidget = (): SearchWidget => {
 			if (replaceAPI.matches[0]) {
 				const index = replaceAPI[next ? "next" : "prev"]()
 				replaceAPI.selectMatch(index, prevMargin)
-				current.data = <any>index + 1
+				// @ts-expect-error Allow type coercion
+				updateNode(current, index + 1)
 			}
 		}
 
@@ -147,7 +150,8 @@ export const searchWidget = (): SearchWidget => {
 			selectNext = true
 			const index = replaceAPI.replace(replaceInput.value)
 			if (index != null) {
-				current.data = <any>(index + 1)
+				// @ts-expect-error Allow type coercion
+				updateNode(current, index + 1)
 				replaceAPI.selectMatch(index, prevMargin)
 			}
 			selectNext = false

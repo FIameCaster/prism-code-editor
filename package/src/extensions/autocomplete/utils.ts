@@ -1,7 +1,8 @@
 import { PrismEditor } from "../../index.js"
 import { Token } from "../../prism/core.js"
 import { TokenStream } from "../../prism/types.js"
-import { matchTemplate, updateNode } from "../search/search.js"
+import { updateNode } from "../../utils/local.js"
+import { matchTemplate } from "../search/search.js"
 import { Completion, CompletionContext, CompletionSource } from "./types.js"
 
 const optionsFromKeys = (obj: object, icon?: string): Completion[] =>
@@ -117,4 +118,4 @@ const findWords = (
 	return [...result]
 }
 
-export { optionsFromKeys, updateMatched, updateNode, findWords, completeFromList }
+export { optionsFromKeys, updateMatched, findWords, completeFromList }
