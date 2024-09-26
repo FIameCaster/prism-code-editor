@@ -100,7 +100,7 @@ function testPatterns(langs) {
 						if (lookbehind && lookbehindGroup) {
 							
 							try {
-								ast2 = parseRegex(RegExp(value.source.replace(RegExp(regexEscape(lookbehindGroup.raw) + "\\??"), '')));
+								ast2 = parseRegex(RegExp(value.source.replace(lookbehindGroup.raw, '()')));
 							} catch (error) {
 								throw new SyntaxError(`Invalid RegExp at ${tokenPath}\n\n${error.message}`);
 							}
