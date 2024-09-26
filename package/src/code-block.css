@@ -21,7 +21,7 @@ pre.show-line-numbers .pce-line::before {
 
 .pce-guides .pce-line::after {
 	pointer-events: none;
-	background: no-repeat 0 / var(--indent) repeating-linear-gradient(
+	background: no-repeat 0 / calc(var(--indent) - 1px) repeating-linear-gradient(
 		90deg,
 		var(--bg-guide-indent),
 		var(--bg-guide-indent) 1px,
