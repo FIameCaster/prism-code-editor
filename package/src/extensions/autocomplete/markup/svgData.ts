@@ -9,24 +9,24 @@ import {
 } from "./data.js"
 
 const overflow = ["visible", "hidden", "scroll", "auto", "inherit"]
-const alignmentBaseline = [
-	"auto",
-	"baseline",
-	"before-edge",
-	"text-before-edge",
-	"middle",
-	"central",
-	"after-edge",
-	"text-after-edge",
-	"ideographic",
-	"alphabetic",
-	"hanging",
-	"mathematical",
-	"inherit",
-]
 const visibility = ["visible", "hidden", "collapse", "inherit"]
 const units = ["userSpaceOnUse", "objectBoundingBox"]
 const colorInterpolation = ["auto", "sRGB", "linearRGB", "inherit"]
+
+const preserveAspectRatio = [
+	"none",
+	"xMinYMin",
+	"xMidYMin",
+	"xMaxYMin",
+	"xMinYMid",
+	"xMidYMid",
+	"xMaxYMid",
+	"xMinYMax",
+	"xMidYMax",
+	"xMaxYMax",
+	"meet",
+	"slice",
+]
 
 const animationAttributes: AttributeConfig = {
 	attributeName: null,
@@ -107,6 +107,22 @@ const presentationAttributes: AttributeConfig = {
 }
 
 const textAttributes: AttributeConfig = {
+	"alignment-baseline": [
+		"auto",
+		"baseline",
+		"before-edge",
+		"text-before-edge",
+		"middle",
+		"central",
+		"after-edge",
+		"text-after-edge",
+		"ideographic",
+		"alphabetic",
+		"hanging",
+		"mathematical",
+		"inherit",
+	],
+	"baseline-shift": null,
 	direction: ["ltr", "rtl", "inherit"],
 	"dominant-baseline": [
 		"auto",
@@ -219,7 +235,6 @@ const svgTags: TagConfig = {
 	clipPath: pathAttributes,
 	defs: {
 		...presentationAttributes,
-		"enable-background": null,
 		systemLanguage: null,
 	},
 	desc: {},
@@ -337,7 +352,7 @@ const svgTags: TagConfig = {
 	feImage: {
 		...filterAttributes,
 		href: null,
-		preserveAspectRatio: null,
+		preserveAspectRatio: preserveAspectRatio,
 		crossorigin: attrValueXo,
 	},
 	feMerge: filterAttributes,
@@ -408,19 +423,17 @@ const svgTags: TagConfig = {
 	},
 	g: {
 		...presentationAttributes,
-		"enable-background": null,
 		systemLanguage: null,
 	},
 	image: {
 		...presentationAttributes,
 		...posAttributes,
-		"color-profile": null,
 		crossorigin: attrValueXo,
 		decoding: attrValueDecoding,
 		href: null,
 		"image-rendering": ["auto", "optimizeQuality", "optimizeSpeed"],
 		overflow: overflow,
-		preserveAspectRatio: null,
+		preserveAspectRatio: preserveAspectRatio,
 		systemLanguage: null,
 	},
 	line: {
@@ -447,7 +460,7 @@ const svgTags: TagConfig = {
 		markerWidth: null,
 		orient: null,
 		overflow: overflow,
-		preserveAspectRatio: null,
+		preserveAspectRatio: preserveAspectRatio,
 		refX: null,
 		refY: null,
 		viewBox: null,
@@ -475,7 +488,7 @@ const svgTags: TagConfig = {
 		patternContentUnits: units,
 		patternTransform: null,
 		patternUnits: units,
-		preserveAspectRatio: null,
+		preserveAspectRatio: preserveAspectRatio,
 		systemLanguage: null,
 		viewBox: null,
 	},
@@ -530,24 +543,22 @@ const svgTags: TagConfig = {
 		...presentationAttributes,
 		...posAttributes,
 		baseProfile: null,
-		contentScriptValue: null,
-		contentStyleType: null,
 		overflow: overflow,
-		preserveAspectRatio: null,
+		preserveAspectRatio: preserveAspectRatio,
 		systemLanguage: null,
 		version: null,
 		viewBox: null,
+		xmlns: ["http://www.w3.org/2000/svg"]
 	},
 	switch: {
 		...presentationAttributes,
-		"enable-background": null,
 		systemLanguage: null,
 	},
 	symbol: {
 		...presentationAttributes,
 		...posAttributes,
 		overflow: overflow,
-		preserveAspectRatio: null,
+		preserveAspectRatio: preserveAspectRatio,
 		refX: null,
 		refY: null,
 		viewBox: null,
@@ -573,8 +584,6 @@ const svgTags: TagConfig = {
 	textPath: {
 		...presentationAttributes,
 		...textAttributes,
-		"alignment-baseline": alignmentBaseline,
-		"baseline-shift": null,
 		href: null,
 		method: ["align", "stretch"],
 		spacing: ["auto", "exact"],
@@ -584,8 +593,6 @@ const svgTags: TagConfig = {
 	tspan: {
 		...presentationAttributes,
 		...textAttributes,
-		"alignment-baseline": alignmentBaseline,
-		"baseline-shift": null,
 		dx: null,
 		dy: null,
 		rotate: null,
@@ -599,7 +606,7 @@ const svgTags: TagConfig = {
 	},
 	view: {
 		viewBox: null,
-		preserveAspectRatio: null,
+		preserveAspectRatio: preserveAspectRatio,
 		viewTarget: null,
 	},
 }
