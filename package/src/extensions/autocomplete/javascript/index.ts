@@ -211,6 +211,7 @@ const completeIdentifiers = (identifiers?: Iterable<string>): CompletionSource<J
 					identifiers,
 				).map(label => ({
 					label,
+					icon: "text",
 				})),
 			}
 		}

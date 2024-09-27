@@ -22,9 +22,10 @@ export interface Completion {
 	 * by the icon's name. Use these CSS variables to set different colors for different
 	 * icons.
 	 *
-	 * `prism-code-editor/autocomplete-icons.css` adds 13 icons from VSCode: `class`,
+	 * `prism-code-editor/autocomplete-icons.css` adds 14 icons from VSCode: `class`,
 	 * `constant`, `enum`, `function`, `interface`, `keyword`, `namespace`, `parameter`,
-	 * `property`, `snippet`, `unit`, and `variable`. You can import your own icons instead.
+	 * `property`, `snippet`, `text`, `unit`, and `variable`. You can import your own icons
+	 * instead.
 	 *
 	 * Defaults to `"variable"`
 	 */
@@ -39,6 +40,7 @@ export interface Completion {
 		| "parameter"
 		| "property"
 		| "snippet"
+		| "text"
 		| "unit"
 		| "variable"
 		| (string & {})

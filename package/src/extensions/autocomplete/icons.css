@@ -56,3 +56,6 @@
 .pce-ac-icon-keyword {
 	--mask: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path stroke="red" fill="none" d="m1.5 2.5h6v2h-6zm8.5 1h5m-14 4h11m-11 3h6m3 0h5m-3 3h2m-13 0h9"/></svg>');
 }
+.pce-ac-icon-text {
+	--mask: url('data:image/svg+xml,<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path stroke="red" fill="none" d="m1.55 7a1.2 1.2 0 0 1 1.2-.8h.6a1.2 1.2 0 0 1 1.2 1.2v3.73m0-3.1l-2 0.3a1.2 1.2 0 0 0 0 2.39h.1a1.9 1.9 0 0 0 1.9-2m1.7-5.2v7.6m1.85-.4a1.85 2.3 0 0 1 0-4.6 1.85 2.3 0 0 1 0 4.6m6.6-.8a1.85 2.3 0 1 1 0-3"/></svg>');
+}
