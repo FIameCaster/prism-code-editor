@@ -1,0 +1,27 @@
+Full example
+<number>   ::= "+" <unsigned> | "-" <unsigned> | <unsigned>
+<unsigned> ::= "NaN" | "Infinity" | <decimal> | <decimal> <exponent>
+<decimal>  ::= <integer> | "." <non-zero-integer> | <non-zero-integer> "." | <integer> "." <integer>
+
+<exponent>      ::= <exponent-char> <exponent-sign> <integer>
+<exponent-char> ::= "e" | "E"
+<exponent-sign> ::= "+" | "-" | ""
+
+<integer>          ::= "0" | <non-zero-integer>
+<non-zero-integer> ::= <non-zero-digit> | <non-zero-digit> <digits>
+
+<digits>         ::= <digit> | <digit> <digits>
+<digit>          ::= "0" | <non-zero-digit>
+<non-zero-digit> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+Routing Backus–Naur form
+<number>   ::= [ "+" | "-" ] <unsigned>
+<unsigned> ::= "NaN" | "Infinity" | <decimal> [ <exponent> ]
+<decimal>  ::= <integer> [ "." <integer> ] | "." <non-zero-integer> | <non-zero-integer> "."
+<exponent> ::= ( "e" | "E" ) [ "+" | "-" ] <integer>
+
+<integer>          ::= "0" | <non-zero-integer>
+<non-zero-integer> ::= <non-zero-digit> [ <digit>... ]
+
+<digit>          ::= "0" | <non-zero-digit>
+<non-zero-digit> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"

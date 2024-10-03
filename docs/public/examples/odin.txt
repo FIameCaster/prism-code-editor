@@ -1,0 +1,11 @@
+// Example
+package main
+
+import "core:fmt"
+
+main :: proc() {
+	i: int
+	for i := 0; i < 100; i += 1 {
+		fmt.println(i, " bottles of beer on the wall.\n")
+	}
+}

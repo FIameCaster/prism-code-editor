@@ -1,0 +1,33 @@
+<!-- Embedded JS and CSS -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>I can haz embedded CSS and JS</title>
+	<style>
+		@media print {
+			p { color: red !important; }
+		}
+	</style>
+</head>
+<body>
+	<h1>I can haz embedded CSS and JS</h1>
+	<script>
+		if (true) {
+			console.log('foo');
+		}
+	</script>
+
+</body>
+</html>
+
+<!-- Name-attribute pair without quotes -->
+<p class=prism></p>
+
+<!-- Invalid HTML -->
+<l </ul>
+
+<!-- Multi-line attribute values -->
+<p title="foo
+bar
+baz">

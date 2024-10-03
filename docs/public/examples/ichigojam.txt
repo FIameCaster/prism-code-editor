@@ -1,0 +1,27 @@
+' Comments
+' This is a comment
+REM This is a remark
+'NoSpaceIsOK
+REMNOSPACE
+
+' Strings
+"This a string."
+"This is a string with ""quotes"" in it."
+
+' Numbers
+42
+3.14159
+-42
+-3.14159
+.5
+10.
+2E10
+4.2E-14
+-3E+2
+#496F726953756B69
+`11100010
+
+' IchigoJam Basic example
+A=0
+FOR I=1 TO 100 : A=A+I : NEXT
+PRINT A

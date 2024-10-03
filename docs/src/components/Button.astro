@@ -1,0 +1,32 @@
+---
+type Props = { type: "submit" | "button" | "reset" }
+
+---
+
+<button type={Astro.props.type} class="btn">
+	<slot />
+</button>
+
+<style is:global>
+	[data-theme="light"] .btn {
+		background: var(--sl-color-gray-7);
+	}
+
+	.btn {
+		border: 1px solid var(--sl-color-gray-5);
+		background: var(--sl-color-gray-6);
+		border-radius: 0.2em;
+		padding: 0 0.4em;
+		cursor: pointer;
+	}
+
+	@media (hover: hover) {
+		.btn:hover {
+			border: 1px solid var(--sl-color-gray-3);
+			background: var(--sl-color-gray-5);
+		}
+		[data-theme="light"] .btn:hover {
+			background: var(--sl-color-gray-6);
+		}
+	}
+</style>

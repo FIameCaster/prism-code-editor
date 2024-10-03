@@ -1,0 +1,50 @@
+// Comments
+// Single line comment
+/* Multi-line
+comment */
+
+// Variables
+@nice-blue: #5B83AD;
+@light-blue: @nice-blue + #111;
+
+// At-rules
+@media screen and (min-width: 320px) {}
+
+// Mixins
+.bordered {
+	border-top: dotted 1px black;
+	border-bottom: solid 2px black;
+}
+#menu a {
+	.bordered;
+}
+#header a {
+	color: orange;
+	#bundle > .button;
+}
+
+// Mixins with parameters
+.foo (@bg: #f5f5f5, @color: #900) {
+	background: @bg;
+	color: @color;
+}
+.bar {
+	.foo();
+}
+.class1 {
+	.mixin(@margin: 20px; @color: #33acfe);
+}
+.class2 {
+	.mixin(#efca44; @padding: 40px);
+}
+
+// Interpolation
+@mySelector: banner;
+.@{mySelector} {
+	font-weight: bold;
+}
+@property: color;
+.widget {
+	@{property}: #0ee;
+	background-@{property}: #999;
+}

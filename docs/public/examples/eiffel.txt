@@ -1,0 +1,66 @@
+-- Comments
+-- A comment
+
+-- Simple string and character
+"A simple string with %"double quotes%""
+'a'
+
+-- Verbatim-strings
+"[
+	A aligned verbatim string
+]"
+"{
+	A non-aligned verbatim string
+}"
+
+-- Numbers
+1_000
+1_000.
+1_000.e+1_000
+1_000.1_000e-1_000
+.1
+0b1010_0001
+0xAF_5B
+0c75_22
+
+-- Class names
+deferred class
+	A [G]
+
+feature
+	items: G
+		deferred  end
+
+end
+
+-- Full example
+note
+	description: "Represents a person."
+
+class
+	PERSON
+
+create
+	make, make_unknown
+
+feature {NONE} -- Creation
+
+	make (a_name: like name)
+		-- Create a person with `a_name' as `name'.
+		do
+			name := a_name
+		ensure
+			name = a_name
+		end
+
+		make_unknown
+		do ensure
+			name = Void
+			end
+
+feature -- Access
+
+	name: detachable STRING
+		-- Full name or Void if unknown.
+
+end

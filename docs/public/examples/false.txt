@@ -1,0 +1,37 @@
+{ Hello, world! }
+"Hello, world!"
+
+{ Increment }
+5 [7+]! . {Outputs 12.}
+
+{ Square numbers }
+[$*] s: 7s;! . {Outputs 49.}
+
+{ Equal, less, or greater than }
+5x:
+7y:
+x;y;=
+$
+x;
+.
+[" equals "]?
+~[
+	x;y;>
+	$
+	[" is greater than "]?
+	~[" is less than "]?
+]?
+y;
+.
+
+{ English alphabet }
+'Ai: 'Zm: 1m;+ m: [m;i;>][i;, 1i;+ i:]#
+
+{ Ten Green Bottles }
+[$ . " green bottle" 1> ["s"]? ".
+"] f:
+10n: [n;0>][n;f;! n;1- n:]#
+
+{ Reverse a string }
+"Enter the string character by character (or a space to finish):
+"0i: [ß ^ $ 32=~][i;1+ i:]# % "Reverse: " [i;0>][, i;1- i:]#

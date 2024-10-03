@@ -1,0 +1,79 @@
+//- Comments
+// Some
+	multiline
+	comment !
+
+// This is a comment
+But this is not
+
+//- Doctype
+doctype html
+doctype 1.1
+doctype html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN"
+
+//- Tags
+ul
+	li Item A
+	li Item B
+	li Item C
+foo(bar='baz')/
+input(type='checkbox', checked=true.toString())
+#content
+div#foo(data-bar="foo")&attributes({'data-foo': 'bar'})
+
+//- Markup
+<div class="foo bar"></div>
+
+//- Control flow
+#user
+	if user.description
+		p.description= user.description
+	else if authorised
+		p.description.
+			User has no description,
+			why not add one...
+	else
+		p.description User has no description
+ul
+	each val in [1, 2, 3, 4, 5]
+		li= val
+case friends
+	when 0
+		p you have no friends
+	when 1
+		p you have a friend
+	default
+		p you have #{friends} friends
+
+//- Inline JavaScript
+script alert('test');
+script(type="text/javascript").
+	alert('foo');
+	alert('bar');
+- var classes = ['foo', 'bar', 'baz']
+- for (var x = 0; x < 3; x++)
+	li item
+
+//- Keywords
+include ./includes/head.pug
+extends ./layout.pug
+block content
+append head
+
+//- Mixins
+mixin list
+	ul
+		li foo
+		li bar
+		li baz
++list
+mixin pet(name)
+	li.pet= name
+ul
+	+pet('cat')
+	+pet('dog')
+
+//- Filters
+script
+	:coffee
+		console.log 'This is coffee script'

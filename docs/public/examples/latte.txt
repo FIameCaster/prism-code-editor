@@ -1,0 +1,16 @@
+{* Full example *}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{$title|upper}</title>
+	</head>
+	<body>
+		{if count($menu) > 1}
+			<ul class="menu">
+				{foreach $menu as $item}
+				<li><a href="{$item->href}">{$item->caption}</a></li>
+				{/foreach}
+			</ul>
+		{/if}
+	</body>
+</html>

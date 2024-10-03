@@ -1,0 +1,69 @@
+# Comments
+# Single line comment
+### Module level documentation comment
+## Statement level documentation comment
+# Regular code comment
+
+# Strings
+# double quote single line strings
+"foo \"bar\" baz"
+
+# heredocs or multiline strings
+"""
+{ "snot": "badger" }
+"""
+
+# Variables
+# Immutable constants
+const snot = "fleek";
+
+# Mutable variables
+let badger = "flook";
+
+# Operators
+merge {} of
+	{ "snot": "badger" }
+end;
+
+patch {} of
+	insert snot = "badger"
+end;
+
+# Functions and keywords
+fn fib_(a, b, n) of
+case (a, b, n) when n > 0 => recur(b, a + b, n - 1)
+default => a
+end;
+
+fn fib(n) with
+fib_(0, 1, n)
+end;
+
+fib(event)
+
+# Queries
+define script fib
+	script
+		fn fib_(a, b, n) of
+			case (a, b, n) when n > 0 => recur(b, a + b, n - 1)
+			default => a
+		end;
+
+		fn fib(n) with
+			fib_(0, 1, n)
+		end;
+
+		{ "fib": fib(event.n) }
+	end;
+
+	create script fib;
+	select event.n from in into fib;
+	select event from fib into out;
+
+# Deployments
+define pipeline passthrough
+pipeline
+	select event from in into out;
+end;
+
+deploy pipeline passthrough;

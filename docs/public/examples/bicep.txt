@@ -1,0 +1,19 @@
+// Variable assignment
+var foo = 'bar'
+
+// Operators
+(1 + 2 * 3)/4 >= 3 && 4 < 5 || 6 > 7
+
+// Keywords
+resource appServicePlan 'Microsoft.Web/serverfarms@2020-09-01' existing =  = if (diagnosticsEnabled) {
+	name: logAnalyticsWsName
+}
+module cosmosDb './cosmosdb.bicep' = {
+	name: 'cosmosDbDeploy'
+}
+param env string
+var oneNumber = 123
+output databaseName string = cosmosdbDatabaseName
+for item in cosmosdbAllowedIpAddresses: {
+  ipAddressOrRange: item
+}

@@ -1,0 +1,30 @@
+// Comments
+//
+// Foobar
+#!/usr/bin/env io
+/* multiline
+comment
+*/
+
+// Strings
+"this is a \"test\".\nThis is only a test."
+"""this is a "test".
+This is only a test."""
+
+// Numbers
+123
+123.456
+0.456
+123e-4
+123e4
+123.456e-7
+123.456e2
+
+// Full example
+"Hello, world!" println
+A := Object clone    // creates a new, empty object named "A"
+factorial := method(n,
+	if(n == 0, return 1)
+	res := 1
+	Range 1 to(n) foreach(i, res = res * i)
+)

@@ -1,0 +1,29 @@
+// Comments
+// Single line comment
+/* Multi-line
+comment */
+
+// At-rules
+@import "foo.scss";
+@media (min-width: 600px) {}
+.seriousError {
+	@extend .error;
+}
+@for $i from 1 through 3 {}
+
+// Compass URLs
+@font-face {
+	font-family: "opensans";
+	src: font-url("opensans.ttf");
+}
+
+// Variables
+$width: 5em;
+#main {
+	width: $width;
+}
+
+// Interpolations are highlighted in property names
+p.#{$name} {
+	#{$attr}-color: blue;
+}

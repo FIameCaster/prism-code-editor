@@ -1,0 +1,52 @@
+; Comments
+;; (foo bar)
+
+; Strings
+(foo "bar")
+
+; With nested symbols
+(foo "A string with a `symbol ")
+
+; With nested arguments
+(foo "A string with an ARGUMENT ")
+
+; Quoted symbols
+(foo #'bar)
+
+; Lisp properties
+(foo :bar)
+
+; Splices
+(foo ,bar ,@bar)
+
+; Keywords
+(let foo (bar arg))
+
+; Declarations
+(declare foo)
+
+; Booleans
+(foo t)
+
+; ; Booleans
+(foo nil)
+
+; Numbers
+(foo 1)
+
+; ; Numbers
+(foo -1.5)
+
+; Definitions
+(defvar bar 23)
+
+; ; Definitions
+(defcustom bar 23)
+
+; Function definitions
+(defun multiply-by-seven (number)
+       "Multiply NUMBER by seven."
+       (* 7 number))
+
+; Lambda expressions
+(lambda (number) (* 7 number))

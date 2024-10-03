@@ -1,0 +1,7 @@
+Full example
+1..48
+ok 1 Description # Directive
+# Diagnostic
+....
+ok 47 Description
+ok 48 Description

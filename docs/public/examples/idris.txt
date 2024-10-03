@@ -1,0 +1,55 @@
+-- Comments
+-- Single line comment
+{- Multi-line
+comment -}
+
+-- Strings and characters
+'a'
+'\n'
+'\^A'
+'\^]'
+'\NUL'
+'\23'
+'\o75'
+'\xFE'
+
+-- Numbers
+42
+123.456
+123.456e-789
+1e+3
+0o74
+0XAF
+
+-- Larger example
+module Main
+
+import Data.Vect
+
+-- this is comment
+record Person where
+	constructor MkPerson2
+	age : Integer
+	name : String
+
+||| identity function
+id : a -> a
+id x = x
+
+{-
+Bool type can be defined in
+userland
+-}
+data Bool = True | False
+
+implementation Show Bool where
+	show True = "True"
+	show False = "False"
+
+not : Bool -> Bool
+not b = case b of
+					True  => False
+					False => True
+
+vect3 : Vect 3 Int
+vect3 = with Vect (1 :: 2 :: 3 :: Nil)

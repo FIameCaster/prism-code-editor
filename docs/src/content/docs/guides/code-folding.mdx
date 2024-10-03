@@ -1,0 +1,92 @@
+---
+title: Code folding
+description: Learn how to add code folding to read-only editors.
+---
+
+import Editor from "../../../components/editor/Folding.astro"
+import "../../../css/editor-theme.css"
+
+This library support code folding, but only for read-only editors. All editors on this page are therefore read-only. Code folding for all editors is significantly more complex and therefore not implemented.
+
+## Try it
+
+<Editor language="html" readOnly value={`<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Code folding demo</title>
+	<style>
+		.prism-code-editor {
+			font-size: 0.875rem;
+			line-height: 1.5;
+			height: 50em;
+		}
+	</style>
+</head>
+<body>
+	<h1>
+		Prism code editor is awesome
+	</h1>
+	<div id="editor"></div>
+	<script type="module">
+		import { createEditor } from "prism-code-editor"
+
+		/**
+		 * You can fold comments too!
+		 */
+		const editor = createEditor(
+			"#editor",
+			{
+				language: "javascript",
+				value: "const foo = 'bar'"
+			}
+		)
+	</script>
+</body>
+</html>`} />
+
+## Providers
+
+By default, the `readOnlyCodeFolding` extension won't fold any ranges. You need to pass folding range providers to the extension when it's created.
+
+<Editor language="javascript" readOnly value={`import {
+	readOnlyCodeFolding,
+	markdownFolding,
+	blockCommentFolding,
+	bracketFolding,
+	tagFolding
+} from "prism-code-editor/code-folding"
+import "prism-code-editor/code-folding.css"
+
+editor.addExtensions(
+	readOnlyCodeFolding(
+		bracketFolding,
+		tagFolding,
+		markdownFolding,
+		blockCommentFolding
+	)
+)`} />
+
+There are currently 4 providers you can import:
+
+- [`bracketFolding()`](/api-reference/code-folding/f-bracketfolding) adds folding of round-, square- and curly brackets.
+- [`tagFolding()`](/api-reference/code-folding/f-tagfolding) adds folding to XML tags.
+- [`blockCommentFolding()`](/api-reference/code-folding/f-blockcommentfolding) adds  folding to block comments.
+- [`markdownFolding()`](/api-reference/code-folding/f-markdownfolding) adds folding to headings and code blocks in markdown.
+
+### Adding your own
+
+You can easily create your own [`FoldingRangeProvier`](/api-reference/code-folding/t-foldingrangeprovider). The providers are called with the current editor and should return an array of foldable ranges. These ranges should span multiple lines.
+
+<Editor language="typescript" readOnly value={`import {
+  readOnlyCodeFolding,
+  FoldingRangeProvider
+} from "prism-code-editor/code-folding"
+
+const myProvider: FoldingRangeProvider = editor => {
+	return [[5, 20], [10, 15]]
+}
+
+editor.addExtensions(
+	readOnlyCodeFolding(myProvider)
+)`} />

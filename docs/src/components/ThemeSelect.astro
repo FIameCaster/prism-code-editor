@@ -1,0 +1,83 @@
+<input type="checkbox" id="theme">
+<label for="theme">
+	<span>Light theme</span>
+</label>
+
+<script is:inline>
+	theme.checked = document.documentElement.dataset.theme == "light"
+</script>
+
+<script>
+	const media = matchMedia("(min-width: 50em)")
+	const themeInput = theme as HTMLInputElement
+	const label = themeInput.nextElementSibling as HTMLLabelElement
+	const parent = themeInput.parentNode!
+	const mobileFooter = document.querySelector(".mobile-preferences")!
+
+	media.onchange = e => {
+		(e.matches ? parent : mobileFooter).append(themeInput, label)
+	}
+
+	if (!media.matches) mobileFooter.append(themeInput, label)
+
+	themeInput.onchange = () => {
+		const theme = themeInput.checked ? "light" : "dark"
+		localStorage.theme = theme
+		document.documentElement.dataset.theme = theme
+	}
+
+</script>
+
+<style is:global>
+	#theme {
+		position: absolute;
+		outline: none;
+		-webkit-appearance: none;
+		appearance: none;
+	}
+	#theme + label {
+		display: flex;
+		justify-content: space-between;
+		height: 1.25em;
+		width: 2.5em;
+		padding: 0.125em;
+		border-radius: 9em;
+		background: var(--sl-color-white);
+		cursor: pointer;
+		position: relative;
+		-webkit-user-select: none;
+		user-select: none;
+	}
+	#theme + ::before,
+	#theme + ::after {
+		content: "";
+		width: 1em;
+		height: 1em;
+		background: var(--sl-color-bg);
+		-webkit-mask: no-repeat var(--mask);
+		mask: no-repeat var(--mask);
+	}
+	#theme + label span {
+		position: absolute;
+		width: 1em;
+		height: 1em;
+		color: #0000;
+		border-radius: 1em;
+		background: var(--sl-color-bg);
+		transition: transform 50ms ease-in-out;
+	}
+	#theme:checked + label span {
+		transform: translate(1.25em);
+	}
+	#theme:focus-visible + label {
+		outline: 2px solid;
+		outline-offset: 2px;
+	}
+	#theme + ::before {
+		--mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path stroke="red" fill="none" stroke-linecap="round" d="m8 2v1.5m0 9v1.5m4.5-6h1.5m-12 0h1.5m.26-4.24l1.06 1.06m6.36 0l1.06-1.06m0 8.49l-1.06-1.06m-6.36 0l-1.06 1.06"/><circle cx="8" cy="8" r="3.3"/></svg>')
+	}
+	#theme + ::after {
+		--mask: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" stroke="red" stroke-linejoin="round"><path d="m4.4 2a4.2 4.2 0 0 0 5.6 5.6 4.2 4.2 0 1 1-5.6-5.6z"/></svg>')
+	}
+</style>
+

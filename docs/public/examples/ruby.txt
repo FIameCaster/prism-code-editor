@@ -1,0 +1,33 @@
+# Comments
+# This is a comment
+=begin
+Multi-line
+comment
+=end
+
+# Strings
+"foo \"bar\" baz"
+'foo \'bar\' baz'
+<<STRING
+	here's some #{string} contents
+STRING
+
+# Regular expressions
+/foo?[ ]*bar/
+
+# Variables
+$foo = 5;
+class InstTest
+	def set_foo(n)
+		@foo = n
+	end
+	def set_bar(n)
+		@bar = n
+	end
+end
+
+# Symbols
+mystring = :steveT;
+
+# String Interpolation
+"foo #{'bar'+my_variable}"

@@ -1,0 +1,56 @@
+# Comments
+# This is a comment
+
+# Strings
+""
+"foo \"bar\" baz"
+""" "Multi-line" strings
+are supported."""
+
+# Numbers
+0
+42
+3.14159
+-9e-5
+0.9E+7
+
+# Keywords
+query withFragments {
+	user(id: 4) {
+		friends(first: 10) {
+			...friendFields
+		}
+		mutualFriends(first: 10) {
+			...friendFields
+		}
+	}
+}
+
+fragment friendFields on User {
+	id
+	name
+	profilePic(size: 50)
+}
+
+# Descriptions
+"""
+This is a multiline description
+# Heading
+[Prism](http://www.prismjs.com)
+
+It can contain **Markdown
+	on multiple lines**
+"""
+type Example {
+	id: ID!
+}
+
+type Sample {
+	"""
+	Simple multiline description
+	"""
+	name(
+		"This is a single line description"
+		first: Int
+	): String
+}

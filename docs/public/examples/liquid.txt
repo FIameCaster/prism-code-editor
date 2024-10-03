@@ -1,0 +1,48 @@
+{% comment %} Comments {% endcomment %}
+{% comment %}This is a comment{% endcomment %}
+
+{% comment %} if {% endcomment %}
+{% if customer.name == 'kevin' %}
+	Hey Kevin!
+{% elsif customer.name == 'anonymous' %}
+	Hey Anonymous!
+{% else %}
+	Hi Stranger!
+{% endif %}
+
+{% comment %} unless {% endcomment %}
+{% unless product.title == 'Awesome Shoes' %}
+These shoes are not awesome.
+{% endunless %}
+
+{% comment %} case {% endcomment %}
+{% assign handle = 'cake' %}
+{% case handle %}
+	{% when 'cake' %}
+		This is a cake
+	{% when 'cookie' %}
+		This is a cookie
+	{% else %}
+		This is not a cake nor a cookie
+{% endcase %}
+
+{% comment %} for {% endcomment %}
+{% for i in (1..10) %}
+	{% if i == 4 %}
+		{% break %}
+	{% elsif i == 6 %}
+		{% continue %}
+	{% else %}
+		{{ i }}
+	{% endif %}
+{% endfor %}
+
+{% comment %} range {% endcomment %}
+{% for i in (3..5) %}
+	{{ i }}
+{% endfor %}
+
+{% assign num = 4 %}
+{% for i in (1..num) %}
+	{{ i }}
+{% endfor %}

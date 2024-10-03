@@ -1,0 +1,128 @@
+/* Full example */
+/* Source: https://github.com/chrismalek/psoftToXML/blob/master/psftToXML.pcode */
+
+class psoftToXML
+	method RowsetToXML(&parentNode As XmlNode, &rowSetIn As Rowset) Returns XmlNode;
+	method RecordToXML(&parentNode As XmlNode, &recordIn As Record) Returns XmlNode;
+	method FieldToXML(&ParentNode As XmlNode, &fieldIn As Field) Returns XmlNode;
+	method RowToXML(&ParentNode As XmlNode, &rowIn As Row) Returns XmlNode;
+	method psoftToXML();
+	property array of string fieldsToSkip;
+private
+	instance string &psObjectTypeString;
+end-class;
+
+method psoftToXML
+	&psObjectTypeString = "PSOBJECTTYPE";
+	%This.fieldsToSkip = CreateArrayRept("", 0);
+end-method;
+
+method FieldToXML
+	/+ &ParentNode as XmlNode, +/
+	/+ &fieldIn as Field +/
+	/+ Returns XmlNode +/
+	Local XmlNode &outNode;
+
+	Local XmlNode &fldNode, &tempNode;
+
+	&fldNode = &ParentNode.AddElement(&fieldIn.Name);
+
+	&fldNode.AddAttribute("PSFIELDTYPE", &fieldIn.Type);
+	&fldNode.AddAttribute(%This.psObjectTypeString, "FIELD");
+
+	If &fieldIn.IsEditXlat Then
+		&fldNode.AddAttribute("LongTranslateValue", &fieldIn.LongTranslateValue);
+	End-If;
+
+	Evaluate &fieldIn.Type
+	When = "LONGCHAR"
+	When = "IMAGE"
+	When = "IMAGEREFERENCE"
+		If All(&fieldIn.Value) Then
+
+			&tempNode = &fldNode.AddCDataSection(&fieldIn.Value);
+		End-If;
+		Break;
+
+	When = "NUMBER";
+		&tempNode = &fldNode.AddText(&fieldIn.Value);
+		Break;
+	When-Other
+		If All(&fieldIn.Value) Then
+			&tempNode = &fldNode.AddText(&fieldIn.Value);
+		End-If;
+
+		Break;
+	End-Evaluate;
+
+	Return &outNode;
+end-method;
+
+
+method RecordToXML
+	/+ &parentNode as XmlNode, +/
+	/+ &recordIn as Record +/
+	/+ Returns XmlNode +/
+
+	Local XmlNode &outNode, &fieldNode;
+
+	Local integer &i;
+
+	&outNode = &parentNode.AddElement(&recordIn.Name);
+
+	&outNode.AddAttribute(%This.psObjectTypeString, "RECORD");
+
+	For &i = 1 To &recordIn.FieldCount
+
+		If %This.fieldsToSkip.Find(&recordIn.GetField(&i).Name) <= 0 Then
+			&fieldNode = %This.FieldToXML(&outNode, &recordIn.GetField(&i));
+		End-If;
+	End-For;
+
+	Return &outNode;
+end-method;
+
+
+method RowToXML
+	/+ &ParentNode as XmlNode, +/
+	/+ &rowIn as Row +/
+	/+ Returns XmlNode +/
+
+	Local XmlNode &outNode, &recNode;
+
+	Local integer &i;
+
+	&outNode = &ParentNode.AddElement("ROW");
+	&outNode.AddAttribute(&psObjectTypeString, "ROW");
+	&outNode.AddAttribute("RowNumber", String(&rowIn.RowNumber));
+
+	For &i = 1 To &rowIn.RecordCount
+		&recNode = %This.RecordToXML(&outNode, &rowIn.GetRecord(&i));
+	End-For;
+
+	Local XmlNode &rsNode;
+	For &i = 1 To &rowIn.ChildCount
+		&rsNode = %This.RowsetToXML(&outNode, &rowIn.GetRowset(&i));
+
+	End-For;
+
+	Return &outNode;
+end-method;
+
+
+method RowsetToXML
+	/+ &parentNode as XmlNode, +/
+	/+ &rowSetIn as Rowset +/
+	/+ Returns XmlNode +/
+
+	Local XmlNode &outNode, &rowNode;
+
+	Local integer &i;
+	&outNode = &parentNode.AddElement(&rowSetIn.DBRecordName);
+	&outNode.AddAttribute(&psObjectTypeString, "ROWSET");
+
+	For &i = 1 To &rowSetIn.ActiveRowCount
+		&rowNode = %This.RowToXML(&outNode, &rowSetIn.GetRow(&i));
+	End-For;
+	Return &outNode;
+end-method;

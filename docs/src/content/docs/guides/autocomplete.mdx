@@ -1,0 +1,207 @@
+---
+title: Autocomplete
+description: Learn how to use the autocomplete extension.
+---
+
+import "../../../components/languages/jsx+css+html.astro"
+import Editor from "../../../components/editor/index.astro"
+import "../../../components/editor/Autocomplete.astro"
+import "../../../css/editor-theme.css"
+import { Aside } from "@astrojs/starlight/components"
+
+The [`autoComplete()`](/api-reference/autocomplete/f-autocomplete) extension can be used to show a list of completable options to users while they're typing.
+
+## Adding the extension
+
+<Editor language="javascript" value={`import {
+	fuzzyFilter,
+	autoComplete
+} from "prism-code-editor/autocomplete"
+import { cursorPosition } from "prism-code-editor/cursor"
+import "prism-code-editor/autocomplete.css"
+import "prism-code-editor/autocomplete-icons.css"
+
+editor.addExtensions(
+	cursorPosition(),
+	autoComplete({
+		filter: fuzzyFilter,
+		closeOnBlur: true,
+		explicitOnly: false,
+		preferAbove: false
+	})
+)`} />
+
+<Aside type="caution">
+	The [`cursorPosition()`](/api-reference/cursor/f-cursorposition) extension is required for the autocompletion to work.
+</Aside>
+
+## Configuration
+
+`autoComplete()` takes a [`AutoCompleteConfig`](/api-reference/autocomplete/t-autocompleteconfig) object as the first parameter. The only required property is the filter function to use. The optional properties configure when to open the tooltip, when to close it, and where to place it.
+
+### Filters
+
+The job of a [`CompletionFilter`](/api-reference/autocomplete/t-completionfilter) is to filter and score the options based on the word before the cursor. They should also return which characters in the option's label were matched so they can be highlighted. This library exports two filter functions you can use; [`fuzzyFilter()`](/api-reference/autocomplete/f-fuzzyfilter) and [`strictFilter()`](/api-reference/autocomplete/f-strictfilter). If you're dissatisfied with these, you can define your own filter instead.
+
+## Registering completion sources
+
+The extension doesn't define any completion sources. You have to register them with [`registerCompletions()`](/api-reference/autocomplete/f-registercompletions).
+
+### CSS completion
+
+<Editor language="javascript" value={`import { registerCompletions } from "prism-code-editor/autocomplete"
+import { cssCompletion } from "prism-code-editor/autocomplete/css"
+
+registerCompletions(["css"], {
+	sources: [cssCompletion()]
+})`} />
+
+Try it:
+
+<Editor language="css" value={`.prism-code-editor {
+	--padding-inline: 1em;
+	max-height: 50em;
+	line-height: 1.5;
+}`} />
+
+<Aside type="note">
+	[`cssCompletion()`](/api-reference/autocomplete/css/f-csscompletion) requires the `css-extras` grammar to work correctly.
+</Aside>
+
+### JavaScript completion
+
+<Editor language="javascript" value={`import {
+	completeIdentifiers,
+	completeKeywords,
+	jsDocCompletion,
+	jsxTagCompletion,
+	reactTags,
+	globalReactAttributes,
+	jsSnipets,
+	jsContext
+} from "prism-code-editor/autocomplete/javascript"
+import {
+	registerCompletions,
+	completeFromList
+} from "prism-code-editor/autocomplete"
+
+registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
+	context: jsContext,
+	sources: [
+		completeIdentifiers(),
+		completeKeywords,
+		jsDocCompletion,
+		jsxTagCompletion(reactTags, globalReactAttributes),
+		completeFromList(jsSnipets)
+	]
+})`} />
+
+[`completeScope()`](/api-reference/autocomplete/javascript/f-completescope) is another completion source that can be used to add completion for the `window` object for example, but using it as the same time as [`completeIdentifiers()`](/api-reference/autocomplete/javascript/f-completeidentifiers) does lead to a lot of duplicated options.
+
+<Editor language="tsx" value={`// Try writing some TSX
+
+/**
+ * 
+ */
+function App(props) {
+	return (
+		<>
+			<div />
+			<input type="number" />
+		</>
+	)
+}`} />
+
+### HTML completion
+
+[`markupCompletion()`](/api-reference/autocomplete/markup/f-markupcompletion) adds completion for the specified tags, attributes, and attribute values.
+
+<Editor language="javascript" value={`import { registerCompletions } from "prism-code-editor/autocomplete"
+import {
+	globalHtmlAttributes,
+	htmlTags,
+	markupCompletion
+} from "prism-code-editor/autocomplete/markup"
+
+registerCompletions(["html", "markup"], {
+	sources: [markupCompletion(htmlTags, globalHtmlAttributes)]
+})`} />
+
+Autocompletion works for nested languages too. Try writing in the script/style tags:
+
+<Editor language="html" value={`<body>
+	<style>
+		
+	</style>
+	<script>
+	
+	</script>
+</body>`} />
+
+### SVG completion
+
+You can also import tag data for SVG tags. If you're making an SVG editor for example, this can be useful.
+
+<Editor language="javascript" value={`import { registerCompletions } from "prism-code-editor/autocomplete"
+import {
+	globalSvgAttributes,
+	svgTags,
+	markupCompletion
+} from "prism-code-editor/autocomplete/markup"
+
+registerCompletions(["svg"], {
+	sources: [markupCompletion(svgTags, globalSvgAttributes)]
+})`} />
+
+Try writing some SVG code:
+
+<Editor language="svg" value={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+	<clipPath>
+
+	</clipPath>
+	<circle />
+</svg>`} />
+
+## Creating your own definitions
+
+[`CompletionDefinition`](/api-reference/autocomplete/t-completiondefinition) objects passed to `registerCompletions()` have two properties: `context` and `sources`. The optional `context` property is a function that's supposed to return an object with extra properties that are added to the [`CompletionContext`](/api-reference/autocomplete/t-completioncontext) passed to the sources. This is useful to avoid repeating logic between multiple completion sources.
+
+### Completion sources
+
+The sources are called with the completion context along with the editor and can return a [`CompletionResult`](/api-reference/autocomplete/i-completionresult) containing the completion items and where the completions should start from. These completion items don't need to be filtered or sorted. That's the job done by the filter function passed to the extension. It should be noted that completion sources must be synchronous and can be called on every keystroke, so they shouldn't do any expensive computations.
+
+### Completion items
+
+The completion items returned have multiple properties to customize their insertion and appearance. Read the [`Completion`](/api-reference/autocomplete/i-completion) API reference for more info.
+
+### Snippets
+
+To create snippets, use the [`insert`](/api-reference/autocomplete/i-completion#insert) property along with [`tabStops`](/api-reference/autocomplete/i-completion#tabstops). If there are line feeds in `insert`, the indentation will be preserved. Tabs are replaced by spaces with `options.insertSpaces` set to true.
+
+<Editor language="typescript" value={`import { Completion } from "prism-code-editor/autocomplete"
+
+const mySnippets: Completion[] = [
+	{
+		label: "function",
+		insert: "function name(params) {\\n\\t\\n}",
+		tabStops: [9, 13, 14, 20, 25],
+		icon: "snippet",
+		detail: "Function Statement",
+	},
+]`} />
+
+### Helpers
+
+[`findWords()`](/api-reference/autocomplete/f-findwords) can be used to find words in the editor's tokens that can be returned as completions.
+
+[`completeFromList()`](/api-reference/autocomplete/f-completefromlist) is useful for returning a static list of completions. This completion source requires a `path` property to be present and contain an array with a single string.
+
+[`getClosestToken()`](/api-reference/utils/f-getclosesttoken) is extremely useful for determining if the completion is happening inside a specific token. It's important that you pass [`context.pos`](/api-reference/autocomplete/i-completioncontext#pos) as the fifth parameter to ensure the search always happens in the correct position.
+
+## Icons
+
+`prism-code-editor/autocomplete-icons.css` adds 14 icons from VS Code. See [`Completion.icon`](/api-reference/autocomplete/i-completion#icon) for the names of all included icons.
+
+### Using your own
+
+The class `pce-ac-icon-` followed by the icon's name is added to the icon element. For icons named `variable` you can use the selector `.pce-ac-icon-variable` to style them. You can also use the CSS variable `--pce-ac-icon-` followed by the icon's name to set its color. The selector `.pce-ac-icon` can be used to style all icons. `prism-code-editor/autocomplete-icons.css` uses [mask images](https://developer.mozilla.org/en-US/docs/Web/CSS/mask-image) to style the icons.

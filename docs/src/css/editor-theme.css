@@ -1,0 +1,355 @@
+:root {
+	--editor__bg: var(--sl-color-gray-6);
+	--widget__border: var(--sl-color-gray-4);
+	--widget__bg: var(--sl-color-gray-6);
+	--widget__color: #d6deeb;
+	--widget__color-active: #fff;
+	--widget__color-options: #b3bccc;
+	--widget__bg-input: var(--sl-color-black);
+	--widget__bg-hover: #5a5d5e80;
+	--widget__bg-active: #13528366;
+	--widget__focus-ring: #2f7fc0;
+	--search__bg-find: #5f7e9778;
+	--widget__bg-error: #ab0300f2;
+	--widget__error-ring: #ef5350;
+	--editor__bg-highlight: #2b2e36;
+	--editor__bg-selection-match: #5f7e9778;
+	--editor__line-number: #4b6479;
+	--editor__bg-scrollbar: 224, 12%, 30%;
+	--editor__bg-fold: #c5c5c5;
+	--bg-guide-indent: #70788f52;
+	--pce-ac-icon-class: #ee9d28;
+	--pce-ac-icon-enum: #ee9d28;
+	--pce-ac-icon-function: #b180d7;
+	--pce-ac-icon-interface: #75beff;
+	--pce-ac-icon-variable: #75beff;
+	--pce-cursor: #80a4c2;
+	--match-bg: #8367b32e;
+	--pce-selection: hsl(224, 12%, 30%);
+	--ln-active: #c5e4fd;
+	--indent-active: #b3cfe7b3;
+	--comment: #809191;
+	--property: #80cbc4;
+	--keyword: #c792ea;
+	--pce-text: #d6deeb;
+	--selector-punctuation: #c792ea;
+	--pce-tag: #caece6;
+	--pce-number: #f78c6c;
+	--boolean: #ff5874;
+	--selector: #ff6363;
+	--deleted: #ff869a;
+	--hex-color: #ffeb95;
+	--atrule: #d7dbe0;
+	--tag-punctuation: #7fdbca;
+	--selector-operator: #7fdbca;
+	--pce-regex: #5ca7e4;
+	--selector-id: #fad430;
+	--attr-punctuation: #d9f5dd;
+	--attr-name: #c5e478;
+	--function: #82aaff;
+	--pce-string: #ecc48d;
+	--pce-class: #ffcb8b;
+	--css-func: #c5e478;
+	--bracket-1: #ffd700;
+	--bracket-2: #da70d6;
+	--bracket-3: #179fff;
+	--interpolation-punctuation: #ff5652;
+	--bracket-border: #b3cfe7a1;
+	--bracket-bg: #5f7e974d;
+	--active-tag: #f6bbe533;
+}
+
+:root[data-theme="light"] {
+	--editor__bg: var(--sl-color-gray-7);
+	--widget__border: #93969f;
+	--widget__bg: var(--sl-color-gray-7);
+	--widget__color: #403f53;
+	--widget__color-active: #000;
+	--widget__color-options: #5e6578;
+	--widget__bg-input: #fff;
+	--widget__bg-hover: #b8b8b84f;
+	--widget__bg-active: #c2dff2;
+	--widget__focus-ring: #0077f0;
+	--search__bg-find: #707e8859;
+	--widget__bg-error: #f76e6e;
+	--widget__error-ring: #de3d3b;
+	--editor__bg-highlight: #f0f0f0;
+	--editor__bg-selection-match: #339cec22;
+	--editor__line-number: #929bb1;
+	--editor__bg-scrollbar: 224, 10%, 66%;
+	--editor__bg-fold: #424242;
+	--bg-guide-indent: #0012;
+	--pce-ac-icon-class: #d67e00;
+	--pce-ac-icon-enum: #d67e00;
+	--pce-ac-icon-function: #652d90;
+	--pce-ac-icon-interface: #007acc;
+	--pce-ac-icon-variable: #007acc;
+	--pce-ac-match: #0066bf;
+	--pce-tabstop: #0a326433;
+	--pce-invisibles: #3333;
+	--pce-cursor: #403f53;
+	--match-bg: #7497a633;
+	--pce-selection: #cbe3f6;
+	--ln-active: #111;
+	--indent-active: #0014;
+	--comment: #5e6578;
+	--property: #097174;
+	--keyword: #8d46b4;
+	--pce-text: #403f53;
+	--selector-punctuation: #c792ea;
+	--pce-tag: #8d46b4;
+	--pce-number: #aa0982;
+	--boolean: #a54a4a;
+	--selector: #9b504e;
+	--deleted: #bb374d;
+	--hex-color: #aa0982;
+	--atrule: #403f53;
+	--tag-punctuation: #8d46b4;
+	--selector-operator: #097174;
+	--pce-regex: #3a6a90;
+	--selector-id: #aa0982;
+	--attr-punctuation: #111;
+	--attr-name: #3c63b3;
+	--function: #3c63b3;
+	--pce-string: #9b504e;
+	--pce-class: #111;
+	--css-func: #3c63b3;
+	--bracket-1: #0431fa;
+	--bracket-2: #277927;
+	--bracket-3: #7b3814;
+	--interpolation-punctuation: #b73936;
+	--bracket-border: #00806fab;
+	--bracket-bg: #198de626;
+	--active-tag: #471e3c33;
+}
+
+.prism-code-editor {
+	caret-color: var(--pce-cursor);
+	font-family: var(--sl-font-system-mono);
+	max-height: 50em;
+	min-height: 3.2em;
+}
+
+.code-block {
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 1px;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+}
+
+.pce-overlays + div {
+	padding-right: 3.3em;
+}
+
+.match-highlight {
+	--editor__bg-highlight: var(--match-bg);
+}
+
+.pce-match {
+	--search__bg-find: #545a8b;
+}
+
+[data-theme="light"] .pce-match {
+	--search__bg-find: #707e8870;
+}
+
+.active-line {
+	--editor__line-number: var(--ln-active);
+}
+
+.active-indent {
+	--bg-guide-indent: var(--indent-active);
+}
+
+/* Tokens */
+
+.token.comment,
+.token.prolog,
+.token.cdata {
+	color: var(--comment);
+}
+
+.token.namespace {
+	opacity: 0.7;
+}
+
+.token.property {
+	color: var(--property);
+}
+
+.token.keyword,
+.token.punctuation,
+.token.literal-property,
+.token.operator,
+.token.token.anchor,
+.token.atrule .rule,
+.language-css .important,
+.language-markdown .italic * {
+	color: var(--keyword);
+}
+
+[class*="language-"],
+.language-css .punctuation,
+.language-markdown .code.keyword,
+.language-markdown .url .content {
+	color: var(--pce-text);
+}
+
+.selector .punctuation {
+	color: var(--selector-punctuation);
+}
+
+.token.tag,
+.token.doctype-tag {
+	color: var(--pce-tag);
+}
+
+.token.number,
+.regex .escape,
+.token.tag .class-name {
+	color: var(--pce-number);
+}
+
+.token.boolean,
+.token.keyword-null {
+	color: var(--boolean);
+}
+
+.token.selector {
+	color: var(--selector);
+}
+
+.language-markdown .token.url,
+.token.deleted {
+	color: var(--deleted);
+}
+
+.token.unit,
+.token.hexcode {
+	color: var(--hex-color);
+}
+
+.token.atrule,
+.token.parameter {
+	color: var(--atrule);
+}
+
+.token.tag > .punctuation,
+.token.doctype > .punctuation,
+.token.attr-equals {
+	color: var(--tag-punctuation);
+}
+
+.token.color,
+.selector .combinator,
+.selector .operator,
+.token.property-access,
+.token.quantifier,
+.token.alternation,
+.token.url .markup-bracket {
+	color: var(--selector-operator);
+}
+
+.language-regex,
+.token.regex-flags {
+	color: var(--pce-regex);
+}
+
+.selector .id {
+	color: var(--selector-id);
+}
+
+.token.attr-value > .punctuation {
+	color: var(--attr-punctuation);
+}
+
+.token.attr-name,
+.token.doctype,
+.token.variable,
+.token.inserted,
+.selector .class,
+.selector .pseudo-element,
+.selector .pseudo-class,
+.token.builtin,
+.language-markdown .bold *,
+.language-markdown .code.code-snippet {
+	color: var(--attr-name);
+}
+
+.token.function,
+.token.constant,
+.token.keyword-undefined,
+.token.entity,
+.token.char-class,
+.token.token.char-set,
+.token.title.important,
+.token.title > .punctuation,
+.language-markdown .url .variable {
+	color: var(--function);
+}
+
+.token.attr-value,
+.token.char,
+.token.string,
+.token.string-property {
+	color: var(--pce-string);
+}
+
+.token.class-name,
+.token.maybe-class-name {
+	color: var(--pce-class);
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.language-css .function {
+	color: var(--css-func);
+}
+
+/* Brackets */
+
+.token.bracket-level-0,
+.token.bracket-level-3,
+.token.bracket-level-6,
+.token.bracket-level-9 {
+	color: var(--bracket-1);
+}
+
+.token.bracket-level-1,
+.token.bracket-level-4,
+.token.bracket-level-7,
+.token.bracket-level-10 {
+	color: var(--bracket-2);
+}
+
+.token.bracket-level-2,
+.token.bracket-level-5,
+.token.bracket-level-8,
+.token.bracket-level-11 {
+	color: var(--bracket-3);
+}
+
+.token.interpolation-punctuation {
+	color: var(--interpolation-punctuation);
+}
+
+.token.bracket-error {
+	color: #ff1212;
+}
+
+.token.markup-bracket,
+.token.regex .punctuation {
+	color: inherit;
+}
+
+.active-bracket {
+	box-shadow: inset 0 0 0 1px var(--bracket-border), inset 0 0 0 9in var(--bracket-bg);
+}
+
+.active-tagname,
+.word-matches span {
+	background: var(--active-tag);
+}

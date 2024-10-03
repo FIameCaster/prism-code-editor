@@ -1,0 +1,28 @@
+; Comments
+; This is a comment
+
+; Strings
+"This a string."
+
+; Numbers
+42
+3.14159
+-42
+-3.14159
+.5
+10.
+2E10
+4.2E-14
+-3E+2
+
+; PureBasic example
+Procedure.s Test(s.s)
+	Protected a$, b$, Result.s
+
+	Result = Mid(s, 1, 3)
+
+	ProcedureReturn Result
+EndProcedure
+
+Test()
+End

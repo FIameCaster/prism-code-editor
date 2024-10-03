@@ -1,0 +1,86 @@
+// Comments
+// Single-line comment
+/* Multi-line
+comment */
+
+// C prologue and Bison declarations
+%{
+	#include <stdio.h>
+	#include <math.h>
+	int yylex (void);
+	void yyerror (char const *);
+%}
+
+%define api.value.type {double}
+%token NUM
+%union { char *string; }
+%%
+%%
+
+// Grammar rules
+%%
+exp:
+	NUM           { $$ = $1;           }
+| exp exp '+'   { $$ = $1 + $2;      }
+| exp exp '-'   { $$ = $1 - $2;      }
+| exp exp '*'   { $$ = $1 * $2;      }
+| exp exp '/'   { $$ = $1 / $2;      }
+| exp exp '^'   { $$ = pow($1, $2);  }  /* Exponentiation */
+| exp 'n'       { $$ = -$1;          }  /* Unary minus    */
+;
+
+$@1: %empty { a(); };
+$@2: %empty { c(); };
+$@3: %empty { d(); };
+exp: $@1 "b" $@2 $@3 "e" { f(); };
+%%
+
+// Full example
+/* Mini Calculator */
+/* calc.y */
+
+%{
+#include "heading.h"
+int yyerror(char *s);
+int yylex(void);
+%}
+
+%union{
+	int		int_val;
+	string*	op_val;
+}
+
+%start	input
+
+%token	<int_val>	INTEGER_LITERAL
+%type	<int_val>	exp
+%left	PLUS
+%left	MULT
+
+%%
+
+input:		/* empty */
+		| exp	{ cout << "Result: " << $1 << endl; }
+		;
+
+exp:		INTEGER_LITERAL	{ $$ = $1; }
+		| exp PLUS exp	{ $$ = $1 + $3; }
+		| exp MULT exp	{ $$ = $1 * $3; }
+		;
+
+%%
+
+int yyerror(string s)
+{
+	extern int yylineno;	// defined and maintained in lex.c
+	extern char *yytext;	// defined and maintained in lex.c
+
+	cerr << "ERROR: " << s << " at symbol \"" << yytext;
+	cerr << "\" on line " << yylineno << endl;
+	exit(1);
+}
+
+int yyerror(char *s)
+{
+	return yyerror(string(s));
+}

@@ -1,3 +1,6 @@
+# generated types
+.astro/
+
 # Logs
 logs
 *.log
@@ -25,3 +28,6 @@ dist-ssr
 
 package/readme.md
 package/LICENSE
+
+# API reference
+docs/src/content/docs/api-reference

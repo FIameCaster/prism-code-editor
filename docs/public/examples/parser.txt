@@ -1,0 +1,70 @@
+# Comments
+$foo[bar] # Some comment
+
+# Variables and functions
+@navigation[]
+$sections[^table::load[sections.cfg]]
+$sections.uri
+
+# Literals
+$foo(3+$bar)
+^switch[$sMode]{
+	^case[def]{$result(true)}
+}
+^if(in "/news/"){}
+
+# Escape sequences
+^^
+^"
+^;
+
+# Embedded in markup
+<nav>
+	<ul>
+	^sections.menu{
+		<li>
+			<a href="$sections.uri">$sections.name</a>
+		</li>
+	}
+	</ul>
+</nav>
+
+# Full example
+@CLASS
+MyTable
+
+@create[uParam]
+^switch[$uParam.CLASS_NAME]{
+   ^case[string;void]{$t[^table::create{$uParam}]}
+   ^case[table;MyTable]{$t[^table::create[$uParam]]}
+   ^case[DEFAULT]{^throw[MyTable;Unsupported type $uParam.CLASS_NAME]}
+}
+
+# method will return value in different calling contexts
+@GET[sMode]
+^switch[$sMode]{
+	^case[table]{$result[$t]}
+	^case[bool]{$result($t!=0)}
+	^case[def]{$result(true)}
+	^case[expression;double]{$result($t)}
+	^case[DEFAULT]{^throw[MyTable;Unsupported mode '$sMode']}
+}
+
+
+# method will handle access to the "columns"
+@GET_DEFAULT[sName]
+$result[$t.$sName]
+
+
+# wrappers for all existing methods are required
+@count[]
+^t.count[]
+
+@menu[jCode;sSeparator]
+^t.menu{$jCode}[$sSeparator]
+
+
+# new functionality
+@remove[iOffset;iLimit]
+$iLimit(^iLimit.int(0))
+$t[^t.select(^t.offset[]<$iOffset || ^t.offset[]>=$iOffset+$iLimit)]

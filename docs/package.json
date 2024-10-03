@@ -1,0 +1,29 @@
+{
+  "name": "docs",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/starlight": "^0.26.1",
+    "astro": "^4.10.2",
+    "sharp": "^0.32.5",
+    "starlight-typedoc": "^0.16.0",
+    "typedoc": "^0.26.6",
+    "typedoc-plugin-markdown": "^4.2.6",
+    "typescript": "^5.5.4"
+  },
+  "packageManager": "pnpm@9.0.4+sha1.b198ac6d38244fd829253720f9daafd6a606834d",
+  "pnpm": {
+    "patchedDependencies": {
+      "starlight-typedoc@0.16.0": "patches/starlight-typedoc@0.16.0.patch"
+    }
+  }
+}

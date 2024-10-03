@@ -1,0 +1,93 @@
+// Javadoc
+/**
+ * Returns the value to which the specified key is mapped,
+ * or {@code null} if this map contains no mapping for the key.
+ *
+ * <p>More formally, if this map contains a mapping from a key
+ * {@code k} to a value {@code v} such that {@code (key==null ? k==null :
+ * key.equals(k))}, then this method returns {@code v}; otherwise
+ * it returns {@code null}.  (There can be at most one such mapping.)
+ *
+ * <p>If this map permits null values, then a return value of
+ * {@code null} does not <i>necessarily</i> indicate that the map
+ * contains no mapping for the key; it's also possible that the map
+ * explicitly maps the key to {@code null}.  The {@link #containsKey
+ * containsKey} operation may be used to distinguish these two cases.
+ *
+ * @param key the key whose associated value is to be returned
+ * @return the value to which the specified key is mapped, or
+ *         {@code null} if this map contains no mapping for the key
+ * @throws ClassCastException if the key is of an inappropriate type for
+ *         this map
+ * (<a href="{@docRoot}/java/util/Collection.html#optional-restrictions">optional</a>)
+ * @throws NullPointerException if the specified key is null and this map
+ *         does not permit null keys
+ * (<a href="{@docRoot}/java/util/Collection.html#optional-restrictions">optional</a>)
+ */
+V get(Object key);
+
+// Source: Java 1.8, Map#get(Object)
+
+// Comments
+// Single line comment
+/* Multi-line
+comment */
+
+// Strings
+"foo \"bar\" baz";
+'foo \'bar\' baz';
+
+// Numbers
+123
+123.456
+-123.456
+.3f
+1.3e9d
+0xaf
+0xAF
+0xFF.AEP-4
+
+// Full example
+import java.util.Scanner;
+
+public class Life {
+
+	@Override @Bind("One")
+	public void show(boolean[][] grid) {
+		String s = "";
+		for (boolean[] row : grid) {
+			for (boolean val : row)
+				if(val)
+					s += "*";
+				else
+					s += ".";
+			s += "\n";
+		}
+		System.out.println(s);
+	}
+
+	public static boolean[][] gen() {
+		boolean[][] grid = new boolean[10][10];
+		for (int r = 0; r < 10; r++)
+			for (int c = 0; c < 10; c++)
+				if ( Math.random() > 0.7 )
+					grid[r][c] = true;
+		return grid;
+	}
+
+	public static void main(String[] args) {
+		boolean[][] world = gen();
+		show(world);
+		System.out.println();
+		world = nextGen(world);
+		show(world);
+		Scanner s = new Scanner(System.in);
+		while (s.nextLine().length() == 0) {
+			System.out.println();
+			world = nextGen(world);
+			show(world);
+		}
+	}
+
+	// [...]
+}

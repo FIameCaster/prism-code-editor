@@ -1,0 +1,32 @@
+---
+title: Prism code editor
+description: Lightweight, extensible code editor component for the web using Prism.
+template: splash
+hero:
+  tagline: Lightweight, extensible code editor component for the web using Prism
+  actions:
+    - text: Documentation
+      link: /guides/introduction/
+      icon: right-arrow
+    - text: Playground
+      link: /playground
+      icon: right-arrow
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Key features
+
+<CardGrid stagger>
+	<Card title="Syntax highlighting with Prism" icon="pencil">
+		Features lightweight, robust, and elegant syntax highlighting with [Prism](https://github.com/PrismJS/prism).
+		The Prism instance used is less than ⅓ the size and is better suited for code editors
+	</Card>
+	<Card title="Zero bloat" icon="add-document">
+		No dependencies, import only what you need
+	</Card>
+	<Card title="Extensible" icon="setting">
+		Most functionality is implemented by optional extensions
+	</Card>
+</CardGrid>

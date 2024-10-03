@@ -1,0 +1,58 @@
+// Comments
+// Single line comment
+/// Documentation single line comment
+/* Block comment
+on several lines */
+/** Multi-line
+doc comment */
+
+// Annotations
+@todo('seth', 'make this do something')
+@deprecated // Metadata; makes Dart Editor warn about using activate().
+
+// Numbers
+var x = 1;
+var hex = 0xDEADBEEF;
+var bigInt = 346534658346524376592384765923749587398457294759347029438709349347;
+var y = 1.1;
+var exponents = 1.42e5;
+
+// Strings
+var s1 = 'Single quotes work well for string literals.';
+var s2 = "Double quotes work just as well.";
+var s3 = 'It\'s easy to escape the string delimiter.';
+var s4 = "It's even easier to just use the other string delimiter.";
+var s1 = '''
+You can create
+multi-line strings like this one.
+''';
+var s2 = """This is also a
+multi-line string.""";
+var s = r"In a raw string, even \n isn't special.";
+
+// Full example
+class Logger {
+	final String name;
+	bool mute = false;
+
+	// _cache is library-private, thanks to the _ in front of its name.
+	static final Map<String, Logger> _cache = <String, Logger>{};
+
+	factory Logger(String name) {
+		if (_cache.containsKey(name)) {
+			return _cache[name];
+		} else {
+			final logger = new Logger._internal(name);
+			_cache[name] = logger;
+			return logger;
+		}
+	}
+
+	Logger._internal(this.name);
+
+	void log(String msg) {
+		if (!mute) {
+			print(msg);
+		}
+	}
+}
