@@ -44,7 +44,7 @@ const isLight = matchMedia("(prefers-color-scheme: light)").matches
 const style = document.querySelector("style")
 
 loadTheme(isLight ? "github-light" : "github-dark").then(theme => {
-  style.textContent = theme
+	style.textContent = theme
 })`} />
 
 ## Importing styles
