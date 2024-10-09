@@ -1,6 +1,6 @@
-import { addListener } from "../core"
-import { createCopyButton } from "../extensions/copyButton"
-import { addOverlay } from "../utils"
+import { addListener } from "../core.js"
+import { createCopyButton } from "../extensions/copyButton/index.js"
+import { addOverlay } from "../utils/index.js"
 
 export type PrismCodeBlock = {
 	/** Outermost element of the code block. */

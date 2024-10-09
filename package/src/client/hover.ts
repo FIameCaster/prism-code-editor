@@ -78,6 +78,7 @@ const addHoverDescriptions = (
 
 			style[placeAbove ? "bottom" : "top"] = height + (placeAbove ? bottom : top) + "px"
 			style[placeAbove ? "top" : "bottom"] = "auto"
+			current?.removeAttribute("aria-describedby")
 			target.setAttribute("aria-describedby", id)
 			current = target
 		}

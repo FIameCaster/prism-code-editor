@@ -1,5 +1,5 @@
-import { forEachCodeBlock } from "../client/code-block"
-import { highlightTokens, languages, tokenizeText, TokenStream } from "../prism"
+import { forEachCodeBlock } from "../client/code-block.js"
+import { highlightTokens, languages, tokenizeText, TokenStream } from "../prism/index.js"
 
 export type CodeBlockOptions = {
 	/** Language used for syntax highlighting. */
