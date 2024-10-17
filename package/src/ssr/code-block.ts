@@ -5,7 +5,7 @@ export type CodeBlockOptions = {
 	/** Language used for syntax highlighting. */
 	language: string
 	/** Code in the code block. */
-	code: string
+	value: string
 	/** Number of spaces a tab is equal to. @default 2 */
 	tabSize?: number
 	/** Whether or not to display line numbers. @default false */
@@ -57,7 +57,7 @@ const renderCodeBlock = <T extends {}>(
 ) => {
 	let {
 		language,
-		code,
+		value,
 		tabSize = 2,
 		lineNumbers,
 		lineNumberStart = 1,
@@ -78,10 +78,10 @@ const renderCodeBlock = <T extends {}>(
 		.replace(/&/g, "&amp;")
 		.replace(/'/g, "&#39;")}' `
 
-	let indents = preserveIndent || (guideIndents && !rtl) ? getIndents(code, tabSize) : null
-	if (preserveIndent) code = code.replace(/\t/g, " ".repeat(tabSize))
+	let indents = preserveIndent || (guideIndents && !rtl) ? getIndents(value, tabSize) : null
+	if (preserveIndent) value = value.replace(/\t/g, " ".repeat(tabSize))
 	let tokens = tokenizeText(
-		code.includes("\r") ? code.replace(/\r?\n/g, "\n") : code,
+		value.includes("\r") ? value.replace(/\r?\n/g, "\n") : value,
 		languages[language] || {},
 	)
 	tokenizeCallback?.(tokens)

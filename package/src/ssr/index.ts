@@ -3,7 +3,7 @@ import { mountEditorsUnder } from "../client/index.js"
 import { languages, highlightTokens, tokenizeText, TokenStream } from "../prism/index.js"
 import { rainbowBrackets } from "./brackets.js"
 
-export type RenderOptions = {
+export type RenderOptions = Omit<EditorOptions, "onUpdate" | "onTokenize" | "onSelectionChange"> & {
 	/**
 	 * Callback that can be used to modify the tokens before they're stringified to HTML.
 	 * If you're using an extension that modifies the tokens on the client, you should pass
@@ -23,14 +23,19 @@ export type RenderOptions = {
  * to JSON, which will later be parsed by {@link mountEditorsUnder}. This is very useful
  * if you want to add extra configuration options used to customize how the editor is
  * mounted.
- *
- * @param renderOptions Options used to customize the HTML string returned.
  */
-const renderEditor = <T extends {} = {}>(
-	options: EditorOptions & Omit<T, keyof EditorOptions>,
-	renderOptions?: RenderOptions,
-) => {
-	let { language, value, lineNumbers, wordWrap, rtl, readOnly, tabSize, ...rest } = options
+const renderEditor = <T extends {} = {}>(options: RenderOptions & Omit<T, keyof RenderOptions>) => {
+	let {
+		language,
+		value,
+		lineNumbers,
+		wordWrap,
+		rtl,
+		readOnly,
+		tabSize,
+		tokenizeCallback,
+		...rest
+	} = options
 
 	let html = `<div class="prism-code-editor language-${language}${
 		lineNumbers == false ? "" : " show-line-numbers"
@@ -42,7 +47,7 @@ const renderEditor = <T extends {} = {}>(
 		value.includes("\r") ? value.replace(/\r?\n/g, "\n") : value,
 		languages[language] || {},
 	)
-	renderOptions?.tokenizeCallback?.(tokens)
+	tokenizeCallback?.(tokens)
 
 	let lines = highlightTokens(tokens).split("\n")
 	let l = lines.length

@@ -273,7 +273,7 @@ document.body.insertAdjacentHTML(
 	"beforeend",
 	`<section>${renderCodeBlock({
 		language: "javascript",
-		code: guides,
+		value: guides,
 		lineNumbers: true,
 		guideIndents: true,
 		wordWrap: true,
