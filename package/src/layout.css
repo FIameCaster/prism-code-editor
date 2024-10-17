@@ -36,7 +36,6 @@
 	user-select: auto;
 	overflow: hidden;
 	pointer-events: auto;
-	padding: 0 var(--_pse) 0 var(--padding-left);
 }
 
 .pce-textarea::selection {
@@ -48,9 +47,9 @@
 	z-index: 1;
 }
 
-.pce-line {
-	padding: 0 var(--_pse) 0 0;
-	margin: 0 0 0 var(--padding-left);
+.pce-line,
+.pce-textarea {
+	padding: 0 var(--_pse) 0 var(--padding-left);
 	position: relative;
 }
 
@@ -81,11 +80,12 @@
 
 .pce-wrap .pce-line::before {
 	position: absolute;
+	margin: 0;
 }
 
 .pce-overlays,
 .pce-overlays > *,
-.pce-guides .pce-line::after,
+pre.pce-guides .pce-line::after,
 .pce-no-selection .active-line::after,
 .active-line.match-highlight::after {
 	content: "";
@@ -94,6 +94,10 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
+}
+
+.show-line-numbers .pce-line::after {
+	left: var(--padding-left);
 }
 
 .active-line::after {

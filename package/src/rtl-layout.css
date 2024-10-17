@@ -30,14 +30,16 @@
 }
 
 .pce-rtl.show-line-numbers .pce-line::before {
-	margin: 0 calc(-1 * var(--padding-left)) 0 0;
 	padding: 0 0 0 var(--_ns);
 	background: var(--editor__bg);
 }
 
+.pce-rtl.pce-nowrap .pce-line::before {
+	margin: 0 calc(-1 * var(--padding-left)) 0 0;
+}
+
 .pce-rtl .pce-line {
-	padding: 0 0 0 var(--_pse);
-  margin: 0 var(--padding-left) 0 0;
+	padding: 0 var(--padding-left) 0 var(--_pse);
 }
 
 .pce-rtl.pce-nowrap .pce-fold {

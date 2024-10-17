@@ -3,7 +3,13 @@
 import { BasicExtension, InputSelection, PrismEditor } from "../index.js"
 import { createTemplate } from "../core.js"
 import { getLineBefore } from "../utils/index.js"
-import { getLineEnd, scrollToEl, addTextareaListener, getPosition, updateNode } from "../utils/local.js"
+import {
+	getLineEnd,
+	scrollToEl,
+	addTextareaListener,
+	getPosition,
+	updateNode,
+} from "../utils/local.js"
 import { defaultCommands } from "./commands.js"
 
 /** Postion of the cursor relative to the editors overlays. */
@@ -25,13 +31,13 @@ export interface Cursor extends BasicExtension {
 }
 
 const cursorTemplate = createTemplate(
-	'<div style=position:absolute;top:0;opacity:0;padding:inherit> <span><span></span> ',
+	"<div style=position:absolute;top:0;opacity:0;padding-right:inherit> <span><span></span> ",
 )
 
 /**
  * Extension which can be used to calculate the position of the cursor and scroll it into view.
  * This is used by the {@link defaultCommands} extension to keep the cursor in view while typing.
- * 
+ *
  * The extension can also be accessed from `editor.extensions.cursor` when added.
  */
 export const cursorPosition = () => {
