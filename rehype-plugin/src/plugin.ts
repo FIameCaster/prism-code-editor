@@ -13,6 +13,7 @@ export const rehypePrismCodeEditor: Plugin<[PcePluginOptions?], Root> = ({
 	defaultCodeBlockProps,
 	customRenderer,
 	inline,
+	silenceWarnings,
 } = {}) => {
 	return tree => {
 		const nodes: [Element, Element, Element, string][] = []
@@ -54,6 +55,12 @@ export const rehypePrismCodeEditor: Plugin<[PcePluginOptions?], Root> = ({
 
 			props.language = lang
 
+			if (!languages[lang] && !silenceWarnings) {
+				console.warn(
+					`rehype-prism-code-editor: Unregistered language '${lang}' found in code block. Syntax highlighting will be disabled.`,
+				)
+			}
+
 			const renderFunc = isEditor ? createEditor : createCodeBlock
 			const merged = {
 				...(isEditor ? defaultEditorProps : defaultCodeBlockProps),
@@ -76,6 +83,10 @@ export const rehypePrismCodeEditor: Plugin<[PcePluginOptions?], Root> = ({
 			const grammar = languages[lang]
 
 			if (!grammar) {
+				if (!silenceWarnings)
+					console.warn(
+						`rehype-prism-code-editor: Unregistered language '${lang}' found in inline code. Highlighting is skipped.`,
+					)
 				return
 			}
 			const properties = codeEl.properties

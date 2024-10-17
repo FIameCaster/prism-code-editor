@@ -1,5 +1,6 @@
 export const options = `const options = {
 	editorsOnly: false,
+	silenceWarnings: false,
 	defaultEditorProps: {
 		tokenizeCallback: rainbowBrackets(),
 	},

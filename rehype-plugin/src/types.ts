@@ -17,5 +17,6 @@ export type PcePluginOptions = {
 	): string
 	inline?: {
 		tokenizeCallback?(tokens: TokenStream): void
-	}
+	},
+	silenceWarnings?: boolean
 }
