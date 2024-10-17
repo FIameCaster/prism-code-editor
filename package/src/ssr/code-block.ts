@@ -34,7 +34,7 @@ export type CodeBlockOptions = {
 	 * Callback that can be used to modify the tokens before they're stringified to HTML.
 	 * Can be used to add rainbow brackets for example.
 	 */
-	tokenizeCallback?(tokens: TokenStream): void
+	tokenizeCallback?(tokens: TokenStream, language: string): void
 	/**
 	 * Callback function that can be used to add extra classes to lines. Multiple classes
 	 * can be separated by spaces. Note that the `lineNumberStart` option does not affect
@@ -84,7 +84,7 @@ const renderCodeBlock = <T extends {}>(
 		value.includes("\r") ? value.replace(/\r?\n/g, "\n") : value,
 		languages[language] || {},
 	)
-	tokenizeCallback?.(tokens)
+	tokenizeCallback?.(tokens, language)
 
 	let lines = highlightTokens(tokens).split("\n")
 	let l = lines.length

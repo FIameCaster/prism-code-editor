@@ -94,7 +94,7 @@ export const rehypePrismCodeEditor: Plugin<[PcePluginOptions?], Root> = ({
 			const langClass = "language-" + lang
 			const tokens = tokenizeText(code, grammar)
 
-			inline!.tokenizeCallback?.(tokens)
+			inline!.tokenizeCallback?.(tokens, lang)
 			if (Array.isArray(className)) className.push(langClass)
 			else if (typeof className == "string") properties.className = [className, langClass]
 			else properties.className = langClass

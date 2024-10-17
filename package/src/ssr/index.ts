@@ -11,7 +11,7 @@ export type RenderOptions = Omit<EditorOptions, "onUpdate" | "onTokenize" | "onS
 	 * becomes more expensive. If you're adding rainbow brackets you can pass the
 	 * {@link rainbowBrackets} function to this parameter.
 	 */
-	tokenizeCallback?(tokens: TokenStream): void
+	tokenizeCallback?(tokens: TokenStream, language: string): void
 }
 
 /**
@@ -47,7 +47,7 @@ const renderEditor = <T extends {} = {}>(options: RenderOptions & Omit<T, keyof 
 		value.includes("\r") ? value.replace(/\r?\n/g, "\n") : value,
 		languages[language] || {},
 	)
-	tokenizeCallback?.(tokens)
+	tokenizeCallback?.(tokens, language)
 
 	let lines = highlightTokens(tokens).split("\n")
 	let l = lines.length

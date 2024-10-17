@@ -16,7 +16,7 @@ export type PcePluginOptions = {
 		isEditor: boolean,
 	): string
 	inline?: {
-		tokenizeCallback?(tokens: TokenStream): void
+		tokenizeCallback?(tokens: TokenStream, language: string): void
 	},
 	silenceWarnings?: boolean
 }
