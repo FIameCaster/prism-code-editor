@@ -1,18 +1,17 @@
-import type { EditorOptions } from "prism-code-editor"
-import type { TokenStream } from "prism-code-editor/prism"
-import type { CodeBlockOptions } from "prism-code-editor/ssr"
+import type { CodeBlockOptions, RenderOptions } from "prism-code-editor/ssr"
+
+export type BlockProps = Record<string, any> & {
+	language: string
+	value: string
+}
 
 export type PcePluginOptions = {
 	editorsOnly?: boolean
-	defaultEditorProps?: Omit<
-		Partial<EditorOptions>,
-		"onTokenize" | "onSelectionChange" | "onUpdate" | "value" | "language"
-	> & {
-		tokenizeCallback?(tokens: TokenStream): void
-	}
-	defaultCodeBlockProps?: Omit<Partial<CodeBlockOptions>, "code" | "language">
+	defaultEditorProps?: Omit<RenderOptions, "value" | "language">
+	defaultCodeBlockProps?: Omit<Partial<CodeBlockOptions>, "value" | "language">
 	customRenderer?(
-		props: Record<string, any>,
-		defaultRenderer: (props: Record<string, any>) => string,
+		props: BlockProps,
+		defaultRenderer: (props: BlockProps) => string,
+		isEditor: boolean,
 	): string
 }
