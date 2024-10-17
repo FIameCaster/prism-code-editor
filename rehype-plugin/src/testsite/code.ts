@@ -7,11 +7,14 @@ export const options = `const options = {
 		tokenizeCallback: rainbowBrackets(),
 		guideIndents: true,
 		lineNumbers: true,
-	}
+	},
+	inline: {}
 }
 `
 
 export const markdown = `## Test
+
+Inline code: \`code.replace(/\\r\\n?/, "\\n"){:js}\`
 
 \`\`\`js editor
 const foo = "bar"

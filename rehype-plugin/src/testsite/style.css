@@ -155,6 +155,16 @@ button {
 	box-shadow: inherit;
 }
 
+code:not(.pce-wrapper) {
+	font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+	padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  white-space: break-spaces;
+  background: #656c7633;
+  border-radius: 0.4em;
+}
+
 @media (hover: hover) {
 	#dragbar:hover {
 		transition-delay: 0.3s;

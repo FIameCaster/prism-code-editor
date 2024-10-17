@@ -1,3 +1,4 @@
+import type { TokenStream } from "prism-code-editor/prism"
 import type { CodeBlockOptions, RenderOptions } from "prism-code-editor/ssr"
 
 export type BlockProps = Record<string, any> & {
@@ -14,4 +15,7 @@ export type PcePluginOptions = {
 		defaultRenderer: (props: BlockProps) => string,
 		isEditor: boolean,
 	): string
+	inline?: {
+		tokenizeCallback?(tokens: TokenStream): void
+	}
 }

@@ -1,29 +1,34 @@
 import type { Plugin } from "unified"
-import type { Root, Element } from "hast"
+import type { Root, Element, ElementContent } from "hast"
 import { visitParents } from "unist-util-visit-parents"
 import { fromHtml } from "hast-util-from-html"
 import { createCodeBlock, createEditor, parseMeta } from "./utils.js"
 import { PcePluginOptions } from "./types.js"
 import { numLines } from "prism-code-editor"
+import { highlightTokens, languages, tokenizeText } from "prism-code-editor/prism"
 
 export const rehypePrismCodeEditor: Plugin<[PcePluginOptions?], Root> = ({
 	editorsOnly,
 	defaultEditorProps,
 	defaultCodeBlockProps,
 	customRenderer,
+	inline,
 } = {}) => {
 	return tree => {
 		const nodes: [Element, Element, Element, string][] = []
+		const spans: [Element, string][] = []
 
 		visitParents(tree, { type: "element", tagName: "code" }, (node, ancestors) => {
-			const [parent, pre] = ancestors.slice(-2) as Element[]
-			if (pre.tagName != "pre" || pre.children[1]) return
-
+			const [grandParent, parent] = ancestors.slice(-2) as Element[]
 			const children = node.children
 			const text = children[0]
-			if (children[1] || text.type != "text") return
 
-			nodes.push([node, pre, parent, text.value.slice(0, -1)])
+			if (children[1] || text.type != "text") return
+			if (parent.tagName != "pre") {
+				if (inline) spans.push([node, text.value])
+			} else if (!parent.children[1]) {
+				nodes.push([node, parent, grandParent, text.value.slice(0, -1)])
+			}
 		})
 
 		nodes.forEach(([codeEl, pre, parent, code]) => {
@@ -40,10 +45,14 @@ export const rehypePrismCodeEditor: Plugin<[PcePluginOptions?], Root> = ({
 			let className = properties.className
 			if (Array.isArray(className)) className = className.join(" ")
 
-			const lang =
-				(typeof className == "string" && /\blanguage-(\S+)/.exec(className)?.[1]) || "text"
+			const lang = (
+				(typeof className == "string" && /\blanguage-(\S+)/.exec(className)?.[1]) ||
+				"text"
+			)
+				.replace(/\b\+\+/g, "pp")
+				.replace(/\b#/g, "sharp")
 
-			props.language = lang.replace(/\b\+\+/g, "pp").replace(/\b#/g, "sharp")
+			props.language = lang
 
 			const renderFunc = isEditor ? createEditor : createCodeBlock
 			const merged = {
@@ -56,6 +65,31 @@ export const rehypePrismCodeEditor: Plugin<[PcePluginOptions?], Root> = ({
 			const children = parent.children
 
 			children[children.indexOf(pre)] = fromHtml(html, { fragment: true }).children[0] as Element
+		})
+
+		spans.forEach(([codeEl, text]) => {
+			const langStart = text.lastIndexOf("{:")
+
+			if (langStart < 0 || text.slice(-1) != "}") return
+			const lang = text.slice(langStart + 2, -1)
+			const code = text.slice(0, langStart)
+			const grammar = languages[lang]
+
+			if (!grammar) {
+				return
+			}
+			const properties = codeEl.properties
+			const className = properties.className
+			const langClass = "language-" + lang
+			const tokens = tokenizeText(code, grammar)
+
+			inline!.tokenizeCallback?.(tokens)
+			if (Array.isArray(className)) className.push(langClass)
+			else if (typeof className == "string") properties.className = [className, langClass]
+			else properties.className = langClass
+
+			codeEl.children = fromHtml(highlightTokens(tokens), { fragment: true })
+				.children as ElementContent[]
 		})
 	}
 }
