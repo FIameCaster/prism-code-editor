@@ -35,6 +35,13 @@ export type CodeBlockOptions = {
 	 * Can be used to add rainbow brackets for example.
 	 */
 	tokenizeCallback?(tokens: TokenStream): void
+	/**
+	 * Callback function that can be used to add extra classes to lines. Multiple classes
+	 * can be separated by spaces. Note that the `lineNumberStart` option does not affect
+	 * the line number passed to the callback.
+	 * @param lineNumber The line number of the line.
+	 */
+	addLineClass?(lineNumber: number): string | undefined | null
 }
 
 /**
@@ -59,6 +66,7 @@ const renderCodeBlock = <T extends {}>(
 		guideIndents,
 		rtl,
 		tokenizeCallback,
+		addLineClass,
 		...rest
 	} = options
 
@@ -91,9 +99,10 @@ const renderCodeBlock = <T extends {}>(
 	}"><code class=pce-wrapper><div class=pce-overlays></div>`
 
 	while (i < l) {
-		html += `<div class=pce-line${indents?.[i] ? ` style=--indent:${indents[i]}ch` : ""}>${
-			lines[i++]
-		}\n</div>`
+		let lineClass = addLineClass?.(i + 1)
+		html += `<div class="pce-line${lineClass ? " " + lineClass : ""}"${
+			indents?.[i] ? ` style=--indent:${indents[i]}ch` : ""
+		}>${lines[i++]}\n</div>`
 	}
 
 	return html + "</code></pre>"
