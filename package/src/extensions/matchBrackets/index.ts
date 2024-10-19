@@ -2,6 +2,7 @@
 
 import { BasicExtension } from "../../index.js"
 import { Token, TokenStream } from "../../prism/index.js"
+import { testBracket } from "../../utils/local.js"
 
 export interface BracketMatcher extends BasicExtension {
 	/**
@@ -117,8 +118,4 @@ export const matchBrackets = (
 	}
 
 	return self
-}
-
-const testBracket = (str: string, brackets: string, l: number) => {
-	return brackets.indexOf(str[0]) + 1 || (l && brackets.indexOf(str[l]) + 1)
 }

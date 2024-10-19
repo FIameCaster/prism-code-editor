@@ -1,5 +1,6 @@
-import { CommentTokens, InputSelection, Language, PrismEditor, languageMap } from "../.."
-import { getClosestToken, getLineBefore } from "../../utils"
+import { CommentTokens, InputSelection, Language, PrismEditor, languageMap } from "../../index.js"
+import { getClosestToken, getLineBefore } from "../../utils/index.js"
+import { voidTags } from "../../utils/local.js"
 
 const clikeIndent = /[([{][^)\]}]*$|^[^.]*\b(?:case .+?|default):\s*$/,
 	isBracketPair = /\[]|\(\)|{}/,
@@ -16,8 +17,6 @@ const clikeComment: CommentTokens = {
 	line: "//",
 	block: ["/*", "*/"],
 }
-
-const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
 
 const isOpen = (match: RegExpMatchArray | null, voidTags?: RegExp) =>
 	!!match && !voidTags?.test(match[1])

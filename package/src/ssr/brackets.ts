@@ -1,6 +1,7 @@
 import { renderEditor } from "./index.js"
 import { matchBrackets } from "../extensions/matchBrackets/index.js"
 import { Token, TokenStream } from "../prism/index.js"
+import { testBracket } from "../utils/local.js"
 
 let stack: [Token, number][] = []
 let sp: number
@@ -72,10 +73,6 @@ const rainbowBrackets = (openingBrackets = "([{", closingBrackets = ")]}") => {
 		matchRecursive(tokens, openingBrackets, closingBrackets)
 		stack = []
 	}
-}
-
-const testBracket = (str: string, brackets: string, l: number) => {
-	return brackets.indexOf(str[0]) + 1 || (l && brackets.indexOf(str[l]) + 1)
 }
 
 export { rainbowBrackets }

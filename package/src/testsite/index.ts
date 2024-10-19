@@ -52,7 +52,7 @@ import { showInvisibles } from "../extensions/search/invisibles"
 import { renderCodeBlock } from "../ssr/code-block"
 import { rainbowBrackets } from "../ssr"
 import { addCopyButton, forEachCodeBlock } from "../client/code-block"
-import { addHoverDescriptions } from "../client/hover"
+import { addHoverDescriptions, highlightBracketPairsOnHover } from "../client/hover"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -277,7 +277,6 @@ document.body.insertAdjacentHTML(
 		lineNumbers: true,
 		guideIndents: true,
 		wordWrap: true,
-		preserveIndent: true,
 		tokenizeCallback: rainbowBrackets(),
 	})}</section>`,
 )
@@ -291,6 +290,7 @@ forEachCodeBlock(document, codeBlock => {
 		},
 		{},
 	)
+	highlightBracketPairsOnHover(codeBlock)
 })
 
 setTimeout(() => import("../prism/languages"), 500)

@@ -3,10 +3,7 @@
 import { PrismEditor, BasicExtension } from "../index.js"
 import { Token, TokenStream } from "../prism/index.js"
 import { getClosestToken } from "../utils/index.js"
-import { addTextareaListener } from "../utils/local.js"
-
-const voidlessLangs = "xml,rss,atom,jsx,tsx,xquery,actionscript".split(",")
-const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
+import { addTextareaListener, voidlessLangs, voidTags } from "../utils/local.js"
 
 /**
  * Tuple containing in the following order:

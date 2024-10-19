@@ -48,6 +48,13 @@ const updateNode = (node: Text, text: string) => {
 	if (node.data != text) node.data = text
 }
 
+const testBracket = (str: string, brackets: string, l: number) => {
+	return brackets.indexOf(str[0]) + 1 || (l && brackets.indexOf(str[l]) + 1)
+}
+
+const voidlessLangs = "xml,rss,atom,jsx,tsx,xquery,actionscript".split(",")
+const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
+
 export {
 	scrollToEl,
 	getLineStart,
@@ -56,4 +63,7 @@ export {
 	addTextareaListener,
 	getPosition,
 	updateNode,
+	testBracket,
+	voidTags,
+	voidlessLangs,
 }
