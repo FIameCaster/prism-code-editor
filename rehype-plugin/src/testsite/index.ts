@@ -4,6 +4,7 @@ import "prism-code-editor/code-block.css"
 import "prism-code-editor/scrollbar.css"
 import "prism-code-editor/search.css"
 import "prism-code-editor/invisibles.css"
+import "prism-code-editor/copy-button.css"
 import "prism-code-editor/themes/github-dark.css"
 import "./style.css"
 
@@ -19,7 +20,7 @@ import { addOverscroll } from "prism-code-editor/tooltips"
 import { defaultCommands, editHistory } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { rainbowBrackets } from "prism-code-editor/ssr"
-import { mountEditorsUnder } from "prism-code-editor/client"
+import { addCopyButton, forEachCodeBlock, highlightBracketPairsOnHover, highlightTagPairsOnHover, mountEditorsUnder } from "prism-code-editor/client"
 import { markdown, options } from "./code"
 import { rehypePrismCodeEditor } from "../plugin"
 import rehypeStringify from "rehype-stringify"
@@ -74,6 +75,11 @@ const run = async () => {
 
 		markdownContainer.innerHTML = String(file)
 		mountEditorsUnder(markdownContainer, getExtensions)
+		forEachCodeBlock(markdownContainer, (codeBlock) => {
+			addCopyButton(codeBlock)
+			highlightBracketPairsOnHover(codeBlock)
+			highlightTagPairsOnHover(codeBlock)
+		})
 		errorEl.setAttribute("aria-hidden", "true")
 	} catch (error) {
 		errorEl.removeAttribute("aria-hidden")
