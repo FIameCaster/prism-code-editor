@@ -1,5 +1,5 @@
 import { renderCodeBlock, renderEditor } from "prism-code-editor/ssr"
-import { BlockProps } from "./types"
+import { CodeBlockProps } from "./types"
 
 const parseValue = (value: string, numLines: number) => {
 	if (value[0] == '"' || value[0] == "'") value = value.slice(1, -1)
@@ -24,7 +24,7 @@ const parseRanges = (ranges: string, numLines: number) => {
 	return result
 }
 
-const getRanges = (props: BlockProps, prop: string): Set<number> | undefined => {
+const getRanges = (props: CodeBlockProps, prop: string): Set<number> | undefined => {
 	let ranges = props[prop]
 	delete props[prop]
 	if (ranges instanceof Set) return ranges
@@ -39,14 +39,14 @@ export const parseMeta = (meta: string, numLines: number) => {
 		let [, prop, value] = match
 		result[prop] = parseValue(value || "", numLines)
 	}
-	return result as BlockProps
+	return result as CodeBlockProps
 }
 
-export const createEditor = (props: BlockProps) => {
+export const createEditor = (props: CodeBlockProps) => {
 	return renderEditor(props)
 }
 
-export const createCodeBlock = (props: BlockProps) => {
+export const createCodeBlock = (props: CodeBlockProps) => {
 	const highlight = getRanges(props, "highlight")
 	const ins = getRanges(props, "ins")
 	const del = getRanges(props, "del")
