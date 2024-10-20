@@ -3,14 +3,15 @@ title: Code folding
 description: Learn how to add code folding to read-only editors.
 ---
 
-import Editor from "../../../components/editor/Folding.astro"
+import "../../../components/editor/Folding.astro"
 import "../../../css/editor-theme.css"
 
 This library support code folding, but only for read-only editors. All editors on this page are therefore read-only. Code folding for all editors is significantly more complex and therefore not implemented.
 
 ## Try it
 
-<Editor language="html" readOnly value={`<!DOCTYPE html>
+```html editor readOnly
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -43,13 +44,15 @@ This library support code folding, but only for read-only editors. All editors o
 		)
 	</script>
 </body>
-</html>`} />
+</html>
+```
 
 ## Providers
 
 By default, the `readOnlyCodeFolding` extension won't fold any ranges. You need to pass folding range providers to the extension when it's created.
 
-<Editor language="javascript" readOnly value={`import {
+```js editor readOnly
+import {
 	readOnlyCodeFolding,
 	markdownFolding,
 	blockCommentFolding,
@@ -65,7 +68,8 @@ editor.addExtensions(
 		markdownFolding,
 		blockCommentFolding
 	)
-)`} />
+)
+```
 
 There are currently 4 providers you can import:
 
@@ -78,7 +82,8 @@ There are currently 4 providers you can import:
 
 You can easily create your own [`FoldingRangeProvier`](/api-reference/code-folding/t-foldingrangeprovider). The providers are called with the current editor and should return an array of foldable ranges. These ranges should span multiple lines.
 
-<Editor language="typescript" readOnly value={`import {
+```ts editor readOnly
+import {
 	readOnlyCodeFolding,
 	FoldingRangeProvider
 } from "prism-code-editor/code-folding"
@@ -89,4 +94,5 @@ const myProvider: FoldingRangeProvider = editor => {
 
 editor.addExtensions(
 	readOnlyCodeFolding(myProvider)
-)`} />
+)
+```

@@ -4,7 +4,8 @@ description: Learn how to create your first editor with Prism code editor.
 ---
 
 import "../../../components/languages/bash+html+css+ts.astro"
-import Editor from "../../../components/editor/index.astro"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/scrollbar.css"
 import "../../../css/editor-theme.css"
 import { Tabs, TabItem, Aside } from '@astrojs/starlight/components'
 
@@ -20,13 +21,19 @@ All code examples shown in this documentation use editors created by this librar
 
 <Tabs>
 	<TabItem label="npm">
-		<Editor language="bash" value={"npm install prism-code-editor"} />
+```bash editor
+npm install prism-code-editor
+```
 	</TabItem>
 	<TabItem label="pnpm">
-		<Editor language="bash" value={"pnpm add prism-code-editor"} />
+```bash editor
+pnpm add prism-code-editor
+```
 	</TabItem>
 	<TabItem label="yarn">
-		<Editor language="bash" value={"yarn add prism-code-editor"} />
+```bash editor
+yarn add prism-code-editor
+```
 	</TabItem>
 </Tabs>
 
@@ -34,7 +41,8 @@ All code examples shown in this documentation use editors created by this librar
 
 This library provides multiple ways to create editors. Perhaps the easiest is to use one of the 3 different setups: [`minimalEditor`](/api-reference/setups/f-minimaleditor), [`basicEditor`](/api-reference/setups/f-basiceditor), or [`readOnlyEditor`](/api-reference/setups/f-readonlyditor). These will automatically import the necessary styles and scope them with a shadow root, add various extensions, and import all language specific behavior. There are multiple downsides to using the setups, but they're a viable option for anyone who wants an editor that works well out of the box.
 
-<Editor language="javascript" value={`import { basicEditor } from "prism-code-editor/setups"
+```js editor
+import { basicEditor } from "prism-code-editor/setups"
 // Importing Prism grammars
 import "prism-code-editor/prism/languages/markup"
 
@@ -45,7 +53,8 @@ const editor = basicEditor(
 		theme: "github-dark",
 	},
 	() => console.log("mounted"),
-)`} />
+)
+```
 
 <Aside type="note">
 	You might want to add `display: grid` to your container element.
@@ -81,7 +90,8 @@ There are three different events both you and extensions can listen to: `tokeniz
 
 The library includes a custom element wrapper for each of the 3 setups you can import.
 
-<Editor language="typescript" value={`import { addBasicEditor, PrismEditorElement } from "prism-code-editor/web-component"
+```ts editor
+import { addBasicEditor, PrismEditorElement } from "prism-code-editor/web-component"
 
 // Adds a web component with the specified name
 addBasicEditor("prism-editor")
@@ -92,11 +102,13 @@ const editorElement = document.querySelector<PrismEditorElement>("prism-editor")
 editorElement.addEventListener("ready", () => console.log("ready"))
 
 // The editor can be accessed from the element
-console.log(editorElement.editor)`} />
+console.log(editorElement.editor)
+```
 
 This is how the web component could be used:
 
-<Editor language="html" value={`<style>
+```html editor
+<style>
 	prism-editor {
 		display: grid;
 	}
@@ -110,7 +122,8 @@ This is how the web component could be used:
 	word-wrap
 >
 	The editors initial code goes here
-</prism-editor>`} />
+</prism-editor>
+```
 
 ### Attributes
 

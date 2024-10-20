@@ -4,7 +4,8 @@ description: Learn how you can use Prism code editor's Prism instance.
 ---
 
 import "../../../components/languages/js.astro"
-import Editor from "../../../components/editor/index.astro"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/scrollbar.css"
 import "../../../css/editor-theme.css"
 
 This library uses a custom Prism instance that's better suited for usage in editors. This page will tell you what's different compared to PrismJS and how you can use this Prism instance to perform syntax highlighting outside an editor.
@@ -24,13 +25,15 @@ If you need access to many languages, you can import the following entry points:
 
 If you want access to many grammars, but don't need most of them instantly, you can dynamically import these entry points.
 
-<Editor language="javascript" value={`import "prism-code-editor/prism/languages/markdown"
+```js editor
+import "prism-code-editor/prism/languages/markdown"
 import { createEditor } from "prism-code-editor"
 
 const editor = createEditor("#editor", { language: "markdown" })
 
 import("prism-code-editor/prism/languages/common")
-	.then(() => editor.update())`} />
+	.then(() => editor.update())
+```
 
 Here, we created a simple markdown editor and only import the `markdown` grammar initially. Once the common languages load, the editor gets updated which will highlight any of the markdown code blocks.
 
@@ -38,8 +41,10 @@ Here, we created a simple markdown editor and only import the `markdown` grammar
 
 If you're importing multiple grammars, import order usually won't matter. The exception comes when grammars modify other grammars. Take this example:
 
-<Editor language="javascript" value={`import "prism-code-editor/prism/languages/typescript"
-import "prism-code-editor/prism/languages/js-templates"`} />
+```js editor
+import "prism-code-editor/prism/languages/typescript"
+import "prism-code-editor/prism/languages/js-templates"
+```
 
 This won't add `js-templates` features to `typescript` because it extended `javascript` before `js-templates` was added. Swapping the import order fixes the issue.
 
@@ -57,11 +62,13 @@ The HTML produced by `highlightText()` and `highlightTokens()` differs slightly 
 
 To add your own languages, simply mutate the [`languages`](/api-reference/prism/v-languages) record.
 
-<Editor language="javascript" value={`import { languages } from "prism-code-editor/prism"
+```js editor
+import { languages } from "prism-code-editor/prism"
 
 languages["my-language"] = {
 	// Tokens go here
-}`} />
+}
+```
 
 ### Helper Functions
 

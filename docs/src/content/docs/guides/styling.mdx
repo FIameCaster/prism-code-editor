@@ -4,7 +4,8 @@ description: Learn how to style an editor to your liking.
 ---
 
 import "../../../components/languages/html+css+ts.astro"
-import Editor from "../../../components/editor/index.astro"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/scrollbar.css"
 import "../../../css/editor-theme.css"
 import { Aside } from "@astrojs/starlight/components"
 
@@ -16,17 +17,21 @@ If you're using the setups, most of the styling is handled for you. The only thi
 
 To change the current theme with the setups, use the [`setOptions()`](/api-reference/index/i-prismeditor#setoptions) method. Updating the theme is asynchronous, and the old theme is used until the new one loads.
 
-<Editor language="javascript" value={`editor.setOptions({
+```js editor
+editor.setOptions({
 	theme: "night-owl"
-})`} />
+})
+```
 
 ### Adding new themes
 
 You can register new themes or override existing ones to use with the setups or web components.
 
-<Editor language="javascript" value={`import { registerTheme } from "prism-code-editor/themes"
+```js editor
+import { registerTheme } from "prism-code-editor/themes"
 
-registerTheme("my-theme", () => import("./my-theme.css?inline"))`} />
+registerTheme("my-theme", () => import("./my-theme.css?inline"))
+```
 
 <Aside type="note">
 	The example might look different if you're not using Vite as your bundler
@@ -38,14 +43,16 @@ Themes can be imported from `prism-code-editor/themes/*.css`. There are currentl
 
 You can also import themes into your JavaScript with [`loadTheme()`](/api-reference/themes/f-loadtheme) which is used by theme switcher in the playground.
 
-<Editor language="javascript" value={`import { loadTheme } from "prism-code-editor/themes"
+```js editor
+import { loadTheme } from "prism-code-editor/themes"
 
 const isLight = matchMedia("(prefers-color-scheme: light)").matches
 const style = document.querySelector("style")
 
 loadTheme(isLight ? "github-light" : "github-dark").then(theme => {
 	style.textContent = theme
-})`} />
+})
+```
 
 ## Importing styles
 
@@ -66,10 +73,12 @@ Here are some stylesheets you can import:
 
 You can import a stylesheet that adds a custom scrollbar to desktop Chrome and Safari from `prism-code-editor/scrollbar.css`.
 
-<Editor language="css" value={`.prism-code-editor {
+```css editor
+.prism-code-editor {
 	/* Values are: Hue, saturation, lightness */
 	--editor__bg-scrollbar: 210, 10%, 40%;
-}`} />
+}
+```
 
 You can change the color of the scrollbar thumb using the custom property `--editor__bg-scrollbar`. Different alphas will be set based on the state of the scrollbar thumb.
 
@@ -77,7 +86,8 @@ You can change the color of the scrollbar thumb using the custom property `--edi
 
 The following document shows the DOM structure of an editor.
 
-<Editor language="html" value={`<div class="prism-code-editor language-[lang] [state-classes]">
+```html editor
+<div class="prism-code-editor language-[lang] [state-classes]">
 	<!-- ::before pseudo element is the line number background -->
 	<div class="pce-wrapper">
 		<div class="pce-overlays">
@@ -92,7 +102,8 @@ The following document shows the DOM structure of an editor.
 		<div class="pce-line" aria-hidden="true" data-line="2"></div>
 		<!-- More lines... -->
 	</div>
-</div>`} />
+</div>
+```
 
 ### Adding vertical scrolling
 

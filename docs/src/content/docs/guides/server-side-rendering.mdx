@@ -4,7 +4,8 @@ description: Learn how you can render an editor on the server and make it intera
 ---
 
 import "../../../components/languages/ts.astro"
-import Editor from "../../../components/editor/index.astro"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/scrollbar.css"
 import "../../../css/editor-theme.css"
 
 This library supports rendering an editor as an HTML string on a server and mounting the editor on the client. This has multiple advantages. Layout shift can be completely avoided, and the editors will be visible before the JavaScript has been executed. This is the method used to render editors on this documentation website.
@@ -13,17 +14,20 @@ This library supports rendering an editor as an HTML string on a server and moun
 
 [`renderEditor()`](/api-reference/ssr/f-rendereditor) renders an editor with the specified [`EditorOptions`](/api-reference/index/t-editoroptions) as an HTML string. The event handler options such as `onUpdate` are ignored.
 
-<Editor language="javascript" value={`import "prism-code-editor/prism/languages/javascript"
+```js editor
+import "prism-code-editor/prism/languages/javascript"
 import { renderEditor } from "prism-code-editor/ssr"
 
 const html = renderEditor({
 	language: "javascript",
 	value: 'const foo = "bar"'
-})`} />
+})
+```
 
 ### Rendering options
 
-<Editor language="javascript" value={`import "prism-code-editor/prism/languages/javascript"
+```js editor
+import "prism-code-editor/prism/languages/javascript"
 import { renderEditor, rainbowBrackets } from "prism-code-editor/ssr"
 
 const html = renderEditor({
@@ -31,7 +35,8 @@ const html = renderEditor({
 	value: 'const foo = "bar"'
 }, {
 	tokenizeCallback: rainbowBrackets()
-})`} />
+})
+```
 
 The second argument can be used to customize the output. Currently, only a single property is accepted: `tokenizeCallback`. This function is called before the tokens are stringified to HTML and can be used to modify them. If you're using [`matchBrackets()`](/api-reference/match-brackets/f-matchbrackets) for example, these same modifications should be done one the server. If you don't, the editor will flash with incorrect tokens.
 
@@ -41,7 +46,8 @@ The editors created from plain HTML are obviously not interactive. They must be 
 
 ### Adding extensions
 
-<Editor language="javascript" value={`import "prism-code-editor/prism/languages/javascript"
+```js editor
+import "prism-code-editor/prism/languages/javascript"
 import { mountEditorsUnder } from "prism-code-editor/client"
 import { matchBrackets } from "prism-code-editor/match-brackets"
 import { indentGuides } from "prism-code-editor/guides"
@@ -52,7 +58,8 @@ const editors = mountEditorsUnder(
 		matchBrackets(),
 		indentGuides()
 	]
-)`} />
+)
+```
 
 The second argument receives the options for an editor and returns the extensions that editor should be initialized with. This means you can add different extensions to editors with different options.
 
@@ -60,7 +67,8 @@ The second argument receives the options for an editor and returns the extension
 
 You can define extra properties for `renderEditor()` that will get stringified as JSON and later parsed by `mountEditorsUnder()`. This can be very useful for configuring which extensions to add. Take this example:
 
-<Editor language="typescript" file="server.ts" value={`import "prism-code-editor/prism/languages/javascript"
+```ts editor file="server.ts"
+import "prism-code-editor/prism/languages/javascript"
 import { renderEditor } from "prism-code-editor/ssr"
 
 export type MyOptions = {
@@ -71,9 +79,11 @@ const html = renderEditor<MyOptions>({
 	language: "javascript",
 	value: 'const foo = "bar"',
 	hasHistory: true
-})`} />
+})
+```
 
-<Editor language="typescript" file="client.ts" value={`import "prism-code-editor/prism/languages/javascript"
+```ts editor file="client.ts"
+import "prism-code-editor/prism/languages/javascript"
 import { mountEditorsUnder } from "prism-code-editor/client"
 import { editHistory } from "prism-code-editor/commands"
 import type { MyOptions } from "./server"
@@ -85,7 +95,8 @@ const editors = mountEditorsUnder<MyOptions>(
 			return [editHistory()]
 		}
 	}
-)`} />
+)
+```
 
 ## Usage in Practice
 

@@ -1,9 +1,36 @@
 import { defineConfig } from "astro/config"
 import starlight from "@astrojs/starlight"
 import starlightTypeDoc from "starlight-typedoc"
+import { rehypePrismCodeEditor } from "rehype-prism-code-editor"
+import { rainbowBrackets } from "prism-code-editor/ssr"
+import "prism-code-editor/prism/languages/common"
+
+/** @type {import("rehype-prism-code-editor").PcePluginOptions} */
+const pluginOptions = {
+	editorsOnly: true,
+	defaultCodeBlockProps: {
+		tokenizeCallback: rainbowBrackets(),
+		guideIndents: true,
+		lineNumbers: true,
+		wordWrap: true,
+	},
+	defaultEditorProps: {
+		tokenizeCallback: rainbowBrackets(),
+	},
+	customRenderer(props, defaultRenderer) {
+		const file = props.file
+		delete props.file
+		return `<div class="not-content code-block">${
+			file ? `<figcaption class="code-title"><span>${file}</span></figcaption>` : ""
+		}${defaultRenderer(props)}</div>`
+	},
+}
 
 // https://astro.build/config
 export default defineConfig({
+	markdown: {
+		rehypePlugins: [[rehypePrismCodeEditor, pluginOptions]],
+	},
 	integrations: [
 		starlight({
 			title: "Prism code editor",

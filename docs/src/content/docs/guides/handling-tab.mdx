@@ -4,7 +4,8 @@ description: Learn how to handle tab without creating keyboard traps.
 ---
 
 import "../../../components/languages/ts.astro"
-import Editor from "../../../components/editor/index.astro"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/scrollbar.css"
 import "../../../css/editor-theme.css"
 import { Aside } from "@astrojs/starlight/components"
 
@@ -12,7 +13,8 @@ The [`defaultCommands()`](/api-reference/commands/f-defaultcommands) extension b
 
 One solution that doesn't involve disabling tab capturing by default, is to disable it temporarily whenever the user tabs over to an editor. You'll notice that focusing the editor with a pointer allows the Tab key to be used for indenting as normal, whereas this isn't the case if the editor was focused with Tab.
 
-<Editor language="typescript" value={`import { setIgnoreTab, ignoreTab } from "prism-code-editor/commands"
+```ts editor
+import { setIgnoreTab, ignoreTab } from "prism-code-editor/commands"
 
 addEventListener("keydown", e => {
 	if (e.key == "Tab") {
@@ -36,7 +38,8 @@ addEventListener("keydown", e => {
 			{ once: true },
 		)
 	}
-})`} />
+})
+```
 
 <Aside type="caution">
 	This example won't work if you're using the setups and there's no easy fix.

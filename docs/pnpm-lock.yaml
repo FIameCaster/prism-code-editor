@@ -22,6 +22,12 @@ importers:
       astro:
         specifier: ^4.10.2
         version: 4.14.5(@types/node@22.5.2)(rollup@4.21.2)(typescript@5.5.4)
+      prism-code-editor:
+        specifier: 4.0.0-beta.1
+        version: link:../package
+      rehype-prism-code-editor:
+        specifier: ^0.1.0
+        version: link:../rehype-plugin
       sharp:
         specifier: ^0.32.5
         version: 0.32.6

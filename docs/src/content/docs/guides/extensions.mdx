@@ -4,7 +4,8 @@ description: Learn which extension you can use and how to create your own.
 ---
 
 import "../../../components/languages/ts.astro"
-import Editor from "../../../components/editor/index.astro"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/scrollbar.css"
 import "../../../css/editor-theme.css"
 
 One of the key features of this library is that most features are implemented by optional extensions. This is to keep the core light for those who don't need the extra functionality.
@@ -34,7 +35,8 @@ Without a `z-index`, the overlay will be above the textarea, but beneath the syn
 
 ## Creating Your Own
 
-<Editor language="typescript" value={`import { Extension } from "prism-code-editor"
+```ts editor
+import { Extension } from "prism-code-editor"
 
 interface MyExtension extends Extension {}
 
@@ -47,7 +49,8 @@ const myExtension = (): MyExtension => {
 			// And when the options change
 		},
 	}
-}`} />
+}
+```
 
 You can also make a class that implements [`Extension`](/api-reference/index/i-extension) if that's preferred.
 
@@ -55,7 +58,8 @@ You can also make a class that implements [`Extension`](/api-reference/index/i-e
 
 Plain functions can also be extensions. These functions won't be called again when the editor's options change.
 
-<Editor language="typescript" value={`import { BasicExtension, createEditor } from "prism-code-editor"
+```ts editor
+import { BasicExtension, createEditor } from "prism-code-editor"
 
 const myExtension = (): BasicExtension => {
 	return (editor, options) => {
@@ -65,4 +69,5 @@ const myExtension = (): BasicExtension => {
 
 createEditor("#editor", {}, (editor, options) => {
 	// This will be called before the first render
-})`} />
+})
+```

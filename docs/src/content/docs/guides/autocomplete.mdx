@@ -4,7 +4,8 @@ description: Learn how to use the autocomplete extension.
 ---
 
 import "../../../components/languages/jsx+css+html.astro"
-import Editor from "../../../components/editor/index.astro"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/scrollbar.css"
 import "../../../components/editor/Autocomplete.astro"
 import "../../../css/editor-theme.css"
 import { Aside } from "@astrojs/starlight/components"
@@ -13,7 +14,8 @@ The [`autoComplete()`](/api-reference/autocomplete/f-autocomplete) extension can
 
 ## Adding the extension
 
-<Editor language="javascript" value={`import {
+```js editor
+import {
 	fuzzyFilter,
 	autoComplete
 } from "prism-code-editor/autocomplete"
@@ -29,7 +31,8 @@ editor.addExtensions(
 		explicitOnly: false,
 		preferAbove: false
 	})
-)`} />
+)
+```
 
 <Aside type="caution">
 	The [`cursorPosition()`](/api-reference/cursor/f-cursorposition) extension is required for the autocompletion to work.
@@ -49,20 +52,24 @@ The extension doesn't define any completion sources. You have to register them w
 
 ### CSS completion
 
-<Editor language="javascript" value={`import { registerCompletions } from "prism-code-editor/autocomplete"
+```js editor
+import { registerCompletions } from "prism-code-editor/autocomplete"
 import { cssCompletion } from "prism-code-editor/autocomplete/css"
 
 registerCompletions(["css"], {
 	sources: [cssCompletion()]
-})`} />
+})
+```
 
 Try it:
 
-<Editor language="css" value={`.prism-code-editor {
+```css editor
+.prism-code-editor {
 	--padding-inline: 1em;
 	max-height: 50em;
 	line-height: 1.5;
-}`} />
+}
+```
 
 <Aside type="note">
 	[`cssCompletion()`](/api-reference/autocomplete/css/f-csscompletion) requires the `css-extras` grammar to work correctly.
@@ -70,7 +77,8 @@ Try it:
 
 ### JavaScript completion
 
-<Editor language="javascript" value={`import {
+```js editor
+import {
 	completeIdentifiers,
 	completeKeywords,
 	jsDocCompletion,
@@ -94,11 +102,13 @@ registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 		jsxTagCompletion(reactTags, globalReactAttributes),
 		completeFromList(jsSnipets)
 	]
-})`} />
+})
+```
 
 [`completeScope()`](/api-reference/autocomplete/javascript/f-completescope) is another completion source that can be used to add completion for the `window` object for example, but using it as the same time as [`completeIdentifiers()`](/api-reference/autocomplete/javascript/f-completeidentifiers) does lead to a lot of duplicated options.
 
-<Editor language="tsx" value={`// Try writing some TSX
+```tsx editor
+// Try writing some TSX
 
 /**
  * 
@@ -110,13 +120,15 @@ function App(props) {
 			<input type="number" />
 		</>
 	)
-}`} />
+}
+```
 
 ### HTML completion
 
 [`markupCompletion()`](/api-reference/autocomplete/markup/f-markupcompletion) adds completion for the specified tags, attributes, and attribute values.
 
-<Editor language="javascript" value={`import { registerCompletions } from "prism-code-editor/autocomplete"
+```js editor
+import { registerCompletions } from "prism-code-editor/autocomplete"
 import {
 	globalHtmlAttributes,
 	htmlTags,
@@ -125,24 +137,28 @@ import {
 
 registerCompletions(["html", "markup"], {
 	sources: [markupCompletion(htmlTags, globalHtmlAttributes)]
-})`} />
+})
+```
 
 Autocompletion works for nested languages too. Try writing in the script/style tags:
 
-<Editor language="html" value={`<body>
+```html editor
+<body>
 	<style>
 		
 	</style>
 	<script>
 	
 	</script>
-</body>`} />
+</body>
+```
 
 ### SVG completion
 
 You can also import tag data for SVG tags. If you're making an SVG editor for example, this can be useful.
 
-<Editor language="javascript" value={`import { registerCompletions } from "prism-code-editor/autocomplete"
+```js editor
+import { registerCompletions } from "prism-code-editor/autocomplete"
 import {
 	globalSvgAttributes,
 	svgTags,
@@ -151,16 +167,19 @@ import {
 
 registerCompletions(["svg"], {
 	sources: [markupCompletion(svgTags, globalSvgAttributes)]
-})`} />
+})
+```
 
 Try writing some SVG code:
 
-<Editor language="svg" value={`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+```svg editor
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
 	<clipPath>
 
 	</clipPath>
 	<circle />
-</svg>`} />
+</svg>
+```
 
 ## Creating your own definitions
 
@@ -178,7 +197,8 @@ The completion items returned have multiple properties to customize their insert
 
 To create snippets, use the [`insert`](/api-reference/autocomplete/i-completion#insert) property along with [`tabStops`](/api-reference/autocomplete/i-completion#tabstops). If there are line feeds in `insert`, the indentation will be preserved. Tabs are replaced by spaces with `options.insertSpaces` set to true.
 
-<Editor language="typescript" value={`import { Completion } from "prism-code-editor/autocomplete"
+```ts editor
+import { Completion } from "prism-code-editor/autocomplete"
 
 const mySnippets: Completion[] = [
 	{
@@ -188,7 +208,8 @@ const mySnippets: Completion[] = [
 		icon: "snippet",
 		detail: "Function Statement",
 	},
-]`} />
+]
+```
 
 ### Helpers
 

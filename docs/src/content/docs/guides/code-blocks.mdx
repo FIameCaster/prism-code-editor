@@ -3,7 +3,7 @@ title: Code Blocks
 description: Learn how to render static code blocks on the server.
 ---
 
-import CodeBlock from "../../../components/CodeBlock.astro"
+import "../../../components/CodeBlock.astro"
 import { Aside } from "@astrojs/starlight/components"
 
 This library can also render static code blocks. The code blocks require no JavaScript to work and support some features that can't be added to editors. Every code block on this page has been generated with this library.
@@ -29,12 +29,14 @@ Below you can toggle most of the boolean options for every code block.
 
 [`renderCodeBlock()`](/api-reference/ssr/f-rendercodeblock) renders a code block as an HTML string. This is intended to be ran on a server to generate static HTML.
 
-<CodeBlock lang="javascript" code={`import { renderCodeBlock } from "prism-code-editor/ssr"
+```js editor="false"
+import { renderCodeBlock } from "prism-code-editor/ssr"
 
 const html = renderCodeBlock({
 	language: "javascript",
 	code: "const foo = 'bar'"
-})`} />
+})
+```
 
 ## Options
 
@@ -44,9 +46,11 @@ The only argument to `renderCodeBlock` is a [`CodeBlockOptions`](/api-reference/
 
 When indentation preservation is enabled, wrapped lines get the same indentation as their parent line. This can greatly increase the readability of code with many wrapped lines and is enabled by default when `wordWrap` is enabled.
 
-<CodeBlock lang="html" code={`<p>
+```html editor="false"
+<p>
 	Here's a very long paragraph that will probably be split across multiple lines. This should show you what <code>preserveIndent</code> does.
-</p>`} />
+</p>
+```
 
 <Aside type="note">
 	When enabled, tabs are replaced with spaces due to Chrome not rendering tabs properly.
@@ -54,16 +58,18 @@ When indentation preservation is enabled, wrapped lines get the same indentation
 
 ### `lineNumberStart`
 
-`lineNumberStart` can be used to configure to starting line number of the first line. This defaults to 1, obviously.
+`lineNumberStart` can be used to configure the line number of the first line. This defaults to 1, obviously.
 
-<CodeBlock lang="javascript" start={5} code={`import { renderCodeBlock } from "prism-code-editor/ssr"
+```js editor="false" lineNumberStart="5"
+import { renderCodeBlock } from "prism-code-editor/ssr"
 
 const html = renderCodeBlock({
 	language: "javascript",
 	code: "const foo = 'bar'",
 	lineNumbers: true,
 	lineNumberStart: 5
-})`} />
+})
+```
 
 ### `guideIndents`
 
@@ -77,7 +83,8 @@ In addition to `prism-code-editor/layout.css`, the code blocks require styles fr
 
 The code blocks have a nearly identical layout to the editors to make them compatible with the styles from `prism-code-editor/layout.css`. This means the [styling guide](/guides/styling) mostly applies to code blocks as well. The only difference is that the two outermost elements use `pre` and `code` tags. Below is the full DOM structure.
 
-<CodeBlock lang="html" code={`<pre class="prism-code-editor language-[lang] [extra-classes]">
+```html editor="false"
+<pre class="prism-code-editor language-[lang] [extra-classes]">
 	<!-- ::before pseudo element is the line number background -->
 	<code class="pce-wrapper">
 		<div class="pce-overlays"></div>
@@ -89,7 +96,8 @@ The code blocks have a nearly identical layout to the editors to make them compa
 		<div class="pce-line"></div>
 		<!-- More lines... -->
 	</code>
-</pre>`} />
+</pre>
+```
 
 ### Extra Classes
 
@@ -107,12 +115,14 @@ The [`forEachCodeBlock()`](/api-reference/client/f-foreachcodeblock) function ca
 
 `forEachCodeBlock()` can be used to add code block with [`addCodeBlock()`](/api-reference/client/f-addcopybutton).
 
-<CodeBlock lang="javascript" code={`import "prism-code-editor/copy-button.css"
+```js editor="false"
+import "prism-code-editor/copy-button.css"
 import { addCopyButton, forEachCodeBlock } from "prism-code-editor/client"
 
 const codeBlocks = forEachCodeBlock(document, codeBlock => {
 	addCopyButton(codeBlock)
-})`} />
+})
+```
 
 ### Adding Overlays
 
@@ -122,7 +132,8 @@ The [`addOverlay()`](/api-reference/utils/f-addoverlay) utility can be used to a
 
 If you have complicated code you want to describe, but without cluttering the code up with comments, you can show descriptions on hover instead with [`addHoverDescription()`](/api-reference/client/f-addhoverdescription). Below is a very simple example. Try hovering a string token.
 
-<CodeBlock lang="javascript" code={`import "prism-code-editor/copy-button.css"
+```js editor="false"
+import "prism-code-editor/copy-button.css"
 import {
 	addCopyButton,
 	forEachCodeBlock,
@@ -137,7 +148,8 @@ const codeBlocks = forEachCodeBlock(document, codeBlock => {
 			if (types.includes("string")) return ["This is a string token."]
 		}
 	)
-})`} />
+})
+```
 
 The callback function passed receives 4 arguments:
 
@@ -152,7 +164,8 @@ If it returns an array of children, those children are appended to the tooltip t
 
 The library only ensures the tooltip is correctly positioned. You must style it yourself. You can use the selector `.pce-hover-tooltip` to target the container the content is appended to.
 
-<CodeBlock lang="css" code={`.pce-hover-tooltip {
+```css editor="false"
+.pce-hover-tooltip {
 	/* Recommended styles */
 	position: sticky;
 	left: 0.5em;
@@ -178,7 +191,8 @@ pre.prism-code-editor .token.string {
 
 pre.prism-code-editor:hover .token.string {
 	border-color: #888;
-}`} />
+}
+```
 
 <Aside type="note">
 	You shouldn't add a margin to `.pce-hover-tooltip`. Append a container that gets the margin instead.
@@ -186,14 +200,16 @@ pre.prism-code-editor:hover .token.string {
 
 To ensure the tooltip doesn't get too big and overflows, `max-width` and `max-height` are added as inline styles to the tooltip. If you want to set your own `max-width` or `max-height`, you can use the third argument to `addHoverDescription()`. The values you provide are added as arguments to the CSS [`min()`](https://developer.mozilla.org/en-US/docs/Web/CSS/min) function, so multiple values can be comma separated.
 
-<CodeBlock lang="javascript" code={`addHoverDescription(
+```js editor="false"
+addHoverDescription(
 	codeBlock,
 	(types) => { ... },
 	{
 		maxWidth: "40ch",
 		maxHeight: "20em, 300px"
 	}
-)`} />
+)
+```
 
 ## Usage in Practice
 

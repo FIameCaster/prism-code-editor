@@ -4,21 +4,19 @@ import "prism-code-editor/prism/languages/bash"
 import "prism-code-editor/prism/languages/jsdoc"
 import "prism-code-editor/prism/languages/markup"
 import "prism-code-editor/prism/languages/css-extras"
-import "prism-code-editor/layout.css"
-import "prism-code-editor/scrollbar.css"
 import Caption from "./Caption.astro"
-import type { EditorOptions } from "prism-code-editor"
 import { rainbowBrackets, renderEditor } from "prism-code-editor/ssr"
+import type { RenderOptions } from "prism-code-editor/ssr"
 
-type Props = EditorOptions & {
+type Props = RenderOptions & {
 	file?: string
 }
 
 const { file, ...options } = Astro.props
 
-const html = renderEditor(options, {
-	tokenizeCallback: rainbowBrackets()
-})
+options.tokenizeCallback = rainbowBrackets()
+
+const html = renderEditor(options)
 ---
 
 <div class="not-content code-block">

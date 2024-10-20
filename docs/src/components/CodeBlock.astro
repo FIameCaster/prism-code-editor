@@ -20,7 +20,7 @@ type Props = {
 const { file, lang, code, start } = Astro.props
 
 const html = renderCodeBlock({
-	code,
+	value: code,
 	language: lang,
 	guideIndents: true,
 	lineNumbers: true,
@@ -36,10 +36,18 @@ const html = renderCodeBlock({
 </div>
 
 <script>
-	import { forEachCodeBlock, addCopyButton, addHoverDescriptions } from "prism-code-editor/client"
+	import {
+		forEachCodeBlock,
+		addCopyButton,
+		addHoverDescriptions,
+		highlightBracketPairsOnHover,
+		highlightTagPairsOnHover,
+	} from "prism-code-editor/client"
 
 	const codeBlocks = forEachCodeBlock(document, codeBlock => {
 		addCopyButton(codeBlock)
+		highlightBracketPairsOnHover(codeBlock)
+		highlightTagPairsOnHover(codeBlock)
 	})
 
 	const inputs = document.getElementsByTagName("input")
@@ -47,20 +55,20 @@ const html = renderCodeBlock({
 	;["show-line-numbers", "pce-wrap", "pce-preserve", "pce-guides"].forEach((toggledClass, i) => {
 		const input = inputs[i + 1]
 		input.oninput = () => {
-			codeBlocks.forEach(block => block.container.classList.toggle(toggledClass, input.checked))
+			codeBlocks.forEach(block => {
+				let classList = block.container.classList
+				let checked = input.checked
+				classList.toggle(toggledClass, checked)
+				if (i == 1) classList.toggle("pce-nowrap", !checked)
+			})
 		}
 	})
 
 	codeBlocks[5].container.classList.add("has-hover")
 
-	addHoverDescriptions(
-		codeBlocks[5],
-		(types) => {
-			if (types.includes("string")) return [
-				"This is a string token."
-			]
-		}
-	)
+	addHoverDescriptions(codeBlocks[5], types => {
+		if (types.includes("string")) return ["This is a string token."]
+	})
 </script>
 
 <style is:global>

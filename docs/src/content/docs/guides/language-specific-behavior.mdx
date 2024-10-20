@@ -4,7 +4,8 @@ description: Learn how to add automatic indentation and comment toggling.
 ---
 
 import "../../../components/languages/js+regex.astro"
-import Editor from "../../../components/editor/index.astro"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/scrollbar.css"
 import "../../../css/editor-theme.css"
 
 If you're not using the setups, automatic indentation, toggling comments, and automatic closing of tags won't work. You'll need to import the behavior or define it yourself.
@@ -271,7 +272,8 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
 
 To define your own behavior, simply mutate the [`languageMap`](/api-reference/index/v-languagemap). See [`Language`](/api-reference/index/t-language) for the available properties.
 
-<Editor language="javascript" value={`import { languageMap } from "prism-code-editor"
+```js editor
+import { languageMap } from "prism-code-editor"
 
 languageMap.whatever = {
 	comments: {
@@ -293,4 +295,5 @@ languageMap.whatever = {
 		// Function called when the user types ">", intended to auto close tags.
 		// If a string is returned, it will get inserted behind the cursor.
 	}
-}`} />
+}
+```

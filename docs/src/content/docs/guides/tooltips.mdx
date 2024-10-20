@@ -4,7 +4,8 @@ description: Learn how you can add tooltips to an editor.
 ---
 
 import "../../../components/languages/ts+css.astro"
-import Editor from "../../../components/editor/index.astro"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/scrollbar.css"
 import "../../../components/tooltipDemo/index.astro"
 import "../../../css/editor-theme.css"
 
@@ -14,7 +15,8 @@ It's not an uncommon problem wanting to place tooltips relative to another eleme
 
 The editor below shows how to use `addTooltip` to add a tooltip telling a user they cannot edit a read-only editor. Try typing in the editor below.
 
-<Editor language="typescript" readOnly value={`import { addTooltip } from "prism-code-editor/tooltips"
+```ts editor
+import { addTooltip } from "prism-code-editor/tooltips"
 
 const tooltip = document.createElement("div")
 tooltip.className = "my-tooltip"
@@ -28,11 +30,13 @@ editor.textarea.addEventListener('beforeinput', () => show(), true);
 
 // Hiding the tooltip when a user moves the cursor or clicks on the textarea
 editor.on("selectionChange", hide)
-editor.textarea.addEventListener("click", hide)`} />
+editor.textarea.addEventListener("click", hide)
+```
 
 The following styles are added to the tooltip:
 
-<Editor language="css" value={`.my-tooltip {
+```css editor
+.my-tooltip {
 	position: sticky;
 	left: 0.5em;
 	right: 0.5em;
@@ -43,4 +47,5 @@ The following styles are added to the tooltip:
 	font-family: Arial, Helvetica, sans-serif;
 	white-space: normal;
 	word-break: normal;
-}`} />
+}
+```

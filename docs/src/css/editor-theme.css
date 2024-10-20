@@ -353,3 +353,19 @@
 .word-matches span {
 	background: var(--active-tag);
 }
+
+.code-title {
+	box-shadow: inset 0 -1px var(--sl-color-gray-5);
+	display: flex;
+}
+
+[data-theme="light"] .code-title {
+	background: var(--sl-color-gray-6);
+}
+
+.code-title span {
+	background: var(--editor__bg);
+	padding: 0.4em 1em;
+	box-shadow: inset 0 1px var(--sl-color-accent-high);
+	color: var(--sl-color-text);
+}
