@@ -24,6 +24,7 @@ const pluginOptions = {
 			file ? `<figcaption class="code-title"><span>${file}</span></figcaption>` : ""
 		}${defaultRenderer(props)}</div>`
 	},
+	inline: {},
 }
 
 // https://astro.build/config

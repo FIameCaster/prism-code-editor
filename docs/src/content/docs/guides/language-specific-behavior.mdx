@@ -12,7 +12,7 @@ If you're not using the setups, automatic indentation, toggling comments, and au
 
 ## Importing
 
-The easiest way to get this working, is to import all languages from `prism-code-editor/languages`. This will add comment toggling, and automatic indentation to almost all languages Prism supports at ~3.6kB gzipped. Since this behavior isn't needed before the page has loaded, it's recommended to use a dynamic `import()`. If you have async JavaScript chunks, you can include the import there instead.
+The easiest way to get this working, is to import all languages from `prism-code-editor/languages`. This will add comment toggling, and automatic indentation to almost all languages Prism supports at ~3.6kB gzipped. Since this behavior isn't needed before the page has loaded, it's recommended to use a dynamic `import(){:js}`. If you have async JavaScript chunks, you can include the import there instead.
 
 Alternatively, you can import the entry point `prism-code-editor/languages/common`, which adds the behavior for a subset of common languages instead at &lt;2kB gzipped.
 
@@ -270,7 +270,7 @@ Lastly, if you know exactly which languages you need, you can import behavior fo
 
 ## Defining your own
 
-To define your own behavior, simply mutate the [`languageMap`](/api-reference/index/v-languagemap). See [`Language`](/api-reference/index/t-language) for the available properties.
+To define your own behavior, simply mutate the [`languageMap`](/api-reference/index/v-languagemap). See [`Language{:js}`](/api-reference/index/t-language) for the available properties.
 
 ```js editor
 import { languageMap } from "prism-code-editor"

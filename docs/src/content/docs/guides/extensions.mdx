@@ -14,24 +14,24 @@ One of the key features of this library is that most features are implemented by
 
 Non-exhaustive list of extensions you can add:
 
-- [`defaultCommands()`](/api-reference/commands/f-defaultcommands/) adds many commands expected from an editor.
-- [`editHistory()`](/api-reference/commands/f-edithistory/) overrides the browsers native undo/redo functionality.
-- [`matchBrackets()`](/api-reference/match-brackets/f-matchbrackets/) matches brackets together and allows rainbow brackets.
-- [`matchTags`](/api-reference/match-tags/f-matchtags/) matches XML tags together and highlights a pair when the cursor is on either tag.
-- [`copyButton()`](/api-reference/copy-button/f-copybutton/) adds a copy button to the editor.
-- [`indentGuides()`](/api-reference/guides/f-indentguides/) adds indentation guides to the editor.
-- [`cursorPosition()`](/api-reference/cursor/f-cursorposition/) can scroll the cursor into view and calculate its position. Used by multiple other extensions.
-- [`highlightBracketPairs()`](/api-reference/highlight-brackets/f-highlightbracketpairs/) highlights a bracket pair when the cursor is between them. Requires `matchBrackets()`.
-- [`searchWidget()`](/api-reference/search/f-searchwidget/) adds a widget for search and replace.
-- [`highlightSelectionMatches()`](/api-reference/search/f-highlightselectionmatches/) highlights all copies of user selected text.
+- [`defaultCommands(){:js}`](/api-reference/commands/f-defaultcommands/) adds many commands expected from an editor.
+- [`editHistory(){:js}`](/api-reference/commands/f-edithistory/) overrides the browsers native undo/redo functionality.
+- [`matchBrackets(){:js}`](/api-reference/match-brackets/f-matchbrackets/) matches brackets together and allows rainbow brackets.
+- [`matchTags(){:js}`](/api-reference/match-tags/f-matchtags/) matches XML tags together and highlights a pair when the cursor is on either tag.
+- [`copyButton(){:js}`](/api-reference/copy-button/f-copybutton/) adds a copy button to the editor.
+- [`indentGuides(){:js}`](/api-reference/guides/f-indentguides/) adds indentation guides to the editor.
+- [`cursorPosition(){:js}`](/api-reference/cursor/f-cursorposition/) can scroll the cursor into view and calculate its position. Used by multiple other extensions.
+- [`highlightBracketPairs(){:js}`](/api-reference/highlight-brackets/f-highlightbracketpairs/) highlights a bracket pair when the cursor is between them. Requires `matchBrackets(){:js}`.
+- [`searchWidget(){:js}`](/api-reference/search/f-searchwidget/) adds a widget for search and replace.
+- [`highlightSelectionMatches(){:js}`](/api-reference/search/f-highlightselectionmatches/) highlights all copies of user selected text.
 
 Later guides will show some of the more sophisticated extensions in more detail.
 
 ## Adding Overlays
 
-The [`addOverlay()`]() utility can be used to add overlays to an editor, which is used by many extensions. Overlays are added to the `.pce-overlays` element and will get styled with `position: absolute` and `inset: 0` by default, which will make them the same size as the textarea, including the textarea's padding. Overlays also inherit `pointer-events: none` and `user-select: none`.
+The [`addOverlay(){:js}`]() utility can be used to add overlays to an editor, which is used by many extensions. Overlays are added to the `.pce-overlays` element and will get styled with `position: absolute{:css}` and `inset: 0{:css}` by default, which will make them the same size as the textarea, including the textarea's padding. Overlays also inherit `pointer-events: none{:css}` and `user-select: none{:css}`.
 
-Without a `z-index`, the overlay will be above the textarea, but beneath the syntax highlighted code. `z-index: -1` will pull it behind the textarea, while `z-index: 1` pulls it in front of the code and the cursor. `z-index: 3` pulls it in front of the line numbers.
+Without a `z-index`, the overlay will be above the textarea, but beneath the syntax highlighted code. `z-index: -1{:css}` will pull it behind the textarea, while `z-index: 1{:css}` pulls it in front of the code and the cursor. `z-index: 3{:css}` pulls it in front of the line numbers.
 
 ## Creating Your Own
 
@@ -52,7 +52,7 @@ const myExtension = (): MyExtension => {
 }
 ```
 
-You can also make a class that implements [`Extension`](/api-reference/index/i-extension) if that's preferred.
+You can also make a class that implements [`Extension{:js}`](/api-reference/index/i-extension) if that's preferred.
 
 ### Using a Plain Function
 

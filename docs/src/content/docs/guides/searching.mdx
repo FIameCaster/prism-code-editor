@@ -16,9 +16,9 @@ The `prism-code-editor/search` entry point exports extensions for searching edit
 
 ### `showInvisibles`
 
-[`showInvisibles()`](/api-reference/search/f-showinvisibles) highlights spaces and tabs in the editor. By default, only tabs and spaces that are selected will be highlighted. This can be toggled with a boolean argument. It's disabled by default since highlighting all spaces and tabs has a significant impact to performance. All editors on this website have this extension added.
+[`showInvisibles(){:js}`](/api-reference/search/f-showinvisibles) highlights spaces and tabs in the editor. By default, only tabs and spaces that are selected will be highlighted. This can be toggled with a boolean argument. It's disabled by default since highlighting all spaces and tabs has a significant impact to performance. All editors on this website have this extension added.
 
-Styles from `prism-code-editor/invisibles.css` are required by the extension. The default color of these highlights works well for most dark themes, but light themes should use the CSS variable `--pce-invisibles` to override the color.
+Styles from `prism-code-editor/invisibles.css` are required by the extension. The default color of these highlights works well for most dark themes, but light themes should use the CSS variable `--pce-invisibles{:css}` to override the color.
 
 ```ts editor
 import { showInvisibles } from "prism-code-editor/search"
@@ -29,7 +29,7 @@ editor.addExtensions(showInvisibles())
 
 ### `highlightSelectionMatches`
 
-[`highlightSelectionMatches()`](/api-reference/search/f-highlightselectionmatches) is an extension that highlights instances of what's selected. This extension is also present on all editors on this website. The CSS variable `--editor__bg-selection-match` can be used to set the color of the matches. All included themes assign this variable.
+[`highlightSelectionMatches(){:js}`](/api-reference/search/f-highlightselectionmatches) is an extension that highlights instances of what's selected. This extension is also present on all editors on this website. The CSS variable `--editor__bg-selection-match{:css}` can be used to set the color of the matches. All included themes assign this variable.
 
 ```ts editor
 import { highlightSelectionMatches } from "prism-code-editor/search"
@@ -39,7 +39,7 @@ editor.addExtensions(highlightSelectionMatches())
 
 ### `highlightCurrentWord`
 
-[`highlightCurrentWord()`](/api-reference/search/f-highlightcurrentword) highlights instances of the word the cursor is currently on. You can also define a filter. In JavaScript, you can exclude any words that start inside a string, comment, keyword, or regex token. The CSS selector `.word-matches span` can be used to style the matches. All included themes add a background to this selector.
+[`highlightCurrentWord(){:js}`](/api-reference/search/f-highlightcurrentword) highlights instances of the word the cursor is currently on. You can also define a filter. In JavaScript, you can exclude any words that start inside a string, comment, keyword, or regex token. The CSS selector `.word-matches span` can be used to style the matches. All included themes add a background to this selector.
 
 ```ts editor
 import { highlightCurrentWord } from "prism-code-editor/search"
@@ -56,7 +56,7 @@ The editor above has this extension added with the filter function shown.
 
 ## Search widget
 
-This is easily the most complex extension on this page. [`searchWidget()`](/api-reference/search/f-searchwidget) adds a widget to the editor allowing users to search the editor with strings or regular expressions and replace the matches.
+This is easily the most complex extension on this page. [`searchWidget(){:js}`](/api-reference/search/f-searchwidget) adds a widget to the editor allowing users to search the editor with strings or regular expressions and replace the matches.
 
 The default styles for the widget can be imported from `prism-code-editor/search.css`. If you're dissatisfied with these styles, you can import your own instead.
 
@@ -73,4 +73,4 @@ editor.addExtensions(searchWidget())
 
 ## APIs
 
-If you want to create your own extensions that do searching, use [`createSearchAPI()`](/api-reference/search/api/f-createsearchapi) or [`createReplaceAPI()`](/api-reference/search/api/f-createreplaceapi) exported from `prism-code-editor/search/api`.
+If you want to create your own extensions that do searching, use [`createSearchAPI(){:js}`](/api-reference/search/api/f-createsearchapi) or [`createReplaceAPI(){:js}`](/api-reference/search/api/f-createreplaceapi) exported from `prism-code-editor/search/api`.

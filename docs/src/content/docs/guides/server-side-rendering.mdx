@@ -12,7 +12,7 @@ This library supports rendering an editor as an HTML string on a server and moun
 
 ## Rendering on the server
 
-[`renderEditor()`](/api-reference/ssr/f-rendereditor) renders an editor with the specified [`EditorOptions`](/api-reference/index/t-editoroptions) as an HTML string. The event handler options such as `onUpdate` are ignored.
+[`renderEditor(){:js}`](/api-reference/ssr/f-rendereditor) renders an editor with the specified [`EditorOptions{:js}`](/api-reference/index/t-editoroptions) as an HTML string. The event handler options such as `onUpdate` are ignored.
 
 ```js editor
 import "prism-code-editor/prism/languages/javascript"
@@ -38,11 +38,11 @@ const html = renderEditor({
 })
 ```
 
-The second argument can be used to customize the output. Currently, only a single property is accepted: `tokenizeCallback`. This function is called before the tokens are stringified to HTML and can be used to modify them. If you're using [`matchBrackets()`](/api-reference/match-brackets/f-matchbrackets) for example, these same modifications should be done one the server. If you don't, the editor will flash with incorrect tokens.
+The second argument can be used to customize the output. Currently, only a single property is accepted: `tokenizeCallback`. This function is called before the tokens are stringified to HTML and can be used to modify them. If you're using [`matchBrackets(){:js}`](/api-reference/match-brackets/f-matchbrackets) for example, these same modifications should be done one the server. If you don't, the editor will flash with incorrect tokens.
 
 ## Mounting on the client
 
-The editors created from plain HTML are obviously not interactive. They must be mounted on the client using [`mountEditorsUnder()`](/api-reference/client/f-mounteditorsunder). This function mounts all editors under the specified root in document order. Editors that have already been mounted are skipped.
+The editors created from plain HTML are obviously not interactive. They must be mounted on the client using [`mountEditorsUnder(){:js}`](/api-reference/client/f-mounteditorsunder). This function mounts all editors under the specified root in document order. Editors that have already been mounted are skipped.
 
 ### Adding extensions
 
@@ -65,7 +65,7 @@ The second argument receives the options for an editor and returns the extension
 
 ## Adding extra options
 
-You can define extra properties for `renderEditor()` that will get stringified as JSON and later parsed by `mountEditorsUnder()`. This can be very useful for configuring which extensions to add. Take this example:
+You can define extra properties for `renderEditor(){:js}` that will get stringified as JSON and later parsed by `mountEditorsUnder(){:js}`. This can be very useful for configuring which extensions to add. Take this example:
 
 ```ts editor file="server.ts"
 import "prism-code-editor/prism/languages/javascript"

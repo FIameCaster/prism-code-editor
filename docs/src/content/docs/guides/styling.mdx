@@ -15,7 +15,7 @@ If you're using the setups, most of the styling is handled for you. The only thi
 
 ### Changing the theme
 
-To change the current theme with the setups, use the [`setOptions()`](/api-reference/index/i-prismeditor#setoptions) method. Updating the theme is asynchronous, and the old theme is used until the new one loads.
+To change the current theme with the setups, use the [`setOptions(){:js}`](/api-reference/index/i-prismeditor#setoptions) method. Updating the theme is asynchronous, and the old theme is used until the new one loads.
 
 ```js editor
 editor.setOptions({
@@ -41,7 +41,7 @@ registerTheme("my-theme", () => import("./my-theme.css?inline"))
 
 Themes can be imported from `prism-code-editor/themes/*.css`. There are currently 14 themes you can import. The [`playground`](/playground) showcases all themes.
 
-You can also import themes into your JavaScript with [`loadTheme()`](/api-reference/themes/f-loadtheme) which is used by theme switcher in the playground.
+You can also import themes into your JavaScript with [`loadTheme(){:js}`](/api-reference/themes/f-loadtheme) which is used by theme switcher in the playground.
 
 ```js editor
 import { loadTheme } from "prism-code-editor/themes"
@@ -62,11 +62,11 @@ Here are some stylesheets you can import:
 
 - `prism-code-editor/layout.css`: Styles for the layout of the component.
 - `prism-code-editor/rtl-layout.css`: Additional styles needed for the `rtl` option to work.
-- `prism-code-editor/search.css`. Styles for [`searchWidget()`](/api-reference/search/f-searchwidget).
-- `prism-code-editor/copy-button.css`: Styles for [`copyButton()`](/api-reference/copy-button/f-copybutton).
-- `prism-code-editor/invisivles.css`: Styles for [`showInvisibles()`](/api-reference/search/f-showinvisibles).
-- `prism-code-editor/code-folding.css`: Styles for [`readOnlyCodeFolding()`](/api-reference/code-folding/f-readonlycodefolding).
-- `prism-code-editor/autocomplete.css`: Styles for [`autoComplete()`](/api-reference/autocomplete/f-autocomplete).
+- `prism-code-editor/search.css`. Styles for [`searchWidget(){:js}`](/api-reference/search/f-searchwidget).
+- `prism-code-editor/copy-button.css`: Styles for [`copyButton(){:js}`](/api-reference/copy-button/f-copybutton).
+- `prism-code-editor/invisivles.css`: Styles for [`showInvisibles(){:js}`](/api-reference/search/f-showinvisibles).
+- `prism-code-editor/code-folding.css`: Styles for [`readOnlyCodeFolding(){:js}`](/api-reference/code-folding/f-readonlycodefolding).
+- `prism-code-editor/autocomplete.css`: Styles for [`autoComplete(){:js}`](/api-reference/autocomplete/f-autocomplete).
 - `prism-code-editor/autocomplete-icons.css`: Default icons for the autocomplete tooltip.
 
 ### Scrollbar styling
@@ -80,7 +80,7 @@ You can import a stylesheet that adds a custom scrollbar to desktop Chrome and S
 }
 ```
 
-You can change the color of the scrollbar thumb using the custom property `--editor__bg-scrollbar`. Different alphas will be set based on the state of the scrollbar thumb.
+You can change the color of the scrollbar thumb using the custom property `--editor__bg-scrollbar{:css}`. Different alphas will be set based on the state of the scrollbar thumb.
 
 ## Advanced styling
 
