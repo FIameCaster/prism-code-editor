@@ -2,6 +2,7 @@ import { EditorOptions } from "../index.js"
 import { mountEditorsUnder } from "../client/index.js"
 import { languages, highlightTokens, tokenizeText, TokenStream } from "../prism/index.js"
 import { rainbowBrackets } from "./brackets.js"
+import { escapeHtml } from "../prism/core.js"
 
 export type RenderOptions = Omit<EditorOptions, "onUpdate" | "onTokenize" | "onSelectionChange"> & {
 	/**
@@ -37,14 +38,14 @@ const renderEditor = <T extends {} = {}>(options: RenderOptions & Omit<T, keyof 
 		...rest
 	} = options
 
-	let html = `<div class="prism-code-editor language-${language}${
+	let html = `<div class="prism-code-editor language-${escapeHtml(language, /"/g, "&quot;")}${
 		lineNumbers == false ? "" : " show-line-numbers"
 	} pce-${wordWrap ? "" : "no"}wrap${rtl ? " pce-rtl" : ""} pce-no-selection${
 		readOnly ? " pce-readonly" : ""
-	}" data-options='${JSON.stringify(rest).replace(/&/g, "&amp;").replace(/'/g, "&#39;")}' `
+	}" data-options='${escapeHtml(JSON.stringify(rest), /'/g, "&#39;")}' `
 
 	let tokens = tokenizeText(
-		value.includes("\r") ? value.replace(/\r?\n/g, "\n") : value,
+		value.includes("\r") ? value.replace(/\r\n?/g, "\n") : value,
 		languages[language] || {},
 	)
 	tokenizeCallback?.(tokens, language)

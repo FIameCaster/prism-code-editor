@@ -1,4 +1,5 @@
 import { forEachCodeBlock } from "../client/code-block.js"
+import { escapeHtml } from "../prism/core.js"
 import { highlightTokens, languages, tokenizeText, TokenStream } from "../prism/index.js"
 
 export type CodeBlockOptions = {
@@ -70,18 +71,20 @@ const renderCodeBlock = <T extends {}>(
 		...rest
 	} = options
 
-	let html = `<pre class="prism-code-editor language-${language}${
+	let html = `<pre class="prism-code-editor language-${escapeHtml(language, /"/g, "&quot;")}${
 		lineNumbers ? " show-line-numbers" : ""
 	} pce-${wordWrap ? "" : "no"}wrap${rtl ? " pce-rtl" : ""}${
 		preserveIndent ? " pce-preserve" : ""
-	}${guideIndents && !rtl ? " pce-guides" : ""}" data-props='${JSON.stringify(rest)
-		.replace(/&/g, "&amp;")
-		.replace(/'/g, "&#39;")}' `
+	}${guideIndents && !rtl ? " pce-guides" : ""}" data-props='${escapeHtml(
+		JSON.stringify(rest),
+		/'/g,
+		"&#39;",
+	)}' `
 
 	let indents = preserveIndent || (guideIndents && !rtl) ? getIndents(value, tabSize) : null
 	if (preserveIndent) value = value.replace(/\t/g, " ".repeat(tabSize))
 	let tokens = tokenizeText(
-		value.includes("\r") ? value.replace(/\r?\n/g, "\n") : value,
+		value.includes("\r") ? value.replace(/\r\n?/g, "\n") : value,
 		languages[language] || {},
 	)
 	tokenizeCallback?.(tokens, language)

@@ -38,6 +38,10 @@ var withoutTokenizer = (text, grammar) => {
 	return array;
 }
 
+var escapeHtml = (string, pattern, replacement) => {
+	return string.replace(/&/g, '&amp;').replace(pattern, replacement);
+}
+
 var closingTag = '</span>';
 var openingTags = '';
 var closingTags = '';
@@ -69,7 +73,7 @@ var stringify = token => {
 
 	if (typeof token != 'string') return highlightTokens(token);
 
-	token = token.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+	token = escapeHtml(token, /</g, '&lt;');
 	if (closingTags && token.includes('\n')) {
 		return token.replace(/\n/g, closingTags + '\n' + openingTags);
 	}
@@ -220,6 +224,7 @@ export {
 	tokenizeText,
 	withoutTokenizer,
 	resolve,
+	escapeHtml,
 	highlightTokens,
 	highlightText
 }

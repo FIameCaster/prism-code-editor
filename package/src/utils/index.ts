@@ -2,6 +2,7 @@ import { InputSelection, PrismEditor } from "../index.js"
 import { numLines, addListener, selectionChange, doc } from "../core.js"
 import { getLineEnd, getLineStart } from "./local.js"
 import { PrismCodeBlock } from "../client/code-block.js"
+import { escapeHtml } from "../prism/core.js"
 
 let prevSelection: InputSelection | 0
 
@@ -138,11 +139,7 @@ const insertText = (
 		}
 		// New line at the end is always ignored in Safari
 		if (isWebKit) text += "\n"
-		doc!.execCommand(
-			text ? "insertHTML" : "delete",
-			false,
-			text.replace(/&/g, "&amp;").replace(/</g, "&lt;"),
-		)
+		doc!.execCommand(text ? "insertHTML" : "delete", false, escapeHtml(text, /</g, "&lt;"))
 		if (avoidBug) textarea.selectionStart++
 	} else doc!.execCommand(text ? "insertText" : "delete", false, text)
 
