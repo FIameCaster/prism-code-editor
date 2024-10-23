@@ -191,13 +191,14 @@ const highlightTagPairsOnHover = (codeBlock: PrismCodeBlock) => {
 		const children = token.children
 		const text = token.textContent!
 		const lastChild = children[children.length - 1]
-		const hasClosingPunctuation = text.slice(-1) == ">" && lastChild?.matches(".punctuation")
+		const second = children[1]
+		const hasClosingPunctuation = lastChild?.matches(".punctuation")
 
-		if (text[0] == "<" && children[0]?.matches(".punctuation")) {
+		if (second?.matches(".tag")) {
 			if (hasClosingPunctuation) {
-				matchTag(children[1], text[1] == "/", lastChild, stack, map)
+				matchTag(second, text[1] == "/", lastChild, stack, map)
 			} else {
-				partialTags.push([children[1], text[1] == "/"])
+				partialTags.push([second, text[1] == "/"])
 			}
 		} else if (hasClosingPunctuation && partialTags[0]) {
 			matchTag(...partialTags.pop()!, lastChild, stack, map)
@@ -226,10 +227,9 @@ const highlightPairsOnHover = <T>(
 	const setCache = () => {
 		cache = new WeakMap()
 		let tokens = wrapper.getElementsByClassName(tokenName)
-		let i = 0
+		let i = (sp = 0)
 		let stack: [Element, T][] = []
 		let token: HTMLSpanElement
-		sp = 0
 		while ((token = tokens[i++] as HTMLSpanElement)) {
 			forEachToken(token, stack, cache)
 		}
