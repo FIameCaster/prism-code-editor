@@ -221,7 +221,7 @@ insertBefore(markdown, 'prolog', {
 	'code-snippet': {
 		// `code`
 		// ``code``
-		pattern: /(^|[^\\`])(?:``[^\n`]+(?:`[^\n`]+)*``(?!`)|`[^\n`]+`(?!`))/g,
+		pattern: /(^|[^\\`])(`+)[^\n`](?:.*?[^\n`])?\2(?!`)/g,
 		lookbehind: true,
 		greedy: true,
 		alias: 'code keyword'
