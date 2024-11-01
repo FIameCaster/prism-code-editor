@@ -1,0 +1,41 @@
+{
+  "name": "marked-prism-code-editor",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build && node scripts/build.mjs",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "marked": "^14.0.0"
+  },
+  "devDependencies": {
+    "marked": "^14.1.3",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.8",
+    "vite-plugin-dts": "^4.2.4"
+  },
+  "dependencies": {
+    "prism-code-editor": "4.0.0-beta.1"
+  },
+  "author": "FlameCaster",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FIameCaster/prism-code-editor.git"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "files": [
+    "dist/*"
+  ],
+  "keywords": [
+    "marked",
+    "marked-extension",
+    "markdown",
+    "prismjs"
+  ],
+  "packageManager": "pnpm@9.0.4+sha1.b198ac6d38244fd829253720f9daafd6a606834d"
+}
