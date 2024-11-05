@@ -28,6 +28,7 @@ const entries = {
 	"autocomplete-icons": "src/extensions/autocomplete/icons.css",
 	"ssr/index": "src/ssr/index.ts",
 	"client/index": "src/client/index.ts",
+	"client/code-block": "src/client/code-block.ts",
 	folding: "src/extensions/folding/folding.css",
 	tooltips: "src/tooltips.ts",
 	scrollbar: "src/scrollbar.css",
@@ -114,7 +115,7 @@ export default defineConfig({
 			entry: entries,
 			formats: ["es"],
 		},
-		target: ["es2020", "safari14"],
+		target: ["es2021", "safari14"],
 	},
 	plugins: [
 		dts({

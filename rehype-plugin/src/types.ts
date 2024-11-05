@@ -9,7 +9,8 @@ export type CodeBlockProps = Record<string, any> & {
 export type PcePluginOptions = {
 	/**
 	 * When true, code blocks without the `editor` property are ignored, but you can still
-	 * create code blocks with `editor=false`. @default false
+	 * create code blocks with `editor=false`. This is useful if you're using another
+	 * plugin to create the code blocks. @default false
 	 */
 	editorsOnly?: boolean
 	/**

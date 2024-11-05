@@ -278,5 +278,3 @@ const mountEditorsUnder = <T extends {} = {}>(
 }
 
 export { mountEditorsUnder }
-export * from "./code-block.js"
-export * from "./hover.js"

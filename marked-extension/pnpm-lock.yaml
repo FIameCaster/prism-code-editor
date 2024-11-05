@@ -10,7 +10,7 @@ importers:
     dependencies:
       prism-code-editor:
         specifier: 4.0.0-beta.1
-        version: 4.0.0-beta.1
+        version: link:../package
     devDependencies:
       marked:
         specifier: ^14.1.3
@@ -531,9 +531,6 @@ packages:
   postcss@8.4.47:
     resolution: {integrity: sha512-56rxCq7G/XfB4EkXq9Egn5GCqugWvDFjafDOThIdMBsI15iqPqR5r15TfSr1YPYeEI19YeaXMCbY6u88Y76GLQ==}
     engines: {node: ^10 || ^12 || >=14}
-
-  prism-code-editor@4.0.0-beta.1:
-    resolution: {integrity: sha512-4coLI0t7P5+ICyoF5IUqatNbN0N5zj2trwpwSDHsg/q9/D3K5GKh3RxbM7U5lehFQiZqyfXE/RZTKacPZrUSlA==}
 
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
@@ -1093,8 +1090,6 @@ snapshots:
       nanoid: 3.3.7
       picocolors: 1.1.1
       source-map-js: 1.2.1
-
-  prism-code-editor@4.0.0-beta.1: {}
 
   punycode@2.3.1: {}
 

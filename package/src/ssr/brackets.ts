@@ -1,7 +1,7 @@
 import { renderEditor } from "./index.js"
 import { matchBrackets } from "../extensions/matchBrackets/index.js"
 import { Token, TokenStream } from "../prism/index.js"
-import { testBracket } from "../utils/local.js"
+import { testBracket } from "../utils/bracket.js"
 
 let stack: [Token, number][] = []
 let sp: number

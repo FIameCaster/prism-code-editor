@@ -1,3 +1,5 @@
+/** @module code-blocks */
+
 import { addListener } from "../core.js"
 import { createCopyButton } from "../extensions/copyButton/index.js"
 import { addOverlay } from "../utils/index.js"
@@ -91,3 +93,4 @@ const addCopyButton = (codeblock: PrismCodeBlock) => {
 }
 
 export { forEachCodeBlock, addCopyButton }
+export * from "./hover.js"

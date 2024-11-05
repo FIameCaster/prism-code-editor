@@ -2,8 +2,8 @@ import { renderCodeBlock, renderEditor } from "prism-code-editor/ssr"
 import { CodeBlockProps } from "./types"
 
 const parseValue = (value: string, numLines: number) => {
-	if (value[0] == '"' || value[0] == "'") value = value.slice(1, -1)
 	if (value[0] == "{") return parseRanges(value, numLines)
+	if (value[0] == '"' || value[0] == "'") value = value.slice(1, -1)
 
 	if (!value || value == "true") return true
 	if (value == "false") return false
@@ -17,7 +17,7 @@ const parseRanges = (ranges: string, numLines: number) => {
 	let match: RegExpExecArray | null
 	let result = new Set<number>()
 	while ((match = pattern.exec(ranges))) {
-		let start = Math.max(1, +match[1])
+		let start = +match[1]
 		let end = Math.min(+match[2] || start, numLines)
 		while (start <= end) result.add(start++)
 	}
@@ -31,13 +31,11 @@ const getRanges = (props: CodeBlockProps, prop: string): Set<number> | undefined
 }
 
 export const parseMeta = (meta: string, numLines: number) => {
-	const result: Record<string, any> = {}
-	const pattern = /([^\s"'{}=]+)(?:\s*=\s*("[^"]*"|'[^']*'|\{[^}]*\}|[^\s"'{}=]+))?/g
-
+	let result: Record<string, any> = {}
+	let pattern = /([^\s"'{}=]+)(?:\s*=\s*("[^"]*"|'[^']*'|\{[^}]*\}|[^\s"'{}=]+))?/g
 	let match: RegExpExecArray | null
 	while ((match = pattern.exec(meta))) {
-		let [, prop, value] = match
-		result[prop] = parseValue(value || "", numLines)
+		result[match[1]] = parseValue(match[2] || "", numLines)
 	}
 	return result as CodeBlockProps
 }

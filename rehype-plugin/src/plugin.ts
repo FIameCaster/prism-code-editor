@@ -77,7 +77,7 @@ export const rehypePrismCodeEditor: Plugin<[PcePluginOptions?], Root> = ({
 		spans.forEach(([codeEl, text]) => {
 			const langStart = text.lastIndexOf("{:")
 
-			if (langStart < 0 || text.slice(-1) != "}") return
+			if (langStart < 1 || text.slice(-1) != "}") return
 			const lang = text.slice(langStart + 2, -1)
 			const code = text.slice(0, langStart)
 			const grammar = languages[lang]

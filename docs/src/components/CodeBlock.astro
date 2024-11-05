@@ -42,7 +42,7 @@ const html = renderCodeBlock({
 		addHoverDescriptions,
 		highlightBracketPairsOnHover,
 		highlightTagPairsOnHover,
-	} from "prism-code-editor/client"
+	} from "prism-code-editor/code-blocks"
 
 	const codeBlocks = forEachCodeBlock(document, codeBlock => {
 		addCopyButton(codeBlock)
@@ -64,9 +64,9 @@ const html = renderCodeBlock({
 		}
 	})
 
-	codeBlocks[5].container.classList.add("has-hover")
+	codeBlocks[6].container.classList.add("has-hover")
 
-	addHoverDescriptions(codeBlocks[5], types => {
+	addHoverDescriptions(codeBlocks[6], types => {
 		if (types.includes("string")) return ["This is a string token."]
 	})
 </script>

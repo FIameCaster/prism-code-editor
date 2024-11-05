@@ -1,6 +1,7 @@
 ---
 title: Code Blocks
 description: Learn how to render static code blocks on the server.
+next: false
 ---
 
 import "../../../components/CodeBlock.astro"
@@ -109,20 +110,32 @@ The code blocks have a nearly identical layout to the editors to make them compa
 
 ## Modifying Code Blocks on the Client
 
-The [`forEachCodeBlock(){:js}`](/api-reference/client/f-foreachcodeblock) function can be used to run a callback for each [`PrismCodeBlock{:js}`](/api-reference/client/t-prismcodeblock) under a specified root. The function returns an array of all visited code blocks in document order. The same code block is never visited twice even when `forEachCodeBlock(){:js}` is called multiple times.
+The [`forEachCodeBlock(){:js}`](/api-reference/code-blocks/f-foreachcodeblock) function can be used to run a callback for each [`PrismCodeBlock{:js}`](/api-reference/code-blocks/t-prismcodeblock) under a specified root. The function returns an array of all visited code blocks in document order. The same code block is never visited twice even when `forEachCodeBlock(){:js}` is called multiple times.
 
 ### Adding Copy Buttons
 
-`forEachCodeBlock(){:js}` can be used to add code block with [`addCodeBlock(){:js}`](/api-reference/client/f-addcopybutton).
+`forEachCodeBlock(){:js}` can be used to add code block with [`addCodeBlock(){:js}`](/api-reference/code-blocks/f-addcopybutton).
 
 ```js editor="false"
 import "prism-code-editor/copy-button.css"
-import { addCopyButton, forEachCodeBlock } from "prism-code-editor/client"
+import { addCopyButton, forEachCodeBlock } from "prism-code-editor/code-blocks"
 
 const codeBlocks = forEachCodeBlock(document, codeBlock => {
 	addCopyButton(codeBlock)
 })
 ```
+
+### Highlighting bracket pairs
+
+[`highlightBracketPairsOnHover(){:js}`](/api-reference/code-blocks/f-highlightbracketpairsonhover) will add highlighting to bracket pairs when hovered. Clicking on a pair keeps it highlighted and clicking anywhere inside the codeblock removes the highlight. It doesn't require rainbow brackets to work. You can try it in any code block on this page.
+
+```js editor="false"
+const string = /(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/
+```
+
+### Highlighting tag pairs
+
+[`highlightTagPairsOnHover(){:js}`](/api-reference/code-blocks/f-highlighttagpairsonhover) is very similar to [`highlightBracketPairsOnHover(){:js}`], but highlights the tagname in matching tags instead. You can try it in the [DOM structure](#dom-structure) code block.
 
 ### Adding Overlays
 
@@ -130,7 +143,7 @@ The [`addOverlay(){:js}`](/api-reference/utils/f-addoverlay) utility can be used
 
 ### Hover Descriptions
 
-If you have complicated code you want to describe, but without cluttering the code up with comments, you can show descriptions on hover instead with [`addHoverDescription(){:js}`](/api-reference/client/f-addhoverdescription). Below is a very simple example. Try hovering a string token.
+If you have complicated code you want to describe, but without cluttering the code up with comments, you can show descriptions on hover instead with [`addHoverDescription(){:js}`](/api-reference/code-blocks/f-addhoverdescription). Below is a very simple example. Try hovering a string token.
 
 ```js editor="false"
 import "prism-code-editor/copy-button.css"
@@ -138,7 +151,7 @@ import {
 	addCopyButton,
 	forEachCodeBlock,
 	addHoverDescription
-} from "prism-code-editor/client"
+} from "prism-code-editor/code-blocks"
 
 const codeBlocks = forEachCodeBlock(document, codeBlock => {
 	addCopyButton(codeBlock)

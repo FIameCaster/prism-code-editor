@@ -2,7 +2,7 @@
 
 import { BasicExtension } from "../../index.js"
 import { Token, TokenStream } from "../../prism/index.js"
-import { testBracket } from "../../utils/local.js"
+import { testBracket } from "../../utils/bracket.js"
 
 export interface BracketMatcher extends BasicExtension {
 	/**

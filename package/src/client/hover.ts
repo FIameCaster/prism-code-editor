@@ -1,6 +1,7 @@
 import { addListener, createTemplate } from "../core.js"
+import { testBracket } from "../utils/bracket.js"
 import { addOverlay } from "../utils/index.js"
-import { getPosition, testBracket, voidlessLangs, voidTags } from "../utils/local.js"
+import { getPosition, voidlessLangs, voidTags } from "../utils/local.js"
 import { PrismCodeBlock } from "./code-block.js"
 
 export type HoverOptions = {

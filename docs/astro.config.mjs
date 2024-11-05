@@ -67,6 +67,7 @@ export default defineConfig({
 						"../package/src/extensions/folding/index.ts",
 						"../package/src/tooltips.ts",
 						"../package/src/client/index.ts",
+						"../package/src/client/code-block.ts",
 						"../package/src/ssr/index.ts",
 						"../package/src/themes/index.ts",
 						"../package/src/prism/index.ts",
@@ -110,6 +111,7 @@ export default defineConfig({
 					items: [
 						"autocomplete",
 						"client",
+						"code-blocks",
 						"code-folding",
 						"commands",
 						"copy-button",

@@ -38,6 +38,7 @@
     "./autocomplete/javascript": "./dist/extensions/autocomplete/javascript/index.js",
     "./ssr": "./dist/ssr/index.js",
     "./client": "./dist/client/index.js",
+    "./code-blocks": "./dist/client/code-block.js",
     "./commands": "./dist/extensions/commands.js",
     "./cursor": "./dist/extensions/cursor.js",
     "./code-folding": "./dist/extensions/folding/index.js",

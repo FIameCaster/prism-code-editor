@@ -20,7 +20,13 @@ import { addOverscroll } from "prism-code-editor/tooltips"
 import { defaultCommands, editHistory } from "prism-code-editor/commands"
 import { cursorPosition } from "prism-code-editor/cursor"
 import { rainbowBrackets } from "prism-code-editor/ssr"
-import { addCopyButton, forEachCodeBlock, highlightBracketPairsOnHover, highlightTagPairsOnHover, mountEditorsUnder } from "prism-code-editor/client"
+import {
+	addCopyButton,
+	forEachCodeBlock,
+	highlightBracketPairsOnHover,
+	highlightTagPairsOnHover,
+} from "prism-code-editor/code-blocks"
+import { mountEditorsUnder } from "prism-code-editor/client"
 import { markdown, options } from "./code"
 import { markedPrismCodeEditor } from "../plugin"
 import { Marked } from "marked"
@@ -57,7 +63,7 @@ const toggleActive = () => {
 
 const media = matchMedia("(max-aspect-ratio: 1 / 1)")
 
-const run = async () => {
+const run = () => {
 	try {
 		const options = Function(
 			"rainbowBrackets",
@@ -69,7 +75,7 @@ const run = async () => {
 
 		markdownContainer.innerHTML = String(file)
 		mountEditorsUnder(markdownContainer, getExtensions)
-		forEachCodeBlock(markdownContainer, (codeBlock) => {
+		forEachCodeBlock(markdownContainer, codeBlock => {
 			addCopyButton(codeBlock)
 			highlightBracketPairsOnHover(codeBlock)
 			highlightTagPairsOnHover(codeBlock)
