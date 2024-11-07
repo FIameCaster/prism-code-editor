@@ -4,6 +4,7 @@ import starlightTypeDoc from "starlight-typedoc"
 import { rehypePrismCodeEditor } from "rehype-prism-code-editor"
 import { rainbowBrackets } from "prism-code-editor/ssr"
 import "prism-code-editor/prism/languages/common"
+import "prism-code-editor/prism/languages/jsdoc"
 
 /** @type {import("rehype-prism-code-editor").PcePluginOptions} */
 const pluginOptions = {
@@ -100,6 +101,14 @@ export default defineConfig({
 						{ label: "Tooltips", slug: "guides/tooltips" },
 						{ label: "Server Side Rendering", slug: "guides/server-side-rendering" },
 						{ label: "Code Blocks", slug: "guides/code-blocks" },
+					],
+				},
+				{
+					label: "Markdown plugins",
+					items: [
+						{ label: "Getting Started", slug: "markdown-plugins/getting-started" },
+						{ label: "Configuration", slug: "markdown-plugins/configuration" },
+						{ label: "Features", slug: "markdown-plugins/features" },
 					],
 				},
 				{

@@ -1,0 +1,21 @@
+---
+import "prism-code-editor/layout.css"
+import "prism-code-editor/code-block.css"
+import "prism-code-editor/copy-button.css"
+import "../css/editor-theme.css"
+---
+
+<script>
+	import {
+		forEachCodeBlock,
+		addCopyButton,
+		highlightBracketPairsOnHover,
+		highlightTagPairsOnHover,
+	} from "prism-code-editor/code-blocks"
+
+	forEachCodeBlock(document, codeBlock => {
+		addCopyButton(codeBlock)
+		highlightBracketPairsOnHover(codeBlock)
+		highlightTagPairsOnHover(codeBlock)
+	})
+</script>

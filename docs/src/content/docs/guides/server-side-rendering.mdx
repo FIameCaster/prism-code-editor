@@ -8,7 +8,7 @@ import "prism-code-editor/layout.css"
 import "prism-code-editor/scrollbar.css"
 import "../../../css/editor-theme.css"
 
-This library supports rendering an editor as an HTML string on a server and mounting the editor on the client. This has multiple advantages. Layout shift can be completely avoided, and the editors will be visible before the JavaScript has been executed. This is the method used to render editors on this documentation website.
+This library supports rendering an editor as an HTML string on a server and mounting the editor on the client. This has multiple advantages. Layout shifts can be completely avoided, and the editors will be visible before the JavaScript has been executed. This is the method used to render editors on this documentation website.
 
 ## Rendering on the server
 
@@ -101,3 +101,7 @@ const editors = mountEditorsUnder<MyOptions>(
 ## Usage in Practice
 
 Many of the examples shown on this page might seem abstract. This is beacuse the SSR utilities are meant to be usable with many technologies. It's your job to integrate this API with the server side framework, static site generator, etc. you're using. Here's a [working example](https://stackblitz.com/edit/withastro-astro-yfajet?file=src%2Fcomponents%2Fmount.ts,src%2Fcomponents%2Fextensions.ts,src%2Fcomponents%2FEditor.astro) for [astro](https://astro.build).
+
+### With markdown
+
+There are markdown plugins for both [rehype](https://github.com/rehypejs/rehype) and [marked](https://github.com/markedjs/marked) that can create editors from fenced code blocks. These use `renderEditor(){:js}` under the hood. Read [their documentation](/markdown-plugins/getting-started) to learn more.

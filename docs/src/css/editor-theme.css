@@ -130,7 +130,7 @@
 	min-height: 3.2em;
 }
 
-.code-block {
+div.code-block {
 	border: 1px solid var(--sl-color-gray-5);
 	border-radius: 1px;
 	font-size: 0.875rem;
@@ -368,4 +368,18 @@
 	padding: 0.4em 1em;
 	box-shadow: inset 0 1px var(--sl-color-accent-high);
 	color: var(--sl-color-text);
+}
+
+.inserted {
+	background: #1e571566;
+	box-shadow: inset 2px 0 0 #487f3bd0;
+}
+
+[data-theme="light"] .inserted {
+	background: #8ec77d66;
+}
+
+.pce-line::before {
+	background: inherit;
+	box-shadow: inherit;
 }
