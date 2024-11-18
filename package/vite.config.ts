@@ -15,6 +15,7 @@ const entries = {
 	"extensions/matchTags": "src/extensions/matchTags.ts",
 	"extensions/search/index": "src/extensions/search/index.ts",
 	"extensions/search/api": "src/extensions/search/api.ts",
+	guides: "src/extensions/guides.css",
 	search: "src/extensions/search/search.css",
 	invisibles: "src/extensions/search/invisibles.css",
 	copy: "src/extensions/copyButton/copy.css",
