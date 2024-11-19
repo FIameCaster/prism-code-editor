@@ -13,6 +13,12 @@ export type RenderOptions = Omit<EditorOptions, "onUpdate" | "onTokenize" | "onS
 	 * {@link rainbowBrackets} function to this parameter.
 	 */
 	tokenizeCallback?(tokens: TokenStream, language: string): void
+	/**
+	 * Array of functions that render overlays. These functions are called in order with
+	 * the render options for the editor. Any HTML returned is inserted inside the overlays
+	 * element of the editor.
+	 */
+	overlays?: ((options: RenderOptions) => string | undefined)[]
 }
 
 /**
@@ -35,6 +41,7 @@ const renderEditor = <T extends {} = {}>(options: RenderOptions & Omit<T, keyof 
 		readOnly,
 		tabSize,
 		tokenizeCallback,
+		overlays,
 		...rest
 	} = options
 
@@ -57,8 +64,13 @@ const renderEditor = <T extends {} = {}>(options: RenderOptions & Omit<T, keyof 
 	html +=
 		`style=tab-size:${tabSize || 2};--number-width:${(0 | Math.log10(l)) + 1}.001ch>` +
 		"<div class=pce-wrapper><div class=pce-overlays>" +
-		"<textarea class=pce-textarea spellcheck=false autocapitalize=off autocomplete=off>" +
-		"</textarea></div>"
+		"<textarea class=pce-textarea spellcheck=false autocapitalize=off autocomplete=off></textarea>"
+
+	overlays?.forEach(overlay => {
+		html += overlay(options) || ""
+	})
+
+	html += "</div>"
 
 	while (i < l) {
 		html += `<div class="pce-line${i ? "" : " active-line"}" aria-hidden=true data-line=${i + 1}>${

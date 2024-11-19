@@ -64,7 +64,7 @@ const mountEditorsUnder = <T extends {} = {}>(
 		const tempOptions: EditorOptions & T = Object.assign(
 			{
 				language: /language-(\S*)/.exec(prevClass)![1],
-				value: element.textContent!.slice(0, -1),
+				value: element.textContent!.slice(overlays.textContent!.length, -1),
 				lineNumbers: prevClass.includes(" show"),
 				readOnly: prevClass.includes(" pce-read"),
 				rtl: prevClass.includes(" pce-rtl"),
