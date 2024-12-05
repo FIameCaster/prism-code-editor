@@ -83,3 +83,4 @@ const renderEditor = <T extends {} = {}>(options: RenderOptions & Omit<T, keyof 
 
 export { renderEditor, rainbowBrackets }
 export * from "./code-block.js"
+export * from "./guides.js"

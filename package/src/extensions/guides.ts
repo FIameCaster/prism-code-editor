@@ -3,7 +3,7 @@
 import { createTemplate, doc } from "../core.js"
 import { Extension, PrismEditor } from "../types.js"
 
-const template = createTemplate("<div class=guide-indents>")
+const template = createTemplate("<div class=guide-indents> ")
 
 /**
  * Extension adding indent guides to an editor. Does not work with word wrap.
@@ -13,28 +13,28 @@ const indentGuides = (): Extension => {
 	let tabSize: number
 	let prevLength = 0
 	let lineIndentMap: number[]
-	let active = -1
+	let active: HTMLDivElement | undefined
 	let currentEditor: PrismEditor
 
-	const lines: HTMLDivElement[] = []
-	const indents: number[][] = []
-	const container = template()
+	let lines: HTMLDivElement[] = []
+	let indents: number[][] = []
+	let container: HTMLDivElement
 
-	const update = (code: string) => {
+	let update = (code: string) => {
 		lineIndentMap = []
 		const newIndents = getIndentGuides(code, tabSize)
 		const l = newIndents.length
 
 		for (let i = 0, prev: number[] = [], next = newIndents[0]; next; i++) {
 			const style = (lines[i] ||= doc!.createElement("div")).style
-			const [top, height, left] = next
+			const [top, left, height] = next
 			const old = indents[i]
 
 			next = newIndents[i + 1]
 
 			if (top != old?.[0]) style.top = top + "00%"
-			if (left != old?.[2]) style.left = left * 100 + "%"
-			if (height != old?.[1]) style.height = height + "00%"
+			if (left != old?.[1]) style.left = left * 100 + "%"
+			if (height != old?.[2]) style.height = height + "00%"
 
 			const isSingleIndent = prev[0] != top && next?.[0] != top,
 				isSingleOutdent = prev[0] + prev[1] != top + height && next?.[0] + next?.[1] != top + height
@@ -45,25 +45,33 @@ const indentGuides = (): Extension => {
 			prev = indents[i] = newIndents[i]
 		}
 
-		for (let i = prevLength; i > l; ) lines[--i].remove()
+		for (let i = l; i < prevLength; ) lines[i++].remove()
 		container.append(...lines.slice(prevLength, (prevLength = l)))
 	}
 
-	const updateActive = () => {
-		const newActive = lineIndentMap[currentEditor.activeLine - 1] ?? -1
+	let updateActive = () => {
+		const newActive = lines[lineIndentMap[currentEditor.activeLine - 1]]
 
 		if (newActive != active) {
-			active > -1 && (lines[active].className = "")
-			newActive > -1 && (lines[newActive].className = "active-indent")
+			if (active) active.className = ""
+			if (newActive) newActive.className = "active-indent"
+			active = newActive
 		}
-		active = newActive
 	}
 
 	return {
 		update(editor, options) {
 			if (!currentEditor) {
 				currentEditor = editor
-				editor.lines[0].append(container)
+
+				let overlays = editor.lines[0]
+				if ((container = overlays.querySelector(".guide-indents")!)) {
+					lines.push(...(container.children as HTMLCollectionOf<HTMLDivElement>))
+					active = lines.find(line => line.className)
+				} else {
+					overlays.append((container = template()))
+				}
+
 				editor.on("update", update)
 				editor.on("selectionChange", updateActive)
 			}
@@ -81,11 +89,11 @@ const indentGuides = (): Extension => {
  * Calculates position and height of indentation guides for a string of code.
  * @param code Code you want to calculate indentation lines for.
  * @param tabSize Number of spaces a tab is equal to.
- * @returns An array of indetation guides.
+ * @returns An array of indentation guides.
  * Each guide is a tuple containing 3 numbers with the following values:
  * - The starting line of the guide.
- * - How many lines tall the guide is.
  * - How many spaces the guide is offset to the right.
+ * - How many lines tall the guide is.
  */
 const getIndentGuides = (code: string, tabSize: number) => {
 	const lines = code.split("\n")
@@ -107,11 +115,11 @@ const getIndentGuides = (code: string, tabSize: number) => {
 			if (indent) indent = Math.ceil(indent / tabSize)
 			for (let j = indent; j < prevIndent; j++) {
 				// Updating height of the closed lines
-				stack[j][1] = (emptyPos < 0 || (j == indent && !last) ? i : emptyPos) - stack[j][0]
+				stack[j][2] = (emptyPos < 0 || (j == indent && !last) ? i : emptyPos) - stack[j][0]
 			}
 			for (let j = prevIndent; j < indent; ) {
 				// Adding new indentation lines
-				results[p++] = stack[j] = [emptyPos < 0 || j > prevIndent ? i : emptyPos, 0, j++ * tabSize]
+				results[p++] = stack[j] = [emptyPos < 0 || j > prevIndent ? i : emptyPos, j++ * tabSize, 0]
 			}
 			emptyPos = -1
 			prevIndent = indent

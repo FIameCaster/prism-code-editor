@@ -1,6 +1,6 @@
 /** @module code-blocks */
 
-import { addListener } from "../core.js"
+import { addListener, doc } from "../core.js"
 import { createCopyButton } from "../extensions/copyButton/index.js"
 import { addOverlay } from "../utils/index.js"
 
@@ -82,7 +82,7 @@ const addCopyButton = (codeblock: PrismCodeBlock) => {
 			selection.addRange(range)
 			range.setStartAfter(codeblock.lines[0])
 			range.setEndAfter(codeblock.wrapper)
-			document.execCommand("copy")
+			doc!.execCommand("copy")
 			range.collapse()
 		}
 	})

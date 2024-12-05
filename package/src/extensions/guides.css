@@ -4,10 +4,6 @@ div.guide-indents {
 	right: auto;
 }
 
-.guide-indents::before {
-	content: " ";
-}
-
 .guide-indents div {
 	width: 1px;
 	position: absolute;
