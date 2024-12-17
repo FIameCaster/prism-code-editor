@@ -18,11 +18,13 @@ import { defaultCommands, editHistory, ignoreTab, setIgnoreTab } from "prism-cod
 import { matchTags } from "prism-code-editor/match-tags"
 import { editors } from "./mount"
 import { cursorPosition } from "prism-code-editor/cursor"
+import { indentGuides } from "prism-code-editor/guides"
 
 editors.forEach(editor => {
 	// Bad practice to mutate the options, but it won't cause issues here
 	editor.options.insertSpaces = false
 	editor.addExtensions(
+		indentGuides(),
 		defaultCommands(),
 		editHistory(),
 		searchWidget(),

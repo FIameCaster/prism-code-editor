@@ -2,7 +2,7 @@ import { defineConfig } from "astro/config"
 import starlight from "@astrojs/starlight"
 import starlightTypeDoc from "starlight-typedoc"
 import { rehypePrismCodeEditor } from "rehype-prism-code-editor"
-import { rainbowBrackets } from "prism-code-editor/ssr"
+import { indentGuides, rainbowBrackets } from "prism-code-editor/ssr"
 import "prism-code-editor/prism/languages/common"
 import "prism-code-editor/prism/languages/jsdoc"
 
@@ -17,6 +17,7 @@ const pluginOptions = {
 	},
 	defaultEditorProps: {
 		tokenizeCallback: rainbowBrackets(),
+		overlays: [indentGuides]
 	},
 	customRenderer(props, defaultRenderer) {
 		const file = props.file

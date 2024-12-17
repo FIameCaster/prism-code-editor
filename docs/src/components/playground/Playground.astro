@@ -2,8 +2,6 @@
 import { readFile } from "node:fs/promises"
 import Editor from "../editor/index.astro"
 import theme from "prism-code-editor/themes/github-dark.css?inline"
-import "prism-code-editor/layout.css"
-import "prism-code-editor/scrollbar.css"
 
 const example = await readFile("./public/examples/xml.txt", { encoding: "utf-8" })
 ---
