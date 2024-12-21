@@ -61,11 +61,11 @@ import { BasicExtension, createEditor } from "prism-code-editor"
 
 const myExtension = (): BasicExtension => {
 	return (editor, options) => {
-		// This won't be called when the options change
+		// This will only be called before the first render
 	}
 }
 
-createEditor("#editor", {}, (editor, options) => {
-	// This will be called before the first render
+createEditor("#editor", {}, myExtension, (editor, options) => {
+	// This will only be called before the first render
 })
 ```

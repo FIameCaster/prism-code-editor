@@ -142,7 +142,7 @@ If you're using line numbers, you can make sure the line number element inherits
 
 ## Meta parsing
 
-The meta parsing uses HTML-attribute-like syntax. The parser will attempt to parse the value as a boolean, null, or number and fall back to a string otherwise. If the value is wrapped by `{}`, the value is parsed as a `Set{:js}` of numbers equal to the union of all ranges between the brackets. `{1,2,5-7}` would be parsed as `new Set([1, 2, 5, 6, 7]){:js}` for example. You can see the regular expressions used for parsing below:
+The meta parsing uses HTML-attribute-like syntax. The parser will attempt to parse the property value as a boolean, null, or a number and fall back to a string otherwise. If the value is wrapped by `{}`, the value is parsed as a `Set{:js}` of numbers equal to the union of all ranges between the brackets. `{1,2,5-7}` would be parsed as `new Set([1, 2, 5, 6, 7]){:js}` for example. You can see the regular expressions used for parsing below:
 
 ```js editor="false"
 let range = /(\d+)(?:\s*-\s*(\d+))?/g

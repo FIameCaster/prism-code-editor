@@ -15,7 +15,6 @@ All the setups are an abstraction over [`createEditor(){:js}`](/api-reference/in
 import "prism-code-editor/prism/languages/javascript"
 import { createEditor } from "prism-code-editor"
 import { matchBrackets } from "prism-code-editor/match-brackets"
-import { indentGuides } from "prism-code-editor/guides"
 
 // Importing styles
 import "prism-code-editor/layout.css"
@@ -25,7 +24,6 @@ export const editor = createEditor(
 	"#editor",
 	{ language: "javascript" },
 	// Initial extensions
-	indentGuides(),
 	matchBrackets(),
 )
 
@@ -37,8 +35,12 @@ import("./extensions")
 The 3rd argument onward to `createEditor(){:js}` are the extensions you want the editor to be initialized with, but you can also add more extensions later with the [`editor.addExtensions(){:js}`](/api-reference/index/i-prismeditor#addextensions) method. This makes it possible to import most extensions is a separate entry point for code splitting.
 
 ```js editor file="extensions.js"
+// Required by searchWidget()
 import "prism-code-editor/search.css"
+// Required by copyButton()
 import "prism-code-editor/copy-button.css"
+// Required by indentGuides()
+import "prism-code-editor/guides.css"
 // Adds automatic indentation and comment toggling
 import "prism-code-editor/languages/html"
 import "prism-code-editor/languages/clike"
@@ -50,6 +52,7 @@ import { cursorPosition } from "prism-code-editor/cursor"
 import { copyButton } from "prism-code-editor/copy-button"
 import { matchTags } from "prism-code-editor/match-tags"
 import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
+import { indentGuides } from "prism-code-editor/guides"
 import { editor } from "./index"
 
 editor.addExtensions(
@@ -61,6 +64,7 @@ editor.addExtensions(
 	highlightBracketPairs(),
 	cursorPosition(),
 	editHistory(),
+	indentGuides(),
 )
 ```
 

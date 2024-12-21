@@ -10,7 +10,7 @@ This library supports rendering an editor as an HTML string on a server and moun
 
 ## Rendering on the server
 
-[`renderEditor(){:js}`](/api-reference/ssr/f-rendereditor) renders an editor with the specified [`EditorOptions{:js}`](/api-reference/index/t-editoroptions) as an HTML string. The event handler options such as `onUpdate` are ignored.
+[`renderEditor(){:js}`](/api-reference/ssr/f-rendereditor) renders an editor with the specified [`RenderOptions{:js}`](/api-reference/ssr/t-renderoptions) as an HTML string.
 
 ```js editor
 import "prism-code-editor/prism/languages/javascript"
@@ -22,7 +22,9 @@ const html = renderEditor({
 })
 ```
 
-### Rendering options
+### Rainbow brackets
+
+The `tokenizeCallback` option can be used to modify the tokens before they're stringified. If you're using an extension that modifies tokens such as [`matchBrackets(){:js}`](/api-reference/match-brackets/f-matchbrackets), the same modifications should be done on the server to prevent the editor from flashing with incorrect tokens.
 
 ```js editor
 import "prism-code-editor/prism/languages/javascript"
@@ -30,13 +32,25 @@ import { renderEditor, rainbowBrackets } from "prism-code-editor/ssr"
 
 const html = renderEditor({
 	language: "javascript",
-	value: 'const foo = "bar"'
-}, {
+	value: 'const foo = "bar"',
 	tokenizeCallback: rainbowBrackets()
 })
 ```
 
-The second argument can be used to customize the output. Currently, only a single property is accepted: `tokenizeCallback`. This function is called before the tokens are stringified to HTML and can be used to modify them. If you're using [`matchBrackets(){:js}`](/api-reference/match-brackets/f-matchbrackets) for example, these same modifications should be done one the server. If you don't, the editor will flash with incorrect tokens.
+### Overlays
+
+The `overlays` option accepts an array of functions that will called with the current [`RenderOptions{:js}`](/api-reference/ssr/t-renderoptions). Any HTML returned returned by them will be inserted inside the overlays element. This can be used to server render indentation guides for example.
+
+```js editor
+import "prism-code-editor/prism/languages/javascript"
+import { renderEditor, indentGuides } from "prism-code-editor/ssr"
+
+const html = renderEditor({
+	language: "javascript",
+	value: 'const foo = "bar"',
+	overlays: [indentGuides]
+})
+```
 
 ## Mounting on the client
 
