@@ -20,7 +20,7 @@ export type PcePluginOptions = {
 	/**
 	 * Default props used when rendering code blocks.
 	 */
-	defaultCodeBlockProps?: Omit<Partial<CodeBlockOptions>, "value" | "language">
+	defaultCodeBlockProps?: Omit<CodeBlockOptions, "value" | "language" | "addLineClass">
 	/**
 	 * Function that allows you to wrap the default render function or completely override
 	 * it.

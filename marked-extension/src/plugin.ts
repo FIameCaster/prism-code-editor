@@ -42,13 +42,7 @@ export const markedPrismCodeEditor = ({
 			},
 			codespan: inline
 				? (token) => {
-						let raw = token.raw
-						let start = raw.search(/[^`]/)
-						let text = raw.slice(start, -start).replace(/\n/g, " ")
-						if (/[^ ]/.test(text) && text[0] == " " && text.slice(-1) == " ") {
-							text = text.slice(1, -1)
-						}
-
+						let text = token.text
 						let langStart = text.lastIndexOf("{:")
 
 						if (langStart < 1 || text.slice(-1) != "}") return false
