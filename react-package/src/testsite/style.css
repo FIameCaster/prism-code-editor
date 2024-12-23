@@ -1,0 +1,127 @@
+:root {
+  --bg: #fff;
+	--color: #000;
+	--bg-btn: #f6f8fa;
+	--border: #d0d7de;
+	--focus-shadow: hsl(210, 100%, 30%, 0.3);
+	--focus-ring: hsl(210, 75%, 50%);
+  height: 100%;
+}
+
+body {
+	background: var(--bg);
+	color: var(--color);
+	font-family: Roboto,-apple-system,Arial,Helvetica,sans-serif;
+	margin: 0;
+	line-height: 1.5;
+	font-weight: 300;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+#root > :first-child {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em 1em;
+	padding: 0.75em;
+}
+
+.prism-code-editor {
+  font-size: 0.875em;
+}
+
+.pce-readonly {
+	--number-spacing: 1.5em;
+}
+
+.tooltip {
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--widget__bg);
+  padding: 0.4em;
+  border: 1px solid var(--widget__border);
+  border-radius: 0.4em;
+  position: sticky;
+  left: 0.5em;
+  right: 0;
+  white-space: normal;
+  word-break: normal;
+}
+
+.select {
+	display: inline-grid;
+	grid-template-areas: "select";
+	align-items: center;
+	border-radius: 0.25em;
+	position: relative;
+	flex: 12em 0 1;
+}
+
+.select > * {
+	-webkit-appearance: none;
+	appearance: none;
+	padding: 0.25em 1.4em 0.25em 0.5em;
+	border: 1px solid var(--border);
+	border-radius: 0.25em;
+	margin: 0;
+	width: 100%;
+	font: inherit;
+	color: inherit;
+	cursor: default;
+	outline: 0;
+	grid-area: select;
+	background-color: var(--bg-btn);
+	line-height: 1.2;
+}
+
+.select::before {
+	content: "";
+	width: 0.7em;
+	height: 0.4em;
+	margin-right: 0.5em;
+	background-color: var(--border);
+	clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+	grid-area: select;
+	justify-self: end;
+	pointer-events: none;
+}
+
+select option {
+	font-weight: inherit;
+}
+
+label {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+	flex-grow: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #0d1117;
+		--color: hsl(210, 9%, 93%);
+		--bg-btn: hsl(220, 13%, 9%);
+		--border: #30363d;
+		--focus-shadow: hsl(210, 100%, 67%, 0.2);
+		--focus-ring: hsl(210, 70%, 60%);
+		color-scheme: dark;
+	}
+}
+
+@media (max-width: 25em) {
+	#root > :first-child > :not(:last-child) {
+		width: 100%;
+		justify-content: space-between;
+	}
+}

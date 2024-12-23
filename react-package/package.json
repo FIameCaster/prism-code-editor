@@ -1,0 +1,88 @@
+{
+  "name": "prism-react-editor",
+  "version": "1.1.0",
+  "type": "module",
+  "description": "Lightweight, extensible code editor component for React apps",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./prism": "./dist/prism/index.js",
+    "./prism/utils": "./dist/prism/utils/index.js",
+    "./guides": "./dist/extensions/guides.js",
+    "./copy-button": "./dist/extensions/copy-button/index.js",
+    "./copy-button.css": "./dist/copy.css",
+    "./code-folding.css": "./dist/folding.css",
+    "./scrollbar.css": "./dist/scrollbar.css",
+    "./utils": "./dist/utils/index.js",
+    "./layout.css": "./dist/layout.css",
+    "./rtl-layout.css": "./dist/rtl-layout.css",
+    "./themes/*.css": "./dist/themes/*.css",
+    "./themes": "./dist/themes/index.js",
+    "./languages": "./dist/languages/index.js",
+    "./languages/*": "./dist/languages/*.js",
+    "./prism/languages": "./dist/prism/languages/index.js",
+    "./prism/languages/*": "./dist/prism/languages/*.js",
+    "./match-brackets": "./dist/extensions/match-brackets/index.js",
+    "./highlight-brackets": "./dist/extensions/match-brackets/highlight.js",
+    "./match-tags": "./dist/extensions/match-tags.js",
+    "./setups": "./dist/setups.js",
+    "./tooltips": "./dist/tooltips.js",
+    "./commands": "./dist/extensions/commands.js",
+    "./cursor": "./dist/extensions/cursor.js",
+    "./code-folding": "./dist/extensions/folding/index.js",
+    "./overscroll": "./dist/extensions/overscroll.js",
+    "./search": "./dist/extensions/search/index.js",
+    "./search.css": "./dist/search.css"
+  },
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*"
+      ]
+    }
+  },
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && node scripts/build.mjs",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "prism-code-editor": "4.0.0-beta.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5",
+    "vite-plugin-dts": "^4.4.0"
+  },
+  "keywords": [
+    "editor",
+    "code editor",
+    "textarea",
+    "react",
+    "highlight",
+    "prismjs"
+  ],
+  "author": "FlameCaster",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FIameCaster/prism-code-editor.git"
+  },
+  "sideEffects": [
+    "*.css",
+    "./dist/languages/*",
+    "./dist/prism/languages/*"
+  ],
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
+}
