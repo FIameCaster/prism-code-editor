@@ -25,7 +25,7 @@ export interface TagMatcher {
 	 * - Its tag name
 	 * - Whether it's a closing tag
 	 * - Whether it's not self-closing
-	 * 
+	 *
 	 * The tags are sorted by their ending position
 	 */
 	readonly tags: Tag[]
@@ -52,7 +52,7 @@ export const createTagMatcher = (editor: PrismEditor): TagMatcher => {
 	}
 
 	let matchTagsRecursive = (tokens: TokenStream, language: string, position: number) => {
-		let noVoidTags = voidlessLangs.includes(language)
+		let noVoidTags = voidlessLangs.has(language)
 		let i = 0
 		let l = tokens.length
 		for (; i < l; ) {

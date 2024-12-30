@@ -10,19 +10,74 @@ $C:Control2:{!MESSAGETEMPLATE
 
 [
 	["directive-block-open", [
-		["punctuation", ["$C:"]], "Control2", ["punctuation", [":"]], ["punctuation", ["{"]]]],
+		["punctuation", ["$C:"]],
+		"Control2",
+		["punctuation", ":"],
+		["punctuation", "{"]
+	]],
 	["directive-block-open", [
-		["punctuation", ["$C", ["tag", "#1"]]], ["punctuation", [":"]], "Control2", ["punctuation", [":"]], ["punctuation", ["{"]]]],
+		["punctuation", [
+			"$C",
+			["tag", "#1"]
+		]],
+		["punctuation", ":"],
+		"Control2",
+		["punctuation", ":"],
+		["punctuation", "{"]
+	]],
 	["directive-block-open", [
-		["punctuation", ["$C["]], "ParentControl", ["punctuation", ["]"]], ["punctuation", [":"]], "Control2", ["punctuation", [":"]], ["punctuation", ["{"]]]],
+		["punctuation", ["$C"]],
+		["punctuation", "["],
+		"ParentControl",
+		["punctuation", "]"],
+		["punctuation", ":"],
+		"Control2",
+		["punctuation", ":"],
+		["punctuation", "{"]
+	]],
 	["directive-block-open", [
-		["punctuation", ["$C", ["tag", "#1"]]], ["punctuation", ["["]], "ParentControl", ["punctuation", ["]"]], ["punctuation", [":"]], "Control2", ["punctuation", [":"]], ["punctuation", ["{"]]]],
+		["punctuation", [
+			"$C",
+			["tag", "#1"]
+		]],
+		["punctuation", "["],
+		"ParentControl",
+		["punctuation", "]"],
+		["punctuation", ":"],
+		"Control2",
+		["punctuation", ":"],
+		["punctuation", "{"]
+	]],
 	["directive-block-open", [
-		["punctuation", ["$S:"]], "Statement", ["punctuation", [":"]], ["punctuation", ["{"]], ["attribute", [["punctuation", "!"], "NOCACHE"]]]],
+		["punctuation", ["$S:"]],
+		"Statement",
+		["punctuation", ":"],
+		["punctuation", "{"],
+		["attribute", [
+			["punctuation", "!"],
+			"NOCACHE"
+		]]
+	]],
 	["directive-block-open", [
-		["punctuation", ["$H:"]], "HttpRequest", ["punctuation", [":"]], ["punctuation", ["{"]], ["attribute", [["punctuation", "!"], "RENDERONREQUEST"]]]],
+		["punctuation", ["$H:"]],
+		"HttpRequest",
+		["punctuation", ":"],
+		["punctuation", "{"],
+		["attribute", [
+			["punctuation", "!"],
+			"RENDERONREQUEST"
+		]]
+	]],
 	["directive-block-open", [
-		["punctuation", ["$C:"]], "Control2", ["punctuation", [":"]], ["punctuation", ["{"]], ["attribute", [["punctuation", "!"], "MESSAGETEMPLATE"]]]]
+		["punctuation", ["$C:"]],
+		"Control2",
+		["punctuation", ":"],
+		["punctuation", "{"],
+		["attribute", [
+			["punctuation", "!"],
+			"MESSAGETEMPLATE"
+		]]
+	]]
 ]
 
 ----------------------------------------------------

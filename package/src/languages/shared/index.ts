@@ -2,12 +2,12 @@ import { CommentTokens, InputSelection, Language, PrismEditor, languageMap } fro
 import { getClosestToken, getLineBefore } from "../../utils/index.js"
 import { voidTags } from "../../utils/local.js"
 
-const clikeIndent = /[([{][^)\]}]*$|^[^.]*\b(?:case .+?|default):\s*$/,
-	isBracketPair = /\[]|\(\)|{}/,
-	xmlOpeningTag =
-		/<(?![?!\d#@])([^\s/=>$<%]+)(?:\s(?:\s*[^\s/"'=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*>[ \t]*$/,
-	xmlClosingTag = /^<\/(?!\d)[^\s/=>$<%]+\s*>/,
-	openBracket = /[([{][^)\]}]*$/
+const clikeIndent = /[([{][^)\]}]*$|^[^.]*\b(?:case .+?|default):\s*$/
+const isBracketPair = /\[]|\(\)|{}/
+const xmlOpeningTag =
+		/<(?![?!\d#@])([^\s/=>$<%]+)(?:\s(?:\s*[^\s/"'=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*>[ \t]*$/
+const xmlClosingTag = /^<\/(?!\d)[^\s/=>$<%]+\s*>/
+const openBracket = /[([{][^)\]}]*$/
 
 const testBracketPair = ([start, end]: InputSelection, value: string) => {
 	return isBracketPair.test(value[start - 1] + value[end])

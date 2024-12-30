@@ -170,7 +170,7 @@ const highlightTagPairsOnHover = (codeBlock: PrismCodeBlock) => {
 		const tagName = nameEl.textContent!
 		const notSelfClosing =
 			!lastChild.textContent![1] &&
-			(voidlessLangs.includes(getLanguageAt(nameEl)) || !voidTags.test(tagName))
+			(voidlessLangs.has(getLanguageAt(nameEl)) || !voidTags.test(tagName))
 		if (notSelfClosing) {
 			if (isClosing) {
 				for (let i = sp; i; ) {

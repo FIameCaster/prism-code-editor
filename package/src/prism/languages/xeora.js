@@ -12,12 +12,15 @@ var variable = {
 	}
 };
 
-var blockPunctuation = {
-	pattern: /\$(?:\w:|C\[|C#\d)?|[[\]{:]/,
-	inside: {
-		'tag': /#\d/
-	}
-};
+var blockPunctuation = [
+	{
+		pattern: /\$(?:\w:|C#\d|C)?/,
+		inside: {
+			'tag': /#\d/
+		}
+	},
+	/[[\]{:]/
+];
 
 insertBefore(xeora, 'markup-bracket', {
 	'constant': {
@@ -27,10 +30,10 @@ insertBefore(xeora, 'markup-bracket', {
 		}
 	},
 	'variable': {
-		pattern: /\$@?(?:#+|[~=^*+-])?[\w.]+\$/,
+		pattern: /\$@?(?:[~=^*+-]|#*)[\w.]+\$/,
 		inside: {
 			'punctuation': /[$.]/,
-			'operator': /#+|[~=^@*+-]/
+			'operator': /[~=^@*+-]|#+/
 		}
 	},
 	'function-inline': {
@@ -46,7 +49,7 @@ insertBefore(xeora, 'markup-bracket', {
 		alias: 'function',
 		inside: {
 			'variable': variable,
-			'punctuation': /[{}$?.,:|]/
+			'punctuation': /[$?{}.,:|]/
 		}
 	},
 	'directive-inline': {
@@ -74,14 +77,14 @@ insertBefore(xeora, 'markup-bracket', {
 		pattern: /\}:[\w.-]+:\{/,
 		alias: 'function',
 		inside: {
-			'punctuation': /[:{}]/
+			'punctuation': /[{}:]/
 		}
 	},
 	'directive-block-close': {
 		pattern: /\}:[\w.-]+\$/,
 		alias: 'function',
 		inside: {
-			'punctuation': /[:}$]/
+			'punctuation': /[$}:]/
 		}
 	}
 });

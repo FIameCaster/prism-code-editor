@@ -48,7 +48,7 @@ const updateNode = (node: Text, text: string) => {
 	if (node.data != text) node.data = text
 }
 
-const voidlessLangs = "xml,rss,atom,jsx,tsx,xquery,actionscript".split(",")
+const voidlessLangs = new Set("xml,rss,atom,jsx,tsx,xquery,xeora,xeoracube,actionscript".split(","))
 const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
 
 export {

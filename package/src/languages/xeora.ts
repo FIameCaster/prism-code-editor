@@ -1,4 +1,4 @@
 import { languageMap } from ".."
-import { markupComment, markupLanguage, voidTags, xmlOpeningTag } from "./shared"
+import { markupLanguage } from "./shared"
 
-languageMap.xeoracube = languageMap.xeora = markupLanguage(markupComment, xmlOpeningTag, voidTags)
+languageMap.xeoracube = languageMap.xeora = markupLanguage()
