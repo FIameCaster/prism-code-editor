@@ -2,10 +2,7 @@ import { useLayoutEffect } from "react"
 import { PrismEditor } from "../types"
 import { Token, TokenStream } from "../prism"
 import { getClosestToken } from "../utils"
-import { addTextareaListener } from "../utils/local"
-
-const voidlessLangs = "xml,rss,atom,jsx,tsx,xquery,actionscript".split(",")
-const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
+import { addTextareaListener, voidlessLangs, voidTags } from "../utils/local"
 
 /**
  * Tuple containing in the following order:
@@ -57,7 +54,7 @@ const useTagMatcher = (editor: PrismEditor) => {
 		}
 
 		const matchTagsRecursive = (tokens: TokenStream, language: string, position: number) => {
-			let noVoidTags = voidlessLangs.includes(language)
+			let noVoidTags = voidlessLangs.has(language)
 			let i = 0
 			let l = tokens.length
 			for (; i < l; ) {

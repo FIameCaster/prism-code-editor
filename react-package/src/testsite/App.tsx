@@ -4,6 +4,7 @@ import core from "../core?raw"
 import "../themes/github-dark.css"
 import "../layout.css"
 import "../scrollbar.css"
+import "../code-block.css"
 import "../extensions/copy-button/copy.css"
 import "../extensions/folding/folding.css"
 import "../extensions/autocomplete/style.css"
@@ -51,6 +52,14 @@ import {
 	svgTags,
 } from "../extensions/autocomplete/markup"
 import { cssCompletion } from "../extensions/autocomplete/css"
+import {
+	CodeBlock,
+	CopyButton,
+	HighlightBracketPairsOnHover,
+	HighlightTagPairsOnHover,
+	HoverDescriptions,
+	rainbowBrackets,
+} from "../code-block"
 
 const ReadOnly = lazy(() => import("./readOnly"))
 
@@ -84,12 +93,14 @@ const Extensions = ({ editor }: { editor: PrismEditor }) => {
 
 const coreCode = core.replace(/<T [ \w]+>/g, "")
 const themeStyle = document.querySelector("style")!
+const onTokenize = rainbowBrackets()
 
 function App() {
 	const [langs, setLangs] = useState(["tsx", "firestore-security-rules"])
 	const [lang, setLang] = useState("tsx")
 	const [value, setValue] = useState(coreCode)
 	const [readOnly, setReadOnly] = useState(false)
+	const [codeBlock, setCodeBlock] = useState(false)
 
 	useEffect(() => {
 		let timeout = setTimeout(() => {
@@ -159,10 +170,40 @@ function App() {
 					<input type="checkbox" onInput={e => setReadOnly(e.currentTarget.checked)} />
 					Read-only
 				</label>
+				<label>
+					<input type="checkbox" onInput={e => setCodeBlock(e.currentTarget.checked)} />
+					Code block
+				</label>
 			</div>
-			<Editor readOnly={readOnly} language={lang} value={value} insertSpaces={false}>
-				{editor => <Extensions editor={editor} />}
-			</Editor>
+			{codeBlock ? (
+				<CodeBlock
+					language={lang}
+					code={value}
+					lineNumbers
+					guideIndents
+					
+					onTokenize={onTokenize}
+				>
+					{(block, props) => (
+						<>
+							<HoverDescriptions
+								callback={types => {
+									if (types.includes("string")) return ["This is a string token."]
+								}}
+								codeBlock={block}
+								props={props}
+							/>
+							<CopyButton codeBlock={block} props={props} />
+							<HighlightTagPairsOnHover codeBlock={block} props={props} />
+							<HighlightBracketPairsOnHover codeBlock={block} props={props} />
+						</>
+					)}
+				</CodeBlock>
+			) : (
+				<Editor readOnly={readOnly} language={lang} value={value} insertSpaces={false}>
+					{editor => <Extensions editor={editor} />}
+				</Editor>
+			)}
 		</>
 	)
 }

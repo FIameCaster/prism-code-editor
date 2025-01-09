@@ -1,6 +1,7 @@
 import { useLayoutEffect } from "react"
 import { Token, TokenStream } from "../../prism"
 import { PrismEditor } from "../../types"
+import { testBracket } from "../../utils/local"
 
 export interface BracketMatcher {
 	/**
@@ -114,8 +115,4 @@ export const useBracketMatcher = (
 			cleanup()
 		}
 	}, [rainbowBrackets, openingBrackets, closingBrackets])
-}
-
-const testBracket = (str: string, brackets: string, l: number) => {
-	return brackets.indexOf(str[0]) + 1 || (l && brackets.indexOf(str[l]) + 1)
 }

@@ -1,3 +1,4 @@
+import { PrismCodeBlock } from "../code-block/index.tsx"
 import { addListener, doc, numLines, selectionChange } from "../core"
 import { PrismEditor, InputSelection } from "../types"
 import { getLineEnd, getLineStart } from "./local.ts"
@@ -211,7 +212,7 @@ const setSelection = (
  * @param editor Editor you want to add an overlay to.
  * @param overlay The overlay you want to add.
  */
-const addOverlay = (editor: PrismEditor, overlay: HTMLElement) => {
+const addOverlay = (editor: PrismEditor | PrismCodeBlock, overlay: HTMLElement) => {
 	editor.lines?.[0].append(overlay)
 }
 

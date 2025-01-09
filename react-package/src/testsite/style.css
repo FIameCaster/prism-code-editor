@@ -120,8 +120,29 @@ label {
 }
 
 @media (max-width: 25em) {
-	#root > :first-child > :not(:last-child) {
+	#root > :first-child > :has(select) {
 		width: 100%;
 		justify-content: space-between;
 	}
+}
+
+.pce-hover-tooltip {
+	position: sticky;
+	left: 0.5em;
+	right: 0.5em;
+	white-space: normal;
+	padding: 0.25em 0.4em;
+	border: 1px solid var(--widget__border);
+	background: var(--widget__bg);
+	border-radius: 0.3em;
+	overflow-y: auto;
+}
+
+pre .token.string {
+	border-bottom: 1px dotted #0000;
+	transition: border-color 0.2s;
+}
+
+pre:hover .token.string {
+	border-color: #888;
 }
