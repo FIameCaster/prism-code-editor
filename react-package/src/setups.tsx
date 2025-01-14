@@ -5,7 +5,13 @@ import { useBracketMatcher } from "./extensions/match-brackets"
 import { useHightlightBracketPairs } from "./extensions/match-brackets/highlight"
 import { useHighlightMatchingTags, useTagMatcher } from "./extensions/match-tags"
 import { useHighlightSelectionMatches, useSearchWidget } from "./extensions/search"
-import { blockCommentFolding, markdownFolding, useReadOnlyCodeFolding } from "./extensions/folding"
+import {
+	blockCommentFolding,
+	bracketFolding,
+	markdownFolding,
+	tagFolding,
+	useReadOnlyCodeFolding,
+} from "./extensions/folding"
 import { useCopyButton } from "./extensions/copy-button"
 import { PrismEditor } from "./types"
 
@@ -21,7 +27,7 @@ import { PrismEditor } from "./types"
  * - {@link useHighlightSelectionMatches}
  * - {@link useCursorPosition}
  * - {@link IndentGuides}
- * 
+ *
  * Requires styling from `prism-react-editor/search.css` for the search widget
  */
 const BasicSetup = ({ editor }: { editor: PrismEditor }) => {
@@ -47,10 +53,11 @@ const BasicSetup = ({ editor }: { editor: PrismEditor }) => {
  * - {@link useHighlightSelectionMatches}
  * - {@link IndentGuides}
  * - {@link useCopyButton}
- * - {@link useReadOnlyCodeFolding} with {@link blockCommentFolding} and {@link markdownFolding}
- * 
+ * - {@link useReadOnlyCodeFolding} with {@link bracketFolding}, {@link tagFolding},
+ * {@link blockCommentFolding}, and {@link markdownFolding}
+ *
  * Intended to be used with read-only editors.
- * 
+ *
  * Requires styling from `prism-react-editor/copy-button.css` for the copy button
  * and from `prism-react-editor/code-folding.css` for the code folding.
  */
@@ -61,7 +68,7 @@ const ReadOnlySetup = ({ editor }: { editor: PrismEditor }) => {
 	useHighlightMatchingTags(editor)
 	useHighlightSelectionMatches(editor)
 	useCopyButton(editor)
-	useReadOnlyCodeFolding(editor, blockCommentFolding, markdownFolding)
+	useReadOnlyCodeFolding(editor, bracketFolding, tagFolding, blockCommentFolding, markdownFolding)
 
 	return <IndentGuides editor={editor} />
 }
