@@ -29,6 +29,8 @@ export type EditorProps = {
 	rtl?: boolean
 	/** Inline styles for the container element. */
 	style?: Omit<React.CSSProperties, "tabSize">
+	/** Additional classes for the container element. */
+	className?: string
 	/** Extra props for the textarea. Some properties are not supported. */
 	textareaProps?: Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, OmittedTextareaProps>
 	/** Function called when the code of the editor changes. */

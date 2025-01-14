@@ -78,11 +78,14 @@ const Editor = memo(
 		const updateClass = useStableRef(() => {
 			let props = editor.props
 			let [start, end] = getInputSelection()
+			let classProp = props.className
 			let newClass = `prism-code-editor language-${language}${
 				props.lineNumbers == false ? "" : " show-line-numbers"
 			} pce-${props.wordWrap ? "" : "no"}wrap${props.rtl ? " pce-rtl" : ""} pce-${
 				start < end ? "has" : "no"
-			}-selection${focused ? " pce-focus" : ""}${props.readOnly ? " pce-readonly" : ""}`
+			}-selection${focused ? " pce-focus" : ""}${props.readOnly ? " pce-readonly" : ""}${
+				classProp ? " " + classProp : ""
+			}`
 			if (newClass != prevClass) container.className = prevClass = newClass
 		})
 
