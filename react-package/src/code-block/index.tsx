@@ -31,6 +31,10 @@ export type CodeBlockProps = {
 	 * `prism-react-editor/rtl-layout.css` to work. @default false
 	 */
 	rtl?: boolean
+	/** Inline styles for the container element. */
+	style?: Omit<React.CSSProperties, "tabSize" | "counterReset">
+	/** Additional classes for the container element. */
+	className?: string
 	/**
 	 * Callback that can be used to modify the tokens before they're stringified to HTML.
 	 * Can be used to add rainbow brackets for example.
@@ -63,6 +67,7 @@ const CodeBlock = (props: CodeBlockProps) => {
 		tabSize = 2,
 		lineNumbers,
 		lineNumberStart,
+		className,
 	} = props
 	const hasGuides = !!guideIndents && !rtl
 	const lnOffset = lineNumberStart! - 1 || 0
@@ -136,7 +141,7 @@ const CodeBlock = (props: CodeBlockProps) => {
 				lineNumbers ? " show-line-numbers" : ""
 			} pce-${wordWrap ? "" : "no"}wrap${rtl ? " pce-rtl" : ""}${
 				preserveIndent ? " pce-preserve" : ""
-			}${hasGuides ? " pce-guides" : ""}`}
+			}${hasGuides ? " pce-guides" : ""}${className ? " " + className : ""}`}
 			ref={useStableRef((el: HTMLPreElement | null) => {
 				if (el) {
 					codeBlock.container = el
@@ -145,6 +150,7 @@ const CodeBlock = (props: CodeBlockProps) => {
 				}
 			})}
 			style={{
+				...props.style,
 				["--tab-size" as any]: tabSize,
 				["--number-width" as any]: (0 | Math.log10(lines.length + lnOffset)) + 1 + ".001ch",
 				counterReset: `line ${lnOffset}`,
