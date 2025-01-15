@@ -11,7 +11,7 @@ import { addTextareaListener } from "../../utils/local"
  *
  * The `.active-bracket` CSS selector can be used to style the highlighted pair.
  */
-export const useHightlightBracketPairs = (editor: PrismEditor) => {
+export const useHighlightBracketPairs = (editor: PrismEditor) => {
 	useLayoutEffect(() => {
 		let prev: Bracket
 		let els: HTMLSpanElement[] = []

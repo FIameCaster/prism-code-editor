@@ -2,7 +2,7 @@ import { useDefaultCommands, useEditHistory } from "./extensions/commands"
 import { useCursorPosition } from "./extensions/cursor"
 import { IndentGuides } from "./extensions/guides"
 import { useBracketMatcher } from "./extensions/match-brackets"
-import { useHightlightBracketPairs } from "./extensions/match-brackets/highlight"
+import { useHighlightBracketPairs } from "./extensions/match-brackets/highlight"
 import { useHighlightMatchingTags, useTagMatcher } from "./extensions/match-tags"
 import { useHighlightSelectionMatches, useSearchWidget } from "./extensions/search"
 import {
@@ -18,7 +18,7 @@ import { PrismEditor } from "./types"
 /**
  * Component adding the following extensions:
  * - {@link useBracketMatcher}
- * - {@link useHightlightBracketPairs}
+ * - {@link useHighlightBracketPairs}
  * - {@link useTagMatcher}
  * - {@link useHighlightMatchingTags}
  * - {@link useDefaultCommands}
@@ -32,7 +32,7 @@ import { PrismEditor } from "./types"
  */
 const BasicSetup = ({ editor }: { editor: PrismEditor }) => {
 	useBracketMatcher(editor)
-	useHightlightBracketPairs(editor)
+	useHighlightBracketPairs(editor)
 	useTagMatcher(editor)
 	useHighlightMatchingTags(editor)
 	useDefaultCommands(editor)
@@ -47,7 +47,7 @@ const BasicSetup = ({ editor }: { editor: PrismEditor }) => {
 /**
  * Component adding the following extensions:
  * - {@link useBracketMatcher}
- * - {@link useHightlightBracketPairs}
+ * - {@link useHighlightBracketPairs}
  * - {@link useTagMatcher}
  * - {@link useHighlightMatchingTags}
  * - {@link useHighlightSelectionMatches}
@@ -63,7 +63,7 @@ const BasicSetup = ({ editor }: { editor: PrismEditor }) => {
  */
 const ReadOnlySetup = ({ editor }: { editor: PrismEditor }) => {
 	useBracketMatcher(editor)
-	useHightlightBracketPairs(editor)
+	useHighlightBracketPairs(editor)
 	useTagMatcher(editor)
 	useHighlightMatchingTags(editor)
 	useHighlightSelectionMatches(editor)

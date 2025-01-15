@@ -16,7 +16,7 @@ import "../extensions/search/search.css"
 import "../extensions/search/invisibles.css"
 import "../languages/jsx"
 import { useBracketMatcher } from "../extensions/match-brackets"
-import { useHightlightBracketPairs } from "../extensions/match-brackets/highlight"
+import { useHighlightBracketPairs } from "../extensions/match-brackets/highlight"
 import { IndentGuides } from "../extensions/guides"
 import { PrismEditor } from "../types"
 import { useHighlightSelectionMatches, useShowInvisibles } from "../extensions/search"
@@ -65,7 +65,7 @@ const ReadOnly = lazy(() => import("./readOnly"))
 
 const Extensions = ({ editor }: { editor: PrismEditor }) => {
 	useBracketMatcher(editor)
-	useHightlightBracketPairs(editor)
+	useHighlightBracketPairs(editor)
 	useOverscroll(editor)
 	useTagMatcher(editor)
 	useHighlightMatchingTags(editor)
