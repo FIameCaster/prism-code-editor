@@ -1,6 +1,6 @@
 # Docs
 
-This is the documenation website for Prism code editor built with [starlight](https://starlight.astro.build).
+This is the documentation website for Prism code editor built with [starlight](https://starlight.astro.build).
 
 ## Development
 
@@ -14,17 +14,19 @@ Build the package:
 	pnpm install
 	pnpm build
 
-And link the package to the docs:
+Build the rehype plugin:
 
-	cd ../website
-	pnpm link ../package
+	cd ../rehype-plugin
+	pnpm install
+	pnpm build
 
 Now you're ready to run the dev server:
 
+	cd ../docs
 	pnpm dev
 
 ## Build
 
-To build the demo site for production, run the build command:
+To build the documentation site for production, run the build command:
 
 	pnpm build
