@@ -213,9 +213,38 @@ const mySnippets: Completion[] = [
 
 [`findWords(){:js}`](/api-reference/autocomplete/f-findwords) can be used to find words in the editor's tokens that can be returned as completions.
 
-[`completeFromList(){:js}`](/api-reference/autocomplete/f-completefromlist) is useful for returning a static list of completions. This completion source requires a `path` property to be present and contain an array with a single string.
-
 [`getClosestToken(){:js}`](/api-reference/utils/f-getclosesttoken) is extremely useful for determining if the completion is happening inside a specific token. It's important that you pass [`context.pos`](/api-reference/autocomplete/i-completioncontext#pos) as the fifth parameter to ensure the search always happens in the correct position.
+
+### Example
+
+The example below shows how completion of a `listOfKeywords` can be done.
+
+```ts editor
+import { getClosestToken } from "prism-code-editor/utils"
+import { Completion, CompletionSource, registerCompletions } from "prism-code-editor/autocomplete"
+
+const options: Completion[] = listOfKeywords.map(label => ({ label, icon: "keyword" }))
+
+const mySource: CompletionSource = (context, editor) => {
+	if (getClosestToken(editor, ".string, .comment", 0, 0, context.pos)) {
+		return // Disable autocomplete in comments and strings
+	}
+	const wordBefore = /\w*$/.exec(context.lineBefore)![0]
+	
+	if (wordBefore || context.explicit) {
+		return {
+			from: context.pos - wordBefore.length,
+			options: options,
+		}
+	}
+}
+
+registerCompletions(["a-language"], {
+	sources: [mySource]
+})
+```
+
+For the example above, [`completeFromList(){:js}`](/api-reference/autocomplete/f-completefromlist) could be used instead if we added a completion context that defined the `path` property. See [`JSContext.path{:js}`](/api-reference/autocomplete/javascript/t-jscontext/#path) for what the `path` property is supposed to represent.
 
 ## Icons
 
