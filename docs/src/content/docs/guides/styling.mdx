@@ -106,15 +106,15 @@ The following document shows the DOM structure of an editor.
 
 ### Adding vertical scrolling
 
-By default, `.prism-code-editor` has `overflow: auto`. This means the editor will scroll horizontally if needed, but since the editor doesn't have `height` or `max-height` defined, it will grow to fit the content. To allow vertical scrolling, you need to limit the height of `.prism-code-editor`, by adding a `height` or `max-height`.
+By default, `.prism-code-editor{:selector}` has `overflow: auto`. This means the editor will scroll horizontally if needed, but since the editor doesn't have `height` or `max-height` defined, it will grow to fit the content. To allow vertical scrolling, you need to limit the height of `.prism-code-editor{:selector}`, by adding a `height` or `max-height`.
 
 ### Changing the padding
 
-Default padding is `0.75em` left/right and `0.5em` top/bottom. If you want to change it, you can use the custom property `--padding-inline` for left/right. Padding top and bottom can changed by changing the margin on `.pce-wrapper`.
+Default padding is `0.75em` left/right and `0.5em` top/bottom. If you want to change it, you can use the custom property `--padding-inline` for left/right. Padding top and bottom can changed by changing the margin on `.pce-wrapper{:selector}`.
 
 ### State classes
 
-There are many classes added to `.prism-code-editor` you can yse to style the editor depending on its state:
+There are many classes added to `.prism-code-editor{:selector}` you can yse to style the editor depending on its state:
 
 - `pce-has-selection` if the textarea has a selection, and `pce-no-selection` if not.
 - `pce-focus` if the textarea is focused.

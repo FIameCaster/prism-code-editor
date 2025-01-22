@@ -43,7 +43,7 @@ const html = renderCodeBlock({
 
 ## Options
 
-The only argument to `renderCodeBlock` is a [`CodeBlockOptions{:js}`](/api-reference/ssr/t-codeblockoptions) object. These options include a few properties not present in `EditorOptions`: `lineNumberStart`, `preserveIndent`, and `guideIndents`.
+The only argument to `renderCodeBlock(){:js}` is a [`CodeBlockOptions{:js}`](/api-reference/ssr/t-codeblockoptions) object. These options include a few properties not present in `EditorOptions{:js}` such as `lineNumberStart`, `preserveIndent`, and `guideIndents`.
 
 ### `preserveIndent`
 
@@ -76,11 +76,11 @@ const html = renderCodeBlock({
 
 ### `guideIndents`
 
-Unlike the indentation guides in the editors, these are rendered as a repeating linear gradient on `.pce-line::after`. This has the advantage of not requiring any extra elements and supporting `wordWrap`.
+Unlike the indentation guides in the editors, these are rendered as a repeating linear gradient on `.pce-line::after{:selector}`. This has the advantage of not requiring any extra elements and supporting `wordWrap`.
 
 ## Styling
 
-In addition to `prism-code-editor/layout.css`, the code blocks require styles from `prism-code-editor/code-blocks.css`.
+In addition to `prism-code-editor/layout.css`, the code blocks require styles from `prism-code-editor/code-block.css`.
 
 ### DOM Structure
 
@@ -177,7 +177,7 @@ If it returns an array of children, those children are appended to the tooltip t
 
 #### Styling the Tooltip
 
-The library only ensures the tooltip is correctly positioned. You must style it yourself. You can use the selector `.pce-hover-tooltip` to target the container the content is appended to.
+The library only ensures the tooltip is correctly positioned. You must style it yourself. You can use the selector `.pce-hover-tooltip{:selector}` to target the container the content is appended to.
 
 ```css editor="false"
 .pce-hover-tooltip {
@@ -210,7 +210,7 @@ pre.prism-code-editor:hover .token.string {
 ```
 
 <Aside type="note">
-	You shouldn't add a margin to `.pce-hover-tooltip`. Append a container that gets the margin instead.
+	You shouldn't add a margin to `.pce-hover-tooltip{:selector}`. Append a container that gets the margin instead.
 </Aside>
 
 To ensure the tooltip doesn't get too big and overflows, `max-width` and `max-height` are added as inline styles to the tooltip. If you want to set your own `max-width` or `max-height`, you can use the third argument to `addHoverDescription(){:js}`. The values you provide are added as arguments to the CSS [`min(){:css}`](https://developer.mozilla.org/en-US/docs/Web/CSS/min) function, so multiple values can be comma separated.

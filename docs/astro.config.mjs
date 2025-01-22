@@ -3,8 +3,16 @@ import starlight from "@astrojs/starlight"
 import starlightTypeDoc from "starlight-typedoc"
 import { rehypePrismCodeEditor } from "rehype-prism-code-editor"
 import { indentGuides, rainbowBrackets } from "prism-code-editor/ssr"
+import { languages } from "prism-code-editor/prism"
 import "prism-code-editor/prism/languages/common"
 import "prism-code-editor/prism/languages/jsdoc"
+
+languages.selector = {
+	selector: {
+		pattern: /[^]+/,
+		inside: languages.css.selector.inside
+	}
+}
 
 /** @type {import("rehype-prism-code-editor").PcePluginOptions} */
 const pluginOptions = {

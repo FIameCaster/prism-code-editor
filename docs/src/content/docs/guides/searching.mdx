@@ -37,7 +37,7 @@ editor.addExtensions(highlightSelectionMatches())
 
 ### `highlightCurrentWord`
 
-[`highlightCurrentWord(){:js}`](/api-reference/search/f-highlightcurrentword) highlights instances of the word the cursor is currently on. You can also define a filter. In JavaScript, you can exclude any words that start inside a string, comment, keyword, or regex token. The CSS selector `.word-matches span` can be used to style the matches. All included themes add a background to this selector.
+[`highlightCurrentWord(){:js}`](/api-reference/search/f-highlightcurrentword) highlights instances of the word the cursor is currently on. You can also define a filter. In JavaScript, you can exclude any words that start inside a string, comment, keyword, or regex token. The CSS selector `.word-matches span{:selector}` can be used to style the matches. All included themes add a background to this selector.
 
 ```ts editor
 import { highlightCurrentWord } from "prism-code-editor/search"
