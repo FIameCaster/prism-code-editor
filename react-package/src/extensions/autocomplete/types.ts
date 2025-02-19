@@ -46,8 +46,8 @@ export interface Completion {
 		| (string & {})
 	/**
 	 * Text to insert when the completion is selected. Tabs are replaced with spaces when
-	 * `options.insertSpaces` isn't set to `false`. Line feeds are replaced by the
-	 * indentation at the current line.
+	 * `options.insertSpaces` isn't set to `false`. The current indentation is preserved
+	 * when line feeds (\n) are found.
 	 *
 	 * If omitted, the inserted text defaults to `label`.
 	 */
@@ -57,7 +57,7 @@ export interface Completion {
 	 * defines the end of that range. The ranges are relative to the start of the inserted
 	 * text. The first range is selected initially.
 	 *
-	 * If there are multiple ranges, the Tab key can ke used to select the next tab stop.
+	 * If there are multiple ranges, the Tab key can be used to select the next tab stop.
 	 * Once the final tab stop is selected or Escape is pressed, the tab stops disappear.
 	 *
 	 * The ranges must not overlap.
@@ -94,7 +94,7 @@ export interface CompletionContext {
 	before: string
 	/** The line before the cursor. */
 	lineBefore: string
-	/** The cursor position in the document. */
+	/** The cursor's position in the document. */
 	pos: number
 	/** The language at the cursor's position. */
 	language: string

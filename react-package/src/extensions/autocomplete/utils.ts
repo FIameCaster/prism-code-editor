@@ -51,10 +51,10 @@ const completeFromList = (options: Completion[]): CompletionSource<{ path: strin
  * type of the token and its starting position. If the filter returns true, the token
  * will be searched.
  * @param pattern Pattern used to search for words.
- * @param init Words to initialize the result with.
+ * @param init Words that should be completed even if they're not found in the document.
  * @param tokensOnly If `true` only the text of tokens whoose `content` is a string will
- * be searched. If not any string inside the {@link TokenStream} can be searched.
- * @returns An array with found identifers/words.
+ * be searched. If `false`, any string inside the {@link TokenStream} can be searched.
+ * @returns A set with found identifers/words.
  */
 const findWords = (
 	context: CompletionContext,
@@ -114,7 +114,7 @@ const findWords = (
 
 	search(editor.tokens, 0, language == editor.props.language)
 
-	return [...result]
+	return result
 }
 
 export { optionsFromKeys, updateMatched, updateNode, findWords, completeFromList }

@@ -103,28 +103,27 @@ const cssCompletion = (
 								options = pseudoClasses
 							}
 						} else if (charBefore == ".") {
-							options = findWords(
-								context,
-								editor,
-								type => type == "selector" || type == "class",
-								/.+/g,
-								classes,
-								true,
-							).map(name => ({ label: name, icon: "keyword" }))
+							options = Array.from(
+								findWords(
+									context,
+									editor,
+									type => type == "selector" || type == "class",
+									/.+/g,
+									classes,
+									true,
+								),
+								name => ({ label: name, icon: "keyword" }),
+							)
 							from--
 						} else if (charBefore != "#") options = tagNames
 					}
 				} else {
-					options = findWords(
-						context,
-						editor,
-						type => type == "variable",
-						/.+/g,
-						variables,
-						true,
-					).map(name => ({
-						label: name,
-					}))
+					options = Array.from(
+						findWords(context, editor, type => type == "variable", /.+/g, variables, true),
+						name => ({
+							label: name,
+						}),
+					)
 					options.push(...(currentStatement.includes(":") ? cssValues : getCSSProperties()))
 				}
 			}
