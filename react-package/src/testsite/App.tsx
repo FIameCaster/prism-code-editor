@@ -35,7 +35,7 @@ import {
 	useAutoComplete,
 } from "../extensions/autocomplete"
 import {
-	completeIdentifiers,
+	jsCompletion,
 	completeKeywords,
 	globalReactAttributes,
 	jsContext,
@@ -211,8 +211,7 @@ function App() {
 registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 	context: jsContext,
 	sources: [
-		// completeScope(window),
-		completeIdentifiers(),
+		jsCompletion(window),
 		completeKeywords,
 		jsDocCompletion,
 		jsxTagCompletion(reactTags, globalReactAttributes),

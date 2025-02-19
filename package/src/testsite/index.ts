@@ -33,7 +33,7 @@ import { getClosestToken } from "../utils"
 import { autoComplete, completeFromList, registerCompletions } from "../extensions/autocomplete"
 import {
 	completeKeywords,
-	completeIdentifiers,
+	jsCompletion,
 	jsContext,
 	jsDocCompletion,
 	jsSnipets,
@@ -249,8 +249,7 @@ ${data.get("editor")}`)
 registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 	context: jsContext,
 	sources: [
-		// completeScope(window),
-		completeIdentifiers(),
+		jsCompletion(window),
 		completeKeywords,
 		jsDocCompletion,
 		jsxTagCompletion(reactTags, globalReactAttributes),

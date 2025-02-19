@@ -6,6 +6,7 @@ const tags: Completion[] =
 		.split(",")
 		.map(label => ({ label, icon: "keyword" }))
 
+/** Completion source that adds completion of JSDoc tags. */
 const jsDocCompletion: CompletionSource = (context, editor) => {
 	if (
 		getClosestToken(editor, ".doc-comment", 0, 0, context.pos) &&
