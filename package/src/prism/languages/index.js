@@ -267,6 +267,7 @@ import './textile.js';
 import './toml.js';
 import './tremor.js';
 import './tsx.js';
+import './astro.js';
 import './tt2.js';
 import './twig.js';
 import './typoscript.js';

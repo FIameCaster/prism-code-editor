@@ -6,6 +6,11 @@ var entity = [
 	/&#x?[a-f\d]{1,8};/i
 ];
 
+var xmlComment = {
+	pattern: /<!--(?:(?!<!--)[\s\S])*?-->/g,
+	greedy: true
+};
+
 var tag = {
 	pattern: /<\/?(?!\d)[^\s/=>$<%]+(?:\s(?:\s*[^\s/=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*\/?>/g,
 	greedy: true,
@@ -36,4 +41,4 @@ var tag = {
 	}
 };
 
-export { entity, tag }
+export { entity, tag, xmlComment }

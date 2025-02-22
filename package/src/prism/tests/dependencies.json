@@ -19,6 +19,7 @@
 	"asm6502": [],
 	"asmatmel": [],
 	"aspnet": ["xml", "markup", "csharp"],
+	"astro": ["javascript", "jsx", "typescript", "tsx"],
 	"autohotkey": [],
 	"autoit": [],
 	"avisynth": [],

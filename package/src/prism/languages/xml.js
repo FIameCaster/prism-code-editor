@@ -1,11 +1,8 @@
 import { languages } from '../core.js';
-import { entity, tag } from '../utils/xml-shared.js';
+import { xmlComment, entity, tag } from '../utils/xml-shared.js';
 
 languages.rss = languages.atom = languages.ssml = languages.xml = {
-	'comment': {
-		pattern: /<!--(?:(?!<!--)[\s\S])*?-->/g,
-		greedy: true
-	},
+	'comment': xmlComment,
 	'prolog': {
 		pattern: /<\?[\s\S]+?\?>/g,
 		greedy: true
