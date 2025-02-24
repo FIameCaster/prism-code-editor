@@ -1,5 +1,5 @@
 var myDivElement = <div className="foo" />;
-var myElement = <MyComponent someProperty={true} />;
+var myElement = <MyComponent<string> someProperty={true} />;
 <div {...foo} />
 <Tree.TreeNode.Item leaf={true}></Tree.TreeNode.Item>
 class Test extends Component {
@@ -35,6 +35,11 @@ class Test extends Component {
 		["punctuation", "<"],
 		["tag", [
 			["class-name", "MyComponent"]
+		]],
+		["generic", [
+			["operator", "<"],
+			["builtin", "string"],
+			["operator", ">"]
 		]],
 		["attr-name", ["someProperty"]],
 		["attr-equals", "="],

@@ -104,7 +104,7 @@ interpolationContent.inside = languages.rb = languages.ruby = {
 		pattern: /(\b(?:class|module)\s+|\bcatch\s+\()[\w.\\]+|\b[A-Z_]\w*(?=\s*\.\s*new\b)/,
 		lookbehind: true,
 		inside: {
-			'punctuation': /[.\\]/
+			'punctuation': /[\\.]/
 		}
 	},
 	'regex-literal': [
