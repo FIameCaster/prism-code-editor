@@ -1,0 +1,75 @@
+{{ number + 1 }}
+{{ ok ? 'YES' : 'NO' }}
+<time :title="toTitleDate(date)" :datetime="date">
+	{{ formatDate(date) }}
+</time>
+
+----------------------------------------------------
+
+[
+	["expression", [
+		["punctuation", "{"],
+		["punctuation", "{"],
+		" number ",
+		["operator", "+"],
+		["number", "1"],
+		["punctuation", "}"],
+		["punctuation", "}"]
+	]],
+	["expression", [
+		["punctuation", "{"],
+		["punctuation", "{"],
+		" ok ",
+		["operator", "?"],
+		["string", "'YES'"],
+		["operator", ":"],
+		["string", "'NO'"],
+		["punctuation", "}"],
+		["punctuation", "}"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["time"]],
+		["attr-name", [
+			["punctuation", ":"],
+			"title"
+		]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-js", [
+				["function", ["toTitleDate"]],
+				["punctuation", "("],
+				"date",
+				["punctuation", ")"]
+			]],
+			["punctuation", "\""]
+		]],
+		["attr-name", [
+			["punctuation", ":"],
+			"datetime"
+		]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-js", ["date"]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	["expression", [
+		["punctuation", "{"],
+		["punctuation", "{"],
+		["function", ["formatDate"]],
+		["punctuation", "("],
+		"date",
+		["punctuation", ")"],
+		["punctuation", "}"],
+		["punctuation", "}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["time"]],
+		["punctuation", ">"]
+	]]
+]

@@ -281,6 +281,7 @@ import './verilog.js';
 import './vhdl.js';
 import './vim.js';
 import './visual-basic.js';
+import './vue.js';
 import './warpscript.js';
 import './wasm.js';
 import './web-idl.js';

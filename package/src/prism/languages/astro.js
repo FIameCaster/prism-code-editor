@@ -1,8 +1,8 @@
-import { languages } from "../core.js";
-import { braces, spread } from "../utils/jsx-shared.js";
-import { addInlined } from "../utils/markup-shared.js";
-import { re } from "../utils/shared.js";
-import { xmlComment, entity } from "../utils/xml-shared.js";
+import { languages } from '../core.js';
+import { braces, spread } from '../utils/jsx-shared.js';
+import { addInlined } from '../utils/markup-shared.js';
+import { re } from '../utils/shared.js';
+import { xmlComment, entity } from '../utils/xml-shared.js';
 
 var tagInside = {
 	'punctuation': /^<\/?|\/?>$/,

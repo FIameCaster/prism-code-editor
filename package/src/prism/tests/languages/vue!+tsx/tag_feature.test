@@ -1,0 +1,142 @@
+<div class="name"> ... </div>
+<p v-if="seen">Now you see me</p>
+<a @click="doSomething"> ... </a>
+<a @[eventName]="doSomething"> ... </a>
+<a :[someAttr]="value"> ... </a>
+<form @submit.prevent="onSubmit"> ... </form>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["class"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"name",
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	" ... ",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["attr-name", ["v-if"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-js", ["seen"]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	"Now you see me",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["a"]],
+		["attr-name", [
+			["punctuation", "@"],
+			"click"
+		]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-js", ["doSomething"]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	" ... ",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["a"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["a"]],
+		["attr-name", [
+			["punctuation", "@"],
+			["punctuation", "["],
+			"eventName",
+			["punctuation", "]"]
+		]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-js", ["doSomething"]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	" ... ",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["a"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["a"]],
+		["attr-name", [
+			["punctuation", ":"],
+			["punctuation", "["],
+			"someAttr",
+			["punctuation", "]"]
+		]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-js", ["value"]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	" ... ",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["a"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["form"]],
+		["attr-name", [
+			["punctuation", "@"],
+			"submit",
+			["punctuation", "."],
+			"prevent"
+		]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-js", ["onSubmit"]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	" ... ",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["form"]],
+		["punctuation", ">"]
+	]]
+]

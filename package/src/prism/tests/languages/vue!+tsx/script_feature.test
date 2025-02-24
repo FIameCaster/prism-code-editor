@@ -1,0 +1,38 @@
+<script setup>
+import { ref } from 'vue'
+const count = ref(0)
+</script>
+
+----------------------------------------------------
+
+[
+	["script", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["script"]],
+			["attr-name", ["setup"]],
+			["punctuation", ">"]
+		]],
+		["block", [
+			["keyword", "import"],
+			["punctuation", "{"],
+			" ref ",
+			["punctuation", "}"],
+			["keyword", "from"],
+			["string", "'vue'"],
+
+			["keyword", "const"],
+			" count ",
+			["operator", "="],
+			["function", ["ref"]],
+			["punctuation", "("],
+			["number", "0"],
+			["punctuation", ")"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["script"]],
+			["punctuation", ">"]
+		]]
+	]]
+]
