@@ -25,7 +25,7 @@ var addInlined = (tagName, lang) => ({
 });
 
 var addAttribute = (attrName, lang) => ({
-	pattern: RegExp(`((?:^|["'\\s])(?:${attrName})\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s"'=>]+)`, 'gi'),
+	pattern: RegExp(`([\\s"']${attrName}\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s"'=>]+)`, 'gi'),
 	lookbehind: true,
 	greedy: true,
 	inside: addLang({

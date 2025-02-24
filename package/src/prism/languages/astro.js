@@ -1,8 +1,8 @@
-import { languages, tokenize, withoutTokenizer } from "../core.js";
+import { languages } from "../core.js";
 import { braces, spread } from "../utils/jsx-shared.js";
+import { addInlined } from "../utils/markup-shared.js";
 import { re } from "../utils/shared.js";
 import { xmlComment, entity } from "../utils/xml-shared.js";
-import './tsx.js';
 
 var tagInside = {
 	'punctuation': /^<\/?|\/?>$/,
@@ -41,25 +41,6 @@ var tagInside = {
 	}
 };
 
-var addInlined = (tagName, getLang) => ({
-	pattern: RegExp(`<${tagName}(?:\\s[^>]*)?>[\\s\\S]*?</${tagName}\\s*>`, 'g'),
-	greedy: true,
-	inside: {
-		'block': {
-			pattern: /(>)[\s\S]+(?=<)/,
-			lookbehind: true
-		},
-		'tag': {
-			pattern: /[\s\S]+/,
-			inside: tagInside
-		},
-		[tokenize]: (code, grammar) => {
-			grammar['block'].alias = 'language-' + (grammar['block'].inside = getLang(code));
-			return withoutTokenizer(code, grammar);
-		}
-	}
-});
-
 var astro = languages.astro = {
 	'comment': xmlComment,
 	'front-matter-block': {
@@ -73,11 +54,11 @@ var astro = languages.astro = {
 			}
 		}
 	},
-	'script': addInlined('script', code => {
-		return /^<[^>]+?[\s"'}]is:inline\b/.test(code) ? "javascript" : "typescript";
+	'script': addInlined('script', tagInside, code => {
+		return /^[^>]+?[\s"'}]is:inline\b/.test(code) ? "javascript" : "typescript";
 	}),
-	'style': addInlined('style', code => {
-		var lang = /^<[^>]+?[\s"'}]lang\s*=\s*["']([^"']+)["']/.exec(code)?.[1];
+	'style': addInlined('style', tagInside, code => {
+		var lang = /^[^>]+?[\s"'}]lang\s*=\s*["'](less|sass|s?css|stylus)["']/.exec(code)?.[1];
 		return lang && languages[lang] ? lang : "css";
 	}),
 	'expression': {
