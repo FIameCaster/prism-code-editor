@@ -1,0 +1,83 @@
+<script lang="ts">
+	let count = $state<number>(0);
+</script>
+
+<button onclick={(e: Event) => count++}>
+  count is {count as number}
+</button>
+
+----------------------------------------------------
+
+[
+	["script", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["script"]],
+			["attr-name", ["lang"]],
+			["attr-equals", "="],
+			["attr-value", [
+				["punctuation", "\""],
+				"ts",
+				["punctuation", "\""]
+			]],
+			["punctuation", ">"]
+		]],
+		["block", [
+			["keyword", "let"],
+			" count ",
+			["operator", "="],
+			["generic-function", [
+				["function", "$state"],
+				["generic", [
+					["operator", "<"],
+					["builtin", "number"],
+					["operator", ">"]
+				]]
+			]],
+			["punctuation", "("],
+			["number", "0"],
+			["punctuation", ")"],
+			["punctuation", ";"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["script"]],
+			["punctuation", ">"]
+		]]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["button"]],
+		["attr-name", ["onclick"]],
+		["attr-equals", "="],
+		["expression", [
+			["punctuation", "{"],
+			["punctuation", "("],
+			"e",
+			["operator", ":"],
+			["maybe-class-name", "Event"],
+			["punctuation", ")"],
+			["operator", "=>"],
+			" count",
+			["operator", "++"],
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]],
+
+	"\n  count is ",
+	["expression", [
+		["punctuation", "{"],
+		"count ",
+		["keyword", "as"],
+		["builtin", "number"],
+		["punctuation", "}"]
+	]],
+
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["button"]],
+		["punctuation", ">"]
+	]]
+]

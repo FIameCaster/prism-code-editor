@@ -255,6 +255,7 @@ import './stan.js';
 import './stata.js';
 import './stylus.js';
 import './supercollider.js';
+import './svelte.js';
 import './swift.js';
 import './systemd.js';
 import './t4-cs.js';

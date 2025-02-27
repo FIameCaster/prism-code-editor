@@ -49,17 +49,17 @@ languages.vue = {
 	'comment': xmlComment,
 	'script': addInlined('script', tagInside, code => {
 		var lang = /^[^>]+?[\s"']lang\s*=\s*(["'])([jt]sx?)\1/.exec(code)?.[2];
-		return lang && languages[lang] ? lang : "js";
+		return lang && languages[lang] ? lang : 'js';
 	}),
 	'style': addInlined('style', tagInside, code => {
 		var lang = /^[^>]+?[\s"']lang\s*=\s*(["'])(less|sass|s?css|stylus)\1/.exec(code)?.[2];
-		return lang && languages[lang] ? lang : "css";
+		return lang && languages[lang] ? lang : 'css';
 	}),
 	'expression': expression,
 	'tag': vueTag,
 	'entity': entity,
 	[tokenize](code, grammar) {
-		var lang = /<script\s(?:[^>]*?[\s"'])?lang\s*=\s*(["'])([jt]s)x?\1/.exec(code)?.[2] || "js";
+		var lang = /<script\s(?:[^>]*?[\s"'])?lang\s*=\s*(["'])([jt]s)x?\1/.exec(code)?.[2] || 'js';
 
 		if (lang != currentLang) {
 			expression.alias = 'language-' + lang;

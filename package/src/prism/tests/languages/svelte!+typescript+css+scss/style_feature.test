@@ -1,0 +1,78 @@
+<style>
+	div {
+		color: red;
+	}
+</style>
+
+<style lang="scss">
+	$primary-color: #333;
+	body {
+		color: $primary-color;
+	}
+</style>
+
+----------------------------------------------------
+
+[
+	["style", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["style"]],
+			["punctuation", ">"]
+		]],
+		["block", [
+			["selector", "div"],
+			["punctuation", "{"],
+
+			["property", "color"],
+			["punctuation", ":"],
+			" red",
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["style"]],
+			["punctuation", ">"]
+		]]
+	]],
+
+	["style", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["style"]],
+			["attr-name", ["lang"]],
+			["attr-equals", "="],
+			["attr-value", [
+				["punctuation", "\""],
+				"scss",
+				["punctuation", "\""]
+			]],
+			["punctuation", ">"]
+		]],
+		["block", [
+			["property", [
+				["variable", "$primary-color"]
+			]],
+			["punctuation", ":"],
+			" #333",
+			["punctuation", ";"],
+
+			["selector", ["body "]],
+			["punctuation", "{"],
+
+			["property", ["color"]],
+			["punctuation", ":"],
+			["variable", "$primary-color"],
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["style"]],
+			["punctuation", ">"]
+		]]
+	]]
+]

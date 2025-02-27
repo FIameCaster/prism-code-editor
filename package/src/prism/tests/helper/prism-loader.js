@@ -15,7 +15,7 @@ import fs from "fs"
 import { addJsxTag, braces, space, spread } from "../../utils/jsx-shared.js"
 import { entity, tag, xmlComment } from "../../utils/xml-shared.js"
 import { clikeClass } from "../../utils/clike-class.js"
-import { addInlined } from "../../utils/markup-shared.js"
+import { addInlined, astroTag } from "../../utils/markup-shared.js"
 
 /** @type {Map<string, Function>} */
 const cache = new Map()
@@ -49,6 +49,7 @@ const imports = {
 	spread,
 	xmlComment,
 	addInlined,
+	astroTag,
 }
 
 const args = Object.keys(imports)

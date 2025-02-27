@@ -1,4 +1,6 @@
-import { tokenize, withoutTokenizer } from "../core.js";
+import { tokenize, withoutTokenizer } from '../core.js';
+import { braces } from './jsx-shared.js';
+import { re } from './shared.js';
 
 /**
  * @param {string} tagName
@@ -24,4 +26,39 @@ var addInlined = (tagName, tagInside, getLang) => ({
 	}
 });
 
-export { addInlined };
+/**
+ * @param {*} expression
+ */
+var astroTag = expression => ({
+	pattern: re(
+		/<\/?(?:(?!\d)[^\s%=<>/]+(?:\s(?:\s*(?:[^\s{=<>/]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|<0>)?|(?=[\s/>]))|<0>))*)?\s*\/?)?>/.source, [braces], 'g'
+	),
+	greedy: true,
+	inside: {
+		'punctuation': /^<\/?|\/?>$/,
+		'tag': {
+			pattern: /^\S+/,
+			inside: {
+				'namespace': /^[^:]+:/,
+				'class-name': /^[A-Z]\w*(?:\.[A-Z]\w*)*$/
+			}
+		},
+		'attr-value': {
+			pattern: /(=\s*)(?:"[^"]*"|'[^']*')/,
+			lookbehind: true,
+			inside: {
+				'punctuation': /^["']|["']$/
+			}
+		},
+		'expression': expression,
+		'attr-equals': /=/,
+		'attr-name': {
+			pattern: /\S+/,
+			inside: {
+				'namespace': /^[^:]+:/
+			}
+		}
+	}
+});
+
+export { addInlined, astroTag };

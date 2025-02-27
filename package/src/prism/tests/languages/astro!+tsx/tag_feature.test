@@ -27,7 +27,7 @@
 		]],
 		["attr-name", ["someProperty"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			["boolean", "true"],
 			["punctuation", "}"]
@@ -39,7 +39,7 @@
 		["tag", ["button"]],
 		["attr-name", ["type"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			["maybe-class-name", "Astro"],
 			["punctuation", "."],
@@ -48,7 +48,7 @@
 			["property-access", ["type"]],
 			["punctuation", "}"]
 		]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			"foo",

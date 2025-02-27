@@ -254,6 +254,7 @@
 	"stata": ["mata", "java", "python"],
 	"stylus": [],
 	"supercollider": [],
+	"svelte": [],
 	"swift": [],
 	"systemd": [],
 	"t4-cs": ["csharp"],
