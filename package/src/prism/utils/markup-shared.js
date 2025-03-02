@@ -31,7 +31,7 @@ var addInlined = (tagName, tagInside, getLang) => ({
  */
 var astroTag = expression => ({
 	pattern: re(
-		/<\/?(?:(?!\d)[^\s%=<>/]+(?:\s(?:\s*(?:[^\s{=<>/]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|<0>)?|(?=[\s/>]))|<0>))*)?\s*\/?)?>/.source, [braces], 'g'
+		/<\/?(?:(?!\d)[^\s%=<>/]+(?:\s(?:\s*(?:[^\s{=<>/]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s{=<>/"']+(?=[\s/>])|<0>)?|(?=[\s/>]))|<0>))*)?\s*\/?)?>/.source, [braces], 'g'
 	),
 	greedy: true,
 	inside: {
@@ -44,7 +44,7 @@ var astroTag = expression => ({
 			}
 		},
 		'attr-value': {
-			pattern: /(=\s*)(?:"[^"]*"|'[^']*')/,
+			pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s>{]+)/,
 			lookbehind: true,
 			inside: {
 				'punctuation': /^["']|["']$/

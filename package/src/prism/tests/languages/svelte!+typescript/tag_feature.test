@@ -50,7 +50,7 @@
 		["tag", ["input"]],
 		["attr-name", ["type"]],
 		["attr-equals", "="],
-		["attr-name", ["checkbox"]],
+		["attr-value", ["checkbox"]],
 		["punctuation", "/>"]
 	]],
 

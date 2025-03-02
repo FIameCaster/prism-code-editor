@@ -22,13 +22,13 @@ var attrInside = {
 
 tagInside['attr-value'].unshift(
 	{
-		pattern: /([\s"'](?::|@|v-)[^\s/=>]+\s*=\s*)(?:"[^"]*"|'[^']*'|[^\s"'=>]+)/g,
+		pattern: /([\s"'](?::|@|v-)[^\s/=>]+\s*=\s*)(?:"[^"]*"|'[^']*'|[^\s>]+)/g,
 		lookbehind: true,
 		greedy: true,
 		inside: attrInside
 	},
 	{
-		pattern: /([\s"']style\s*=\s*)(?:"[^"]*"|'[^']*'|[^\s"'=>]+)/g,
+		pattern: /([\s"']style\s*=\s*)(?:"[^"]*"|'[^']*'|[^\s>]+)/g,
 		lookbehind: true,
 		greedy: true,
 		inside: {

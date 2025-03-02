@@ -1,4 +1,4 @@
-<div class="foo">
+<div class="foo" title=bar>
 	<MyComponent someProperty={true} />
 	<button type={Astro.props.type} {...foo}>
 		Click me
@@ -18,6 +18,9 @@
 			"foo",
 			["punctuation", "\""]
 		]],
+		["attr-name", ["title"]],
+		["attr-equals", "="],
+		["attr-value", ["bar"]],
 		["punctuation", ">"]
 	]],
 	["tag", [
