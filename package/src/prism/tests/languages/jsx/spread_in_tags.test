@@ -11,7 +11,7 @@
 	["tag", [
 		["punctuation", "<"],
 		["tag", ["div"]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			"foo",
@@ -28,7 +28,7 @@
 	["tag", [
 		["punctuation", "<"],
 		["tag", ["div"]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			"foo ",
@@ -45,7 +45,7 @@
 	["tag", [
 		["punctuation", "<"],
 		["tag", ["div"]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			" foo ",
@@ -62,7 +62,7 @@
 	["tag", [
 		["punctuation", "<"],
 		["tag", ["div"]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			["punctuation", "{"],
@@ -83,7 +83,7 @@
 	["tag", [
 		["punctuation", "<"],
 		["tag", ["div"]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			["function", ["foo"]],
@@ -102,7 +102,7 @@
 	["tag", [
 		["punctuation", "<"],
 		["tag", ["div"]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			["punctuation", "("],

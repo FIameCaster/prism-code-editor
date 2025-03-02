@@ -8,7 +8,7 @@
 		["tag", [
 			["class-name", "Child"]
 		]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			["keyword", "this"],

@@ -10,7 +10,7 @@
 		]],
 		["attr-name", ["options"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			["punctuation", "{"],
 			["literal-property", "track"],

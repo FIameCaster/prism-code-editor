@@ -3,14 +3,14 @@ import { languageMap } from "../core"
 import { Bracket, BracketMatcher } from "../extensions/matchBrackets"
 import { Tag, TagMatcher } from "../extensions/matchTags"
 import { re } from "../prism/utils/shared"
-import { space, braces, spread } from "../prism/utils/jsx-shared"
+import { space, braces } from "../prism/utils/jsx-shared"
 import { getClosestToken, getLineBefore } from "../utils"
 import { autoCloseTags, clikeComment, clikeIndent, testBracketPair } from "./shared"
 
 const openingTag = re(
-	/(?:^|[^$\w])<(?:(?!\d)([^\s%=<>/]+)(?:(?:<0>|<0>*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>)(?:<0>*(?:[^\s"'{=<>/*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?=[\s/>]))|<2>))*)?<0>*)?>[ \t]*$/
+	/(?:^|[^$\w])<(?:(?!\d)([^\s%=<>/]+)(?:(?:<0>|<0>*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>)(?:<0>*(?:[^\s"'{=<>/*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?=[\s/>]))|<0>))*)?<0>*)?>[ \t]*$/
 		.source,
-	[space, braces, spread],
+	[space, braces],
 )
 
 const closingTag = /^<\/(?!\d)[^\s%=<>/]*\s*>/

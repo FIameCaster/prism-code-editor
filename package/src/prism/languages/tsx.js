@@ -22,7 +22,7 @@ tag.pattern = RegExp(bracket + `[^\\w$])|(?=</))${
 	tag.pattern.source.replace(space, space + `|(?:${space})*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>`)
 }`, 'g');
 
-insertBefore(tag.inside, 'script', {
+insertBefore(tag.inside, 'attr-value', {
 	'generic': {
 		pattern: re(/(^<0>*)<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>/.source, [space]),
 		lookbehind: true,

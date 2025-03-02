@@ -171,7 +171,7 @@ export default function Form() {
 		["tag", ["form"]],
 		["attr-name", ["onSubmit"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			"handleSubmit",
 			["punctuation", "}"]
@@ -184,7 +184,7 @@ export default function Form() {
 		["tag", ["input"]],
 		["attr-name", ["onChange"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			"handleChange",
 			["punctuation", "}"]
@@ -204,7 +204,7 @@ export default function Form() {
 		["tag", ["button"]],
 		["attr-name", ["onClick"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			"handleClick",
 			["punctuation", "}"]

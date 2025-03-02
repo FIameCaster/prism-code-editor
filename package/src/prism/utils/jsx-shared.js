@@ -4,17 +4,17 @@ import { replace, re } from './shared.js';
 
 var space = /\s|\/\/.*(?!.)|\/\*(?:[^*]|\*(?!\/))*\*\//.source;
 var braces = /\{(?:[^{}]|\{(?:[^{}]|\{[^}]*\})*\})*\}/.source;
-var spread = replace(/\{<0>*\.{3}(?:[^{}]|<1>)*\}/.source, [space, braces]);
 
 var isText = token => token && (!token.type || token.type == 'plain-text');
 
 /**
- * @param {(string | Token)[]} tokens
  * @param {string} code
- * @param {number} position
+ * @param {*} grammar
  */
-var walkTokens = (tokens, code, position) => {
-	for (var i = 0, openedTags = [], l = 0; i < tokens.length; i++) {
+var tokenizer = (code, grammar) => {
+	var position = 0, tokens = withoutTokenizer(code, grammar);
+	var i = 0, openedTags = [], l = 0;
+	for ( ; i < tokens.length; i++, position += length) {
 		var token = tokens[i];
 		var length = token.length;
 		var type = token.type;
@@ -68,7 +68,6 @@ var walkTokens = (tokens, code, position) => {
 			plainText = code.slice(start, position + length);
 			tokens[i] = new Token('plain-text', plainText, plainText);
 		}
-		position += length;
 	}
 	return tokens;
 };
@@ -82,7 +81,7 @@ var addJsxTag = (grammar, name) => {
 	insertBefore(languages[name] = grammar = clone(grammar), 'regex', {
 		'tag': {
 			pattern: re(
-				/<\/?(?:(?!\d)[^\s%=<>/]+(?:<0>(?:<0>*(?:[^\s{=<>/*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?=[\s/>]))|<2>))*)?<0>*\/?)?>/.source, [space, braces, spread], 'g'
+				/<\/?(?:(?!\d)[^\s%=<>/]+(?:<0>(?:<0>*(?:[^\s{=<>/*]+(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?=[\s/>]))|<1>))*)?<0>*\/?)?>/.source, [space, braces], 'g'
 			),
 			greedy: true,
 			inside: {
@@ -94,24 +93,18 @@ var addJsxTag = (grammar, name) => {
 						'class-name': /^[A-Z]\w*(?:\.[A-Z]\w*)*$/
 					}
 				},
-				'script': {
-					// Allow for two levels of nesting
-					pattern: re(/(=<0>*)<1>/.source, [space, braces]),
-					lookbehind: true,
-					alias: name = 'language-' + name,
-					inside: grammar
-				},
-				'spread': {
-					pattern: RegExp(spread),
-					alias: name,
-					inside: grammar
-				},
 				'attr-value': {
 					pattern: re(/(=<0>*)(?:"[^"]*"|'[^']*')/.source, [space]),
 					lookbehind: true,
 					inside: {
 						'punctuation': /^["']|["']$/
 					}
+				},
+				'expression': {
+					pattern: RegExp(braces, 'g'),
+					greedy: true,
+					alias: 'language-' + name,
+					inside: grammar
 				},
 				'comment': grammar['comment'],
 				'attr-equals': /=/,
@@ -125,8 +118,8 @@ var addJsxTag = (grammar, name) => {
 		}
 	});
 
-	grammar[tokenize] = (code, grammar) => walkTokens(withoutTokenizer(code, grammar), code, 0);
+	grammar[tokenize] = tokenizer;
 	return grammar;
-}
+};
 
-export { addJsxTag, space, braces, spread }
+export { addJsxTag, space, braces };

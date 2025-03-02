@@ -12,7 +12,7 @@ import { createT4 } from "../../utils/t4-templating.js"
 import { clone, extend, insertBefore } from "../../utils/language.js"
 import { dependencyGraph } from "./lang-info.js"
 import fs from "fs"
-import { addJsxTag, braces, space, spread } from "../../utils/jsx-shared.js"
+import { addJsxTag, braces, space } from "../../utils/jsx-shared.js"
 import { entity, tag, xmlComment } from "../../utils/xml-shared.js"
 import { clikeClass } from "../../utils/clike-class.js"
 import { addInlined, astroTag } from "../../utils/markup-shared.js"
@@ -46,7 +46,6 @@ const imports = {
 	entity,
 	space,
 	braces,
-	spread,
 	xmlComment,
 	addInlined,
 	astroTag,

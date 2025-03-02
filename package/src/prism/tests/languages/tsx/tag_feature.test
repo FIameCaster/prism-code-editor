@@ -43,7 +43,7 @@ class Test extends Component {
 		]],
 		["attr-name", ["someProperty"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			["boolean", "true"],
 			["punctuation", "}"]
@@ -55,7 +55,7 @@ class Test extends Component {
 	["tag", [
 		["punctuation", "<"],
 		["tag", ["div"]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			"foo",
@@ -71,7 +71,7 @@ class Test extends Component {
 		]],
 		["attr-name", ["leaf"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			["boolean", "true"],
 			["punctuation", "}"]
@@ -103,7 +103,7 @@ class Test extends Component {
 		["tag", ["p"]],
 		["attr-name", ["onClick"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			["keyword", "this"],
 			["punctuation", "."],

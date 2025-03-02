@@ -10,14 +10,14 @@
 		]],
 		["attr-name", ["title"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			["tag", [
 				["punctuation", "<"],
 				["tag", ["span"]],
 				["attr-name", ["title"]],
 				["attr-equals", "="],
-				["script", [
+				["expression", [
 					["punctuation", "{"],
 					["number", "123"],
 					["punctuation", "}"]

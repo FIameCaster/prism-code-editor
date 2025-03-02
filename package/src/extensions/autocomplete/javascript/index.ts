@@ -1,7 +1,7 @@
 /** @module autocomplete/javascript */
 
 import { PrismEditor } from "../../../index.js"
-import { braces, space, spread } from "../../../prism/utils/jsx-shared.js"
+import { braces, space } from "../../../prism/utils/jsx-shared.js"
 import { re } from "../../../prism/utils/shared.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../matchBrackets/index.js"
@@ -45,9 +45,9 @@ const identifier = /* @__PURE__ */ re("^(?!\\d)<0>+$", identifierPattern)
 const pathRE = /* @__PURE__ */ re(/(?:(?!\d)<0>+\s*\??\.\s*)*(?!\d)<0>*$/.source, identifierPattern)
 
 const tagPattern = /* @__PURE__ */ re(
-	/(?:^|[^$\w])(?:<|<(?!\d)([^\s%=<>/]+)(?:(?:<0>|<0>*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>)(?:<0>*(?:([^\s"'{=<>/*]+)(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?![^\s=]))|<2>))*<0>*(?:=<0>*("[^"]*|'[^']*))?)?)$/
+	/(?:^|[^$\w])(?:<|<(?!\d)([^\s%=<>/]+)(?:(?:<0>|<0>*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>)(?:<0>*(?:([^\s"'{=<>/*]+)(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?![^\s=]))|<1>))*<0>*(?:=<0>*("[^"]*|'[^']*))?)?)$/
 		.source,
-	[space, braces, spread],
+	[space, braces],
 )
 
 /**
