@@ -1,13 +1,20 @@
 import { CommentTokens, InputSelection, Language, PrismEditor, languageMap } from "../../index.js"
+import { braces } from "../../prism/utils/jsx-shared.js"
+import { re } from "../../prism/utils/shared.js"
 import { getClosestToken, getLineBefore } from "../../utils/index.js"
 import { voidTags } from "../../utils/local.js"
 
 const clikeIndent = /[([{][^)\]}]*$|^[^.]*\b(?:case .+?|default):\s*$/
 const isBracketPair = /\[]|\(\)|{}/
 const xmlOpeningTag =
-		/<(?![?!\d#@])([^\s/=>$<%]+)(?:\s(?:\s*[^\s/"'=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*>[ \t]*$/
+	/<(?![?!\d#@])([^\s/=>$<%]+)(?:\s(?:\s*[^\s/"'=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*>[ \t]*$/
 const xmlClosingTag = /^<\/(?!\d)[^\s/=>$<%]+\s*>/
 const openBracket = /[([{][^)\]}]*$/
+const astroOpeningTag = /* @__PURE__ */ re(
+	/<(?:(?!\d)([^\s%=<>/]+)(?:\s(?:\s*(?:[^\s{=<>/]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s{=<>/"']+(?=[\s/>])|<0>)?|(?=[\s/>]))|<0>))*)?\s*)?>[ \t]*$/
+		.source,
+	[braces],
+)
 
 const testBracketPair = ([start, end]: InputSelection, value: string) => {
 	return isBracketPair.test(value[start - 1] + value[end])
@@ -107,4 +114,5 @@ export {
 	markupTemplateLang,
 	markupLanguage,
 	markupComment,
+	astroOpeningTag,
 }
