@@ -13,6 +13,8 @@ const registerTheme = (name: string, loader: () => Promise<{ default: string }>)
 /**
  * Asynchronously loads the theme with the specified name.
  * The promise returned resolves with the CSS string for the theme.
+ * This CSS must be added to a `<style>` tag on the page.
+ * @param name Name of the theme.
  */
 const loadTheme = async (name: string) =>
 	(<undefined | { default: string }>await themes[`./${name}.css`]?.())?.default

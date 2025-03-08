@@ -23,9 +23,9 @@ export interface Completion {
 	 * icons.
 	 *
 	 * `prism-react-editor/autocomplete-icons.css` adds 14 icons from VSCode: `class`,
-	 * `constant`, `enum`, `function`, `interface`, `keyword`, `namespace`, `parameter`,
-	 * `property`, `snippet`, `text`, `unit`, and `variable`. You can import your own icons
-	 * instead.
+	 * `constant`, `enum`, `event`, `function`, `interface`, `keyword`, `namespace`,
+	 * `parameter`, `property`, `snippet`, `text`, `unit`, and `variable`. You can import
+	 * your own icons instead.
 	 *
 	 * Defaults to `"variable"`
 	 */
@@ -33,6 +33,7 @@ export interface Completion {
 		| "class"
 		| "constant"
 		| "enum"
+		| "event"
 		| "function"
 		| "interface"
 		| "keyword"
