@@ -1,0 +1,43 @@
+---
+const icons = [
+	"class",
+	"constant",
+	"enum",
+	"event",
+	"function",
+	"interface",
+	"keyword",
+	"namespace",
+	"parameter",
+	"property",
+	"snippet",
+	"text",
+	"unit",
+	"variable",
+]
+---
+
+<ul class="ac-icons">
+	{
+		icons.map(name => (
+			<li class="not-content">
+				<div class={`pce-ac-icon pce-ac-icon-${name}`} style={`color:var(--pce-ac-icon-${name})`} />
+				{name}
+			</li>
+		))
+	}
+</ul>
+
+<style is:global>
+	.ac-icons {
+		padding-left: 1em;
+		line-height: 1.6;
+	}
+	.ac-icons li {
+		display: grid;
+		gap: 0.6em;
+		grid: auto / auto auto;
+		justify-content: start;
+		align-items: center;
+	}
+</style>

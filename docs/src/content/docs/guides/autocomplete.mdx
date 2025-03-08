@@ -7,6 +7,7 @@ import "../../../components/languages/jsx+css+html.astro"
 import "../../../components/editor/Autocomplete.astro"
 import "../../../css/editor-theme.css"
 import { Aside } from "@astrojs/starlight/components"
+import AutocompleteIcons from "../../../components/AutocompleteIcons.astro"
 
 The [`autoComplete(){:js}`](/api-reference/autocomplete/f-autocomplete) extension can be used to show a list of completable options to users while they're typing.
 
@@ -145,6 +146,8 @@ Autocompletion works for nested languages too. Try writing in the script/style t
 	<style>
 		
 	</style>
+	<div style=""></div>
+	<button onclick=""></button>
 	<script>
 	
 	</script>
@@ -193,7 +196,7 @@ The completion items returned have multiple properties to customize their insert
 
 ### Snippets
 
-To create snippets, use the [`insert`](/api-reference/autocomplete/i-completion#insert) property along with [`tabStops`](/api-reference/autocomplete/i-completion#tabstops). If there are line feeds in `insert`, the indentation will be preserved. Tabs are replaced with spaces with `options.insertSpaces{:js}` set to true.
+To create snippets, use the [`insert`](/api-reference/autocomplete/i-completion#insert) property along with [`tabStops`](/api-reference/autocomplete/i-completion#tabstops). The indentation will be preserved if there are line feeds in `insert`. Tabs are replaced with spaces according to the tab size when `options.insertSpaces{:js}` isn't set to false.
 
 ```ts editor
 import { Completion } from "prism-code-editor/autocomplete"
@@ -248,7 +251,9 @@ For the example above, [`completeFromList(){:js}`](/api-reference/autocomplete/f
 
 ## Icons
 
-`prism-code-editor/autocomplete-icons.css` adds 14 icons from VS Code. See [`Completion.icon{:js}`](/api-reference/autocomplete/i-completion#icon) for the names of all included icons.
+`prism-code-editor/autocomplete-icons.css` adds 14 icons from VS Code. Below is a list showing all icons.
+
+<AutocompleteIcons />
 
 ### Using your own
 
