@@ -54,6 +54,7 @@ import { renderCodeBlock } from "../ssr/code-block"
 import { rainbowBrackets } from "../ssr"
 import { addCopyButton, forEachCodeBlock } from "../client/code-block"
 import { addHoverDescriptions, highlightBracketPairsOnHover } from "../client/hover"
+import { vueCompletion } from "../extensions/autocomplete/vue"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -267,6 +268,14 @@ registerCompletions(["svg"], {
 
 registerCompletions(["css"], {
 	sources: [cssCompletion()],
+})
+registerCompletions(["vue"], {
+	sources: [vueCompletion({
+		MyComponent: {
+			onevent: null,
+			hello: ["world"]
+		}
+	})],
 })
 
 document.body.insertAdjacentHTML(

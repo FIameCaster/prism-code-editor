@@ -148,6 +148,17 @@ export type AutoCompleteConfig = {
  */
 export type CompletionFilter = (query: string, option: string) => [number, number[]] | undefined
 
-export type AttributeConfig = Record<string, null | string[]>
+/**
+ * Object mapping attribute names to a list of values for that attribute. For attributes
+ * without a predifined list of possible values, the value should be `null`.
+ */
+export type AttributeConfig = {
+	[attrName: string]: null | string[]
+}
 
-export type TagConfig = Record<string, AttributeConfig>
+/**
+ * Object mapping tag names to completable attributes for that tag.
+ */
+export type TagConfig = {
+	[tagName: string]: AttributeConfig
+}
