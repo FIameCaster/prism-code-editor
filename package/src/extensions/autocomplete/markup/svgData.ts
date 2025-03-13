@@ -1,5 +1,6 @@
 import { AttributeConfig, TagConfig } from "../types.js"
 import {
+	ariaAttributes,
 	attrValueB,
 	attrValueDecoding,
 	attrValueReferrerpolicy,
@@ -191,6 +192,7 @@ const pathAttributes: AttributeConfig = {
 }
 
 const globalSvgAttributes: AttributeConfig = {
+	...ariaAttributes,
 	...htmlEventHandlers,
 	class: null,
 	id: null,
@@ -548,7 +550,7 @@ const svgTags: TagConfig = {
 		systemLanguage: null,
 		version: null,
 		viewBox: null,
-		xmlns: ["http://www.w3.org/2000/svg"]
+		xmlns: ["http://www.w3.org/2000/svg"],
 	},
 	switch: {
 		...presentationAttributes,
