@@ -16,7 +16,7 @@ var addInlined = (tagName, tagInside, getLang) => ({
 			lookbehind: true
 		},
 		'tag': {
-			pattern: /[\s\S]+/,
+			pattern: /[^>]+>/,
 			inside: tagInside
 		},
 		[tokenize]: (code, grammar) => {
@@ -31,7 +31,7 @@ var addInlined = (tagName, tagInside, getLang) => ({
  */
 var astroTag = expression => ({
 	pattern: re(
-		/<\/?(?:(?!\d)[^\s%=<>/]+(?:\s(?:\s*(?:[^\s{=<>/]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s{=<>/"']+(?=[\s/>])|<0>)?|(?=[\s/>]))|<0>))*)?\s*\/?)?>/.source, [braces], 'g'
+		/<\/?(?:(?!\d)[^\s%=<>/]+(?:\s(?:\s*[^\s{=<>/]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s{=<>/"']+(?=[\s/>])|<0>)?|(?=[\s/>]))|\s*<0>)*)?\s*\/?)?>/.source, [braces], 'g'
 	),
 	greedy: true,
 	inside: {
