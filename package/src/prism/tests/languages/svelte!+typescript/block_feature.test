@@ -23,6 +23,14 @@
 	{/if}
 {/each}
 
+{#await promise then value}
+	<p>The value is {value}</p>
+{/await}
+
+{#await promise catch error}
+	<p>The error is {error}</p>
+{/await}
+
 ----------------------------------------------------
 
 [
@@ -277,6 +285,74 @@
 		["punctuation", "{"],
 		["punctuation", "/"],
 		["keyword", "each"],
+		["punctuation", "}"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "#"],
+		["keyword", "await"],
+		["language-js", [" promise "]],
+		["keyword", "then"],
+		["language-js", [" value"]],
+		["punctuation", "}"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	"The value is ",
+	["expression", [
+		["punctuation", "{"],
+		"value",
+		["punctuation", "}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "/"],
+		["keyword", "await"],
+		["punctuation", "}"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "#"],
+		["keyword", "await"],
+		["language-js", [" promise "]],
+		["keyword", "catch"],
+		["language-js", [" error"]],
+		["punctuation", "}"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	"The error is ",
+	["expression", [
+		["punctuation", "{"],
+		"error",
+		["punctuation", "}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "/"],
+		["keyword", "await"],
 		["punctuation", "}"]
 	]]
 ]

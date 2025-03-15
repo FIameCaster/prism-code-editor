@@ -17,7 +17,7 @@ var tagInside = tag.inside;
 
 var blockInside = {
 	'punctuation': /^[{#@:/]|\}$/,
-	'keyword': /^else\s+if|^\w+/
+	'keyword': /^else\s+if|^\w+|\b(?:catch|then)\b(?!\s*[^\s$\w\xa0-\uffff])/
 };
 
 var blockLang = {
@@ -36,7 +36,7 @@ languages.svelte = {
 		return lang && languages[lang] ? lang : 'css';
 	}),
 	'block': {
-		pattern: re(/\{[#@:/]\w+(?:\s(?:[^{}]|<0>)*)?\}/.source, [braces], 'g'),
+		pattern: re(/\{[#@:/]\w*(?:\s(?:[^{}]|<0>)*)?\}/.source, [braces], 'g'),
 		greedy: true,
 		inside: blockInside
 	},
