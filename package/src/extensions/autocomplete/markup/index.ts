@@ -21,12 +21,19 @@ const tagPattern =
  * If completion should happen and the cursor is in a tag, a match array is
  * returned. The match has two capturing groups; the tag's name and the last attribute's
  * name.
+ * 
+ * @param pattern Regular expression used to check if there's a partial tag before the
+ * cursor.
  */
-const getTagMatch = ({ explicit, before, pos }: CompletionContext, editor: PrismEditor) => {
+const getTagMatch = (
+	{ explicit, before, pos }: CompletionContext,
+	editor: PrismEditor,
+	pattern = tagPattern,
+) => {
 	return getClosestToken(editor, ".comment,.cdata,.prolog,.doctype", 0, 0, pos) ||
 		(!explicit && /\s/.test(before.slice(-1)))
 		? false
-		: tagPattern.exec(before)
+		: pattern.exec(before)
 }
 
 /**
