@@ -326,9 +326,11 @@
 		["punctuation", "{"],
 		["punctuation", "#"],
 		["keyword", "await"],
-		["language-js", [" promise "]],
-		["keyword", "catch"],
-		["language-js", [" error"]],
+		["language-js", [
+			" promise ",
+			["keyword", "catch"],
+			" error"
+		]],
 		["punctuation", "}"]
 	]],
 

@@ -17,7 +17,7 @@ var tagInside = tag.inside;
 
 var blockInside = {
 	'punctuation': /^[{#@:/]|\}$/,
-	'keyword': /^else\s+if|^\w+|\b(?:catch|then)\b(?!\s*[^\s$\w\xa0-\uffff])/
+	'keyword': /^else\s+if|^\w+|\bthen\b(?!\s*[^\s[{$\w\xa0-\uffff])/
 };
 
 var blockLang = {
