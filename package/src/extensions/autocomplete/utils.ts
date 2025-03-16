@@ -118,4 +118,17 @@ const findWords = (
 	return result
 }
 
-export { optionsFromKeys, updateMatched, findWords, completeFromList }
+const attrSnippet = (
+	name: string,
+	quotes: string,
+	icon?: Completion["icon"],
+	boost?: number,
+): Completion => ({
+	label: name,
+	icon,
+	insert: name + "=" + quotes,
+	tabStops: [name.length + 2, name.length + 2, name.length + 3],
+	boost,
+})
+
+export { optionsFromKeys, updateMatched, findWords, completeFromList, attrSnippet }

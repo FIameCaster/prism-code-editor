@@ -1,7 +1,7 @@
 import { globalHtmlAttributes, globalSvgAttributes, htmlTags, svgTags } from "../markup/index.js"
 import { getTagMatch } from "../markup/index.js"
 import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"
-import { optionsFromKeys } from "../utils.js"
+import { attrSnippet, optionsFromKeys } from "../utils.js"
 
 const createCompletion = (
 	label: string,
@@ -52,15 +52,15 @@ const enumerateAttrs = (
 		if (attr.slice(0, 2) == "on") {
 			if (!noEvents) {
 				result.push(
-					createCompletion("@" + attr.slice(2), "event", boost),
-					createCompletion("v-on:" + attr.slice(2), "event", boost),
+					attrSnippet("@" + attr.slice(2), '""', "event", boost),
+					attrSnippet("v-on:" + attr.slice(2), '""', "event", boost),
 				)
 			}
 		} else {
 			result.push(
 				createCompletion(attr, "enum", boost),
-				createCompletion(":" + attr, "enum", boost),
-				createCompletion("v-bind:" + attr, "enum", boost),
+				attrSnippet(":" + attr, '""', "enum", boost),
+				attrSnippet("v-bind:" + attr, '""', "enum", boost),
 			)
 		}
 	}
@@ -75,10 +75,10 @@ const vueAttrs = enumerateAttrs({
 const globalsNoEvents = enumerateAttrs(globalHtmlAttributes, [], true)
 
 /**
- * Adds completion for HTML and SVG tags to Vue. When configured, it can also provide
- * completion for Vue components.
+ * Completion source that adds completion for HTML and SVG tags to Vue. When configured,
+ * it can also provide completion for specific Vue components.
  * @param components Used to configure autocompletion for Vue components. This is an
- * object mapping a components name to the properties available for that component.
+ * object mapping each component's name to the properties available for that component.
  * To provide completion for events, prefix them with `on`. Passing `onevent` will result
  * in completions for `@event` or `v-on:event` for example. Camel cased props are not
  * converted to kebab case.

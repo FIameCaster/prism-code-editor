@@ -9,7 +9,7 @@ import {
 	svgTags,
 } from "../markup/index.js"
 import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"
-import { optionsFromKeys } from "../utils.js"
+import { attrSnippet, optionsFromKeys } from "../utils.js"
 
 const tagPattern = /* @__PURE__ */ re(
 	/<$|<(?!\d)([^\s%=<>/]+)(?:\s(?:\s*([^\s{=<>/]+)(?:\s*=\s*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|[^\s{=<>/"']+(?!\S])|<0>)?|(?![^\s=]))|\s*<0>)*)?\s*$/
@@ -102,9 +102,9 @@ const enumerateAttrs = (attrs: AttributeConfig, result: Completion[] = []) => {
 	for (let attr in attrs) {
 		if (attr.slice(0, 2) == "on") {
 			result.push(
-				createCompletion("on:" + attr.slice(2), "event"),
-				createCompletion(attr, "event"),
-				createCompletion(attr + "capture", "event"),
+				attrSnippet("on:" + attr.slice(2), "{}", "event"),
+				attrSnippet(attr, "{}", "event"),
+				attrSnippet(attr + "capture", "{}", "event"),
 			)
 		} else {
 			result.push(createCompletion(attr, "enum"))
@@ -115,7 +115,7 @@ const enumerateAttrs = (attrs: AttributeConfig, result: Completion[] = []) => {
 
 const addBinds = (binds: string[], options: Completion[]) => {
 	for (let i = 0; i < binds.length; ) {
-		options.push(createCompletion("bind:" + binds[i++], "enum"))
+		options.push(attrSnippet("bind:" + binds[i++], "{}", "enum"))
 	}
 }
 
