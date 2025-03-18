@@ -48,12 +48,10 @@ tagInside['tag'].inside['class-name'] = /^[A-Z]\w*(?:\.[A-Z]\w*)*$/;
 languages.vue = {
 	'comment': xmlComment,
 	'script': addInlined('script', tagInside, code => {
-		var lang = /^[^>]+?[\s"']lang\s*=\s*(["'])([jt]sx?)\1/.exec(code)?.[2];
-		return lang && languages[lang] ? lang : 'js';
+		return /^[^>]+?[\s"']lang\s*=\s*(["'])([jt]sx?)\1/.exec(code)?.[2] || 'js';
 	}),
 	'style': addInlined('style', tagInside, code => {
-		var lang = /^[^>]+?[\s"']lang\s*=\s*(["'])(less|sass|s?css|stylus)\1/.exec(code)?.[2];
-		return lang && languages[lang] ? lang : 'css';
+		return /^[^>]+?[\s"']lang\s*=\s*(["'])(less|s[ac]ss|stylus)\1/.exec(code)?.[2] || "css";
 	}),
 	'expression': expression,
 	'tag': vueTag,

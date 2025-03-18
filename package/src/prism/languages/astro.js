@@ -22,7 +22,7 @@ var astro = languages.astro = {
 		greedy: true,
 		inside: {
 			'punctuation': /^---|---$/,
-			'language-typecript': {
+			'language-typescript': {
 				pattern: /[\s\S]+/,
 				inside: 'ts'
 			}
@@ -32,8 +32,7 @@ var astro = languages.astro = {
 		return /^[^>]+?[\s"'}]is:inline\b/.test(code) ? 'javascript' : 'typescript';
 	}),
 	'style': addInlined('style', tagInside, code => {
-		var lang = /^[^>]+?[\s"'}]lang\s*=\s*["'](less|sass|s?css|stylus)["']/.exec(code)?.[1];
-		return lang && languages[lang] ? lang : 'css';
+		return /^[^>]+?[\s"'}]lang\s*=\s*(["'])(less|s[ac]ss|stylus)\1/.exec(code)?.[2] || 'css';
 	}),
 	'expression': expression,
 	'tag': tag,

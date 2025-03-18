@@ -9,7 +9,7 @@ type Props = {
 [
 	["front-matter-block", [
 		["punctuation", "---"],
-		["language-typecript", [
+		["language-typescript", [
 			["keyword", "type"],
 			["class-name", ["Props"]],
 			["operator", "="],
