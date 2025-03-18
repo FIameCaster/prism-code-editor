@@ -464,4 +464,4 @@ const autoComplete =
 		})
 	}
 
-export { autoComplete, registerCompletions }
+export { autoComplete, registerCompletions, map }
