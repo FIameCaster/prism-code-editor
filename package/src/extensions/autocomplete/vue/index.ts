@@ -1,7 +1,7 @@
 import { globalHtmlAttributes, globalSvgAttributes, htmlTags, svgTags } from "../markup/index.js"
 import { getTagMatch } from "../markup/index.js"
 import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"
-import { attrSnippet, optionsFromKeys } from "../utils.js"
+import { attrSnippet, completionsFromRecords, optionsFromKeys } from "../utils.js"
 
 const createCompletion = (
 	label: string,
@@ -13,9 +13,7 @@ const createCompletion = (
 	boost,
 })
 
-const tagNames = Array.from(new Set(Object.keys(htmlTags).concat(Object.keys(svgTags))), name =>
-	createCompletion(name, "property"),
-)
+const tagNames = completionsFromRecords([htmlTags, svgTags], "property")
 
 const langs = {
 	script: ["js", "ts", "jsx", "tsx"],

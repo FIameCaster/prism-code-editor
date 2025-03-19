@@ -4,7 +4,7 @@ import { TokenStream } from "../../prism/types.js"
 import { updateNode } from "../../utils/local.js"
 import { matchTemplate } from "../search/search.js"
 import { map } from "./tooltip.js"
-import { Completion, CompletionContext, CompletionSource } from "./types.js"
+import { Completion, CompletionContext, CompletionSource} from "./types.js"
 
 const optionsFromKeys = (obj: object, icon?: string): Completion[] =>
 	Object.keys(obj).map(tag => ({ label: tag, icon }))
@@ -134,4 +134,27 @@ const attrSnippet = (
 	boost,
 })
 
-export { optionsFromKeys, updateMatched, findWords, completeFromList, attrSnippet }
+const completionsFromRecords = (
+	records: (Record<string, unknown> | undefined)[],
+	icon?: Completion["icon"],
+): Completion[] => {
+	const names = new Set<string>()
+
+	records.forEach(tags => {
+		for (let key in tags) names.add(key)
+	})
+
+	return Array.from(names, name => ({
+		label: name,
+		icon: icon,
+	}))
+}
+
+export {
+	optionsFromKeys,
+	updateMatched,
+	findWords,
+	completeFromList,
+	attrSnippet,
+	completionsFromRecords,
+}

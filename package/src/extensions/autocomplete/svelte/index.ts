@@ -9,7 +9,7 @@ import {
 	svgTags,
 } from "../markup/index.js"
 import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"
-import { attrSnippet, optionsFromKeys } from "../utils.js"
+import { attrSnippet, completionsFromRecords, optionsFromKeys } from "../utils.js"
 
 const tagPattern = /* @__PURE__ */ re(
 	/<$|<(?!\d)([^\s%=<>/]+)(?:\s(?:\s*([^\s{=<>/]+)(?:\s*=\s*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|[^\s{=<>/"']+(?!\S])|<0>)?|(?![^\s=]))|\s*<0>)*)?\s*$/
@@ -93,10 +93,7 @@ const createCompletion = (label: string, icon?: Completion["icon"]): Completion 
 	icon,
 })
 
-const tagNames = Array.from(
-	new Set(Object.keys(htmlTags).concat(Object.keys(svgTags), Object.keys(svelteTags))),
-	name => createCompletion(name, "property"),
-)
+const tagNames = completionsFromRecords([htmlTags, svgTags, svelteTags], "property")
 
 const enumerateAttrs = (attrs: AttributeConfig, result: Completion[] = []) => {
 	for (let attr in attrs) {

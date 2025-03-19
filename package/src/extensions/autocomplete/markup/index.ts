@@ -9,7 +9,7 @@ import {
 	CompletionSource,
 	TagConfig,
 } from "../types.js"
-import { optionsFromKeys } from "../utils.js"
+import { completionsFromRecords } from "../utils.js"
 
 const tagPattern =
 	/<$|<(?![!\d])([^\s/=>$<%]+)(?:\s(?:\s*([^\s/"'=>]+)(?:\s*=\s*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|[^\s"'=>]+(?!\S))?|(?![^\s=])))*\s*)?$/
@@ -21,7 +21,7 @@ const tagPattern =
  * If completion should happen and the cursor is in a tag, a match array is
  * returned. The match has two capturing groups; the tag's name and the last attribute's
  * name.
- * 
+ *
  * @param pattern Regular expression used to check if there's a partial tag before the
  * cursor.
  */
@@ -37,15 +37,26 @@ const getTagMatch = (
 }
 
 /**
- * Completion source that adds auto completion for HTML tags.
- * @param tags Object mapping tag-names to completable attributes for that tag.
- * @param globalAttributes Completable attributes shared by all tags.
+ * Completion source that adds auto completion for specified tags.
+ * @param namespaces Array of different namespaces of tags you want to provide
+ * completion for. The `tags` property maps tag names in that namespace to completable
+ * attributes for that tag. The optional `globals` property allows you to override the
+ * global attributes shared by all tags in the namespace. If omitted, the
+ * `globalAttributes` parameter is used.
+ * @param globalAttributes Default global attributes. Used by unrecognized tags or when
+ * the `globals` property is omitted.
+ *  @param nestedSource Completion source that will be used whenever the completion isn't
+ * happening inside a tag. Can be used to provide completion of snippets for example.
  * @returns A Completion source.
  */
-const markupCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): CompletionSource => {
-	const tagOptions = optionsFromKeys(tags, "property")
-	const attrOptions = optionsFromKeys(globalAttributes, "enum")
-
+const markupCompletion = (
+	namespaces: {
+		tags: TagConfig
+		globals?: AttributeConfig
+	}[],
+	globalAttributes?: AttributeConfig,
+	nestedSource?: CompletionSource,
+): CompletionSource => {
 	return (context, editor) => {
 		const tagMatch = getTagMatch(context, editor)
 
@@ -53,20 +64,33 @@ const markupCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): C
 			let [tag, tagName, lastAttr] = tagMatch
 			let start = tagMatch.index
 			let from = start + 1
-			let options: Completion[] | undefined = tagOptions
+			let options: Completion[] | undefined
 
 			if (/\s/.test(tag)) {
-				let tagAttrs = tags[tagName]
-				from = start + tag.search(/[^\s"'=]*$/)
+				let inAttrValue = /=\s*(?:"[^"]*|'[^']*|[^\s"'=]*)$/.test(tag)
+				let i = 0
 
-				if (/=\s*(?:"[^"]*|'[^']*|[^\s"'=]*)$/.test(tag)) {
-					options = (globalAttributes[lastAttr] || tagAttrs?.[lastAttr])?.map(val => ({
-						label: val,
-						icon: "unit",
-					}))
-				} else {
-					options = tagAttrs ? attrOptions.concat(optionsFromKeys(tagAttrs, "enum")) : attrOptions
+				for (; ; i++) {
+					let tags = namespaces[i]?.tags
+					let globals = namespaces[i]?.globals || globalAttributes
+					let tagAttrs = tags?.[tagName]
+
+					if ((!tags && globals) || tagAttrs) {
+						if (inAttrValue) {
+							options = (globals?.[lastAttr] || tagAttrs?.[lastAttr])?.map(val => ({
+								label: val,
+								icon: "unit",
+							}))
+						} else {
+							options = completionsFromRecords([tagAttrs, globals], "enum")
+						}
+						break
+					}
 				}
+
+				from = start + tag.search(/[^\s"'=]*$/)
+			} else {
+				options = completionsFromRecords(namespaces.map(n => n.tags), "property")
 			}
 
 			if (options) {
@@ -76,6 +100,8 @@ const markupCompletion = (tags: TagConfig, globalAttributes: AttributeConfig): C
 				}
 			}
 		}
+
+		if (tagMatch != false) return nestedSource?.(context, editor)
 	}
 }
 

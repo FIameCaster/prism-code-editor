@@ -45,6 +45,8 @@ import {
 	globalHtmlAttributes,
 	globalSvgAttributes,
 	svgTags,
+	mathMLTags,
+	globalMathMLAttributes,
 } from "../extensions/autocomplete/markup"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
 import { cssCompletion } from "../extensions/autocomplete/css"
@@ -55,6 +57,8 @@ import { rainbowBrackets } from "../ssr"
 import { addCopyButton, forEachCodeBlock } from "../client/code-block"
 import { addHoverDescriptions, highlightBracketPairsOnHover } from "../client/hover"
 import { vueCompletion } from "../extensions/autocomplete/vue"
+import { svelteCompletion } from "../extensions/autocomplete/svelte"
+import { svelteBlockSnippets } from "../extensions/autocomplete/svelte/snippets"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -259,23 +263,48 @@ registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 })
 
 registerCompletions(["html", "markup"], {
-	sources: [markupCompletion(htmlTags, globalHtmlAttributes)],
-})
-
-registerCompletions(["svg"], {
-	sources: [markupCompletion(svgTags, globalSvgAttributes)],
+	sources: [
+		markupCompletion(
+			[
+				{
+					tags: htmlTags,
+				},
+				{
+					tags: svgTags,
+					globals: globalSvgAttributes,
+				},
+				{
+					tags: mathMLTags,
+					globals: globalMathMLAttributes,
+				},
+			],
+			globalHtmlAttributes,
+		),
+	],
 })
 
 registerCompletions(["css"], {
 	sources: [cssCompletion()],
 })
 registerCompletions(["vue"], {
-	sources: [vueCompletion({
-		MyComponent: {
-			onevent: null,
-			hello: ["world"]
-		}
-	})],
+	sources: [
+		vueCompletion({
+			MyComponent: {
+				onevent: null,
+				hello: ["world"],
+			},
+		}),
+	],
+})
+registerCompletions(["svelte"], {
+	sources: [
+		svelteCompletion(svelteBlockSnippets, {
+			MyComponent: {
+				onevent: null,
+				hello: ["world"],
+			},
+		}),
+	],
 })
 
 document.body.insertAdjacentHTML(
