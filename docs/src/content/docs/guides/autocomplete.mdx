@@ -78,14 +78,14 @@ Try it:
 
 ```js editor
 import {
-	completeIdentifiers,
 	completeKeywords,
 	jsDocCompletion,
 	jsxTagCompletion,
 	reactTags,
 	globalReactAttributes,
 	jsSnipets,
-	jsContext
+	jsContext,
+	jsCompletion
 } from "prism-code-editor/autocomplete/javascript"
 import {
 	registerCompletions,
@@ -95,7 +95,7 @@ import {
 registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 	context: jsContext,
 	sources: [
-		completeIdentifiers(),
+		jsCompletion(window),
 		completeKeywords,
 		jsDocCompletion,
 		jsxTagCompletion(reactTags, globalReactAttributes),
@@ -124,18 +124,50 @@ function App(props) {
 
 ### HTML completion
 
-[`markupCompletion(){:js}`](/api-reference/autocomplete/markup/f-markupcompletion) adds completion for the specified tags, attributes, and attribute values.
+[`markupCompletion(){:js}`](/api-reference/autocomplete/markup/f-markupcompletion) adds completion for the specified namespaces of tags.
 
-```js editor
+The example below shows how `markupCompletion(){:js}` can be used to add autocompletion to HTML, SVG, MathML tags and one custom element. Here, `globalHtmlAttributes` are used for HTML elements, the custom element, and unrecognized elements.
+
+```ts editor
 import { registerCompletions } from "prism-code-editor/autocomplete"
 import {
+	markupCompletion,
 	globalHtmlAttributes,
 	htmlTags,
-	markupCompletion
+	globalSvgAttributes,
+	svgTags,
+	globalMathMLAttributes,
+	mathMLTags,
 } from "prism-code-editor/autocomplete/markup"
 
 registerCompletions(["html", "markup"], {
-	sources: [markupCompletion(htmlTags, globalHtmlAttributes)]
+	sources: [
+		markupCompletion(
+			[
+				{
+					tags: htmlTags
+				},
+				{
+					tags: svgTags,
+					globals: globalSvgAttributes
+				},
+				{
+					tags: mathMLTags,
+					globals: globalMathMLAttributes
+				},
+				{
+					tags: {
+						"my-custom-element": {
+							hello: ["world"],
+							foo: null,
+							bar: null
+						}
+					}
+				}
+			],
+			globalHtmlAttributes
+		)
+	]
 })
 ```
 
@@ -149,34 +181,14 @@ Autocompletion works for nested languages too. Try writing in the script/style t
 	<div style=""></div>
 	<button onclick=""></button>
 	<script>
-	
+		
 	</script>
 </body>
-```
 
-### SVG completion
-
-You can also import tag data for SVG tags. If you're making an SVG editor for example, this can be useful.
-
-```js editor
-import { registerCompletions } from "prism-code-editor/autocomplete"
-import {
-	globalSvgAttributes,
-	svgTags,
-	markupCompletion
-} from "prism-code-editor/autocomplete/markup"
-
-registerCompletions(["svg"], {
-	sources: [markupCompletion(svgTags, globalSvgAttributes)]
-})
-```
-
-Try writing some SVG code:
-
-```svg editor
+<!-- Try writing some SVG code -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
 	<clipPath>
-
+		
 	</clipPath>
 	<circle />
 </svg>
@@ -204,7 +216,7 @@ import { Completion } from "prism-code-editor/autocomplete"
 const mySnippets: Completion[] = [
 	{
 		label: "function",
-		insert: "function name(params) {\\n\\t\\n}",
+		insert: "function name(params) {\n\t\n}",
 		tabStops: [9, 13, 14, 20, 25],
 		icon: "snippet",
 		detail: "Function Statement",

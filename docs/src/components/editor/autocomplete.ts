@@ -7,7 +7,6 @@ import {
 	completeFromList,
 } from "prism-code-editor/autocomplete"
 import {
-	completeIdentifiers,
 	completeKeywords,
 	jsDocCompletion,
 	jsxTagCompletion,
@@ -15,13 +14,16 @@ import {
 	globalReactAttributes,
 	jsSnipets,
 	jsContext,
+	jsCompletion,
 } from "prism-code-editor/autocomplete/javascript"
 import { cssCompletion } from "prism-code-editor/autocomplete/css"
 import {
 	globalHtmlAttributes,
+	globalMathMLAttributes,
 	globalSvgAttributes,
 	htmlTags,
 	markupCompletion,
+	mathMLTags,
 	svgTags,
 } from "prism-code-editor/autocomplete/markup"
 import { editors } from "./mount"
@@ -29,7 +31,7 @@ import { editors } from "./mount"
 registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 	context: jsContext,
 	sources: [
-		completeIdentifiers(),
+		jsCompletion(window),
 		completeKeywords,
 		jsDocCompletion,
 		jsxTagCompletion(reactTags, globalReactAttributes),
@@ -38,11 +40,33 @@ registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 })
 
 registerCompletions(["html", "markup"], {
-	sources: [markupCompletion(htmlTags, globalHtmlAttributes)],
-})
-
-registerCompletions(["svg"], {
-	sources: [markupCompletion(svgTags, globalSvgAttributes)],
+	sources: [
+		markupCompletion(
+			[
+				{
+					tags: htmlTags,
+				},
+				{
+					tags: svgTags,
+					globals: globalSvgAttributes,
+				},
+				{
+					tags: mathMLTags,
+					globals: globalMathMLAttributes,
+				},
+				{
+					tags: {
+						"my-custom-element": {
+							hello: ["world"],
+							foo: null,
+							bar: null,
+						},
+					},
+				},
+			],
+			globalHtmlAttributes,
+		),
+	],
 })
 
 registerCompletions(["css"], {
