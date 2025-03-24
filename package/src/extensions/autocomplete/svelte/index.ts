@@ -1,3 +1,5 @@
+/** @module autocomplete/svelte */
+
 import { braces } from "../../../prism/utils/jsx-shared.js"
 import { re } from "../../../prism/utils/shared.js"
 import { htmlEventHandlers } from "../markup/data.js"

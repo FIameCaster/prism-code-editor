@@ -20,7 +20,7 @@
 			["tag", ["style"]],
 			["punctuation", ">"]
 		]],
-		["block", [
+		["code-block", [
 			["selector", "div"],
 			["punctuation", "{"],
 
@@ -51,7 +51,7 @@
 			]],
 			["punctuation", ">"]
 		]],
-		["block", [
+		["code-block", [
 			["property", [
 				["variable", "$primary-color"]
 			]],

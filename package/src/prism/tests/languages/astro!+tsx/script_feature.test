@@ -15,7 +15,7 @@
 			["tag", ["script"]],
 			["punctuation", ">"]
 		]],
-		["block", [
+		["code-block", [
 			["keyword", "type"],
 			["class-name", ["Foo"]],
 			["operator", "="],
@@ -39,7 +39,7 @@
 			]],
 			["punctuation", ">"]
 		]],
-		["block", [
+		["code-block", [
 			["keyword", "let"],
 			" string ",
 			["operator", "="],

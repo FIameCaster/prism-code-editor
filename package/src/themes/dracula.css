@@ -126,6 +126,7 @@ Original: https://github.com/dracula/visual-studio-code */
 .token.regex,
 .language-regex,
 .token.attr-value,
+.token.attr-value > .punctuation,
 .token.char,
 .token.string,
 .token.string-property,

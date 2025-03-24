@@ -1,3 +1,5 @@
+/** @module autocomplete/vue */
+
 import { globalHtmlAttributes, globalSvgAttributes, htmlTags, svgTags } from "../markup/index.js"
 import { getTagMatch } from "../markup/index.js"
 import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../types.js"

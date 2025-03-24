@@ -22,7 +22,7 @@
 			]],
 			["punctuation", ">"]
 		]],
-		["block", [
+		["code-block", [
 			["keyword", "let"],
 			" count ",
 			["operator", "="],

@@ -13,7 +13,7 @@ const count = ref(0)
 			["attr-name", ["setup"]],
 			["punctuation", ">"]
 		]],
-		["block", [
+		["code-block", [
 			["keyword", "import"],
 			["punctuation", "{"],
 			" ref ",

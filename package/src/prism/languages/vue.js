@@ -25,12 +25,14 @@ tagInside['attr-value'].unshift(
 		pattern: /([\s"'](?::|@|v-)[^\s/=>]+\s*=\s*)(?:"[^"]*"|'[^']*'|[^\s>]+)/g,
 		lookbehind: true,
 		greedy: true,
+		alias: 'script',
 		inside: attrInside
 	},
 	{
 		pattern: /([\s"']style\s*=\s*)(?:"[^"]*"|'[^']*'|[^\s>]+)/g,
 		lookbehind: true,
 		greedy: true,
+		alias: 'style',
 		inside: {
 			'punctuation': /^["']|["']$/,
 			'language-css': {
@@ -41,7 +43,9 @@ tagInside['attr-value'].unshift(
 	}
 );
 
-tagInside['attr-name'].inside['punctuation'] = /[[\].:@#]/;
+tagInside['attr-name'].inside = {
+	'punctuation': /[[\].:@#]/
+}
 
 tagInside['tag'].inside['class-name'] = /^[A-Z]\w*(?:\.[A-Z]\w*)*$/;
 

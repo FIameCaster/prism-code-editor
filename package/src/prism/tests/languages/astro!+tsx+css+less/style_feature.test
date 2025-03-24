@@ -19,7 +19,7 @@
 			["tag", ["style"]],
 			["punctuation", ">"]
 		]],
-		["block", [
+		["code-block", [
 			["selector", "h1"],
 			["punctuation", "{"],
 
@@ -50,7 +50,7 @@
 			]],
 			["punctuation", ">"]
 		]],
-		["block", [
+		["code-block", [
 			["selector", ["h1"]],
 			["punctuation", "{"],
 

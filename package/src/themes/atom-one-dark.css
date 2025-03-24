@@ -115,7 +115,7 @@
 .token.string-property,
 .token.attr-value,
 .token.string.url,
-.token.attr-value > .punctuation,
+.token.attr-value:not(.script):not(.style) > .punctuation,
 .token.code-snippet.code {
 	color: #98c379;
 }

@@ -22,7 +22,7 @@ const count = ref<number>(0)
 			]],
 			["punctuation", ">"]
 		]],
-		["block", [
+		["code-block", [
 			["keyword", "import"],
 			["punctuation", "{"],
 			" ref ",

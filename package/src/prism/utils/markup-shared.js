@@ -11,7 +11,7 @@ var addInlined = (tagName, tagInside, getLang) => ({
 	pattern: RegExp(`<${tagName}(?:\\s[^>]*)?>[\\s\\S]*?</${tagName}\\s*>`, 'g'),
 	greedy: true,
 	inside: {
-		'block': {
+		'code-block': {
 			pattern: /(>)[\s\S]+(?=<)/,
 			lookbehind: true
 		},
@@ -20,7 +20,7 @@ var addInlined = (tagName, tagInside, getLang) => ({
 			inside: tagInside
 		},
 		[tokenize]: (code, grammar) => {
-			grammar['block'].alias = 'language-' + (grammar['block'].inside = getLang(code));
+			grammar['code-block'].alias = 'language-' + (grammar['code-block'].inside = getLang(code));
 			return withoutTokenizer(code, grammar);
 		}
 	}
