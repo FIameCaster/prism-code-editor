@@ -6,6 +6,8 @@ import { indentGuides, rainbowBrackets } from "prism-code-editor/ssr"
 import { languages } from "prism-code-editor/prism"
 import "prism-code-editor/prism/languages/common"
 import "prism-code-editor/prism/languages/jsdoc"
+import "prism-code-editor/prism/languages/svelte"
+import "prism-code-editor/prism/languages/vue"
 
 languages.selector = {
 	selector: {
@@ -68,6 +70,8 @@ export default defineConfig({
 						"../package/src/extensions/autocomplete/javascript/index.ts",
 						"../package/src/extensions/autocomplete/markup/index.ts",
 						"../package/src/extensions/autocomplete/css/index.ts",
+						"../package/src/extensions/autocomplete/vue/index.ts",
+						"../package/src/extensions/autocomplete/svelte/index.ts",
 						"../package/src/extensions/matchBrackets/index.ts",
 						"../package/src/extensions/matchBrackets/highlight.ts",
 						"../package/src/extensions/matchTags.ts",

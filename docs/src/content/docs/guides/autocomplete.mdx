@@ -128,7 +128,7 @@ function App(props) {
 
 The example below shows how `markupCompletion(){:js}` can be used to add autocompletion to HTML, SVG, MathML tags and one custom element. Here, `globalHtmlAttributes` are used for HTML elements, the custom element, and unrecognized elements.
 
-```ts editor
+```js editor
 import { registerCompletions } from "prism-code-editor/autocomplete"
 import {
 	markupCompletion,
@@ -192,6 +192,86 @@ Autocompletion works for nested languages too. Try writing in the script/style t
 	</clipPath>
 	<circle />
 </svg>
+```
+
+### Vue completion
+
+[`vueCompletion(){:js}`](/api-reference/autocomplete/vue/f-vuecompletion) adds completion for HTML and SVG tags to Vue. When configured, it can also provide completion for specific Vue components.
+
+```js editor
+import { registerCompletions } from "prism-code-editor/autocomplete"
+import { vueCompletion } from "prism-code-editor/autocomplete/vue"
+
+registerCompletions(["vue"], {
+	sources: [
+		vueCompletion({
+			MyComponent: {
+				hello: ["world"],
+				onevent: null
+			}
+		})
+	]
+})
+```
+
+Try it:
+
+```vue editor
+<script lang="ts" setup>
+
+</script>
+
+<template>
+	<div></div>
+	<input type="number">
+	<MyComponent />
+</template>
+
+<style lang="css" scoped>
+
+</style>
+```
+
+### Svelte completion
+
+[`svelteCompletion(){:js}`](/api-reference/autocomplete/vue/f-vuecompletion) is very similar to `vueCompletion(){:js}`, but the first parameter is instead used to configure snippets for blocks like `{#each}{:svelte}`, `{#if}{:svelte}`, etc.
+
+```js editor
+import { registerCompletions } from "prism-code-editor/autocomplete"
+import {
+	svelteCompletion,
+	svelteBlockSnippets
+} from "prism-code-editor/autocomplete/svelte"
+
+registerCompletions(["svelte"], {
+	sources: [
+		svelteCompletion(svelteBlockSnippets, {
+			MyComponent: {
+				hello: ["world"],
+				onevent: null
+			}
+		})
+	]
+})
+```
+
+Try it:
+
+```svelte editor
+<script lang="ts">
+
+</script>
+
+<div></div>
+<input type="number">
+
+{#if 2 > 1}
+	<MyComponent />
+{/if}
+
+<style lang="css">
+
+</style>
 ```
 
 ## Creating your own definitions

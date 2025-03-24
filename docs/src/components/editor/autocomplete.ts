@@ -27,6 +27,8 @@ import {
 	svgTags,
 } from "prism-code-editor/autocomplete/markup"
 import { editors } from "./mount"
+import { vueCompletion } from "prism-code-editor/autocomplete/vue"
+import { svelteBlockSnippets, svelteCompletion } from "prism-code-editor/autocomplete/svelte"
 
 registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 	context: jsContext,
@@ -71,6 +73,28 @@ registerCompletions(["html", "markup"], {
 
 registerCompletions(["css"], {
 	sources: [cssCompletion()],
+})
+
+registerCompletions(["vue"], {
+	sources: [
+		vueCompletion({
+			MyComponent: {
+				hello: ["world"],
+				onevent: null,
+			},
+		}),
+	],
+})
+
+registerCompletions(["svelte"], {
+	sources: [
+		svelteCompletion(svelteBlockSnippets, {
+			MyComponent: {
+				hello: ["world"],
+				onevent: null,
+			},
+		}),
+	],
 })
 
 editors.forEach(editor =>
