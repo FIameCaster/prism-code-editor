@@ -12,7 +12,7 @@ import {
 import { completionsFromRecords } from "../utils.js"
 
 const tagPattern =
-	/<$|<(?![!\d])([^\s/=>$<%]+)(?:\s(?:\s*([^\s/"'=>]+)(?:\s*=\s*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|[^\s"'=>]+(?!\S))?|(?![^\s=])))*\s*)?$/
+	/<$|<(?![\d!])([^\s/=>$<%]+)(?:\s(?:\s*([^\s/"'=>]+)(?:\s*=\s*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|[^\s"'=>]+(?!\S))?|(?![^\s=])))*\s*)?$/
 
 /**
  * `false` is returned if completion shouldn't happen at the current position.

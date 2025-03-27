@@ -14,7 +14,7 @@ import { AttributeConfig, Completion, CompletionSource, TagConfig } from "../typ
 import { attrSnippet, completionsFromRecords, optionsFromKeys } from "../utils.js"
 
 const tagPattern = /* @__PURE__ */ re(
-	/<$|<(?!\d)([^\s%=<>/]+)(?:\s(?:\s*([^\s{=<>/]+)(?:\s*=\s*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|[^\s{=<>/"']+(?!\S])|<0>)?|(?![^\s=]))|\s*<0>)*)?\s*$/
+	/<$|<(?![\d!])([^\s%=<>/]+)(?:\s(?:\s*([^\s{=<>/]+)(?:\s*=\s*(?!\s)(?:"[^"]*(?:"|$)|'[^']*(?:'|$)|[^\s{=<>/"']+(?!\S])|<0>)?|(?![^\s=]))|\s*<0>)*)?\s*$/
 		.source,
 	[braces],
 )
