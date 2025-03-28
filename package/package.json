@@ -37,6 +37,8 @@
     "./autocomplete/css": "./dist/extensions/autocomplete/css/index.js",
     "./autocomplete/markup": "./dist/extensions/autocomplete/markup/index.js",
     "./autocomplete/javascript": "./dist/extensions/autocomplete/javascript/index.js",
+    "./autocomplete/vue": "./dist/extensions/autocomplete/vue/index.js",
+    "./autocomplete/svelte": "./dist/extensions/autocomplete/svelte/index.js",
     "./ssr": "./dist/ssr/index.js",
     "./client": "./dist/client/index.js",
     "./code-blocks": "./dist/client/code-block.js",
