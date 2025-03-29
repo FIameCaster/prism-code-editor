@@ -63,8 +63,9 @@
 	["block", [
 		["punctuation", "{"],
 		["punctuation", ":"],
-		["keyword", "else if"],
+		["keyword", "else"],
 		["language-js", [
+			["keyword", "if"],
 			["number", "80"],
 			["operator", ">"],
 			" porridge",
