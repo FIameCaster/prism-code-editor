@@ -225,6 +225,7 @@
 
 /* Key words */
 
+.token.block > .keyword,
 .token.keyword.module,
 .token.keyword.control-flow,
 .token.keyword-if,

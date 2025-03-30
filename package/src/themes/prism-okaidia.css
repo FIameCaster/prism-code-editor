@@ -70,6 +70,7 @@
 .token.constant,
 .token.symbol,
 .token.deleted,
+.token.block > .keyword,
 .token.keyword.control-flow,
 .token.keyword.module {
 	color: #f92672;
