@@ -114,26 +114,18 @@ const addHoverDescriptions = (
  * Highlights bracket pairs when hovered. Clicking on a pair keeps it highlighted.
  * Clicking anywhere inside the codeblock removes the highlight.
  *
- * The order inside `openingBrackets` and `closingBrackets` determines which tokens are
- * matched together.
- *
  * @param codeBlock Code block to add bracket pair highlighting to.
- * @param openingBrackets Defaults to `"([{"`.
- * @param closingBrackets Defaults to `")]}"`.
+ * @param pairs Which characters to match together. The opening character must be followed
+ * by the corresponding closing character. Defaults to "()[]{}".
  */
-const highlightBracketPairsOnHover = (
-	codeBlock: PrismCodeBlock,
-	openingBrackets = "([{",
-	closingBrackets = ")]}",
-) => {
+const highlightBracketPairsOnHover = (codeBlock: PrismCodeBlock, pairs = "()[]{}") => {
 	highlightPairsOnHover<number>(codeBlock, "active-bracket", "punctuation", (token, stack, map) => {
 		const text = token.textContent!
 		const last = text.length - 1
-		const openingType = testBracket(text, openingBrackets, last)
-		const bracketType = openingType || testBracket(text, closingBrackets, last)
+		const bracketType = testBracket(text, pairs, last)
 
 		if (bracketType) {
-			if (openingType) stack[sp++] = [token, openingType]
+			if (bracketType % 2) stack[sp++] = [token, bracketType + 1]
 			else {
 				for (let i = sp; i; ) {
 					let [el, type] = stack[--i]

@@ -10,7 +10,7 @@ const addAlias = (token: Token, newAlias = "bracket-error") => {
 	token.alias = (alias ? alias + " " : "") + newAlias
 }
 
-const matchRecursive = (tokens: TokenStream, openingBrackets: string, closingBrackets: string) => {
+const matchRecursive = (tokens: TokenStream, pairs: string) => {
 	let token: string | Token
 	let i = 0
 	for (; (token = tokens[i++]); ) {
@@ -20,17 +20,16 @@ const matchRecursive = (tokens: TokenStream, openingBrackets: string, closingBra
 		let alias = token.alias
 
 		if (Array.isArray(content)) {
-			matchRecursive(content, openingBrackets, closingBrackets)
+			matchRecursive(content, pairs)
 		} else if ((alias || token.type) == "punctuation") {
 			let last = token.length - 1
-			let openingType = testBracket(content, openingBrackets, last)
-			let bracketType = openingType || testBracket(content, closingBrackets, last)
+			let bracketType = testBracket(content, pairs, last)
 
 			if (bracketType) {
-				if (openingType) stack[sp++] = [token, openingType]
+				if (bracketType % 2) stack[sp++] = [token, bracketType + 1]
 				else {
 					let i = sp
-					let found = false
+					let found: boolean
 
 					while (i) {
 						let entry = stack[--i]
@@ -47,7 +46,7 @@ const matchRecursive = (tokens: TokenStream, openingBrackets: string, closingBra
 							found = true
 						}
 					}
-					if (!found) addAlias(token)
+					if (!found!) addAlias(token)
 				}
 			}
 		}
@@ -58,17 +57,14 @@ const matchRecursive = (tokens: TokenStream, openingBrackets: string, closingBra
  * Function that runs the same bracket matching algorithm as the {@link useBracketMatcher}
  * hook. This is useful to add rainbow brackets outside an editor such as in code blocks.
  *
- * The order inside `openingBrackets` and `closingBrackets` determines which characters
- * are matched together.
- *
- * @param openingBrackets Defaults to `"([{"`.
- * @param closingBrackets Defaults to `")]}"`.
+ * @param pairs Which characters to match together. The opening character must be followed
+ * by the closing character. Defaults to `"()[]{}"`.
  * @returns A function that accepts a token stream and adds extra classes to the brackets.
  */
-const rainbowBrackets = (openingBrackets = "([{", closingBrackets = ")]}") => {
+const rainbowBrackets = (pairs = "()[]{}") => {
 	return (tokens: TokenStream) => {
 		sp = 0
-		matchRecursive(tokens, openingBrackets, closingBrackets)
+		matchRecursive(tokens, pairs)
 		stack = []
 	}
 }
