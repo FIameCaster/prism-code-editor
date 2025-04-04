@@ -10,16 +10,15 @@
     "preview": "vite preview"
   },
   "peerDependencies": {
-    "marked": "^15.0.0"
+    "marked": "^15.0.0",
+    "prism-code-editor": "4.0.0-beta.1"
   },
   "devDependencies": {
     "marked": "^15.0.4",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.5",
+    "prism-code-editor": "4.0.0-beta.1",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.5",
     "vite-plugin-dts": "^4.4.0"
-  },
-  "dependencies": {
-    "prism-code-editor": "4.0.0-beta.1"
   },
   "author": "FlameCaster",
   "repository": {

@@ -10,17 +10,20 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "prism-code-editor": "4.0.0-beta.1",
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.1",
-    "typescript": "^5.5.3",
-    "vite": "^5.4.8",
-    "vite-plugin-dts": "^4.2.3"
+    "typescript": "^5.8.2",
+    "vite": "^6.2.5",
+    "vite-plugin-dts": "^4.4.0"
+  },
+  "peerDependencies": {
+    "prism-code-editor": "4.0.0-beta.1"
   },
   "dependencies": {
     "@types/hast": "^3.0.4",
     "hast-util-from-html": "^2.0.3",
-    "prism-code-editor": "4.0.0-beta.1",
     "unified": "^11.0.5",
     "unist-util-visit-parents": "^6.0.1"
   },
