@@ -3,6 +3,7 @@ import { mountEditorsUnder } from "../client/index.js"
 import { languages, highlightTokens, tokenizeText, TokenStream } from "../prism/index.js"
 import { rainbowBrackets } from "./brackets.js"
 import { escapeHtml } from "../prism/core.js"
+import { escapeQuotes } from "./utils.js"
 
 export type RenderOptions = Omit<EditorOptions, "onUpdate" | "onTokenize" | "onSelectionChange"> & {
 	/**
@@ -42,14 +43,18 @@ const renderEditor = <T extends {} = {}>(options: RenderOptions & Omit<T, keyof 
 		tabSize,
 		tokenizeCallback,
 		overlays,
+		class: userClass,
 		...rest
 	} = options
 
-	let html = `<div class="prism-code-editor language-${escapeHtml(language, /"/g, "&quot;")}${
+	let containerClass = `prism-code-editor language-${language}${
 		lineNumbers == false ? "" : " show-line-numbers"
 	} pce-${wordWrap ? "" : "no"}wrap${rtl ? " pce-rtl" : ""} pce-no-selection${
 		readOnly ? " pce-readonly" : ""
-	}" data-options='${escapeHtml(JSON.stringify(rest), /'/g, "&#39;")}' `
+	}`
+	let html = `<div class="${escapeQuotes(containerClass + (userClass ? " " + userClass : ""))}"${
+		userClass ? ` data-start=${containerClass.length + 1}` : ""
+	} data-options='${escapeHtml(JSON.stringify(rest), /'/g, "&#39;")}' `
 
 	let tokens = tokenizeText(
 		value.includes("\r") ? value.replace(/\r\n?/g, "\n") : value,
@@ -62,7 +67,7 @@ const renderEditor = <T extends {} = {}>(options: RenderOptions & Omit<T, keyof 
 	let i = 0
 
 	html +=
-		`style=tab-size:${tabSize || 2};--number-width:${(0 | Math.log10(l)) + 1}.001ch>` +
+		`style=tab-size:${+tabSize! || 2};--number-width:${(0 | Math.log10(l)) + 1}.001ch>` +
 		"<div class=pce-wrapper><div class=pce-overlays>" +
 		"<textarea class=pce-textarea spellcheck=false autocapitalize=off autocomplete=off></textarea>"
 

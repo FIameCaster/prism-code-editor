@@ -14,9 +14,9 @@ import { highlightTokens, languages, tokenizeText, TokenStream } from "./prism/i
  * Creates a code editor using the specified container and options.
  * @param container Element to append the editor to or a selector.
  * This can also be a `ShadowRoot` or `DocumentFragment` for example.
- * If omitted, you must manually append the `scrollContainer` to the DOM.
+ * If omitted, you must manually append `editor.container` to the DOM.
  * @param options Options the editor is initialized with.
- * If omitted, the editor won't function until you call `setOptions`.
+ * If omitted, the editor won't function until you call `editor.setOptions`.
  * @param extensions Extensions added before the first render. You can still add extensions later.
  * @returns Object to interact with the created editor.
  */
@@ -124,7 +124,9 @@ const createEditor = <T extends {} = {}>(
 			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
 		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${
 			start < end ? "has" : "no"
-		}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
+		}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}${
+			currentOptions.class ? " " + currentOptions.class : ""
+		}`
 	}
 
 	const getInputSelection = (): InputSelection => [
@@ -286,7 +288,7 @@ const getElement = <T extends Node>(el?: T | string | null) =>
 
 /**
  * Counts number of lines in the string between `start` and `end`.
- * If start and end are excluded, the whole string is searched.
+ * If start and end are omitted, the whole string is searched.
  */
 const numLines = (str: string, start = 0, end = Infinity) => {
 	let count = 1

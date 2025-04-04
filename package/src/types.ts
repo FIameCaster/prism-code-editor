@@ -27,6 +27,11 @@ export type EditorOptions = {
 	 * @default false
 	 */
 	rtl?: boolean
+	/**
+	 * Additional classes to add to the root container. Useful to style individual editors.
+	 * The `.prism-code-editor` selector can be used to style all editors.
+	 */
+	class?: string
 	/** Function called when the code of the editor changes. */
 	onUpdate?: EditorEventMap["update"] | null
 	/** Function called when the selection changes in the editor. */
@@ -146,7 +151,7 @@ export interface PrismEditor<T extends {} = {}> {
 		history?: EditHistory
 	}
 	/**
-	 * Set new options for the editor. Ommitted properties will use their old value.
+	 * Set new options for the editor. Omitted properties will use their old value.
 	 * @param options New options for the editor
 	 */
 	setOptions(this: void, options: Partial<EditorOptions & Omit<T, keyof EditorOptions>>): void

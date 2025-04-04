@@ -1,6 +1,7 @@
 import { forEachCodeBlock } from "../client/code-block.js"
 import { escapeHtml } from "../prism/core.js"
 import { highlightTokens, languages, tokenizeText, TokenStream } from "../prism/index.js"
+import { escapeQuotes } from "./utils.js"
 
 export type CodeBlockOptions = {
 	/** Language used for syntax highlighting. */
@@ -22,7 +23,7 @@ export type CodeBlockOptions = {
 	 */
 	preserveIndent?: boolean
 	/**
-	 * Whether or not to display indentation guides. Does support `wordWrap` unline the
+	 * Whether or not to display indentation guides. Does support `wordWrap` unlike the
 	 * `indentGuides()` editor extension. Does not work with `rtl`. @default false
 	 */
 	guideIndents?: boolean
@@ -31,6 +32,12 @@ export type CodeBlockOptions = {
 	 * `prism-code-editor/rtl-layout.css` to work. @default false
 	 */
 	rtl?: boolean
+	/**
+	 * Additional classes to the root element of the code block. Useful when styling
+	 * individual code blocks. The `pre.prism-code-editor` selector can be used to style
+	 * all code blocks.
+	 */
+	class?: string
 	/**
 	 * Callback that can be used to modify the tokens before they're stringified to HTML.
 	 * Can be used to add rainbow brackets for example.
@@ -59,27 +66,28 @@ const renderCodeBlock = <T extends {}>(
 	let {
 		language,
 		value,
-		tabSize = 2,
+		tabSize,
 		lineNumbers,
 		lineNumberStart = 1,
 		wordWrap,
 		preserveIndent = wordWrap,
 		guideIndents,
 		rtl,
+		class: userClass,
 		tokenizeCallback,
 		addLineClass,
 		...rest
 	} = options
 
-	let html = `<pre class="prism-code-editor language-${escapeHtml(language, /"/g, "&quot;")}${
+	tabSize = +tabSize! || 2
+
+	let html = `<pre class="prism-code-editor language-${escapeQuotes(language)}${
 		lineNumbers ? " show-line-numbers" : ""
 	} pce-${wordWrap ? "" : "no"}wrap${rtl ? " pce-rtl" : ""}${
 		preserveIndent ? " pce-preserve" : ""
-	}${guideIndents && !rtl ? " pce-guides" : ""}" data-props='${escapeHtml(
-		JSON.stringify(rest),
-		/'/g,
-		"&#39;",
-	)}' `
+	}${guideIndents && !rtl ? " pce-guides" : ""}${
+		userClass ? " " + escapeQuotes(userClass) : ""
+	}" data-props='${escapeHtml(JSON.stringify(rest), /'/g, "&#39;")}' `
 
 	let indents = preserveIndent || (guideIndents && !rtl) ? getIndents(value, tabSize) : null
 	if (preserveIndent) value = value.replace(/\t/g, " ".repeat(tabSize))
@@ -103,7 +111,7 @@ const renderCodeBlock = <T extends {}>(
 
 	while (i < l) {
 		let lineClass = addLineClass?.(i + 1)
-		html += `<div class="pce-line${lineClass ? " " + lineClass : ""}"${
+		html += `<div class="pce-line${lineClass ? " " + escapeQuotes(lineClass) : ""}"${
 			indents?.[i] ? ` style=--indent:${indents[i]}ch` : ""
 		}>${lines[i++]}\n</div>`
 	}

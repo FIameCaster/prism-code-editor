@@ -14,7 +14,7 @@ import { renderEditor } from "../ssr/index.js"
 
 /**
  * Mounts all editors rendered by {@link renderEditor} under the specified root. Editors
- * that have already been mounted, are skipped, and they are mounted in document order.
+ * are mounted in document order, and editors that have already been mounted are skipped.
  *
  * @param root Root element to search for editors under.
  * @param getExtensions Function used to get the extensions that should be added to each
@@ -33,7 +33,8 @@ const mountEditorsUnder = <T extends {} = {}>(
 
 	while (i < els.length) {
 		const element = els[i++]
-		const json = element.dataset.options
+		const dataset = element.dataset
+		const json = dataset.options
 
 		if (!json) continue
 
@@ -51,6 +52,7 @@ const mountEditorsUnder = <T extends {} = {}>(
 		let tokens: TokenStream = []
 		let readOnly: boolean
 		let lineCount: number
+		let classPropStart = dataset.start
 		let prevClass = element.className
 		let html = ""
 		let j = 1
@@ -61,15 +63,17 @@ const mountEditorsUnder = <T extends {} = {}>(
 			[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
 		} = {}
 
+		const tempClass = prevClass.slice(0, classPropStart as number | undefined)
 		const tempOptions: EditorOptions & T = Object.assign(
 			{
-				language: /language-(\S*)/.exec(prevClass)![1],
+				language: /language-(\S*)/.exec(tempClass)![1],
 				value: element.textContent!.slice(overlays.textContent!.length, -1),
-				lineNumbers: prevClass.includes(" show"),
-				readOnly: prevClass.includes(" pce-read"),
-				rtl: prevClass.includes(" pce-rtl"),
+				lineNumbers: tempClass.includes(" show"),
+				readOnly: tempClass.includes(" pce-read"),
+				rtl: tempClass.includes(" pce-rtl"),
 				tabSize: +style.tabSize,
-				wordWrap: prevClass.includes(" pce-wrap"),
+				wordWrap: tempClass.includes(" pce-wrap"),
+				class: classPropStart && prevClass.slice(+classPropStart),
 			},
 			JSON.parse(json),
 		)
@@ -146,11 +150,14 @@ const mountEditorsUnder = <T extends {} = {}>(
 		}
 
 		const updateClassName = ([start, end] = getInputSelection()) => {
+			let classProp = currentOptions.class
 			let newClass = `prism-code-editor language-${language}${
 				currentOptions.lineNumbers == false ? "" : " show-line-numbers"
 			} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${
 				start < end ? "has" : "no"
-			}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
+			}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}${
+				classProp ? " " + classProp : ""
+			}`
 			if (newClass != prevClass) element.className = prevClass = newClass
 		}
 
@@ -269,7 +276,7 @@ const mountEditorsUnder = <T extends {} = {}>(
 			preventDefault(e)
 		})
 
-		element.removeAttribute("data-options")
+		delete dataset.options
 		setOptions(tempOptions)
 		result.push(self)
 	}
