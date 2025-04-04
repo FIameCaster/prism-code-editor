@@ -88,10 +88,9 @@
     "regexp-ast-analysis": "0.2.4",
     "regexpp": "^3.2.0",
     "scslre": "0.1.6",
-    "typedoc": "^0.25.1",
-    "typescript": "^5.0.2",
-    "vite": "^5.4.8",
-    "vite-plugin-dts": "^3.9.1",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.5",
+    "vite-plugin-dts": "^4.4.0",
     "yargs": "^17.7.2"
   },
   "keywords": [

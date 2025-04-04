@@ -62,8 +62,8 @@
     "prism-code-editor": "4.0.0-beta.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.5",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.5",
     "vite-plugin-dts": "^4.4.0"
   },
   "keywords": [
