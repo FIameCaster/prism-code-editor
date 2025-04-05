@@ -42,6 +42,7 @@ languages.svelte = {
 	'tag': tag,
 	'expression': expression,
 	'entity': entity,
+	'punctuation': /[()[\]{}]/,
 	[tokenize](code, grammar) {
 		var lang = /<script\s(?:[^>]*?[\s"'}])?lang\s*=\s*(["'])ts\1/.test(code) ? 'ts' : 'js';
 

@@ -8,7 +8,8 @@ var tagInside = vueTag.inside;
 var currentLang;
 
 var expression = {
-	pattern: /\{\{[\s\S]*?\}\}/g,
+	pattern: /(\{\{)[\s\S]*?(?=\}\})/g,
+	lookbehind: true,
 	greedy: true
 };
 
@@ -60,6 +61,7 @@ languages.vue = {
 	'expression': expression,
 	'tag': vueTag,
 	'entity': entity,
+	'punctuation': /\{\{|\}\}|[()[\]{}]/,
 	[tokenize](code, grammar) {
 		var lang = /<script\s(?:[^>]*?[\s"'])?lang\s*=\s*(["'])([jt]s)x?\1/.exec(code)?.[2] || 'js';
 

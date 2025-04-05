@@ -52,13 +52,11 @@ const count = ref<number>(0)
 		]]
 	]],
 
+	["punctuation", "{{"],
 	["expression", [
-		["punctuation", "{"],
-		["punctuation", "{"],
 		" count ",
 		["keyword", "as"],
-		["builtin", "number"],
-		["punctuation", "}"],
-		["punctuation", "}"]
-	]]
+		["builtin", "number"]
+	]],
+	["punctuation", "}}"]
 ]
