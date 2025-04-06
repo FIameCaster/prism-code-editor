@@ -2,6 +2,7 @@ import { PrismEditor } from "../.."
 import { Token, TokenStream } from "../../prism"
 import { updateNode } from "../../utils/local"
 import { matchTemplate } from "../search/search"
+import { map } from "./tooltip"
 import { Completion, CompletionContext, CompletionSource } from "./types"
 
 const optionsFromKeys = (obj: object, icon?: string): Completion[] =>
@@ -44,7 +45,9 @@ const completeFromList = (options: Completion[]): CompletionSource<{ path: strin
 }
 
 /**
- * Utility that searches the editor's {@link TokenStream} for strings.
+ * Utility that searches the editor's {@link TokenStream} for strings. This utility will
+ * only search parts of the document whose language has the same completion definition
+ * registered.
  * @param context Current completion context.
  * @param editor Editor to search in.
  * @param filter Function used to filter tokens you want to search in. Is called with the
@@ -52,7 +55,7 @@ const completeFromList = (options: Completion[]): CompletionSource<{ path: strin
  * will be searched.
  * @param pattern Pattern used to search for words.
  * @param init Words that should be completed even if they're not found in the document.
- * @param tokensOnly If `true` only the text of tokens whoose `content` is a string will
+ * @param tokensOnly If `true` only the text of tokens whose `content` is a string will
  * be searched. If `false`, any string inside the {@link TokenStream} can be searched.
  * @returns A set with found identifers/words.
  */
@@ -65,7 +68,7 @@ const findWords = (
 	tokensOnly?: boolean,
 ) => {
 	const cursorPos = context.pos
-	const language = context.language
+	const definition = map[context.language]
 	const result = new Set(init)
 	const search = (tokens: TokenStream, pos: number, isCorrectLang: boolean) => {
 		let i = 0
@@ -95,7 +98,7 @@ const findWords = (
 						search(
 							content,
 							pos,
-							aliasType.slice(0, 9) == "language-" ? aliasType.slice(9) == language : false,
+							aliasType.slice(0, 9) == "language-" ? definition == map[aliasType.slice(9)] : false,
 						)
 					}
 				}
@@ -112,7 +115,7 @@ const findWords = (
 		}
 	}
 
-	search(editor.tokens, 0, language == editor.props.language)
+	search(editor.tokens, 0, definition == map[editor.props.language])
 
 	return result
 }

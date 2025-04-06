@@ -485,4 +485,4 @@ const useAutoComplete = (editor: PrismEditor, config: AutoCompleteConfig) => {
 	}, [])
 }
 
-export { useAutoComplete, registerCompletions }
+export { useAutoComplete, registerCompletions, map }
