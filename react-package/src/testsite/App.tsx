@@ -62,6 +62,8 @@ import {
 	HoverDescriptions,
 	rainbowBrackets,
 } from "../code-block"
+import { svelteBlockSnippets, svelteCompletion } from "../extensions/autocomplete/svelte"
+import { vueCompletion } from "../extensions/autocomplete/vue"
 
 const ReadOnly = lazy(() => import("./readOnly"))
 
@@ -243,6 +245,28 @@ registerCompletions(["html", "markup"], {
 			],
 			globalHtmlAttributes,
 		),
+	],
+})
+
+registerCompletions(["vue"], {
+	sources: [
+		vueCompletion({
+			MyComponent: {
+				onevent: null,
+				hello: ["world"],
+			},
+		}),
+	],
+})
+
+registerCompletions(["svelte"], {
+	sources: [
+		svelteCompletion(svelteBlockSnippets, {
+			MyComponent: {
+				onevent: null,
+				hello: ["world"],
+			},
+		}),
 	],
 })
 

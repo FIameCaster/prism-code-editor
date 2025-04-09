@@ -3,13 +3,10 @@ import { languageMap } from "../core"
 import { Bracket, BracketMatcher } from "../extensions/match-brackets"
 import { Tag, TagMatcher } from "../extensions/match-tags"
 import { getClosestToken, getLineBefore } from "../utils"
-import { autoCloseTags, clikeComment, clikeIndent, testBracketPair } from "./shared"
-
-const space = "(?:\\s|//.*(?!.)|/\\*(?:[^*]|\\*(?!/))*\\*/)"
-const braces = "\\{(?:[^{}]|\\{(?:[^{}]|\\{[^}]*\\})*\\})*\\}"
+import { autoCloseTags, braces, clikeComment, clikeIndent, space, testBracketPair } from "./shared"
 
 const openingTag = RegExp(
-	`(?:^|[^$\\w])<(?:(?!\\d)([^\\s%=<>/]+)(?:(?:${space}|${space}*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>)(?:${space}*(?:[^\\s"'{=<>/*]+(?:${space}*=${space}*(?!\\s)(?:"[^"]*"|'[^']*'|${braces})?|(?=[\\s/>]))|\\{${space}*\\.{3}(?:[^{}]|${braces})*\\}))+)?${space}*)?>[ 	]*$`,
+	`(?:^|[^$\\w])<(?:(?!\\d)([^\\s%=<>/]+)(?:(?:${space}|${space}*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>)(?:${space}*(?:[^\\s"'{=<>/*]+(?:${space}*=${space}*(?!\\s)(?:"[^"]*"|'[^']*'|${braces})?|(?=[\\s/>]))|${braces}))+)?${space}*)?>[ 	]*$`,
 )
 
 const closingTag = /^<\/(?!\d)[^\s%=<>/]*\s*>/

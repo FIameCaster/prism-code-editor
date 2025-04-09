@@ -1547,6 +1547,54 @@ This is an _emphasis_
 {authorinitials}
 :Author Initials!:
 `,
+	astro: `---
+// Component script
+import MyComponent from "./MyComponent.astro"
+type Props = {
+	type?: string
+	foo?: any
+}
+
+const items = ["1", "2", "3"]
+---
+
+<!-- Template -->
+<MyComponent someProperty={false} />
+<button type={Astro.props.type} {...foo}>
+	Click me
+</button>
+
+<!-- Note that expressions use TSX -->
+<!-- So you'll get autocompletion for React TSX there -->
+<ul>
+	{items.map((item: string) => <li>{item}</li>)}
+</ul>
+
+<!-- Inline script with JavaScript -->
+<script is:inline>
+	let string = "This is not TypeScript!"
+</script>
+
+<!-- Script with TypeScript -->
+<script>
+	let s: string = "This is TypeScript!"
+</script>
+
+<!-- Normal style element -->
+<style>
+	div {
+		color: red;
+	}
+</style>
+
+<!-- Style element with SCSS -->
+<style lang="scss">
+	$primary-color: #333;
+	body {
+		color: $primary-color;
+	}
+</style>
+`,
 	aspnet: `<%-- Comments --%>
 <%-- This is a comment --%>
 <%-- This is a
@@ -16480,6 +16528,70 @@ sum(1 2 3 4)
 	PinkNoise.ar(0.1 * x + 0.1)
 }.play;
 `,
+	svelte: `<!-- Component script -->
+<script lang="ts">
+	import MyComponent from "./MyComponent.svelte"
+</script>
+
+<!-- Markup -->
+<div class="foo">
+	<button disabled>can't touch this</button>
+</div>
+
+<!-- Unquoted attribute -->
+<input type=checkbox />
+
+<!-- JS Expressions inside attributes -->
+<a href="page/{p}">page {p}</a>
+
+<!-- JS expression as attribute value -->
+<button disabled={!clickable}>...</button>
+
+<!-- Attribute shorthand -->
+<button {disabled}>...</button>
+
+<!-- Attribute spread -->
+<Widget {...things} />
+
+<!-- Events -->
+<button onclick={() => console.log('clicked')}>click me</button>
+
+<!-- Bind attributes -->
+<input bind:value={name} autofocus />
+
+<!-- Snippet block -->
+{#snippet todo(todo: Todo)}
+	<li class="todo">
+		<input class="toggle" type="checkbox" bind:checked={todo.completed}>
+		{todo.title}
+		<button class="remove" onclick={() => removeTodo(todo)}></button>
+	</li>
+{/snippet}
+
+<!-- Each block -->
+<ul>
+	{#each todos as todo}
+		{@render todo(todo)}
+	{:else}
+		<li>No todos</li>
+	{/each}
+</ul>
+
+<!-- Normal style element -->
+<style>
+	div {
+		color: red;
+	}
+</style>
+
+<!-- Style element with SCSS -->
+<style lang="scss">
+	$primary-color: #333;
+	body {
+		color: $primary-color;
+	}
+</style>
+`,
 	swift: `// Comments
 // this is a comment
 /* this is also a comment,
@@ -17610,6 +17722,63 @@ Module Test
 	End Sub
 End Module
 `,
+	vue: `<!-- Component script (try changing the lang attribute) -->
+<script lang="ts" setup>
+import { ref } from "vue"
+
+const seen = ref(true)
+const someAttr = ref("class")
+const attrValue = ref("name")
+const value = ref("value")
+
+const items: string[] = [/* ... */]
+
+function doSomething() {}
+</script>
+
+<!-- Template -->
+<template>
+	<!-- Normal element -->
+	<div class="name"> ... </div>
+
+	<!-- Vue directives -->
+	<p v-if="seen">Now you see me</p>
+
+	<!-- Attribute bindings -->
+	<input :value="value">
+
+	<!-- Events -->
+	<button @click="doSomething"> ... </button>
+
+	<!-- Event modifiers -->
+	<form @submit.prevent="onSubmit"> ... </form>
+
+	<!-- Dynamic attributes -->
+	<a :[someAttr]="attrValue"> ... </a>
+
+	<ul>
+		<li v-for="(item, index) in items">
+			<!-- JS/TS Expression -->
+			Item {{ index as string }}: {{ item }}
+		</li>
+	</ul>
+</template>
+
+<!-- Normal style element -->
+<style scoped>
+div {
+	color: red;
+}
+</style>
+
+<!-- Style element with SCSS -->
+<style lang="scss">
+$primary-color: #333;
+body {
+	color: $primary-color;
+}
+</style>
+`,
 	warpscript: `// Full example
 // Source: https://www.warp10.io/content/04_Tutorials/01_WarpScript/05_Best_Practices
 
@@ -18023,7 +18192,7 @@ XML setup on a Control in Controls.xml
 	<Url>[Link URL]</Url>
 
 	<Attributes>
-		<Attribute key="[HTMLAttributeKey]">[AttributeValue]</Attributes>
+		<Attribute key="[HTMLAttributeKey]">[AttributeValue]</Attribute>
 	</Attributes>
 </Control>
 

@@ -1,6 +1,7 @@
 /** @module autocomplete/javascript */
 
 import { PrismEditor } from "../../../index.js"
+import { braces, space } from "../../../languages/shared/index.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../match-brackets"
 import { Completion, CompletionContext, CompletionSource } from "../types.js"
@@ -44,11 +45,8 @@ const pathRE = /* @__PURE__ */ RegExp(
 	`(?:(?!\\d)${identifierPattern}+\\s*\\??\\.\\s*)*(?!\\d)${identifierPattern}*$`,
 )
 
-const space = "(?:\\s|//.*(?!.)|/\\*(?:[^*]|\\*(?!/))*\\*/)"
-const braces = "\\{(?:[^{}]|\\{(?:[^{}]|\\{[^}]*\\})*\\})*\\}"
-
 const tagPattern = RegExp(
-	`(?:^|[^$\\w])(?:<|<(?!\\d)([^\\s%=<>/]+)(?:(?:${space}|${space}*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>)(?:${space}*(?:([^\\s"'{=<>/*]+)(?:${space}*=${space}*(?!\\s)(?:"[^"]*"|'[^']*'|${braces})?|(?![^\\s=]))|\\{${space}*\.{3}(?:[^{}]|${braces})*\\}))*${space}*(?:=${space}*("[^"]*|'[^']*))?)?)$`,
+	`(?:^|[^$\\w])(?:<|<(?!\\d)([^\\s%=<>/]+)(?:(?:${space}|${space}*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>)(?:${space}*(?:([^\\s"'{=<>/*]+)(?:${space}*=${space}*(?!\\s)(?:"[^"]*"|'[^']*'|${braces})?|(?![^\\s=]))|${braces}))*${space}*(?:=${space}*("[^"]*|'[^']*))?)?)$`,
 )
 
 /**
@@ -240,17 +238,14 @@ const completeIdentifiers = (identifiers?: Iterable<string>): CompletionSource<J
 /**
  * Completion source that wraps {@link completeIdentifiers} and {@link completeScope} and
  * removes duplicated options.
- * 
+ *
  * This means you can provide completions for both the `window` and words in the document
  * without duplicated options.
  * @param scope Scope object you want to provide completions for. For example `window`.
  * @param identifiers LList of identifiers that should be completed even if they're not
  * found in the document.
  */
-const jsCompletion = (
-	scope: any,
-	identifiers?: Iterable<string>,
-): CompletionSource<JSContext> => {
+const jsCompletion = (scope: any, identifiers?: Iterable<string>): CompletionSource<JSContext> => {
 	const cache = new WeakMap<any, [Completion[], Set<string>]>()
 	const scopeSource = _completeScope(cache, scope)
 
