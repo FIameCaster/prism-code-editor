@@ -120,4 +120,40 @@ const findWords = (
 	return result
 }
 
-export { optionsFromKeys, updateMatched, updateNode, findWords, completeFromList }
+const attrSnippet = (
+	name: string,
+	quotes: string,
+	icon?: Completion["icon"],
+	boost?: number,
+): Completion => ({
+	label: name,
+	icon,
+	insert: name + "=" + quotes,
+	tabStops: [name.length + 2, name.length + 2, name.length + 3],
+	boost,
+})
+
+const completionsFromRecords = (
+	records: (Record<string, unknown> | undefined)[],
+	icon?: Completion["icon"],
+): Completion[] => {
+	const names = new Set<string>()
+
+	records.forEach(tags => {
+		for (let key in tags) names.add(key)
+	})
+
+	return Array.from(names, name => ({
+		label: name,
+		icon: icon,
+	}))
+}
+
+export {
+	optionsFromKeys,
+	updateMatched,
+	findWords,
+	completeFromList,
+	attrSnippet,
+	completionsFromRecords,
+}

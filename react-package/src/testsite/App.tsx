@@ -46,9 +46,11 @@ import {
 } from "../extensions/autocomplete/javascript"
 import {
 	globalHtmlAttributes,
+	globalMathMLAttributes,
 	globalSvgAttributes,
 	htmlTags,
 	markupCompletion,
+	mathMLTags,
 	svgTags,
 } from "../extensions/autocomplete/markup"
 import { cssCompletion } from "../extensions/autocomplete/css"
@@ -219,16 +221,29 @@ registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 	],
 })
 
-registerCompletions(["html", "markup"], {
-	sources: [markupCompletion(htmlTags, globalHtmlAttributes)],
-})
-
-registerCompletions(["svg"], {
-	sources: [markupCompletion(svgTags, globalSvgAttributes)],
-})
-
 registerCompletions(["css"], {
 	sources: [cssCompletion()],
+})
+
+registerCompletions(["html", "markup"], {
+	sources: [
+		markupCompletion(
+			[
+				{
+					tags: htmlTags,
+				},
+				{
+					tags: svgTags,
+					globals: globalSvgAttributes,
+				},
+				{
+					tags: mathMLTags,
+					globals: globalMathMLAttributes,
+				},
+			],
+			globalHtmlAttributes,
+		),
+	],
 })
 
 export default App
