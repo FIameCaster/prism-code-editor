@@ -3,8 +3,8 @@ import { RenderOptions } from "./index.js"
 
 const indentGuides = (options: RenderOptions) => {
 	if (!options.wordWrap) {
-		let html = "<div class=guide-indents> "
-		let indents = getIndentGuides(options.value, options.tabSize || 2)
+		let html = "<div class=guide-indents>\t"
+		let indents = getIndentGuides(options.value, +options.tabSize! || 2)
 		let active!: number
 		let i = 0
 		let top: number
@@ -18,11 +18,10 @@ const indentGuides = (options: RenderOptions) => {
 			}
 		}
 
-		for (i = 0; indent = indents[i]; i++) {
-			html += `<div style=top:${indent[0]}00%;left:${indent[1] * 100}%;height:${indent[2]}00%${
+		for (i = 0; (indent = indents[i]); i++) {
+			html += `<div style=top:${indent[0]}00%;left:${indent[1]}00%;height:${indent[2]}00%${
 				i == active ? " class=active-indent" : ""
 			}></div>`
-
 		}
 
 		return html + "</div>"

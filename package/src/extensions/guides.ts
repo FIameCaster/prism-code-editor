@@ -3,7 +3,7 @@
 import { createTemplate, doc } from "../core.js"
 import { Extension, PrismEditor } from "../types.js"
 
-const template = createTemplate("<div class=guide-indents> ")
+const template = createTemplate("<div class=guide-indents>\t")
 
 /**
  * Extension adding indent guides to an editor. Does not work with word wrap.
@@ -33,7 +33,7 @@ const indentGuides = (): Extension => {
 			next = newIndents[i + 1]
 
 			if (top != old?.[0]) style.top = top + "00%"
-			if (left != old?.[1]) style.left = left * 100 + "%"
+			if (left != old?.[1]) style.left = left + "00%"
 			if (height != old?.[2]) style.height = height + "00%"
 
 			const isSingleIndent = prev[0] != top && next?.[0] != top,
@@ -92,7 +92,7 @@ const indentGuides = (): Extension => {
  * @returns An array of indentation guides.
  * Each guide is a tuple containing 3 numbers with the following values:
  * - The starting line of the guide.
- * - How many spaces the guide is offset to the right.
+ * - How many tabs the guide is offset to the right.
  * - How many lines tall the guide is.
  */
 const getIndentGuides = (code: string, tabSize: number) => {
@@ -119,7 +119,7 @@ const getIndentGuides = (code: string, tabSize: number) => {
 			}
 			for (let j = prevIndent; j < indent; ) {
 				// Adding new indentation lines
-				results[p++] = stack[j] = [emptyPos < 0 || j > prevIndent ? i : emptyPos, j++ * tabSize, 0]
+				results[p++] = stack[j] = [emptyPos < 0 || j > prevIndent ? i : emptyPos, j++, 0]
 			}
 			emptyPos = -1
 			prevIndent = indent
