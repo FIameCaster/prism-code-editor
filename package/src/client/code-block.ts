@@ -65,17 +65,38 @@ const forEachCodeBlock = <T extends {}>(
 }
 
 /**
+ * @param selector Selector used to specify which lines to omit from the resulting code.
+ * @returns A function that returns the code inside a codeblock without any lines that
+ * match the specified selector.
+ */
+const omitLines = (selector: string) => (codeblock: PrismCodeBlock) => {
+	let result = ""
+	let lines = codeblock.lines
+	let i = 0
+	let line: HTMLDivElement
+	while ((line = lines[++i])) {
+		if (!line.matches(selector)) result += line.textContent
+	}
+	return result.slice(0, -1)
+}
+
+/**
  * Adds a copy button to a code block. Requires styles from
  * `prism-code-editor/copy-button.css`.
  * @param codeblock Code block to add the copy button to.
+ * @param getCode Function used to get the copied code. Can be used to e.g. omit deleted
+ * lines.
  */
-const addCopyButton = (codeblock: PrismCodeBlock) => {
+const addCopyButton = (
+	codeblock: PrismCodeBlock,
+	getCode?: (codeblock: PrismCodeBlock) => string,
+) => {
 	const container = createCopyButton()
 	const btn = container.firstChild as HTMLButtonElement
 
 	addListener(btn, "click", () => {
 		btn.setAttribute("aria-label", "Copied!")
-		if (!navigator.clipboard?.writeText(codeblock.code)) {
+		if (!navigator.clipboard?.writeText(getCode ? getCode(codeblock) : codeblock.code)) {
 			const selection = getSelection()!
 			const range = new Range()
 			selection.removeAllRanges()
@@ -92,5 +113,5 @@ const addCopyButton = (codeblock: PrismCodeBlock) => {
 	addOverlay(codeblock, container)
 }
 
-export { forEachCodeBlock, addCopyButton }
+export { forEachCodeBlock, addCopyButton, omitLines }
 export * from "./hover.js"
