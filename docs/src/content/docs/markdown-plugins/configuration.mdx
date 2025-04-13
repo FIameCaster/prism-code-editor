@@ -3,13 +3,16 @@ title: Configuration
 description: Learn how to configure the rehype plugin or marked extension.
 ---
 
-This page will tell you which configuration options are available for the rehype plugin or marked extension.
+
+import "../../../css/configuration.css"
+
+This page will tell you which configuration options are available for the rehype plugin and marked extension.
 
 ## Properties
 
 ### `editorsOnly`
 
-When true, code blocks without the `editor` property are ignored, but you can still create code blocks by adding the `editor=false` meta property. This is useful if you're using another plugin to create the code blocks.
+When true, code blocks without the `editor` property are ignored, but you can still create code blocks by adding the `editor=false` meta property. This is useful if you're using another plugin to highlight code blocks.
 
 ### `defaultEditorProps`
 
@@ -27,11 +30,11 @@ Method that allows you to wrap the default render function or completely overrid
 - `defaultRenderer: (props: CodeBlockProps) => string{:ts}`: The default render function.
 - `isEditor: boolean{:ts}`: Whether or not an editor is being rendered.
 
-The [features page](/rehype-marked-plugins/features#custom-render-function) shows an example.
+The [features page](/markdown-plugins/features#custom-render-function) shows an example.
 
 ### `inline`
 
-Options for highlighting inline code between backticks. If this option is omitted, inline highlighting will be disabled. The [features page](/rehype-marked-plugins/features#inline-highlighting) explains this feature in more detail.
+Options for highlighting inline code between backticks. If this option is omitted, inline highlighting will be disabled. The [features page](/markdown-plugins/features#inline-highlighting) explains this feature in more detail.
 
 ### `silenceWarnings`
 
