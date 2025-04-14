@@ -20,18 +20,17 @@ languages.selector = {
 const pluginOptions = {
 	editorsOnly: true,
 	defaultCodeBlockProps: {
-		tokenizeCallback: rainbowBrackets(),
 		guideIndents: true,
 		lineNumbers: true,
 		wordWrap: true,
 	},
 	defaultEditorProps: {
-		tokenizeCallback: rainbowBrackets(),
 		overlays: [indentGuides]
 	},
 	customRenderer(props, defaultRenderer) {
 		const file = props.file
 		delete props.file
+		props.tokenizeCallback = rainbowBrackets(props._pairs)
 		return `<div class="not-content code-block">${
 			file ? `<figcaption class="code-title"><span>${file}</span></figcaption>` : ""
 		}${defaultRenderer(props)}</div>`

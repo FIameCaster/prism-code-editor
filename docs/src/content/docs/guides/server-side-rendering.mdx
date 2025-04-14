@@ -3,7 +3,7 @@ title: Server side rendering
 description: Learn how you can render an editor on the server and make it interactive on the client.
 ---
 
-import "../../../components/languages/ts.astro"
+import "../../../components/languages/html+ts.astro"
 import "../../../css/editor-theme.css"
 
 This library supports rendering an editor as an HTML string on a server and mounting the editor on the client. This has multiple advantages. Layout shifts can be completely avoided, and the editors will be visible before the JavaScript has been executed. This is the method used to render editors on this documentation website.
@@ -39,7 +39,7 @@ const html = renderEditor({
 
 ### Overlays
 
-The `overlays` option accepts an array of functions that will called with the current [`RenderOptions{:js}`](/api-reference/ssr/t-renderoptions). Any HTML returned returned by them will be inserted inside the overlays element. This can be used to server render indentation guides for example.
+The `overlays` option accepts an array of functions that will be called with the current [`RenderOptions{:js}`](/api-reference/ssr/t-renderoptions). Any HTML returned by them will be inserted inside the overlays element. This can be used to server render indentation guides for example.
 
 ```js editor
 import "prism-code-editor/prism/languages/javascript"
@@ -77,40 +77,46 @@ The second argument receives the options for an editor and returns the extension
 
 ## Adding extra options
 
-You can define extra properties for `renderEditor(){:js}` that will get stringified as JSON and later parsed by `mountEditorsUnder(){:js}`. This can be very useful for configuring which extensions to add. Take this example:
+You can define extra properties for `renderEditor(){:js}` that will get stringified as JSON and later parsed by `mountEditorsUnder(){:js}`. This can be very useful for configuring which extensions to add. In the example below, we are adding a `_pairs` option to customize which characters are matched together by `matchBrackets(){:js}`.
 
 ```ts editor file="server.ts"
 import "prism-code-editor/prism/languages/javascript"
-import { renderEditor } from "prism-code-editor/ssr"
+import { renderEditor, rainbowBrackets } from "prism-code-editor/ssr"
 
 export type MyOptions = {
-	hasHistory?: boolean
+	_pairs?: string
 }
 
 const html = renderEditor<MyOptions>({
-	language: "javascript",
-	value: 'const foo = "bar"',
-	hasHistory: true
+	language: "html",
+	value: "<div></div>\n",
+	tokenizeCallback: rainbowBrackets("<>()[]{}"),
+	_pairs: "<>()[]{}"
 })
 ```
 
 ```ts editor file="client.ts"
 import "prism-code-editor/prism/languages/javascript"
 import { mountEditorsUnder } from "prism-code-editor/client"
-import { editHistory } from "prism-code-editor/commands"
+import { matchBrackets } from "prism-code-editor/match-brackets"
 import type { MyOptions } from "./server"
 
 const editors = mountEditorsUnder<MyOptions>(
 	document,
 	options => {
-		if (options.hasHistory) {
-			return [editHistory()]
-		}
+		return matchBrackets(true, options._pairs)
 	}
 )
 ```
 
-## Usage in Practice
+The editor below now matches `<` and `>` inside tags together. Try clicking on one of the tags.
+
+```html editor _pairs="<>()[]{}"
+<div></div>
+
+```
+
+## Usage in practice
 
 Many of the examples shown on this page might seem abstract. This is beacuse the SSR utilities are meant to be usable with many technologies. It's your job to integrate this API with the server side framework, static site generator, etc. you're using. Here's a [working example](https://stackblitz.com/edit/withastro-astro-yfajet?file=src%2Fcomponents%2Fmount.ts,src%2Fcomponents%2Fextensions.ts,src%2Fcomponents%2FEditor.astro) for [astro](https://astro.build).
 
