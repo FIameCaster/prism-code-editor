@@ -127,6 +127,16 @@ const codeBlocks = forEachCodeBlock(document, codeBlock => {
 })
 ```
 
+#### Customizing copied text
+
+The second parameter to `addCodeBlock(){:js}` can be used to customize the copied text. If you're using [line highlighting](/markdown-plugins/features#line-highlighting) with one markdown plugins for example, you may want to use [`omitLines(){:js}`](/api-reference/code-blocks/f-omitlines) to remove lines marked as deleted from the copied text.
+
+```js editor="false"
+const codeBlocks = forEachCodeBlock(document, codeBlock => {
+	addCopyButton(codeBlock, omitLines(".deleted"))
+})
+```
+
 ### Highlighting bracket pairs
 
 [`highlightBracketPairsOnHover(){:js}`](/api-reference/code-blocks/f-highlightbracketpairsonhover) will add highlighting to bracket pairs when hovered. Clicking on a pair keeps it highlighted and clicking anywhere inside the codeblock removes the highlight. It doesn't require rainbow brackets to work. You can try it in any code block on this page.
@@ -145,19 +155,19 @@ The [`addOverlay(){:js}`](/api-reference/utils/f-addoverlay) utility can be used
 
 ### Hover Descriptions
 
-If you have complicated code you want to describe, but without cluttering the code up with comments, you can show descriptions on hover instead with [`addHoverDescription(){:js}`](/api-reference/code-blocks/f-addhoverdescription). Below is a very simple example. Try hovering a string token.
+If you have complicated code you want to describe, but without cluttering the code up with comments, you can show descriptions on hover instead with [`addHoverDescriptions(){:js}`](/api-reference/code-blocks/f-addhoverdescriptions). Below is a very simple example. Try hovering a string token.
 
-```js editor="false"
+```js editor="false" class="has-hover"
 import "prism-code-editor/copy-button.css"
 import {
 	addCopyButton,
 	forEachCodeBlock,
-	addHoverDescription
+	addHoverDescriptions
 } from "prism-code-editor/code-blocks"
 
 const codeBlocks = forEachCodeBlock(document, codeBlock => {
 	addCopyButton(codeBlock)
-	addHoverDescription(
+	addHoverDescriptions(
 		codeBlock,
 		(types, language, text, element) => {
 			if (types.includes("string")) return ["This is a string token."]
