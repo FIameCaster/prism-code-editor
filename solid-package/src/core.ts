@@ -111,11 +111,14 @@ const Editor = (props: Partial<EditorProps>) => {
 	})
 
 	createRenderEffect(() => {
+		let propClass = editorProps.class
 		let newClass = `prism-code-editor language-${editorProps.language}${
 			editorProps.lineNumbers == false ? "" : " show-line-numbers"
 		} pce-${editorProps.wordWrap ? "" : "no"}wrap${editorProps.rtl ? " pce-rtl" : ""} pce-${
 			selection()[0] < selection()[1] ? "has" : "no"
-		}-selection${focused() ? " pce-focus" : ""}${editorProps.readOnly ? " pce-readonly" : ""}`
+		}-selection${focused() ? " pce-focus" : ""}${editorProps.readOnly ? " pce-readonly" : ""}${
+			propClass ? " " + propClass : ""
+		}`
 		if (prevClass != newClass) container.className = prevClass = newClass
 	})
 
@@ -254,7 +257,7 @@ const addListener = <T extends keyof HTMLElementEventMap>(
 
 /**
  * Counts number of lines in the string between `start` and `end`.
- * If start and end are excluded, the whole string is searched.
+ * If start and end are omitted, the whole string is searched.
  */
 const numLines = (str: string, start = 0, end = Infinity) => {
 	let count = 1

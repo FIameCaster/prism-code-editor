@@ -24,12 +24,14 @@ export type EditorProps = {
 	value: string
 	/**
 	 * Whether the editor uses right to left directionality. Requires styles from
-	 * `solid-prism-editor/rtl-layout.css` to work unless the setups are used.
+	 * `solid-prism-editor/rtl-layout.css` to work.
 	 * @default false
 	 */
 	rtl?: boolean
 	/** Inline styles for the container element. */
 	style?: Omit<JSX.CSSProperties, "tab-size">
+	/** Additional classes for the container element. */
+	class?: string
 	/** Callback used to access the underlying editor */
 	onMount?(editor: PrismEditor): void
 	/**
