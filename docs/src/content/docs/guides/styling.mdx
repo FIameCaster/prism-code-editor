@@ -39,7 +39,7 @@ registerTheme("my-theme", () => import("./my-theme.css?inline"))
 
 Themes can be imported from `prism-code-editor/themes/*.css`. There are currently 14 themes you can import. The [`playground`](/playground) showcases all themes.
 
-You can also import themes into your JavaScript with [`loadTheme(){:js}`](/api-reference/themes/f-loadtheme) which is used by theme switcher in the playground.
+You can also import themes into your JavaScript with [`loadTheme(){:js}`](/api-reference/themes/f-loadtheme) which is used by the theme switcher in the playground.
 
 ```js editor
 import { loadTheme } from "prism-code-editor/themes"
@@ -125,4 +125,4 @@ There are many classes added to `.prism-code-editor{:selector}` you can yse to s
 
 ### Creating a theme
 
-It's likely that none of the themes perfectly fit your website. A great solution is to modify one of the [included themes](https://github.com/FIameCaster/prism-code-editor/tree/main/package/src/themes) to better suit your website. Alternatively, you can import one of the themes and override some of the styles in your on stylesheets.
+It's likely that none of the themes perfectly fit your website. A great solution is to modify one of the [included themes](https://github.com/FIameCaster/prism-code-editor/tree/main/package/src/themes) to better suit your website. Alternatively, you can import one of the themes and override some of the styles in your own stylesheets.

@@ -10,11 +10,11 @@ This library uses a custom Prism instance that's better suited for usage in edit
 
 Everything Prism related can run outside the browser (in Node.js for example), which is useful to do syntax highlighting on a server.
 
-## Importing Grammars
+## Importing grammars
 
 Prism grammars are imported from `prism-code-editor/prism/languages/*`. Importing a grammar will automatically register it through side effects.
 
-### Importing Multiple Grammars
+### Importing multiple grammars
 
 If you need access to many languages, you can import the following entry points:
 
@@ -35,7 +35,7 @@ import("prism-code-editor/prism/languages/common")
 
 Here, we created a simple markdown editor and only import the `markdown` grammar initially. Once the common languages load, the editor gets updated which will highlight any of the markdown code blocks.
 
-### Import Order
+### Import order
 
 If you're importing multiple grammars, import order usually won't matter. The exception comes when grammars modify other grammars. Take this example:
 
@@ -46,7 +46,7 @@ import "prism-code-editor/prism/languages/js-templates"
 
 This won't add `js-templates` features to `typescript` because it extended `javascript` before `js-templates` was added. Swapping the import order fixes the issue.
 
-## Highlighting Code
+## Highlighting code
 
 This library only includes functions similar to Prism's low-level functions since the high-level functions are rather useless for a code editor.
 
@@ -56,7 +56,7 @@ If you want to modify the tokens before they're converted to HTML, you can use [
 
 The HTML produced by `highlightText(){:js}` and `highlightTokens(){:js}` differs slightly from that created by PrismJS. It can be safely split into lines with something like `html.split("\n"){:js}`. Splitting the HTML into lines makes it easier to add line numbers and do simple line-based diffing for better performance in an editor.
 
-## Adding Your Own Languages
+## Adding your own languages
 
 To add your own languages, simply mutate the [`languages`](/api-reference/prism/v-languages) record.
 
@@ -68,28 +68,30 @@ languages["my-language"] = {
 }
 ```
 
-### Helper Functions
+### Helper functions
 
 The helpers from Prism such as [`extend(){:js}`](/api-reference/prism/utils/f-extend) and [`insertBefore(){:js}`](/api-reference/prism/utils/f-insertbefore), are exported from a different entry point (`prism-code-editor/prism/utils`). `insertBefore(){:js}` is useful for modifying existing language definitions. `extend(){:js}` is used to create languages that are similar to existing languages.
 
 
-## Grammar Differences
+## Grammar differences
 
 There are multiple incompatibilities with PrismJS you should be aware of if you're want to create your own grammars.
 
 PrismJS automatically adds the global regex flag to the pattern of greedy tokens. This has been removed, so if you're using your own Prism grammars, you might need to add the `g` flag to the greedy tokens.
 
-### Symbol Properties
+### Symbol properties
 
 The `rest` property of grammars has been made a [`symbol`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol). Read the API reference for the [`rest` symbol](/api-reference/prism/v-rest) to read the purpose of the `rest` property.
 
 PrismJS v2 adds custom tokenizers through a `tokenize` symbol. This library has implemented this too. Read the API reference for the [`tokenize` symbol](/api-reference/prism/v-tokenize) to know more about custom tokenizers and what they're useful for.
 
-### Removed Grammars
+### Removed grammars
 
 The `markup-templating` language has been removed in favor of the [`embeddedIn(){:js}`](/api-reference/prism/utils/f-embeddedin) helper which is much more flexible and powerful. This is a feature that's also planned for PrismJS v2.
 
-### Changed Grammars
+The `js-extras` language has been removed and most of its features have been moved to the plain `javascript` grammar instead.
+
+### Changed grammars
 
 There have been made improvements to many of Prism's grammars. The most notable changes have been made to the markup- and JSX tags' grammars. Prism's themes will work to highlight these tokens, but there can be some small visual changes.
 

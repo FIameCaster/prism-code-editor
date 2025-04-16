@@ -27,7 +27,7 @@ editor.addExtensions(showInvisibles())
 
 ### `highlightSelectionMatches`
 
-[`highlightSelectionMatches(){:js}`](/api-reference/search/f-highlightselectionmatches) is an extension that highlights instances of what's selected. This extension is also present on all editors on this website. The CSS variable `--editor__bg-selection-match{:css}` can be used to set the color of the matches. All included themes assign this variable.
+[`highlightSelectionMatches(){:js}`](/api-reference/search/f-highlightselectionmatches) is an extension that highlights instances of what's selected. This extension is also present on all editors on this website. The CSS variable `--editor__bg-selection-match{:css}` can be used to set the background of the matches. All included themes assign this variable.
 
 ```ts editor
 import { highlightSelectionMatches } from "prism-code-editor/search"
@@ -37,7 +37,7 @@ editor.addExtensions(highlightSelectionMatches())
 
 ### `highlightCurrentWord`
 
-[`highlightCurrentWord(){:js}`](/api-reference/search/f-highlightcurrentword) highlights instances of the word the cursor is currently on. You can also define a filter. In JavaScript, you can exclude any words that start inside a string, comment, keyword, or regex token. The CSS selector `.word-matches span{:selector}` can be used to style the matches. All included themes add a background to this selector.
+[`highlightCurrentWord(){:js}`](/api-reference/search/f-highlightcurrentword) highlights instances of the word the cursor is currently on. You can also define a filter to control what gets highlighted. In JavaScript for example, you may want to exclude any words that start inside a string, comment, keyword, or regex token. The CSS selector `.word-matches span{:selector}` can be used to style the matches. All included themes add a background to this selector.
 
 ```ts editor
 import { highlightCurrentWord } from "prism-code-editor/search"
@@ -58,7 +58,7 @@ This is easily the most complex extension on this page. [`searchWidget(){:js}`](
 
 The default styles for the widget can be imported from `prism-code-editor/search.css`. If you're dissatisfied with these styles, you can import your own instead.
 
-The widget can be opened with Ctrl+F (Cmd+F on Mac). Alternatively, you can use the button below.
+The widget can be opened with Ctrl+F (Cmd+F on Mac). Alternatively, you can use the button below to try it on mobile.
 
 <Button>Open widget</Button>
 

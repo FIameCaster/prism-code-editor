@@ -88,7 +88,7 @@ const codeBlocks = forEachCodeBlock<{
 ```
 
 <Aside type="tip">
-	It might be a good idea to pre- or postfix your meta property names with `_` or `$` for example. This makes them distinguishable from other meta properties and eliminates any chance of name collisions in future releases.
+	It might be a good idea to pre- or postfix your meta property names with e.g. `_` or `$`. This makes them distinguishable from other meta properties and eliminates any chance of name collisions in future releases.
 </Aside>
 
 
@@ -142,7 +142,7 @@ If you're using line numbers, you can make sure the line number element inherits
 
 ## Meta parsing
 
-The meta parsing uses HTML-attribute-like syntax. The parser will attempt to parse the property value as a boolean, null, or a number and fall back to a string otherwise. If the value is wrapped by `{}`, the value is parsed as a `Set{:js}` of numbers equal to the union of all ranges between the brackets. `{1,2,5-7}` would be parsed as `new Set([1, 2, 5, 6, 7]){:js}` for example. You can see the regular expressions used for parsing below:
+The meta parsing uses HTML-attribute-like syntax. The parser will attempt to parse the property value as a boolean, null, or a number and fall back to a string otherwise. If the value is wrapped by `{}`, the value is parsed as a `Set{:js}` of numbers equal to the union of all ranges between the brackets. E.g. `{1,2,5-7}` would be parsed to `new Set([1, 2, 5, 6, 7]){:js}`. You can see the regular expressions used for parsing below:
 
 ```js editor="false"
 let range = /(\d+)(?:\s*-\s*(\d+))?/g
@@ -164,4 +164,4 @@ const options = {
 }
 ```
 
-To specify the language used for syntax highlighting, add a `{:language}` marker at the end of the code snippet. For example `` `code.replace(/\r\n?/g, "\n"){:js}` `` turns into `code.replace(/\r\n?/g, "\n"){:js}`.
+To specify the language used for syntax highlighting, add a `{:language}` marker at the end of the code snippet. E.g. `` `code.replace(/\r\n?/g, "\n"){:js}` `` becomes `code.replace(/\r\n?/g, "\n"){:js}`.

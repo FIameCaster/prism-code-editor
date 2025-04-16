@@ -11,18 +11,26 @@ Prism code editor has a rehype plugin or marked extension you can use to create 
 
 ## Installation
 
+These markdown plugins have `prism-code-editor` version 4.0.0 or greater as a peer dependency, so be sure to also install that.
+
 <Tabs syncKey="parser">
 <TabItem label="rehype">
 ```bash editor="false"
-npm i rehype-prism-code-edtior
+npm i prism-code-editor
+npm i rehype-prism-code-editor
 ```
 </TabItem>
 <TabItem label="marked">
 ```bash editor="false"
-npm i marked-prism-code-edtior
+npm i prism-code-editor
+npm i marked-prism-code-editor
 ```
 </TabItem>
 </Tabs>
+
+## Demo
+
+To write markdown and view the resulting editors and code blocks, check [the demo](https://marked-pce.netlify.app/) running marked.
 
 ## Usage
 
@@ -120,11 +128,11 @@ These plugins will also highlight code blocks without the `editor` property as s
 
 #### Editor properties
 
-The following meta properties can change the behavior or appearance of an editor: `tabSize`, `insertSpaces`, `lineNumbers`, `readOnly`, `wordWrap`, and `rtl`. They have the same defaults as when creating editors with [`createEditor(){:js}`](/api-reference/index/f-createeditor).
+The following meta properties can change the behavior or appearance of an editor: `tabSize`, `insertSpaces`, `lineNumbers`, `readOnly`, `wordWrap`, `rtl`, and `class`. They have the same defaults as when creating editors with [`createEditor(){:js}`](/api-reference/index/f-createeditor).
 
 #### Code block properties
 
-You can also modify static code blocks with meta properties like `tabSize`, `lineNumbers`, `lineNumberStart`, `wordWrap`, `preverveIndent`, `guideIndents`, and `rtl`. These have the same defaults as when creating code blocks with [`renderCodeBlock(){:js}`](/api-reference/ssr/f-rendercodeblock). You can also highlight lines with the `highlight`, `ins`, and `del` properties. More about these in the [features](/rehype-marked-plugins/features) page.
+Static code blocks can be modified with meta properties like `tabSize`, `lineNumbers`, `lineNumberStart`, `wordWrap`, `preverveIndent`, `guideIndents`, `rtl`, and `class`. These have the same defaults as when creating code blocks with [`renderCodeBlock(){:js}`](/api-reference/ssr/f-rendercodeblock). Additionally, code block support highlighting lines with the `highlight`, `ins`, and `del` properties. More about these on the [features](/rehype-marked-plugins/features) page.
 
 ### Making editors interactive
 
@@ -136,8 +144,8 @@ With JavaScript on the client, you can add features like a copy button, bracket/
 
 ### Styling
 
-These plugins don't inject any CSS into the page, allowing full customization of the editors and code blocks' appearance. See the [styling guide](/guides/styling#importing-styles) and the [code blocks guide](/guides/code-blocks#styling) for more info.
+These plugins don't inject any CSS into the page, allowing full customization of the editors' and code blocks' appearance. See the [styling guide](/guides/styling#importing-styles) and the [code blocks guide](/guides/code-blocks#styling) for more info.
 
 ## Supported languages
 
-By default, zero languages have syntax highlighting and you must import the languages you want to support. The examples shown on this page all import `prism-code-editor/prism/languages/common` for 42 common languages, but you can import `prism-code-editor/prism/languages` for all languages or import individual languages. See the [working with Prism guide](/guides/working-with-prism).
+By default, zero languages have syntax highlighting and you must import the languages you want to support. The examples shown on this page all import `prism-code-editor/prism/languages/common` for 42 common languages, but you can import `prism-code-editor/prism/languages` for all languages, or import individual languages. See the [working with Prism guide](/guides/working-with-prism).

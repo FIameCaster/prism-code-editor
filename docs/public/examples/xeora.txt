@@ -68,7 +68,7 @@ XML setup on a Control in Controls.xml
 	<Url>[Link URL]</Url>
 
 	<Attributes>
-		<Attribute key="[HTMLAttributeKey]">[AttributeValue]</Attributes>
+		<Attribute key="[HTMLAttributeKey]">[AttributeValue]</Attribute>
 	</Attributes>
 </Control>
 

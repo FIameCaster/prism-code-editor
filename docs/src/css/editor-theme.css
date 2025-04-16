@@ -192,6 +192,7 @@ div.code-block {
 
 [class*="language-"],
 .language-css .punctuation,
+.block > .punctuation,
 .language-markdown .code.keyword,
 .language-markdown .url .content {
 	color: var(--pce-text);
@@ -237,6 +238,7 @@ div.code-block {
 }
 
 .token.tag > .punctuation,
+.token.attr-name > .punctuation,
 .token.doctype > .punctuation,
 .token.attr-equals {
 	color: var(--tag-punctuation);

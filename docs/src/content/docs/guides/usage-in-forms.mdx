@@ -7,12 +7,12 @@ import "../../../components/languages/js.astro"
 import FormExample from "../../../components/FormExample.astro"
 import "../../../css/editor-theme.css"
 
-Since this library is using a textarea element under the hood, it's trivial to use the editor in forms. The [`PrismEditor{:js}`](/api-reference/index/i-prismeditor#textarea) object exposes the editor's textarea through its `textarea` property, so all you need to do is to add a `name` attribute to it. Ideally, you'd also add an `id` to it to bind a `<label>` element to the editor. [Working example](https://stackblitz.com/edit/vitejs-vite-pk9ud7?file=src%2Fmain.ts).
+Since this library is using a textarea element under the hood, it's trivial to use the editor in forms. The [`PrismEditor{:js}`](/api-reference/index/i-prismeditor#textarea) object exposes the editor's textarea through its `textarea` property, so all you need to do is to add a `name` attribute to it. Ideally, you'd also add an `id` to it to bind a `<label>{:html}` element to the editor. [Working example](https://stackblitz.com/edit/vitejs-vite-pk9ud7?file=src%2Fmain.ts).
 
 The web components can also be used in forms, just add a `name` attribute to the element. However, they don't support the validation attributes such as `required`, `minLength`, etc.. The web components are therefore not always ideal in forms. The setups won't work in forms at all since the textarea element is not exposed to the form through the shadow root.
 
 ## Adding reset support
 
-If you want to add a reset button to your form, it won't work by default. You need to set the `defaultValue` property on the textarea and add a `reset` event listener that sets the editor's value to the inital value. Try it below:
+If you want to add a reset button to your form, it won't work by default. You need to set the `defaultValue` property on the textarea and add a `reset` event listener that sets the editor's value to the initial value. Try it below:
 
 <FormExample />

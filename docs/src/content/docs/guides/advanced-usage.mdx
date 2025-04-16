@@ -32,7 +32,7 @@ import("./extensions")
 
 ### Adding extensions
 
-The 3rd argument onward to `createEditor(){:js}` are the extensions you want the editor to be initialized with, but you can also add more extensions later with the [`editor.addExtensions(){:js}`](/api-reference/index/i-prismeditor#addextensions) method. This makes it possible to import most extensions is a separate entry point for code splitting.
+The 3rd argument onward to `createEditor(){:js}` are the extensions you want the editor to be initialized with, but you can also add more extensions later with the [`editor.addExtensions(){:js}`](/api-reference/index/i-prismeditor#addextensions) method. The example shown uses a dynamic `import(){:js}` to load most extensions. This enables code splitting for even faster load times.
 
 ```js editor file="extensions.js"
 // Required by searchWidget()

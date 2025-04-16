@@ -140,34 +140,29 @@ import {
 	mathMLTags,
 } from "prism-code-editor/autocomplete/markup"
 
+const namespaces = [
+	{ tags: htmlTags },
+	{
+		tags: svgTags,
+		globals: globalSvgAttributes
+	},
+	{
+		tags: mathMLTags,
+		globals: globalMathMLAttributes
+	},
+	{
+		tags: {
+			"my-custom-element": {
+				hello: ["world"],
+				foo: null,
+				bar: null
+			}
+		}
+	}
+]
+
 registerCompletions(["html", "markup"], {
-	sources: [
-		markupCompletion(
-			[
-				{
-					tags: htmlTags
-				},
-				{
-					tags: svgTags,
-					globals: globalSvgAttributes
-				},
-				{
-					tags: mathMLTags,
-					globals: globalMathMLAttributes
-				},
-				{
-					tags: {
-						"my-custom-element": {
-							hello: ["world"],
-							foo: null,
-							bar: null
-						}
-					}
-				}
-			],
-			globalHtmlAttributes
-		)
-	]
+	sources: [markupCompletion(namespaces, globalHtmlAttributes)]
 })
 ```
 
