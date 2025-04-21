@@ -65,7 +65,7 @@ const myExtension = (): BasicExtension => {
 	}
 }
 
-createEditor("#editor", {}, myExtension, (editor, options) => {
+createEditor("#editor", {}, myExtension(), (editor, options) => {
 	// This will only be called before the first render
 })
 ```

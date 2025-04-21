@@ -107,10 +107,8 @@ registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 [`completeScope(){:js}`](/api-reference/autocomplete/javascript/f-completescope) is another completion source that can be used to add completion for the `window` object for example, but using it as the same time as [`completeIdentifiers(){:js}`](/api-reference/autocomplete/javascript/f-completeidentifiers) does lead to a lot of duplicated options.
 
 ```tsx editor
-// Try writing some TSX
-
 /**
- * 
+ * Try writing some TSX
  */
 function App(props) {
 	return (
@@ -126,7 +124,7 @@ function App(props) {
 
 [`markupCompletion(){:js}`](/api-reference/autocomplete/markup/f-markupcompletion) adds completion for the specified namespaces of tags.
 
-The example below shows how `markupCompletion(){:js}` can be used to add autocompletion to HTML, SVG, MathML tags and one custom element. Here, `globalHtmlAttributes` are used for HTML elements, the custom element, and unrecognized elements.
+The example below shows how `markupCompletion(){:js}` can be used to add autocompletion to HTML, SVG, MathML, and one custom element. Here, `globalHtmlAttributes` are used for HTML elements, the custom element, and unrecognized elements.
 
 ```js editor
 import { registerCompletions } from "prism-code-editor/autocomplete"

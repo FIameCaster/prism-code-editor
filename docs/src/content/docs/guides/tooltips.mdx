@@ -7,11 +7,11 @@ import "../../../components/languages/ts+css.astro"
 import "../../../components/tooltipDemo/index.astro"
 import "../../../css/editor-theme.css"
 
-It's not an uncommon problem wanting to place tooltips relative to another element in the editor. The [`addTooltip(){:js}`](/api-reference/tooltips/f-addtooltip) utility can be used to make this easier. This utility is used by [`autoComplete(){:js}`](/api-reference/autocomplete/f-autocomplete) to position the list.
+If you're every finding yourself needing to place an element at the editor's cursor, the [`addTooltip(){:js}`](/api-reference/tooltips/f-addtooltip) utility can help. This utility is used by [`autoComplete(){:js}`](/api-reference/autocomplete/f-autocomplete) to position the completions. Note that the [`cursorPosition(){:js}`](/api-reference/cursor/f-cursorposition) extension is required before the tooltip can be shown.
 
 ## Example
 
-The editor below shows how to use `addTooltip` to add a tooltip telling a user they cannot edit a read-only editor. Try typing in the editor below.
+The editor below shows how to use `addTooltip(){:js}` to add a tooltip telling a user they cannot edit a read-only editor. Try typing in the editor below.
 
 ```ts editor readOnly
 import { addTooltip } from "prism-code-editor/tooltips"

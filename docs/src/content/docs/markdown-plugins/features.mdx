@@ -8,7 +8,7 @@ import "../../../components/CodeBlockMount.astro"
 
 ## Rainbow brackets
 
-To enable rainbow brackets, add a `tokenizeCallback` property to `defaultEditorProps` and `defaultCodeBlockProps`. Note that editors will require the [`matchBrackets(){:js}`](/api-reference/match-brackets/f-matchbrackets) extension when mounted for rainbow brackets to work.
+To enable rainbow brackets, add a `tokenizeCallback` property to `defaultEditorProps` and `defaultCodeBlockProps`. Note that editors will also require the [`matchBrackets(){:js}`](/api-reference/match-brackets/f-matchbrackets) extension when mounted for rainbow brackets to work.
 
 ```js editor="false"
 import { rainbowBrackets } from "prism-code-editor/ssr"
@@ -35,9 +35,10 @@ const options = {
 	defaultCodeBlockProps: {
 		tokenizeCallback(tokens, props) {
 			if (props.language == "java") {
-				return rainbowBrackets("([{<", ")]}>")(tokens)
+				rainbowBrackets("()[]{}<>")(tokens)
+			} else {
+				rainbowBrackets()(tokens)
 			}
-			return rainbowBrackets()(tokens)
 		}
 	}
 }
@@ -64,7 +65,7 @@ const options = {
 
 ## Passing extra options to the client
 
-The previous example shows how a custom render function can access extra meta properties you define. In addition, any properties the default render function doesn't use are stringified to JSON. This JSON can be parsed by [`forEachCodeBlock(){:js}`](/api-reference/client/f-foreachcodeblock) or [`mountEditorsUnder(){:js}`](/api-reference/client/f-mounteditorsunder).
+The previous example shows how a custom render function can access extra meta properties you define. In addition, any properties the default render function doesn't use are stringified to JSON. This JSON will be parsed by [`forEachCodeBlock(){:js}`](/api-reference/client/f-foreachcodeblock) or [`mountEditorsUnder(){:js}`](/api-reference/client/f-mounteditorsunder).
 
 ````markdown editor="false"
 ```js myProp
@@ -112,7 +113,7 @@ if (true) {
 }
 ```
 
-This works by adding an extra class to lines. `highlight` adds the class `highlighted`, `ins` adds `inserted`, and `del` adds `deleted`. None of the themes add styles to these classes. You must do it yourself. The example below adds a semi-transparent background to the lines along with a border on the left using an inset box shadow.
+This works by adding an extra class to the line. `highlight` adds the class `highlighted`, `ins` adds `inserted`, and `del` adds `deleted`. None of the themes add styles to these classes, so you must do it yourself. The example below adds a semi-transparent background to the lines along with a border on the left using an inset box shadow.
 
 ```css editor="false"
 .pce-line.deleted {
