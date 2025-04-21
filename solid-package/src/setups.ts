@@ -1,15 +1,21 @@
 import { defaultCommands, editHistory } from "./extensions/commands"
 import { copyButton } from "./extensions/copy-button"
 import { cursorPosition } from "./extensions/cursor"
-import { blockCommentFolding, markdownFolding, readOnlyCodeFolding } from "./extensions/folding"
+import {
+	blockCommentFolding,
+	bracketFolding,
+	markdownFolding,
+	readOnlyCodeFolding,
+	tagFolding,
+} from "./extensions/folding"
 import { indentGuides } from "./extensions/guides"
 import { matchBrackets } from "./extensions/match-brackets"
 import { highlightBracketPairs } from "./extensions/match-brackets/highlight"
 import { highlightMatchingTags, matchTags } from "./extensions/match-tags"
-import { highlightSelectionMatches, searchWidget } from "./extensions/search"
+import { highlightSelectionMatches, searchWidget, showInvisibles } from "./extensions/search"
 
 /**
- * Array of extensions including:
+ * Array of extensions including (in order):
  * - {@link matchBrackets}
  * - {@link highlightBracketPairs}
  * - {@link matchTags}
@@ -20,8 +26,10 @@ import { highlightSelectionMatches, searchWidget } from "./extensions/search"
  * - {@link highlightSelectionMatches}
  * - {@link cursorPosition}
  * - {@link indentGuides}
+ * - {@link showInvisibles}
  *
- * Requires styling from `solid-prism-editor/search.css` for the search widget
+ * Requires styling from `solid-prism-editor/search.css` for the search widget.
+ * To highlight selected spaces and tabs, import `solid-prism-editor/invisibles.css`.
  */
 const basicSetup = [
 	/* @__PURE__ */ matchBrackets(),
@@ -34,10 +42,11 @@ const basicSetup = [
 	/* @__PURE__ */ highlightSelectionMatches(),
 	/* @__PURE__ */ cursorPosition(),
 	/* @__PURE__ */ indentGuides(),
+	/* @__PURE__ */ showInvisibles(),
 ]
 
 /**
- * Array of extensions including:
+ * Array of extensions including (in order):
  * - {@link matchBrackets}
  * - {@link highlightBracketPairs}
  * - {@link matchTags}
@@ -45,7 +54,8 @@ const basicSetup = [
  * - {@link highlightSelectionMatches}
  * - {@link indentGuides}
  * - {@link copyButton}
- * - {@link readOnlyCodeFolding} with {@link blockCommentFolding} and {@link markdownFolding}
+ * - {@link readOnlyCodeFolding} with {@link tagFolding}, {@link bracketFolding},
+ * {@link blockCommentFolding}, and {@link markdownFolding}
  *
  * Intended to be used with read-only editors.
  *
@@ -60,7 +70,12 @@ const readOnlySetup = [
 	/* @__PURE__ */ highlightSelectionMatches(),
 	/* @__PURE__ */ indentGuides(),
 	/* @__PURE__ */ copyButton(),
-	/* @__PURE__ */ readOnlyCodeFolding(blockCommentFolding, markdownFolding),
+	/* @__PURE__ */ readOnlyCodeFolding(
+		tagFolding,
+		bracketFolding,
+		blockCommentFolding,
+		markdownFolding,
+	),
 ]
 
 export { basicSetup, readOnlySetup }

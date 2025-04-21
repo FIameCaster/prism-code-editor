@@ -4,7 +4,11 @@ import { IndentGuides } from "./extensions/guides"
 import { useBracketMatcher } from "./extensions/match-brackets"
 import { useHighlightBracketPairs } from "./extensions/match-brackets/highlight"
 import { useHighlightMatchingTags, useTagMatcher } from "./extensions/match-tags"
-import { useHighlightSelectionMatches, useSearchWidget } from "./extensions/search"
+import {
+	useHighlightSelectionMatches,
+	useSearchWidget,
+	useShowInvisibles,
+} from "./extensions/search"
 import {
 	blockCommentFolding,
 	bracketFolding,
@@ -25,10 +29,12 @@ import { PrismEditor } from "./types"
  * - {@link useEditHistory}
  * - {@link useSearchWidget}
  * - {@link useHighlightSelectionMatches}
+ * - {@link useShowInvisibles}
  * - {@link useCursorPosition}
  * - {@link IndentGuides}
  *
- * Requires styling from `prism-react-editor/search.css` for the search widget
+ * Requires styling from `prism-react-editor/search.css` for the search widget.
+ * To highlight selected spaces and tabs, import `prism-react-editor/invisibles.css`.
  */
 const BasicSetup = ({ editor }: { editor: PrismEditor }) => {
 	useBracketMatcher(editor)
@@ -39,6 +45,7 @@ const BasicSetup = ({ editor }: { editor: PrismEditor }) => {
 	useEditHistory(editor)
 	useSearchWidget(editor)
 	useHighlightSelectionMatches(editor)
+	useShowInvisibles(editor)
 	useCursorPosition(editor)
 
 	return <IndentGuides editor={editor} />

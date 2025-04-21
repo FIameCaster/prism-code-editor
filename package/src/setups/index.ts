@@ -82,11 +82,8 @@ const basicEditor = (
 	onLoad?: () => any,
 ) => {
 	import("./basic").then(mod => {
+		addStyles(el.shadowRoot!, mod.style, "search-style")
 		editor.addExtensions(...mod.basic())
-	})
-
-	import("../extensions/search/search.css?inline").then(module => {
-		addStyles(el.shadowRoot!, module.default, "search-style")
 	})
 
 	const el = getElement(container)!

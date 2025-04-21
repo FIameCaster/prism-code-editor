@@ -3,6 +3,14 @@ import { useStableRef } from "../../core"
 import { PrismEditor } from "../../types"
 import { useEditorSearch } from "./search"
 
+/**
+ * Hook that shows tabs and spaces in an editor.
+ * @param alwaysShow By default, spaces and tabs are only shown when they're selected.
+ * By passing `true`, they're always shown, which negatively impacts performance when
+ * typing, and increases the amount of elements in the DOM.
+ *
+ * Requires styling from `prism-react-editor/invisibles.css`.
+ */
 const useShowInvisibles = (editor: PrismEditor, alwaysShow?: boolean) => {
 	const show = useStableRef([alwaysShow])
 	const searchAPI = useEditorSearch(editor, "pce-invisibles")
