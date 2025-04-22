@@ -1,18 +1,17 @@
 import { Token, TokenStream } from "../../prism/index"
 import { Extension } from "../../types"
 import { createComputed, onCleanup } from "solid-js"
+import { testBracket } from "../../utils/local"
 
 export interface BracketMatcher {
 	/**
 	 * Array of tuples containing in the following order:
 	 * - The bracket's `Token`
 	 * - Its starting position
+	 * - Its ending position
 	 * - Its level of nesting
 	 * - Its text content
 	 * - Whether it's an opening bracket
-	 * - Its ending position
-	 *
-	 * The order will likely change in the next major release
 	 */
 	readonly brackets: Bracket[]
 	/** Array mapping the index of a bracket to the index of its matching bracket. */
@@ -23,33 +22,26 @@ export interface BracketMatcher {
  * Tuple containing in the following order:
  * - The bracket's `Token`
  * - Its starting position
+ * - Its ending position
  * - Its level of nesting
  * - Its text content
  * - Whether it's an opening bracket
- * - Its ending position
- *
- * The order will likely change in the next major release
  */
-export type Bracket = [Token, number, number, string, boolean, number]
+export type Bracket = [Token, number, number, number, string, boolean]
 
 /**
  * Extension that matches punctuation tokens together. Intended for matching brackets.
  *
- * The order inside `openingBrackets` and `closingBrackets` determines which characters
- * are matched together.
- * @param rainbowBrackets Whether to add extra classes to brackets for styling. Defaults to true.
- * @param openingBrackets Defaults to `"([{"`.
- * @param closingBrackets Defaults to `")]}"`.
- *
  * Adding the extension dynamically, will force a rerender to add those extra classes.
  *
- * Without rainbow brackets, this extension can be added dynamically with no side effects.
+ * Without rainbow brackets, this extension can be added dynamically with no downsides.
+ *
+ * @param rainbowBrackets Whether to add extra classes to brackets for styling. Defaults
+ * to `true`.
+ * @param pairs Which characters to match together. The opening character must be followed
+ * by the corresponding closing character. Defaults to `"()[]{}"`.
  */
-export const matchBrackets = (
-	rainbowBrackets = true,
-	openingBrackets = "([{",
-	closingBrackets = ")]}",
-): Extension => {
+export const matchBrackets = (rainbowBrackets = true, pairs = "()[]{}"): Extension => {
 	return editor => {
 		let bracketIndex: number
 		let sp: number
@@ -68,25 +60,25 @@ export const matchBrackets = (
 					if (Array.isArray(content)) {
 						matchRecursive(content, position, sp + level)
 					} else if ((token.alias || token.type) == "punctuation") {
-						let openingType = testBracket(content, openingBrackets, length - 1)
-						let closingType = openingType || testBracket(content, closingBrackets, length - 1)
-						if (closingType) {
+						let bracketType = testBracket(content, pairs, length - 1)
+						let isOpening = bracketType % 2
+						if (bracketType) {
 							brackets[bracketIndex] = [
 								token,
 								position,
-								0,
-								content,
-								!!openingType,
 								position + length,
+								sp,
+								content,
+								!!isOpening,
 							]
 
-							if (openingType) stack[sp++] = [bracketIndex, openingType]
+							if (isOpening) stack[sp++] = [bracketIndex, bracketType + 1]
 							else {
 								for (let i = sp; i; ) {
-									let [index, type] = stack[--i]
-									if (closingType == type) {
-										pairMap[(pairMap[bracketIndex] = index)] = bracketIndex
-										brackets[bracketIndex][2] = brackets[index][2] = i + level
+									let entry = stack[--i]
+									if (bracketType == entry[1]) {
+										pairMap[(pairMap[bracketIndex] = entry[0])] = bracketIndex
+										brackets[bracketIndex][3] = i + level
 										sp = i
 										i = 0
 									}
@@ -114,7 +106,7 @@ export const matchBrackets = (
 
 					bracket[0].alias =
 						(alias ? alias + " " : "") +
-						`bracket-${i++ in pairMap ? "level-" + (bracket[2] % 12) : "error"}`
+						`bracket-${i++ in pairMap ? "level-" + (bracket[3] % 12) : "error"}`
 				}
 			}
 		})
@@ -123,8 +115,4 @@ export const matchBrackets = (
 			delete editor.extensions.matchBrackets
 		})
 	}
-}
-
-const testBracket = (str: string, brackets: string, l: number) => {
-	return brackets.indexOf(str[0]) + 1 || (l && brackets.indexOf(str[l]) + 1)
 }

@@ -1,13 +1,12 @@
-import { CodeBlockOverlay, PrismCodeBlock } from ".";
-import { addListener } from "../core";
-import { createCopyButton } from "../extensions/copy-button";
+import { CodeBlockOverlay } from "."
+import { addListener, doc } from "../core"
+import { createCopyButton } from "../extensions/copy-button"
 
 /**
  * Adds a copy button to a code block. Requires styles from
- * `prism-code-editor/copy-button.css`.
- * @param codeblock Code block to add the copy button to.
+ * `solid-prism-editor/copy-button.css`.
  */
-const addCopyButton: CodeBlockOverlay = (props, codeblock) => {
+const addCopyButton: CodeBlockOverlay = (codeblock, props) => {
 	const container = createCopyButton()
 	const btn = container.firstChild as HTMLButtonElement
 
@@ -20,7 +19,7 @@ const addCopyButton: CodeBlockOverlay = (props, codeblock) => {
 			selection.addRange(range)
 			range.setStartAfter(codeblock.lines[0])
 			range.setEndAfter(codeblock.wrapper)
-			document.execCommand("copy")
+			doc!.execCommand("copy")
 			range.collapse()
 		}
 	})

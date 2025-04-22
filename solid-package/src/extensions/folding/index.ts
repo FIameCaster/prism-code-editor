@@ -19,7 +19,7 @@ import { createEffect, onCleanup, onMount } from "solid-js"
 export type FoldingRangeProvider = (
 	editor: PrismEditor,
 	currentFolds: [number, number][],
-) => [number, number][]
+) => [number, number][] | undefined
 
 export interface ReadOnlyCodeFolding {
 	/** The code in the editor with no ranges collapsed. */
@@ -48,13 +48,15 @@ const isMultiline = (str: string, start: number, end: number) =>
 /**
  * Extension only supporting read-only editors which adds code folding to the editor.
  *
- * To fold XML elements, a {@link TagMatcher} needs to be added.
- *
- * To fold bracket pairs, a {@link BracketMatcher} needs to be added.
- *
- * @param providers Callbacks that can add extra foldable ranges.
+ * @param providers By default, this extension does not add any foldable ranges and you
+ * must add folding range providers. This package defines multiple folding range providers
+ * you can import like {@link bracketFolding}, {@link tagFolding},
+ * {@link blockCommentFolding}, and {@link markdownFolding}. You can also define your own
+ * providers.
  *
  * Very minimal downsides to adding this extension dynamically.
+ *
+ * Requires styles from `solid-prism-editor/code-folding.css`
  */
 const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): Extension => {
 	return editor => {
@@ -183,30 +185,9 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): Extension =>
 			value = code = editor.value
 			foldedRanges.clear()
 			foldedLines.clear()
-			lineNumberWidth = Math.ceil(Math.log10(numLines(code))) + ".001ch"
+			lineNumberWidth = (0 | Math.log10(numLines(code))) + 1 + ".001ch"
 			const folds: [number, number][] = []
-			const { matchTags, matchBrackets } = extensions
-
-			if (matchTags) {
-				let { tags, pairs } = matchTags
-				for (let i = 0, j: number, l = pairs.length; i < l; i++) {
-					if ((j = pairs[i]!) > i && isMultiline(value, tags[i][2], tags[j][1])) {
-						folds.push([tags[i][2], tags[j][1]])
-					}
-				}
-			}
-			if (matchBrackets) {
-				let { brackets, pairs } = matchBrackets
-				for (let i = 0, j: number, l = pairs.length; i < l; i++) {
-					if (
-						(j = pairs[i]!) > i &&
-						brackets[i][3] != "(" &&
-						isMultiline(value, brackets[i][1], brackets[j][1])
-					)
-						folds.push([brackets[i][1] + brackets[i][3].length, brackets[j][1]])
-				}
-			}
-			providers.forEach(clb => folds.push(...clb(editor, folds)))
+			providers.forEach(clb => folds.push(...(clb(editor, folds) || [])))
 
 			for (let i = 0, l = folds.length; i < l; i++) {
 				const [start, end] = folds[i]
@@ -260,6 +241,46 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): Extension =>
 }
 
 /**
+ * Folding range provider that adds folding of square, round, and curly brackets.
+ * Requires a {@link BracketMatcher} added to the editor to work.
+ */
+const bracketFolding: FoldingRangeProvider = ({ value, extensions: { matchBrackets } }) => {
+	if (matchBrackets) {
+		let folds: [number, number][] = []
+		let { brackets, pairs } = matchBrackets
+		let i = 0
+		let j: number
+		let l = pairs.length
+		for (; i < l; i++) {
+			if ((j = pairs[i]!) > i && isMultiline(value, brackets[i][1], brackets[j][1])) {
+				folds.push([brackets[i][2], brackets[j][1]])
+			}
+		}
+		return folds
+	}
+}
+
+/**
+ * Folding range provider that adds folding of HTML/XML elements.
+ * Requires a {@link TagMatcher} added to the editor to work.
+ */
+const tagFolding: FoldingRangeProvider = ({ value, extensions: { matchTags } }) => {
+	if (matchTags) {
+		let folds: [number, number][] = []
+		let { tags, pairs } = matchTags
+		let i = 0
+		let j: number
+		let l = pairs.length
+		for (; i < l; i++) {
+			if ((j = pairs[i]!) > i && isMultiline(value, tags[i][2], tags[j][1])) {
+				folds.push([tags[i][2], tags[j][1]])
+			}
+		}
+		return folds
+	}
+}
+
+/**
  * Folding range provider that allows folding of block comments. For this to work,
  * you need to befine block comments in the {@link languageMap} for the language.
  *
@@ -299,19 +320,22 @@ const blockCommentFolding: FoldingRangeProvider = ({ tokens, value, props: { lan
  * Simply pass this function as one of the arguments when calling {@link readOnlyCodeFolding}.
  */
 const markdownFolding: FoldingRangeProvider = ({ tokens, value, props: { language } }) => {
-	let folds: [number, number][] = []
-	let pos = 0
-	let openTitles: number[] = []
-	let tokenList = tokens()
-	let levels: number
-	let closeTitles = (level: number) => {
-		for (let end = value.slice(0, pos).trimEnd().length; level <= levels; ) {
-			folds.push([openTitles[level++], end])
-		}
-	}
 	if (language == "markdown" || language == "md") {
-		for (let i = 0, l = tokenList.length; i < l; i++) {
-			const token = <Token>tokenList[i]
+		let folds: [number, number][] = []
+		let pos = 0
+		let openTitles: number[] = []
+		let tokenList = tokens()
+		let levels: number
+		let closeTitles = (level: number) => {
+			for (let end = value.slice(0, pos).trimEnd().length; level <= levels; ) {
+				folds.push([openTitles[level++], end])
+			}
+		}
+		let i = 0
+		let l = tokenList.length
+
+		for (; i < l; ) {
+			const token = <Token>tokenList[i++]
 			const length = token.length
 			const type = token.type
 			if (type == "code" && !token.alias) {
@@ -330,9 +354,10 @@ const markdownFolding: FoldingRangeProvider = ({ tokens, value, props: { languag
 
 			pos += length
 		}
+
 		closeTitles(0)
+		return folds
 	}
-	return folds
 }
 
-export { readOnlyCodeFolding, markdownFolding, blockCommentFolding }
+export { readOnlyCodeFolding, markdownFolding, blockCommentFolding, tagFolding, bracketFolding }

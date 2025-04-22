@@ -477,4 +477,4 @@ const autoComplete =
 		return [element, tabStopsContainer]
 	}
 
-export { autoComplete, registerCompletions }
+export { autoComplete, registerCompletions, map }

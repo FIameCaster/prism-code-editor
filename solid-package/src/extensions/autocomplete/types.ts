@@ -19,12 +19,13 @@ export interface Completion {
 	 * name `variable`.
 	 *
 	 * The icon element also gets it color set to the CSS variable `--pce-ac-icon-` followed
-	 * by the icon name. Use these CSS variables to set different colors for different icons.
+	 * by the icon's name. Use these CSS variables to set different colors for different
+	 * icons.
 	 *
 	 * `solid-prism-editor/autocomplete-icons.css` adds 14 icons from VSCode: `class`,
-	 * `constant`, `enum`, `function`, `interface`, `keyword`, `namespace`, `parameter`,
-	 * `property`, `snippet`, `text`, `unit`, and `variable`. You can import your own icons
-	 * instead.
+	 * `constant`, `enum`, `event`, `function`, `interface`, `keyword`, `namespace`,
+	 * `parameter`, `property`, `snippet`, `text`, `unit`, and `variable`. You can import
+	 * your own icons instead.
 	 *
 	 * Defaults to `"variable"`
 	 */
@@ -32,6 +33,7 @@ export interface Completion {
 		| "class"
 		| "constant"
 		| "enum"
+		| "event"
 		| "function"
 		| "interface"
 		| "keyword"
@@ -45,8 +47,8 @@ export interface Completion {
 		| (string & {})
 	/**
 	 * Text to insert when the completion is selected. Tabs are replaced with spaces when
-	 * `options.insertSpaces` isn't set to `false`. Line feeds are replaced by the
-	 * indentation at the current line.
+	 * `options.insertSpaces` isn't set to `false`. The current indentation is preserved
+	 * when line feeds (\n) are found.
 	 *
 	 * If omitted, the inserted text defaults to `label`.
 	 */
@@ -56,7 +58,7 @@ export interface Completion {
 	 * defines the end of that range. The ranges are relative to the start of the inserted
 	 * text. The first range is selected initially.
 	 *
-	 * If there are multiple ranges, the Tab key can ke used to select the next tab stop.
+	 * If there are multiple ranges, the Tab key can be used to select the next tab stop.
 	 * Once the final tab stop is selected or Escape is pressed, the tab stops disappear.
 	 *
 	 * The ranges must not overlap.
@@ -93,7 +95,7 @@ export interface CompletionContext {
 	before: string
 	/** The line before the cursor. */
 	lineBefore: string
-	/** The cursor position in the document. */
+	/** The cursor's position in the document. */
 	pos: number
 	/** The language at the cursor's position. */
 	language: string
@@ -127,7 +129,7 @@ export type AutoCompleteConfig = {
 	 */
 	preferAbove?: boolean
 	/**
-	 * Whether the tooltip is closed when the `textarea` loses focus. Defaults to `true`.
+	 * Whether the tooltip should close when the `textarea` loses focus. Defaults to `true`.
 	 */
 	closeOnBlur?: boolean
 	/**
@@ -146,6 +148,17 @@ export type AutoCompleteConfig = {
  */
 export type CompletionFilter = (query: string, option: string) => [number, number[]] | undefined
 
-export type AttributeConfig = Record<string, null | string[]>
+/**
+ * Object mapping attribute names to a list of values for that attribute. For attributes
+ * without a predifined list of possible values, the value should be `null`.
+ */
+export type AttributeConfig = {
+	[attrName: string]: null | string[]
+}
 
-export type TagConfig = Record<string, AttributeConfig>
+/**
+ * Object mapping tag names to completable attributes for that tag.
+ */
+export type TagConfig = {
+	[tagName: string]: AttributeConfig
+}

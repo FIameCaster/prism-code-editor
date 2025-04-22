@@ -22,9 +22,9 @@ const jsxTagCompletion = (
 			let from = start + 1
 			let options: Completion[] | undefined | 0 = tagOptions
 
-			if (/[\s/]/.test(tagMatch[0])) {
+			if (/[\s/>]/.test(tagMatch[0])) {
 				let tagAttrs = tags[tagName]
-				from = start + tag.search(/[^\s="'{}]*$/)
+				from = start + tag.search(/[^\s"'{}=<>]*$/)
 
 				if (lastAttrValue) {
 					options = (globalAttributes[lastAttr] || tagAttrs?.[lastAttr])?.map(val => ({

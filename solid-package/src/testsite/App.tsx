@@ -32,12 +32,12 @@ import { loadTheme } from "../themes"
 import { overscroll } from "../extensions/overscroll"
 import {
 	autoComplete,
-	completeSnippets,
+	completeFromList,
 	fuzzyFilter,
 	registerCompletions,
 } from "../extensions/autocomplete"
 import {
-	completeIdentifiers,
+	jsCompletion,
 	completeKeywords,
 	globalReactAttributes,
 	jsContext,
@@ -48,9 +48,11 @@ import {
 } from "../extensions/autocomplete/javascript"
 import {
 	globalHtmlAttributes,
+	globalMathMLAttributes,
 	globalSvgAttributes,
 	htmlTags,
 	markupCompletion,
+	mathMLTags,
 	svgTags,
 } from "../extensions/autocomplete/markup"
 import { cssCompletion } from "../extensions/autocomplete/css"
@@ -58,7 +60,13 @@ import { addTextareaListener } from "../utils/local"
 import { CodeBlock } from "../code-block"
 import { rainbowBrackets } from "../code-block/brackets"
 import { addCopyButton } from "../code-block/copy"
-import { addHoverDescriptions } from "../code-block/hover"
+import {
+	addHoverDescriptions,
+	highlightBracketPairsOnHover,
+	highlightTagPairsOnHover,
+} from "../code-block/hover"
+import { vueCompletion } from "../extensions/autocomplete/vue"
+import { svelteBlockSnippets, svelteCompletion } from "../extensions/autocomplete/svelte"
 
 const tooltip: Extension = editor => {
 	const { show, hide, element } = addTooltip(
@@ -206,9 +214,11 @@ const App: Component = () => {
 					onTokenize={rainbowBrackets()}
 					overlays={[
 						addCopyButton,
-						addHoverDescriptions((types) => {
+						addHoverDescriptions(types => {
 							if (types.includes("string")) return ["This is a string token."]
-						})
+						}),
+						highlightBracketPairsOnHover(),
+						highlightTagPairsOnHover(),
 					]}
 				/>
 			</Show>
@@ -219,25 +229,59 @@ const App: Component = () => {
 registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 	context: jsContext,
 	sources: [
-		// completeScope(window),
-		completeIdentifiers(),
+		jsCompletion(window),
 		completeKeywords,
 		jsDocCompletion,
 		jsxTagCompletion(reactTags, globalReactAttributes),
-		completeSnippets(jsSnipets),
+		completeFromList(jsSnipets),
 	],
-})
-
-registerCompletions(["html", "markup"], {
-	sources: [markupCompletion(htmlTags, globalHtmlAttributes)],
-})
-
-registerCompletions(["svg"], {
-	sources: [markupCompletion(svgTags, globalSvgAttributes)],
 })
 
 registerCompletions(["css"], {
 	sources: [cssCompletion()],
+})
+
+registerCompletions(["html", "markup"], {
+	sources: [
+		markupCompletion(
+			[
+				{
+					tags: htmlTags,
+				},
+				{
+					tags: svgTags,
+					globals: globalSvgAttributes,
+				},
+				{
+					tags: mathMLTags,
+					globals: globalMathMLAttributes,
+				},
+			],
+			globalHtmlAttributes,
+		),
+	],
+})
+
+registerCompletions(["vue"], {
+	sources: [
+		vueCompletion({
+			MyComponent: {
+				onevent: null,
+				hello: ["world"],
+			},
+		}),
+	],
+})
+
+registerCompletions(["svelte"], {
+	sources: [
+		svelteCompletion(svelteBlockSnippets, {
+			MyComponent: {
+				onevent: null,
+				hello: ["world"],
+			},
+		}),
+	],
 })
 
 export default App

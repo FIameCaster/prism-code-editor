@@ -28,7 +28,7 @@ export interface Cursor {
 }
 
 const cursorTemplate = template(
-	"<div style=position:absolute;top:0;opacity:0;padding:inherit> <span><span></span> ",
+	"<div style=position:absolute;top:0;opacity:0;padding-right:inherit> <span><span></span> ",
 )
 
 /**

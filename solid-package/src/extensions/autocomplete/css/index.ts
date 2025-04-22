@@ -1,6 +1,7 @@
 /** @module autocomplete/css */
 
 import { PrismEditor } from "../../.."
+import { doc } from "../../../core"
 import { getClosestToken } from "../../../utils"
 import { getLineStart } from "../../../utils/local"
 import { Bracket } from "../../match-brackets"
@@ -15,22 +16,24 @@ const atRule = /@([\w-]*)(?!\w|-)(?:[^;{"']|"(?:\\[\s\S]|[^\\\n"])*"|'(?:\\[\s\S
 
 const tagNames: Completion[] = Object.keys(htmlTags).map(tag => ({ label: tag, icon: "keyword" }))
 
+const createPropCompletion = (prop: string, icon?: Completion["icon"]) => ({
+	label: prop,
+	icon: icon,
+	insert: prop + ": ;",
+	tabStops: [prop.length + 2],
+})
+
 const getCSSProperties = () => {
 	if (!properties) {
 		properties = []
-		const style = document.body.style
+		const style = doc!.body.style
 		const seen = new Set<string>()
 		for (let key in style) {
 			if (typeof style[key] == "string" && !/-|^moz|^webkit/i.test(key)) {
 				key = key.replace(/[A-Z]/g, char => "-" + char.toLowerCase())
 				if (!seen.has(key)) {
 					seen.add(key)
-					properties.push({
-						label: key,
-						icon: "property",
-						insert: key + ": ;",
-						tabStops: [key.length + 2],
-					})
+					properties.push(createPropCompletion(key, "property"))
 				}
 			}
 		}
@@ -59,13 +62,31 @@ const cssCompletion = (
 		let from = context.lineBefore.search(/[\w-]*$/) + getLineStart(before, pos)
 		let options: Completion[] | undefined
 		let currentStatement = before
-			.slice(Math.max(...["{", "}", ";"].map(c => before.lastIndexOf(c) + 1)))
+			.slice(Math.max(...["{", "}", ";"].map(c => before.lastIndexOf(c))) + 1)
 			.trimStart()
+
+		let colonIndex = currentStatement.lastIndexOf(":")
+		let inPropValue = colonIndex > -1
+
+		let setPropCompletion = () => {
+			options = Array.from(
+				findWords(context, editor, type => type == "variable", /.+/g, variables, true),
+				name =>
+					inPropValue
+						? {
+								label: name,
+								insert: inPropValue ? `var(${name})` : name,
+						  }
+						: createPropCompletion(name),
+			)
+			options!.push(...(inPropValue ? cssValues : getCSSProperties()))
+		}
 
 		if (getClosestToken(editor, ".comment,.string", 0, 0, pos)) return
 
 		if (getClosestToken(editor, ".tag", 0, 0, pos)) {
-			options = currentStatement.includes(":") ? cssValues : getCSSProperties()
+			inPropValue = inPropValue && !/style\s*=/.test(currentStatement.slice(colonIndex))
+			setPropCompletion()
 		} else {
 			const atRuleMatch = atRule.exec(before)
 
@@ -82,9 +103,9 @@ const cssCompletion = (
 				let charBefore = before[from - 1]
 				for (; (bracket = brackets[i]); i++) {
 					if (
-						bracket[3] == "{" &&
+						bracket[4] == "{" &&
 						bracket[1] < pos &&
-						brackets[pairs[i]!]?.[5] > pos &&
+						brackets[pairs[i]!]?.[2] > pos &&
 						!hasStyleRules.includes(before.slice(0, bracket[1]).match(atRule)?.[1]!)
 					) {
 						inSelector = "&+>~:.#[".includes(currentStatement[0])
@@ -102,33 +123,26 @@ const cssCompletion = (
 								options = pseudoClasses
 							}
 						} else if (charBefore == ".") {
-							options = findWords(
-								context,
-								editor,
-								type => type == "selector" || type == "class",
-								/.+/g,
-								classes,
-								true,
-							).map(name => ({ label: name, icon: "keyword" }))
+							options = Array.from(
+								findWords(
+									context,
+									editor,
+									type => type == "selector" || type == "class",
+									/.+/g,
+									classes,
+									true,
+								),
+								name => ({ label: name, icon: "keyword" }),
+							)
 							from--
 						} else if (charBefore != "#") options = tagNames
 					}
-				} else {
-					options = findWords(
-						context,
-						editor,
-						type => type == "variable",
-						/.+/g,
-						variables,
-						true,
-					).map(name => ({
-						label: name,
-					}))
-					options.push(...(currentStatement.includes(":") ? cssValues : getCSSProperties()))
+				} else if (charBefore != "#") {
+					setPropCompletion()
 				}
 			}
 		}
-		if (options && (from < pos || context.explicit)) {
+		if (options && ((from < pos && /\D/.test(before[from])) || context.explicit)) {
 			return {
 				from,
 				options,

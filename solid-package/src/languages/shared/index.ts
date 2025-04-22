@@ -1,12 +1,19 @@
 import { CommentTokens, InputSelection, Language, PrismEditor, languageMap } from "../.."
 import { getClosestToken, getLineBefore } from "../../utils"
+import { voidTags } from "../../utils/local"
 
-const clikeIndent = /[([{][^)\]}]*$|^[^.]*\b(?:case .+?|default):\s*$/,
-	isBracketPair = /\[]|\(\)|{}/,
-	xmlOpeningTag =
-		/<(?![?!\d#@])([^\s/=>$<%]+)(?:\s(?:\s*[^\s/"'=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*>[ \t]*$/,
-	xmlClosingTag = /^<\/(?!\d)[^\s/=>$<%]+\s*>/,
-	openBracket = /[([{][^)\]}]*$/
+const space = "(?:\\s|//.*(?!.)|/\\*(?:[^*]|\\*(?!/))*\\*/)"
+const braces = "\\{(?:[^{}]|\\{(?:[^{}]|\\{(?:[^{}]|\\{[^}]*\\})*\\})*\\})*\\}"
+const clikeIndent = /[([{][^)\]}]*$|^[^.]*\b(?:case .+?|default):\s*$/
+const isBracketPair = /\[]|\(\)|{}/
+const xmlOpeningTag =
+		/<(?![\d?!#@])([^\s/=>$<%]+)(?:\s(?:\s*[^\s/"'=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*>[ \t]*$/
+const xmlClosingTag = /^<\/(?!\d)[^\s/=>$<%]+\s*>/
+const openBracket = /[([{][^)\]}]*$/
+const astroOpeningTag = RegExp(
+	`<(?:(?![\\d!])([^\\s%=<>/]+)(?:\\s(?:\\s*(?:[^\\s{=<>/]+(?:\\s*=\\s*(?!\\s)(?:"[^"]*"|'[^']*'|[^\\s{=<>/"']+(?=[\\s/>])|${braces})?|(?=[\\s/>]))|${braces}))*)?\\s*)?>[ \\t]*$`,
+)
+
 
 const testBracketPair = ([start, end]: InputSelection, value: string) => {
 	return isBracketPair.test(value[start - 1] + value[end])
@@ -16,8 +23,6 @@ const clikeComment: CommentTokens = {
 	line: "//",
 	block: ["/*", "*/"],
 }
-
-const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
 
 const isOpen = (match: RegExpMatchArray | null, voidTags?: RegExp) =>
 	!!match && !voidTags?.test(match[1])
@@ -108,4 +113,7 @@ export {
 	markupTemplateLang,
 	markupLanguage,
 	markupComment,
+	braces,
+	space,
+	astroOpeningTag,
 }

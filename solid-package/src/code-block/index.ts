@@ -1,6 +1,6 @@
 import { Accessor, createComponent, createMemo, createRenderEffect, For, JSX } from "solid-js"
 import { highlightTokens, languages, tokenizeText, TokenStream } from "../prism/index"
-import { insert, template } from "solid-js/web"
+import { insert, style, template } from "solid-js/web"
 
 export type CodeBlockProps = {
 	/** Language used for syntax highlighting. */
@@ -22,15 +22,19 @@ export type CodeBlockProps = {
 	 */
 	preserveIndent?: boolean
 	/**
-	 * Whether or not to display indentation guides. Does support `wordWrap` unline the
+	 * Whether or not to display indentation guides. Does support `wordWrap` unlike the
 	 * `indentGuides()` editor extension. Does not work with `rtl`. @default false
 	 */
 	guideIndents?: boolean
 	/**
 	 * Whether the code block uses right to left directionality. Requires styles from
-	 * `prism-code-editor/rtl-layout.css` to work. @default false
+	 * `solid-prism-editor/rtl-layout.css` to work. @default false
 	 */
 	rtl?: boolean
+	/** Inline styles for the container element. */
+	style?: Omit<JSX.CSSProperties, "tab-size" | "counter-reset">
+	/** Additional classes for the container element. */
+	class?: string
 	/**
 	 * Callback that can be used to modify the tokens before they're stringified to HTML.
 	 * Can be used to add rainbow brackets for example.
@@ -51,7 +55,10 @@ export type PrismCodeBlock = {
 	readonly lines: HTMLCollectionOf<HTMLDivElement>
 }
 
-export type CodeBlockOverlay = (props: CodeBlockProps, codeBlock: PrismCodeBlock) => JSX.Element
+export type CodeBlockOverlay = (
+	codeBlock: PrismCodeBlock,
+	props: CodeBlockProps,
+) => JSX.Element | void
 
 const block = template("<pre><code class=pce-wrapper><div class=pce-overlays>")
 const line = template("<div class=pce-line>")
@@ -62,7 +69,7 @@ const CodeBlock = (props: CodeBlockProps) => {
 	const lines = createMemo(() => {
 		let code = preserve() ? props.code.replace(/\t/g, " ".repeat(props.tabSize || 2)) : props.code
 		let tokens = tokenizeText(
-			code.includes("\r") ? code.replace(/\r?\n/g, "\n") : code,
+			code.includes("\r") ? code.replace(/\r\n?/g, "\n") : code,
 			languages[props.language] || {},
 		)
 		props.onTokenize?.(tokens)
@@ -116,7 +123,7 @@ const CodeBlock = (props: CodeBlockProps) => {
 			get each() {
 				return props.overlays
 			},
-			children: (overlay: CodeBlockOverlay) => overlay(props, codeBlock),
+			children: (overlay: CodeBlockOverlay) => overlay(codeBlock, props)!,
 		}),
 		null,
 	)
@@ -140,12 +147,17 @@ const CodeBlock = (props: CodeBlockProps) => {
 	)
 
 	createRenderEffect(() => {
+		let propClass = props.class
 		container.className = `prism-code-editor language-${props.language}${
 			props.lineNumbers ? " show-line-numbers" : ""
 		} pce-${props.wordWrap ? "" : "no"}wrap${props.rtl ? " pce-rtl" : ""}${
 			preserve() ? " pce-preserve" : ""
-		}${hasGuides() ? " pce-guides" : ""}`
+		}${hasGuides() ? " pce-guides" : ""}${propClass ? " " + propClass : ""}`
 	})
+
+	createRenderEffect<Record<string, string>>(
+		prev => style(container, props.style as Record<string, string>, prev)!,
+	)
 
 	createRenderEffect(() => {
 		const style = container.style

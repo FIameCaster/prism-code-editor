@@ -2,9 +2,7 @@ import { Token, TokenStream } from "../prism/index"
 import { Extension } from ".."
 import { createEffect, onCleanup, untrack } from "solid-js"
 import { getClosestToken } from "../utils"
-
-const voidlessLangs = "xml,rss,atom,jsx,tsx,xquery,actionscript".split(",")
-const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
+import { voidlessLangs, voidTags } from "../utils/local"
 
 /**
  * Tuple containing in the following order:
@@ -45,7 +43,7 @@ const matchTags = (): Extension => editor => {
 	let stack: [number, string][] = []
 
 	let matchTagsRecursive = (tokens: TokenStream, language: string, position: number) => {
-		let noVoidTags = voidlessLangs.includes(language)
+		let noVoidTags = voidlessLangs.has(language)
 		let i = 0
 		let l = tokens.length
 		for (; i < l; ) {

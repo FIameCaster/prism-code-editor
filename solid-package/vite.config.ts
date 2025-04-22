@@ -23,6 +23,8 @@ const entries: Record<string, string> = {
 	"extensions/autocomplete/css/index": "src/extensions/autocomplete/css/index.ts",
 	"extensions/autocomplete/markup/index": "src/extensions/autocomplete/markup/index.ts",
 	"extensions/autocomplete/javascript/index": "src/extensions/autocomplete/javascript/index.ts",
+	"extensions/autocomplete/svelte/index": "src/extensions/autocomplete/svelte/index.ts",
+	"extensions/autocomplete/vue/index": "src/extensions/autocomplete/vue/index.ts",
 	autocomplete: "src/extensions/autocomplete/style.css",
 	"autocomplete-icons": "src/extensions/autocomplete/icons.css",
 	"extensions/overscroll": "src/extensions/overscroll.ts",

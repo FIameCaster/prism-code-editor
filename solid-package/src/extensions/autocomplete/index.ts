@@ -2,5 +2,5 @@
 
 export { autoComplete, registerCompletions } from "./tooltip"
 export { fuzzyFilter, strictFilter } from "./filter"
-export { findWords, completeSnippets } from "./utils"
+export { findWords, completeFromList } from "./utils"
 export * from "./types"

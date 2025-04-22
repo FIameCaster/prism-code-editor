@@ -17,7 +17,7 @@ export const highlightBracketPairs = (): Extension => editor => {
 			let { brackets, pairs } = matcher
 			if (editor.focused() && start == end)
 				for (let i = 0, bracket: Bracket; (bracket = brackets[++i]); ) {
-					if (!bracket[4] && bracket[5] >= end && brackets[pairs[i]!]?.[1] <= end) {
+					if (!bracket[5] && bracket[2] >= end && brackets[pairs[i]!]?.[1] <= end) {
 						newId = i
 						break
 					}
@@ -31,7 +31,7 @@ export const highlightBracketPairs = (): Extension => editor => {
 					els[0] = getClosestToken(editor, ".punctuation", 0, -1, opening[1])!
 					els[1] = getClosestToken(editor, ".punctuation", 0, -1, closing[1])!
 
-					if (els[0] != els[1] && opening[1] + opening[3].length == closing[1]) {
+					if (els[0] != els[1] && opening[2] == closing[1]) {
 						els[0].textContent += els[1].textContent!
 						els[1].textContent = ""
 						els[1] = els[0]

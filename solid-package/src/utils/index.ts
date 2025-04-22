@@ -54,7 +54,7 @@ const getClosestToken = (
 	const line = editor.lines[numLines(value, 0, position)]
 
 	// We unfortunitely have to include elements, else we can't get empty tokens
-	const walker = document.createTreeWalker(line, 5)
+	const walker = doc!.createTreeWalker(line, 5)
 	let node = walker.lastChild()
 	let offset = getLineEnd(value, position) + 1 - position - (<Text>node).length
 
@@ -77,7 +77,7 @@ const getClosestToken = (
  * @param position Position to search in. Defaults to `selectionStart`.
  */
 const getLanguage = (editor: PrismEditor, position?: number) =>
-	getClosestToken(editor, '[class*="language-"]', 0, 0, position)?.className.match(
+	getClosestToken(editor, "[class*=language-]", 0, 0, position)?.className.match(
 		/language-(\S*)/,
 	)![1] || editor.props.language
 
@@ -140,13 +140,13 @@ const insertText = (
 			}
 			// New line at the end is always ignored in Safari
 			if (isWebKit) text += "\n"
-			document.execCommand(
+			doc!.execCommand(
 				text ? "insertHTML" : "delete",
 				false,
 				text.replace(/&/g, "&amp;").replace(/</g, "&lt;"),
 			)
 			if (avoidBug) textarea.selectionStart++
-		} else document.execCommand(text ? "insertText" : "delete", false, text)
+		} else doc!.execCommand(text ? "insertText" : "delete", false, text)
 
 		prevSelection = 0
 	}
@@ -166,7 +166,7 @@ const setSelection = (
 	end = start,
 	direction?: "backward" | "forward" | "none",
 ) => {
-	let focused = editor.focused
+	let focused = editor.focused()
 	let textarea = editor.textarea
 	let relatedTarget!: HTMLElement | null
 	if (!focused) {
@@ -196,7 +196,7 @@ const isWebKit = !isChrome && /AppleWebKit\//.test(userAgent)
  * Returns a 4 bit integer where each bit represents whether
  * each modifier is pressed in the order Shift, Meta, Ctrl, Alt
  * ```javascript
- * e.altKey && e.ctrlKey && e.shiftKey && !e.metaKey
+ * e.shiftKey && !e.metaKey && e.ctrlKey && e.altKey
  * // is equivalent to
  * getModifierCode(e) == 0b1011
  * ```

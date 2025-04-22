@@ -90,7 +90,7 @@ export declare const extend: (id: string, reDef?: Grammar) => Grammar
  * Custom tokenizer for languages that are embedded in another language.
  * 
  * This works by first tokenizing everything using the grammar of the embedded language.
- * Then, all tokens whoose name doesn't start with `ignore` are replaced with whitespace
+ * Then, all tokens whose name doesn't start with `ignore` are replaced with whitespace
  * of the same length. This new string is then tokenized using `hostGrammar`, and all the
  * replaced tokens are inserted into the new token stream.
  * 

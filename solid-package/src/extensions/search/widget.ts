@@ -1,5 +1,5 @@
 import { createEffect, createSignal, on, onCleanup, onMount, untrack } from "solid-js"
-import { addListener, numLines, preventDefault } from "../../core"
+import { addListener, doc, numLines, preventDefault } from "../../core"
 import { Extension, InputSelection } from "../../types"
 import { createReplaceAPI } from "./replace"
 import { addTextareaListener, getLineEnd, getLineStart, updateNode } from "../../utils/local"
@@ -161,7 +161,7 @@ export const searchWidget = (): Extension => editor => {
 			if (/^$|\n/.test(word)) startSearch()
 			else {
 				if (useRegExp) word = regexEscape(word)
-				document.execCommand("insertText", false, word)
+				doc!.execCommand("insertText", false, word)
 				findInput.select()
 			}
 		}
