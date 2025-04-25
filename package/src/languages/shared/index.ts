@@ -91,7 +91,7 @@ const bracketIndenting = (comments = clikeComment, indentPattern = openBracket):
 const markupTemplateLang = (name: string, comments: CommentTokens): Language =>
 	(languageMap[name] = {
 		comments,
-		autoIndent: htmlAutoIndent(xmlClosingTag, voidTags),
+		autoIndent: htmlAutoIndent(xmlOpeningTag, voidTags),
 		autoCloseTags: ([start, end], value, editor) => {
 			return getClosestToken(editor, "." + name, 0, 0, start)
 				? ""
