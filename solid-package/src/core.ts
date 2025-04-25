@@ -240,7 +240,7 @@ const doc = "u" > typeof window ? document : null
 const languageMap: Record<string, Language> = {}
 
 const editorTemplate = template(
-	"<div><div class=pce-wrapper><div class=pce-overlays><textarea class=pce-textarea spellcheck=false autocapitalize=off autocomplete=off>",
+	"<div tabindex=-1><div class=pce-wrapper><div class=pce-overlays><textarea class=pce-textarea spellcheck=false autocapitalize=off autocomplete=off>",
 )
 
 const preventDefault = (e: Event) => {

@@ -67,7 +67,7 @@ const renderEditor = <T extends {} = {}>(options: RenderOptions & Omit<T, keyof 
 	let i = 0
 
 	html +=
-		`style=tab-size:${+tabSize! || 2};--number-width:${(0 | Math.log10(l)) + 1}.001ch>` +
+		`style=tab-size:${+tabSize! || 2};--number-width:${(0 | Math.log10(l)) + 1}.001ch tabsize=-1>` +
 		"<div class=pce-wrapper><div class=pce-overlays>" +
 		"<textarea class=pce-textarea spellcheck=false autocapitalize=off autocomplete=off></textarea>"
 

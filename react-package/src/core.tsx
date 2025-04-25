@@ -218,6 +218,7 @@ const Editor = memo(
 					...props.style,
 					tabSize: props.tabSize || 2,
 				}}
+				tabIndex={-1}
 			>
 				<div
 					className="pce-wrapper"
