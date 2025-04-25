@@ -92,6 +92,7 @@ const useAutoComplete = (editor: PrismEditor, config: AutoCompleteConfig) => {
 		const hide = () => {
 			if (isOpen) {
 				_hide()
+				textarea.removeAttribute("aria-controls")
 				textarea.removeAttribute("aria-haspopup")
 				textarea.removeAttribute("aria-activedescendant")
 				isOpen = false
@@ -267,6 +268,7 @@ const useAutoComplete = (editor: PrismEditor, config: AutoCompleteConfig) => {
 
 					isOpen = true
 					show(_config[0].preferAbove)
+					textarea.setAttribute("aria-controls", id)
 					textarea.setAttribute("aria-haspopup", "listbox")
 					updateActive()
 				} else hide()
@@ -446,7 +448,6 @@ const useAutoComplete = (editor: PrismEditor, config: AutoCompleteConfig) => {
 				shouldOpen = isTyping
 			}),
 			() => {
-				textarea.removeAttribute("aria-controls")
 				textarea.removeAttribute("aria-autocomplete")
 			},
 			hide,
@@ -472,7 +473,6 @@ const useAutoComplete = (editor: PrismEditor, config: AutoCompleteConfig) => {
 		]
 
 		tabStopsContainer.className = "pce-tabstops"
-		textarea.setAttribute("aria-controls", id)
 		textarea.setAttribute("aria-autocomplete", "list")
 		list.textContent = ""
 

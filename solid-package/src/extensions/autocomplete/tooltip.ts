@@ -91,6 +91,7 @@ const autoComplete =
 		const hide = () => {
 			if (isOpen) {
 				_hide()
+				textarea.removeAttribute("aria-controls")
 				textarea.removeAttribute("aria-haspopup")
 				textarea.removeAttribute("aria-activedescendant")
 				isOpen = false
@@ -266,6 +267,7 @@ const autoComplete =
 
 					isOpen = true
 					show(config.preferAbove)
+					textarea.setAttribute("aria-controls", id)
 					textarea.setAttribute("aria-haspopup", "listbox")
 					updateActive()
 				} else hide()
@@ -389,10 +391,13 @@ const autoComplete =
 				},
 				true,
 			),
+			hide,
+			() => {
+				textarea.removeAttribute("aria-autocomplete")
+			},
 		]
 
 		tabStopsContainer.className = "pce-tabstops"
-		textarea.setAttribute("aria-controls", id)
 		textarea.setAttribute("aria-autocomplete", "list")
 
 		for (let i = 0; i < windowSize; ) {
