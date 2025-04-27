@@ -1,8 +1,16 @@
 import { createEffect, onCleanup } from "solid-js"
 import { Extension } from "../../types"
-import { Bracket } from "."
+import { Bracket, matchBrackets } from "."
 import { getClosestToken } from "../../utils"
 
+/**
+ * Extension adding a `selectionChange` handler to highlight the bracket pair closest to
+ * the cursor.
+ *
+ * This extension requires the {@link matchBrackets} extension to work.
+ *
+ * The `.active-bracket` CSS selector can be used to highlight the brackets.
+ */
 export const highlightBracketPairs = (): Extension => editor => {
 	let els: HTMLSpanElement[] = []
 	let toggleActive = (add?: boolean) =>

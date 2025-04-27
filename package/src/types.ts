@@ -28,7 +28,7 @@ export type EditorOptions = {
 	 */
 	rtl?: boolean
 	/**
-	 * Additional classes to add to the root container. Useful to style individual editors.
+	 * Additional classes for the root container. Useful to style individual editors.
 	 * The `.prism-code-editor` selector can be used to style all editors.
 	 */
 	class?: string

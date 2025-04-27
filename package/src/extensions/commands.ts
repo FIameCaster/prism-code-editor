@@ -380,7 +380,7 @@ const defaultCommands =
 	}
 
 export interface EditHistory extends BasicExtension {
-	/** Clears the history stack. Probably necessary after changing the value of the editor. */
+	/** Clears the history stack. Usually wanted after changing the value of the editor. */
 	clear(): void
 	/**
 	 * Sets the active entry relative to the current entry.
@@ -410,7 +410,7 @@ export interface EditHistory extends BasicExtension {
  * in some cases.
  *
  * It should be noted that the history stack is not automatically cleared when the editors
- * value is changed programmatically using `editor.setOptions` Instead you can clear the
+ * value is changed programmatically using `editor.setOptions`. Instead you can clear the
  * stack any time using {@link EditHistory.clear}.
  *
  * Once added to an editor, this extension can be accessed from `editor.extensions.history`.

@@ -8,7 +8,10 @@ import type { ReadOnlyCodeFolding } from "./extensions/folding"
 import type { ReactNode } from "react"
 
 export type EditorProps = {
-	/** Language used for syntax highlighting. @default "text" */
+	/**
+	 * Language used for syntax highlighting. If the language doesn't have a registered
+	 * Prism grammar, syntax highlighting will be disabled. @default "text"
+	 */
 	language: string
 	/** Tabsize for the editor. @default 2 */
 	tabSize?: number | undefined
@@ -39,7 +42,7 @@ export type EditorProps = {
 	onSelectionChange?(selection: InputSelection, value: string, editor: PrismEditor): void
 	/** Function called before the tokens are stringified to HTML. */
 	onTokenize?(tokens: TokenStream, language: string, value: string, editor: PrismEditor): void
-	/** Callback used to add extensions and render overlays. */
+	/** Function used to add extensions and render overlays. */
 	children?(editor: PrismEditor): ReactNode
 }
 

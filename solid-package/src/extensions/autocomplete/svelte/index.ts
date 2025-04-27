@@ -117,12 +117,12 @@ const addBinds = (binds: string[], options: Completion[]) => {
 
 /**
  * Completion source that adds completion for HTML and SVG tags to Svelte. When configured,
- * it can also provide completion for specific Svelte components.
- * @param blockSnippets Snippets used to complete svelte blocks such as `{#each}`.
+ * it can also provide completions for specific Svelte components.
+ * @param blockSnippets Snippets used to complete Svelte blocks such as `{#each}`.
  * @param components Used to configure autocompletion for Svelte components. This is an
  * object mapping each component's name to the properties available for that component.
  * @param nestedSource Completion source that will be used whenever the completion isn't
- * happening inside a tag or Svelte block. Can be used to provide completion of snippets
+ * happening inside a tag or Svelte block. Can be used to provide completions of snippets
  * for example.
  */
 const svelteCompletion =

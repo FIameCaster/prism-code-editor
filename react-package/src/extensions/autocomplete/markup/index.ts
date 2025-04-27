@@ -39,14 +39,14 @@ const getTagMatch = (
 /**
  * Completion source that adds auto completion for specified tags.
  * @param namespaces Array of different namespaces of tags you want to provide
- * completion for. The `tags` property maps tag names in that namespace to completable
+ * completions for. The `tags` property maps tag names in that namespace to completable
  * attributes for that tag. The optional `globals` property allows you to override the
  * global attributes shared by all tags in the namespace. If omitted, the
  * `globalAttributes` parameter is used.
  * @param globalAttributes Default global attributes. Used by unrecognized tags or when
  * the `globals` property is omitted.
  *  @param nestedSource Completion source that will be used whenever the completion isn't
- * happening inside a tag. Can be used to provide completion of snippets for example.
+ * happening inside a tag. Can be used to provide completions for snippets for example.
  * @returns A Completion source.
  */
 const markupCompletion = (

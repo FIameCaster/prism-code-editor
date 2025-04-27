@@ -6,6 +6,7 @@ import { createTemplate, getLineEnd, updateNode } from "../../utils/local"
 import { Token, TokenStream } from "../../prism"
 import { useTagMatcher } from "../match-tags"
 import { useBracketMatcher } from "../match-brackets"
+
 /**
  * Callback used to add extra foldable ranges to an editor.
  * @param editor Editor the folding ranges are added to.
@@ -53,7 +54,7 @@ const isMultiline = (str: string, start: number, end: number) =>
  * @param providers By default, this extension does not add any foldable ranges and you
  * must add folding range providers. This package defines multiple folding range providers
  * you can import like {@link bracketFolding}, {@link tagFolding},
- * {@link blockCommentFolding} and {@link markdownFolding}. You can also define your own
+ * {@link blockCommentFolding}, and {@link markdownFolding}. You can also define your own
  * providers.
  */
 const useReadOnlyCodeFolding = (editor: PrismEditor, ...providers: FoldingRangeProvider[]) => {

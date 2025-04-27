@@ -8,7 +8,10 @@ import type { SearchWidget } from "./extensions/search/widget"
 import type { ReadOnlyCodeFolding } from "./extensions/folding"
 
 export type EditorProps = {
-	/** Language used for syntax highlighting. @default "text" */
+	/**
+	 * Language used for syntax highlighting. If the language doesn't have a registered
+	 * Prism grammar, syntax highlighting will be disabled. @default "text"
+	 */
 	language: string
 	/** Tabsize for the editor. @default 2 */
 	tabSize?: number | undefined

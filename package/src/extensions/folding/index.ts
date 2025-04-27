@@ -48,8 +48,8 @@ const isMultiline = (str: string, start: number, end: number) =>
  *
  * @param providers By default, this extension does not add any foldable ranges and you
  * must add folding range providers. This package defines multiple folding range providers
- * you can impor like {@link bracketFolding}, {@link tagFolding},
- * {@link blockCommentFolding} and {@link markdownFolding}. You can also define your own
+ * you can import like {@link bracketFolding}, {@link tagFolding},
+ * {@link blockCommentFolding}, and {@link markdownFolding}. You can also define your own
  * providers.
  *
  * Very minimal downsides to adding this extension dynamically.

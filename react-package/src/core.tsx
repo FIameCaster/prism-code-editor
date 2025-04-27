@@ -271,7 +271,7 @@ const useStableRef = <T extends unknown>(value: T) => {
 
 /**
  * Counts number of lines in the string between `start` and `end`.
- * If start and end are excluded, the whole string is searched.
+ * If start and end are omitted, the whole string is searched.
  */
 const numLines = (str: string, start = 0, end = Infinity) => {
 	let count = 1

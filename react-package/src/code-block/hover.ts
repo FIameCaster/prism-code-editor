@@ -29,6 +29,9 @@ type HoverCallback = (
 	element: HTMLSpanElement,
 ) => (string | Node)[] | null | undefined
 
+/**
+ * Component that makes it easier to add hover descriptions to tokens.
+ */
 const HoverDescriptions = ({
 	callback,
 	codeBlock,
@@ -36,6 +39,17 @@ const HoverDescriptions = ({
 	maxWidth,
 	maxHeight,
 }: {
+	/** Function called when a token with only textual children is hovered.
+	 *
+	 * The function gets called with the following arguments:
+	 * - `types`: Array with the token's type as the first element, followed by any alises.
+	 * - `language`: The language at the token's position.
+	 * - `text`: The `textContent` of the token.
+	 * - `element`: The `<span>` element of the hovered token.
+	 *
+	 * Lastly, the function should return an array of children that get added to the tooltip.
+	 * If `null` or `undefined` is returned, no tooltip is shown for the token.
+	 */
 	callback: HoverCallback
 	codeBlock: PrismCodeBlock
 	props: CodeBlockProps
@@ -123,7 +137,7 @@ const HoverDescriptions = ({
 
 /**
  * Highlights bracket pairs when hovered. Clicking on a pair keeps it highlighted.
- * Clicking anywhere inside the codeblock removes the highlight.
+ * Clicking anywhere inside the code block removes the highlight.
  */
 const HighlightBracketPairsOnHover = ({
 	pairs = "()[]{}",
@@ -174,9 +188,8 @@ const HighlightBracketPairsOnHover = ({
 }
 
 /**
- * Highlights tag pairs when a tagname is hovered. Clicking on a pair keeps it
- * highlighted. Clicking anywhere inside the codeblock removes the highlight.
- * @param codeBlock Code block to add tag pair highlighting to.
+ * Highlights tag pairs when a tag name is hovered. Clicking on a pair keeps it
+ * highlighted. Clicking anywhere inside the code block removes the highlight.
  */
 const HighlightTagPairsOnHover = ({
 	codeBlock,

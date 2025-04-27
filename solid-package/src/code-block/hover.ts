@@ -32,7 +32,7 @@ const getLanguageAt = (token: Element) => {
  * - `types`: Array with the token's type as the first element, followed by any alises.
  * - `language`: The language at the token's position.
  * - `text`: The `textContent` of the token.
- * - `element`: The `<span>` element for the hovered token.
+ * - `element`: The `<span>` element of the hovered token.
  *
  * Lastly, the function should return an array of children that get added to the tooltip.
  * If `null` or `undefined` is returned, no tooltip is shown for the token.
@@ -123,7 +123,7 @@ const addHoverDescriptions =
 
 /**
  * Highlights bracket pairs when hovered. Clicking on a pair keeps it highlighted.
- * Clicking anywhere inside the codeblock removes the highlight.
+ * Clicking anywhere inside the code block removes the highlight.
  *
  * The order inside `openingBrackets` and `closingBrackets` determines which tokens are
  * matched together.
@@ -168,8 +168,8 @@ const highlightBracketPairsOnHover =
 	}
 
 /**
- * Highlights tag pairs when a tagname is hovered. Clicking on a pair keeps it
- * highlighted. Clicking anywhere inside the codeblock removes the highlight.
+ * Highlights tag pairs when a tag name is hovered. Clicking on a pair keeps it
+ * highlighted. Clicking anywhere inside the code block removes the highlight.
  * @param codeBlock Code block to add tag pair highlighting to.
  */
 const highlightTagPairsOnHover = (): CodeBlockOverlay => (codeBlock, props) => {

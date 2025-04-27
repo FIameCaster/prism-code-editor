@@ -3,7 +3,10 @@ import { highlightTokens, languages, tokenizeText, TokenStream } from "../prism"
 import { useStableRef } from "../core"
 
 export type CodeBlockProps = {
-	/** Language used for syntax highlighting. */
+	/**
+	 * Language used for syntax highlighting. If the language doesn't have a registered
+	 * Prism grammar, syntax highlighting will be disabled.
+	 */
 	language: string
 	/** Code in the code block. */
 	code: string
@@ -40,6 +43,10 @@ export type CodeBlockProps = {
 	 * Can be used to add rainbow brackets for example.
 	 */
 	onTokenize?(tokens: TokenStream): void
+	/**
+	 * Function used to call components that modify the code block. Examples include adding
+	 * a copy button, hover descriptions, and bracket pair highlighting on hover.
+	 */
 	children?(codeBlock: PrismCodeBlock, props: CodeBlockProps): ReactNode
 }
 
@@ -55,6 +62,10 @@ export type PrismCodeBlock = {
 	lines?: HTMLCollectionOf<HTMLDivElement>
 }
 
+/**
+ * Component that creates a code block with syntax highlighting. Requires styles from
+ * `prism-react-editor/code-block.css` in addition to the normal layout.
+ */
 const CodeBlock = (props: CodeBlockProps) => {
 	const {
 		onTokenize,

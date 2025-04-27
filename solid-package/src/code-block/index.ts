@@ -3,7 +3,10 @@ import { highlightTokens, languages, tokenizeText, TokenStream } from "../prism/
 import { insert, style, template } from "solid-js/web"
 
 export type CodeBlockProps = {
-	/** Language used for syntax highlighting. */
+	/**
+	 * Language used for syntax highlighting. If the language doesn't have a registered
+	 * Prism grammar, syntax highlighting will be disabled.
+	 */
 	language: string
 	/** Code in the code block. */
 	code: string
@@ -40,6 +43,10 @@ export type CodeBlockProps = {
 	 * Can be used to add rainbow brackets for example.
 	 */
 	onTokenize?(tokens: TokenStream): void
+	/**
+	 * Array of functions that can be used to modify the code block. Examples include
+	 * adding a copy button, hover descriptions, and bracket pair highlighting on hover.
+	 */
 	overlays?: CodeBlockOverlay[]
 }
 
@@ -63,6 +70,13 @@ export type CodeBlockOverlay = (
 const block = template("<pre><code class=pce-wrapper><div class=pce-overlays>")
 const line = template("<div class=pce-line>")
 
+/**
+ * Component that creates a code block with syntax highlighting. Requires styles from
+ * `solid-prism-editor/code-block.css` in addition to the normal layout.
+ * 
+ * Syntax highlighting will be disabled if the language doesn't have a registered Prism
+ * grammar.
+ */
 const CodeBlock = (props: CodeBlockProps) => {
 	const hasGuides = createMemo(() => props.guideIndents && !props.rtl)
 	const preserve = createMemo(() => props.preserveIndent ?? props.wordWrap)

@@ -2,10 +2,22 @@ import { useEffect } from "react"
 import { addListener, doc, numLines, preventDefault } from "../../core"
 import { InputSelection, PrismEditor } from "../../types"
 import { useEditorReplace } from "./replace"
-import { addOverlay, getModifierCode, regexEscape } from "../../utils"
+import {
+	addOverlay,
+	getModifierCode,
+	regexEscape,
+	isMac,
+	isWebKit,
+	getLineBefore,
+} from "../../utils"
 import { getStyleValue } from "../../utils/other"
-import { addListener2, createTemplate, getLineEnd, getLineStart, updateNode } from "../../utils/local"
-import { isMac, isWebKit } from "../../utils"
+import {
+	addListener2,
+	createTemplate,
+	getLineEnd,
+	getLineStart,
+	updateNode,
+} from "../../utils/local"
 
 const shortcut = ` (Alt+${isMac ? "Cmd+" : ""}`
 
@@ -34,6 +46,9 @@ export interface SearchWidget {
 /**
  * Hook that adds a widget for search and replace functionality.
  * This requires styling from `prism-react-editor/search.css`.
+ *
+ * The widget can be opened/closed programmatically with the
+ * `editor.extensions.searchWidget` object once effects have been run.
  */
 const useSearchWidget = (editor: PrismEditor) => {
 	const replaceAPI = useEditorReplace(editor, "pce-matches")
@@ -109,8 +124,8 @@ const useSearchWidget = (editor: PrismEditor) => {
 				let value = editor.value
 				let word =
 					value.slice(start, end) ||
-					value.slice(0, start).match(/[_\p{N}\p{L}]*$/u)![0] +
-						value.slice(start).match(/^[_\p{N}\p{L}]*/u)![0]
+					/[_\p{N}\p{L}]*$/u.exec(getLineBefore(value, start))![0] +
+						/^[_\p{N}\p{L}]*/u.exec(value.slice(start))![0]
 				if (/^$|\n/.test(word)) startSearch()
 				else {
 					if (useRegExp) word = regexEscape(word)

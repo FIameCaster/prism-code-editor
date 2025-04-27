@@ -22,7 +22,7 @@ export type Tooltip = {
 }
 
 /**
- * Utility making it easy to add tooltips positioned on the cursor to an editor. Before you
+ * Utility making it easy to add tooltips positioned on the editor's cursor. Before you
  * can show the tooltip, a {@link cursorPosition} extension must be added to the editor.
  *
  * This works by appending your tooltip to a flex container. You can style this container

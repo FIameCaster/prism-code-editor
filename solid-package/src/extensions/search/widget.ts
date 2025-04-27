@@ -3,7 +3,7 @@ import { addListener, doc, numLines, preventDefault } from "../../core"
 import { Extension, InputSelection } from "../../types"
 import { createReplaceAPI } from "./replace"
 import { addTextareaListener, getLineEnd, getLineStart, updateNode } from "../../utils/local"
-import { getModifierCode, isMac, isWebKit, regexEscape } from "../../utils"
+import { getLineBefore, getModifierCode, isMac, isWebKit, regexEscape } from "../../utils"
 import { getStyleValue } from "../../utils/other"
 import { TokenStream } from "../../prism"
 import { template as _template } from "solid-js/web"
@@ -32,6 +32,13 @@ export interface SearchWidget {
 	open: (focusInput?: boolean) => void
 }
 
+/**
+ * Extension that adds a widget for search and replace functionality.
+ * This extension needs styles from `solid-prism-editor/search.css`.
+ *
+ * Once added to an editor the widget can be opened/closed programmatically with the
+ * `editor.extensions.searchWidget` object.
+ */
 export const searchWidget = (): Extension => editor => {
 	let currentSelection: InputSelection
 	let prevUserSelection: InputSelection
@@ -156,8 +163,8 @@ export const searchWidget = (): Extension => editor => {
 			let value = editor.value
 			let word =
 				value.slice(start, end) ||
-				value.slice(0, start).match(/[_\p{N}\p{L}]*$/u)![0] +
-					value.slice(start).match(/^[_\p{N}\p{L}]*/u)![0]
+				/[_\p{N}\p{L}]*$/u.exec(getLineBefore(value, start))![0] +
+					/^[_\p{N}\p{L}]*/u.exec(value.slice(start))![0]
 			if (/^$|\n/.test(word)) startSearch()
 			else {
 				if (useRegExp) word = regexEscape(word)
@@ -260,15 +267,13 @@ export const searchWidget = (): Extension => editor => {
 		}),
 	)
 
-	onMount(() => {
-		editor.extensions.searchWidget = {
-			open(focusInput) {
-				open(focusInput)
-				startSearch()
-			},
-			close,
-		}
-	})
+	editor.extensions.searchWidget = {
+		open(focusInput) {
+			open(focusInput)
+			startSearch()
+		},
+		close,
+	}
 
 	searchContainer.addEventListener("click", e => {
 		const target = e.target as HTMLElement

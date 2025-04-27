@@ -76,14 +76,14 @@ const globalsNoEvents = enumerateAttrs(globalHtmlAttributes, [], true)
 
 /**
  * Completion source that adds completion for HTML and SVG tags to Vue. When configured,
- * it can also provide completion for specific Vue components.
+ * it can also provide completions for specific Vue components.
  * @param components Used to configure autocompletion for Vue components. This is an
  * object mapping each component's name to the properties available for that component.
- * To provide completion for events, prefix them with `on`. Passing `onevent` will result
- * in completions for `@event` or `v-on:event` for example. Camel cased props are not
- * converted to kebab case.
+ * To provide completions for events, prefix them with `on`. E.g. `onevent` will result
+ * in completions for `@event` and `v-on:event`. Camel cased props are not converted to
+ * kebab case.
  * @param nestedSource Completion source that will be used whenever the completion isn't
- * happening inside a tag. Can be used to provide completion of snippets for example.
+ * happening inside a tag. Can be used to provide completions for snippets for example.
  */
 const vueCompletion =
 	(components?: TagConfig, nestedSource?: CompletionSource): CompletionSource =>

@@ -16,7 +16,7 @@ import type {
  */
 export declare const rest: unique symbol
 /**
- * The symbol used to add custom a tokenizer to a grammar.
+ * The symbol used to add a custom tokenizer to a grammar.
  *
  * For example the markdown code block grammar uses a custom tokenizer to highlight code blocks.
  * This custom tokenizer first tokenizes the code as normal, then finds the language of the code block.

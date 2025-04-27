@@ -10,6 +10,7 @@ import { matchTags } from "../extensions/matchTags.js"
 import { highlightSelectionMatches } from "../extensions/search/selection.js"
 import { searchWidget } from "../extensions/search/widget.js"
 import { loadTheme } from "../themes/index.js"
+import { showInvisibles } from "../extensions/search/invisibles.js"
 
 export type SetupOptions = Partial<EditorOptions> & { theme: string }
 
@@ -71,7 +72,8 @@ const minimalEditor = (
 /**
  * Same as {@link minimalEditor}, but also adds {@link indentGuides}, {@link highlightSelectionMatches},
  * {@link matchBrackets}, {@link highlightBracketPairs}, {@link defaultCommands}, {@link editHistory},
- * {@link searchWidget} and {@link matchTags} extensions and language specific behavior.
+ * {@link searchWidget}, {@link showInvisibles}, and {@link matchTags} extensions and language specific
+ * behavior.
  *
  * There's also an extension added that clears the history stack every time the value is
  * changed programmatically.

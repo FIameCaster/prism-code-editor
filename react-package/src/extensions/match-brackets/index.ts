@@ -32,6 +32,9 @@ export type Bracket = [Token, number, number, number, string, boolean]
 /**
  * Hook that matches punctuation tokens together. Intended for matching brackets.
  *
+ * Note that when adding the extension dynamically with rainbow brackets, they won't be
+ * added until the next time the editor rerenders.
+ *
  * @param rainbowBrackets Whether to add extra classes to brackets for styling. Defaults
  * to `true`.
  * @param pairs Which characters to match together. The opening character must be followed

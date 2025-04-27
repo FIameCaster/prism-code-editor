@@ -98,7 +98,7 @@ export const IndentGuides = ({ editor }: { editor: PrismEditor }) => {
 }
 
 /**
- * Calculates position and height of indentation guides for a string of code.
+ * Calculates the position and height of indentation guides for a string of code.
  * @param code Code you want to calculate indentation lines for.
  * @param tabSize Number of spaces a tab is equal to.
  * @returns An array of indentation guides.

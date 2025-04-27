@@ -4,7 +4,10 @@ import { highlightTokens, languages, tokenizeText, TokenStream } from "../prism/
 import { escapeQuotes } from "./utils.js"
 
 export type CodeBlockOptions = {
-	/** Language used for syntax highlighting. */
+	/**
+	 * Language used for syntax highlighting. If the language doesn't have a registered
+	 * Prism grammar, syntax highlighting will be disabled.
+	 */
 	language: string
 	/** Code in the code block. */
 	value: string
@@ -33,7 +36,7 @@ export type CodeBlockOptions = {
 	 */
 	rtl?: boolean
 	/**
-	 * Additional classes to the root element of the code block. Useful when styling
+	 * Additional classes for the root element of the code block. Useful when styling
 	 * individual code blocks. The `pre.prism-code-editor` selector can be used to style
 	 * all code blocks.
 	 */

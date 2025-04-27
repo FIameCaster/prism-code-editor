@@ -50,9 +50,9 @@ const registerCompletions = <T extends object>(
  *
  * Requires the {@link cursorPosition} extension to work.
  *
- * Requires styling from `solid-prism-editor/autocomplete.css`. Also requires a stylesheet
+ * Requires styling from `solid-prism-editor/autocomplete.css` in addition to a stylesheet
  * for icons. `solid-prism-editor/autocomplete-icons.css` adds some icons from VSCode, but
- * you can define your own icons instead.
+ * you can use your own icons instead.
  *
  * @see {@link Completion.icon} for how to style your own icons.
  */

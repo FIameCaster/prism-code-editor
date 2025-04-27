@@ -190,7 +190,7 @@ const isWebKit = !isChrome && /AppleWebKit\//.test(userAgent)
  * Returns a 4 bit integer where each bit represents whether
  * each modifier is pressed in the order Shift, Meta, Ctrl, Alt
  * ```javascript
- * e.altKey && e.ctrlKey && e.shiftKey && !e.metaKey
+ * e.shiftKey && !e.metaKey && e.ctrlKey && e.altKey
  * // is equivalent to
  * getModifierCode(e) == 0b1011
  * ```

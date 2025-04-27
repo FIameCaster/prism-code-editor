@@ -5,7 +5,8 @@ import { getClosestToken } from "../../utils"
 import { addTextareaListener } from "../../utils/local"
 
 /**
- * Hook adding a `selectionChange` handler to highlight the closest bracket pair.
+ * Hook adding a `selectionChange` handler to highlight the bracket pair closest to the
+ * cursor.
  *
  * The {@link useBracketMatcher} hook is required by this hook.
  *

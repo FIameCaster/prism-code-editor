@@ -6,7 +6,8 @@ import { getClosestToken } from "../../utils/index.js"
 import { addTextareaListener } from "../../utils/local.js"
 
 /**
- * Extension adding a `selectionChange` handler to highlight the closest bracket pair.
+ * Extension adding a `selectionChange` handler to highlight the bracker pair closest to
+ * the cursor.
  *
  * You must to add a {@link BracketMatcher} to your editor for this extension to work.
  *

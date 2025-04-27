@@ -1,6 +1,13 @@
 import { InputSelection, BasicExtension } from "../../index.js"
 import { createTemplate, preventDefault, addListener, numLines, doc } from "../../core.js"
-import { regexEscape, getModifierCode, isMac, isWebKit, addOverlay } from "../../utils/index.js"
+import {
+	regexEscape,
+	getModifierCode,
+	isMac,
+	isWebKit,
+	addOverlay,
+	getLineBefore,
+} from "../../utils/index.js"
 import { createReplaceAPI } from "./replace.js"
 import { getLineEnd, getLineStart, getStyleValue, updateNode } from "../../utils/local.js"
 
@@ -33,6 +40,9 @@ export interface SearchWidget extends BasicExtension {
 /**
  * Extension that adds a widget for search and replace functionality.
  * This extension needs styles from `prism-code-editor/search.css`.
+ *
+ * Once added to an editor the widget can be opened/closed programmatically with the
+ * `editor.extensions.searchWidget` object.
  */
 export const searchWidget = (): SearchWidget => {
 	let prevLength: number
@@ -83,8 +93,8 @@ export const searchWidget = (): SearchWidget => {
 					value = editor.value,
 					word =
 						value.slice(start, end) ||
-						value.slice(0, start).match(/[_\p{N}\p{L}]*$/u)![0] +
-							value.slice(start).match(/^[_\p{N}\p{L}]*/u)![0]
+						/[_\p{N}\p{L}]*$/u.exec(getLineBefore(value, start))![0] +
+							/^[_\p{N}\p{L}]*/u.exec(value.slice(start))![0]
 				if (/^$|\n/.test(word)) startSearch()
 				else {
 					if (useRegExp) word = regexEscape(word)

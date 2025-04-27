@@ -7,7 +7,7 @@
  */
 export declare const rest: unique symbol
 /**
- * The symbol used to add custom a tokenizer to a grammar.
+ * The symbol used to add a custom tokenizer to a grammar.
  *
  * For example the markdown code block grammar uses a custom tokenizer to highlight code blocks.
  * This custom tokenizer first tokenizes the code as normal, then finds the language of the code block.
@@ -223,13 +223,6 @@ export interface GrammarToken {
 	 * each another.
 	 */
 	inside?: Grammar | string | null
-	/**
-	 * A property to make the types {@link GrammarToken} and {@link RegExp} non-overlapping.
-	 *
-	 * Since {@link GrammarToken} requires `exec` to be `undefined` and {@link RegExp} requires it to be a function,
-	 * there can be no object that is both a {@link GrammarToken} and a {@link RegExp}.
-	 */
-	readonly exec?: never
 }
 
 /**

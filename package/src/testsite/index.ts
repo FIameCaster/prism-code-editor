@@ -286,6 +286,7 @@ registerCompletions(["html", "markup"], {
 registerCompletions(["css"], {
 	sources: [cssCompletion()],
 })
+
 registerCompletions(["vue"], {
 	sources: [
 		vueCompletion({
@@ -296,6 +297,7 @@ registerCompletions(["vue"], {
 		}),
 	],
 })
+
 registerCompletions(["svelte"], {
 	sources: [
 		svelteCompletion(svelteBlockSnippets, {

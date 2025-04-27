@@ -33,12 +33,11 @@ export type Bracket = [Token, number, number, number, string, boolean]
 /**
  * Extension that matches punctuation tokens together. Intended for matching brackets.
  *
- * Adding the extension dynamically, will force a rerender to add those extra classes.
- *
  * Without rainbow brackets, this extension can be added dynamically with no downsides.
  *
  * @param rainbowBrackets Whether to add extra classes to brackets for styling. Defaults
- * to `true`.
+ * to `true`. When enabled, adding the extension dynamically will force a rerender to add
+ * these extra classes.
  * @param pairs Which characters to match together. The opening character must be followed
  * by the corresponding closing character. Defaults to `"()[]{}"`.
  */
