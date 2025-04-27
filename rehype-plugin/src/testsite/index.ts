@@ -6,6 +6,7 @@ import "prism-code-editor/search.css"
 import "prism-code-editor/invisibles.css"
 import "prism-code-editor/copy-button.css"
 import "prism-code-editor/themes/github-dark.css"
+import "prism-code-editor/guides.css"
 import "./style.css"
 
 import "prism-code-editor/prism/languages/common"
