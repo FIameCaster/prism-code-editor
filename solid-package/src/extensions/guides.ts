@@ -1,6 +1,7 @@
 import { createEffect } from "solid-js"
 import { Extension } from "../types"
 import { template as _template } from "solid-js/web"
+import { getIndentGuides } from "prism-code-editor/guides"
 
 const template = /* @__PURE__ */ _template(
 	"<div class=guide-indents style=left:var(--padding-left);bottom:auto;right:auto>\t",
@@ -73,50 +74,6 @@ const indentGuides = (): Extension => editor => {
 	})
 
 	return container
-}
-
-/**
- * Calculates the position and height of indentation guides for a string of code.
- * @param code Code you want to calculate indentation lines for.
- * @param tabSize Number of spaces a tab is equal to.
- * @returns An array of indentation guides.
- * Each guide is a tuple containing 3 numbers with the following values:
- * - The starting line of the guide.
- * - How many tabs the guide is offset to the right.
- * - How many lines tall the guide is.
- */
-const getIndentGuides = (code: string, tabSize: number) => {
-	const lines = code.split("\n")
-	const l = lines.length
-	const stack: [number, number, number][] = []
-	const results: [number, number, number][] = []
-
-	for (let prevIndent = 0, emptyPos = -1, i = 0, p = 0; ; i++) {
-		let last = i == l
-		let line = lines[i]
-		let pos = last ? 0 : line.search(/\S/)
-		let indent = 0
-		if (pos < 0) {
-			if (emptyPos < 0) emptyPos = i
-		} else {
-			for (let i = 0; i < pos; ) {
-				indent += line[i++] == "\t" ? tabSize - (indent % tabSize) : 1
-			}
-			if (indent) indent = Math.ceil(indent / tabSize)
-			for (let j = indent; j < prevIndent; j++) {
-				// Updating height of the closed lines
-				stack[j][2] = (emptyPos < 0 || (j == indent && !last) ? i : emptyPos) - stack[j][0]
-			}
-			for (let j = prevIndent; j < indent; ) {
-				// Adding new indentation lines
-				results[p++] = stack[j] = [emptyPos < 0 || j > prevIndent ? i : emptyPos, j++, 0]
-			}
-			emptyPos = -1
-			prevIndent = indent
-		}
-		if (last) break
-	}
-	return results
 }
 
 export { getIndentGuides, indentGuides }

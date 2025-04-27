@@ -106,18 +106,19 @@ const getIndentGuides = (code: string, tabSize: number) => {
 		let line = lines[i]
 		let pos = last ? 0 : line.search(/\S/)
 		let indent = 0
+		let j = 0
 		if (pos < 0) {
 			if (emptyPos < 0) emptyPos = i
 		} else {
-			for (let i = 0; i < pos; ) {
-				indent += line[i++] == "\t" ? tabSize - (indent % tabSize) : 1
+			for (; j < pos; ) {
+				indent += line[j++] == "\t" ? tabSize - (indent % tabSize) : 1
 			}
 			if (indent) indent = Math.ceil(indent / tabSize)
-			for (let j = indent; j < prevIndent; j++) {
+			for (j = indent; j < prevIndent; j++) {
 				// Updating height of the closed lines
 				stack[j][2] = (emptyPos < 0 || (j == indent && !last) ? i : emptyPos) - stack[j][0]
 			}
-			for (let j = prevIndent; j < indent; ) {
+			for (j = prevIndent; j < indent; ) {
 				// Adding new indentation lines
 				results[p++] = stack[j] = [emptyPos < 0 || j > prevIndent ? i : emptyPos, j++, 0]
 			}
