@@ -39,11 +39,11 @@ editor.addExtensions(
 
 ## Configuration
 
-`autoComplete(){:js}` takes a [`AutoCompleteConfig`](/api-reference/autocomplete/t-autocompleteconfig) object as the first parameter. The only required property is the filter function to use. The optional properties configure when to open the tooltip, when to close it, and where to place it.
+`autoComplete(){:js}` takes a [`AutoCompleteConfig{:js}`](/api-reference/autocomplete/t-autocompleteconfig) object as the first parameter. The only required property is the filter function to use. The optional properties configure when to open the tooltip, when to close it, and where to place it.
 
 ### Filters
 
-The job of a [`CompletionFilter`](/api-reference/autocomplete/t-completionfilter) is to filter and score the options based on the word before the cursor. They should also return which characters in the option's label were matched so they can be highlighted. This library exports two filter functions you can use; [`fuzzyFilter(){:js}`](/api-reference/autocomplete/f-fuzzyfilter) and [`strictFilter(){:js}`](/api-reference/autocomplete/f-strictfilter). If you're dissatisfied with these, you can define your own filter instead.
+The job of a [`CompletionFilter{:js}`](/api-reference/autocomplete/t-completionfilter) is to filter and score the options based on the word before the cursor. They should also return which characters in the option's label were matched so they can be highlighted. This library exports two filter functions you can use; [`fuzzyFilter(){:js}`](/api-reference/autocomplete/f-fuzzyfilter) and [`strictFilter(){:js}`](/api-reference/autocomplete/f-strictfilter). If you're dissatisfied with these, you can define your own filter instead.
 
 ## Registering completion sources
 
@@ -189,7 +189,7 @@ Autocompletion works for nested languages too. Try writing in the script/style t
 
 ### Vue completion
 
-[`vueCompletion(){:js}`](/api-reference/autocomplete/vue/f-vuecompletion) adds completion for HTML and SVG tags to Vue. When configured, it can also provide completion for specific Vue components.
+[`vueCompletion(){:js}`](/api-reference/autocomplete/vue/f-vuecompletion) adds completion for HTML and SVG tags to Vue. When configured, it can also provide completions for specific Vue components.
 
 ```js editor
 import { registerCompletions } from "prism-code-editor/autocomplete"

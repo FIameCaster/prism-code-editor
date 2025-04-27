@@ -103,9 +103,9 @@ import type { MyOptions } from "./server"
 
 const editors = mountEditorsUnder<MyOptions>(
 	document,
-	options => {
-		return matchBrackets(true, options._pairs)
-	}
+	options => [
+		matchBrackets(true, options._pairs)
+	]
 )
 ```
 

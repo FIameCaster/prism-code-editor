@@ -149,7 +149,7 @@ const string = /(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/
 
 [`highlightTagPairsOnHover(){:js}`](/api-reference/code-blocks/f-highlighttagpairsonhover) is very similar to `highlightBracketPairsOnHover(){:js}`, but highlights the tag name in matching tags instead. You can try it on the [DOM structure](#dom-structure) code block.
 
-### Adding Overlays
+### Adding overlays
 
 The [`addOverlay(){:js}`](/api-reference/utils/f-addoverlay) utility can be used to add overlays to code blocks as well. The only difference to adding overlays to editors is that code blocks don't have `pointer-events: none{:css}` or `user-select: none{:css}`.
 
@@ -181,7 +181,7 @@ The callback function passed receives 4 arguments:
 - `types`: Array with the token's type as the first element, followed by any alises.
 - `language`: The language at the token's position.
 - `text`: The `textContent` of the token.
-- `element`: The `<span>` element for the hovered token.
+- `element`: The `<span>` element of the hovered token.
 
 If it returns an array of children, those children are appended to the tooltip that's then shown.
 

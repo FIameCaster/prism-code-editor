@@ -7,17 +7,17 @@ const example = await readFile("./public/examples/xml.txt", { encoding: "utf-8" 
 ---
 
 <div class="not-content playground">
-	<style is:inline set:html={theme} />
+	<style is:inline set:html={theme}></style>
 	<div>
 		<div>
 			<label>
-				<input type="checkbox" checked> Line numbers
+				<input type="checkbox" checked /> Line numbers
 			</label>
 			<label>
-				<input type="checkbox"> Word wrap
+				<input type="checkbox" /> Word wrap
 			</label>
 			<label>
-				<input type="checkbox"> Read-only
+				<input type="checkbox" /> Read-only
 			</label>
 		</div>
 		<div>
@@ -51,17 +51,23 @@ const example = await readFile("./public/examples/xml.txt", { encoding: "utf-8" 
 
 	const editor = editors[0]
 
-	const initSelect = (select: HTMLSelectElement, options: string[], callback: (value: string) => void) => {
+	const initSelect = (
+		select: HTMLSelectElement,
+		options: string[],
+		callback: (value: string) => void,
+	) => {
 		let val = select.value
 		select.onchange = () => {
 			callback(select.value)
 		}
 		select.textContent = ""
-		select.append(...options.map(text => {
-			const option = document.createElement("option")
-			option.textContent = text
-			return option
-		}))
+		select.append(
+			...options.map(text => {
+				const option = document.createElement("option")
+				option.textContent = text
+				return option
+			}),
+		)
 		select.value = val
 	}
 	const playground = document.querySelector(".playground")!
@@ -74,49 +80,62 @@ const example = await readFile("./public/examples/xml.txt", { encoding: "utf-8" 
 	;(["lineNumbers", "wordWrap", "readOnly"] as const).forEach((prop, i) => {
 		inputs[i].onchange = () => {
 			editor.setOptions({
-				[prop]: inputs[i].checked
+				[prop]: inputs[i].checked,
 			})
 		}
 	})
 
-	initSelect(themeSelect, [
-		"Atom One Dark",
-		"Dracula",
-		"Github Dark",
-		"Github Dark Dimmed",
-		"Github Light",
-		"Night Owl",
-		"Night Owl Light",
-		"Prism",
-		"Prism Okaidia",
-		"Prism Solarized Light",
-		"Prism Tomorrow",
-		"Prism Twilight",
-		"VS Code Dark",
-		"VS Code Light",
-	], theme => {
-		if (theme == initialThemeName) themeElement.textContent = initialTheme
-		else loadTheme(theme.toLowerCase().replace(/ /g, "-")).then(style => {
-			if (themeSelect.value == theme) themeElement.textContent = style!
-		})
-	})
+	initSelect(
+		themeSelect,
+		[
+			"Atom One Dark",
+			"Dracula",
+			"Github Dark",
+			"Github Dark Dimmed",
+			"Github Light",
+			"Night Owl",
+			"Night Owl Light",
+			"Prism",
+			"Prism Okaidia",
+			"Prism Solarized Light",
+			"Prism Tomorrow",
+			"Prism Twilight",
+			"VS Code Dark",
+			"VS Code Light",
+		],
+		theme => {
+			if (theme == initialThemeName) themeElement.textContent = initialTheme
+			else
+				loadTheme(theme.toLowerCase().replace(/ /g, "-")).then(style => {
+					if (themeSelect.value == theme) themeElement.textContent = style!
+				})
+		},
+	)
 
 	import("./allLangs").then(() => {
-		initSelect(langSelect, Object.keys(languages).filter(
-			(name, i, keys) =>
-				i > 3 && languages[name] != languages[keys[i - 1]] && !/[^i]doc|regex/.test(name),
-		), lang => {
-			fetch("/examples/" + lang + ".txt").then(res => res.text().then(code => {
-				if (lang == langSelect.value) {
-					editor.container.scrollTo(0, 0)
-					editor.setOptions({
-						value: code,
-						language: lang,
-					})
-					editor.extensions.history!.clear()
-				}
-			}))
-		})
+		initSelect(
+			langSelect,
+			Object.keys(languages)
+				.filter(
+					(name, i, keys) =>
+						i > 3 && languages[name] != languages[keys[i - 1]] && !/[^i]doc|regex/.test(name),
+				)
+				.sort(),
+			lang => {
+				fetch("/examples/" + lang + ".txt").then(res =>
+					res.text().then(code => {
+						if (lang == langSelect.value) {
+							editor.container.scrollTo(0, 0)
+							editor.setOptions({
+								value: code,
+								language: lang,
+							})
+							editor.extensions.history!.clear()
+						}
+					}),
+				)
+			},
+		)
 	})
 
 	import("../editor/extensions")
@@ -147,7 +166,7 @@ const example = await readFile("./public/examples/xml.txt", { encoding: "utf-8" 
 	.select-label {
 		display: grid;
 		grid-template-columns: 5.5em minmax(auto, 10em) 1fr;
-	} 
+	}
 
 	.select {
 		display: inline-grid;
