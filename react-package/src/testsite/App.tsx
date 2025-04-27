@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useMemo, useState } from "react"
+import { Suspense, lazy, useEffect, useLayoutEffect, useMemo, useState } from "react"
 import { Editor } from "../core"
 import core from "../core?raw"
 import "../themes/github-dark.css"
@@ -83,6 +83,11 @@ const Extensions = ({ editor }: { editor: PrismEditor }) => {
 	useAutoComplete(editor, {
 		filter: fuzzyFilter,
 	})
+
+	useLayoutEffect(() => {
+		editor.container?.scrollTo(0, 0)
+	}, [editor.props.value])
+
 	return (
 		<>
 			{editor.props.readOnly && (
@@ -111,10 +116,12 @@ function App() {
 			import("../languages")
 			import("../prism/languages").then(() => {
 				setLangs(
-					Object.keys(languages).filter(
-						(name, i, keys) =>
-							i > 3 && languages[name] != languages[keys[i - 1]] && !/[^i]doc|regex/.test(name),
-					),
+					Object.keys(languages)
+						.filter(
+							(name, i, keys) =>
+								i > 3 && languages[name] != languages[keys[i - 1]] && !/[^i]doc|regex/.test(name),
+						)
+						.sort(),
 				)
 			})
 		}, 500)
@@ -185,7 +192,7 @@ function App() {
 					code={value}
 					lineNumbers
 					guideIndents
-					
+					wordWrap
 					onTokenize={onTokenize}
 				>
 					{(block, props) => (

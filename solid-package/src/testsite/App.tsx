@@ -1,4 +1,13 @@
-import { createSignal, type Component, createEffect, For, batch, on, Show } from "solid-js"
+import {
+	createSignal,
+	type Component,
+	createEffect,
+	For,
+	batch,
+	on,
+	Show,
+	createRenderEffect,
+} from "solid-js"
 import { Editor } from "../core"
 import "../prism/languages/typescript"
 import "../prism/languages/jsdoc"
@@ -98,7 +107,7 @@ const App: Component = () => {
 	const [readOnly, setReadOnly] = createSignal(false)
 	const [codeBlock, setCodeBlock] = createSignal(false)
 
-	const extensions = [
+	const extensions: Extension[] = [
 		matchBrackets(),
 		searchWidget(),
 		indentGuides(),
@@ -116,6 +125,12 @@ const App: Component = () => {
 		autoComplete({
 			filter: fuzzyFilter,
 		}),
+		editor => {
+			createRenderEffect(() => {
+				editor.props.value
+				editor.container.scrollTo(0, 0)
+			})
+		},
 	]
 
 	const readExtensions = extensions.concat(
@@ -126,10 +141,12 @@ const App: Component = () => {
 		import("../languages")
 		import("../prism/languages").then(() => {
 			setLangs(
-				Object.keys(languages).filter(
-					(name, i, keys) =>
-						i > 3 && languages[name] != languages[keys[i - 1]] && !/[^i]doc|regex/.test(name),
-				),
+				Object.keys(languages)
+					.filter(
+						(name, i, keys) =>
+							i > 3 && languages[name] != languages[keys[i - 1]] && !/[^i]doc|regex/.test(name),
+					)
+					.sort(),
 			)
 			select.value = "typescript"
 		})
