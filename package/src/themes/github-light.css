@@ -152,11 +152,6 @@
 	font-style: italic;
 }
 
-.language-jsx .tag > .punctuation,
-.language-tsx .tag > .punctuation {
-	color: #0550ae;
-}
-
 /* Brackets */
 
 .token.bracket-level-0,

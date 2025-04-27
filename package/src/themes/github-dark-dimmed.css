@@ -128,9 +128,7 @@
 .token.keyword-this,
 .token.char-class,
 .token.char-set,
-.token.regex .punctuation,
-.language-jsx .tag > .punctuation,
-.language-tsx .tag > .punctuation {
+.token.regex .punctuation {
 	color: #6cb6ff;
 }
 
