@@ -3,7 +3,7 @@
 import { createTemplate, doc } from "../core.js"
 import { Extension, PrismEditor } from "../types.js"
 
-const template = createTemplate("<div class=guide-indents>\t")
+const template = /* @__PURE__ */ createTemplate("<div class=guide-indents>\t")
 
 /**
  * Extension adding indent guides to an editor. Does not work with word wrap.

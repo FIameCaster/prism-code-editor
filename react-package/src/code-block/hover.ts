@@ -14,7 +14,7 @@ import { addOverlay } from "../utils"
 let counter = 0
 let sp: number
 
-const createTooltip = createTemplate(
+const createTooltip = /* @__PURE__ */ createTemplate(
 	"<div class=pce-tooltip style=z-index:5;top:auto;display:flex><div></div><div class=pce-hover-tooltip style=flex-shrink:0>",
 )
 

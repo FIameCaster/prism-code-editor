@@ -239,7 +239,7 @@ const doc = "u" > typeof window ? document : null
 /** Object storing all language specific behavior. */
 const languageMap: Record<string, Language> = {}
 
-const editorTemplate = template(
+const editorTemplate = /* @__PURE__ */ template(
 	"<div><div class=pce-wrapper><div class=pce-overlays><textarea class=pce-textarea spellcheck=false autocapitalize=off autocomplete=off>",
 )
 

@@ -21,8 +21,8 @@ import { addTextareaListener, updateNode } from "../../utils/local"
 
 let count = 0
 
-const tooltipTemplate = template("<div class=pce-ac-tooltip><ul role=listbox>")
-const rowTemplate = template(
+const tooltipTemplate = /* @__PURE__ */ template("<div class=pce-ac-tooltip><ul role=listbox>")
+const rowTemplate = /* @__PURE__ */ template(
 	"<li class=pce-ac-row role=option><div></div><div> </div><div class=pce-ac-details> ",
 )
 

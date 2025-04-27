@@ -67,13 +67,13 @@ export type CodeBlockOverlay = (
 	props: CodeBlockProps,
 ) => JSX.Element | void
 
-const block = template("<pre><code class=pce-wrapper><div class=pce-overlays>")
-const line = template("<div class=pce-line>")
+const block = /* @__PURE__ */ template("<pre><code class=pce-wrapper><div class=pce-overlays>")
+const line = /* @__PURE__ */ template("<div class=pce-line>")
 
 /**
  * Component that creates a code block with syntax highlighting. Requires styles from
  * `solid-prism-editor/code-block.css` in addition to the normal layout.
- * 
+ *
  * Syntax highlighting will be disabled if the language doesn't have a registered Prism
  * grammar.
  */

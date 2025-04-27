@@ -3,7 +3,7 @@ import { PrismEditor } from "../../types"
 import { addOverlay, regexEscape } from "../../utils"
 import { createTemplate, updateNode } from "../../utils/local"
 
-const searchTemplate = createTemplate(
+const searchTemplate = /* @__PURE__ */ createTemplate(
 	'<div style="color:#0000;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true> ',
 )
 

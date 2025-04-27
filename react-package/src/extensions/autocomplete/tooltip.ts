@@ -20,8 +20,10 @@ import { useEffect, useMemo } from "react"
 
 let count = 0
 
-const tooltipTemplate = createTemplate("<div class=pce-ac-tooltip><ul role=listbox>")
-const rowTemplate = createTemplate(
+const tooltipTemplate = /* @__PURE__ */ createTemplate(
+	"<div class=pce-ac-tooltip><ul role=listbox>",
+)
+const rowTemplate = /* @__PURE__ */ createTemplate(
 	"<li class=pce-ac-row role=option><div></div><div> </div><div class=pce-ac-details> ",
 )
 

@@ -3,11 +3,11 @@ import { createTemplate } from "../../core.js"
 import { PrismEditor } from "../../types.js"
 import { updateNode } from "../../utils/local.js"
 
-const searchTemplate = createTemplate(
+const searchTemplate = /* @__PURE__ */ createTemplate(
 	'<div style="color:#0000;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true> ',
 )
 
-const matchTemplate = createTemplate("<span> ")
+const matchTemplate = /* @__PURE__ */ createTemplate("<span> ")
 
 const testBoundary = (str: string, position: number, pattern = /[_\p{N}\p{L}]{2}/u) => {
 	if (!position) return false

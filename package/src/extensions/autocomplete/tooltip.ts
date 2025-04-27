@@ -18,8 +18,8 @@ import { getStyleValue, updateNode } from "../../utils/local.js"
 
 let count = 0
 
-const template = createTemplate("<div class=pce-ac-tooltip><ul role=listbox>")
-const rowTemplate = createTemplate(
+const template = /* @__PURE__ */ createTemplate("<div class=pce-ac-tooltip><ul role=listbox>")
+const rowTemplate = /* @__PURE__ */ createTemplate(
 	"<li class=pce-ac-row role=option><div></div><div> </div><div class=pce-ac-details> ",
 )
 

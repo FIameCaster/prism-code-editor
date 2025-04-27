@@ -39,8 +39,10 @@ export interface ReadOnlyCodeFolding {
 	updateFolds(): void
 }
 
-const template = _template('<div class="pce-fold"><div> ')
-const template2 = _template('<div class="pce-unfold"> <span title="Unfold">   </span> ')
+const template = /* @__PURE__ */ _template('<div class="pce-fold"><div> ')
+const template2 = /* @__PURE__ */ _template(
+	'<div class="pce-unfold"> <span title="Unfold">   </span> ',
+)
 
 const isMultiline = (str: string, start: number, end: number) =>
 	str.slice(start, end).includes("\n")

@@ -2,8 +2,8 @@ import { template as _template, insert } from "solid-js/web"
 import { PrismEditor } from "."
 import { JSX, Show, createSignal } from "solid-js"
 
-const template = _template(
-	'<div class=pce-tooltip style=z-index:5;top:auto;display:flex;overflow-x:clip><div>',
+const template = /* @__PURE__ */ _template(
+	"<div class=pce-tooltip style=z-index:5;top:auto;display:flex;overflow-x:clip><div>",
 )
 
 /** Function removing the tooltip from the DOM. */

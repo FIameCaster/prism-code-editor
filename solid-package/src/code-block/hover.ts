@@ -15,7 +15,7 @@ export type HoverOptions = {
 let counter = 0
 let sp: number
 
-const createTooltip = template(
+const createTooltip = /* @__PURE__ */ template(
 	"<div class=pce-tooltip style=z-index:5;top:auto;display:flex><div></div><div class=pce-hover-tooltip style=flex-shrink:0>",
 )
 

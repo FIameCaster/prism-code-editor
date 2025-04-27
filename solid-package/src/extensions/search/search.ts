@@ -3,11 +3,11 @@ import { PrismEditor } from "../../types"
 import { regexEscape } from "../../utils"
 import { updateNode } from "../../utils/local"
 
-const searchTemplate = template(
+const searchTemplate = /* @__PURE__ */ template(
 	'<div style="color:#0000;display:none;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true> ',
 )
 
-const matchTemplate = template("<span> ")
+const matchTemplate = /* @__PURE__ */ template("<span> ")
 
 const testBoundary = (str: string, position: number, pattern = /[_\p{N}\p{L}]{2}/u) => {
 	if (!position) return false

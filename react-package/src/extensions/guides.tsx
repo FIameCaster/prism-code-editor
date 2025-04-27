@@ -3,7 +3,7 @@ import { PrismEditor } from "../types"
 import { createTemplate } from "../utils/local"
 import { useStableRef } from "../core"
 
-const guideTemplate = createTemplate(
+const guideTemplate = /* @__PURE__ */ createTemplate(
 	"<div style=width:1px;position:absolute;background:var(--bg-guide-indent)>",
 )
 

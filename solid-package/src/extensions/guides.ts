@@ -2,11 +2,11 @@ import { createEffect } from "solid-js"
 import { Extension } from "../types"
 import { template as _template } from "solid-js/web"
 
-const template = _template(
+const template = /* @__PURE__ */ _template(
 	"<div class=guide-indents style=left:var(--padding-left);bottom:auto;right:auto>\t",
 )
 
-const indentTemplate = _template(
+const indentTemplate = /* @__PURE__ */ _template(
 	"<div style=width:1px;position:absolute;background:var(--bg-guide-indent)>",
 )
 

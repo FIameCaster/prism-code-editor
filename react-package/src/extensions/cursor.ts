@@ -21,7 +21,7 @@ export interface Cursor {
 	scrollIntoView(): void
 }
 
-const cursorTemplate = createTemplate(
+const cursorTemplate = /* @__PURE__ */ createTemplate(
 	"<div style=position:absolute;top:0;opacity:0;padding-right:inherit> <span><span></span> ",
 )
 /**

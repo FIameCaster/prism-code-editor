@@ -5,7 +5,7 @@ import { createPortal } from "react-dom"
 import { useCursorPosition } from "./extensions/cursor"
 import { addOverlay } from "./utils"
 
-const template = createTemplate(
+const template = /* @__PURE__ */ createTemplate(
 	"<div class=pce-tooltip style=z-index:5;top:auto;display:flex;overflow-x:clip><div>",
 )
 
