@@ -114,11 +114,6 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #ff869a;
 }
 
-.token.unit,
-.token.hexcode {
-	color: #ffeb95;
-}
-
 .token.atrule,
 .token.parameter {
 	color: #d7dbe0;
@@ -136,6 +131,11 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.alternation,
 .token.url .markup-bracket {
 	color: #7fdbca;
+}
+
+.token.unit,
+.token.hexcode {
+	color: #ffeb95;
 }
 
 .language-regex,

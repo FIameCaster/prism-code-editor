@@ -103,7 +103,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .regex .escape,
 .token.tag .class-name,
 .token.unit,
-.token.hexcode,
+.token.color.hexcode,
 .selector .id {
 	color: #aa0982;
 }

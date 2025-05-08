@@ -227,11 +227,6 @@ div.code-block {
 	color: var(--deleted);
 }
 
-.token.unit,
-.token.hexcode {
-	color: var(--hex-color);
-}
-
 .token.atrule,
 .token.parameter {
 	color: var(--atrule);
@@ -252,6 +247,11 @@ div.code-block {
 .token.alternation,
 .token.url .markup-bracket {
 	color: var(--selector-operator);
+}
+
+.token.unit,
+.token.hexcode {
+	color: var(--hex-color);
 }
 
 .language-regex,
