@@ -32,7 +32,13 @@ import core from "../core?raw"
 import { highlightMatchingTags, matchTags } from "../extensions/match-tags"
 import { cursorPosition } from "../extensions/cursor"
 import { defaultCommands, editHistory } from "../extensions/commands"
-import { blockCommentFolding, markdownFolding, readOnlyCodeFolding } from "../extensions/folding"
+import {
+	blockCommentFolding,
+	bracketFolding,
+	markdownFolding,
+	readOnlyCodeFolding,
+	tagFolding,
+} from "../extensions/folding"
 import { copyButton } from "../extensions/copy-button"
 import { Extension } from ".."
 import { addTooltip } from "../tooltips"
@@ -134,7 +140,7 @@ const App: Component = () => {
 	]
 
 	const readExtensions = extensions.concat(
-		readOnlyCodeFolding(blockCommentFolding, markdownFolding),
+		readOnlyCodeFolding(blockCommentFolding, markdownFolding, tagFolding, bracketFolding),
 	)
 
 	setTimeout(() => {

@@ -17005,6 +17005,38 @@ end;
 
 deploy pipeline passthrough;
 `,
+	tsx: `// Full example
+import * as React from 'react';
+
+interface IState {
+	clicks: number;
+}
+
+export class Clicker extends React.Component<any, IState> {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			clicks: 0,
+		};
+	}
+
+	public clickHandler = () => {
+		this.setState({ clicks: this.state.clicks + 1 });
+	}
+
+	public render() {
+		return (
+			<div>
+				<p>You have clicked the button {this.state.clicks} time(s).</p>
+				<p>
+					<button onClick={this.clickHandler}>click me</button>
+				</p>
+			</div>
+		);
+	}
+}
+`,
 	tt2: `[%# Comments %]
 [%# this entire directive is ignored no
 	matter how many lines it wraps onto
@@ -17184,34 +17216,6 @@ config {
 	concatenateCss = 0
 	concatenateJs = 0
 }
-`,
-	typescript: `// Full example
-interface SearchFunc {
-	(source: string, subString: string): boolean;
-}
-
-var mySearch: SearchFunc;
-mySearch = function(source: string, subString: string) {
-	var result = source.search(subString);
-	if (result == -1) {
-		return false;
-	}
-	else {
-		return true;
-	}
-}
-
-class Greeter {
-	greeting: string;
-	constructor(message: string) {
-		this.greeting = message;
-	}
-	greet() {
-		return "Hello, " + this.greeting;
-	}
-}
-
-var greeter = new Greeter("world");
 `,
 	unrealscript: `// Full example
 // Source: https://github.com/Jusas/XCOM2_ReconSoldierClass/blob/master/ReconOperatorSoldierClass/Src/ReconSoldierClass/Classes/ReconOperator_AcademyUnlocks.uc
