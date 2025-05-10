@@ -32,6 +32,8 @@ I realized Prism code editor's architecture made a rewrite in SolidJS not only p
 - [Languages](#languages)
 - [Styling](#styling)
   - [Themes](#themes)
+- [Code blocks](#code-blocks)
+  - [Code block props](#code-block-props)
 - [Performance](#performance)
 - [Contributing](#contributing)
 
@@ -43,7 +45,7 @@ There's a peer dependency on `solid-js` (obviously).
 
 ## Demo
 
-[Prism code editor's demo](https://prism-code-editor.netlify.app). There's no demo for this SolidJS rewrite since its behavior is nearly identical.
+[Prism code editor's demo](https://prism-code-editor.netlify.app/playground). There's no demo for this SolidJS rewrite since its behavior is nearly identical.
 
 ## Examples
 
@@ -70,6 +72,7 @@ import "solid-prism-editor/themes/github-dark.css"
 
 // Required by the basic setup
 import "solid-prism-editor/search.css"
+import "solid-prism-editor/invisibles.css"
 
 const MyEditor = () => (
   <Editor language="jsx" value="const foo = 'bar'" extensions={basicSetup} />
@@ -89,6 +92,7 @@ const MyEditor = () => (
 | `value`             | `string`                                                                  | Initial value to display in the editor.                                                                                                         |
 | `rtl`               | `boolean`                                                                 | Whether the editor uses right to left directionality. Defaults to `false`. Requires extra CSS from `solid-prism-editor/rtl-layout.css` to work. |
 | `style`             | `Omit<JSX.CSSProperties, "tab-size">`                                     | Inline styles for the container element                                                                                                         |
+| `class`             | `string`                                                                  | Additional classes for the container element.                                                                                                   |
 | `onMount`           | `(editor: PrismEditor) => void`                                           | Callback used to access the underlying editor.                                                                                                  |
 | `onUpdate`          | `(value: string, editor: PrismEditor) => void`                            | Function called after the editor updates.                                                                                                       |
 | `onSelectionChange` | `(selection: InputSelection, value: string, editor: PrismEditor) => void` | Function called when the editor's selection changes.                                                                                            |
@@ -260,13 +264,12 @@ The editor object you can access with the `onMount` prop or by creating an exten
 
 - `update(): void`: Forces the editor to update. Can be useful after modifying a grammar for example.
 - `getSelection(): InputSelection`: Gets the `selectionStart`, `selectionEnd` and `selectionDirection` for the `textarea`.
-- `setSelection(start: number, end?: number, direction?: "backward" | "forward" | "none"): void`: Sets the selection for the `textarea` and synchronously updates the `selection` signal.
 
 ### Signals
 
-- `focused(): boolean`: Reactive accessor for whether the `textarea` is focused. Effects depending on this property will run during `focus` or `blur` events on the `textarea`.
-- `tokens(): TokenStream`: Reactive accessor for the current tokens. [Computations](https://docs.solidjs.com/reference/secondary-primitives/create-computed) depending on this property will run right before the tokens are converted to an HTML string.
-- `selection(): InputSelection`: Reactive accessor for the current selection. Effects depending on this property will run after the syntax highlighting is finished or when the selection changes.
+- `focused(): boolean`: Reactive accessor for whether the `textarea` is focused. Effects depending on this signal will run during `focus` or `blur` events on the `textarea`.
+- `tokens(): TokenStream`: Reactive accessor for the current tokens. [Computations](https://docs.solidjs.com/reference/secondary-primitives/create-computed) depending on this signal will run right before the tokens are converted to an HTML string.
+- `selection(): InputSelection`: Reactive accessor for the current selection. Effects depending on this signal will run after the syntax highlighting is finished or when the selection changes.
 
 ### Extensions property
 
@@ -278,6 +281,10 @@ Multiple extensions have an entry on `editor.extensions` allowing you to interac
 - `searchWidget: SearchWidget`: Allows you to open or close the search widget.
 - `history: EditHistory`: Allows you to clear the history or navigate it.
 - `folding: ReadOnlyCodeFolding`: Allows access to the full unfolded code and to toggle folded ranges.
+
+## Utilities
+
+The `solid-prism-editor/utils` entry point exports various utilities for inserting text, changing the selection, finding token elements, and more.
 
 ## Prism
 
@@ -302,42 +309,118 @@ import("solid-prism-editor/languages")
 
 You can also import `solid-prism-editor/languages/common` instead to support a subset of common languages at less than 2kB gzipped.
 
-Lastly, if you only need support for a few languages, you can do individual imports, for example `solid-prism-editor/languages/html`. [Read more](https://github.com/FIameCaster/prism-code-editor?tab=readme-ov-file#individual-imports).
+Lastly, if you only need support for a few languages, you can do individual imports, for example `solid-prism-editor/languages/html`. [Read more](https://prism-code-editor.netlify.app/guides/language-specific-behavior#individual-imports).
 
 ## Styling
 
-This library does not inject any CSS into the webpage, instead you must import them. If the default styles don't work for you, you can import your own styles instead.
+This library does not inject any styles onto the webpage, instead you must import them. If the default styles don't work for you, you can import your own styles instead.
 
-- `solid-prism-editor/layout.css` is the layout for the editor.
-- `solid-prism-editor/scrollbar.css` adds a custom scrollbar to desktop Chrome and Safari you can color with `--editor__bg-scrollbar`.
-- `solid-prism-editor/copy-button.css` adds styling for the `copyButton()` extension.
-- `solid-prism-editor/search.css` adds styling for the `searchWidget()` extension.
-- `solid-prism-editor/rtl-layout.css` adds support for the `rtl` prop.
+- `solid-prism-editor/layout.css`: layout for the editor.
+- `solid-prism-editor/scrollbar.css`: custom scrollbar to desktop Chrome and Safari you can color with `--editor__bg-scrollbar`.
+- `solid-prism-editor/copy-button.css`: styles for the `useCopybutton()` extension.
+- `solid-prism-editor/search.css`: styles for the `useSearchWidget()` extension.
+- `solid-prism-editor/rtl-layout.css`: adds support for the `rtl` prop.
+- `solid-prism-editor/invisibles.css`: styles for the `useShowInvisibles()` extension.
+- `solid-prism-editor/autocomplete.css`: styles for the `useAutoComplete()` extension.
+- `solid-prism-editor/autocomplete-icons.css`: default icons for the autocompletion tooltip.
+- `solid-prism-editor/code-block.css`: additional styles required for [code blocks](#code-blocks).
 
 By default, the editor's height will fit the content, so you might want to add a `height` or `max-height` to `.prism-code-editor` depending on your use case.
 
 ### Themes
 
-here are currently 13 different themes you can import, one of them being from `solid-prism-editor/themes/github-dark.css`.
+There are currently 14 different themes you can import, one of them being from `solid-prism-editor/themes/github-dark.css`. If none of the themes fit your website, use one of them as an example to help implement your own.
 
-You can also dynamically import themes into your JavaScript.
+You can also dynamically import themes as a CSS string into your JavaScript. This can be used to create a theme switcher.
 
 ```javascript
 import { loadTheme } from "solid-prism-editor/themes"
 
 const isDark = matchMedia("(prefers-color-scheme: dark)").matches
 
-loadTheme(isDark ? "github-dark" : "github-light").then(theme => {
-  console.log(theme)
+loadTheme(isDark ? "github-dark" : "github-light").then(themeCss => {
+  document.querySelector("style").textContent = themeCss
 })
+
 ```
 
-If none of the themes fit your website, use one of them as an example to help implement your own.
+To load your own themes with `loadTheme` or override existing themes, use `registerTheme`.
+
+```javascript
+import { registerTheme } from "solid-prism-editor/themes"
+
+// Might look different if you're not using Vite
+registerTheme("my-theme", () => import("./my-theme.css?inline"))
+```
+
+## Code blocks
+
+This library can also create static code blocks. These support some features not supported by editors such as hover descriptions and highlighting brackets/tag-names on hover.
+
+```tsx
+import {
+  CodeBlock,
+  addCopyButton,
+  highlightBracketPairsOnHover,
+  highlightTagPairsOnHover,
+  addHoverDescriptions,
+  rainbowBrackets,
+} from "solid-prism-editor/code-blocks"
+import "solid-prism-editor/layout.css"
+import "solid-prism-editor/code-block.css"
+import "solid-prism-editor/themes/github-dark.css"
+
+function MyCodeBlock({ lang, code }: { lang: string, code: string }) {
+  return <CodeBlock
+    language={lang}
+    code={code}
+    onTokenize={rainbowBrackets()}
+    overlays={[
+      addCopyButton,
+      highlightBracketPairsOnHover(),
+      highlightTagPairsOnHover(),
+      addHoverDescriptions((types, language, text, element) => {
+        if (types.includes("string")) return ["This is a string token."]
+      }),
+    ]}
+  />
+}
+```
+
+### Code block props
+
+| Name                | Type                                                                    | Description                                                                                                                                     |
+| ------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `language`          | `string`                                                                | Language used for syntax highlighting. Defaults to `text`.                                                                                      |
+| `tabSize`           | `number`                                                                | Tab size used for indentation. Defaults to `2`.                                                                                                 |
+| `lineNumbers`       | `boolean`                                                               | Whether line numbers should be shown. Defaults to `false`.                                                                                      |
+| `wordWrap`          | `boolean`                                                               | Whether the code block should have word wrap. Defaults to `false`.                                                                              |
+| `preserveIndent`    | `boolean`                                                               | Whether or not indentation is preserved on wrapped lines. Defaults to `true` when `wordWrap` is enabled.                                        |
+| `guideIndents`      | `boolean`                                                               | Whether or not to display indentation guides. Does not work with `rtl` set to `true`. Defaults to `false`                                       |
+| `rtl`               | `boolean`                                                               | Whether the editor uses right to left directionality. Defaults to `false`. Requires extra CSS from `solid-prism-editor/rtl-layout.css` to work. |
+| `code`              | `string`                                                                | Code to display in the code block.                                                                                                              |
+| `style`             | `Omit<JSX.CSSProperties, "tab-size" \| "counter-reset">`                | Allows adding inline styles to the container element.                                                                                           |
+| `class`             | `string`                                                                | Additional classes for the container element.                                                                                                   |
+| `onTokenize`        | `(tokens: TokenStream) => void`                                         | Callback that can be used to modify the tokens before they're stringified to HTML.                                                              |
+| `overlays`          | `CodeBlockOverlay[]`                                                    | Array of functions that can modify the code block or add overlays.                                                                              |
 
 ## Performance
 
 Manual DOM manipulation has been kept is almost every case. This rewrite therefore has very similar performance to the original.
 
-## Contributing
+## Development
 
-Contributions are welcome. To test your changes during development, run `pnpm dev` or `npm run dev` to run the test site.
+To run the development server locally, install dependencies.
+
+    pnpm install
+
+Next, you must build the prism-code-editor package.
+
+    cd ../package
+    pnpm install
+    pnpm build
+
+Finally, you can run the development server to test your changes.
+
+    cd ../solid-package
+    pnpm dev
