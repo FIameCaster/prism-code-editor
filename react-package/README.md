@@ -25,7 +25,10 @@ This is a rewrite of [Prism code editor](https://github.com/FIameCaster/prism-co
   - [Extensions property](#extensions-property)
 - [Languages](#languages)
 - [Styling](#styling)
-  - [Themes](#themes)
+- [Themes](#themes)
+  - [Theme switcher](#theme-switcher)
+- [Code blocks](#code-blocks)
+  - [Code block props](#code-block-props)
 - [Performance](#performance)
 - [Contributing](#contributing)
 
@@ -37,11 +40,16 @@ You must already have `react` and `react-dom` version 16.8.0 or greater installe
 
 ## Demo
 
-[Prism code editor's demo](https://prism-code-editor.netlify.app). There's no demo for this React rewrite since its behavior is nearly identical.
+[Prism code editor's demo](https://prism-code-editor.netlify.app/playground). There's no demo for this React rewrite since its behavior is nearly identical.
 
 ## Examples
 
-Work in progress.
+- [Usage in forms](https://stackblitz.com/edit/vitejs-vite-6wmrpx?file=src%2FApp.tsx)
+- [Next.js example](https://stackblitz.com/edit/stackblitz-starters-8spwks?file=app%2Fcode-block.tsx,app%2Feditor.tsx,app%2Fpage.tsx)
+- [Preact example](https://stackblitz.com/edit/vitejs-vite-t88xmd?file=src%2Fapp.tsx)
+- [Tooltip example](https://stackblitz.com/edit/vitejs-vite-jq7zfh?file=src%2FApp.tsx)
+- [Relative line numbers](https://stackblitz.com/edit/vitejs-vite-d3zxwt?file=src%2FApp.tsx)
+- [Custom cursor](https://stackblitz.com/edit/vitejs-vite-cg3zpz?file=src%2FApp.tsx)
 
 ## Basic usage
 
@@ -62,6 +70,7 @@ import "prism-react-editor/themes/github-dark.css"
 
 // Required by the basic setup
 import "prism-react-editor/search.css"
+import "prism-react-editor/invisibles.css"
 
 function MyEditor() {
   return <Editor language="jsx" value="const foo = 'bar'">
@@ -83,6 +92,7 @@ function MyEditor() {
 | `value`             | `string`                                                                              | Initial value to display in the editor.                                                                                                         |
 | `rtl`               | `boolean`                                                                             | Whether the editor uses right to left directionality. Defaults to `false`. Requires extra CSS from `prism-react-editor/rtl-layout.css` to work. |
 | `style`             | `Omit<React.CSSProperties, "tabSize">`                                                | Allows adding inline styles to the container element.                                                                                           |
+| `className`         | `string`                                                                              | Additional classes for the container element.                                                                                                   |
 | `textareaProps`     | `Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, OmittedTextareaProps>`       | Allows adding props to the editor's textarea element.                                                                                           |
 | `onUpdate`          | `(value: string, editor: PrismEditor) => void`                                        | Function called after the editor updates.                                                                                                       |
 | `onSelectionChange` | `(selection: InputSelection, value: string, editor: PrismEditor) => void`             | Function called when the editor's selection changes.                                                                                            |
@@ -91,10 +101,10 @@ function MyEditor() {
 
 ## Pitfall
 
-This component is not controlled, and the `value` prop should be treated like an initial value. Do not change the `value` prop in the `onUpdate` handler. This will cause multiple issues and negatively impact performance.
+This component is not controlled, and the `value` prop should be treated like an initial value. Do not change the `value` prop in the `onUpdate` handler. Doing so will negatively impact performance and reset both the cursor position and undo/redo history on every input.
 
 ```jsx
-// counterexample: do not do this
+// counterexample: do NOT do this
 function MyEditor() {
   const [value, setValue] = useState("const foo = 'bar'")
 
@@ -133,9 +143,9 @@ import "prism-react-editor/search.css"
 import "prism-react-editor/copy-button.css"
 
 import { useBracketMatcher } from "prism-react-editor/match-brackets"
-import { useHightlightBracketPairs } from "prism-react-editor/highlight-brackets"
+import { useHighlightBracketPairs } from "prism-react-editor/highlight-brackets"
 import { IndentGuides } from "prism-react-editor/guides"
-import { useHighlightSelectionMatches, useSearchWidget } from "prism-react-editor/search"
+import { useHighlightSelectionMatches, useSearchWidget, useShowInvisibles } from "prism-react-editor/search"
 import { useHighlightMatchingTags, useTagMatcher } from "prism-react-editor/match-tags"
 import { useCursorPosition } from "prism-react-editor/cursor"
 import { useDefaultCommands, useEditHistory } from "prism-react-editor/commands"
@@ -144,7 +154,7 @@ import { useOverscroll } from "prism-react-editor/overscroll"
 
 function MyExtensions({ editor }: { editor: PrismEditor }) {
   useBracketMatcher(editor)
-  useHightlightBracketPairs(editor)
+  useHighlightBracketPairs(editor)
   useOverscroll(editor)
   useTagMatcher(editor)
   useHighlightMatchingTags(editor)
@@ -152,6 +162,7 @@ function MyExtensions({ editor }: { editor: PrismEditor }) {
   useEditHistory(editor)
   useSearchWidget(editor)
   useHighlightSelectionMatches(editor)
+  useShowInvisibles(editor)
   useCopyButton(editor)
   useCursorPosition(editor)
 
@@ -167,12 +178,12 @@ function MyEditor() {
 }
 ```
 
-**Note:** The extensions will rerender whenever the editor components props change. The editor object does not change reference between rerenders, so if you memoize the extensions component with `React.memo`, the extensions won't rerender causing potential issues. If you're using the React Compiler, you might need to add the `"use no memo"` directive to the extensions component so the compiler doesn't memoize it.
+**Note:** The extensions will rerender whenever the editor component's props change. The editor object does not change reference between rerenders, so if you memoize the extensions component with `React.memo`, the extensions won't rerender causing potential issues. If you're using the React Compiler, you might need to add the `"use no memo"` directive to your extensions component so the compiler doesn't memoize it.
 
 Lazy loading extensions is also possible for code splitting. It's not recommended to lazy load `useBracketMatcher` and you might want `IndentGuides` to be present on first render. All other extensions will work perfectly fine while lazy loaded.
 
 ```jsx
-import { lazy } from "react"
+import { lazy, Suspense } from "react"
 
 const LazyExtensions = lazy(() => import("./extensions"))
 
@@ -188,7 +199,9 @@ function MyEditor() {
       {editor => (
         <>
           <MyExtensions editor={editor} />
-          <LazyExtensions editor={editor} />
+          <Suspense>
+            <LazyExtensions editor={editor} />
+          </Suspense>
         </>
       )}
     </Editor>
@@ -264,7 +277,6 @@ The editor object you can access with the `children` property has many useful pr
 
 - `update(): void`: Forces the editor to update. Can be useful after modifying a grammar for example.
 - `getSelection(): InputSelection`: Gets the `selectionStart`, `selectionEnd` and `selectionDirection` for the `textarea`.
-- `setSelection(start: number, end?: number, direction?: "backward" | "forward" | "none"): void`: Sets the selection for the `textarea` and synchronously updates the `selection` signal.
 - `on<T extends keyof EditorEventMap>(name: T, listener: EditorEventMap[T]): () => void`: Adds a listener for editor events and returns a cleanup function. Intended to be used by extensions inside a `useLayoutEffect` or `useEffect` hook.
 
 ### Extensions property
@@ -278,9 +290,13 @@ Multiple extensions have an entry on `editor.extensions` allowing you to interac
 - `history: EditHistory`: Allows you to clear the history or navigate it.
 - `folding: ReadOnlyCodeFolding`: Allows access to the full unfolded code and to toggle folded ranges.
 
+## Utilities
+
+The `prism-react-editor/utils` entry point exports various utilities for inserting text, changing the selection, finding token elements, and more.
+
 ## Prism
 
-The Prism instance used by this library is exported from `prism-react-editor/prism`. This allows you to add your own Prism grammars or perform syntax highlighting outside of an editor. All modules under `prism-react-editor/prism` can run outside the browser in for example Node.js to do syntax highlighting on the server. [API docs](https://prism-code-editor.netlify.app/api/modules/prism).
+The Prism instance used by this library is exported from `prism-react-editor/prism`. This allows you to add your own Prism grammars or perform syntax highlighting outside of an editor. All modules under `prism-react-editor/prism` can run outside the browser in for example Node.js to do syntax highlighting on the server. Check the [working with prism](https://prism-code-editor.netlify.app/guides/working-with-prism) guide for more info.
 
 ## Languages
 
@@ -301,42 +317,142 @@ import("prism-react-editor/languages")
 
 You can also import `prism-react-editor/languages/common` instead to support a subset of common languages at less than 2kB gzipped.
 
-Lastly, if you only need support for a few languages, you can do individual imports, for example `prism-react-editor/languages/html`. [Read more](https://github.com/FIameCaster/prism-code-editor?tab=readme-ov-file#individual-imports).
+Lastly, if you only need support for a few languages, you can do individual imports, for example `prism-react-editor/languages/html`. [Read more](https://prism-code-editor.netlify.app/guides/language-specific-behavior#individual-imports).
 
 ## Styling
 
-This library does not inject any CSS into the webpage, instead you must import them. If the default styles don't work for you, you can import your own styles instead.
+This library does not inject any styles onto the webpage, instead you must import them. If the default styles don't work for you, you can import your own styles instead.
 
-- `prism-react-editor/layout.css` is the layout for the editor.
-- `prism-react-editor/scrollbar.css` adds a custom scrollbar to desktop Chrome and Safari you can color with `--editor__bg-scrollbar`.
-- `prism-react-editor/copy-button.css` adds styling for the copy button.
-- `prism-react-editor/search.css` adds styling for the search widget.
-- `prism-react-editor/rtl-layout.css` adds support for the `rtl` prop.
+- `prism-react-editor/layout.css`: layout for the editor.
+- `prism-react-editor/scrollbar.css`: custom scrollbar to desktop Chrome and Safari you can color with `--editor__bg-scrollbar`.
+- `prism-react-editor/copy-button.css`: styles for the `useCopybutton()` extension.
+- `prism-react-editor/search.css`: styles for the `useSearchWidget()` extension.
+- `prism-react-editor/rtl-layout.css`: adds support for the `rtl` prop.
+- `prism-react-editor/invisibles.css`: styles for the `useShowInvisibles()` extension.
+- `prism-react-editor/autocomplete.css`: styles for the `useAutoComplete()` extension.
+- `prism-react-editor/autocomplete-icons.css`: default icons for the autocompletion tooltip.
+- `prism-react-editor/code-block.css`: additional styles required for [code blocks](#code-blocks).
 
 By default, the editor's height will fit the content, so you might want to add a `height` or `max-height` to `.prism-code-editor` depending on your use case.
 
-### Themes
+## Themes
 
-here are currently 13 different themes you can import, one of them being from `prism-react-editor/themes/github-dark.css`.
+There are currently 14 different themes you can import, one of them being from `prism-react-editor/themes/github-dark.css`. If none of the themes fit your website, use one of them as an example to help implement your own.
 
-You can also dynamically import themes into your JavaScript.
+### Theme switcher
 
-```javascript
-import { loadTheme } from "prism-react-editor/themes"
+If you're making a theme switcher, you might want to use the `useTheme` hook. This hook is a simple wrapper around the `loadTheme` utility exported from the same entry point. If want something more sophisticated, use `loadTheme` directly instead.
 
-const isDark = matchMedia("(prefers-color-scheme: dark)").matches
+```jsx
+import { useState } from "react"
+import { useTheme } from "prism-react-editor/themes"
 
-loadTheme(isDark ? "github-dark" : "github-light").then(theme => {
-  console.log(theme)
-})
+export function App() {
+  const [theme, setTheme] = useState("github-dark")
+  const themeCss = useTheme(theme)
+
+  return <>
+    <style>{themeCss}</style>
+    ...
+  </>
+}
 ```
 
-If none of the themes fit your website, use one of them as an example to help implement your own.
+The hook and `<style>` tag can be placed in any component you want. Just make sure that component is only used once since you don't want multiple `<style>` elements with themes on the page.
+
+To limit [FOUC](https://en.wikipedia.org/wiki/Flash_of_unstyled_content), you may want to provide a fallback stylesheet for when the theme is loading using something like `<style>{themeCss ?? fallbackCss}</style>`. Alternatively, you can avoid rendering editors before the theme has loaded using `themeCss && <Editor ... />`.
+
+If you're just switching between two themes (light/dark), using CSS variables would have fewer downsides, but this does require maintaining your own theme.
+
+### Registering themes
+
+If you want to use your own themes with `useTheme` or `loadTheme` or want to override existing themes, use `registerTheme`. The example below might look different if you're not using Vite as your bundler.
+
+```js
+import { registerTheme } from "prism-react-editor/themes"
+
+// Might look different if you're not using Vite
+registerTheme("my-theme", () => import("./my-theme.css?inline"))
+```
+
+## Code blocks
+
+This library can also create static code blocks. These support some features not supported by editors such as hover descriptions and highlighting brackets/tag-names on hover.
+
+```tsx
+import {
+  CodeBlock,
+  CopyButton,
+  HighlightBracketPairsOnHover,
+  HighlightTagPairsOnHover,
+  HoverDescriptions,
+  rainbowBrackets,
+} from "prism-react-editor/code-blocks"
+import "prism-react-editor/layout.css"
+import "prism-react-editor/code-block.css"
+import "prism-react-editor/themes/github-dark.css"
+
+// External to minimize rerenders
+const onTokenize = rainbowBrackets()
+
+function MyCodeBlock({ lang, code }: { lang: string, code: string }) {
+  return <CodeBlock
+    language={lang}
+    code={code}
+    onTokenize={onTokenize}
+  >
+    {(codeBlock, props) => (
+      <>
+        <HoverDescriptions
+          callback={(types, language, text, element) => {
+            if (types.includes("string")) return ["This is a string token."]
+          }}
+          codeBlock={codeBlock}
+          props={props}
+        />
+        <CopyButton codeBlock={codeBlock} props={props} />
+        <HighlightTagPairsOnHover codeBlock={codeBlock} props={props} />
+        <HighlightBracketPairsOnHover codeBlock={codeBlock} props={props} />
+      </>
+    )}
+  </CodeBlock>
+}
+```
+
+### Code block props
+
+| Name                | Type                                                                    | Description                                                                                                                                     |
+| ------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `language`          | `string`                                                                | Language used for syntax highlighting. Defaults to `text`.                                                                                      |
+| `tabSize`           | `number`                                                                | Tab size used for indentation. Defaults to `2`.                                                                                                 |
+| `lineNumbers`       | `boolean`                                                               | Whether line numbers should be shown. Defaults to `false`.                                                                                      |
+| `wordWrap`          | `boolean`                                                               | Whether the code block should have word wrap. Defaults to `false`.                                                                              |
+| `preserveIndent`    | `boolean`                                                               | Whether or not indentation is preserved on wrapped lines. Defaults to `true` when `wordWrap` is enabled.                                        |
+| `guideIndents`      | `boolean`                                                               | Whether or not to display indentation guides. Does not work with `rtl` set to `true`. Defaults to `false`                                       |
+| `rtl`               | `boolean`                                                               | Whether the editor uses right to left directionality. Defaults to `false`. Requires extra CSS from `prism-react-editor/rtl-layout.css` to work. |
+| `code`              | `string`                                                                | Code to display in the code block.                                                                                                              |
+| `style`             | `Omit<React.CSSProperties, "tabSize" \| "counterReset">`                | Allows adding inline styles to the container element.                                                                                           |
+| `className`         | `string`                                                                | Additional classes for the container element.                                                                                                   |
+| `onTokenize`        | `(tokens: TokenStream) => void`                                         | Callback that can be used to modify the tokens before they're stringified to HTML.                                                              |
+| `children`          | `(codeBlock: PrismCodeBlock, props: CodeBlockProps) => React.ReactNode` | Callback used to render extensions.                                                                                                             |
 
 ## Performance
 
 Manual DOM manipulation has been kept almost everywhere. This rewrite therefore has very similar performance to the original which would not be the case if only JSX was used.
 
-## Contributing
+## Development
 
-Contributions are welcome. To test your changes during development, run `pnpm dev` or `npm run dev` to run the test site.
+To run the development server locally, install dependencies.
+
+    pnpm install
+
+Next, you must build the prism-code-editor package.
+
+    cd ../package
+    pnpm install
+    pnpm build
+
+Finally, you can run the development server to test your changes.
+
+    cd ../react-package
+    pnpm dev
