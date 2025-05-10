@@ -143,7 +143,7 @@ If you're using line numbers, you can make sure the line number element inherits
 
 ## Meta parsing
 
-The meta parsing uses HTML-attribute-like syntax. The parser will attempt to parse the property value as a boolean, null, or a number and fall back to a string otherwise. If the value is wrapped by `{}`, the value is parsed as a `Set{:js}` of numbers equal to the union of all ranges between the brackets. E.g. `{1,2,5-7}` would be parsed to `new Set([1, 2, 5, 6, 7]){:js}`. You can see the regular expressions used for parsing below:
+The meta parsing uses HTML-attribute-like syntax. The parser will attempt to parse the property value as a boolean, null, or a number, and fall back to a string otherwise. If the value is wrapped by `{}`, then the value is parsed as a `Set{:js}` of numbers equal to the union of all ranges between the brackets. E.g. `{1,2,5-7}` would become `new Set([1, 2, 5, 6, 7]){:js}`. You can see the regular expressions used for parsing below:
 
 ```js editor="false"
 let range = /(\d+)(?:\s*-\s*(\d+))?/g
@@ -152,7 +152,7 @@ let prop = /([^\s"'{}=]+)(?:\s*=\s*("[^"]*"|'[^']*'|\{[^}]*\}|[^\s"'{}=]+))?/g
 
 ## Inline highlighting
 
-To enable highlighting of inline code, pass an object to the `inline` option. This object currently accepts a `tokenizeCallback` property to enable rainbow brackets for example.
+To enable highlighting of inline code, pass an object to the `inline` option. This object currently accepts an optional `tokenizeCallback` property to enable rainbow brackets for example.
 
 ```js editor="false"
 import { rainbowBrackets } from "prism-code-editor/ssr"

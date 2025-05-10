@@ -70,12 +70,12 @@ editor.addExtensions(
 
 ## Utilities
 
-The [`PrismEditor{:js}`](/api-reference/index/i-prismeditor) object returned by `createEditor(){:js}` has some useful properties and methods, but to keep the core as light as possible, many functions that could've been methods on `PrismEditor{:js}` are external functions instead. This includes [`insertText(){:js}`](/api-reference/utils/f-inserttext/), [`setSelection(){:js}`](/api-reference/utils/f-setselection/), [`getLanguage(){:js}`](/api-reference/utils/f-getlanguage/), and [`getClosestToken(){:js}`](/api-reference/utils/f-getclosesttoken/)
+The [`PrismEditor{:js}`](/api-reference/index/i-prismeditor) object returned by `createEditor(){:js}` has some useful properties and methods, but to keep the core as light as possible, many functions that could've been methods on `PrismEditor{:js}` are external instead. This includes [`insertText(){:js}`](/api-reference/utils/f-inserttext/), [`setSelection(){:js}`](/api-reference/utils/f-setselection/), [`getLanguage(){:js}`](/api-reference/utils/f-getlanguage/), and [`getClosestToken(){:js}`](/api-reference/utils/f-getclosesttoken/)
 
 ## Using placeholders
 
-`createEditor(){:js}` will append the editor to the your container. If you want more control over where your editor ends up, you can use [`editorFromPlaceholder(){:js}`](/api-reference/index/f-editorfromplaceholder) instead. It will replace the placeholder with the new editor. Additionally, the `textContent` of the placeholder will be used as the editor's value unless `options.value{:js}` is defined. The placeholder doesn't have to be an element, it can be a `Text{:js}` or `Comment{:js}` node as well.
+`createEditor(){:js}` will append the editor to your container. If you want more control over where your editor ends up, you can use [`editorFromPlaceholder(){:js}`](/api-reference/index/f-editorfromplaceholder) instead, which will replace the placeholder with the new editor. Additionally, the `textContent` of the placeholder will be used as the editor's value unless `options.value{:js}` is defined. The placeholder doesn't have to be an element; it can also be a `Text{:js}` or `Comment{:js}` node.
 
 ### Avoiding layout shifts
 
-Adding editors to your page, can cause layout shifts. If you're using `editorFromPlaceholder(){:js}` with placeholders that are the same size as the editor, layout shifts can be avoided. [Working example](https://stackblitz.com/edit/vitejs-vite-sbvab7?file=index.html,src%2Fstyle.css,src%2Fmain.ts,readme.md). If you're using a static site generator, a better solution can be found in the [Server side rendering guide](./server-side-rendering).
+Adding editors to your page can cause layout shifts. If you're using `editorFromPlaceholder(){:js}` with placeholders that are the same size as the editor, layout shifts can be avoided. [Working example](https://stackblitz.com/edit/vitejs-vite-sbvab7?file=index.html,src%2Fstyle.css,src%2Fmain.ts,readme.md). If you're using a static-site generator, a better solution can be found in the [Server-side rendering guide](./server-side-rendering).

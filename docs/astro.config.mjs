@@ -112,7 +112,7 @@ export default defineConfig({
 						{ label: "Autocomplete", slug: "guides/autocomplete" },
 						{ label: "Code Folding", slug: "guides/code-folding" },
 						{ label: "Tooltips", slug: "guides/tooltips" },
-						{ label: "Server Side Rendering", slug: "guides/server-side-rendering" },
+						{ label: "Server-side Rendering", slug: "guides/server-side-rendering" },
 						{ label: "Code Blocks", slug: "guides/code-blocks" },
 					],
 				},

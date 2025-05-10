@@ -132,11 +132,11 @@ The following meta properties can change the behavior or appearance of an editor
 
 #### Code block properties
 
-Static code blocks can be modified with meta properties like `tabSize`, `lineNumbers`, `lineNumberStart`, `wordWrap`, `preverveIndent`, `guideIndents`, `rtl`, and `class`. These have the same defaults as when creating code blocks with [`renderCodeBlock(){:js}`](/api-reference/ssr/f-rendercodeblock). Additionally, code block support highlighting lines with the `highlight`, `ins`, and `del` properties. More about these on the [features](/rehype-marked-plugins/features) page.
+Static code blocks can be modified with meta properties like `tabSize`, `lineNumbers`, `lineNumberStart`, `wordWrap`, `preverveIndent`, `guideIndents`, `rtl`, and `class`. These have the same defaults as when creating code blocks with [`renderCodeBlock(){:js}`](/api-reference/ssr/f-rendercodeblock). Additionally, code blocks support highlighting lines with the `highlight`, `ins`, and `del` properties. More about these on the [features](/rehype-marked-plugins/features) page.
 
 ### Making editors interactive
 
-These plugins don't inject any JavaScript to make the editors interactive. This means you have full control over when and how they're mounted and which extensions are added. To mount them, run [`mountEditorsUnder(){:js}`](/api-reference/client/f-mounteditorsunder) in client side JavaScript. See the [SSR guide](/guides/server-side-rendering) for more info.
+These plugins don't inject any JavaScript to make the editors interactive. This means you have full control over when and how they're mounted and which extensions are added. To mount them, run [`mountEditorsUnder(){:js}`](/api-reference/client/f-mounteditorsunder) in client-side JavaScript. See the [SSR guide](/guides/server-side-rendering) for more info.
 
 ### Code block extensions
 
