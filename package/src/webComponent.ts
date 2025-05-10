@@ -2,6 +2,7 @@
 
 import { PrismEditor } from "./types.js"
 import { SetupOptions, basicEditor, minimalEditor, readonlyEditor } from "./setups/index.js"
+import { EditorTheme } from "./themes/index.js"
 
 const attributeMap = {
 	language: [(value: string | null) => value || "text"],
@@ -84,9 +85,9 @@ const addComponent = (createEditor: typeof basicEditor, name: string) => {
 }
 
 export interface PrismEditorElement extends HTMLElement {
-	readonly editor: PrismEditor<{ theme: string }>
+	readonly editor: PrismEditor<{ theme: EditorTheme }>
 	value: string
-	theme: string
+	theme: EditorTheme
 	language: string
 	tabSize: number
 	insertSpaces: boolean
