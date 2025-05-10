@@ -1,5 +1,11 @@
 import { useEffect } from "react"
-import { blockCommentFolding, bracketFolding, markdownFolding, tagFolding, useReadOnlyCodeFolding } from "../extensions/folding"
+import {
+	blockCommentFolding,
+	bracketFolding,
+	markdownFolding,
+	tagFolding,
+	useReadOnlyCodeFolding,
+} from "../extensions/folding"
 import { useReactTooltip } from "../tooltips"
 import { PrismEditor } from "../types"
 import { addTextareaListener } from "../utils/local"

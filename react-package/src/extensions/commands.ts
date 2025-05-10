@@ -457,7 +457,7 @@ const useEditHistory = (editor: PrismEditor, historyLimit = 999) => {
 		const extensions = editor.extensions
 		const textarea = editor.textarea
 		const stack: [string, InputSelection, InputSelection][] = []
-		const update = (index = 0) => {
+		const update = (index: number) => {
 			if (index >= limit[0]) {
 				index--
 				stack.shift()
@@ -524,7 +524,7 @@ const useEditHistory = (editor: PrismEditor, historyLimit = 999) => {
 
 		extensions.history = {
 			clear() {
-				update()
+				update(0)
 				allowMerge = false
 			},
 			has: offset => sp + offset in stack,
@@ -533,7 +533,7 @@ const useEditHistory = (editor: PrismEditor, historyLimit = 999) => {
 			},
 		}
 
-		update()
+		update(0)
 
 		return () => {
 			cleanUps.forEach(cleanUp => cleanUp())

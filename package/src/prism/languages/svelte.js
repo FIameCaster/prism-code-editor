@@ -16,7 +16,7 @@ var tag = astroTag(expression);
 var tagInside = tag.inside;
 
 var blockInside = {
-	'punctuation': /^[{#@:/]|\}$/,
+	'punctuation': /^\W|\}$/,
 	'keyword': /^\w+|\bthen\b(?!\s*[^\s[{$\w\xa0-\uffff])/
 };
 

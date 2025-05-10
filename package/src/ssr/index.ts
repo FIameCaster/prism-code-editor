@@ -24,7 +24,7 @@ export type RenderOptions = Omit<EditorOptions, "onUpdate" | "onTokenize" | "onS
 
 /**
  * This function renders an editor as an HTML string. This is intended to the used with
- * server side rendering (SSR) or static site generation (SSG). The editor can the later
+ * server-side rendering (SSR) or static-site generation (SSG). The editor can the later
  * be made interactive on the client with the {@link mountEditorsUnder} function.
  *
  * @param options Options used for the editor. Any properties you define are stringified

@@ -7,7 +7,10 @@ import { TokenStream } from "./prism/types.js"
 import { EditHistory } from "./extensions/commands.js"
 
 export type EditorOptions = {
-	/** Language used for syntax highlighting. @default "text" */
+	/**
+	 * Language used for syntax highlighting. If the language doesn't have a registered
+	 * Prism grammar, syntax highlighting will be disabled. @default "text"
+	 */
 	language: string
 	/** Tabsize for the editor. @default 2 */
 	tabSize?: number | undefined

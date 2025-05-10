@@ -277,10 +277,6 @@ const useAutoComplete = (editor: PrismEditor, config: AutoCompleteConfig) => {
 			} else hide()
 		}
 
-		const focusOut = (e: FocusEvent) => {
-			if (_config[0].closeOnBlur != false && e.relatedTarget != textarea) hide()
-		}
-
 		const addSelectionHandler = () => {
 			if (!cursor && (cursor = editor.extensions.cursor)) {
 				// Must be added after the cursor's selectionChange handler
@@ -456,22 +452,29 @@ const useAutoComplete = (editor: PrismEditor, config: AutoCompleteConfig) => {
 			clearStops,
 			addListener2(tooltip, "scroll", () => {
 				measureRowHeight()
-				const newOffset = Math.min(Math.floor(tooltip.scrollTop / rowHeight), numOptions - windowSize)
+				const newOffset = Math.min(
+					Math.floor(tooltip.scrollTop / rowHeight),
+					numOptions - windowSize,
+				)
 				if (newOffset == offset || newOffset < 0) return
-	
+
 				offset = newOffset
 				for (let i = 0; i < windowSize; i) {
 					updateRow(i++)
 				}
-	
+
 				list.style.paddingTop = offset * rowHeight + "px"
 				updateActive()
 			}),
 			addListener2(list, "mousedown", e => {
-				insertOption([].indexOf.call(rows, (e.target as HTMLElement).closest("li") as never) + offset)
+				insertOption(
+					[].indexOf.call(rows, (e.target as HTMLElement).closest("li") as never) + offset,
+				)
 				preventDefault(e)
 			}),
-			addListener2(tooltip, "focusout", focusOut)
+			addListener2(tooltip, "focusout", e => {
+				if (_config[0].closeOnBlur != false && e.relatedTarget != textarea) hide()
+			}),
 		]
 
 		tabStopsContainer.className = "pce-tabstops"

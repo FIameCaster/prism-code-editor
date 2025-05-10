@@ -452,7 +452,7 @@ const editHistory =
 		const getSelection = editor.getSelection
 		const textarea = editor.textarea
 		const stack: [string, InputSelection, InputSelection][] = []
-		const update = (index = 0) => {
+		const update = (index: number) => {
 			if (index >= historyLimit) {
 				index--
 				stack.shift()
@@ -471,7 +471,7 @@ const editHistory =
 		}
 
 		const clear = () => {
-			update()
+			update(0)
 			allowMerge = false
 		}
 

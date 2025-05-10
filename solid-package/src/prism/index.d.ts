@@ -1,7 +1,7 @@
 /**
  * The symbol used to add a grammar that will get appended to this grammar.
  *
- * The `rest` property can be the id of a language in {@link languages}.
+ * The `rest` property can be the name of a language in {@link languages}.
  * If that grammar doesn't yet exist, the `rest` property persists, and the
  * the rest grammar will be appended once it exists.
  */

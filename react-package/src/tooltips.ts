@@ -84,8 +84,7 @@ export const useReactTooltip = (
  * tooltip from overflowing in browsers that support it.
  *
  * This utility is intended to be wrapped in a custom extension that controls when the
- * tooltip is shown. Your extension should then return the container returned by this
- * utility.
+ * tooltip is shown.
  *
  * If you want your tooltip to always be visible when scrolling horizontally, you can add
  * `position: sticky` along with the `right` and `left` CSS properties to it.

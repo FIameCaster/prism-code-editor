@@ -51,7 +51,7 @@ css.selector.inside = css['atrule'].inside['selector-function-argument'].inside 
 			lookbehind: true
 		}
 	],
-	'combinator': />|\+|~|\|\|/,
+	'combinator': /[>+~]|\|\|/,
 
 	// the `tag` token has been existed and removed.
 	// because we can't find a perfect tokenize to match it.

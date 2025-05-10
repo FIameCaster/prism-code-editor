@@ -548,7 +548,7 @@ const svgTags: TagConfig = {
 		systemLanguage: null,
 		version: null,
 		viewBox: null,
-		xmlns: ["http://www.w3.org/2000/svg"]
+		xmlns: ["http://www.w3.org/2000/svg"],
 	},
 	switch: {
 		...presentationAttributes,

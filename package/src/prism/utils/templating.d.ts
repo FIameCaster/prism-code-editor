@@ -10,6 +10,6 @@ import { CustomTokenizer, Grammar, TokenStream } from "../types.js"
  * replaced tokens are inserted into the new token stream.
  * 
  * @param hostGrammar The grammar this language is embedded in. Can either be a grammar object
- * or the id of a grammar.
+ * or the name of a grammar.
  */
 export declare const embeddedIn: (hostGrammar: Grammar | string) => CustomTokenizer

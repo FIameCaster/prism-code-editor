@@ -8,7 +8,7 @@ var tagInside = vueTag.inside;
 var currentLang;
 
 var expression = {
-	pattern: /(\{\{)[\s\S]*?(?=\}\})/g,
+	pattern: /(\{\{)[\s\S]+?(?=\}\})/g,
 	lookbehind: true,
 	greedy: true
 };
