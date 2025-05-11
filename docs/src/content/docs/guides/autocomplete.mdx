@@ -3,11 +3,14 @@ title: Autocomplete
 description: Learn how to use the autocomplete extension.
 ---
 
-import "../../../components/languages/jsx+css+html.astro"
-import "../../../components/editor/Autocomplete.astro"
+import MountEditors from "../../../components/languages/jsx+css+html.astro"
+import Autocomplete from "../../../components/editor/Autocomplete.astro"
 import "../../../css/editor-theme.css"
 import { Aside } from "@astrojs/starlight/components"
 import AutocompleteIcons from "../../../components/AutocompleteIcons.astro"
+
+<MountEditors />
+<Autocomplete />
 
 The [`autoComplete(){:js}`](/api-reference/autocomplete/f-autocomplete) extension can be used to show a list of completable options to users while they're typing.
 

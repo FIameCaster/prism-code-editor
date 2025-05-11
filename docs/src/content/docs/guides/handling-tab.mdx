@@ -3,9 +3,11 @@ title: Handling Tab
 description: Learn how to handle tab without creating keyboard traps.
 ---
 
-import "../../../components/languages/ts.astro"
+import MountEditors from "../../../components/languages/ts.astro"
 import "../../../css/editor-theme.css"
 import { Aside } from "@astrojs/starlight/components"
+
+<MountEditors />
 
 The [`defaultCommands(){:js}`](/api-reference/commands/f-defaultcommands) extension binds the Tab key to indenting code. Users can at any time toggle tab capturing with Ctrl+M / Ctrl+Shift+M (Mac) whenever an editor is focused, but if a keyboard navigator is unaware of this, they're effectively trapped in the editor.
 

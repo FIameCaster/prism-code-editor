@@ -12,8 +12,8 @@ import "prism-code-editor/prism/languages/vue"
 languages.selector = {
 	selector: {
 		pattern: /[^]+/,
-		inside: languages.css.selector.inside
-	}
+		inside: languages.css.selector.inside,
+	},
 }
 
 /** @type {import("rehype-prism-code-editor").PcePluginOptions} */
@@ -25,7 +25,7 @@ const pluginOptions = {
 		wordWrap: true,
 	},
 	defaultEditorProps: {
-		overlays: [indentGuides]
+		overlays: [indentGuides],
 	},
 	customRenderer(props, defaultRenderer) {
 		const file = props.file
@@ -51,9 +51,13 @@ export default defineConfig({
 				ThemeProvider: "./src/components/ThemeProvider.astro",
 				MobileMenuFooter: "./src/components/MobileMenuFooter.astro",
 			},
-			social: {
-				github: "https://github.com/fiamecaster/prism-code-editor",
-			},
+			social: [
+				{
+					icon: "github",
+					label: "GitHub",
+					href: "https://github.com/fiamecaster/prism-code-editor",
+				},
+			],
 			plugins: [
 				// Generate the documentation.
 				starlightTypeDoc({

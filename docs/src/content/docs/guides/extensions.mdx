@@ -3,9 +3,11 @@ title: Extensions
 description: Learn which extension you can use and how to create your own.
 ---
 
-import "../../../components/languages/ts.astro"
+import MountEditors from "../../../components/languages/ts.astro"
 import "../../../css/editor-theme.css"
 import { Aside } from "@astrojs/starlight/components"
+
+<MountEditors />
 
 One of the key features of this library is that most features are implemented by optional extensions. This is to keep the core light for those who don't need the extra functionality.
 

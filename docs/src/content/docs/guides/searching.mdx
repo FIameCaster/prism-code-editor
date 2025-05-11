@@ -3,10 +3,13 @@ title: Seaching
 description: Learn about search-related extensions and how to do your own searching.
 ---
 
-import "../../../components/languages/ts.astro"
+import MountEditors from "../../../components/languages/ts.astro"
 import Button from "../../../components/Button.astro"
-import "../../../components/search/Search.astro"
+import Search from "../../../components/search/Search.astro"
 import "../../../css/editor-theme.css"
+
+<MountEditors />
+<Search />
 
 The `prism-code-editor/search` entry point exports extensions for searching editors and highlighting and replacing the matches. On this page, you can view the different extensions for searching.
 

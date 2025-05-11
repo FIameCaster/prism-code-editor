@@ -3,9 +3,11 @@ title: Usage in Forms
 description: Learn how to use Prism code editor in forms.
 ---
 
-import "../../../components/languages/js.astro"
+import MountEditors from "../../../components/languages/js.astro"
 import FormExample from "../../../components/FormExample.astro"
 import "../../../css/editor-theme.css"
+
+<MountEditors />
 
 Since this library is using a textarea element under the hood, it's trivial to use the editor in forms. The [`PrismEditor{:js}`](/api-reference/index/i-prismeditor#textarea) object exposes the editor's textarea through its `textarea` property, so all you need to do is to add a `name` attribute to it. Ideally, you'd also add an `id` to it to bind a `<label>{:html}` element to the editor. [Working example](https://stackblitz.com/edit/vitejs-vite-pk9ud7?file=src%2Fmain.ts).
 

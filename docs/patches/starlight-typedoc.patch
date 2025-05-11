@@ -1,8 +1,8 @@
 diff --git a/libs/typedoc.ts b/libs/typedoc.ts
-index 9030cc81c2ff022ad3e9e507d8397fd8a02e6034..e10d661b8c02fb177ff089b64ad11b31d90ca20d 100644
+index aac6cd1dae63e7b5bc1fda564ac36b4d75e52901..d4f0663747dd69ae007a908b12e8d7598f9abcab 100644
 --- a/libs/typedoc.ts
 +++ b/libs/typedoc.ts
-@@ -140,6 +140,17 @@ function onRendererPageEnd(event: MarkdownPageEvent, pagination: boolean) {
+@@ -161,6 +161,17 @@ function onRendererPageEnd(event: MarkdownPageEvent, outputDirectory: string, pa
      return true
    }
  
@@ -18,13 +18,13 @@ index 9030cc81c2ff022ad3e9e507d8397fd8a02e6034..e10d661b8c02fb177ff089b64ad11b31
 +    .replace(/(?:\.\.\/)+/g, "/")
 +
    if (!event.frontmatter) {
-     event.contents = addFrontmatter(event.contents, {
-       editUrl: false,
-@@ -147,6 +158,7 @@ function onRendererPageEnd(event: MarkdownPageEvent, pagination: boolean) {
-       prev: pagination,
-       // Wrap in quotes to prevent issue with special characters in frontmatter
-       title: `"${event.model.name}"`,
-+      sidebar: `\n  order: ${(/[/\\][^/\\]+[/\\]/.test(newURL) ? 0 : 2) + +!isFuncVar}${match ? `\n  label: ${match[3]}` : ""}`
-     })
+     event.contents = addFrontmatter(
+       event.contents,
+@@ -170,6 +181,7 @@ function onRendererPageEnd(event: MarkdownPageEvent, outputDirectory: string, pa
+         prev: pagination,
+         // Wrap in quotes to prevent issue with special characters in frontmatter
+         title: `"${event.model.name}"`,
++        sidebar: `\n  order: ${(/[/\\][^/\\]+[/\\]/.test(newURL) ? 0 : 2) + +!isFuncVar}${match ? `\n  label: ${match[3]}` : ""}`,
+       }),
+     )
    }
- 

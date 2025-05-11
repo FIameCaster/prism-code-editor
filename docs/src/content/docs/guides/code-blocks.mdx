@@ -6,8 +6,10 @@ next:
   label: Markdown plugins
 ---
 
-import "../../../components/CodeBlock.astro"
+import CodeBlock from "../../../components/CodeBlockExample.astro"
 import { Aside } from "@astrojs/starlight/components"
+
+<CodeBlock />
 
 This library can also render static code blocks. The code blocks require no JavaScript to work and support some features that can't be added to editors. Every code block on this page has been generated with this library.
 
