@@ -65,14 +65,14 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^20.12.6",
+    "@types/node": "^20.17.46",
     "prism-code-editor": "4.0.0-beta.1",
-    "solid-devtools": "^0.31.5",
-    "solid-js": "^1.9.3",
-    "typescript": "^5.8.2",
+    "solid-devtools": "^0.34.0",
+    "solid-js": "^1.9.6",
+    "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vite-plugin-dts": "^4.4.0",
-    "vite-plugin-solid": "^2.11.0"
+    "vite-plugin-dts": "^4.5.3",
+    "vite-plugin-solid": "^2.11.6"
   },
   "peerDependencies": {
     "solid-js": "*"

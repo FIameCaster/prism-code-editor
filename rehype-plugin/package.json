@@ -13,10 +13,10 @@
     "prism-code-editor": "4.0.0-beta.1",
     "rehype-stringify": "^10.0.1",
     "remark-parse": "^11.0.0",
-    "remark-rehype": "^11.1.1",
-    "typescript": "^5.8.2",
+    "remark-rehype": "^11.1.2",
+    "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vite-plugin-dts": "^4.4.0"
+    "vite-plugin-dts": "^4.5.3"
   },
   "peerDependencies": {
     "prism-code-editor": "4.0.0-beta.1"

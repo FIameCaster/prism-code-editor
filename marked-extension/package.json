@@ -14,11 +14,11 @@
     "prism-code-editor": "4.0.0-beta.1"
   },
   "devDependencies": {
-    "marked": "^15.0.8",
+    "marked": "^15.0.11",
     "prism-code-editor": "4.0.0-beta.1",
-    "typescript": "^5.8.2",
+    "typescript": "^5.8.3",
     "vite": "^6.3.5",
-    "vite-plugin-dts": "^4.4.0"
+    "vite-plugin-dts": "^4.5.3"
   },
   "author": "FlameCaster",
   "repository": {

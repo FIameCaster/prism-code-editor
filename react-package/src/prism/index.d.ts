@@ -148,7 +148,7 @@ export declare const resolve: (ref: string | null | undefined | Grammar) => Gram
  * 1. No adjacent strings.
  * 2. No empty strings.
  *
- *    The only exception here is the token stream that only contains the empty string and nothing else.
+ * The only exception here is the token stream that only contains the empty string and nothing else.
  */
 export type TokenStream = (string | Token)[]
 

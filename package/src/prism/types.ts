@@ -9,7 +9,7 @@ import { tokenize, rest, Token } from "./core.js"
  * 1. No adjacent strings.
  * 2. No empty strings.
  *
- *    The only exception here is the token stream that only contains the empty string and nothing else.
+ * The only exception here is the token stream that only contains the empty string and nothing else.
  */
 export type TokenStream = (string | Token)[]
 
