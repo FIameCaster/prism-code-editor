@@ -1,0 +1,41 @@
+# Comments
+# Configure the AWS Provider
+// Configure the AWS Provider
+
+# Resources
+resource "aws_instance" "web" {
+	ami           = "${data.aws_ami.ubuntu.id}"
+	instance_type = "t2.micro"
+
+	tags {
+		Name = "HelloWorld"
+	}
+}
+
+# Provider
+provider "aws" {
+	access_key = "${var.aws_access_key}"
+	secret_key = "${var.aws_secret_key}"
+	region     = "us-east-1"
+}
+
+# Variables
+variable "images" {
+	type = "map"
+
+	default = {
+		us-east-1 = "image-1234"
+		us-west-2 = "image-4567"
+	}
+}
+
+# Outputs
+output "address" {
+	value = "${aws_instance.db.public_dns}"
+}
+
+# Modules
+module "consul" {
+	source  = "hashicorp/consul/aws"
+	servers = 5
+}

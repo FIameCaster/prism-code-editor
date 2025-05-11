@@ -1,0 +1,32 @@
+-- Comments
+# /* Multi-line
+comment */
+
+-- Strings
+"foo \"bar\" baz"
+'foo \'bar\' baz'
+"Multi-line strings
+are supported"
+'Multi-line strings
+are supported'
+
+-- Parameters
+$1 $2 $3
+
+-- Operators
+SELECT 1 AND 1;
+SELECT 1 OR NULL;
+SELECT EXISTS 1;
+SELECT 2 BETWEEN 1 AND 3;
+
+-- Functions and keywords
+SELECT COUNT(*) AS total, MAX(foo) AS max_foo
+FROM `my_bucket`
+WHERE `foo` IS NOT NULL;
+CREATE INDEX productName_index1 ON bucket_name(productName, ProductID)
+WHERE type="product" USING GSI
+WITH {"nodes":["node1:8091", "node2:8091", "node3:8091"]};
+
+-- Identifiers
+SELECT *
+FROM `my_bucket`;

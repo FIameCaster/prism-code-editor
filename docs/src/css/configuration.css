@@ -1,0 +1,43 @@
+:root {
+	--pce-text: #d6deeb;
+	--keyword: #c792ea;
+	--boolean: #ff5874;
+	--attr-name: #c5e478;
+	--function: #82aaff;
+	--pce-class: #ffcb8b;
+}
+
+:root[data-theme="light"] {
+	--pce-text: #403f53;
+	--keyword: #8d46b4;
+	--boolean: #a54a4a;
+	--attr-name: #3c63b3;
+	--function: #3c63b3;
+	--pce-class: #111;
+}
+
+.token.keyword,
+.token.punctuation,
+.token.operator {
+	color: var(--keyword);
+}
+
+.token.boolean {
+	color: var(--boolean);
+}
+
+.token.maybe-class-name {
+	color: var(--pce-class);
+}
+
+.token.builtin {
+	color: var(--attr-name);
+}
+
+.token.function {
+	color: var(--function);
+}
+
+[class*="language-"] {
+	color: var(--pce-text);
+}

@@ -1,0 +1,129 @@
+---
+title: Getting Started
+description: Learn how to create your first editor with Prism code editor.
+---
+
+import "../../../components/languages/bash+html+css+ts.astro"
+import "../../../css/editor-theme.css"
+import { Tabs, TabItem, Aside } from "@astrojs/starlight/components"
+
+## Motivation
+
+There are multiple fully featured code editors for the web such as Monaco, Ace and CodeMirror. While these are awesome, they have a large footprint and are likely overkill for code examples, forms, playgrounds, or anywhere you won't display large documents.
+
+All code examples shown in this documentation use editors created by this library, because why not!
+
+## Installation
+
+`prism-code-editor` is a package published on NPM. Install it with a package manager.
+
+<Tabs>
+	<TabItem label="npm">
+```bash editor
+npm install prism-code-editor
+```
+	</TabItem>
+	<TabItem label="pnpm">
+```bash editor
+pnpm add prism-code-editor
+```
+	</TabItem>
+	<TabItem label="yarn">
+```bash editor
+yarn add prism-code-editor
+```
+	</TabItem>
+</Tabs>
+
+## Basic usage
+
+This library provides multiple ways to create editors. Perhaps the easiest is to use one of the 3 different setups: [`minimalEditor(){:js}`](/api-reference/setups/f-minimaleditor), [`basicEditor(){:js}`](/api-reference/setups/f-basiceditor), or [`readOnlyEditor(){:js}`](/api-reference/setups/f-readonlyeditor). These will automatically import the necessary styles and scope them with a shadow root, add various extensions, and import all language specific behavior. There are multiple downsides to using the setups, but they're a viable option for anyone who wants an editor that works well out of the box.
+
+```js editor
+import { basicEditor } from "prism-code-editor/setups"
+// Importing Prism grammars
+import "prism-code-editor/prism/languages/markup"
+
+const editor = basicEditor(
+	"#editor",
+	{
+		language: "html",
+		theme: "github-dark",
+	},
+	() => console.log("mounted"),
+)
+```
+
+<Aside type="note">
+	You might want to add `display: grid{:css}` to your container element.
+</Aside>
+
+## Configuration
+
+The second argument (type [`EditorOptions{:js}`](/api-reference/index/types/editoroptions)) to the setups allows some basic configuration of the created editor. Below is a list of the allowed properties.
+
+- `language`: Language used for syntax highlighting. If the language doesn't have a registered Prism grammar, syntax highlighting will be disabled. Defaults to `text`.
+- `tabSize`: Tab size used for indentation. Defaults to `2`.
+- `insertSpaces`: Whether the editor should insert spaces for indentation. Defaults to `true`. Requires the `defaultCommands(){:js}` extension to work.
+- `lineNumbers`: Whether line numbers should be shown. Defaults to `true`.
+- `readOnly`: Whether the editor should be read only. Defaults to `false`.
+- `wordWrap`: Whether the editor should have word wrap. Defaults to `false`.
+- `value`: Initial value to display in the editor.
+- `rtl`: Whether the editor uses right to left directionality. Defaults to `false`. Requires extra CSS from `prism-code-editor/rtl-layout.css` to work unless the setups are used.
+- `class`: Additional classes for the root container. Useful to style individual editors. `.prism-code-editor{:selector}` can be used to style all editors.
+- `onUpdate`: Function called after the editor updates.
+- `onSelectionChange`: Function called when the editor's selection changes.
+- `onTokenize`: Function called before the tokens are stringified to HTML.
+
+The setups also take `theme` as an option to specify which theme to load.
+
+## Events
+
+There are three different events both you and extensions can listen to: `tokenize`, `update` and `selectionChange`.
+
+- `tokenize` handlers run after the code is tokenized, which makes it possible to change the tokens before the HTML string is created.
+- `update` handlers run after the syntax highlighted DOM has been updated.
+- `selectionChange` handlers run right after `update` handlers or when the user changes the selection.
+
+## Web components
+
+The library includes a custom element wrapper for each of the 3 setups you can import.
+
+```ts editor
+import { addBasicEditor, PrismEditorElement } from "prism-code-editor/web-component"
+
+// Adds a web component with the specified name
+addBasicEditor("prism-editor")
+
+const editorElement = document.querySelector<PrismEditorElement>("prism-editor")
+
+// Add a listener for when the editor finishes loading
+editorElement.addEventListener("ready", () => console.log("ready"))
+
+// The editor can be accessed from the element
+console.log(editorElement.editor)
+```
+
+This is how the web component could be used:
+
+```html editor
+<style>
+	prism-editor {
+		display: grid;
+	}
+</style>
+<prism-editor
+	language="javascript"
+	theme="vs-code-dark"
+	tab-size="4"
+	line-numbers
+	insert-spaces
+	word-wrap
+>
+	The editors initial code goes here
+</prism-editor>
+```
+
+### Attributes
+
+Attributes include `language`, `theme`, `tab-size`, `line-numbers`, `word-wrap`, `readonly`, `insert-spaces`, and `rtl`. There are also writable properties for these attributes on the element.

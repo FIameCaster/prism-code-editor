@@ -1,7 +1,6 @@
 import { languages } from '../core.js';
-import { extend, insertBefore } from '../utils/language.js';
+import { boolean, clikeComment } from '../utils/patterns.js';
 import { nested, re, replace } from '../utils/shared.js';
-import './clike.js';
 
 var keywordsToPattern = words => `\\b(?:${words})\\b`;
 
@@ -41,7 +40,67 @@ var character = /'(?:\\.|[^\n'\\]|\\[Uux][a-fA-F\d]{1,8})'/.source; // simplifie
 var regularString = /"(?:\\.|[^\\\n"])*"/.source;
 var verbatimString = /@"(?:""|\\[\s\S]|[^\\"])*"(?!")/.source;
 
-var cs = languages.dotnet = languages.cs = languages.csharp = extend('clike', {
+// attributes
+var regularStringOrCharacter = regularString + '|' + character;
+var regularStringCharacterOrComment = replace(/\/(?![*/])|\/\/[^\n]*\n|\/\*(?:[^*]|\*(?!\/))*\*\/|<0>/.source, [regularStringOrCharacter]);
+var roundExpression = nested(replace(/[^()"'/]|<0>|\(<self>*\)/.source, [regularStringCharacterOrComment]), 2);
+
+// https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/#attribute-targets
+var attrTarget = /\b(?:assembly|event|field|method|module|param|property|return|type)\b/.source;
+var attr = replace(/<0>(?:\s*\(<1>*\))?/.source, [identifier, roundExpression]);
+
+// string interpolation
+var formatString = /:[^\n}]+/.source;
+// multi line
+var mInterpolationRound = nested(replace(/[^()"'/]|<0>|\(<self>*\)/.source, [regularStringCharacterOrComment]), 2);
+var mInterpolation = replace(/\{(?!\{)(?:(?![}:])<0>)*<1>?\}/.source, [mInterpolationRound, formatString]);
+// single line
+var sInterpolationRound = nested(replace(/[^()"'/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|<0>|\(<self>*\)/.source, [regularStringOrCharacter]), 2);
+var sInterpolation = replace(/\{(?!\{)(?:(?![}:])<0>)*<1>?\}/.source, [sInterpolationRound, formatString]);
+
+var createInterpolationInside = (interpolation, interpolationRound) => ({
+	'interpolation': {
+		pattern: re(/((?:^|[^{])(?:\{\{)*)<0>/.source, [interpolation]),
+		lookbehind: true,
+		inside: {
+			'format-string': {
+				pattern: re(/(^\{(?:(?![}:])<0>)*)<1>(?=\}$)/.source, [interpolationRound, formatString]),
+				lookbehind: true,
+				inside: {
+					'punctuation': /^:/
+				}
+			},
+			'punctuation': /^\{|\}$/,
+			'expression': {
+				pattern: /[\s\S]+/,
+				alias: 'language-csharp',
+				inside: 'cs'
+			}
+		}
+	},
+	'string': /[\s\S]+/
+});
+
+languages.dotnet = languages.cs = languages.csharp = {
+	'comment': clikeComment(),
+	'interpolation-string': [
+		{
+			pattern: re(/(^|[^\\])(?:\$@|@\$)"(?:""|\\[\s\S]|\{\{|<0>|[^\\{"])*"/.source, [mInterpolation], 'g'),
+			lookbehind: true,
+			greedy: true,
+			inside: createInterpolationInside(mInterpolation, mInterpolationRound),
+		},
+		{
+			pattern: re(/(^|[^@\\])\$"(?:\\.|\{\{|<0>|[^\\"{])*"/.source, [sInterpolation], 'g'),
+			lookbehind: true,
+			greedy: true,
+			inside: createInterpolationInside(sInterpolation, sInterpolationRound),
+		}
+	],
+	'char': {
+		pattern: RegExp(character, 'g'),
+		greedy: true
+	},
 	'string': [
 		{
 			pattern: re(/(^|[^$\\])<0>/.source, [verbatimString], 'g'),
@@ -54,87 +113,6 @@ var cs = languages.dotnet = languages.cs = languages.csharp = extend('clike', {
 			greedy: true
 		}
 	],
-	'class-name': [
-		{
-			// Using static
-			// using static System.Math;
-			pattern: re(/(\busing\s+static\s+)<0>(?=\s*;)/.source, [identifier]),
-			lookbehind: true,
-			inside: typeInside
-		},
-		{
-			// Using alias (type)
-			// using Project = PC.MyCompany.Project;
-			pattern: re(/(\busing\s+<0>\s*=\s*)<1>(?=\s*;)/.source, [name, typeExpression]),
-			lookbehind: true,
-			inside: typeInside
-		},
-		{
-			// Using alias (alias)
-			// using Project = PC.MyCompany.Project;
-			pattern: re(/(\busing\s+)<0>(?=\s*=)/.source, [name]),
-			lookbehind: true
-		},
-		{
-			// Type declarations
-			// class Foo<A, B>
-			// interface Foo<out A, B>
-			pattern: re(/(\b<0>\s+)<1>/.source, [typeDeclarationKeywords, genericName]),
-			lookbehind: true,
-			inside: typeInside
-		},
-		{
-			// Single catch exception declaration
-			// catch(Foo)
-			// (things like catch(Foo e) is covered by variable declaration)
-			pattern: re(/(\bcatch\s*\(\s*)<0>/.source, [identifier]),
-			lookbehind: true,
-			inside: typeInside
-		},
-		{
-			// Name of the type parameter of generic constraints
-			// where Foo : class
-			pattern: re(/(\bwhere\s+)<0>/.source, [name]),
-			lookbehind: true
-		},
-		{
-			// Casts and checks via as and is.
-			// as Foo<A>, is Bar<B>
-			// (things like if(a is Foo b) is covered by variable declaration)
-			pattern: re(/(\b(?:is(?:\s+not)?|as)\s+)<0>/.source, [typeExpressionWithoutTuple]),
-			lookbehind: true,
-			inside: typeInside
-		},
-		{
-			// Variable, field and parameter declaration
-			// (Foo bar, Bar baz, Foo[,,] bay, Foo<Bar, FooBar<Bar>> bax)
-			pattern: re(/\b<0>(?=\s+(?!<1>|with\s*\{)<2>(?:\s*[=,:;{)\]]|\s+(?:in|when)\b))/.source, [typeExpression, nonContextualKeywords, name]),
-			inside: typeInside
-		}
-	],
-	'keyword': keywords,
-	// https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/lexical-structure#literals
-	'number': /(?:\b0(?:x[a-f\d_]*[a-f\d]|b[01_]*[01])|(?:\B\.\d+(?:_+\d+)*|\b\d+(?:_+\d+)*(?:\.\d+(?:_+\d+)*)?)(?:e[+-]?\d+(?:_+\d+)*)?)(?:[dflmu]|lu|ul)?\b/i,
-	'operator': /[=-]>|([&|+-])\1|~|\?\?=?|>>=?|<<=?|[%&|^!=<>/*+-]=?/,
-	'punctuation': /\?\.?|::|[()[\]{}.,:;]/
-});
-
-insertBefore(cs, 'number', {
-	'range': {
-		pattern: /\.\./,
-		alias: 'operator'
-	}
-});
-
-insertBefore(cs, 'punctuation', {
-	'named-parameter': {
-		pattern: re(/([(,]\s*)<0>(?=\s*:)/.source, [name]),
-		lookbehind: true,
-		alias: 'punctuation'
-	}
-});
-
-insertBefore(cs, 'class-name', {
 	'namespace': {
 		// namespace Foo.Bar {}
 		// using Foo.Bar;
@@ -198,7 +176,7 @@ insertBefore(cs, 'class-name', {
 				pattern: re(/(^(?!new\s*\()<0>\s*)<1>/.source, [genericName, nestedRound], 'g'),
 				lookbehind: true,
 				greedy: true,
-				inside: cs
+				inside: 'cs'
 			},
 			'keyword': keywords,
 			'class-name': {
@@ -221,51 +199,7 @@ insertBefore(cs, 'class-name', {
 				alias: 'keyword'
 			}
 		}
-	}
-});
-
-// attributes
-var regularStringOrCharacter = regularString + '|' + character;
-var regularStringCharacterOrComment = replace(/\/(?![*/])|\/\/[^\n]*\n|\/\*(?:[^*]|\*(?!\/))*\*\/|<0>/.source, [regularStringOrCharacter]);
-var roundExpression = nested(replace(/[^()"'/]|<0>|\(<self>*\)/.source, [regularStringCharacterOrComment]), 2);
-
-// https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/attributes/#attribute-targets
-var attrTarget = /\b(?:assembly|event|field|method|module|param|property|return|type)\b/.source;
-var attr = replace(/<0>(?:\s*\(<1>*\))?/.source, [identifier, roundExpression]);
-
-// string interpolation
-var formatString = /:[^\n}]+/.source;
-// multi line
-var mInterpolationRound = nested(replace(/[^()"'/]|<0>|\(<self>*\)/.source, [regularStringCharacterOrComment]), 2);
-var mInterpolation = replace(/\{(?!\{)(?:(?![}:])<0>)*<1>?\}/.source, [mInterpolationRound, formatString]);
-// single line
-var sInterpolationRound = nested(replace(/[^()"'/]|\/(?!\*)|\/\*(?:[^*]|\*(?!\/))*\*\/|<0>|\(<self>*\)/.source, [regularStringOrCharacter]), 2);
-var sInterpolation = replace(/\{(?!\{)(?:(?![}:])<0>)*<1>?\}/.source, [sInterpolationRound, formatString]);
-
-var createInterpolationInside = (interpolation, interpolationRound) => ({
-	'interpolation': {
-		pattern: re(/((?:^|[^{])(?:\{\{)*)<0>/.source, [interpolation]),
-		lookbehind: true,
-		inside: {
-			'format-string': {
-				pattern: re(/(^\{(?:(?![}:])<0>)*)<1>(?=\}$)/.source, [interpolationRound, formatString]),
-				lookbehind: true,
-				inside: {
-					'punctuation': /^:/
-				}
-			},
-			'punctuation': /^\{|\}$/,
-			'expression': {
-				pattern: /[\s\S]+/,
-				alias: 'language-csharp',
-				inside: cs
-			}
-		}
 	},
-	'string': /[\s\S]+/
-});
-
-insertBefore(cs, 'class-name', {
 	'attribute': {
 		// Attributes
 		// [Foo], [Foo(1), Bar(2, Prop = "foo")], [return: Foo(1), Bar(2)], [assembly: Foo(Bar)]
@@ -279,7 +213,7 @@ insertBefore(cs, 'class-name', {
 			},
 			'attribute-arguments': {
 				pattern: re(/\(<0>*\)/.source, [roundExpression]),
-				inside: cs
+				inside: 'cs'
 			},
 			'class-name': {
 				pattern: RegExp(identifier),
@@ -289,26 +223,79 @@ insertBefore(cs, 'class-name', {
 			},
 			'punctuation': /[,:]/
 		}
-	}
-});
-
-insertBefore(cs, 'string', {
-	'interpolation-string': [
+	},
+	'class-name': [
 		{
-			pattern: re(/(^|[^\\])(?:\$@|@\$)"(?:""|\\[\s\S]|\{\{|<0>|[^\\{"])*"/.source, [mInterpolation], 'g'),
+			// Using static
+			// using static System.Math;
+			pattern: re(/(\busing\s+static\s+)<0>(?=\s*;)/.source, [identifier]),
 			lookbehind: true,
-			greedy: true,
-			inside: createInterpolationInside(mInterpolation, mInterpolationRound),
+			inside: typeInside
 		},
 		{
-			pattern: re(/(^|[^@\\])\$"(?:\\.|\{\{|<0>|[^\\"{])*"/.source, [sInterpolation], 'g'),
+			// Using alias (type)
+			// using Project = PC.MyCompany.Project;
+			pattern: re(/(\busing\s+<0>\s*=\s*)<1>(?=\s*;)/.source, [name, typeExpression]),
 			lookbehind: true,
-			greedy: true,
-			inside: createInterpolationInside(sInterpolation, sInterpolationRound),
+			inside: typeInside
+		},
+		{
+			// Using alias (alias)
+			// using Project = PC.MyCompany.Project;
+			pattern: re(/(\busing\s+)<0>(?=\s*=)/.source, [name]),
+			lookbehind: true
+		},
+		{
+			// Type declarations
+			// class Foo<A, B>
+			// interface Foo<out A, B>
+			pattern: re(/(\b<0>\s+)<1>/.source, [typeDeclarationKeywords, genericName]),
+			lookbehind: true,
+			inside: typeInside
+		},
+		{
+			// Single catch exception declaration
+			// catch(Foo)
+			// (things like catch(Foo e) is covered by variable declaration)
+			pattern: re(/(\bcatch\s*\(\s*)<0>/.source, [identifier]),
+			lookbehind: true,
+			inside: typeInside
+		},
+		{
+			// Name of the type parameter of generic constraints
+			// where Foo : class
+			pattern: re(/(\bwhere\s+)<0>/.source, [name]),
+			lookbehind: true
+		},
+		{
+			// Casts and checks via as and is.
+			// as Foo<A>, is Bar<B>
+			// (things like if(a is Foo b) is covered by variable declaration)
+			pattern: re(/(\b(?:is(?:\s+not)?|as)\s+)<0>/.source, [typeExpressionWithoutTuple]),
+			lookbehind: true,
+			inside: typeInside
+		},
+		{
+			// Variable, field and parameter declaration
+			// (Foo bar, Bar baz, Foo[,,] bay, Foo<Bar, FooBar<Bar>> bax)
+			pattern: re(/\b<0>(?=\s+(?!<1>|with\s*\{)<2>(?:\s*[=,:;{)\]]|\s+(?:in|when)\b))/.source, [typeExpression, nonContextualKeywords, name]),
+			inside: typeInside
 		}
 	],
-	'char': {
-		pattern: RegExp(character, 'g'),
-		greedy: true
-	}
-});
+	'keyword': keywords,
+	'boolean': boolean,
+	'function': /\b\w+(?=\()/,
+	'range': {
+		pattern: /\.\./,
+		alias: 'operator'
+	},
+	// https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/lexical-structure#literals
+	'number': /(?:\b0(?:x[a-f\d_]*[a-f\d]|b[01_]*[01])|(?:\B\.\d+(?:_+\d+)*|\b\d+(?:_+\d+)*(?:\.\d+(?:_+\d+)*)?)(?:e[+-]?\d+(?:_+\d+)*)?)(?:[dflmu]|lu|ul)?\b/i,
+	'operator': /[=-]>|([&|+-])\1|~|\?\?=?|>>=?|<<=?|[%&|^!=<>/*+-]=?/,
+	'named-parameter': {
+		pattern: re(/([(,]\s*)<0>(?=\s*:)/.source, [name]),
+		lookbehind: true,
+		alias: 'punctuation'
+	},
+	'punctuation': /\?\.?|::|[()[\]{}.,:;]/
+};

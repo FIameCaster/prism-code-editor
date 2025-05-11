@@ -25,9 +25,11 @@ Original: https://github.com/dracula/visual-studio-code */
 	--bg-guide-indent: #ffffff1a;
 	--pce-ac-icon-class: #ee9d28;
 	--pce-ac-icon-enum: #ee9d28;
+	--pce-ac-icon-event: #ee9d28;
 	--pce-ac-icon-function: #b180d7;
 	--pce-ac-icon-interface: #75beff;
 	--pce-ac-icon-variable: #75beff;
+	--pce-selection: #44475a;
 	color-scheme: dark;
 }
 
@@ -35,13 +37,7 @@ Original: https://github.com/dracula/visual-studio-code */
 	--editor__bg-highlight: #44475a;
 }
 
-/* Selection */
-.prism-code-editor textarea::selection {
-	background: #44475a;
-	color: #0000;
-}
-
-.pce-matches .match {
+.pce-match {
 	--search__bg-find: #ffb86c80;
 }
 
@@ -49,7 +45,7 @@ Original: https://github.com/dracula/visual-studio-code */
 	--editor__line-number: #c6c6c6;
 }
 
-.guide-indents .active {
+.active-indent {
 	--bg-guide-indent: #ffffff45;
 }
 
@@ -130,6 +126,7 @@ Original: https://github.com/dracula/visual-studio-code */
 .token.regex,
 .language-regex,
 .token.attr-value,
+.token.attr-value > .punctuation,
 .token.char,
 .token.string,
 .token.string-property,

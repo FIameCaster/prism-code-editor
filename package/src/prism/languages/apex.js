@@ -1,7 +1,6 @@
 import { languages } from '../core.js';
 import { clikeComment, clikePunctuation, clikeString} from '../utils/patterns.js';
 import { re, replace } from '../utils/shared.js';
-import './clike.js';
 import './sql.js';
 
 var keywords = /\b(?:(?:after|before)(?=\s+[a-z])|abstract|activate|an[dy]|array|asc?|autonomous|begin|bigdecimal|blob|boolean|break|bulk|by|byte|cas[et]|catch|char|class|collect|commit|const|continue|currency|date|datetime|decimal|default|delete|desc|do|double|else|end|enum|exception|exit|export|extends|final|finally|float|for|from|get(?=\s*[{};])|global|goto|group|having|hint|if|implements|import|inner|insert|instanceof|integer|interface|into?|in|join|like|limit|list|long|loop|map|merge|new|not|nulls?|number|o[fnr]|outer|override|package|parallel|pragma|private|protected|public|retrieve|return|rollback|select|set|short|s?object|sort|static|string|super|switch|synchronized|system|testmethod|[tw]hen|this|throw|time|transaction|transient|trigger|try|undelete|update|upsert|using|virtual|void|webservice|where|while|(?:inherited|with|without)\s+sharing)\b/i;

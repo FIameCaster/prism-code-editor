@@ -1,7 +1,7 @@
 /** @module commands */
 
 import { InputSelection, BasicExtension, PrismEditor } from "../index.js"
-import { isMac, preventDefault, languageMap, addTextareaListener } from "../core.js"
+import { preventDefault, languageMap } from "../core.js"
 import {
 	getLanguage,
 	insertText,
@@ -10,11 +10,12 @@ import {
 	regexEscape,
 	getModifierCode,
 	prevSelection,
+	setSelection,
+	isMac,
 } from "../utils/index.js"
-import { getLineEnd, getLineStart, getStyleValue } from "../utils/local.js"
+import { addTextareaListener, getLineEnd, getLineStart, getStyleValue } from "../utils/local.js"
 
 let ignoreTab = false
-const clipboard = navigator.clipboard
 const mod = isMac ? 4 : 2
 /**
  * Sets whether editors should ignore tab or use it for indentation.
@@ -37,7 +38,7 @@ const whitespaceEnd = (str: string) => str.search(/\S|$/)
  * - Ctrl+/ (Cmd+/ on MacOS): Toggle comment
  * - Shift+Alt+A: Toggle block comment
  * - Ctrl+M (Ctrl+Shift+M on MacOS): Toggle Tab capturing
- * 
+ *
  * The shortcuts for the commands are not easily customizable. If you want to customize
  * them, you can copy the {@link https://github.com/FIameCaster/prism-code-editor/blob/main/package/src/extensions/commands.ts|source}
  * and change the conditions.
@@ -56,7 +57,9 @@ const defaultCommands =
 	): BasicExtension =>
 	(editor, options) => {
 		let prevCopy: string
-		const { keyCommandMap, inputCommandMap, getSelection, scrollContainer } = editor
+		const { keyCommandMap, inputCommandMap, getSelection, container } = editor
+
+		const clipboard = navigator.clipboard
 
 		const getIndent = ({ insertSpaces = true, tabSize } = options) =>
 			[insertSpaces ? " " : "\t", insertSpaces ? tabSize || 2 : 1] as const
@@ -79,7 +82,7 @@ const defaultCommands =
 			!insertText(editor, open + value.slice(start, end) + close, null, null, start + 1, end + 1)!
 
 		const skipIfEqual = ([start, end]: InputSelection, char: string, value: string) =>
-			start == end && value[end] == char && !editor.setSelection(start + 1)!
+			start == end && value[end] == char && !setSelection(editor, start + 1)!
 
 		/**
 		 * Inserts slightly altered lines while keeping the same selection.
@@ -240,7 +243,7 @@ const defaultCommands =
 					insertText(editor, str + "\n" + str, start1, end1, start + offset, end + offset)
 					return scroll()
 				} else if (code == 2 && !isMac) {
-					scrollContainer.scrollBy(0, getStyleValue(scrollContainer, "lineHeight") * (i ? 1 : -1))
+					container.scrollBy(0, getStyleValue(container, "lineHeight") * (i ? 1 : -1))
 					return true
 				}
 			}
@@ -377,7 +380,7 @@ const defaultCommands =
 	}
 
 export interface EditHistory extends BasicExtension {
-	/** Clears the history stack. Probably necessary after changing the value of the editor. */
+	/** Clears the history stack. Usually wanted after changing the value of the editor. */
 	clear(): void
 	/**
 	 * Sets the active entry relative to the current entry.
@@ -407,7 +410,7 @@ export interface EditHistory extends BasicExtension {
  * in some cases.
  *
  * It should be noted that the history stack is not automatically cleared when the editors
- * value is changed programmatically using `editor.setOptions` Instead you can clear the
+ * value is changed programmatically using `editor.setOptions`. Instead you can clear the
  * stack any time using {@link EditHistory.clear}.
  *
  * Once added to an editor, this extension can be accessed from `editor.extensions.history`.
@@ -457,7 +460,7 @@ const editHistory = (historyLimit = 999) => {
 		textarea || update(0)
 		textarea = editor.textarea
 
-		editor.addListener("selectionChange", () => {
+		editor.on("selectionChange", () => {
 			allowMerge = isTyping
 			isTyping = false
 		})

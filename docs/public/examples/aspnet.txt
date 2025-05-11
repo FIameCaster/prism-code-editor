@@ -1,0 +1,32 @@
+<%-- Comments --%>
+<%-- This is a comment --%>
+<%-- This is a
+multi-line comment --%>
+
+<%-- Page directives --%>
+<%@ Page Title="Products" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true"  CodeBehind="ProductList.aspx.cs" Inherits="WingtipToys.ProductList" %>
+
+<%-- Directive tag --%>
+<%: Page.Title %>
+<a href="ProductDetails.aspx?productID=<%#:Item.ProductID%>">
+<span>
+	<%#:Item.ProductName%>
+</span>
+
+<%-- Highlighted C# inside scripts --%>
+<script runat="server">
+	// The following variables are visible to all procedures
+	// within the script block.
+	String str;
+	int i;
+	int i2;
+
+	int DoubleIt(int inpt)
+	{
+		// The following variable is visible only within
+		// the DoubleIt procedure.
+		int factor = 2;
+
+		return inpt * factor;
+	}
+</script>

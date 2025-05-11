@@ -1,0 +1,36 @@
+// Comments
+/* Multi-line
+comment */
+// This is a comment with <p>some markup</p> in it
+
+// Variable
+{$name}
+{$folders[0]['name']}
+{$aaa?.bbb.ccc?[0]}
+
+// Commands
+{template .helloNames}
+	// Greet the person.
+	{call .helloName data="all" /}<br>
+	// Greet the additional people.
+	{foreach $additionalName in $additionalNames}
+		{call .helloName}
+			{param name: $additionalName /}
+		{/call}
+		{if not isLast($additionalName)}
+			<br>  // break after every line except the last
+		{/if}
+	{ifempty}
+		No additional people to greet.
+	{/foreach}
+{/template}
+
+// Functions and print directives
+{if length($items) > 5}
+{$foo|changeNewlineToBr}
+{$bar|truncate: 4, false}
+
+// Literal section
+{literal}
+This is not a {$variable}
+{/literal}

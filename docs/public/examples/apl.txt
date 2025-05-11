@@ -1,0 +1,26 @@
+⍝ Comments
+#!/usr/bin/env runapl
+a←1 2 3 ⍝ this is a comment
+
+⍝ Strings
+''
+'foobar'
+'foo''bar''baz'
+
+⍝ Numbers
+42
+3.14159
+¯2
+∞
+2.8e¯4
+2j3
+¯4.3e2J1.9e¯4
+
+⍝ Primitive functions
+a+b×c⍴⍳10
+
+⍝ Operators
++/ f⍣2
+
+⍝ Dfns
+{0=⍴⍴⍺:'hello' ⋄ ∇¨⍵}

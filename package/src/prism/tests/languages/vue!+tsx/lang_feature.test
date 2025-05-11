@@ -1,0 +1,62 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+const count = ref<number>(0)
+</script>
+
+{{ count as number }}
+
+----------------------------------------------------
+
+[
+	["script", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["script"]],
+			["attr-name", ["setup"]],
+			["attr-name", ["lang"]],
+			["attr-equals", "="],
+			["attr-value", [
+				["punctuation", "\""],
+				"ts",
+				["punctuation", "\""]
+			]],
+			["punctuation", ">"]
+		]],
+		["code-block", [
+			["keyword", "import"],
+			["punctuation", "{"],
+			" ref ",
+			["punctuation", "}"],
+			["keyword", "from"],
+			["string", "'vue'"],
+
+			["keyword", "const"],
+			" count ",
+			["operator", "="],
+			["generic-function", [
+				["function", "ref"],
+				["generic", [
+					["operator", "<"],
+					["builtin", "number"],
+					["operator", ">"]
+				]]
+			]],
+			["punctuation", "("],
+			["number", "0"],
+			["punctuation", ")"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["script"]],
+			["punctuation", ">"]
+		]]
+	]],
+
+	["punctuation", "{{"],
+	["expression", [
+		" count ",
+		["keyword", "as"],
+		["builtin", "number"]
+	]],
+	["punctuation", "}}"]
+]

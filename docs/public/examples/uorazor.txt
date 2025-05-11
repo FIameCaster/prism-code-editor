@@ -1,0 +1,11 @@
+# Full example
+# UO Razor Script Highlighting by Jaseowns
+// These two are comments
+// Example script:
+setvar "my_training_target"
+while skill "anatomy" < 100
+	useskill "anatomy"
+	wft 500
+	target "my_training_target"
+	wait 2000
+endwhile

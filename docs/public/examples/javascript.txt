@@ -1,0 +1,153 @@
+// Variable assignment
+var foo = "bar", baz = 5;
+
+// Operators
+(1 + 2 * 3)/4 >= 3 && 4 < 5 || 6 > 7
+
+// Indented code
+if (true) {
+	while (true) {
+		doSomething();
+	}
+}
+
+// Regex with slashes
+var foo = /([^/])\/(\\?.|\[.+?])+?\/[gim]{0,3}/g;
+
+// Regex that ends with double slash
+var bar = /\/\*[\w\W]*?\*\//g;
+
+// Single line comments & regexes
+// http://lea.verou.me
+var comment = /\/\*[\w\W]*?\*\//g;
+
+// Link in comment
+// http://lea.verou.me
+/* http://lea.verou.me */
+
+// Nested strings
+var foo = "foo", bar = "He \"said\" 'hi'!"
+
+// Strings inside comments
+// "foo"
+/* "foo" */
+
+// Strings with slashes
+env.content + '</' + env.tag + '>'
+var foo = "/" + "/";
+var foo = "http://prismjs.com"; // Strings are strings and comments are comments ;)
+
+// Regex inside single line comment
+// hey, /this doesn’t fail!/ :D
+
+// Two or more division operators on the same line
+var foo = 5 / 6 / 7;
+
+// A division operator on the same line as a regex
+var foo = 1/2, bar = /a/g;
+var foo = /a/, bar = 3/4;
+
+// ES6 features
+// Regex "y" and "u" flags
+var a = /[a-zA-Z]+/gimyu;
+
+// for..of loops
+for(let x of y) { }
+
+// Modules: import
+import { foo as bar } from "file.js"
+
+// Template strings
+`Only on ${y} one line`
+`This template string ${x} is on
+
+multiple lines.`
+`40 + 2 = ${ 40 + 2 }`
+`The squares of the first 3 natural integers are ${[for (x of [1,2,3]) x*x].join(', ')}`
+
+// JSDoc
+/**
+ * @typedef {object} Foo
+ * @property {string} bar
+ * @memberof Baz
+ */
+
+/**
+ * Trims the given string.
+ *
+ * @param {string} [str=""] the string.
+ * @returns {string} the trimmed string.
+ * @throws {TypeError} if the argument is not a string.
+ * @example trim(" hello ")
+ */
+function trim(str = "") {
+	if (typeof str != "string") {
+		throw new TypeError("str has to be a string");
+	}
+	return str.trim();
+}
+
+// HTML template literals
+html`
+<p>
+	Foo.
+</p>`;
+
+// JS DOM
+div.innerHTML = `<p></p>`;
+div.outerHTML = `<p></p>`;
+
+// <a href="https://github.com/zeit/styled-jsx">styled-jsx</a> CSS template literals
+css`a:hover { color: blue; }`;
+
+// <a href="https://github.com/styled-components/styled-components"><code class="language-none">styled-components</code></a> CSS template literals
+const Button = styled.button`
+	color: blue;
+	background: red;
+`;
+
+// Markdown template literals
+markdown`# My title`;
+
+// GraphQL template literals
+gql`{ foo }`;
+graphql`{ foo }`;
+
+// Regex
+var entity = [
+	{
+		pattern: /&[a-z\d]{1,8};/i,
+		alias: 'named-entity'
+	},
+	/&#x?[a-f\d]{1,8};/i
+];
+
+var tag = {
+	pattern: /<\/?(?!\d)[^\s/=>$<%]+(?:\s(?:\s*[^\s/=>]+(?:\s*=\s*(?!\s)(?:"[^"]*"|'[^']*'|[^\s"'=>]+(?=[\s>]))?|(?=[\s/>])))+)?\s*\/?>/g,
+	greedy: true,
+	inside: {
+		'punctuation': /^<\/?|\/?>$/,
+		'tag': {
+			pattern: /^\S+/,
+			inside: {
+				'namespace': /^[^:]+:/
+			}
+		},
+		'attr-value': {
+			pattern: /(=\s*)(?:"[^"]*"|'[^']*'|[^\s"'=>]+)/g,
+			lookbehind: true,
+			greedy: true,
+			inside: {
+				'punctuation': /^["']|["']$/,
+				entity
+			}
+		},
+		'attr-equals': /=/,
+		'attr-name': {
+			pattern: /\S+/,
+			inside: {
+				'namespace': /^[^:]+:/
+			}
+		}
+	}
+};

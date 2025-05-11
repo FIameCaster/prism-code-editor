@@ -26,7 +26,7 @@
 	text-size-adjust: none;
 }
 
-.prism-code-editor textarea {
+.pce-textarea {
 	all: unset;
 	box-sizing: border-box;
 	height: 100%;
@@ -36,16 +36,20 @@
 	user-select: auto;
 	overflow: hidden;
 	pointer-events: auto;
-	padding: 0 var(--_pse) 0 var(--padding-left);
+}
+
+.pce-textarea::selection {
+	background: var(--pce-selection);
+	color: #0000;
 }
 
 .pce-no-selection textarea:focus {
 	z-index: 1;
 }
 
-.pce-line {
-	padding: 0 var(--_pse) 0 0;
-	margin: 0 0 0 var(--padding-left);
+.pce-line,
+.pce-textarea {
+	padding: 0 var(--_pse) 0 var(--padding-left);
 	position: relative;
 }
 
@@ -76,10 +80,12 @@
 
 .pce-wrap .pce-line::before {
 	position: absolute;
+	margin: 0;
 }
 
 .pce-overlays,
-div.pce-overlays > *,
+.pce-overlays > *,
+pre.pce-guides .pce-line::after,
 .pce-no-selection .active-line::after,
 .active-line.match-highlight::after {
 	content: "";
@@ -88,6 +94,10 @@ div.pce-overlays > *,
 	right: 0;
 	bottom: 0;
 	left: 0;
+}
+
+.show-line-numbers .pce-line::after {
+	left: var(--padding-left);
 }
 
 .active-line::after {

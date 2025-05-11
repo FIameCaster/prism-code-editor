@@ -1,0 +1,12 @@
+% Comments
+% This is a comment
+
+% Commands
+\begin{document}
+\documentstyle[twoside,epsfig]{article}
+\usepackage{epsfig,multicol}
+
+% Math mode
+$\alpha$
+H$_{2}$O
+45$^{\circ}$C

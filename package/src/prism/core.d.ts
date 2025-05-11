@@ -1,28 +1,35 @@
-import type { Grammar, TokenName, TokenStream, GrammarToken, GrammarSymbols, CustomTokenizer } from "./types.js"
+import type {
+	Grammar,
+	TokenName,
+	TokenStream,
+	GrammarToken,
+	GrammarSymbols,
+	CustomTokenizer,
+} from "./types.js"
 
 /**
  * The symbol used to add a grammar that will get appended to this grammar.
- * 
- * The `rest` property can be the id of a language in {@link languages}.
+ *
+ * The `rest` property can be the name of a language in {@link languages}.
  * If that grammar doesn't yet exist, the `rest` property persists, and the
  * the rest grammar will be appended once it exists.
  */
 export declare const rest: unique symbol
 /**
- * The symbol used to add custom a tokenizer to a grammar.
- * 
+ * The symbol used to add a custom tokenizer to a grammar.
+ *
  * For example the markdown code block grammar uses a custom tokenizer to highlight code blocks.
  * This custom tokenizer first tokenizes the code as normal, then finds the language of the code block.
  * If that language has a registered grammar, the content of the code block is tokenized using
  * that language's grammar.
- * 
+ *
  * @see {@link CustomTokenizer} for the type definition of a custom tokenizer.
- * 
+ *
  * ### Note:
- * 
+ *
  * It's very important that you use {@link withoutTokenizer} and not {@link tokenizeText} inside a
  * custom tokenizer since the latter will call the custom tokenizer again leading to infinite recursion.
- * 
+ *
  * @example
  * // A custom tokenizer will often look more or less like this:
  * const myGrammar = {
@@ -44,18 +51,18 @@ export declare class Token {
 	 *
 	 * @see {@link GrammarToken}
 	 */
-	type: TokenName;
+	type: TokenName
 
 	/**
 	 * The strings or tokens contained by this token.
 	 *
 	 * This will be a token stream if the pattern matched also defined an `inside` grammar.
 	 */
-	content: string | TokenStream;
-	
+	content: string | TokenStream
+
 	/** Length of the full string this token was created from. */
-	length: number;
-	
+	length: number
+
 	/**
 	 * The alias(es) of the token.
 	 * Multiple aliases are separated by spaces.
@@ -107,24 +114,26 @@ export declare const tokenizeText: (text: string, grammar: Grammar) => TokenStre
 /**
  * Same as {@link tokenizeText}, but doesn't call the potential custom tokenizer of the grammar.
  * This is useful inside a custom tokenizer where {@link tokenizeText} can cause infinite recursion.
- * 
+ *
  * @see {@link tokenize} for more info on custom tokenizers.
- * 
+ *
  * @param text A string with the code to be highlighted.
  * @param grammar An object containing the tokens to use.
  */
 export declare const withoutTokenizer: (text: string, grammar: Grammar) => TokenStream
 
+export declare const escapeHtml: (string: string, pattern: RegExp, replacement: string) => string
+
 /**
  * This function takes in a {@link TokenStream} and returns a string of HTML code.
- * 
+ *
  * This HTML differs slightly from the HTML that's produced by PrismJS. Firstly, it can safely
  * be split into lines with something like `html.split('\n')`. This is because all span elements are
  * closed and immediately opened again on a line break, which ensures no context is lost when
  * splitting by lines. Secondly, behavior identical to the
  * {@link https://prismjs.com/plugins/highlight-keywords/ Highlight Keywords} plugin is present by
  * default.
- * 
+ *
  * @param tokens The tokens you want to highlight.
  */
 export declare const highlightTokens: (tokens: TokenStream) => string
@@ -132,7 +141,7 @@ export declare const highlightTokens: (tokens: TokenStream) => string
 /**
  * High level utility that tokenizes the code using {@link tokenizeText} and then
  * highlights the {@link TokenStream} using {@link highlightTokens}.
- * 
+ *
  * @param text A string with the code to be highlighted.
  * @param ref Either a grammar object or a language name used to index {@link languages}. The resolved
  * grammar is then used to highlight the text.

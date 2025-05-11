@@ -1,0 +1,37 @@
+// Strings and string interpolation
+"Foo
+bar $baz"
+'Foo
+bar'
+"${4 + 2}"
+
+// Regular expressions
+~/haxe/i
+~/[A-Z0-9._%-]+@[A-Z0-9.-]+.[A-Z][A-Z][A-Z]?/i
+~/(dog|fox)/g
+
+// Conditional compilation
+#if !debug
+	trace("ok");
+#elseif (debug_level > 3)
+	trace(3);
+#else
+	trace("debug level too low");
+#end
+
+// Metadata
+@author("Nicolas")
+@debug
+class MyClass {
+	@range(1, 8)
+	var value:Int;
+
+	@broken
+	@:noCompletion
+	static function method() { }
+}
+
+// Reification
+macro static function add(e:Expr) {
+	return macro $e + $e;
+}

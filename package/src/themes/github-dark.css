@@ -26,6 +26,7 @@
 	--bg-guide-indent: #e6edf31f;
 	--pce-ac-icon-class: #f0883e;
 	--pce-ac-icon-enum: #f0883e;
+	--pce-ac-icon-event: #6e7681;
 	--pce-ac-icon-function: #bc8cff;
 	--pce-ac-icon-interface: #f0883e;
 	--pce-ac-icon-keyword: #ff7b72;
@@ -33,17 +34,14 @@
 	--pce-ac-icon-parameter: #79c0ff;
 	--pce-ac-icon-property: #f0883e;
 	--pce-ac-icon-snippet: #58a6ff;
+	--pce-ac-icon-text: #79c0ff;
 	--pce-ac-icon-unit: #58a6ff;
 	--pce-ac-icon-variable: #f0883e;
+	--pce-selection: #264f78;
 	color-scheme: dark;
 }
 
-.prism-code-editor textarea::selection {
-	color: #0000;
-	background: #264f78;
-}
-
-.pce-matches .match {
+.pce-match {
 	--search__bg-find: #8c8d6c;
 }
 
@@ -51,7 +49,7 @@
 	--editor__line-number: #e6edf3;
 }
 
-.guide-indents .active {
+.active-indent {
 	--bg-guide-indent: #e6edf33d;
 }
 
@@ -126,9 +124,7 @@
 .token.keyword-this,
 .token.char-class,
 .token.char-set,
-.token.regex .punctuation,
-.language-jsx .tag > .punctuation,
-.language-tsx .tag > .punctuation {
+.token.regex .punctuation {
 	color: #79c0ff;
 }
 

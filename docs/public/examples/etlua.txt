@@ -1,0 +1,12 @@
+<!-- Full example -->
+<div class="foo">
+	<% if true then %>
+		Hello <%= name %>,
+		Here are your items:
+		<% for i, item in pairs(items) do %>
+			 * <%= item -%>
+			<% --[[ comment block ]] %>
+		<% end %>
+		<%- "<b>this is not escaped</b>" %>
+	<% end %>
+</div>

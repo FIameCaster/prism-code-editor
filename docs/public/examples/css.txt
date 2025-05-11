@@ -1,0 +1,56 @@
+/* Empty rule */
+*{} * {} p {}
+ul,
+ol {}
+
+/* Simple rule */
+p { color: red; }
+
+/* Important rule */
+p {
+	color: red !important;
+	line-height: normal!important;
+}
+p{position:absolute!important}
+
+/* @ rule */
+@media screen and (min-width: 100px) {}
+
+/* LESS variable */
+@main-color: red;
+.foo {
+	background: @main-color;
+}
+
+/* Comment */
+/* Simple comment here */
+
+/* String */
+content: 'foo';
+
+/* URL */
+content: url(foo.png);
+
+/* Selectors */
+a#id.class:hover {}
+li:nth-child(2n+1) {}
+span::before {}
+a[title], a[href$=".pdf"] {}, a[href$=".jpg" i] {}
+
+/* Variables */
+:root {
+	--foo: 12px;
+}
+a {
+	font-size: var(--foo);
+	padding: calc(var(--foo) + .5em);
+}
+
+/* Colors */
+span {
+	background: rgba(0, 128, 255, .4);
+	color: red;
+	color: green;
+	color: blue;
+	border: 1px solid #FFF;
+}

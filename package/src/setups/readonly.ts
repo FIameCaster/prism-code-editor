@@ -6,7 +6,13 @@ import { matchBrackets } from "../extensions/matchBrackets/index.js"
 import { copyButton } from "../extensions/copyButton/index.js"
 import { PrismEditor } from "../index.js"
 import { matchTags } from "../extensions/matchTags.js"
-import { blockCommentFolding, markdownFolding, readOnlyCodeFolding } from "../extensions/folding/index.js"
+import {
+	blockCommentFolding,
+	bracketFolding,
+	markdownFolding,
+	readOnlyCodeFolding,
+	tagFolding,
+} from "../extensions/folding/index.js"
 import { highlightBracketPairs } from "../extensions/matchBrackets/highlight.js"
 import { highlightSelectionMatches } from "../extensions/search/selection.js"
 
@@ -18,7 +24,7 @@ export const addExtensions = (editor: PrismEditor) => {
 		matchTags(),
 		indentGuides(),
 		copyButton(),
-		readOnlyCodeFolding(markdownFolding, blockCommentFolding),
+		readOnlyCodeFolding(tagFolding, bracketFolding, markdownFolding, blockCommentFolding),
 	)
 }
 

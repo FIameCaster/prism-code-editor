@@ -1,0 +1,64 @@
+---
+title: Usage with Frameworks
+description: Learn how to use Prism code editor with a JavaScript framework.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+
+This library has been rewritten for React and SolidJS. These rewrites better integrate with their respective framework than any wrapper ever could and are recommended if you're already using React or SolidJS.
+
+- [React rewrite](https://github.com/FIameCaster/prism-react-editor)
+- [SolidJS rewrite](https://github.com/FIameCaster/solid-prism-editor)
+
+## Installation
+
+<Tabs syncKey="framework">
+<TabItem label="React">
+```bash
+npm i prism-react-editor
+```
+</TabItem>
+<TabItem label="SolidJS">
+```bash
+npm i solid-prism-editor
+```
+</TabItem>
+</Tabs>
+
+These packages are meant to fully replace `prism-code-editor`. You shouldn't install it if you're using these rewrites, since then you might accidentally import from the wrong package.
+
+## Differences
+
+Editors created by these rewrites behave nearly identically and the same extensions are supported. The main difference between the rewrites and original is how to create editors and add extensions. The READMEs for the packages have many examples showing the main API differences.
+
+## Examples
+
+<Tabs syncKey="framework">
+<TabItem label="React">
+
+- [Usage in forms](https://stackblitz.com/edit/vitejs-vite-6wmrpx?file=src%2FApp.tsx)
+- [Next.js example](https://stackblitz.com/edit/stackblitz-starters-8spwks?file=app%2Fcode-block.tsx,app%2Feditor.tsx,app%2Fpage.tsx)
+- [Preact example](https://stackblitz.com/edit/vitejs-vite-t88xmd?file=src%2Fapp.tsx)
+- [Tooltip example](https://stackblitz.com/edit/vitejs-vite-jq7zfh?file=src%2FApp.tsx)
+- [Relative line numbers](https://stackblitz.com/edit/vitejs-vite-d3zxwt?file=src%2FApp.tsx)
+- [Custom cursor](https://stackblitz.com/edit/vitejs-vite-cg3zpz?file=src%2FApp.tsx)
+
+</TabItem>
+<TabItem label="SolidJS">
+
+- [Usage with SolidStart](https://stackblitz.com/edit/github-pjpawa?file=src%2Fcomponents%2FEditor.tsx,src%2Froutes%2Findex.tsx)
+- [Usage in forms](https://stackblitz.com/edit/solidjs-templates-mg678j?file=src%2FApp.tsx)
+- [Tooltip example](https://stackblitz.com/edit/solidjs-templates-jt7dk5?file=src%2FApp.tsx)
+- [Relative line numbers](https://stackblitz.com/edit/solidjs-templates-zpkbwb?file=src%2FApp.tsx)
+- [Custom cursor](https://stackblitz.com/edit/solidjs-templates-phg5gs?file=src%2FApp.tsx)
+
+</TabItem>
+</Tabs>
+
+## Performance
+
+Manual DOM manipulation has been kept almost everywhere in favor of JSX. This means the rewrites have nearly identical performance to the original. The downside to avoiding JSX is that they don't work well with SSR, but the rewrites can still be used with Next.js and SolidStart.
+
+## Using `prism-code-editor`
+
+If you're not using React/SolidJS, or you'd prefer using `prism-code-editor` instead of the rewrites, perhaps this [React example](https://stackblitz.com/edit/vitejs-vite-cahjr5?file=src%2FApp.tsx) would help.

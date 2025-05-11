@@ -1,0 +1,73 @@
+<div class="foo" title=bar>
+	<MyComponent someProperty={true} />
+	<button type={Astro.props.type} {...foo}>
+		Click me
+	</button>
+</div>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["class"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			"foo",
+			["punctuation", "\""]
+		]],
+		["attr-name", ["title"]],
+		["attr-equals", "="],
+		["attr-value", ["bar"]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", [
+			["class-name", "MyComponent"]
+		]],
+		["attr-name", ["someProperty"]],
+		["attr-equals", "="],
+		["expression", [
+			["punctuation", "{"],
+			["boolean", "true"],
+			["punctuation", "}"]
+		]],
+		["punctuation", "/>"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["button"]],
+		["attr-name", ["type"]],
+		["attr-equals", "="],
+		["expression", [
+			["punctuation", "{"],
+			["maybe-class-name", "Astro"],
+			["punctuation", "."],
+			["property-access", ["props"]],
+			["punctuation", "."],
+			["property-access", ["type"]],
+			["punctuation", "}"]
+		]],
+		["expression", [
+			["punctuation", "{"],
+			["operator", "..."],
+			"foo",
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]],
+	"\n\t\tClick me\n\t",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["button"]],
+		["punctuation", ">"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]]
+]

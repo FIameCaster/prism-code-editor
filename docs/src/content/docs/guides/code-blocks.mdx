@@ -1,0 +1,246 @@
+---
+title: Code Blocks
+description: Learn how to render static code blocks on the server.
+next:
+  link: /markdown-plugins/getting-started
+  label: Markdown plugins
+---
+
+import "../../../components/CodeBlock.astro"
+import { Aside } from "@astrojs/starlight/components"
+
+This library can also render static code blocks. The code blocks require no JavaScript to work and support some features that can't be added to editors. Every code block on this page has been generated with this library.
+
+Below you can toggle most of the boolean options for every code block on this page.
+
+<div class="not-content">
+	<label>
+		<input type="checkbox" checked /> Line numbers<br />
+	</label>
+	<label>
+		<input type="checkbox" checked /> Word wrap<br />
+	</label>
+	<label>
+		<input type="checkbox" checked /> Preserve indentation<br />
+	</label>
+	<label>
+		<input type="checkbox" checked /> Indentation guides<br />
+	</label>
+</div>
+
+## Rendering a code block
+
+[`renderCodeBlock(){:js}`](/api-reference/ssr/f-rendercodeblock) renders a code block as an HTML string. This is intended to be ran on a server to generate static HTML.
+
+```js editor="false"
+import { renderCodeBlock } from "prism-code-editor/ssr"
+
+const html = renderCodeBlock({
+	language: "javascript",
+	code: "const foo = 'bar'"
+})
+```
+
+## Options
+
+The only argument to `renderCodeBlock(){:js}` is a [`CodeBlockOptions{:js}`](/api-reference/ssr/t-codeblockoptions) object. These options include a few properties not present in `EditorOptions{:js}` such as `lineNumberStart`, `preserveIndent`, and `guideIndents`.
+
+### `preserveIndent`
+
+When indentation preservation is enabled, wrapped lines get the same indentation as their parent line. This can greatly increase the readability of code with many wrapped lines and is enabled by default when `wordWrap` is enabled.
+
+```html editor="false"
+<p>
+	Here's a very long paragraph that will probably be split across multiple lines. This should show you what <code>preserveIndent</code> does.
+</p>
+```
+
+<Aside type="note">
+	When enabled, tabs are replaced with spaces due to Chrome not rendering tabs properly.
+</Aside>
+
+### `lineNumberStart`
+
+`lineNumberStart` can be used to configure the line number of the first line. This defaults to 1, obviously.
+
+```js editor="false" lineNumberStart="5"
+import { renderCodeBlock } from "prism-code-editor/ssr"
+
+const html = renderCodeBlock({
+	language: "javascript",
+	code: "const foo = 'bar'",
+	lineNumbers: true,
+	lineNumberStart: 5
+})
+```
+
+### `guideIndents`
+
+Unlike the indentation guides in the editors, these are rendered as a repeating linear gradient on `.pce-line::after{:selector}`. This has the advantage of not requiring any extra elements and supporting `wordWrap`.
+
+## Styling
+
+In addition to `prism-code-editor/layout.css`, the code blocks require styles from `prism-code-editor/code-block.css`.
+
+### DOM structure
+
+The code blocks have a nearly identical layout to the editors to make them compatible with the styles from `prism-code-editor/layout.css`. This means the [styling guide](/guides/styling) mostly applies to code blocks as well. The only difference is that the two outermost elements use `pre` and `code` tags. Below is the full DOM structure.
+
+```html editor="false"
+<pre class="prism-code-editor language-[lang] [extra-classes]">
+	<!-- ::before pseudo element is the line number background -->
+	<code class="pce-wrapper">
+		<div class="pce-overlays"></div>
+		<div class="pce-line">
+			<!-- ::before pseudo element is the line number -->
+			<!-- Prism tokens for the line -->
+			<!-- ::after pseudo element has indentation guides if any -->
+		</div>
+		<div class="pce-line"></div>
+		<!-- More lines... -->
+	</code>
+</pre>
+```
+
+### Extra classes
+
+- `show-line-numbers` if line numbers are enabled.
+- `pce-wrap` if word wrap is enabled, and `pce-nowrap` if not.
+- `pce-preserve` if indentation is preserved.
+- `pce-guides` if indentation guides are enabled.
+- `pce-rtl` if the `rtl` option is `true`.
+
+## Modifying code blocks on the client
+
+The [`forEachCodeBlock(){:js}`](/api-reference/code-blocks/f-foreachcodeblock) function can be used to run a callback for each [`PrismCodeBlock{:js}`](/api-reference/code-blocks/t-prismcodeblock) under a specified root. The function returns an array of all visited code blocks in document order. The same code block is never visited twice even when `forEachCodeBlock(){:js}` is called multiple times.
+
+### Adding copy buttons
+
+`forEachCodeBlock(){:js}` can be used to add code block with [`addCodeBlock(){:js}`](/api-reference/code-blocks/f-addcopybutton).
+
+```js editor="false"
+import "prism-code-editor/copy-button.css"
+import { addCopyButton, forEachCodeBlock } from "prism-code-editor/code-blocks"
+
+const codeBlocks = forEachCodeBlock(document, codeBlock => {
+	addCopyButton(codeBlock)
+})
+```
+
+#### Customizing copied text
+
+The second parameter to `addCodeBlock(){:js}` can be used to customize the copied text. If you're using [line highlighting](/markdown-plugins/features#line-highlighting) with one markdown plugins for example, you may want to use [`omitLines(){:js}`](/api-reference/code-blocks/f-omitlines) to remove lines marked as deleted from the copied text.
+
+```js editor="false"
+const codeBlocks = forEachCodeBlock(document, codeBlock => {
+	addCopyButton(codeBlock, omitLines(".deleted"))
+})
+```
+
+### Highlighting bracket pairs
+
+[`highlightBracketPairsOnHover(){:js}`](/api-reference/code-blocks/f-highlightbracketpairsonhover) will add highlighting to bracket pairs when hovered. Clicking on a pair keeps it highlighted and clicking anywhere inside the code block removes the highlight. It doesn't require rainbow brackets to work. You can try it on any code block on this page.
+
+```js editor="false"
+const string = /(["'])(?:\\[\s\S]|(?!\1)[^\\\n])*\1/
+```
+
+### Highlighting tag pairs
+
+[`highlightTagPairsOnHover(){:js}`](/api-reference/code-blocks/f-highlighttagpairsonhover) is very similar to `highlightBracketPairsOnHover(){:js}`, but highlights the tag name in matching tags instead. You can try it on the [DOM structure](#dom-structure) code block.
+
+### Adding overlays
+
+The [`addOverlay(){:js}`](/api-reference/utils/f-addoverlay) utility can be used to add overlays to code blocks as well. The only difference to adding overlays to editors is that code blocks don't have `pointer-events: none{:css}` or `user-select: none{:css}`.
+
+### Hover descriptions
+
+If you have complicated code you want to describe, but without cluttering the code up with comments, you can show descriptions on hover instead with [`addHoverDescriptions(){:js}`](/api-reference/code-blocks/f-addhoverdescriptions). Below is a very simple example. Try hovering a string token.
+
+```js editor="false" class="has-hover"
+import "prism-code-editor/copy-button.css"
+import {
+	addCopyButton,
+	forEachCodeBlock,
+	addHoverDescriptions
+} from "prism-code-editor/code-blocks"
+
+const codeBlocks = forEachCodeBlock(document, codeBlock => {
+	addCopyButton(codeBlock)
+	addHoverDescriptions(
+		codeBlock,
+		(types, language, text, element) => {
+			if (types.includes("string")) return ["This is a string token."]
+		}
+	)
+})
+```
+
+The callback function passed receives 4 arguments:
+
+- `types`: Array with the token's type as the first element, followed by any alises.
+- `language`: The language at the token's position.
+- `text`: The `textContent` of the token.
+- `element`: The `<span>` element of the hovered token.
+
+If it returns an array of children, those children are appended to the tooltip that's then shown.
+
+#### Styling the tooltip
+
+The library only ensures the tooltip is correctly positioned. You must style it yourself. You can use the selector `.pce-hover-tooltip{:selector}` to target the container the content is appended to.
+
+```css editor="false"
+.pce-hover-tooltip {
+	/* Recommended styles */
+	position: sticky;
+	left: 0.5em;
+	right: 0.5em;
+	box-sizing: border-box;
+
+	/* Overriding the monospace font */
+	font-family: Arial, Helvetica, sans-serif;
+	white-space: normal;
+
+	background: var(--widget__bg);
+	padding: 0.3em 0.4em;
+	border: 1px solid var(--widget__border);
+	border-radius: 0.3em;
+	overflow-y: auto;
+}
+
+/* Show users they can hover some tokens */
+pre.prism-code-editor .token.string {
+	border-bottom: 1px dotted #0000;
+	transition: border-color 0.2s;
+}
+
+pre.prism-code-editor:hover .token.string {
+	border-color: #888;
+}
+```
+
+<Aside type="note">
+	You shouldn't add a margin to `.pce-hover-tooltip{:selector}`. Append a container that gets the margin instead.
+</Aside>
+
+To ensure the tooltip doesn't get too big and overflows, `max-width` and `max-height` are added as inline styles to the tooltip. If you want to set your own `max-width` or `max-height`, you can use the third argument to `addHoverDescriptions(){:js}`. The values you provide are added as extra arguments to the CSS [`min(){:css}`](https://developer.mozilla.org/en-US/docs/Web/CSS/min) function, so multiple values can be comma separated.
+
+```js editor="false"
+addHoverDescriptions(
+	codeBlock,
+	(types) => { ... },
+	{
+		maxWidth: "40ch + 50px",
+		maxHeight: "20em, 300px"
+	}
+)
+```
+
+## Usage in practice
+
+Just like the [SSR API](/guides/server-side-rendering), these code blocks are meant to be usable with many technologies. It's your job to integrate this API with the server-side framework or static-site generator you're using. Here's a [working example](https://stackblitz.com/edit/withastro-astro-yfajet?file=src%2Fcomponents%2FCodeBlock.astro) for [Astro](https://astro.build).
+
+### With markdown
+
+There are markdown plugins for both [rehype](https://github.com/rehypejs/rehype) and [marked](https://github.com/markedjs/marked) that highlight fenced code blocks. These use `renderCodeBlock(){:js}` under the hood. Read [their documentation](/markdown-plugins/getting-started) to learn more.
+

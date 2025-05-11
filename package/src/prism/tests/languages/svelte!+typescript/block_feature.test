@@ -1,0 +1,361 @@
+{#if porridge.temperature > 100}
+	<p>too hot!</p>
+{:else if 80 > porridge.temperature}
+	<p>too cold!</p>
+{:else}
+	<p>just right!</p>
+{/if}
+
+{#snippet figure(image)}
+	<figure>
+		<img src={image.src} alt={image.caption} width={image.width} height={image.height} />
+		<figcaption>{image.caption}</figcaption>
+	</figure>
+{/snippet}
+
+{#each images as image}
+	{#if image.href}
+		<a href={image.href}>
+			{@render figure(image)}
+		</a>
+	{:else}
+		{@render figure(image)}
+	{/if}
+{/each}
+
+{#await promise then value}
+	<p>The value is {value}</p>
+{/await}
+
+{#await promise catch error}
+	<p>The error is {error}</p>
+{/await}
+
+----------------------------------------------------
+
+[
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "#"],
+		["keyword", "if"],
+		["language-js", [
+			" porridge",
+			["punctuation", "."],
+			["property-access", ["temperature"]],
+			["operator", ">"],
+			["number", "100"]
+		]],
+		["punctuation", "}"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	"too hot!",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", ":"],
+		["keyword", "else"],
+		["language-js", [
+			["keyword", "if"],
+			["number", "80"],
+			["operator", ">"],
+			" porridge",
+			["punctuation", "."],
+			["property-access", ["temperature"]]
+		]],
+		["punctuation", "}"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	"too cold!",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", ":"],
+		["keyword", "else"],
+		["punctuation", "}"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	"just right!",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "/"],
+		["keyword", "if"],
+		["punctuation", "}"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "#"],
+		["keyword", "snippet"],
+		["language-js", [
+			["function", ["figure"]],
+			["punctuation", "("],
+			"image",
+			["punctuation", ")"]
+		]],
+		["punctuation", "}"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["figure"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["img"]],
+		["attr-name", ["src"]],
+		["attr-equals", "="],
+		["expression", [
+			["punctuation", "{"],
+			"image",
+			["punctuation", "."],
+			["property-access", ["src"]],
+			["punctuation", "}"]
+		]],
+		["attr-name", ["alt"]],
+		["attr-equals", "="],
+		["expression", [
+			["punctuation", "{"],
+			"image",
+			["punctuation", "."],
+			["property-access", ["caption"]],
+			["punctuation", "}"]
+		]],
+		["attr-name", ["width"]],
+		["attr-equals", "="],
+		["expression", [
+			["punctuation", "{"],
+			"image",
+			["punctuation", "."],
+			["property-access", ["width"]],
+			["punctuation", "}"]
+		]],
+		["attr-name", ["height"]],
+		["attr-equals", "="],
+		["expression", [
+			["punctuation", "{"],
+			"image",
+			["punctuation", "."],
+			["property-access", ["height"]],
+			["punctuation", "}"]
+		]],
+		["punctuation", "/>"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["figcaption"]],
+		["punctuation", ">"]
+	]],
+	["expression", [
+		["punctuation", "{"],
+		"image",
+		["punctuation", "."],
+		["property-access", ["caption"]],
+		["punctuation", "}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["figcaption"]],
+		["punctuation", ">"]
+	]],
+
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["figure"]],
+		["punctuation", ">"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "/"],
+		["keyword", "snippet"],
+		["punctuation", "}"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "#"],
+		["keyword", "each"],
+		["language-js", [
+			" images ",
+			["keyword", "as"],
+			" image"
+		]],
+		["punctuation", "}"]
+	]],
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "#"],
+		["keyword", "if"],
+		["language-js", [
+			" image",
+			["punctuation", "."],
+			["property-access", ["href"]]
+		]],
+		["punctuation", "}"]
+	]],
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["a"]],
+		["attr-name", ["href"]],
+		["attr-equals", "="],
+		["expression", [
+			["punctuation", "{"],
+			"image",
+			["punctuation", "."],
+			["property-access", ["href"]],
+			["punctuation", "}"]
+		]],
+		["punctuation", ">"]
+	]],
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "@"],
+		["keyword", "render"],
+		["language-js", [
+			["function", ["figure"]],
+			["punctuation", "("],
+			"image",
+			["punctuation", ")"]
+		]],
+		["punctuation", "}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["a"]],
+		["punctuation", ">"]
+	]],
+	["block", [
+		["punctuation", "{"],
+		["punctuation", ":"],
+		["keyword", "else"],
+		["punctuation", "}"]
+	]],
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "@"],
+		["keyword", "render"],
+		["language-js", [
+			["function", ["figure"]],
+			["punctuation", "("],
+			"image",
+			["punctuation", ")"]
+		]],
+		["punctuation", "}"]
+	]],
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "/"],
+		["keyword", "if"],
+		["punctuation", "}"]
+	]],
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "/"],
+		["keyword", "each"],
+		["punctuation", "}"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "#"],
+		["keyword", "await"],
+		["language-js", [" promise "]],
+		["keyword", "then"],
+		["language-js", [" value"]],
+		["punctuation", "}"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	"The value is ",
+	["expression", [
+		["punctuation", "{"],
+		"value",
+		["punctuation", "}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "/"],
+		["keyword", "await"],
+		["punctuation", "}"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "#"],
+		["keyword", "await"],
+		["language-js", [
+			" promise ",
+			["keyword", "catch"],
+			" error"
+		]],
+		["punctuation", "}"]
+	]],
+
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+	"The error is ",
+	["expression", [
+		["punctuation", "{"],
+		"error",
+		["punctuation", "}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["p"]],
+		["punctuation", ">"]
+	]],
+
+	["block", [
+		["punctuation", "{"],
+		["punctuation", "/"],
+		["keyword", "await"],
+		["punctuation", "}"]
+	]]
+]

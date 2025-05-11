@@ -1,0 +1,47 @@
+## Comments
+## Single line comment
+#* Multi-line
+comment *#
+
+## Unparsed sections
+## Section below is not parsed
+#[[
+	## This is not a comment
+]]#
+
+## Variables
+$mud
+$customer.Name
+$flogger.getPromo( $mud )
+$!{mudSlinger_9}
+$foo[0]
+$foo[$i]
+$foo["bar"]
+$foo.bar[1].junk
+$foo.callMethod()[1]
+
+## Directives
+#set($foo.bar[1] = 3)
+#if($a==1)true enough#{else}no way!#end
+#macro( d )
+<tr><td>$!bodyContent</td></tr>
+#end
+#@d()Hello!#end
+
+## Integration with HTML
+<html>
+	<body>
+		Hello $customer.Name!
+		<table>
+		#foreach( $mud in $mudsOnSpecial )
+			#if ( $customer.hasPurchased($mud) )
+				<tr>
+					<td>
+						$flogger.getPromo( $mud )
+					</td>
+				</tr>
+			#end
+		#end
+		</table>
+	</body>
+</html>

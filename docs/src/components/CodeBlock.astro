@@ -1,0 +1,98 @@
+---
+import "prism-code-editor/prism/languages/javascript"
+import "prism-code-editor/prism/languages/css-extras"
+import "prism-code-editor/prism/languages/markup"
+import "prism-code-editor/prism/languages/regex"
+import "prism-code-editor/prism/languages/jsdoc"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/code-block.css"
+import "prism-code-editor/copy-button.css"
+import "../css/editor-theme.css"
+import Caption from "./editor/Caption.astro"
+import { rainbowBrackets, renderCodeBlock } from "prism-code-editor/ssr"
+type Props = {
+	lang: string
+	code: string
+	file?: string
+	start?: number
+}
+
+const { file, lang, code, start } = Astro.props
+
+const html = renderCodeBlock({
+	value: code,
+	language: lang,
+	guideIndents: true,
+	lineNumbers: true,
+	wordWrap: true,
+	lineNumberStart: start,
+	tokenizeCallback: rainbowBrackets(),
+})
+---
+
+<div class="not-content code-block">
+	{file && <Caption>{file}</Caption>}
+	<Fragment set:html={html} />
+</div>
+
+<script>
+	import {
+		forEachCodeBlock,
+		addCopyButton,
+		addHoverDescriptions,
+		highlightBracketPairsOnHover,
+		highlightTagPairsOnHover,
+	} from "prism-code-editor/code-blocks"
+
+	const codeBlocks = forEachCodeBlock(document, codeBlock => {
+		addCopyButton(codeBlock)
+		highlightBracketPairsOnHover(codeBlock)
+		highlightTagPairsOnHover(codeBlock)
+	})
+
+	const inputs = document.getElementsByTagName("input")
+
+	;["show-line-numbers", "pce-wrap", "pce-preserve", "pce-guides"].forEach((toggledClass, i) => {
+		const input = inputs[i + 1]
+		input.oninput = () => {
+			codeBlocks.forEach(block => {
+				let classList = block.container.classList
+				let checked = input.checked
+				classList.toggle(toggledClass, checked)
+				if (i == 1) classList.toggle("pce-nowrap", !checked)
+			})
+		}
+	})
+
+	addHoverDescriptions(codeBlocks[7], types => {
+		if (types.includes("string")) return ["This is a string token."]
+	})
+</script>
+
+<style is:global>
+	pre.prism-code-editor {
+		max-height: none;
+	}
+	.pce-hover-tooltip {
+		position: sticky;
+		left: 0.5em;
+		right: 0.5em;
+		font-family: var(--sl-font-system);
+		white-space: normal;
+
+		background: var(--widget__bg);
+		padding: 0.3em 0.4em;
+		border: 1px solid var(--widget__border);
+		border-radius: 0.3em;
+		overflow-y: auto;
+	}
+
+	.has-hover .token.string {
+		border-bottom: 1px dotted #0000;
+		transition: border-color 0.2s;
+	}
+
+	.has-hover:hover .token.string {
+		border-color: #888;
+	}
+</style>

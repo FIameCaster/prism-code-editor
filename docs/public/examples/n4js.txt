@@ -1,0 +1,108 @@
+// Keywords
+class C {..}
+interface I {..}
+
+foo(c: C, i: I) {
+	c instanceof C; // ok
+	c instanceof I; // ok
+}
+
+// Annotations
+// Final Methods
+@Final
+private tasks = new Map<string,Task>();
+
+// Redefinition of Members
+@Override
+public async size(): int {
+	…
+}
+
+// Dependency Injection
+@Binder
+@Bind(Storage,StorageInMemory)
+class InMemoryBinder {}
+
+@GenerateInjector @UseBinder(InMemoryBinder)
+export public class TaskManagerTest {
+	…
+}
+
+// Full example
+// A Web User Interface in HTML
+// NOTE: requires full example project bundled with N4JS IDE to run.
+
+import { TaskManager } from "TaskManager";
+import { Application, Response } from "express";
+import express from "express";
+import { Todo } from "model";
+
+
+export class WebUI {
+
+	private app: Application;
+
+	@Inject
+	private manager: TaskManager;
+
+	public start() {
+
+		this.app = express();
+
+		this.app.get('/', async (req, res) => {
+			let page = await this.renderHomePage();
+			res.send(page);
+		});
+
+		this.app.get("/clear", async (req, res) => {
+			await this.manager.clear();
+			redirect(res, '/');
+		});
+
+		this.app.get("/create", async (req, res) => {
+			let values = req.query as ~Object with {type: string, label: string};
+			if (values && values.type === 'Todo' && values.label && values.label.length > 0) {
+				await this.manager.createTodo(values.label);
+			}
+			redirect(res, '/');
+		});
+
+		this.app.listen(4000, '0.0.0.0', 511, function() {
+			console.log("HTML server listening on http://localhost:4000/");
+		});
+	}
+
+	protected async renderHomePage(): string {
+		let tasks = await this.manager.getTasks();
+		let todos = tasks.filter((task) => task instanceof Todo);
+		return `
+
+<html>
+<body>
+	Your to-do's:
+	<ul>
+	${
+		todos.length === 0 ? '<li><em>none</em></li>\n'
+		: todos.map((task) =>
+			'<li>' + task.label + ' <small>(id: ' + task.id + ')</small></li>'
+		).join('\n')
+	}
+	</ul>
+	<hr/>
+	<form action="/create" method="get">
+	<input type="hidden" name="type" value="Todo">
+	Label: <input type="text" name="label"><br>
+	<input type="submit" value="Create Todo">
+	</form>
+	<hr/>
+	<a href="/clear">[Clear All]</a>
+</body>
+</html>
+`;
+	}
+}
+
+function redirect(res: Response, url: string) {
+	res.header('Cache-Control', 'no-cache');
+	res.redirect(301, url);
+}

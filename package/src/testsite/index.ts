@@ -10,6 +10,7 @@ import "../extensions/copyButton/copy.css"
 import "../extensions/folding/folding.css"
 import "../extensions/autocomplete/style.css"
 import "../extensions/autocomplete/icons.css"
+import "../extensions/guides.css"
 import { cursorPosition } from "../extensions/cursor"
 import { indentGuides } from "../extensions/guides"
 import guides from "../prism/core?raw"
@@ -21,17 +22,18 @@ import "../extensions/search/search.css"
 import "../extensions/search/invisibles.css"
 import "../languages"
 import "../layout.css"
+import "../code-block.css"
 import "../rtl-layout.css"
 import "../scrollbar.css"
-import { addFullEditor, addReadonlyEditor, PrismEditorElement } from "../webComponent"
+import { addBasicEditor, addReadonlyEditor, PrismEditorElement } from "../webComponent"
 import "./style.css"
 import { matchTags } from "../extensions/matchTags"
 import { addOverscroll } from "../tooltips"
 import { getClosestToken } from "../utils"
-import { autoComplete, completeSnippets, registerCompletions } from "../extensions/autocomplete"
+import { autoComplete, completeFromList, registerCompletions } from "../extensions/autocomplete"
 import {
 	completeKeywords,
-	completeIdentifiers,
+	jsCompletion,
 	jsContext,
 	jsDocCompletion,
 	jsSnipets,
@@ -43,11 +45,20 @@ import {
 	globalHtmlAttributes,
 	globalSvgAttributes,
 	svgTags,
+	mathMLTags,
+	globalMathMLAttributes,
 } from "../extensions/autocomplete/markup"
 import { fuzzyFilter } from "../extensions/autocomplete/filter"
 import { cssCompletion } from "../extensions/autocomplete/css"
 import { globalReactAttributes, reactTags } from "../extensions/autocomplete/javascript/reactData"
 import { showInvisibles } from "../extensions/search/invisibles"
+import { renderCodeBlock } from "../ssr/code-block"
+import { rainbowBrackets } from "../ssr"
+import { addCopyButton, forEachCodeBlock } from "../client/code-block"
+import { addHoverDescriptions, highlightBracketPairsOnHover } from "../client/hover"
+import { vueCompletion } from "../extensions/autocomplete/vue"
+import { svelteCompletion } from "../extensions/autocomplete/svelte"
+import { svelteBlockSnippets } from "../extensions/autocomplete/svelte/snippets"
 
 const runBtn = <HTMLButtonElement>document.getElementById("run"),
 	wrapper = document.querySelector<HTMLDivElement>(".editor-wrapper")!,
@@ -126,15 +137,15 @@ const editor = createEditorWrapper(wrapper, {
 	theme = <HTMLLinkElement>document.getElementById("theme"),
 	themes = <HTMLSelectElement>document.getElementById("themes")
 
-editor1.scrollContainer.style.display = "none"
+editor1.container.style.display = "none"
 themes.oninput = () => {
 	theme.href = theme.href.replace(/[^\/]+(?=\.css$)/, themes.value.toLowerCase().replace(/ /g, "-"))
 }
 
 const toggleActive = () => {
 	for (const tab of tabs) tab.classList.toggle("active")
-	const current = (activeEditor ? editor1 : editor).scrollContainer
-	const newEditor = (activeEditor ? editor : editor1).scrollContainer
+	const current = (activeEditor ? editor1 : editor).container
+	const newEditor = (activeEditor ? editor : editor1).container
 	newEditor.style.display = ""
 	newEditor.scrollTo(...scrollPos)
 	scrollPos = [current.scrollLeft, current.scrollTop]
@@ -192,14 +203,14 @@ runBtn.onclick = () => {
 		return
 	}
 
-	wrapper.append(newEditor.scrollContainer)
+	wrapper.append(newEditor.container)
 	editor1.remove()
 	editor1 = newEditor
 	toggleActive()
 	newEditor.textarea.focus()
 }
 
-addFullEditor("prism-editor")
+addBasicEditor("prism-editor")
 
 const webComponent = document.querySelector<PrismEditorElement>("prism-editor")!
 const editor2 = webComponent.editor
@@ -243,25 +254,83 @@ ${data.get("editor")}`)
 registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
 	context: jsContext,
 	sources: [
-		// completeScope(window),
-		completeIdentifiers(),
+		jsCompletion(window),
 		completeKeywords,
 		jsDocCompletion,
 		jsxTagCompletion(reactTags, globalReactAttributes),
-		completeSnippets(jsSnipets),
+		completeFromList(jsSnipets),
 	],
 })
 
 registerCompletions(["html", "markup"], {
-	sources: [markupCompletion(htmlTags, globalHtmlAttributes)],
-})
-
-registerCompletions(["svg"], {
-	sources: [markupCompletion(svgTags, globalSvgAttributes)],
+	sources: [
+		markupCompletion(
+			[
+				{
+					tags: htmlTags,
+				},
+				{
+					tags: svgTags,
+					globals: globalSvgAttributes,
+				},
+				{
+					tags: mathMLTags,
+					globals: globalMathMLAttributes,
+				},
+			],
+			globalHtmlAttributes,
+		),
+	],
 })
 
 registerCompletions(["css"], {
 	sources: [cssCompletion()],
+})
+
+registerCompletions(["vue"], {
+	sources: [
+		vueCompletion({
+			MyComponent: {
+				onevent: null,
+				hello: ["world"],
+			},
+		}),
+	],
+})
+
+registerCompletions(["svelte"], {
+	sources: [
+		svelteCompletion(svelteBlockSnippets, {
+			MyComponent: {
+				onevent: null,
+				hello: ["world"],
+			},
+		}),
+	],
+})
+
+document.body.insertAdjacentHTML(
+	"beforeend",
+	`<section>${renderCodeBlock({
+		language: "javascript",
+		value: guides,
+		lineNumbers: true,
+		guideIndents: true,
+		wordWrap: true,
+		tokenizeCallback: rainbowBrackets(),
+	})}</section>`,
+)
+
+forEachCodeBlock(document, codeBlock => {
+	addCopyButton(codeBlock)
+	addHoverDescriptions(
+		codeBlock,
+		types => {
+			if (types.includes("string")) return ["this is a string token."]
+		},
+		{},
+	)
+	highlightBracketPairsOnHover(codeBlock)
 })
 
 setTimeout(() => import("../prism/languages"), 500)

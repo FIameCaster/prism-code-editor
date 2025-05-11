@@ -34,7 +34,7 @@ var myElement = <MyComponent someProperty={true} />;
 		]],
 		["attr-name", ["someProperty"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			["boolean", "true"],
 			["punctuation", "}"]
@@ -46,7 +46,7 @@ var myElement = <MyComponent someProperty={true} />;
 	["tag", [
 		["punctuation", "<"],
 		["tag", ["div"]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			"foo",
@@ -77,7 +77,7 @@ var myElement = <MyComponent someProperty={true} />;
 		]],
 		["attr-name", ["leaf"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			["boolean", "true"],
 			["punctuation", "}"]

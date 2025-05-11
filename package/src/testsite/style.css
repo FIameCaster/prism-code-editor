@@ -311,3 +311,28 @@ main .input-group > * {
 		border-bottom-color: hsl(210, 60%, 60%);
 	}
 }
+
+pre.prism-code-editor {
+	max-height: 50em;
+}
+
+.pce-hover-tooltip {
+	position: sticky;
+	left: 0.5em;
+	right: 0.5em;
+	white-space: normal;
+	padding: 0.4em;
+	border: 1px solid var(--widget__border);
+	background: var(--widget__bg);
+	border-radius: 0.3em;
+	overflow-y: auto;
+}
+
+pre .token.string {
+	border-bottom: 1px dotted #0000;
+	transition: border-color 0.2s;
+}
+
+pre:hover .token.string {
+	border-color: #888;
+}

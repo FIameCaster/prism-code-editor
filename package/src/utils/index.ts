@@ -1,6 +1,8 @@
 import { InputSelection, PrismEditor } from "../index.js"
-import { numLines, isChrome, isWebKit } from "../core.js"
-import { addListener, getLineEnd, getLineStart } from "./local.js"
+import { numLines, addListener, selectionChange, doc } from "../core.js"
+import { getLineEnd, getLineStart } from "./local.js"
+import { PrismCodeBlock } from "../client/code-block.js"
+import { escapeHtml } from "../prism/core.js"
 
 let prevSelection: InputSelection | 0
 
@@ -51,9 +53,9 @@ const getClosestToken = (
 	position = editor.getSelection()[0],
 ) => {
 	const value = editor.value
-	const line = editor.wrapper.children[numLines(value, 0, position)]
+	const line = editor.lines[numLines(value, 0, position)]
 	// We unfortunitely have to include elements, else we can't get empty tokens
-	const walker = document.createTreeWalker(line, 5)
+	const walker = doc!.createTreeWalker(line, 5)
 
 	let node = walker.lastChild()
 	let offset = getLineEnd(value, position) + 1 - position - (<Text>node).length
@@ -77,7 +79,7 @@ const getClosestToken = (
  * @param position Position to search in. Defaults to `selectionStart`.
  */
 const getLanguage = (editor: PrismEditor, position?: number) =>
-	getClosestToken(editor, '[class*="language-"]', 0, 0, position)?.className.match(
+	getClosestToken(editor, "[class*=language-]", 0, 0, position)?.className.match(
 		/language-(\S*)/,
 	)![1] || editor.options.language
 
@@ -114,7 +116,7 @@ const insertText = (
 	if (start != null) textarea.setSelectionRange(start, end!)
 
 	if (newCursorStart != null) {
-		removeListener = addListener(editor, "update", () => {
+		removeListener = editor.on("update", () => {
 			textarea.setSelectionRange(
 				newCursorStart,
 				newCursorEnd ?? newCursorStart,
@@ -137,22 +139,59 @@ const insertText = (
 		}
 		// New line at the end is always ignored in Safari
 		if (isWebKit) text += "\n"
-		document.execCommand(
-			text ? "insertHTML" : "delete",
-			false,
-			text.replace(/&/g, "&amp;").replace(/</g, "&lt;"),
-		)
+		doc!.execCommand(text ? "insertHTML" : "delete", false, escapeHtml(text, /</g, "&lt;"))
 		if (avoidBug) textarea.selectionStart++
-	} else document.execCommand(text ? "insertText" : "delete", false, text)
+	} else doc!.execCommand(text ? "insertText" : "delete", false, text)
 
 	prevSelection = 0
 }
 
 /**
+ * Sets the selection for the `textarea` and synchronously runs the selectionChange listeners.
+ * If you don't want to synchronously run the listeners, use `textarea.setSelectionRange` instead.
+ * @param editor Editor you want to change the selection of.
+ * @param start New selectionStart.
+ * @param end New selectionEnd. Defaults to `start`.
+ * @param direction New direction.
+ */
+const setSelection = (
+	editor: PrismEditor,
+	start: number,
+	end = start,
+	direction?: "backward" | "forward" | "none",
+) => {
+	let focused = editor.focused
+	let textarea = editor.textarea
+	let relatedTarget!: HTMLElement | null
+	if (!focused) {
+		addListener(
+			textarea,
+			"focus",
+			e => {
+				relatedTarget = e.relatedTarget as HTMLElement
+			},
+			{ once: true },
+		)
+		textarea.focus()
+	}
+	textarea.setSelectionRange(start, end, direction)
+
+	// Blurs the textarea if it wasn't focused before and calls `selectionChange` with `true`
+	// This will set `selectionChange` to null, so we must access the variable before
+	selectionChange!(!(!focused && (relatedTarget ? relatedTarget.focus() : textarea.blur())))
+}
+
+const userAgent = doc ? navigator.userAgent : ""
+const isMac = doc ? /Mac|iPhone|iPod|iPad/i.test(navigator.platform) : false
+const isChrome = /Chrome\//.test(userAgent)
+const isWebKit = !isChrome && /AppleWebKit\//.test(userAgent)
+
+/**
  * Returns a 4 bit integer where each bit represents whether
- * each modifier is pressed in the order Shift, Meta, Ctrl, Alt
+ * each modifier is pressed in the order Shift, Meta, Ctrl, Alt.
+ *
  * ```javascript
- * e.altKey && e.ctrlKey && e.shiftKey && !e.metaKey
+ * e.shiftKey && !e.metaKey && e.ctrlKey && e.altKey
  * // is equivalent to
  * getModifierCode(e) == 0b1011
  * ```
@@ -160,6 +199,15 @@ const insertText = (
 const getModifierCode = (
 	e: KeyboardEvent, // @ts-expect-error
 ): number => e.altKey + e.ctrlKey * 2 + e.metaKey * 4 + e.shiftKey * 8
+
+/**
+ * Adds an overlay by appending the element to the editors overlays.
+ * Equivalent to calling `editor.lines[0].append(overlay)`.
+ * @param editor Editor or code block you want to add an overlay to.
+ * @param overlay The overlay you want to add.
+ */
+const addOverlay = (editor: PrismEditor | PrismCodeBlock, overlay: HTMLElement) =>
+	editor.lines[0].append(overlay)
 
 export {
 	regexEscape,
@@ -169,5 +217,10 @@ export {
 	getLanguage,
 	insertText,
 	getModifierCode,
+	setSelection,
+	addOverlay,
+	isMac,
+	isChrome,
+	isWebKit,
 	prevSelection,
 }

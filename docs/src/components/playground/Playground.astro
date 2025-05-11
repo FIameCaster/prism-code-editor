@@ -1,0 +1,224 @@
+---
+import { readFile } from "node:fs/promises"
+import Editor from "../editor/index.astro"
+import theme from "prism-code-editor/themes/github-dark.css?inline"
+
+const example = await readFile("./public/examples/xml.txt", { encoding: "utf-8" })
+---
+
+<div class="not-content playground">
+	<style is:inline set:html={theme}></style>
+	<div>
+		<div>
+			<label>
+				<input type="checkbox" checked /> Line numbers
+			</label>
+			<label>
+				<input type="checkbox" /> Word wrap
+			</label>
+			<label>
+				<input type="checkbox" /> Read-only
+			</label>
+		</div>
+		<div>
+			<label class="select-label">
+				Theme:
+				<div class="select">
+					<select>
+						<option>Github Dark</option>
+					</select>
+				</div>
+			</label>
+			<label class="select-label">
+				Language:
+				<div class="select">
+					<select>
+						<option>xml</option>
+					</select>
+				</div>
+			</label>
+		</div>
+	</div>
+</div>
+
+<Editor language="xml" value={example} />
+
+<script>
+	import { loadTheme } from "prism-code-editor/themes"
+	import { languages } from "prism-code-editor/prism"
+	import "prism-code-editor/prism/languages/xml"
+	import { editors } from "../editor/mount"
+
+	const editor = editors[0]
+
+	const initSelect = (
+		select: HTMLSelectElement,
+		options: string[],
+		callback: (value: string) => void,
+	) => {
+		let val = select.value
+		select.onchange = () => {
+			callback(select.value)
+		}
+		select.textContent = ""
+		select.append(
+			...options.map(text => {
+				const option = document.createElement("option")
+				option.textContent = text
+				return option
+			}),
+		)
+		select.value = val
+	}
+	const playground = document.querySelector(".playground")!
+	const [themeSelect, langSelect] = playground.getElementsByTagName("select")
+	const inputs = playground.getElementsByTagName("input")
+	const themeElement = playground.firstElementChild as HTMLStyleElement
+	const initialTheme = themeElement.textContent!
+	const initialThemeName = themeSelect.value
+
+	;(["lineNumbers", "wordWrap", "readOnly"] as const).forEach((prop, i) => {
+		inputs[i].onchange = () => {
+			editor.setOptions({
+				[prop]: inputs[i].checked,
+			})
+		}
+	})
+
+	initSelect(
+		themeSelect,
+		[
+			"Atom One Dark",
+			"Dracula",
+			"Github Dark",
+			"Github Dark Dimmed",
+			"Github Light",
+			"Night Owl",
+			"Night Owl Light",
+			"Prism",
+			"Prism Okaidia",
+			"Prism Solarized Light",
+			"Prism Tomorrow",
+			"Prism Twilight",
+			"VS Code Dark",
+			"VS Code Light",
+		],
+		theme => {
+			if (theme == initialThemeName) themeElement.textContent = initialTheme
+			else
+				loadTheme(theme.toLowerCase().replace(/ /g, "-")).then(style => {
+					if (themeSelect.value == theme) themeElement.textContent = style!
+				})
+		},
+	)
+
+	import("./allLangs").then(() => {
+		initSelect(
+			langSelect,
+			Object.keys(languages)
+				.filter(
+					(name, i, keys) =>
+						i > 3 && languages[name] != languages[keys[i - 1]] && !/[^i]doc|regex/.test(name),
+				)
+				.sort(),
+			lang => {
+				fetch("/examples/" + lang + ".txt").then(res =>
+					res.text().then(code => {
+						if (lang == langSelect.value) {
+							editor.container.scrollTo(0, 0)
+							editor.setOptions({
+								value: code,
+								language: lang,
+							})
+							editor.extensions.history!.clear()
+						}
+					}),
+				)
+			},
+		)
+	})
+
+	import("../editor/extensions")
+	import("../editor/autocomplete")
+</script>
+
+<style is:global>
+	.prism-code-editor {
+		font-size: 0.875rem;
+		line-height: 1.25rem;
+		height: 50em;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 1px;
+	}
+	.pce-wrapper {
+		padding-bottom: 41.9375rem;
+	}
+	.playground > div {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.playground > div > div {
+		display: grid;
+		align-content: space-around;
+	}
+
+	.select-label {
+		display: grid;
+		grid-template-columns: 5.5em minmax(auto, 10em) 1fr;
+	}
+
+	.select {
+		display: inline-grid;
+		grid: "a";
+		align-items: center;
+		border-radius: 0.2em;
+		position: relative;
+		flex: 12em 0 1;
+	}
+
+	.select > * {
+		-webkit-appearance: none;
+		appearance: none;
+		padding: 0.1em 1.4em 0.1em 0.4em;
+		border: 1px solid var(--sl-color-gray-5);
+		border-radius: 0.2em;
+		margin: 0;
+		width: 100%;
+		font: inherit;
+		color: inherit;
+		grid-area: a;
+		background: var(--sl-color-gray-6);
+		line-height: 1.5;
+		text-overflow: ellipsis;
+	}
+
+	[data-theme="light"] .select > * {
+		background: var(--sl-color-gray-7);
+	}
+
+	.select::before {
+		content: "";
+		width: 0.7em;
+		height: 0.4em;
+		margin-right: 0.5em;
+		background: var(--sl-color-gray-4);
+		clip-path: polygon(100% 0%, 0 0%, 50% 100%);
+		grid-area: a;
+		justify-self: end;
+		pointer-events: none;
+	}
+
+	select option {
+		font-weight: inherit;
+	}
+
+	@media (max-width: 28em) {
+		.playground > div {
+			display: grid;
+		}
+		.select-label {
+			margin-top: 0.5em;
+		}
+	}
+</style>

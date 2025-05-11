@@ -1,0 +1,42 @@
+<!-- Empty tag -->
+<p></p>
+
+<!-- Tag that spans multiple lines -->
+<p
+>hello!
+</p>
+
+<!-- Name-attribute pair -->
+<p class="prism"></p>
+
+<!-- Attribute without value -->
+<p data-foo></p>
+<p data-foo ></p>
+
+<!-- Namespaces -->
+<html:p foo:bar="baz" foo:weee></html:p>
+
+<!-- XML prolog -->
+<?xml version="1.0" encoding="utf-8"?>
+<svg></svg>
+
+<!-- DOCTYPE -->
+<!DOCTYPE html>
+<html></html>
+
+<!-- CDATA section -->
+<ns1:description><![CDATA[
+  CDATA is <not> magical.
+]]></ns1:description>
+
+<!-- Comment -->
+<!-- I'm a comment -->
+And i'm not
+
+<!-- Entities -->
+&amp; &#x2665; &#160; &#x152;
+
+<!-- XML tags with non-ASCII characters -->
+<Läufer>foo</Läufer>
+<tag läufer="läufer">bar</tag>
+<läufer:tag>baz</läufer:tag>

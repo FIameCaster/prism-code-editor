@@ -1,0 +1,35 @@
+// Comments
+/* This is a comment */
+
+// Strings and characters
+"This is a \"string\""
+'a'
+'\\'
+'\o123'
+'\x4a'
+
+// Constructors
+type response =
+	| Yes
+	| No
+	| PrettyMuch;
+
+// Example
+type car = {maker: string, model: string};
+type carList =
+	| List car carList
+	| NoMore;
+
+let chevy = {maker: "Chevy", model: "Suburban"};
+let toyota = {maker: "Toyota", model: "Tacoma"};
+let myCarList = List chevy (List toyota NoMore);
+
+let hasExactlyTwoCars = fun lst =>
+	switch lst {
+		| NoMore => false                              /* 0 */
+		| List p NoMore => false                       /* 1 */
+		| List p (List p2 NoMore) => true              /* 2 */
+		| List p (List p2 (List p3 theRest)) => false  /* 3+ */
+	};
+
+let justTwo = hasExactlyTwoCars myCarList;  /* true! */

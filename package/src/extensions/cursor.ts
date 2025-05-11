@@ -1,9 +1,15 @@
 /** @module cursor */
 
 import { BasicExtension, InputSelection, PrismEditor } from "../index.js"
-import { createTemplate, addTextareaListener } from "../core.js"
+import { createTemplate } from "../core.js"
 import { getLineBefore } from "../utils/index.js"
-import { getLineEnd, scrollToEl } from "../utils/local.js"
+import {
+	getLineEnd,
+	scrollToEl,
+	addTextareaListener,
+	getPosition,
+	updateNode,
+} from "../utils/local.js"
 import { defaultCommands } from "./commands.js"
 
 /** Postion of the cursor relative to the editors overlays. */
@@ -24,39 +30,35 @@ export interface Cursor extends BasicExtension {
 	element: HTMLSpanElement
 }
 
-const cursorTemplate = createTemplate(
-	'<div style=position:absolute;top:0;opacity:0;padding:inherit> <span><span></span> ',
+const cursorTemplate = /* @__PURE__ */ createTemplate(
+	"<div style=position:absolute;top:0;opacity:0;padding-right:inherit> <span><span></span> ",
 )
 
 /**
  * Extension which can be used to calculate the position of the cursor and scroll it into view.
  * This is used by the {@link defaultCommands} extension to keep the cursor in view while typing.
- * 
+ *
  * The extension can also be accessed from `editor.extensions.cursor` when added.
  */
 export const cursorPosition = () => {
 	let cEditor: PrismEditor
-	let prevBefore = " "
-	let prevAfter = " "
 
 	const cursorContainer = cursorTemplate()
 	const [before, span] = <[Text, HTMLSpanElement]>(<unknown>cursorContainer.childNodes)
 	const [cursor, after] = <[HTMLSpanElement, Text]>(<unknown>span.childNodes)
 	const selectionChange = (selection: InputSelection) => {
-		let { value, activeLine } = cEditor
-		let position = selection[selection[2] < "f" ? 0 : 1]
-		let newBefore = getLineBefore(value, position)
-		let newAfter = value.slice(position, getLineEnd(value, position))
+		const value = cEditor.value
+		const activeLine = cEditor.lines[cEditor.activeLine]
+		const position = selection[selection[2] < "f" ? 0 : 1]
 
-		if (!newBefore && !newAfter) newAfter = " "
-		if (prevBefore != newBefore) before.data = prevBefore = newBefore
-		if (prevAfter != newAfter) after.data = prevAfter = newAfter
+		updateNode(before, getLineBefore(value, position))
+		updateNode(after, value.slice(position, getLineEnd(value, position)) + "\n")
 		if (cursorContainer.parentNode != activeLine) activeLine.prepend(cursorContainer)
 	}
 	const scrollIntoView = () => scrollToEl(cEditor, cursor)
 
 	const self: Cursor = editor => {
-		editor.addListener("selectionChange", selectionChange)
+		editor.on("selectionChange", selectionChange)
 		cEditor = editor
 
 		editor.extensions.cursor = self
@@ -67,18 +69,7 @@ export const cursorPosition = () => {
 		if (editor.activeLine) selectionChange(editor.getSelection())
 	}
 
-	self.getPosition = () => {
-		const rect1 = cursor.getBoundingClientRect()
-		const rect2 = cEditor.overlays.getBoundingClientRect()
-
-		return {
-			top: rect1.y - rect2.y,
-			bottom: rect2.bottom - rect1.bottom,
-			left: rect1.x - rect2.x,
-			right: rect2.right - rect1.x,
-			height: rect1.height,
-		}
-	}
+	self.getPosition = () => getPosition(cEditor, cursor)
 
 	self.scrollIntoView = scrollIntoView
 	self.element = cursor

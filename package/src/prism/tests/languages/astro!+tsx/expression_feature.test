@@ -1,0 +1,42 @@
+<ul>
+	{items.map(item => <li>{item}</li>)}
+</ul>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["ul"]],
+		["punctuation", ">"]
+	]],
+	["expression", [
+		["punctuation", "{"],
+		"items",
+		["punctuation", "."],
+		["function", ["map"]],
+		["punctuation", "("],
+		"item ",
+		["operator", "=>"],
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["li"]],
+			["punctuation", ">"]
+		]],
+		["punctuation", "{"],
+		"item",
+		["punctuation", "}"],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["li"]],
+			["punctuation", ">"]
+		]],
+		["punctuation", ")"],
+		["punctuation", "}"]
+	]],
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["ul"]],
+		["punctuation", ">"]
+	]]
+]

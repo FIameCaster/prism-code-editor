@@ -1,28 +1,23 @@
 import { languages } from '../core.js';
-import { extend, insertBefore } from '../utils/language.js';
-import './clike.js';
+import { boolean, clikeComment, clikeNumber, clikePunctuation } from '../utils/patterns.js';
 
-insertBefore(
-	languages.birb = extend('clike', {
-		'string': {
-			pattern: /r?(["'])(?:\\.|(?!\1)[^\\])*\1/g,
-			greedy: true
-		},
-		'class-name': [
-			/\b[A-Z](?:[\d_]*[a-zA-Z]\w*)?\b/,
-
-			// matches variable and function return types (parameters as well).
-			/\b(?:[A-Z]\w*|(?!(?:var|void)\b)[a-z]\w*)(?=\s+\w+\s*[;,=()])/
-		],
-		'keyword': /\b(?:assert|break|case|class|const|default|else|enum|final|follows|for|grab|if|nest|new|next|noSeeb|return|static|switch|throw|var|void|while)\b/,
-		'operator': /--|\+\+|&&|\|\||(?:<<|>>|~\/|[%&|^!=<>/*+-])=?|[?:~]/,
-		'variable': /\b[a-z_]\w*\b/,
-	}),
-	'function', {
-		'metadata': {
-			pattern: /<\w+>/g,
-			greedy: true,
-			alias: 'symbol'
-		}
-	}
-);
+languages.birb = {
+	'comment': clikeComment(),
+	'string': {
+		pattern: /r?(["'])(?:\\.|(?!\1)[^\\])*\1/g,
+		greedy: true
+	},
+	'class-name': /\b[A-Z](?:[\d_]*[a-zA-Z]\w*)?\b|\b(?:[A-Z]\w*|(?!(?:var|void)\b)[a-z]\w*)(?=\s+\w+\s*[;,=()])/,
+	'keyword': /\b(?:assert|break|case|class|const|default|else|enum|final|follows|for|grab|if|nest|new|next|noSeeb|return|static|switch|throw|var|void|while)\b/,
+	'boolean': boolean,
+	'metadata': {
+		pattern: /<\w+>/g,
+		greedy: true,
+		alias: 'symbol'
+	},
+	'function': /\b\w+(?=\()/,
+	'number': clikeNumber,
+	'operator': /--|\+\+|&&|\|\||(?:<<|>>|~\/|[%&|^!=<>/*+-])=?|[?:~]/,
+	'punctuation': clikePunctuation,
+	'variable': /\b[a-z_]\w*\b/
+};

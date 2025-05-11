@@ -1,0 +1,33 @@
+// Comments
+// Single line comment
+/** Multi-line
+doc comment */
+
+// Strings
+"foo \"bar\" baz"
+"Multi-line strings ending with a \
+are supported too."
+"""Verbatim strings
+You can create
+multi-line strings like this too."""
+@"Template string with variables $var1 $(var2 * 2)"
+
+// Regex
+/foo?[ ]*bar/
+
+// Full example
+using Gtk;
+
+int main (string[] args) {
+	Gtk.init(ref args);
+
+	var window = new Window();
+
+	var button = new Button.with_label("Click me!");
+
+	window.add(button);
+	window.show_all();
+
+	Gtk.main();
+	return 0;
+}

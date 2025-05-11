@@ -1,0 +1,9 @@
+# Comments
+# This is a comment
+! This is a comment too
+
+# Properties
+some_key some_value
+some\ key\ with\ spaces : some value
+some_key = some \
+multiline value

@@ -21,6 +21,7 @@
 	--editor__bg-fold: #424242;
 	--pce-ac-icon-class: #d67e00;
 	--pce-ac-icon-enum: #d67e00;
+	--pce-ac-icon-event: #d67e00;
 	--pce-ac-icon-function: #652d90;
 	--pce-ac-icon-interface: #007acc;
 	--pce-ac-icon-variable: #007acc;
@@ -28,15 +29,11 @@
 	--bg-guide-indent: #1d333a40;
 	--pce-tabstop: #0a326433;
 	--pce-invisibles: #3333;
+	--pce-selection: #ede7d4;
 	color-scheme: light;
 }
 
-.prism-code-editor textarea::selection {
-	background: #ede7d4;
-	color: #0000;
-}
-
-.pce-matches .match {
+.pce-match {
 	--search__bg-find: #edba8f;
 }
 
@@ -44,7 +41,7 @@
 	--editor__line-number: #0b216f;
 }
 
-.guide-indents .active {
+.active-indent {
 	--bg-guide-indent: #081e2580;
 }
 

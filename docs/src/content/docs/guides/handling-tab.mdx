@@ -1,0 +1,44 @@
+---
+title: Handling Tab
+description: Learn how to handle tab without creating keyboard traps.
+---
+
+import "../../../components/languages/ts.astro"
+import "../../../css/editor-theme.css"
+import { Aside } from "@astrojs/starlight/components"
+
+The [`defaultCommands(){:js}`](/api-reference/commands/f-defaultcommands) extension binds the Tab key to indenting code. Users can at any time toggle tab capturing with Ctrl+M / Ctrl+Shift+M (Mac) whenever an editor is focused, but if a keyboard navigator is unaware of this, they're effectively trapped in the editor.
+
+One solution that doesn't involve disabling tab capturing by default is to disable it temporarily whenever the user tabs over to an editor. You'll notice that focusing the editor with a pointer allows the Tab key to be used for indenting as normal, whereas this isn't the case if the editor was focused with Tab.
+
+```ts editor
+import { setIgnoreTab, ignoreTab } from "prism-code-editor/commands"
+
+addEventListener("keydown", e => {
+	if (e.key == "Tab") {
+		// Pressing tab doesn't synchronously move focus,
+		// so we add a focusin listener that runs once
+		addEventListener(
+			"focusin",
+			e => {
+				const active = e.target as HTMLElement
+				if (active?.matches(".pce-textarea") && !ignoreTab) {
+					setIgnoreTab(true)
+					active.addEventListener(
+						"blur",
+						() => {
+							setIgnoreTab(false)
+						},
+						{ once: true },
+					)
+				}
+			},
+			{ once: true },
+		)
+	}
+})
+```
+
+<Aside type="caution">
+	This example won't work if you're using the setups and there's no easy fix.
+</Aside>

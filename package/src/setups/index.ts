@@ -1,5 +1,5 @@
-import { EditorOptions, PrismEditor, createEditor } from "../index.js"
-import { getElement } from "../core.js"
+import { EditorOptions, createEditor } from "../index.js"
+import { doc, getElement } from "../core.js"
 import { defaultCommands, editHistory } from "../extensions/commands.js"
 import { copyButton } from "../extensions/copyButton/index.js"
 import { readOnlyCodeFolding } from "../extensions/folding/index.js"
@@ -9,57 +9,60 @@ import { matchBrackets } from "../extensions/matchBrackets/index.js"
 import { matchTags } from "../extensions/matchTags.js"
 import { highlightSelectionMatches } from "../extensions/search/selection.js"
 import { searchWidget } from "../extensions/search/widget.js"
-import { loadTheme } from "../themes/index.js"
+import { EditorTheme, loadTheme } from "../themes/index.js"
+import { showInvisibles } from "../extensions/search/invisibles.js"
 
-export type SetupOptions = Partial<EditorOptions> & { theme: string }
+export type SetupOptions = Partial<EditorOptions> & { theme: EditorTheme }
 
-const addStyles = (shadow: ShadowRoot, styles: string, id?: string) => {
-	const style = document.createElement("style")
-	style.textContent = styles
-	if (id) style.id = id
-	shadow.append(style)
-}
-
-/**
- * Updates the theme of an editor. The editor needs to be inside a shadow root with a style
- * element for the theme whoose `id` is `"theme"`. This is the case when using the setups.
- * @param editor Editor you want to change the theme of.
- * @param theme Name of the new theme.
- */
-const updateTheme = (editor: PrismEditor, theme: string) => {
-	const el = editor.scrollContainer.parentNode
-	if (el instanceof ShadowRoot) {
-		const style = el.getElementById("theme")
-		if (style)
-			loadTheme(theme).then(theme => {
-				theme && (style.textContent = theme)
-			})
+const addStyles = (shadow: ShadowRoot, styles: string, id: string) => {
+	let style = shadow.getElementById(id)
+	if (!style) {
+		style = doc!.createElement("style")
+		style.id = id
+		shadow.append(style)
 	}
+	style.textContent = styles
 }
 
 /**
  * Adds an editor inside a shadow root to the given element and asynchronously loads the styles.
- * @param container Must be an element you can attach a shadow root to
+ * @param container Must be an element you can attach a shadow root to.
  * @param options Options to create the editor as well as the theme to use.
- * @param readyCallback Function called when the styles are loaded.
+ * @param onLoad Function called when the styles are loaded and the editor is
+ * appended to the DOM.
  * @returns Object to interact with the editor.
  */
 const minimalEditor = (
 	container: HTMLElement | string,
 	options: SetupOptions,
-	readyCallback?: () => any,
+	onLoad?: () => any,
 ) => {
-	const el = <HTMLElement>getElement(container)
+	const el = getElement(container)!
 	const shadow = el.shadowRoot || el.attachShadow({ mode: "open" })
-	const editor = createEditor()
+	const editor = createEditor<{ theme: EditorTheme }>(null, null, {
+		update(_, options) {
+			if (theme != (theme = options.theme))
+				loadTheme(theme).then(style => {
+					if (style && theme == options.theme) addStyles(shadow, style, "theme")
+				})
+		},
+	})
+	const remove = editor.remove
+	let removed: boolean
+	let theme = options.theme
+
+	editor.remove = () => {
+		remove()
+		removed = true
+	}
 
 	Promise.all([import("./styles"), loadTheme(options.theme)]).then(([style, theme]) => {
-		if (!editor.removed) {
-			addStyles(shadow, style.default)
+		if (!removed) {
+			addStyles(shadow, style.default, "layout-style")
 			addStyles(shadow, theme || "", "theme")
-			shadow.append(editor.scrollContainer)
+			shadow.append(editor.container)
 			editor.setOptions(options)
-			readyCallback && readyCallback()
+			onLoad && onLoad()
 		}
 	})
 
@@ -68,73 +71,49 @@ const minimalEditor = (
 
 /**
  * Same as {@link minimalEditor}, but also adds {@link indentGuides}, {@link highlightSelectionMatches},
- * {@link matchBrackets}, {@link highlightBracketPairs}, {@link defaultCommands} and {@link editHistory}
- * extensions and language specific behavior.
- * 
+ * {@link matchBrackets}, {@link highlightBracketPairs}, {@link defaultCommands}, {@link editHistory},
+ * {@link searchWidget}, {@link showInvisibles}, and {@link matchTags} extensions and language specific
+ * behavior.
+ *
  * There's also an extension added that clears the history stack every time the value is
  * changed programmatically.
  */
 const basicEditor = (
 	container: HTMLElement | string,
 	options: SetupOptions,
-	readyCallback?: () => any,
+	onLoad?: () => any,
 ) => {
-	import("./common").then(mod => {
-		editor.addExtensions(...mod.common())
+	import("./basic").then(mod => {
+		addStyles(el.shadowRoot!, mod.style, "search-style")
+		editor.addExtensions(...mod.basic())
 	})
 
-	const editor = minimalEditor(container, options, readyCallback)
-
-	return editor
-}
-
-/**
- * Same as {@link basicEditor}, but also adds the {@link searchWidget} and {@link matchTags} extensions.
- * @deprecated Will get merged with {@link basicEditor} in the next major release.
- */
-const fullEditor = (
-	container: HTMLElement | string,
-	options: SetupOptions,
-	readyCallback?: () => any,
-) => {
-	import("./common").then(mod => {
-		editor.addExtensions(...mod.common())
-	})
-
-	const el = <HTMLElement>getElement(container)
-	const editor = minimalEditor(el, options, readyCallback)
-
-	import("../extensions/search/search.css?inline").then(module => {
-		editor.removed || addStyles(el.shadowRoot!, module.default)
-	})
-
-	import("./full").then(mod => {
-		editor.addExtensions(...mod.full())
-	})
+	const el = getElement(container)!
+	const editor = minimalEditor(el, options, onLoad)
 
 	return editor
 }
 
 /**
  * Same as {@link minimalEditor}, but also adds the {@link copyButton}, {@link matchBrackets},
- * {@link highlightBracketPairs}, {@link matchTags}, {@link indentGuides}, {@link highlightSelectionMatches}
+ * {@link highlightBracketPairs}, {@link matchTags}, {@link indentGuides}, {@link highlightSelectionMatches},
  * and {@link readOnlyCodeFolding} extensions. No commands are added which makes this setup
  * best used with the `readOnly` option set to true.
  */
 const readonlyEditor = (
 	container: HTMLElement | string,
 	options: SetupOptions,
-	readyCallback?: () => any,
+	onLoad?: () => any,
 ) => {
 	import("./readonly").then(mod => {
 		mod.addExtensions(editor)
-		editor.removed || addStyles(el.shadowRoot!, mod.style)
+		addStyles(el.shadowRoot!, mod.style, "readonly-style")
 	})
 
-	const el = <HTMLElement>getElement(container)
-	const editor = minimalEditor(el, options, readyCallback)
+	const el = getElement(container)!
+	const editor = minimalEditor(el, options, onLoad)
 
 	return editor
 }
 
-export { basicEditor, fullEditor, minimalEditor, readonlyEditor, updateTheme }
+export { basicEditor, minimalEditor, readonlyEditor }

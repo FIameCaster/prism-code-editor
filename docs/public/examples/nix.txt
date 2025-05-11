@@ -1,0 +1,46 @@
+# Comments
+#
+# Single line comment
+/* Multi-line
+comment */
+
+# String
+""
+"foo\"bar"
+"foo
+bar"
+
+''''
+''foo'''bar''
+''
+foo
+bar
+''
+
+# String interpolation
+"foo${42}bar"
+"foo\${42}bar" # This is not interpolated
+''foo${42}bar''
+''foo''${42}bar'' # This is not interpolated
+
+# URLs and paths
+ftp://ftp.nluug.nl/pub/gnu/hello/hello-2.1.1.tar.gz
+http://example.org/foo.tar.bz2
+/bin/sh
+./builder.sh
+~/foo.bar
+
+# Integers, booleans and null
+0
+42
+
+true
+false
+
+null
+
+# Builtin functions
+name = baseNameOf (toString url);
+imap =
+	if builtins ? genList then
+		f: list: genList (n: f (n + 1) (elemAt list n)) (length list)

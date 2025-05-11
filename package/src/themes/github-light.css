@@ -27,6 +27,7 @@
 	--pce-ac-icon-class: #953800;
 	--pce-ac-icon-constant: #116329;
 	--pce-ac-icon-enum: #953800;
+	--pce-ac-icon-event: #57606a;
 	--pce-ac-icon-function: #6639ba;
 	--pce-ac-icon-interface: #953800;
 	--pce-ac-icon-keyword: #a40e26;
@@ -34,20 +35,17 @@
 	--pce-ac-icon-parameter: #0a3069;
 	--pce-ac-icon-property: #953800;
 	--pce-ac-icon-snippet: #0550ae;
+	--pce-ac-icon-text: #0a3069;
 	--pce-ac-icon-unit: #0550ae;
 	--pce-ac-icon-variable: #953800;
 	--pce-ac-match: #0066bf;
 	--pce-tabstop: #0a326433;
 	--pce-invisibles: #3333;
+	--pce-selection: #add6ff;
 	color-scheme: light;
 }
 
-.prism-code-editor textarea::selection {
-	color: #0000;
-	background: #add6ff;
-}
-
-.pce-matches .match {
+.pce-match {
 	--search__bg-find: #e9e5ba;
 }
 
@@ -55,7 +53,7 @@
 	--editor__line-number: #1f2328;
 }
 
-.guide-indents .active {
+.active-indent {
 	--bg-guide-indent: #1f23284d;
 }
 
@@ -152,11 +150,6 @@
 
 .token.italic {
 	font-style: italic;
-}
-
-.language-jsx .tag > .punctuation,
-.language-tsx .tag > .punctuation {
-	color: #0550ae;
 }
 
 /* Brackets */

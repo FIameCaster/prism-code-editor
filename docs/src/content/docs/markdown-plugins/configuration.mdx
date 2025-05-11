@@ -1,0 +1,41 @@
+---
+title: Configuration
+description: Learn how to configure the rehype plugin or marked extension.
+---
+
+
+import "../../../css/configuration.css"
+
+This page will tell you which configuration options are available for the rehype plugin and marked extension.
+
+## Properties
+
+### `editorsOnly`
+
+When true, code blocks without the `editor` property are ignored, but you can still create code blocks by adding the `editor=false` meta property. This is useful if you're using another plugin to highlight code blocks.
+
+### `defaultEditorProps`
+
+Default properties for fenced code blocks with the `editor` meta property. Useful to avoid repeating the same meta properties on every code block.
+
+### `defaultCodeBlockProps`
+
+Default properties for fenced code blocks without the `editor` meta property, or with `editor=false`. Useful to avoid repeating the same meta properties on every code block.
+
+### `customRenderer`
+
+Method that allows you to wrap the default render function or completely override it. This method gets called with the following arguments:
+
+- `props: CodeBlockProps{:ts}`: Props used to render the editor or code block.
+- `defaultRenderer: (props: CodeBlockProps) => string{:ts}`: The default render function.
+- `isEditor: boolean{:ts}`: Whether or not an editor is being rendered.
+
+The [features page](/markdown-plugins/features#custom-render-function) shows an example.
+
+### `inline`
+
+Options for highlighting inline code between backticks. If this option is omitted, inline highlighting will be disabled. The [features page](/markdown-plugins/features#inline-highlighting) explains this feature in more detail.
+
+### `silenceWarnings`
+
+These plugins will warn you when a code block has a language without a registered grammar. Set this option to `true` to disable the warnings.

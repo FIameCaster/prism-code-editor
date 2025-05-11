@@ -1,9 +1,9 @@
-div.pce-rtl {
+.pce-rtl.pce-rtl {
 	direction: rtl;
 	scroll-padding: 0 var(--padding-left) 0 0;
 }
 
-div.pce-rtl::before,
+.pce-rtl.pce-rtl::before,
 .pce-rtl .pce-line::before {
 	left: auto;
 	right: 0;
@@ -12,6 +12,7 @@ div.pce-rtl::before,
 
 .pce-rtl textarea,
 .pce-rtl .word-matches,
+.pce-rtl .pce-invisibles,
 .pce-rtl .pce-matches,
 .pce-rtl .selection-matches {
 	padding: 0 var(--padding-left) 0 var(--_pse) !important;
@@ -29,14 +30,16 @@ div.pce-rtl::before,
 }
 
 .pce-rtl.show-line-numbers .pce-line::before {
-	margin: 0 calc(-1 * var(--padding-left)) 0 0;
 	padding: 0 0 0 var(--_ns);
 	background: var(--editor__bg);
 }
 
+.pce-rtl.pce-nowrap .pce-line::before {
+	margin: 0 calc(-1 * var(--padding-left)) 0 0;
+}
+
 .pce-rtl .pce-line {
-	padding: 0 0 0 var(--_pse);
-  margin: 0 var(--padding-left) 0 0;
+	padding: 0 var(--padding-left) 0 var(--_pse);
 }
 
 .pce-rtl.pce-nowrap .pce-fold {

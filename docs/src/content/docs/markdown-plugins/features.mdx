@@ -1,0 +1,168 @@
+---
+title: Features
+description: Learn which features are offered by the rehype plugin and marked extension.
+---
+
+import { Aside } from "@astrojs/starlight/components"
+import "../../../components/CodeBlockMount.astro"
+
+## Rainbow brackets
+
+To enable rainbow brackets, add a `tokenizeCallback` property to `defaultEditorProps` and `defaultCodeBlockProps`. Note that editors will also require the [`matchBrackets(){:js}`](/api-reference/match-brackets/f-matchbrackets) extension when mounted for rainbow brackets to work.
+
+```js editor="false"
+import { rainbowBrackets } from "prism-code-editor/ssr"
+
+// Replace rehype with marked if you're using marked
+/** @type {import("rehype-prism-code-editor").PcePluginOptions} */
+const options = {
+	defaultEditorProps: {
+		tokenizeCallback: rainbowBrackets()
+	},
+	defaultCodeBlockProps: {
+		tokenizeCallback: rainbowBrackets()
+	}
+}
+```
+
+The `tokenizeCallback` takes the parsed properties as a second argument. The example below will match the delimiters in Java generics together as well.
+
+```js editor="false"
+import { rainbowBrackets } from "prism-code-editor/ssr"
+
+/** @type {import("rehype-prism-code-editor").PcePluginOptions} */
+const options = {
+	defaultCodeBlockProps: {
+		tokenizeCallback(tokens, props) {
+			if (props.language == "java") {
+				rainbowBrackets("()[]{}<>")(tokens)
+			} else {
+				rainbowBrackets()(tokens)
+			}
+		}
+	}
+}
+```
+
+To remove the tokenize callback for individual code blocks, you can add `tokenizeCallback=null` to the meta of the code block.
+
+## Custom render function
+
+You can provide a custom render function to wrap the default render function or completely override it. The example below wraps to output to add a title with a file name for code blocks. Add a `title` meta property to the code block, and you should see a `<figcaption>{:html}` element with the specified title.
+
+```js editor="false"
+/** @type {import("rehype-prism-code-editor").PcePluginOptions} */
+const options = {
+	customRenderer({ title, ...props }, defaultRenderer, isEditor) {
+		if (isEditor) return defaultRenderer(props)
+
+		return `<div class="code-block">${
+			title ? `<figcaption class="code-title"><span>${title}</span></figcaption>` : ""
+		}${defaultRenderer(props)}</div>`
+	}
+}
+```
+
+## Passing extra options to the client
+
+The previous example shows how a custom render function can access extra meta properties you define. In addition, any properties the default render function doesn't use are stringified to JSON. This JSON will be parsed by [`forEachCodeBlock(){:js}`](/api-reference/client/f-foreachcodeblock) or [`mountEditorsUnder(){:js}`](/api-reference/client/f-mounteditorsunder).
+
+````markdown editor="false"
+```js myProp
+console.log("Hi")
+```
+````
+
+We can now check if a code block had the `myProp` meta property inside the `forEachCodeBlock` callback.
+
+```ts editor="false"
+import {
+	forEachCodeBlock,
+	highlightBracketPairsOnHover
+} from "prism-code-editor/client"
+
+const codeBlocks = forEachCodeBlock<{
+	myProp?: boolean
+}>(document, (codeBlock, props) => {
+	if (props.myProp) highlightBracketPairsOnHover(codeBlock)
+})
+```
+
+<Aside type="tip">
+	It might be a good idea to pre- or postfix your meta property names with e.g. `_` or `$`. This makes them distinguishable from other meta properties and eliminates any chance of name collisions in future releases.
+</Aside>
+
+
+## Line highlighting
+
+In addition to all features described in the [code blocks guide](/guides/code-blocks), code blocks support line highlighting through the `highlight`, `ins`, and `del` meta properties.
+
+````markdown editor="false"
+```js ins={2}
+if (true) {
+	console.log(1)
+}
+```
+````
+
+Results in
+
+```js editor="false" ins={2}
+if (true) {
+	console.log(1)
+}
+```
+
+This works by adding an extra class to the line. `highlight` adds the class `highlighted`, `ins` adds `inserted`, and `del` adds `deleted`. None of the themes add styles to these classes, so you must do it yourself. The example below adds a semi-transparent background to the lines along with a border on the left using an inset box shadow.
+
+```css editor="false"
+.pce-line.deleted {
+	background: #862d2766;
+	box-shadow: inset 2px 0 0 #b4554bd0;
+}
+
+.pce-line.inserted {
+	background: #1e571566;
+	box-shadow: inset 2px 0 0 #487f3bd0;
+}
+
+.pce-line.highlighted {
+	background: #fff2;
+	box-shadow: inset 2px 0 0 #fff4;
+}
+```
+
+If you're using line numbers, you can make sure the line number element inherits the shadow and background.
+
+```css editor="false"
+.pce-line::before {
+	background: inherit;
+	box-shadow: inherit;
+}
+```
+
+## Meta parsing
+
+The meta parsing uses HTML-attribute-like syntax. The parser will attempt to parse the property value as a boolean, null, or a number, and fall back to a string otherwise. If the value is wrapped by `{}`, then the value is parsed as a `Set{:js}` of numbers equal to the union of all ranges between the brackets. E.g. `{1,2,5-7}` would become `new Set([1, 2, 5, 6, 7]){:js}`. You can see the regular expressions used for parsing below:
+
+```js editor="false"
+let range = /(\d+)(?:\s*-\s*(\d+))?/g
+let prop = /([^\s"'{}=]+)(?:\s*=\s*("[^"]*"|'[^']*'|\{[^}]*\}|[^\s"'{}=]+))?/g
+```
+
+## Inline highlighting
+
+To enable highlighting of inline code, pass an object to the `inline` option. This object currently accepts an optional `tokenizeCallback` property to enable rainbow brackets for example.
+
+```js editor="false"
+import { rainbowBrackets } from "prism-code-editor/ssr"
+
+/** @type {import("rehype-prism-code-editor").PcePluginOptions} */
+const options = {
+	inline: {
+		tokenizeCallback: rainbowBrackets()
+	}
+}
+```
+
+To specify the language used for syntax highlighting, add a `{:language}` marker at the end of the code snippet. E.g. `` `code.replace(/\r\n?/g, "\n"){:js}` `` becomes `code.replace(/\r\n?/g, "\n"){:js}`.

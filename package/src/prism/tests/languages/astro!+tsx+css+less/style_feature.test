@@ -1,0 +1,70 @@
+<style>
+	h1 {
+		color: red;
+	}
+</style>
+
+<style lang="less">
+	h1 {
+		color: @color;
+	}
+</style>
+
+----------------------------------------------------
+
+[
+	["style", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["style"]],
+			["punctuation", ">"]
+		]],
+		["code-block", [
+			["selector", "h1"],
+			["punctuation", "{"],
+
+			["property", "color"],
+			["punctuation", ":"],
+			" red",
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["style"]],
+			["punctuation", ">"]
+		]]
+	]],
+
+	["style", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["style"]],
+			["attr-name", ["lang"]],
+			["attr-equals", "="],
+			["attr-value", [
+				["punctuation", "\""],
+				"less",
+				["punctuation", "\""]
+			]],
+			["punctuation", ">"]
+		]],
+		["code-block", [
+			["selector", ["h1"]],
+			["punctuation", "{"],
+
+			["property", "color"],
+			["punctuation", ":"],
+			["variable", "@color"],
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["style"]],
+			["punctuation", ">"]
+		]]
+	]]
+]

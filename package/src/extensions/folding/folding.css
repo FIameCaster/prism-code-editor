@@ -40,7 +40,7 @@
 
 .pce-unfold {
 	position: absolute;
-	padding: inherit;
+	padding-right: inherit;
 	top: 0;
 	color: #0000;
 	z-index: 1;

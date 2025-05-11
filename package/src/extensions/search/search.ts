@@ -1,12 +1,13 @@
-import { regexEscape } from "../../utils/index.js"
+import { addOverlay, regexEscape } from "../../utils/index.js"
 import { createTemplate } from "../../core.js"
 import { PrismEditor } from "../../types.js"
+import { updateNode } from "../../utils/local.js"
 
-const searchTemplate = createTemplate(
+const searchTemplate = /* @__PURE__ */ createTemplate(
 	'<div style="color:#0000;contain:strict;padding:0 var(--_pse) 0 var(--padding-left)" aria-hidden=true> ',
 )
 
-const matchTemplate = createTemplate("<span> ")
+const matchTemplate = /* @__PURE__ */ createTemplate("<span> ")
 
 const testBoundary = (str: string, position: number, pattern = /[_\p{N}\p{L}]{2}/u) => {
 	if (!position) return false
@@ -59,7 +60,6 @@ export interface SearchAPI {
 const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	const container = searchTemplate()
 	const nodes: ChildNode[] = [container.firstChild!]
-	const nodeValues: string[] = [" "]
 	const matchPositions: [number, number][] = []
 	const stopSearch = () => {
 		if (matchPositions[0]) {
@@ -69,7 +69,7 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 	}
 
 	let regex: RegExp
-	let nodeCount = 1
+	let lastNode = 0
 
 	return {
 		search(str, caseSensitive, wholeWord, useRegExp, selection, filter, pattern) {
@@ -111,23 +111,19 @@ const createSearchAPI = (editor: PrismEditor): SearchAPI => {
 					nodes[i++] = new Text()
 				}
 
-				for (i = nodeCount - 1; i > l; ) nodes[i--].remove()
-				if (nodeCount <= l) container.append(...nodes.slice(nodeCount, l + 1))
+				for (i = l; i < lastNode; ) nodes[++i].remove()
+				if (lastNode < l) container.append(...nodes.slice(lastNode + 1, l + 1))
 
-				// Diffing from bottom to top as well should be better
 				let prevEnd = 0
-				for (i = 0; i < l; ++i) {
+				for (i = 0; i < l; ) {
 					const [start, end] = matchPositions[i / 2]
-					const before = value.slice(prevEnd, start)
-					const match = value.slice(start, (prevEnd = end))
-
-					if (before != nodeValues[i]) (<Text>nodes[i]).data = nodeValues[i] = before
-					if (match != nodeValues[++i]) (<Text>nodes[i].firstChild).data = nodeValues[i] = match
+					updateNode(nodes[i++] as Text, value.slice(prevEnd, start))
+					updateNode(nodes[i++].firstChild as Text, value.slice(start, (prevEnd = end)))
 				}
 
-				;(<Text>nodes[l]).data = nodeValues[l] = value.slice(prevEnd)
-				if (!container.parentNode) editor.overlays.append(container)
-				nodeCount = l + 1
+				updateNode(nodes[l] as Text, value.slice(prevEnd))
+				if (!container.parentNode) addOverlay(editor, container)
+				lastNode = l
 			} else stopSearch()
 		},
 		container,

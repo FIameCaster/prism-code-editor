@@ -1,0 +1,47 @@
+---
+// Component script
+import MyComponent from "./MyComponent.astro"
+type Props = {
+	type?: string
+	foo?: any
+}
+
+const items = ["1", "2", "3"]
+---
+
+<!-- Template -->
+<MyComponent someProperty={false} />
+<button type={Astro.props.type} {...foo}>
+	Click me
+</button>
+
+<!-- Note that expressions use TSX -->
+<!-- So you'll get autocompletion for React TSX there -->
+<ul>
+	{items.map((item: string) => <li>{item}</li>)}
+</ul>
+
+<!-- Inline script with JavaScript -->
+<script is:inline>
+	let string = "This is not TypeScript!"
+</script>
+
+<!-- Script with TypeScript -->
+<script>
+	let s: string = "This is TypeScript!"
+</script>
+
+<!-- Normal style element -->
+<style>
+	div {
+		color: red;
+	}
+</style>
+
+<!-- Style element with SCSS -->
+<style lang="scss">
+	$primary-color: #333;
+	body {
+		color: $primary-color;
+	}
+</style>

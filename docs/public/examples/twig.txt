@@ -1,0 +1,25 @@
+{# Comments #}
+{# Some comment
+on multiple lines
+with <html></html>
+inside #}
+
+{# Keywords #}
+{% if foo %} bar {% endif %}
+{% for key, value in arr if value %} {{ do_something() }} {% endfor %}
+{% include 'header.html' %}
+{% include 'template.html' with {'foo': 'bar'} %}
+
+{# Operators #}
+{{ not a }}
+{{ 20 // 7 }}
+{{ b b-and c }}
+{% if phone matches '/^[\\d\\.]+$/' %} ... {% endif %}
+
+{# Twig embedded in HTML #}
+<div>
+{% if foo %}
+	<p>Foo!</p>
+{% else %}
+	<p>Not foo...</p>
+{% endif %}

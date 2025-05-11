@@ -1,15 +1,13 @@
 import { PrismEditor } from "../../index.js"
 import { Token } from "../../prism/core.js"
 import { TokenStream } from "../../prism/types.js"
+import { updateNode } from "../../utils/local.js"
 import { matchTemplate } from "../search/search.js"
-import { Completion, CompletionContext, CompletionSource } from "./types.js"
+import { map } from "./tooltip.js"
+import { Completion, CompletionContext, CompletionSource} from "./types.js"
 
 const optionsFromKeys = (obj: object, icon?: string): Completion[] =>
 	Object.keys(obj).map(tag => ({ label: tag, icon }))
-
-const updateNode = (node: Text, text: string) => {
-	if (node.data != text) node.data = text
-}
 
 const updateMatched = (container: HTMLElement, matched: number[], text: string) => {
 	let nodes = container.childNodes
@@ -32,33 +30,35 @@ const updateMatched = (container: HTMLElement, matched: number[], text: string) 
 }
 
 /**
- * Completion source that returns a list of snippets if `path` property of the context
+ * Completion source that returns a list of options if `path` property of the context
  * is present and only contains a single string.
- * @param snippets Snippets to complete.
+ * @param options Options to complete.
  */
-const completeSnippets = (snippets: Completion[]): CompletionSource<{ path: string[] | null }> => {
+const completeFromList = (options: Completion[]): CompletionSource<{ path: string[] | null }> => {
 	return ({ path, explicit, pos }) => {
 		if (path?.length == 1 && (path[0] || explicit)) {
 			return {
 				from: pos - path[0].length,
-				options: snippets,
+				options: options,
 			}
 		}
 	}
 }
 
 /**
- * Utility that searches the editor's {@link TokenStream} for strings.
+ * Utility that searches the editor's {@link TokenStream} for strings. This utility will
+ * only search parts of the document whose language has the same completion definition
+ * registered.
  * @param context Current completion context.
  * @param editor Editor to search in.
  * @param filter Function used to filter tokens you want to search in. Is called with the
  * type of the token and its starting position. If the filter returns true, the token
  * will be searched.
  * @param pattern Pattern used to search for words.
- * @param init Words to initialize the result with.
- * @param tokensOnly If `true` only the text of tokens whoose `content` is a string will
- * be searched. If not any string inside the {@link TokenStream} can be searched.
- * @returns An array with found identifers/words.
+ * @param init Words that should be completed even if they're not found in the document.
+ * @param tokensOnly If `true` only the text of tokens whose `content` is a string will
+ * be searched. If `false`, any string inside the {@link TokenStream} can be searched.
+ * @returns A set with found identifers/words.
  */
 const findWords = (
 	context: CompletionContext,
@@ -69,7 +69,7 @@ const findWords = (
 	tokensOnly?: boolean,
 ) => {
 	const cursorPos = context.pos
-	const language = context.language
+	const definition = map[context.language]
 	const result = new Set(init)
 	const search = (tokens: TokenStream, pos: number, isCorrectLang: boolean) => {
 		let i = 0
@@ -99,7 +99,7 @@ const findWords = (
 						search(
 							content,
 							pos,
-							aliasType.slice(0, 9) == "language-" ? aliasType.slice(9) == language : false,
+							aliasType.slice(0, 9) == "language-" ? definition == map[aliasType.slice(9)] : false,
 						)
 					}
 				}
@@ -116,9 +116,45 @@ const findWords = (
 		}
 	}
 
-	search(editor.tokens, 0, language == editor.options.language)
+	search(editor.tokens, 0, definition == map[editor.options.language])
 
-	return [...result]
+	return result
 }
 
-export { optionsFromKeys, updateMatched, updateNode, findWords, completeSnippets }
+const attrSnippet = (
+	name: string,
+	quotes: string,
+	icon?: Completion["icon"],
+	boost?: number,
+): Completion => ({
+	label: name,
+	icon,
+	insert: name + "=" + quotes,
+	tabStops: [name.length + 2, name.length + 2, name.length + 3],
+	boost,
+})
+
+const completionsFromRecords = (
+	records: (Record<string, unknown> | undefined)[],
+	icon?: Completion["icon"],
+): Completion[] => {
+	const names = new Set<string>()
+
+	records.forEach(tags => {
+		for (let key in tags) names.add(key)
+	})
+
+	return Array.from(names, name => ({
+		label: name,
+		icon: icon,
+	}))
+}
+
+export {
+	optionsFromKeys,
+	updateMatched,
+	findWords,
+	completeFromList,
+	attrSnippet,
+	completionsFromRecords,
+}

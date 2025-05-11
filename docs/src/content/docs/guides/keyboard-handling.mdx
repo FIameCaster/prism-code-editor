@@ -1,0 +1,41 @@
+---
+title: Keyboard handling
+description: Learn how Prism code editor handles keyboard events.
+---
+
+import "../../../components/languages/js.astro"
+import "../../../css/editor-theme.css"
+
+## Adding commands
+
+The [`PrismEditor.keyCommandMap{:js}`](/api-reference/index/i-prismeditor/#keycommandmap) record maps [`KeyboardEvent.key{:js}`](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key) to a function called when that key is pressed. This can be useful to add a simple keyboard shortcut without adding an entire `keydown` handler.
+
+### Overriding commands
+
+The [`defaultCommands(){:js}`](/api-reference/commands/f-defaultcommands) extension registers multiple commands to `keyCommandMap`. These can be overridden after the `defaultCommands(){:js}` is added.
+
+```js editor
+// Adding a Alt+Enter shortcut without removing the default enter functionality
+const oldEnterCallback = editor.keyCommandMap.Enter
+
+editor.keyCommandMap.Enter = (e, selection, value) => {
+	if (e.altKey) {
+		// Shortcut code goes here
+		return true
+	}
+	return oldEnterCallback?.(e, selection, value)
+}
+
+// Removing the default backspace command
+editor.keyCommandMap.Backspace = null
+```
+
+If the handler returns `true`, `e.preventDefault(){:js}` and `e.stopImmediatePropagation(){:js}` get called automatically.
+
+## Adding keydown handlers
+
+Multiple extensions add `keydown` event handlers to the textarea instead of using the `keyCommandMap`. Some of them also use [capture mode](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#usecapture). This is because if a handler in the `keyCommandMap` returns `true`, `e.stopImmediatePropagation(){:js}` gets called. Using capture mode ensures the handler runs before any `keyCommandMap` handlers.
+
+## Adding input commands
+
+There's also an [`inputCommandMap`](/api-reference/index/i-prismeditor/#inputcommandmap) mapping user input ([`InputEvent.data`](https://developer.mozilla.org/en-US/docs/Web/API/InputEvent/data)) to functions called when that input is typed. This is used by `defaultCommands(){:js}` to automatically close brackets, quotes, and XML tags. If the handler returns `true`, `e.preventDefault(){:js}` and `e.stopImmediatePropagation(){:js}` get called in the `beforeinput` handler.

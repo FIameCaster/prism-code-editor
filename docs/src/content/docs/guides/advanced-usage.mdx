@@ -1,0 +1,81 @@
+---
+title: Advanced Usage
+description: Learn how to fully customize which extensions are added to editors.
+---
+
+import "../../../components/languages/js.astro"
+import "../../../css/editor-theme.css"
+
+The setups are a nice way to get an editor up and running with minimal configuration, but they have multiple downsides. If you want to fully customize which extensions are added and which styles are imported, this page will show you how.
+
+## Creating an editor
+
+All the setups are an abstraction over [`createEditor(){:js}`](/api-reference/index/f-createeditor) which can be used directly for more control.
+```js editor file="index.js"
+import "prism-code-editor/prism/languages/javascript"
+import { createEditor } from "prism-code-editor"
+import { matchBrackets } from "prism-code-editor/match-brackets"
+
+// Importing styles
+import "prism-code-editor/layout.css"
+import "prism-code-editor/themes/github-dark.css"
+
+export const editor = createEditor(
+	"#editor",
+	{ language: "javascript" },
+	// Initial extensions
+	matchBrackets(),
+)
+
+import("./extensions")
+```
+
+### Adding extensions
+
+The 3rd argument onward to `createEditor(){:js}` are the extensions you want the editor to be initialized with, but you can also add more extensions later with the [`editor.addExtensions(){:js}`](/api-reference/index/i-prismeditor#addextensions) method. The example shown uses a dynamic `import(){:js}` to load most extensions. This enables code splitting for even faster load times.
+
+```js editor file="extensions.js"
+// Required by searchWidget()
+import "prism-code-editor/search.css"
+// Required by copyButton()
+import "prism-code-editor/copy-button.css"
+// Required by indentGuides()
+import "prism-code-editor/guides.css"
+// Adds automatic indentation and comment toggling
+import "prism-code-editor/languages/html"
+import "prism-code-editor/languages/clike"
+import "prism-code-editor/languages/css"
+
+import { searchWidget, highlightSelectionMatches } from "prism-code-editor/search"
+import { defaultCommands, editHistory } from "prism-code-editor/commands"
+import { cursorPosition } from "prism-code-editor/cursor"
+import { copyButton } from "prism-code-editor/copy-button"
+import { matchTags } from "prism-code-editor/match-tags"
+import { highlightBracketPairs } from "prism-code-editor/highlight-brackets"
+import { indentGuides } from "prism-code-editor/guides"
+import { editor } from "./index"
+
+editor.addExtensions(
+	highlightSelectionMatches(),
+	searchWidget(),
+	defaultCommands(),
+	copyButton(),
+	matchTags(),
+	highlightBracketPairs(),
+	cursorPosition(),
+	editHistory(),
+	indentGuides(),
+)
+```
+
+## Utilities
+
+The [`PrismEditor{:js}`](/api-reference/index/i-prismeditor) object returned by `createEditor(){:js}` has some useful properties and methods, but to keep the core as light as possible, many functions that could've been methods on `PrismEditor{:js}` are external instead. This includes [`insertText(){:js}`](/api-reference/utils/f-inserttext/), [`setSelection(){:js}`](/api-reference/utils/f-setselection/), [`getLanguage(){:js}`](/api-reference/utils/f-getlanguage/), and [`getClosestToken(){:js}`](/api-reference/utils/f-getclosesttoken/)
+
+## Using placeholders
+
+`createEditor(){:js}` will append the editor to your container. If you want more control over where your editor ends up, you can use [`editorFromPlaceholder(){:js}`](/api-reference/index/f-editorfromplaceholder) instead, which will replace the placeholder with the new editor. Additionally, the `textContent` of the placeholder will be used as the editor's value unless `options.value{:js}` is defined. The placeholder doesn't have to be an element; it can also be a `Text{:js}` or `Comment{:js}` node.
+
+### Avoiding layout shifts
+
+Adding editors to your page can cause layout shifts. If you're using `editorFromPlaceholder(){:js}` with placeholders that are the same size as the editor, layout shifts can be avoided. [Working example](https://stackblitz.com/edit/vitejs-vite-sbvab7?file=index.html,src%2Fstyle.css,src%2Fmain.ts,readme.md). If you're using a static-site generator, a better solution can be found in the [Server-side rendering guide](./server-side-rendering).

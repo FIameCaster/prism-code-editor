@@ -1,0 +1,29 @@
+; Comments
+; This is a comment
+
+; Labels
+label1:   ; a label
+
+; Opcodes
+SEI
+CLC
+
+; lowercase
+inx
+bne label1
+
+; Assembler directives
+.segment CODE
+.word $07d3
+
+; Registers
+ASL A  ; "A"
+LDA label1,x  ; "x"
+
+; Strings
+.include "header.asm"
+
+; Numbers
+LDA #127
+STA $80f0
+LDY #%01011000

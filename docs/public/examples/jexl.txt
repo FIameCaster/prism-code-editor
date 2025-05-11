@@ -1,0 +1,6 @@
+Full example
+[
+	fun(1,2),
+	{ obj: "1" }.obj,
+	ctx|transform
+]|join(", ")

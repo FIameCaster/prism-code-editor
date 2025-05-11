@@ -309,6 +309,16 @@ functions.add("has")
 functions.add("is")
 functions.add("where")
 functions.add("dir")
+functions.add("lang")
+functions.add("matches")
+functions.add("state")
+functions.add("host")
+functions.add("host-context")
+functions.add("not")
+functions.add("nth-child")
+functions.add("nth-of-type")
+functions.add("nth-last-child")
+functions.add("nth-last-of-type")
 
 line = 'const pseudoClasses = /* @__PURE__ */ toCompletions(":", "function", "'
 pseudos.forEach(pseudo => {
@@ -334,6 +344,7 @@ data.pseudoElements.forEach(({ name: value }) => {
 
 functions.add("part")
 functions.add("slotted")
+functions.add("highlight")
 
 line = 'const pseudoElements = /* @__PURE__ */ toCompletions("::", "function", "'
 

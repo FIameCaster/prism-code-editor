@@ -1,0 +1,100 @@
+---
+title: Working with Prism
+description: Learn how you can use Prism code editor's Prism instance.
+---
+
+import "../../../components/languages/js.astro"
+import "../../../css/editor-theme.css"
+
+This library uses a custom Prism instance that's better suited for usage in editors. This page will tell you what's different compared to PrismJS and how you can use this Prism instance to perform syntax highlighting outside an editor.
+
+Everything Prism related can run outside the browser (in Node.js for example), which is useful to do syntax highlighting on a server.
+
+## Importing grammars
+
+Prism grammars are imported from `prism-code-editor/prism/languages/*`. Importing a grammar will automatically register it through side effects.
+
+### Importing multiple grammars
+
+If you need access to many languages, you can import the following entry points:
+
+- `prism-code-editor/prism/languages` for all languages (~180kB)
+- `prism-code-editor/prism/languages/common` for [42 common languages](https://github.com/FIameCaster/prism-code-editor/tree/main/package/src/prism/languages/common.js) (~30kB)
+
+If you want access to many grammars, but don't need most of them instantly, you can dynamically import these entry points.
+
+```js editor
+import "prism-code-editor/prism/languages/markdown"
+import { createEditor } from "prism-code-editor"
+
+const editor = createEditor("#editor", { language: "markdown" })
+
+import("prism-code-editor/prism/languages/common")
+	.then(() => editor.update())
+```
+
+Here, we created a simple markdown editor and only import the `markdown` grammar initially. Once the common languages load, the editor gets updated which will highlight any of the markdown code blocks.
+
+### Import order
+
+If you're importing multiple grammars, import order usually won't matter. The exception comes when grammars modify other grammars. Take this example:
+
+```js editor
+import "prism-code-editor/prism/languages/typescript"
+import "prism-code-editor/prism/languages/js-templates"
+```
+
+This won't add `js-templates` features to `typescript` because it extended `javascript` before `js-templates` was added. Swapping the import order fixes the issue.
+
+## Highlighting code
+
+This library only includes functions similar to Prism's low-level functions since the high-level functions are rather useless for a code editor.
+
+Firstly, we have [`highlightText(){:js}`](/api-reference/prism/f-highlighttext). This function is very similar to [`Prism.highlight(){:js}`](https://prismjs.com/docs/Prism.html#.highlight) and converts a string of code to an HTML string.
+
+If you want to modify the tokens before they're converted to HTML, you can use [`tokenizeText(){:js}`](/api-reference/prism/f-tokenizetext) followed by [`highlightTokens(){:js}`](/api-reference/prism/f-highlighttokens).
+
+The HTML produced by `highlightText(){:js}` and `highlightTokens(){:js}` differs slightly from that created by PrismJS. It can be safely split into lines with something like `html.split("\n"){:js}`. Splitting the HTML into lines makes it easier to add line numbers and do simple line-based diffing for better performance in an editor.
+
+## Adding your own languages
+
+To add your own languages, simply mutate the [`languages`](/api-reference/prism/v-languages) record.
+
+```js editor
+import { languages } from "prism-code-editor/prism"
+
+languages["my-language"] = {
+	// Tokens go here
+}
+```
+
+### Helper functions
+
+The helpers from Prism such as [`extend(){:js}`](/api-reference/prism/utils/f-extend) and [`insertBefore(){:js}`](/api-reference/prism/utils/f-insertbefore), are exported from a different entry point (`prism-code-editor/prism/utils`). `insertBefore(){:js}` is useful for modifying existing language definitions. `extend(){:js}` is used to create languages that are similar to existing languages.
+
+
+## Grammar differences
+
+There are multiple incompatibilities with PrismJS you should be aware of if you're want to create your own grammars.
+
+PrismJS automatically adds the global regex flag to the pattern of greedy tokens. This has been removed, so if you're using your own Prism grammars, you might need to add the `g` flag to the greedy tokens.
+
+### Symbol properties
+
+The `rest` property of grammars has been made a [`symbol`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol). Read the API reference for the [`rest` symbol](/api-reference/prism/v-rest) to read the purpose of the `rest` property.
+
+PrismJS v2 adds custom tokenizers through a `tokenize` symbol. This library has implemented this too. Read the API reference for the [`tokenize` symbol](/api-reference/prism/v-tokenize) to know more about custom tokenizers and what they're useful for.
+
+### Removed grammars
+
+The `markup-templating` language has been removed in favor of the [`embeddedIn(){:js}`](/api-reference/prism/utils/f-embeddedin) helper which is much more flexible and powerful. This is a feature that's also planned for PrismJS v2.
+
+The `js-extras` language has been removed and most of its features have been moved to the plain `javascript` grammar instead.
+
+### Changed grammars
+
+There have been made improvements to many of Prism's grammars. The most notable changes have been made to the markup- and JSX tags' grammars. Prism's themes will work to highlight these tokens, but there can be some small visual changes.
+
+### New grammars
+
+This library has 3 grammars not present in PrismJS: `astro`, `svelte`, and `vue`. You can try these languages in the [playground](/playground). None of these languages automatically import any other grammars, so extra imports are required for syntax highlighting inside `<script>{:html}`, `<style>{:html}`, and bracket expressions. Astro requires the `tsx` grammar for bracket expressions. `svelte` and `vue` support typescript inside the script element with `<script lang="ts">{:html}`. All three support changing the language inside style elements with e.g. `<style lang="scss">{:html}`, but syntax highlighting inside the style element will be disabled in this case if the `scss` grammar isn't present.

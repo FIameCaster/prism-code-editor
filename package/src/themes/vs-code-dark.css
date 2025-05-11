@@ -24,9 +24,11 @@
 	--bg-guide-indent: #9994;
 	--pce-ac-icon-class: #ee9d28;
 	--pce-ac-icon-enum: #ee9d28;
+	--pce-ac-icon-event: #ee9d28;
 	--pce-ac-icon-function: #b180d7;
 	--pce-ac-icon-interface: #75beff;
 	--pce-ac-icon-variable: #75beff;
+	--pce-selection: #264f78;
 	color-scheme: dark;
 }
 
@@ -34,13 +36,7 @@
 	--editor__bg-highlight: #282828;
 }
 
-/* Selection */
-.prism-code-editor textarea::selection {
-	background: #264f78;
-	color: #0000;
-}
-
-.pce-matches .match {
+.pce-match {
 	--search__bg-find: #675451;
 }
 
@@ -48,7 +44,7 @@
 	--editor__line-number: #ccc;
 }
 
-.guide-indents .active {
+.active-indent {
 	--bg-guide-indent: #eee6;
 }
 
@@ -90,7 +86,10 @@
 .token.string,
 .token.string-property.property,
 .token.char,
-.token.deleted {
+.token.deleted,
+.token.attr-value,
+.token.attr-value:not(.script):not(.style) > .punctuation,
+.token.color {
 	color: #ce9178;
 }
 
@@ -154,12 +153,6 @@
 	color: #808080;
 }
 
-.token.attr-value,
-.token.attr-value > .punctuation,
-.token.color {
-	color: #ce9178;
-}
-
 .token.namespace {
 	color: #4ec9b0;
 }
@@ -182,6 +175,9 @@
 .language-xml,
 .language-svg,
 .language-text,
+.language-vue,
+.language-svelte,
+.language-astro,
 .language-css,
 .language-sass,
 .language-scss {
@@ -211,6 +207,7 @@
 
 /* Key words */
 
+.token.block > .keyword,
 .token.keyword.module,
 .token.keyword.control-flow,
 .token.keyword-if,

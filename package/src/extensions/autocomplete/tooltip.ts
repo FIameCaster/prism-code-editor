@@ -1,23 +1,25 @@
 import { BasicExtension, InputSelection } from "../../index.js"
-import { addTextareaListener, createTemplate, preventDefault } from "../../core.js"
+import { addListener, createTemplate, preventDefault } from "../../core.js"
 import { addTooltip } from "../../tooltips.js"
 import {
+	addOverlay,
 	getLanguage,
 	getLineBefore,
 	getModifierCode,
 	insertText,
 	prevSelection,
+	setSelection,
 } from "../../utils/index.js"
 import { Cursor, cursorPosition } from "../cursor.js"
 import { AutoCompleteConfig, Completion, CompletionContext, CompletionDefinition } from "./types.js"
 import { searchTemplate } from "../search/search.js"
-import { updateMatched, updateNode } from "./utils.js"
-import { getStyleValue } from "../../utils/local.js"
+import { updateMatched } from "./utils.js"
+import { getStyleValue, updateNode } from "../../utils/local.js"
 
 let count = 0
 
-const template = createTemplate("<div class=pce-ac-tooltip><ul role=listbox>")
-const rowTemplate = createTemplate(
+const template = /* @__PURE__ */ createTemplate("<div class=pce-ac-tooltip><ul role=listbox>")
+const rowTemplate = /* @__PURE__ */ createTemplate(
 	"<li class=pce-ac-row role=option><div></div><div> </div><div class=pce-ac-details> ",
 )
 
@@ -45,9 +47,9 @@ const registerCompletions = <T extends object>(
  *
  * Requires the {@link cursorPosition} extension to work.
  *
- * Requires styling from `prism-code-editor/autocomplete.css`. Also requires a stylesheet
+ * Requires styling from `prism-code-editor/autocomplete.css` in addition to a stylesheet
  * for icons. `prism-code-editor/autocomplete-icons.css` adds some icons from VSCode, but
- * you can define your own icons instead.
+ * you can use your own icons instead.
  *
  * @see {@link Completion.icon} for how to style your own icons.
  */
@@ -55,6 +57,7 @@ const autoComplete =
 	(config: AutoCompleteConfig): BasicExtension =>
 	(editor, options) => {
 		let isOpen: boolean
+		let isTyping: boolean
 		let shouldOpen: boolean
 		let currentOptions: [number, number[], number, number, Completion][]
 		let numOptions: number
@@ -79,11 +82,11 @@ const autoComplete =
 		const list = tooltip.firstChild as HTMLUListElement
 		const id = (list.id = "pce-ac-" + count++)
 		const rows = list.children as HTMLCollectionOf<HTMLLIElement>
-		const add = editor.addListener
 		const prevIcons: string[] = []
 		const hide = () => {
 			if (isOpen) {
 				_hide()
+				textarea.removeAttribute("aria-controls")
 				textarea.removeAttribute("aria-haspopup")
 				textarea.removeAttribute("aria-activedescendant")
 				isOpen = false
@@ -174,14 +177,14 @@ const autoComplete =
 				prevLength = editor.value.length
 				updateStops()
 				currentSelection = getSelection()
-				if (!tabStopsContainer.parentNode) editor.overlays.append(tabStopsContainer)
+				if (!tabStopsContainer.parentNode) addOverlay(editor, tabStopsContainer)
 			}
 			cursor!.scrollIntoView()
 		}
 
 		const moveActiveStop = (offset: number) => {
 			activeStop += offset
-			editor.setSelection(stops![activeStop], stops![activeStop + 1])
+			setSelection(editor, stops![activeStop], stops![activeStop + 1])
 			cursor!.scrollIntoView()
 		}
 
@@ -246,7 +249,7 @@ const autoComplete =
 					}
 
 					if (!isOpen) {
-						const { clientHeight, clientWidth } = editor.scrollContainer
+						const { clientHeight, clientWidth } = editor.container
 						const pos = cursor!.getPosition()
 						const max = Math.max(pos.bottom, pos.top)
 						tooltip.style.width = `min(25em, ${clientWidth}px - var(--padding-left) - 1em)`
@@ -259,6 +262,7 @@ const autoComplete =
 
 					isOpen = true
 					show(config.preferAbove)
+					textarea.setAttribute("aria-controls", id)
 					textarea.setAttribute("aria-haspopup", "listbox")
 					updateActive()
 				} else hide()
@@ -268,7 +272,7 @@ const autoComplete =
 		const addSelectionHandler = () => {
 			if (!cursor && (cursor = editor.extensions.cursor)) {
 				// Must be added after the cursor's selectionChange handler
-				add("selectionChange", selection => {
+				editor.on("selectionChange", selection => {
 					if (stops && (selection[0] < stops[activeStop] || selection[1] > stops[activeStop + 1])) {
 						clearStops()
 					}
@@ -276,12 +280,12 @@ const autoComplete =
 						shouldOpen = false
 						startQuery()
 					} else hide()
+					isTyping = false
 				})
 			}
 		}
 
 		tabStopsContainer.className = "pce-tabstops"
-		textarea.setAttribute("aria-controls", id)
 		textarea.setAttribute("aria-autocomplete", "list")
 
 		for (let i = 0; i < windowSize; ) {
@@ -289,7 +293,7 @@ const autoComplete =
 			rows[i].id = id + "-" + i++
 		}
 
-		tooltip.onscroll = () => {
+		addListener(tooltip, "scroll", () => {
 			setRowHeight()
 			const newOffset = Math.min(Math.floor(tooltip.scrollTop / rowHeight), numOptions - windowSize)
 			if (newOffset == offset || newOffset < 0) return
@@ -301,9 +305,9 @@ const autoComplete =
 
 			list.style.paddingTop = offset * rowHeight + "px"
 			updateActive()
-		}
+		})
 
-		add("update", () => {
+		editor.on("update", () => {
 			addSelectionHandler()
 
 			if (stops) {
@@ -332,8 +336,9 @@ const autoComplete =
 				isDeleteForwards = false
 				currentSelection = getSelection()
 			}
+			shouldOpen = isTyping
 		})
-		addTextareaListener(editor, "mousedown", () => {
+		addListener(textarea, "mousedown", () => {
 			if (stops) {
 				setTimeout(() => {
 					// Timeout runs before selectionChange, but after
@@ -351,8 +356,8 @@ const autoComplete =
 				})
 			}
 		})
-		addTextareaListener(
-			editor,
+		addListener(
+			textarea,
 			"beforeinput",
 			e => {
 				let inputType = e.inputType
@@ -375,84 +380,89 @@ const autoComplete =
 					isDeleteForwards =
 						isDelete && inputType[13] == "F" && currentSelection[0] == currentSelection[1]
 				}
-				shouldOpen =
-					!config.explicitOnly &&
-					(shouldOpen || (isInsert && !prevSelection) || (isDelete && isOpen))
+				isTyping =
+					!config.explicitOnly && (isTyping || (isInsert && !prevSelection) || (isDelete && isOpen))
 			},
 			true,
 		)
-		addTextareaListener(editor, "blur", e => {
+		addListener(textarea, "blur", e => {
 			if (config.closeOnBlur != false && !tooltip.contains(e.relatedTarget as Element)) hide()
 		})
-		addTextareaListener(
-			editor,
+		addListener(
+			textarea,
 			"keydown",
 			e => {
-				const key = e.key
-				const code = getModifierCode(e)
+				let key = e.key
+				let code = getModifierCode(e)
+				let top: number
+				let height: number
+				let newActive: number
 
 				if (key == " " && code == 2) {
 					addSelectionHandler()
 					if (cursor) startQuery(true)
 					preventDefault(e)
-				} else if (!code && isOpen) {
-					if (/^Arrow[UD]/.test(key)) {
-						move(key[5] == "U")
-						preventDefault(e)
-					} else if (/Tab|Enter/.test(key)) {
-						insertOption(activeIndex)
-						preventDefault(e)
-					} else if (key == "Escape") {
-						hide()
-						preventDefault(e)
-					} else if (key.slice(0, 4) == "Page") {
-						setRowHeight()
-						let top = tooltip.scrollTop
-						let height = tooltip.clientHeight
-						let newActive: number
-						if (key[4] == "U") {
-							newActive = Math.ceil(top / rowHeight)
-							activeIndex =
-								activeIndex == newActive || newActive - 1 == activeIndex
-									? Math.ceil(Math.max(0, (top - height) / rowHeight + 1))
-									: newActive
-						} else {
-							top += height + 1
-							newActive = Math.ceil(top / rowHeight - 2)
-							activeIndex =
-								activeIndex == newActive || newActive + 1 == activeIndex
-									? Math.ceil(Math.min(numOptions - 1, (top + height) / rowHeight - 3))
-									: newActive
-						}
-						scrollActiveIntoView()
-						updateActive()
-						preventDefault(e)
-					}
-				} else if ((code & 7) == 0 && !isOpen && key == "Tab" && stops) {
+				} else if (isOpen) {
 					if (!code) {
-						moveActiveStop(2)
-						if (activeStop + 3 > stops.length) clearStops()
-						preventDefault(e)
-					} else if (activeStop) {
-						moveActiveStop(-2)
+						if (/^Arrow[UD]/.test(key)) {
+							move(key[5] == "U")
+							preventDefault(e)
+						} else if (key == "Tab" || key == "Enter") {
+							insertOption(activeIndex)
+							preventDefault(e)
+						} else if (key == "Escape") {
+							hide()
+							preventDefault(e)
+						} else if (key.slice(0, 4) == "Page") {
+							setRowHeight()
+							top = tooltip.scrollTop
+							height = tooltip.clientHeight
+							if (key[4] == "U") {
+								newActive = Math.ceil(top / rowHeight)
+								activeIndex =
+									activeIndex == newActive || newActive - 1 == activeIndex
+										? Math.ceil(Math.max(0, (top - height) / rowHeight + 1))
+										: newActive
+							} else {
+								top += height + 1
+								newActive = Math.ceil(top / rowHeight - 2)
+								activeIndex =
+									activeIndex == newActive || newActive + 1 == activeIndex
+										? Math.ceil(Math.min(numOptions - 1, (top + height) / rowHeight - 3))
+										: newActive
+							}
+							scrollActiveIntoView()
+							updateActive()
+							preventDefault(e)
+						}
+					}
+				} else if (stops) {
+					if (!(code & 7) && key == "Tab") {
+						if (!code) {
+							moveActiveStop(2)
+							if (activeStop + 3 > stops.length) clearStops()
+							preventDefault(e)
+						} else if (activeStop) {
+							moveActiveStop(-2)
+							preventDefault(e)
+						}
+					} else if (!code && key == "Escape") {
+						clearStops()
 						preventDefault(e)
 					}
-				} else if (!isOpen && !code && key == "Escape") {
-					clearStops()
-					preventDefault(e)
 				}
 			},
 			true,
 		)
 
-		list.onmousedown = e => {
+		addListener(list, "mousedown", e => {
 			insertOption([].indexOf.call(rows, (e.target as HTMLElement).closest("li") as never) + offset)
 			preventDefault(e)
-		}
+		})
 
-		tooltip.addEventListener("focusout", e => {
+		addListener(tooltip, "focusout", e => {
 			if (config.closeOnBlur != false && e.relatedTarget != textarea) hide()
 		})
 	}
 
-export { autoComplete, registerCompletions }
+export { autoComplete, registerCompletions, map }

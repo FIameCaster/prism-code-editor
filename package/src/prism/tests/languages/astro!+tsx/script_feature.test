@@ -1,0 +1,55 @@
+<script>
+  type Foo = number;
+</script>
+
+<script is:inline>
+  let string = "This is no longer TypeScript!";
+</script>
+
+----------------------------------------------------
+
+[
+	["script", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["script"]],
+			["punctuation", ">"]
+		]],
+		["code-block", [
+			["keyword", "type"],
+			["class-name", ["Foo"]],
+			["operator", "="],
+			["builtin", "number"],
+			["punctuation", ";"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["script"]],
+			["punctuation", ">"]
+		]]
+	]],
+
+	["script", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["script"]],
+			["attr-name", [
+				["namespace", "is:"],
+				"inline"
+			]],
+			["punctuation", ">"]
+		]],
+		["code-block", [
+			["keyword", "let"],
+			" string ",
+			["operator", "="],
+			["string", "\"This is no longer TypeScript!\""],
+			["punctuation", ";"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["script"]],
+			["punctuation", ">"]
+		]]
+	]]
+]

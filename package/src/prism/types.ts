@@ -83,13 +83,6 @@ export interface GrammarToken {
 	 * each another.
 	 */
 	inside?: Grammar | string | null
-	/**
-	 * A property to make the types {@link GrammarToken} and {@link RegExp} non-overlapping.
-	 *
-	 * Since {@link GrammarToken} requires `exec` to be `undefined` and {@link RegExp} requires it to be a function,
-	 * there can be no object that is both a {@link GrammarToken} and a {@link RegExp}.
-	 */
-	readonly exec?: never
 }
 
 /**

@@ -1,0 +1,18 @@
+// Primitive types
+function method(x: number, y: string, z: boolean) {}
+function stringifyBasicValue(value: string | number) {}
+function add(one: any, two: any): number {
+	return one + two;
+}
+
+const bar: number = 2;
+var barVar: number = 2;
+let barLet: number = 2;
+let isOneOf: number | boolean | string = foo;
+
+// Keywords
+type UnionAlias = 1 | 2 | 3;
+opaque type ID = string;
+declare opaque type PositiveNumber: number;
+type Country = $Keys<typeof countries>;
+type RequiredProps = $Diff<Props, DefaultProps>;

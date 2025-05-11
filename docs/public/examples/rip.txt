@@ -1,0 +1,12 @@
+# Comments
+# This is a comment
+
+# Strings
+"foo \"bar\" baz"
+'foo \'bar\' baz'
+
+# Regex
+regular_expression = /abc/
+
+# Symbols
+string_symbol = :rip

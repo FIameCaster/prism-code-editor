@@ -3,15 +3,6 @@ import { insertBefore } from '../utils/language.js';
 import './css.js';
 
 var css = languages.css;
-var unit = {
-	pattern: /(\b\d+)(?:%|[a-z]+(?![\w-]))/,
-	lookbehind: true
-};
-// 123 -123 .123 -.123 12.3 -12.3
-var number = {
-	pattern: /(^|[^\w.-])-?(?:\d+(?:\.\d+)?|\.\d+)/,
-	lookbehind: true
-};
 
 css.selector.inside = css['atrule'].inside['selector-function-argument'].inside = {
 	'pseudo-element': /:(?:after|before|first-letter|first-line|selection)|::[-\w]+/,
@@ -60,7 +51,7 @@ css.selector.inside = css['atrule'].inside['selector-function-argument'].inside 
 			lookbehind: true
 		}
 	],
-	'combinator': />|\+|~|\|\|/,
+	'combinator': /[>+~]|\|\|/,
 
 	// the `tag` token has been existed and removed.
 	// because we can't find a perfect tokenize to match it.
@@ -81,29 +72,19 @@ insertBefore(css, 'function', {
 		pattern: /(\s)[/*+-](?!\S)/,
 		lookbehind: true
 	},
-	// CAREFUL!
-	// Previewers and Inline color use hexcode and color.
 	'hexcode': {
 		pattern: /\B#[a-f\d]{3,8}\b/i,
 		alias: 'color'
 	},
-	'color': [
-		{
-			pattern: /(^|[^\w-])(?:(?:alice|cadet|cornflower|deepsky|dodger|midnight|powder|royal|sky|steel)blue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blueviolet|brown|burlywood|chartreuse|chocolate|coral|cornsilk|crimson|(?:dark)?(?:blue|cyan|goldenrod|gr[ae]y|green|khaki|magenta|olivegreen|orange|orchid|red|salmon|seagreen|slateblue|slategr[ae]y|turquoise|violet)|deeppink|dimgr[ae]y|firebrick|floralwhite|(?:forest|lawn|lime|pale|spring)green|fuchsia|gainsboro|ghostwhite|gold|greenyellow|honeydew|hotpink|indianred|indigo|ivory|lavender|lavenderblush|lemonchiffon|light(?:blue|coral|cyan|goldenrodyellow|gr[ae]y|green|pink|salmon|seagreen|skyblue|slategr[ae]y|steelblue|yellow)|lime|linen|maroon|medium(?:aquamarine|blue|orchid|purple|seagreen|slateblue|springgreen|turquoise|violetred)|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orangered|palegoldenrod|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|purple|rebeccapurple|rosybrown|saddlebrown|sandybrown|seashell|sienna|silver|snow|tan|teal|thistle|tomato|transparent|wheat|white|whitesmoke|yellow|yellowgreen)(?![\w-])/i,
-			lookbehind: true
-		},
-		{
-			pattern: /\b(?:hsl|rgb)\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*\)\B|\b(?:hsl|rgb)a\(\s*\d{1,3}\s*,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*,\s*(?:0|0?\.\d+|1)\s*\)\B/i,
-			inside: {
-				'function': /^[^(]+/,
-				'unit': unit,
-				'number': number,
-				'punctuation': /[(),]/
-			}
-		}
-	],
 	// it's important that there is no boundary assertion after the hex digits
 	'entity': /\\[a-f\d]{1,8}/i,
-	'unit': unit,
-	'number': number
+	'unit': {
+		pattern: /(\b\d+)(?:%|[a-z]+(?![\w-]))/,
+		lookbehind: true
+	},
+	// 123 -123 .123 -.123 12.3 -12.3
+	'number': {
+		pattern: /(^|[^\w.-])-?(?:\d+(?:\.\d+)?|\.\d+)/,
+		lookbehind: true
+	}
 });

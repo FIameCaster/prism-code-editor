@@ -1,0 +1,59 @@
+// Comment
+/* This is
+multi-line
+comment */
+// This is single-line comment
+
+// String
+"text in double quotes"
+'text in single quotes'
+'case-sensitive text'!
+'text ''Nevod'' in quotes'
+"text ""Nevod"" in double quotes"
+'text prefix'*
+'case-sensitive text prefix'!*
+
+// Keyword
+@inside
+@outside
+@having
+@search
+@where
+
+// Package Import
+@require "Common/DateTime.np"
+@require "Common/Url.np"
+
+// Namespace
+@namespace My { }
+@namespace My.Domain { }
+
+// Pattern
+@pattern #Percentage = Num + ?Space + {'%', 'pct.', 'pct', 'percent'};
+@pattern #GUID = Word(8) + [3 '-' + Word(4)] + '-' + Word(12);
+@pattern #HashTag = '#' + {AlphaNum, Alpha, '_'} + [0+ {Word, '_'}];
+
+// Full Example
+@namespace Common
+{
+	@search @pattern Url(Domain, Path, Query, Anchor) =
+		Method + Domain:Url.Domain + ?Port + ?Path:Url.Path +
+		?Query:Url.Query + ?Anchor:Url.Anchor
+	@where
+	{
+		Method = {'http', 'https' , 'ftp', 'mailto', 'file', 'data', 'irc'} + '://';
+		Domain = Word + [1+ '.' + Word + [0+ {Word, '_', '-'}]];
+		Port = ':' + Num;
+		Path = ?'/' + [0+ {Word, '/', '_', '+', '-', '%', '.'}];
+		Query = '?' + ?(Param + [0+ '&' + Param])
+		@where
+		{
+			Param = Identifier + '=' + Identifier
+			@where
+			{
+				Identifier = {Alpha, AlphaNum, '_'} + [0+ {Word, '_'}];
+			};
+		};
+		Anchor(Value) = '#' + Value:{Word};
+	};
+}

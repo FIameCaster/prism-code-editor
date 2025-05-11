@@ -1,0 +1,26 @@
+---
+type Props = {
+	type: string
+}
+---
+
+----------------------------------------------------
+
+[
+	["front-matter-block", [
+		["punctuation", "---"],
+		["language-typescript", [
+			["keyword", "type"],
+			["class-name", ["Props"]],
+			["operator", "="],
+			["punctuation", "{"],
+
+			"\n\ttype",
+			["operator", ":"],
+			["builtin", "string"],
+
+			["punctuation", "}"]
+		]],
+		["punctuation", "---"]
+	]]
+]

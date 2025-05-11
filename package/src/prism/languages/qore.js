@@ -1,4 +1,5 @@
 import { languages } from '../core.js';
+import { clikeClass } from '../utils/clike-class.js';
 import { clikePunctuation } from '../utils/patterns.js';
 
 languages.qore = {
@@ -8,13 +9,7 @@ languages.qore = {
 		pattern: /(["'])(?:\\[\s\S]|(?!\1)[^\\])*\1/g,
 		greedy: true
 	},
-	'class-name': {
-		pattern: /(\b(?:class|extends|implements|instanceof|interface|new|trait)\s+|\bcatch\s+\()[\w.\\]+/i,
-		lookbehind: true,
-		inside: {
-			'punctuation': /[.\\]/
-		}
-	},
+	'class-name': clikeClass(),
 	'keyword': /\b(?:abstract|any|assert|binary|bool|boolean|break|byte|case|catch|char|class|code|const|continue|data|default|do|double|else|enum|extends|final|finally|float|for|goto|hash|if|implements|import|inherits|instanceof|int|interface|long|my|native|new|nothing|null|object|our|own|private|reference|rethrow|return|short|soft(?:bool|date|float|int|list|number|string)|static|strictfp|string|sub|super|switch|synchronized|this|throws?|transient|try|void|volatile|while)\b/,
 	'boolean': /\b(?:false|true)\b/i,
 	'function': /\$?\b(?!\d)\w+(?=\()/,

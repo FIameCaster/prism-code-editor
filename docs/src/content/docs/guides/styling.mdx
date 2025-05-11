@@ -1,0 +1,128 @@
+---
+title: Styling
+description: Learn how to style an editor to your liking.
+---
+
+import "../../../components/languages/html+css+ts.astro"
+import "../../../css/editor-theme.css"
+import { Aside } from "@astrojs/starlight/components"
+
+## With setups
+
+If you're using the setups, most of the styling is handled for you. The only thing you must do is to pick a theme.
+
+### Changing the theme
+
+To change the current theme with the setups, use the [`setOptions(){:js}`](/api-reference/index/i-prismeditor#setoptions) method. Updating the theme is asynchronous, and the old theme is used until the new one loads.
+
+```js editor
+editor.setOptions({
+	theme: "night-owl"
+})
+```
+
+### Adding new themes
+
+You can register new themes or override existing ones to use with the setups or web components.
+
+```js editor
+import { registerTheme } from "prism-code-editor/themes"
+
+registerTheme("my-theme", () => import("./my-theme.css?inline"))
+```
+
+<Aside type="note">
+	The example might look different if you're not using Vite as your bundler
+</Aside>
+
+## Importing themes
+
+Themes can be imported from `prism-code-editor/themes/*.css`. There are currently 14 themes you can import. The [`playground`](/playground) showcases all themes.
+
+You can also import themes into your JavaScript with [`loadTheme(){:js}`](/api-reference/themes/f-loadtheme) which is used by the theme switcher in the playground.
+
+```js editor
+import { loadTheme } from "prism-code-editor/themes"
+
+const isLight = matchMedia("(prefers-color-scheme: light)").matches
+const style = document.querySelector("style")
+
+loadTheme(isLight ? "github-light" : "github-dark").then(theme => {
+	style.textContent = theme
+})
+```
+
+## Importing styles
+
+If you're not using any of the setups, no styles will be injected into the page. Everything needs to be imported manually. This means that if you don't like some of the default styles, you can import your own stylesheets instead.
+
+Here are some stylesheets you can import:
+
+- `prism-code-editor/layout.css`: Styles for the layout of the component.
+- `prism-code-editor/rtl-layout.css`: Additional styles needed for the `rtl` option to work.
+- `prism-code-editor/search.css`. Styles for [`searchWidget(){:js}`](/api-reference/search/f-searchwidget).
+- `prism-code-editor/copy-button.css`: Styles for [`copyButton(){:js}`](/api-reference/copy-button/f-copybutton).
+- `prism-code-editor/invisivles.css`: Styles for [`showInvisibles(){:js}`](/api-reference/search/f-showinvisibles).
+- `prism-code-editor/guides.css`: Styles for [`indentGuides(){:js}`](/api-reference/guides/f-indentguides).
+- `prism-code-editor/code-folding.css`: Styles for [`readOnlyCodeFolding(){:js}`](/api-reference/code-folding/f-readonlycodefolding).
+- `prism-code-editor/autocomplete.css`: Styles for [`autoComplete(){:js}`](/api-reference/autocomplete/f-autocomplete).
+- `prism-code-editor/autocomplete-icons.css`: Default icons for the autocompletion tooltip.
+
+### Scrollbar styling
+
+You can import a stylesheet that adds a custom scrollbar to desktop Chrome and Safari from `prism-code-editor/scrollbar.css`.
+
+```css editor
+.prism-code-editor {
+	/* Values are: Hue, saturation, lightness */
+	--editor__bg-scrollbar: 210, 10%, 40%;
+}
+```
+
+You can change the color of the scrollbar thumb using the custom property `--editor__bg-scrollbar{:css}`. Different alpha values will be set based on the state of the scrollbar thumb.
+
+## Advanced styling
+
+The following document shows the DOM structure of an editor.
+
+```html editor
+<div class="prism-code-editor language-[lang] [state-classes]">
+	<!-- ::before pseudo element is the line number background -->
+	<div class="pce-wrapper">
+		<div class="pce-overlays">
+			<textarea class="pce-textarea"></textarea>
+			<!-- Overlays from extensions -->
+		</div>
+		<div class="pce-line active-line" aria-hidden="true" data-line="1">
+			<!-- ::before pseudo element is the line number -->
+			<!-- Prism tokens for the line -->
+			<!-- ::after pseudo element has the background of the line -->
+		</div>
+		<div class="pce-line" aria-hidden="true" data-line="2"></div>
+		<!-- More lines... -->
+	</div>
+</div>
+```
+
+### Adding vertical scrolling
+
+By default, `.prism-code-editor{:selector}` has `overflow: auto{:css}`. This means the editor will scroll horizontally if needed, but since the editor doesn't have `height` or `max-height` defined, it will grow to fit the content. To allow vertical scrolling, you need to limit the height of `.prism-code-editor{:selector}`, by adding a `height` or `max-height`.
+
+### Changing the padding
+
+Default padding is `0.75em{:css}` left/right and `0.5em{:css}` top/bottom. If you want to change it, you can use the custom property `--padding-inline{:css}` for left/right. Padding top and bottom can changed by changing the margin on `.pce-wrapper{:selector}`.
+
+### State classes
+
+There are many classes added to `.prism-code-editor{:selector}` you can use to style the editor depending on its state:
+
+- `pce-has-selection` if the textarea has a selection, and `pce-no-selection` if not.
+- `pce-focus` if the textarea is focused.
+- `show-line-numbers` if line numbers are enabled.
+- `pce-wrap` if word wrap is enabled, and `pce-nowrap` if not.
+- `pce-readonly` if the editor is read-only.
+- `pce-rtl` if the `rtl` option is `true`.
+
+### Creating a theme
+
+It's likely that none of the themes perfectly fit your website. A great solution is to modify one of the [included themes](https://github.com/FIameCaster/prism-code-editor/tree/main/package/src/themes) to better suit your website. Alternatively, you can import one of the themes and override some of the styles in your own stylesheets.

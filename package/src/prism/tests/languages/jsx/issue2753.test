@@ -38,7 +38,7 @@ const Test = () => {
 		["tag", [
 			["class-name", "Button"]
 		]],
-		["spread", [
+		["expression", [
 			["punctuation", "{"],
 			["operator", "..."],
 			["punctuation", "{"],
@@ -70,14 +70,14 @@ const Test = () => {
 		]],
 		["attr-name", ["onClick"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			"onClick",
 			["punctuation", "}"]
 		]],
 		["attr-name", ["disabled"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			"disabled",
 			["punctuation", "}"]

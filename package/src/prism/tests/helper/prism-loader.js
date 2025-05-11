@@ -12,8 +12,10 @@ import { createT4 } from "../../utils/t4-templating.js"
 import { clone, extend, insertBefore } from "../../utils/language.js"
 import { dependencyGraph } from "./lang-info.js"
 import fs from "fs"
-import { addJsxTag } from "../../utils/jsx-shared.js"
-import { entity, tag } from "../../utils/xml-shared.js"
+import { addJsxTag, braces, space } from "../../utils/jsx-shared.js"
+import { entity, tag, xmlComment } from "../../utils/xml-shared.js"
+import { clikeClass } from "../../utils/clike-class.js"
+import { addInlined, astroTag } from "../../utils/markup-shared.js"
 
 /** @type {Map<string, Function>} */
 const cache = new Map()
@@ -27,6 +29,7 @@ const imports = {
 	withoutTokenizer,
 	clikeComment,
 	clikeString,
+	clikeClass,
 	clikeNumber,
 	clikePunctuation,
 	boolean,
@@ -41,6 +44,11 @@ const imports = {
 	addJsxTag,
 	tag,
 	entity,
+	space,
+	braces,
+	xmlComment,
+	addInlined,
+	astroTag,
 }
 
 const args = Object.keys(imports)

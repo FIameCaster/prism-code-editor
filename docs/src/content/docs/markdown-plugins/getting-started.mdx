@@ -1,0 +1,151 @@
+---
+title: Getting Started
+description: Learn how to install and use the rehype plugin or marked extension.
+prev: false
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components"
+import "../../../components/CodeBlockMount.astro"
+
+Prism code editor has a rehype plugin or marked extension you can use to create editors (or highlighted code blocks) from fenced code blocks in markdown. This is much more convenient than using the [SSR API](/guides/server-side-rendering) directly. All code blocks on this page are rendered by the rehype plugin.
+
+## Installation
+
+These markdown plugins have `prism-code-editor` version 4.0.0 or greater as a peer dependency, so be sure to also install that.
+
+<Tabs syncKey="parser">
+<TabItem label="rehype">
+```bash editor="false"
+npm i prism-code-editor
+npm i rehype-prism-code-editor
+```
+</TabItem>
+<TabItem label="marked">
+```bash editor="false"
+npm i prism-code-editor
+npm i marked-prism-code-editor
+```
+</TabItem>
+</Tabs>
+
+## Demo
+
+To write markdown and view the resulting editors and code blocks, check [the demo](https://marked-pce.netlify.app/) running marked.
+
+## Usage
+
+<Tabs syncKey="parser">
+<TabItem label="rehype">
+
+```js editor="false"
+import rehype from "rehype"
+import { rehypePrismCodeEditor } from "rehype-prism-code-editor"
+import "prism-code-editor/prism/languages/common"
+
+rehype().use(rehypePrismCodeEditor, {
+	// More on configuration later
+}).process(/* some html */)
+```
+
+With [Next.js](https://nextjs.org/):
+
+```js editor="false" ins={2,3,5-8,17-19} file="next.config.mjs"
+import createMDX from "@next/mdx"
+import { rehypePrismCodeEditor } from "rehype-prism-code-editor"
+import "prism-code-editor/prism/languages/common"
+
+/** @type {import("rehype-prism-code-editor").PcePluginOptions} */
+const rehypePrismCodeEditorOptions = {
+  // More on configuration later
+}
+ 
+/** @type {import("next").NextConfig} */
+const nextConfig = {
+  pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+}
+ 
+const withMDX = createMDX({
+  options: {
+    rehypePlugins: [
+			[rehypePrismCodeEditor, rehypePrismCodeEditorOptions]
+		],
+  },
+})
+ 
+export default withMDX(nextConfig)
+```
+
+With [Astro](https://astro.build/):
+
+```js editor="false" ins={2,3,5-8,11-15} file="astro.config.mjs"
+import { defineConfig } from "astro/config"
+import { rehypePrismCodeEditor } from "rehype-prism-code-editor"
+import "prism-code-editor/prism/languages/common"
+
+/** @type {import("rehype-prism-code-editor").PcePluginOptions} */
+const rehypePrismCodeEditorOptions = {
+  // More on configuration later
+}
+
+export default defineConfig({
+  markdown: {
+		rehypePlugins: [
+			[rehypePrismCodeEditor, rehypePrismCodeEditorOptions]
+		]
+	}
+})
+```
+
+</TabItem>
+<TabItem label="marked">
+
+```js editor="false"
+import { marked } from "marked"
+import { markedPrismCodeEditor } from "marked-prism-code-editor"
+import "prism-code-editor/prism/languages/common"
+
+marked.use(markedPrismCodeEditor({
+	// More on configuration later
+}))
+
+marked.parse(/* Some markdown */)
+```
+
+</TabItem>
+</Tabs>
+
+### Markdown syntax
+
+To create editors, add the `editor` meta property to the code block. The meta properties use HTML-attribute-like syntax.
+
+````markdown editor="false"
+```js editor
+// Some code
+```
+````
+
+These plugins will also highlight code blocks without the `editor` property as static code blocks, but this can be disabled in the config if you want to use a different plugin for code blocks.
+
+#### Editor properties
+
+The following meta properties can change the behavior or appearance of an editor: `tabSize`, `insertSpaces`, `lineNumbers`, `readOnly`, `wordWrap`, `rtl`, and `class`. They have the same defaults as when creating editors with [`createEditor(){:js}`](/api-reference/index/f-createeditor).
+
+#### Code block properties
+
+Static code blocks can be modified with meta properties like `tabSize`, `lineNumbers`, `lineNumberStart`, `wordWrap`, `preverveIndent`, `guideIndents`, `rtl`, and `class`. These have the same defaults as when creating code blocks with [`renderCodeBlock(){:js}`](/api-reference/ssr/f-rendercodeblock). Additionally, code blocks support highlighting lines with the `highlight`, `ins`, and `del` properties. More about these on the [features](/rehype-marked-plugins/features) page.
+
+### Making editors interactive
+
+These plugins don't inject any JavaScript to make the editors interactive. This means you have full control over when and how they're mounted and which extensions are added. To mount them, run [`mountEditorsUnder(){:js}`](/api-reference/client/f-mounteditorsunder) in client-side JavaScript. See the [SSR guide](/guides/server-side-rendering) for more info.
+
+### Code block extensions
+
+With JavaScript on the client, you can add features like a copy button, bracket/tag highlighting and hover descriptions using [`forEachCodeBlock(){:js}`](/api-reference/client/f-foreachcodeblock). The [code blocks guide](/guides/code-blocks#modifying-code-blocks-on-the-client) tells you how.
+
+### Styling
+
+These plugins don't inject any CSS into the page, allowing full customization of the editors' and code blocks' appearance. See the [styling guide](/guides/styling#importing-styles) and the [code blocks guide](/guides/code-blocks#styling) for more info.
+
+## Supported languages
+
+By default, zero languages have syntax highlighting and you must import the languages you want to support. The examples shown on this page all import `prism-code-editor/prism/languages/common` for 42 common languages, but you can import `prism-code-editor/prism/languages` for all languages, or import individual languages. See the [working with Prism guide](/guides/working-with-prism).

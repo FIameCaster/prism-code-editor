@@ -1,0 +1,21 @@
+" Comments
+" This is a comment
+
+" Variables
+set softab = 2
+map <leader>tn :tabnew
+
+" Map
+mystring = :steveT;
+
+" Functions
+func! DeleteTrailingWS()
+	exe "normal mz"
+	%s/\s\+$//ge
+	exe "normal `z"
+endfunc
+
+" Logic
+if has("mac")
+	nmap <D-j> <M-j>
+endif

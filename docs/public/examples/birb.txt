@@ -1,0 +1,29 @@
+// Comments
+// Single line comment
+/* Block comment
+on multiple lines */
+
+// Annotations
+<Supersede> // marks an instance member as overriding a superclass
+
+// Numbers
+int x = 1;
+double y = 1.1;
+
+// Strings
+String s1 = 'Strings allow single quotes';
+String s2 = "as well as double quotes";
+var s2 = 'Birb strings are
+	multiline by default';
+
+// Full example
+class Birb {
+	final String name;
+	int age = 19;
+
+	void construct(String newName){
+	nest.name = newName;
+	}
+}
+Birb.construct('Yoko');
+screm(Birb.name);

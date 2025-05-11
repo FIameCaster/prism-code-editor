@@ -1,0 +1,104 @@
+<div style="display: none;"> ... </div>
+
+<style>
+	div {
+		color: red;
+	}
+</style>
+
+<style lang="scss">
+	$primary-color: #333;
+	body {
+		color: $primary-color;
+	}
+</style>
+
+----------------------------------------------------
+
+[
+	["tag", [
+		["punctuation", "<"],
+		["tag", ["div"]],
+		["attr-name", ["style"]],
+		["attr-equals", "="],
+		["attr-value", [
+			["punctuation", "\""],
+			["language-css", [
+				["property", "display"],
+				["punctuation", ":"],
+				" none",
+				["punctuation", ";"]
+			]],
+			["punctuation", "\""]
+		]],
+		["punctuation", ">"]
+	]],
+	" ... ",
+	["tag", [
+		["punctuation", "</"],
+		["tag", ["div"]],
+		["punctuation", ">"]
+	]],
+
+	["style", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["style"]],
+			["punctuation", ">"]
+		]],
+		["code-block", [
+			["selector", "div"],
+			["punctuation", "{"],
+
+			["property", "color"],
+			["punctuation", ":"],
+			" red",
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["style"]],
+			["punctuation", ">"]
+		]]
+	]],
+
+	["style", [
+		["tag", [
+			["punctuation", "<"],
+			["tag", ["style"]],
+			["attr-name", ["lang"]],
+			["attr-equals", "="],
+			["attr-value", [
+				["punctuation", "\""],
+				"scss",
+				["punctuation", "\""]
+			]],
+			["punctuation", ">"]
+		]],
+		["code-block", [
+			["property", [
+				["variable", "$primary-color"]
+			]],
+			["punctuation", ":"],
+			" #333",
+			["punctuation", ";"],
+
+			["selector", ["body "]],
+			["punctuation", "{"],
+
+			["property", ["color"]],
+			["punctuation", ":"],
+			["variable", "$primary-color"],
+			["punctuation", ";"],
+
+			["punctuation", "}"]
+		]],
+		["tag", [
+			["punctuation", "</"],
+			["tag", ["style"]],
+			["punctuation", ">"]
+		]]
+	]]
+]

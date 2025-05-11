@@ -1,0 +1,63 @@
+<!-- Component script -->
+<script lang="ts">
+	import MyComponent from "./MyComponent.svelte"
+</script>
+
+<!-- Markup -->
+<div class="foo">
+	<button disabled>can't touch this</button>
+</div>
+
+<!-- Unquoted attribute -->
+<input type=checkbox />
+
+<!-- JS Expressions inside attributes -->
+<a href="page/{p}">page {p}</a>
+
+<!-- JS expression as attribute value -->
+<button disabled={!clickable}>...</button>
+
+<!-- Attribute shorthand -->
+<button {disabled}>...</button>
+
+<!-- Attribute spread -->
+<Widget {...things} />
+
+<!-- Events -->
+<button onclick={() => console.log('clicked')}>click me</button>
+
+<!-- Bind attributes -->
+<input bind:value={name} autofocus />
+
+<!-- Snippet block -->
+{#snippet todo(todo: Todo)}
+	<li class="todo">
+		<input class="toggle" type="checkbox" bind:checked={todo.completed}>
+		{todo.title}
+		<button class="remove" onclick={() => removeTodo(todo)}></button>
+	</li>
+{/snippet}
+
+<!-- Each block -->
+<ul>
+	{#each todos as todo}
+		{@render todo(todo)}
+	{:else}
+		<li>No todos</li>
+	{/each}
+</ul>
+
+<!-- Normal style element -->
+<style>
+	div {
+		color: red;
+	}
+</style>
+
+<!-- Style element with SCSS -->
+<style lang="scss">
+	$primary-color: #333;
+	body {
+		color: $primary-color;
+	}
+</style>

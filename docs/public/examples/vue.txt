@@ -1,0 +1,56 @@
+<!-- Component script (try changing the lang attribute) -->
+<script lang="ts" setup>
+import { ref } from "vue"
+
+const seen = ref(true)
+const someAttr = ref("class")
+const attrValue = ref("name")
+const value = ref("value")
+
+const items: string[] = [/* ... */]
+
+function doSomething() {}
+</script>
+
+<!-- Template -->
+<template>
+	<!-- Normal element -->
+	<div class="name"> ... </div>
+
+	<!-- Vue directives -->
+	<p v-if="seen">Now you see me</p>
+
+	<!-- Attribute bindings -->
+	<input :value="value">
+
+	<!-- Events -->
+	<button @click="doSomething"> ... </button>
+
+	<!-- Event modifiers -->
+	<form @submit.prevent="onSubmit"> ... </form>
+
+	<!-- Dynamic attributes -->
+	<a :[someAttr]="attrValue"> ... </a>
+
+	<ul>
+		<li v-for="(item, index) in items">
+			<!-- JS/TS Expression -->
+			Item {{ index as string }}: {{ item }}
+		</li>
+	</ul>
+</template>
+
+<!-- Normal style element -->
+<style scoped>
+div {
+	color: red;
+}
+</style>
+
+<!-- Style element with SCSS -->
+<style lang="scss">
+$primary-color: #333;
+body {
+	color: $primary-color;
+}
+</style>

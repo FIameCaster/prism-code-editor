@@ -10,12 +10,8 @@ calc(100% - var(--margin-size) * 2)
 ----------------------------------------------------
 
 [
-	["selector", ["element"]],
-	["punctuation", "{"],
-	["variable", "--foo"],
-	["punctuation", ":"],
-	["color", "green"],
-	["punctuation", ";"],
+	["selector", ["element"]], ["punctuation", "{"],
+	["variable", "--foo"], ["punctuation", ":"], " green", ["punctuation", ";"],
 	["punctuation", "}"],
 
 	["function", "var"],
@@ -32,7 +28,7 @@ calc(100% - var(--margin-size) * 2)
 	["punctuation", "("],
 	["variable", "--foo"],
 	["punctuation", ","],
-	["color", "red"],
+	" red",
 	["punctuation", ")"],
 
 	["function", "calc"],

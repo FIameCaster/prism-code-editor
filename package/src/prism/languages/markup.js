@@ -24,10 +24,11 @@ var addInlined = (tagName, lang) => ({
 	}, lang)
 });
 
-var addAttribute = (attrName, lang) => ({
-	pattern: RegExp(`((?:^|["'\\s])(?:${attrName})\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s"'=>]+)`, 'gi'),
+var addAttribute = (attrName, lang, alias = attrName) => ({
+	pattern: RegExp(`([\\s"']${attrName}\\s*=\\s*)(?:"[^"]*"|'[^']*'|[^\\s>]+)`, 'gi'),
 	lookbehind: true,
 	greedy: true,
+	alias: alias,
 	inside: addLang({
 		'punctuation': /^["']|["']$/,
 	}, lang)
@@ -37,7 +38,7 @@ var markup = languages.svg = languages.mathml = languages.html = languages.marku
 
 markup.tag.inside['attr-value'].unshift(
 	addAttribute('style', 'css'),
-	addAttribute(/on[a-z]+/.source, 'javascript')
+	addAttribute(/on[a-z]+/.source, 'javascript', 'script')
 );
 
 insertBefore(markup, 'cdata', {

@@ -1,12 +1,15 @@
 import { languages } from '../core.js';
-import { extend, insertBefore } from '../utils/language.js';
-import './clike.js';
+import { clikeClass } from '../utils/clike-class.js';
+import { boolean, clikePunctuation } from '../utils/patterns.js';
 
-var d = languages.d = extend('clike', {
+languages.d = {
 	'comment': {
 		pattern: /^\s*#!.+|(?:\/\+(?:\/\+(?:[^+]|\+(?!\/))*\+\/|(?!\/\+)[\s\S])*?\+\/|\/\/.*|\/\*[\s\S]*?\*\/)/g,
 		greedy: true
 	},
+	// Characters
+	// 'a', '\\', '\n', '\xFF', '\377', '\uffff', '\U0010FFFF', '\quot'
+	'char': /'(?:\\(?:\W|\w+)|[^\\])'/,
 	'string': [
 		{
 			pattern: /\b[rx]"(?:\\[\s\S]|[^\\"])*"[cwd]?|\bq"(?:\[[\s\S]*?\]|\([\s\S]*?\)|<[\s\S]*?>|\{[\s\S]*?\})"|\bq"((?!\d)\w+)$[\s\S]*?^\1"|\bq"(.)[\s\S]*?\2"|(["`])(?:\\[\s\S]|(?!\3)[^\\])*\3[cwd]?/gm,
@@ -18,10 +21,17 @@ var d = languages.d = extend('clike', {
 			alias: 'token-string'
 		}
 	],
-
+	'class-name': clikeClass(),
+	'property': /\B@\w*/,
 	// In order: $, keywords and special tokens, globally defined symbols
 	'keyword': /\$|\b(?:__(?:(?:DATE|EOF|FILE|FUNCTION|LINE|MODULE|PRETTY_FUNCTION|TIMESTAMP|TIME|VENDOR|VERSION)__|gshared|parameters|traits|vector)|abstract|alias|align|asm|assert|auto|body|bool|break|cas[et]|catch|[ci]?double|[ci]?float|class|const|continue|[ci]?real|[dw]?char|debug|default|delegate|delete|deprecated|do|d?string|else|enum|export|extern|false|true|final|finally|for|foreach|foreach_reverse|function|goto|if|immutable|import|inout|interface|invariant|lazy|macro|mixin|module|new|nothrow|null|out|override|package|pragma|private|protected|ptrdiff_t|public|pure|ref|return|scope|shared|size_t|static|struct|super|switch|synchronized|template|this|throw|try|typedef|typeid|typeof|u?byte|u?cent|u?int|u?long|union|unittest|u?short|version|void|volatile|while|with|wstring)\b/,
-
+	'boolean': boolean,
+	'register': {
+		// Iasm registers
+		pattern: /\b(?:[ABCD][LHX]|E?(?:BP|DI|SI|SP)|[BS]PL|[ECSDGF]S|CR[0234]|[DS]IL|DR[012367]|[ER][ABCD]X|X?MM[0-7]|R(?:1[0-5]|[89])[BWD]?|R[BS]P|R[DS]I|TR[3-7]|XMM(?:1[0-5]|[89])|YMM(?:1[0-5]|\d))\b|\bST(?:\([0-7]\)|\b)/,
+		alias: 'variable'
+	},
+	'function': /\b\w+(?=\()/,
 	'number': {
 		// The lookbehind and the negative look-ahead try to prevent bad highlighting of the .. operator
 		// Hexadecimal numbers must be handled separately to avoid problems with exponent "e"
@@ -30,22 +40,5 @@ var d = languages.d = extend('clike', {
 	},
 
 	'operator': /--|\+\+|&&|\|\||=>|!?\bi[ns]\b|(?:!<>?|!>|<[<>]?|>>?>?|\^\^|[~%&|^!=/*+-])=?|\.{2,3}/,
-});
-
-insertBefore(d, 'string', {
-	// Characters
-	// 'a', '\\', '\n', '\xFF', '\377', '\uffff', '\U0010FFFF', '\quot'
-	'char': /'(?:\\(?:\W|\w+)|[^\\])'/
-});
-
-insertBefore(d, 'keyword', {
-	'property': /\B@\w*/
-});
-
-insertBefore(d, 'function', {
-	'register': {
-		// Iasm registers
-		pattern: /\b(?:[ABCD][LHX]|E?(?:BP|DI|SI|SP)|[BS]PL|[ECSDGF]S|CR[0234]|[DS]IL|DR[012367]|[ER][ABCD]X|X?MM[0-7]|R(?:1[0-5]|[89])[BWD]?|R[BS]P|R[DS]I|TR[3-7]|XMM(?:1[0-5]|[89])|YMM(?:1[0-5]|\d))\b|\bST(?:\([0-7]\)|\b)/,
-		alias: 'variable'
-	}
-});
+	'punctuation': clikePunctuation
+};

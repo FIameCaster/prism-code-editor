@@ -8,7 +8,7 @@
 		["tag", ["div"]],
 		["attr-name", ["style"]],
 		["attr-equals", "="],
-		["script", [
+		["expression", [
 			["punctuation", "{"],
 			["punctuation", "{"],
 			["literal-property", "marginLeft"],

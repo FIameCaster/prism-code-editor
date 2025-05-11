@@ -1,0 +1,24 @@
+-- Comments
+-- Single line comment
+#!/usr/bin/osascript
+(* Here is
+a block
+comment *)
+
+-- Strings
+"foo \"bar\" baz"
+
+-- Operators
+a ≠ b
+12 + 2 * 5
+"DUMPtruck" is equal to "dumptruck"
+"zebra" comes after "aardvark"
+{ "this", "is", 2, "cool" } starts with "this"
+{ "is", 2} is contained by { "this", "is", 2, "cool" }
+set docRef to a reference to the first document
+
+-- Classes and units
+tell application "Finder"
+text 1 thru 5 of "Bring me the mouse."
+set averageTemp to 63 as degrees Fahrenheit
+set circleArea to (pi * 7 * 7) as square yards

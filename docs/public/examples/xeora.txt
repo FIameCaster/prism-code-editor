@@ -1,0 +1,111 @@
+<!-- Special Constants -->
+$DomainContents$
+$PageRenderDuration$
+
+<!-- Operators & Variables -->
+$SearchKey$
+$^SearchKey$
+$~SearchKey$
+$-SearchKey$
+$+SearchKey$
+$=SearchKey$
+$#SearchKey$
+$##SearchKey$
+
+$*SearchKey$
+
+$@SearchObject.SearchProperty$
+$@#SearchObject.SearchProperty$
+$@-SearchObject.SearchProperty$
+
+<!-- Controls -->
+$C:ControlID$
+$C:ControlID:{ <!-- Something --> }:ControlID$
+$C:ControlID:{ <!-- Something --> }:ControlID:{ <!-- Something (Alternative) --> }:ControlID$
+
+Control with Parent
+$C[Control1]:Control2$
+$C[Control2]:Control3:{ <!-- Something --> }:Control3$
+$C[Control2]:Control3:{ <!-- Something --> }:Control3:{ <!-- Something (Alternative) --> }:Control3$
+
+Control with Parent & Leveling
+$C#1[ParentControlID]:ControlID:{ <!-- Something --> }:ControlID$
+
+All Control Tags has leveling specification;
+$C:LoopControl1:{
+	$#FirstLoopSQLField1$
+
+	$C:ControlID:{ <!-- Something --> }:ControlID$
+
+	$C:LoopControl2:{
+		$##FirstLoopSQLField1$
+		$#SecondLoopSQLField1$
+
+		$C#1:ControlID:{ <!-- Something --> }:ControlID$
+	}:LoopControl2$
+}:LoopControl1$
+
+XML setup on a Control in Controls.xml
+<Control id="[ControlID]">
+	<Type>[ControlType]</Type>
+
+	<Bind>[ThemeID|AddonID]?[ControlClass].[FunctionName],SomeOperatorTags(seperated with |)</Bind>
+
+	<BlockIDsToUpdate localupdate="True|False">
+		<BlockID>[BlockID]</BlockID>
+		<BlockID>[BlockID]</BlockID>
+		<BlockID>[BlockID]</BlockID>
+	</BlockIDsToUpdate>
+
+	<DefaultButtonID>[ControlID]</DefaultButtonID>
+
+	<Text>[TextBox, Password value or Button Text]</Text>
+
+	<Content>[Textarea Content]</Content>
+
+	<Source>[Image URL]</Source>
+
+	<Url>[Link URL]</Url>
+
+	<Attributes>
+		<Attribute key="[HTMLAttributeKey]">[AttributeValue]</Attribute>
+	</Attributes>
+</Control>
+
+<!-- Directives -->
+$T:TemplateID$
+$L:TranslationID$
+$P:TemplateID$
+
+<!-- Executable Functions -->
+$F:AddonLib1?GlobalControls.PrintOutSums$
+$F:AddonLib1?GlobalControls.PrintOut,~FormField$
+$F:AddonLib1?GlobalControls.SumNumbers,~FormField|=5$
+
+<!-- Client Side Function Binding -->
+$XF:{AddonLib1?GlobalControls.SumNumbers,~FormField|=5}:XF$
+
+<!-- Inline Statements -->
+$S:StatementID:{ <!-- C# Code --> }:StatementID$
+$S:StatementID:{!NOCACHE <!-- C# Code --> }:StatementID$
+
+$S:Statement1:{
+	int intvalue1 = 5;
+	int intvalue2 = Integer.Parse("0" + $~FormValue$);
+
+	return intvalue1 * intvalue2;
+}:Statement1$
+
+<!-- Request Blocks -->
+$H:RequestBlockID:{ <!-- Something --> }:RequestBlockID$
+$H:RequestBlockID:{!RENDERONREQUEST <!-- Something --> }:RequestBlockID$
+
+<!-- Cache Block -->
+$PC:{ <!-- Page Content Part --> }:PC$
+
+<!-- Message Handling Block -->
+$MB:{ <!-- Message Output Content --> }:MB$
+$MB:{
+	$#Message$
+	$#MessageType$
+}:MB$

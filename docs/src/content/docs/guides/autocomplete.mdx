@@ -1,0 +1,345 @@
+---
+title: Autocomplete
+description: Learn how to use the autocomplete extension.
+---
+
+import "../../../components/languages/jsx+css+html.astro"
+import "../../../components/editor/Autocomplete.astro"
+import "../../../css/editor-theme.css"
+import { Aside } from "@astrojs/starlight/components"
+import AutocompleteIcons from "../../../components/AutocompleteIcons.astro"
+
+The [`autoComplete(){:js}`](/api-reference/autocomplete/f-autocomplete) extension can be used to show a list of completable options to users while they're typing.
+
+## Adding the extension
+
+```js editor
+import {
+	fuzzyFilter,
+	autoComplete
+} from "prism-code-editor/autocomplete"
+import { cursorPosition } from "prism-code-editor/cursor"
+import "prism-code-editor/autocomplete.css"
+import "prism-code-editor/autocomplete-icons.css"
+
+editor.addExtensions(
+	cursorPosition(),
+	autoComplete({
+		filter: fuzzyFilter,
+		closeOnBlur: true,
+		explicitOnly: false,
+		preferAbove: false
+	})
+)
+```
+
+<Aside type="caution">
+	The [`cursorPosition(){:js}`](/api-reference/cursor/f-cursorposition) extension is required for the autocompletion to work.
+</Aside>
+
+## Configuration
+
+`autoComplete(){:js}` takes a [`AutoCompleteConfig{:js}`](/api-reference/autocomplete/t-autocompleteconfig) object as the first parameter. The only required property is the filter function to use. The optional properties configure when to open the tooltip, when to close it, and where to place it.
+
+### Filters
+
+The job of a [`CompletionFilter{:js}`](/api-reference/autocomplete/t-completionfilter) is to filter and score the options based on the word before the cursor. They should also return which characters in the option's label were matched so they can be highlighted. This library exports two filter functions you can use; [`fuzzyFilter(){:js}`](/api-reference/autocomplete/f-fuzzyfilter) and [`strictFilter(){:js}`](/api-reference/autocomplete/f-strictfilter). If you're dissatisfied with these, you can define your own filter instead.
+
+## Registering completion sources
+
+The extension doesn't define any completion sources. You have to register them with [`registerCompletions(){:js}`](/api-reference/autocomplete/f-registercompletions).
+
+### CSS completion
+
+```js editor
+import { registerCompletions } from "prism-code-editor/autocomplete"
+import { cssCompletion } from "prism-code-editor/autocomplete/css"
+
+registerCompletions(["css"], {
+	sources: [cssCompletion()]
+})
+```
+
+Try it:
+
+```css editor
+.prism-code-editor {
+	--padding-inline: 1em;
+	max-height: 50em;
+	line-height: 1.5;
+}
+```
+
+<Aside type="note">
+	[`cssCompletion(){:js}`](/api-reference/autocomplete/css/f-csscompletion) requires the `css-extras` grammar to work correctly.
+</Aside>
+
+### JavaScript completion
+
+```js editor
+import {
+	completeKeywords,
+	jsDocCompletion,
+	jsxTagCompletion,
+	reactTags,
+	globalReactAttributes,
+	jsSnipets,
+	jsContext,
+	jsCompletion
+} from "prism-code-editor/autocomplete/javascript"
+import {
+	registerCompletions,
+	completeFromList
+} from "prism-code-editor/autocomplete"
+
+registerCompletions(["javascript", "js", "jsx", "tsx", "typescript", "ts"], {
+	context: jsContext,
+	sources: [
+		jsCompletion(window),
+		completeKeywords,
+		jsDocCompletion,
+		jsxTagCompletion(reactTags, globalReactAttributes),
+		completeFromList(jsSnipets)
+	]
+})
+```
+
+[`completeScope(){:js}`](/api-reference/autocomplete/javascript/f-completescope) is another completion source that can be used to add completion for the `window` object for example, but using it as the same time as [`completeIdentifiers(){:js}`](/api-reference/autocomplete/javascript/f-completeidentifiers) does lead to a lot of duplicated options.
+
+```tsx editor
+/**
+ * Try writing some TSX
+ */
+function App(props) {
+	return (
+		<>
+			<div />
+			<input type="number" />
+		</>
+	)
+}
+```
+
+### HTML completion
+
+[`markupCompletion(){:js}`](/api-reference/autocomplete/markup/f-markupcompletion) adds completion for the specified namespaces of tags.
+
+The example below shows how `markupCompletion(){:js}` can be used to add autocompletion to HTML, SVG, MathML, and one custom element. Here, `globalHtmlAttributes` are used for HTML elements, the custom element, and unrecognized elements.
+
+```js editor
+import { registerCompletions } from "prism-code-editor/autocomplete"
+import {
+	markupCompletion,
+	globalHtmlAttributes,
+	htmlTags,
+	globalSvgAttributes,
+	svgTags,
+	globalMathMLAttributes,
+	mathMLTags,
+} from "prism-code-editor/autocomplete/markup"
+
+const namespaces = [
+	{ tags: htmlTags },
+	{
+		tags: svgTags,
+		globals: globalSvgAttributes
+	},
+	{
+		tags: mathMLTags,
+		globals: globalMathMLAttributes
+	},
+	{
+		tags: {
+			"my-custom-element": {
+				hello: ["world"],
+				foo: null,
+				bar: null
+			}
+		}
+	}
+]
+
+registerCompletions(["html", "markup"], {
+	sources: [markupCompletion(namespaces, globalHtmlAttributes)]
+})
+```
+
+Autocompletion works for nested languages too. Try writing in the script/style tags:
+
+```html editor
+<body>
+	<style>
+		
+	</style>
+	<div style=""></div>
+	<button onclick=""></button>
+	<script>
+		
+	</script>
+</body>
+
+<!-- Try writing some SVG code -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+	<clipPath>
+		
+	</clipPath>
+	<circle />
+</svg>
+```
+
+### Vue completion
+
+[`vueCompletion(){:js}`](/api-reference/autocomplete/vue/f-vuecompletion) adds completion for HTML and SVG tags to Vue. When configured, it can also provide completions for specific Vue components.
+
+```js editor
+import { registerCompletions } from "prism-code-editor/autocomplete"
+import { vueCompletion } from "prism-code-editor/autocomplete/vue"
+
+registerCompletions(["vue"], {
+	sources: [
+		vueCompletion({
+			MyComponent: {
+				hello: ["world"],
+				onevent: null
+			}
+		})
+	]
+})
+```
+
+Try it:
+
+```vue editor
+<script lang="ts" setup>
+
+</script>
+
+<template>
+	<div></div>
+	<input type="number">
+	<MyComponent />
+</template>
+
+<style lang="css" scoped>
+
+</style>
+```
+
+### Svelte completion
+
+[`svelteCompletion(){:js}`](/api-reference/autocomplete/vue/f-vuecompletion) is very similar to `vueCompletion(){:js}`, but the first parameter is instead used to configure snippets for blocks like `{#each}{:svelte}`, `{#if}{:svelte}`, etc.
+
+```js editor
+import { registerCompletions } from "prism-code-editor/autocomplete"
+import {
+	svelteCompletion,
+	svelteBlockSnippets
+} from "prism-code-editor/autocomplete/svelte"
+
+registerCompletions(["svelte"], {
+	sources: [
+		svelteCompletion(svelteBlockSnippets, {
+			MyComponent: {
+				hello: ["world"],
+				onevent: null
+			}
+		})
+	]
+})
+```
+
+Try it:
+
+```svelte editor
+<script lang="ts">
+
+</script>
+
+<div></div>
+<input type="number">
+
+{#if 2 > 1}
+	<MyComponent />
+{/if}
+
+<style lang="css">
+
+</style>
+```
+
+## Creating your own definitions
+
+[`CompletionDefinition{:js}`](/api-reference/autocomplete/t-completiondefinition) objects passed to `registerCompletions(){:js}` have two properties: `context` and `sources`. The optional `context` property is a function that's supposed to return an object with extra properties that are added to the [`CompletionContext{:js}`](/api-reference/autocomplete/t-completioncontext) passed to the sources. This is useful to avoid repeating logic between multiple completion sources.
+
+### Completion sources
+
+The sources are called with the completion context along with the editor and can return a [`CompletionResult{:js}`](/api-reference/autocomplete/i-completionresult) containing the completion items and where the completions should start from. These completion items don't need to be filtered or sorted. That's the job done by the filter function passed to the extension. It should be noted that completion sources must be synchronous and can be called on every keystroke, so they shouldn't do any expensive computations.
+
+### Completion items
+
+The completion items returned have multiple properties to customize their insertion and appearance. Read the [`Completion{:js}`](/api-reference/autocomplete/i-completion) API reference for more info.
+
+### Snippets
+
+To create snippets, use the [`insert`](/api-reference/autocomplete/i-completion#insert) property along with [`tabStops`](/api-reference/autocomplete/i-completion#tabstops). The indentation will be preserved if there are line feeds in `insert`. Tabs are replaced with spaces according to the tab size when `options.insertSpaces{:js}` isn't set to false.
+
+```ts editor
+import { Completion } from "prism-code-editor/autocomplete"
+
+const mySnippets: Completion[] = [
+	{
+		label: "function",
+		insert: "function name(params) {\n\t\n}",
+		tabStops: [9, 13, 14, 20, 25],
+		icon: "snippet",
+		detail: "Function Statement",
+	},
+]
+```
+
+### Helpers
+
+[`findWords(){:js}`](/api-reference/autocomplete/f-findwords) can be used to find words in the editor's tokens that can be returned as completions.
+
+[`getClosestToken(){:js}`](/api-reference/utils/f-getclosesttoken) is extremely useful for determining if the completion is happening inside a specific token. It's important that you pass [`context.pos`](/api-reference/autocomplete/i-completioncontext#pos) as the fifth parameter to ensure the search always happens in the correct position.
+
+### Example
+
+The example below shows how completion of a `listOfKeywords` can be done.
+
+```ts editor
+import { getClosestToken } from "prism-code-editor/utils"
+import { Completion, CompletionSource, registerCompletions } from "prism-code-editor/autocomplete"
+
+const options: Completion[] = listOfKeywords.map(label => ({ label, icon: "keyword" }))
+
+const mySource: CompletionSource = (context, editor) => {
+	if (getClosestToken(editor, ".string, .comment", 0, 0, context.pos)) {
+		return // Disable autocomplete in comments and strings
+	}
+	const wordBefore = /\w*$/.exec(context.lineBefore)![0]
+	
+	if (wordBefore || context.explicit) {
+		return {
+			from: context.pos - wordBefore.length,
+			options: options,
+		}
+	}
+}
+
+registerCompletions(["a-language"], {
+	sources: [mySource]
+})
+```
+
+For the example above, [`completeFromList(){:js}`](/api-reference/autocomplete/f-completefromlist) could be used instead if we added a completion context that defined the `path` property. See [`JSContext.path{:js}`](/api-reference/autocomplete/javascript/t-jscontext/#path) for what the `path` property is supposed to represent.
+
+## Icons
+
+`prism-code-editor/autocomplete-icons.css` adds 14 icons from VS Code. Below is a list showing all icons.
+
+<AutocompleteIcons />
+
+### Using your own
+
+The class `pce-ac-icon-` followed by the icon's name is added to the icon element. For icons named `variable` you can use the selector `.pce-ac-icon-variable{:selector}` to style them. You can also use the CSS variable `--pce-ac-icon-{:css}` followed by the icon's name to set its color. The selector `.pce-ac-icon{:selector}` can be used to style all icons. `prism-code-editor/autocomplete-icons.css` uses [mask images](https://developer.mozilla.org/en-US/docs/Web/CSS/mask-image) to style the icons.

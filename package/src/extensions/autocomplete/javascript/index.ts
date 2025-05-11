@@ -1,7 +1,7 @@
 /** @module autocomplete/javascript */
 
 import { PrismEditor } from "../../../index.js"
-import { braces, space, spread } from "../../../prism/utils/jsx-shared.js"
+import { braces, space } from "../../../prism/utils/jsx-shared.js"
 import { re } from "../../../prism/utils/shared.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../matchBrackets/index.js"
@@ -45,9 +45,9 @@ const identifier = /* @__PURE__ */ re("^(?!\\d)<0>+$", identifierPattern)
 const pathRE = /* @__PURE__ */ re(/(?:(?!\d)<0>+\s*\??\.\s*)*(?!\d)<0>*$/.source, identifierPattern)
 
 const tagPattern = /* @__PURE__ */ re(
-	/(?:^|[^$\w])(?:<|<(?!\d)([^\s/=><%]+)(?:<0>(?:<0>*(?:([^\s"'{=<>/*]+)(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?![^\s=]))|<2>))*<0>*(?:=<0>*("[^"]*|'[^']*))?)?)$/
+	/(?:^|[^$\w])(?:<|<(?!\d)([^\s%=<>/]+)(?:(?:<0>|<0>*<(?:[^<>=]|=[^<]|=?<(?:[^<>]|<[^<>]*>)*>)*>)(?:<0>*(?:([^\s"'{=<>/*]+)(?:<0>*=<0>*(?!\s)(?:"[^"]*"|'[^']*'|<1>)?|(?![^\s=]))|<1>))*<0>*(?:=<0>*("[^"]*|'[^']*))?)?)$/
 		.source,
-	[space, braces, spread],
+	[space, braces],
 )
 
 /**
@@ -86,9 +86,9 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 		let bracket: Bracket
 		for (; (bracket = brackets[i]); i++) {
 			if (
-				bracket[4] &&
+				bracket[5] &&
 				bracket[1] < pos &&
-				brackets[pairs[i]!]?.[5] > pos &&
+				brackets[pairs[i]!]?.[2] > pos &&
 				/\b(?:const|let|var)\s*$/.test(before.slice(0, bracket[1]))
 			) {
 				enabled = false
@@ -110,7 +110,13 @@ const jsContext = (context: CompletionContext, editor: PrismEditor): JSContext =
 	}
 }
 
-const enumerateOwnProperties = (obj: any, commitChars?: string) => {
+const shouldComplete = ({ path, explicit }: CompletionContext & { path: string[] | null }) =>
+	path && (path[0] || explicit)
+
+const getFrom = ({ path, pos }: CompletionContext & { path: string[] | null }) =>
+	pos - path![path!.length - 1].length
+
+const enumerateOwnProperties = (obj: any, commitChars?: string): [Completion[], Set<string>] => {
 	let options: Completion[] = []
 	let seen = new Set<string>()
 	let boost = 0
@@ -140,22 +146,39 @@ const enumerateOwnProperties = (obj: any, commitChars?: string) => {
 		})
 	}
 
-	return options
+	return [options, seen]
 }
 
 /**
  * Returns a completion source that adds completions for a scope object.
  * @param scope Scope object you want to provide completions for. For example `window`.
- * @param commitChars If a character in this string is typed and and of these options
+ * @param commitChars If a character in this string is typed and one of these options
  * is selected, the option is inserted right before typing that character.
  */
 const completeScope = (
 	scope: any,
 	commitChars?: string,
 ): CompletionSource<{ path: string[] | null }> => {
-	const cache = new WeakMap<any, Completion[]>()
-	return ({ path, pos, explicit }) => {
-		if (path && (path[0] || explicit)) {
+	const cache = new WeakMap<any, [Completion[], Set<string>]>()
+	const scopeSource = _completeScope(cache, scope, commitChars)
+	return context => {
+		const result = scopeSource(context)
+		if (result)
+			return {
+				from: getFrom(context),
+				options: result[0],
+			}
+	}
+}
+
+const _completeScope = (
+	cache: WeakMap<any, [Completion[], Set<string>]>,
+	scope: any,
+	commitChars?: string,
+) => {
+	return (context: CompletionContext & { path: string[] | null }) => {
+		if (shouldComplete(context)) {
+			let path = context.path!
 			let target = scope
 			let last = path.length - 1
 			let i = 0
@@ -171,10 +194,7 @@ const completeScope = (
 
 			if (!cache.has(target)) cache.set(target, enumerateOwnProperties(target, commitChars))
 
-			return {
-				from: pos - path[last].length,
-				options: cache.get(target)!,
-			}
+			return cache.get(target)!
 		}
 	}
 }
@@ -189,29 +209,71 @@ const includedTypes = new Set([
 	"generic-function",
 ])
 
+const identifierFilter = (type: string) => includedTypes.has(type)
+
 const identifierSearch = re(/<0>+/.source, identifierPattern, "g")
 
 /**
  * Completion source that searches the editor for identifiers and returns them as
  * completions. Best to avoid using this and {@link completeScope} at the same time.
- * @param identifers List of identifiers that should be completed even if they're not
+ * @param identifiers List of identifiers that should be completed even if they're not
  * found in the editor.
  */
 const completeIdentifiers = (identifiers?: Iterable<string>): CompletionSource<JSContext> => {
 	return (context, editor) => {
-		const path = context.path
-		if (path && (path[0] || context.explicit)) {
+		return shouldComplete(context)
+			? {
+					from: getFrom(context),
+					options: Array.from(
+						findWords(context, editor, identifierFilter, identifierSearch, identifiers),
+						label => ({
+							label,
+							icon: "text",
+						}),
+					),
+			  }
+			: null
+	}
+}
+
+/**
+ * Completion source that wraps {@link completeIdentifiers} and {@link completeScope} and
+ * removes duplicated options.
+ * 
+ * This means you can provide completions for both the `window` and words in the document
+ * without duplicated options.
+ * @param scope Scope object you want to provide completions for. For example `window`.
+ * @param identifiers LList of identifiers that should be completed even if they're not
+ * found in the document.
+ */
+const jsCompletion = (
+	scope: any,
+	identifiers?: Iterable<string>,
+): CompletionSource<JSContext> => {
+	const cache = new WeakMap<any, [Completion[], Set<string>]>()
+	const scopeSource = _completeScope(cache, scope)
+
+	return (context, editor) => {
+		if (shouldComplete(context)) {
+			let completions: Completion[]
+			let labels: Set<string> | undefined
+			let scopeResult = scopeSource(context)
+			if (scopeResult) {
+				completions = scopeResult[0].slice()
+				labels = scopeResult[1]
+			} else completions = []
+
+			findWords(context, editor, identifierFilter, identifierSearch, identifiers).forEach(word => {
+				if (!labels?.has(word))
+					completions.push({
+						label: word,
+						icon: "text",
+					})
+			})
+
 			return {
-				from: context.pos - path[path.length - 1].length,
-				options: findWords(
-					context,
-					editor,
-					type => includedTypes.has(type),
-					identifierSearch,
-					identifiers,
-				).map(label => ({
-					label,
-				})),
+				from: getFrom(context),
+				options: completions,
 			}
 		}
 	}
@@ -222,4 +284,4 @@ export { completeKeywords } from "./keywords.js"
 export { globalReactAttributes, reactTags } from "./reactData.js"
 export { jsSnipets } from "./snippets.js"
 export { jsDocCompletion } from "./jsdoc.js"
-export { jsContext, completeScope, completeIdentifiers }
+export { jsContext, completeScope, completeIdentifiers, jsCompletion }

@@ -1,0 +1,27 @@
+// Comments
+/* This comment will appear in the CSS output.
+	This is nested beneath the comment,
+	so it's part of it
+
+// This comment will not appear in the CSS output.
+	This is nested beneath the comment as well,
+	so it also won't appear
+
+// At-rules and shortcuts
+@mixin large-text
+	color: #ff0000
+
+@media (min-width: 600px)
+	h1
+		@include large-text
+
+=large-text
+	color: #ff0000
+
+h1
+	+large-text
+
+// Variables
+$width: 5em
+#main
+	width: $width

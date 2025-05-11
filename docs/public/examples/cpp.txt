@@ -1,0 +1,88 @@
+// Strings
+"foo \"bar\" baz"
+'foo \'bar\' baz'
+"Multi-line strings ending with a \
+are supported too."
+
+// Macro statements
+# include <stdio.h>
+#define PG_locked   0
+#define PG_error    1
+
+// Booleans
+true;
+false;
+
+// Operators
+a and b;
+c bitand d;
+
+// Full example
+/*
+David Cary 2010-09-14
+quick demo for wikibooks
+public domain
+*/
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<int> pick_vector_with_biggest_fifth_element(
+	vector<int> left,
+	vector<int> right
+){
+	if( (left[5]) < (right[5]) ){
+		return( right );
+	};
+	// else
+	return( left );
+}
+
+int vector_demo(void){
+	cout << "vector demo" << endl;
+	vector<int> left(7);
+	vector<int> right(7);
+
+	left[5] = 7;
+	right[5] = 8;
+	cout << left[5] << endl;
+	cout << right[5] << endl;
+	vector<int> biggest(
+		pick_vector_with_biggest_fifth_element( left, right )
+	);
+	cout << biggest[5] << endl;
+
+	return 0;
+}
+
+int main(void){
+	vector_demo();
+}
+
+// OpenCL host code
+// OpenCL functions, constants, etc. are also highlighted in OpenCL host code in the c or cpp language
+cl::Event KernelFilterImages::runSingle(const cl::Image2D& imgSrc, SPImage2D& imgDst)
+{
+	const size_t rows = imgSrc.getImageInfo<CL_IMAGE_HEIGHT>();
+	const size_t cols = imgSrc.getImageInfo<CL_IMAGE_WIDTH>();
+
+	ASSERT(rows > 0 && cols > 0, "The image object seems to be invalid, no rows/cols set");
+	ASSERT(imgSrc.getImageInfo<CL_IMAGE_FORMAT>().image_channel_data_type == CL_FLOAT, "Only float type images are supported");
+	ASSERT(imgSrc.getInfo<CL_MEM_FLAGS>() == CL_MEM_READ_ONLY || imgSrc.getInfo<CL_MEM_FLAGS>() == CL_MEM_READ_WRITE, "Can't read the input image");
+
+	imgDst = std::make_shared<cl::Image2D>(*context, CL_MEM_READ_WRITE, cl::ImageFormat(CL_R, CL_FLOAT), cols, rows);
+
+	cl::Kernel kernel(*program, "filter_single");
+	kernel.setArg(0, imgSrc);
+	kernel.setArg(1, *imgDst);
+	kernel.setArg(2, bufferKernel1);
+	kernel.setArg(3, kernel1.rows);
+	kernel.setArg(4, kernel1.rows / 2);
+	kernel.setArg(5, kernel1.cols);
+	kernel.setArg(6, kernel1.cols / 2);
+	kernel.setArg(7, border);
+
+	cl::Event eventFilter;
+	const cl::NDRange global(cols, rows);
+	queue->enqueueNDRangeKernel(kernel, cl::NullRange, global, cl::NullRange, &events, &eventFilter);
+}

@@ -38,6 +38,10 @@ var withoutTokenizer = (text, grammar) => {
 	return array;
 }
 
+var escapeHtml = (string, pattern, replacement) => {
+	return string.replace(/&/g, '&amp;').replace(pattern, replacement);
+}
+
 var closingTag = '</span>';
 var openingTags = '';
 var closingTags = '';
@@ -69,7 +73,7 @@ var stringify = token => {
 
 	if (typeof token != 'string') return highlightTokens(token);
 
-	token = token.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+	token = escapeHtml(token, /</g, '&lt;');
 	if (closingTags && token.includes('\n')) {
 		return token.replace(/\n/g, closingTags + '\n' + openingTags);
 	}
@@ -120,7 +124,15 @@ var matchGrammar = (text, grammar, startNode, startPos, rematch) => {
 				pattern.lastIndex = greedy ? pos : 0;
 				match = pattern.exec(greedy ? text : str);
 
-				if (match && lookbehind && match[1]) {
+				if (!match && greedy) {
+					break;
+				}
+
+				if (!(match && match[0])) {
+					continue;
+				}
+
+				if (lookbehind && match[1]) {
 					// change the match to remove the text matched by the Prism lookbehind group
 					lookbehindLength = match[1].length;
 					match.index += lookbehindLength;
@@ -128,37 +140,28 @@ var matchGrammar = (text, grammar, startNode, startPos, rematch) => {
 				}
 
 				if (greedy) {
-					if (!match) {
-						break;
+					// find the node that contains the match
+					for (
+						var from = match.index, to = from + match[0].length, l;
+						from >= pos + (l = currentNode[0].length);
+						currentNode = currentNode[1], pos += l
+					);
+
+					// the current node is a Token, then the match starts inside another Token, which is invalid
+					if (currentNode[0] instanceof Token) {
+						continue;
 					}
 
-					if (match[0]) {
-						// find the node that contains the match
-						for (
-							var from = match.index, to = from + match[0].length, l;
-							from >= pos + (l = currentNode[0].length);
-							currentNode = currentNode[1], pos += l
-						);
+					// find the last node which is affected by this match
+					for (
+						var k = currentNode, p = pos;
+						(p += k[0].length) < to;
+						k = k[1], removeCount++
+					);
 
-						// the current node is a Token, then the match starts inside another Token, which is invalid
-						if (currentNode[0] instanceof Token) {
-							continue;
-						}
-
-						// find the last node which is affected by this match
-						for (
-							var k = currentNode, p = pos;
-							(p += k[0].length) < to;
-							k = k[1], removeCount++
-						);
-
-						// replace with the new match
-						str = text.slice(pos, p);
-						match.index -= pos;
-					}
-				}
-				if (!(match && match[0])) {
-					continue;
+					// replace with the new match
+					str = text.slice(pos, p);
+					match.index -= pos;
 				}
 
 				// eslint-disable-next-line no-redeclare
@@ -221,6 +224,7 @@ export {
 	tokenizeText,
 	withoutTokenizer,
 	resolve,
+	escapeHtml,
 	highlightTokens,
 	highlightText
 }

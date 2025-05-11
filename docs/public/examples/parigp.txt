@@ -1,0 +1,20 @@
+\\ Comments
+\\ Single line comment
+/* Multi line
+comment */
+
+\\ Strings
+""
+"Foo \"bar\" baz"
+
+\\ Numbers
+0.
+42
+3 . 14 15 9
+5.2 E +12
+.89
+
+\\ Ignored whitespaces
+p r i n t ("hello")
+if err(1/i, E, print (E))
+a + = b \ / c

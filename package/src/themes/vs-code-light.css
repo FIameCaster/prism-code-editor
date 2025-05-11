@@ -24,12 +24,14 @@
 	--bg-guide-indent: #3333;
 	--pce-ac-icon-class: #d67e00;
 	--pce-ac-icon-enum: #d67e00;
+	--pce-ac-icon-event: #d67e00;
 	--pce-ac-icon-function: #652d90;
 	--pce-ac-icon-interface: #007acc;
 	--pce-ac-icon-variable: #007acc;
 	--pce-ac-match: #0066bf;
 	--pce-tabstop: #0a326433;
 	--pce-invisibles: #3333;
+	--pce-selection: #add6ff;
 	color-scheme: light;
 }
 
@@ -37,13 +39,7 @@
 	--editor__bg-highlight: #eee;
 }
 
-/* Selection */
-.prism-code-editor textarea::selection {
-	background: #add6ff;
-	color: #0000;
-}
-
-.pce-matches .match {
+.pce-match {
 	--search__bg-find: #c1adab;
 }
 
@@ -51,7 +47,7 @@
 	--editor__line-number: #0b216f;
 }
 
-.guide-indents .active {
+.active-indent {
 	--bg-guide-indent: #0006;
 }
 
@@ -106,7 +102,7 @@
 .token.boolean,
 .token.entity,
 .token.attr-value,
-.token.attr-value > .punctuation,
+.token.attr-value:not(.script):not(.style) > .punctuation,
 .token.regex-flags {
 	color: #0000ff;
 }
@@ -191,6 +187,9 @@
 .language-xml,
 .language-svg,
 .language-text,
+.language-vue,
+.language-svelte,
+.language-astro,
 .language-css,
 .language-scss,
 .language-sass {
@@ -226,6 +225,7 @@
 
 /* Key words */
 
+.token.block > .keyword,
 .token.keyword.module,
 .token.keyword.control-flow,
 .token.keyword-if,

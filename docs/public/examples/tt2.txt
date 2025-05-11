@@ -1,0 +1,39 @@
+[%# Comments %]
+[%# this entire directive is ignored no
+	matter how many lines it wraps onto
+%]
+[% # this is a comment
+	theta = 20      # so is this
+	rho   = 30      # <aol>me too!</aol>
+%]
+
+[%# Variables %]
+[% text %]
+[% article.title %]
+[%= eat.whitespace.left %]
+[% eat.whitespace.right =%]
+[%= eat.whitespace.both =%]
+[% object.method() %]
+
+[%# Conditionals and Loops %]
+[% IF foo = bar %]
+this
+[% ELSE %]
+that
+[% END %]
+[% FOREACH post IN q.listPosts(lingua = "de") %]
+	<a href="[% post.permalink %]">[% post.title | html %]</a>
+[% END %]
+
+[%# Multiple Directives %]
+[% IF title;
+		INCLUDE header;
+	ELSE;
+		INCLUDE other/header  title="Some Other Title";
+	END
+%]
+
+[%# Operators %]
+[% FOREACH post IN q.listPosts(lingua => 'de') %]
+	[% post.title | myfilter(foo = "bar") %]
+[% END %]

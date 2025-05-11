@@ -8,30 +8,28 @@ import type {
 	InputSelection,
 	EditorExtension,
 } from "./types.js"
-import { highlightTokens, languages, tokenizeText, Grammar, TokenStream } from "./prism/index.js"
+import { highlightTokens, languages, tokenizeText, TokenStream } from "./prism/index.js"
 
 /**
  * Creates a code editor using the specified container and options.
  * @param container Element to append the editor to or a selector.
  * This can also be a `ShadowRoot` or `DocumentFragment` for example.
- * If omitted, you must manually append the `scrollContainer` to the DOM.
+ * If omitted, you must manually append `editor.container` to the DOM.
  * @param options Options the editor is initialized with.
- * If omitted, the editor won't function until you call `setOptions`.
+ * If omitted, the editor won't function until you call `editor.setOptions`.
  * @param extensions Extensions added before the first render. You can still add extensions later.
  * @returns Object to interact with the created editor.
  */
-const createEditor = (
+const createEditor = <T extends {} = {}>(
 	container?: ParentNode | string | null,
-	options?: Partial<EditorOptions>,
-	...extensions: EditorExtension[]
-): PrismEditor => {
+	options?: (Partial<EditorOptions> & Omit<T, keyof EditorOptions>) | null,
+	...extensions: EditorExtension<T>[]
+): PrismEditor<T> => {
 	let language: string
-	let grammar: Grammar
 	let prevLines: string[] = []
 	let activeLine: HTMLDivElement
 	let value = ""
 	let activeLineNumber: number
-	let removed = false
 	let focused = false
 	let handleSelectionChange = true
 	let tokens: TokenStream = []
@@ -43,36 +41,38 @@ const createEditor = (
 	const lines = <HTMLCollectionOf<HTMLDivElement>>wrapper.children
 	const overlays = lines[0]
 	const textarea = <HTMLTextAreaElement>overlays.firstChild
-	const currentOptions: EditorOptions = { language: "text", value }
+	const currentOptions = { language: "text", value } as EditorOptions & T
 	const currentExtensions = new Set(extensions)
 	const listeners: {
-		[P in keyof EditorEventMap]?: Set<EditorEventMap[P]>
+		[P in keyof EditorEventMap]?: Set<EditorEventMap<T>[P]>
 	} = {}
 
-	const setOptions = (options: Partial<EditorOptions>) => {
+	const setOptions = (options: Partial<EditorOptions> & Partial<Omit<T, keyof EditorOptions>>) => {
 		Object.assign(currentOptions, options)
-		value = options.value ?? value
-		language = currentOptions.language
-
-		if (!languages[language]) throw Error(`Language '${language}' has no grammar.`)
+		let isNewVal = value != (value = options.value ?? value)
+		let isNewLang = language != (language = currentOptions.language)
 
 		readOnly = !!currentOptions.readOnly
 		scrollContainer.style.tabSize = <any>currentOptions.tabSize || 2
 		textarea.inputMode = readOnly ? "none" : ""
 		textarea.setAttribute("aria-readonly", <any>readOnly)
 		updateClassName()
-
 		updateExtensions()
-		if (grammar != (grammar = languages[language]) || value != textarea.value) {
-			focusRelatedTarget()
+
+		if (isNewVal) {
+			if (!focused) textarea.remove()
 			textarea.value = value
 			textarea.selectionEnd = 0
+			if (!focused) overlays.prepend(textarea)
+		}
+
+		if (isNewVal || isNewLang) {
 			update()
 		}
 	}
 
 	const update = () => {
-		tokens = tokenizeText((value = textarea.value), grammar)
+		tokens = tokenizeText((value = textarea.value), languages[language] || {})
 		dispatchEvent("tokenize", tokens, language, value)
 
 		let newLines = highlightTokens(tokens).split("\n")
@@ -95,7 +95,7 @@ const createEditor = (
 			for (i = insertStart + 1; i < lineCount; ) lines[++i].setAttribute("data-line", <any>i)
 			scrollContainer.style.setProperty(
 				"--number-width",
-				Math.ceil(Math.log10(lineCount + 1)) + ".001ch",
+				(0 | Math.log10(lineCount)) + 1 + ".001ch",
 			)
 		}
 
@@ -107,7 +107,7 @@ const createEditor = (
 		handleSelectionChange = false
 	}
 
-	const updateExtensions = (newExtensions?: EditorExtension[]) => {
+	const updateExtensions = (newExtensions?: EditorExtension<T>[]) => {
 		;(newExtensions || currentExtensions).forEach(extension => {
 			if (typeof extension == "object") {
 				extension.update(self, currentOptions)
@@ -124,7 +124,9 @@ const createEditor = (
 			currentOptions.lineNumbers == false ? "" : " show-line-numbers"
 		} pce-${currentOptions.wordWrap ? "" : "no"}wrap${currentOptions.rtl ? " pce-rtl" : ""} pce-${
 			start < end ? "has" : "no"
-		}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}`
+		}-selection${focused ? " pce-focus" : ""}${readOnly ? " pce-readonly" : ""}${
+			currentOptions.class ? " " + currentOptions.class : ""
+		}`
 	}
 
 	const getInputSelection = (): InputSelection => [
@@ -140,21 +142,6 @@ const createEditor = (
 	}
 
 	const inputCommandMap: Record<string, InputCommandCallback | null> = {}
-
-	// Safari focuses the textarea if you change its selection or value programmatically
-	const focusRelatedTarget = () =>
-		isWebKit &&
-		!focused &&
-		addTextareaListener(
-			self,
-			"focus",
-			e => {
-				let relatedTarget = <HTMLElement>e.relatedTarget
-				if (relatedTarget) relatedTarget.focus()
-				else textarea.blur()
-			},
-			{ once: true },
-		)
 
 	const dispatchEvent = <T extends keyof EditorEventMap>(
 		name: T,
@@ -182,15 +169,12 @@ const createEditor = (
 		}
 	}
 
-	const self: PrismEditor = {
-		scrollContainer,
+	const self: PrismEditor<T> = {
+		container: scrollContainer,
 		wrapper,
-		overlays,
+		lines,
 		textarea,
 		get activeLine() {
-			return activeLine
-		},
-		get activeLineNumber() {
 			return activeLineNumber
 		},
 		get value() {
@@ -199,9 +183,6 @@ const createEditor = (
 		options: currentOptions,
 		get focused() {
 			return focused
-		},
-		get removed() {
-			return removed
 		},
 		get tokens() {
 			return tokens
@@ -212,50 +193,42 @@ const createEditor = (
 		setOptions,
 		update,
 		getSelection: getInputSelection,
-		setSelection(start, end = start, direction) {
-			focusRelatedTarget()
-			textarea.setSelectionRange(start, end, direction)
-			dispatchSelection(true)
-		},
 		addExtensions(...extensions) {
 			updateExtensions(extensions)
 		},
-		addListener(name, handler) {
+		on: (name, handler) => {
 			;(listeners[name] ||= new Set<any>()).add(handler)
-		},
-		removeListener(name, handler) {
-			listeners[name]?.delete(handler)
+			return () => listeners[name]!.delete(handler)
 		},
 		remove() {
 			scrollContainer.remove()
-			removed = true
 		},
 	}
 
-	addTextareaListener(self, "keydown", e => {
+	addListener(textarea, "keydown", e => {
 		keyCommandMap[e.key]?.(e, getInputSelection(), value) && preventDefault(e)
 	})
 
-	addTextareaListener(self, "beforeinput", e => {
+	addListener(textarea, "beforeinput", e => {
 		if (
 			readOnly ||
 			(e.inputType == "insertText" && inputCommandMap[e.data!]?.(e, getInputSelection(), value))
 		)
 			preventDefault(e)
 	})
-	addTextareaListener(self, "input", update)
-	addTextareaListener(self, "blur", () => {
+	addListener(textarea, "input", update)
+	addListener(textarea, "blur", () => {
 		selectionChange = null
 		focused = false
 		updateClassName()
 	})
-	addTextareaListener(self, "focus", () => {
+	addListener(textarea, "focus", () => {
 		selectionChange = dispatchSelection
 		focused = true
 		updateClassName()
 	})
 	// For browsers that support selectionchange on textareas
-	addTextareaListener(self, "selectionchange", e => {
+	addListener(textarea, "selectionchange", e => {
 		dispatchSelection()
 		preventDefault(e)
 	})
@@ -275,47 +248,47 @@ const createEditor = (
  * @param extensions Extensions added before the first render. You can still add extensions later.
  * @returns Object to interact with the created editor.
  */
-const editorFromPlaceholder = (
+const editorFromPlaceholder = <T extends {} = {}>(
 	placeholder: string | ChildNode,
-	options: Partial<EditorOptions>,
+	options: Partial<EditorOptions> & Omit<T, keyof EditorOptions>,
 	...extensions: EditorExtension[]
 ) => {
 	const el = getElement(placeholder)!
-	const editor = createEditor(
+	const editor = createEditor<T>(
 		null,
 		Object.assign({ value: el.textContent }, options),
 		...extensions,
 	)
-	el.replaceWith(editor.scrollContainer)
+	el.replaceWith(editor.container)
 	return editor
 }
 
-const templateEl = /* @__PURE__ */ document.createElement("div")
+/** Equivalent to `document` in a browser setting, `null` otherwise. */
+const doc = "u" > typeof window ? document : null
 
-const createTemplate = <T extends Element = HTMLDivElement>(html: string) => {
-	templateEl.innerHTML = html
-	const node = templateEl.firstChild!
-	return () => <T>node.cloneNode(true)
+const templateEl = /* @__PURE__ */ doc?.createElement("div")
+
+const createTemplate = <T extends Element = HTMLDivElement>(html: string, node?: Node) => {
+	if (templateEl) {
+		templateEl.innerHTML = html
+		node = templateEl.firstChild!
+	}
+	return () => <T>node!.cloneNode(true)
 }
 
-const addTextareaListener = <T extends keyof HTMLElementEventMap>(
-	editor: PrismEditor,
+const addListener = <T extends keyof HTMLElementEventMap>(
+	target: HTMLElement,
 	type: T,
-	listener: (this: HTMLTextAreaElement, ev: HTMLElementEventMap[T]) => any,
+	listener: (this: HTMLElement, ev: HTMLElementEventMap[T]) => any,
 	options?: boolean | AddEventListenerOptions,
-) => editor.textarea.addEventListener(type, listener, options)
+) => target.addEventListener(type, listener, options)
 
 const getElement = <T extends Node>(el?: T | string | null) =>
-	typeof el == "string" ? document.querySelector<HTMLElement>(el) : el
-
-const userAgent = navigator.userAgent
-const isMac = /Mac|iPhone|iPod|iPad/i.test(navigator.platform)
-const isChrome = /Chrome\//.test(userAgent)
-const isWebKit = !isChrome && /AppleWebKit\//.test(userAgent)
+	typeof el == "string" ? doc!.querySelector<HTMLElement>(el) : el
 
 /**
  * Counts number of lines in the string between `start` and `end`.
- * If start and end are excluded, the whole string is searched.
+ * If start and end are omitted, the whole string is searched.
  */
 const numLines = (str: string, start = 0, end = Infinity) => {
 	let count = 1
@@ -327,7 +300,7 @@ const numLines = (str: string, start = 0, end = Infinity) => {
 const languageMap: Record<string, Language> = {}
 
 const editorTemplate = /* @__PURE__ */ createTemplate(
-	"<div><div class=pce-wrapper><div class=pce-overlays><textarea spellcheck=false autocapitalize=off autocomplete=off>",
+	"<div><div class=pce-wrapper><div class=pce-overlays><textarea class=pce-textarea spellcheck=false autocapitalize=off autocomplete=off>",
 )
 
 const preventDefault = (e: Event) => {
@@ -335,20 +308,23 @@ const preventDefault = (e: Event) => {
 	e.stopImmediatePropagation()
 }
 
-let selectionChange: null | (() => void)
+const setSelectionChange = (f?: (force?: boolean) => void) => (selectionChange = f)
 
-document.addEventListener("selectionchange", () => selectionChange?.())
+let selectionChange: null | undefined | ((force?: boolean) => void)
+
+// @ts-expect-error Allow adding listener to document
+if (doc) addListener(doc, "selectionchange", () => selectionChange?.())
 
 export {
 	createEditor,
 	languageMap,
 	numLines,
 	createTemplate,
-	isMac,
-	isChrome,
-	isWebKit,
 	getElement,
 	preventDefault,
 	editorFromPlaceholder,
-	addTextareaListener,
+	addListener,
+	selectionChange,
+	setSelectionChange,
+	doc,
 }

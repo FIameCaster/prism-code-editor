@@ -1,14 +1,8 @@
 /** @module web-component */
 
 import { PrismEditor } from "./types.js"
-import {
-	SetupOptions,
-	basicEditor,
-	fullEditor,
-	minimalEditor,
-	readonlyEditor,
-	updateTheme,
-} from "./setups/index.js"
+import { SetupOptions, basicEditor, minimalEditor, readonlyEditor } from "./setups/index.js"
+import { EditorTheme } from "./themes/index.js"
 
 const attributeMap = {
 	language: [(value: string | null) => value || "text"],
@@ -33,7 +27,7 @@ const getOptions = (el: HTMLElement) => {
 	return options
 }
 
-const addComponent = (name: string, createEditor: typeof basicEditor) => {
+const addComponent = (createEditor: typeof basicEditor, name: string) => {
 	customElements.define(
 		name,
 		class extends HTMLElement {
@@ -49,7 +43,7 @@ const addComponent = (name: string, createEditor: typeof basicEditor) => {
 					this.dispatchEvent(new CustomEvent("ready")),
 				)
 				if (internals) {
-					this.editor.addListener("update", internals.setFormValue.bind(internals))
+					this.editor.on("update", internals.setFormValue.bind(internals))
 				}
 
 				for (const attr in attributeMap)
@@ -81,11 +75,9 @@ const addComponent = (name: string, createEditor: typeof basicEditor) => {
 				const [fn, propName] = attributeMap[name]
 				const newVal = fn(newValue)
 				if (fn(oldValue) != newVal) {
-					if (name == "theme") updateTheme(this.editor, <string>newVal)
-					else
-						this.editor.setOptions({
-							[propName || name]: newVal,
-						})
+					this.editor.setOptions({
+						[propName || name]: newVal,
+					})
 				}
 			}
 		},
@@ -93,9 +85,9 @@ const addComponent = (name: string, createEditor: typeof basicEditor) => {
 }
 
 export interface PrismEditorElement extends HTMLElement {
-	readonly editor: PrismEditor
+	readonly editor: PrismEditor<{ theme: EditorTheme }>
 	value: string
-	theme: string
+	theme: EditorTheme
 	language: string
 	tabSize: number
 	insertSpaces: boolean
@@ -141,20 +133,14 @@ export interface PrismEditorElement extends HTMLElement {
  * Adds a custom element wrapping the {@link minimalEditor} setup.
  * @param name Name of the custom element. Must be a valid custom element name.
  */
-export const addMinimalEditor = (name: string) => addComponent(name, minimalEditor)
+export const addMinimalEditor = (name: string) => addComponent(minimalEditor, name)
 /**
  * Adds a custom element wrapping the {@link basicEditor} setup.
  * @param name Name of the custom element. Must be a valid custom element name.
  */
-export const addBasicEditor = (name: string) => addComponent(name, basicEditor)
-/**
- * Adds a custom element wrapping the {@link fullEditor} setup.
- * @param name Name of the custom element. Must be a valid custom element name.
- * @deprecated Will get merged with {@link addBasicEditor} in the next major release.
- */
-export const addFullEditor = (name: string) => addComponent(name, fullEditor)
+export const addBasicEditor = (name: string) => addComponent(basicEditor, name)
 /**
  * Adds a custom element wrapping the {@link readonlyEditor} setup.
  * @param name Name of the custom element. Must be a valid custom element name.
  */
-export const addReadonlyEditor = (name: string) => addComponent(name, readonlyEditor)
+export const addReadonlyEditor = (name: string) => addComponent(readonlyEditor, name)

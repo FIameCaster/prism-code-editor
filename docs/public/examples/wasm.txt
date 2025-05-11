@@ -1,0 +1,43 @@
+;; Comments
+;; Single line comment
+(; Multi-line
+comment ;)
+
+;; Strings
+""
+"Foobar"
+"Foo\"ba\\r"
+
+;; Numbers
+42
+3.1415
+0.4E-4
+-3.1_41_5
+0xBADFACE
+0xB_adF_a_c_e
++0x4E.F7
+0xFFp+4
+inf
+nan
+nan:0xf4
+
+;; Keywords
+(func (param i32) (param f32) (local f64)
+	get_local 0
+	get_local 1
+	get_local 2)
+
+;; Identifiers
+$p
+$getAnswer
+$return_i32
+
+;; Full example
+(module
+	(import "js" "memory" (memory 1))
+	(import "js" "table" (table 1 anyfunc))
+	(elem (i32.const 0) $shared0func)
+	(func $shared0func (result i32)
+		i32.const 0
+		i32.load)
+)

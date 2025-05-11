@@ -1,0 +1,43 @@
+---
+import "prism-code-editor/prism/languages/tsx"
+import "prism-code-editor/prism/languages/bash"
+import "prism-code-editor/prism/languages/jsdoc"
+import "prism-code-editor/prism/languages/markup"
+import "prism-code-editor/prism/languages/css-extras"
+import "prism-code-editor/layout.css"
+import "prism-code-editor/scrollbar.css"
+import "prism-code-editor/guides.css"
+import Caption from "./Caption.astro"
+import { rainbowBrackets, renderEditor } from "prism-code-editor/ssr"
+import type { RenderOptions } from "prism-code-editor/ssr"
+
+type Props = RenderOptions & {
+	file?: string
+}
+
+const { file, ...options } = Astro.props
+
+options.tokenizeCallback = rainbowBrackets()
+
+const html = renderEditor(options)
+---
+
+<div class="not-content code-block">
+	{file && <Caption>{file}</Caption>}
+	<Fragment set:html={html} />
+</div>
+
+<style is:global>
+	:root {
+		--number-spacing: 1.4em;
+	}
+</style>
+
+<script>
+	import "prism-code-editor/prism/languages/markup"
+	import "prism-code-editor/prism/languages/css-extras"
+	import "prism-code-editor/prism/languages/typescript"
+	import "./mount"
+
+	import("./folding")
+</script>

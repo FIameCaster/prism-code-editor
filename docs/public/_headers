@@ -1,0 +1,5 @@
+/_astro/*
+	cache-control: "public, max-age=2592000"
+
+/examples/*
+	cache-control: "public, max-age=2592000"

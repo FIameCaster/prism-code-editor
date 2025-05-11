@@ -25,9 +25,11 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	--bg-guide-indent: #5e81ce52;
 	--pce-ac-icon-class: #ee9d28;
 	--pce-ac-icon-enum: #ee9d28;
+	--pce-ac-icon-event: #ee9d28;
 	--pce-ac-icon-function: #b180d7;
 	--pce-ac-icon-interface: #75beff;
 	--pce-ac-icon-variable: #75beff;
+	--pce-selection: #1d3b53;
 	color-scheme: dark;
 }
 
@@ -35,13 +37,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	--editor__bg-highlight: #7e57c259;
 }
 
-/* Selection */
-.prism-code-editor textarea::selection {
-	background: #1d3b53;
-	color: #0000;
-}
-
-.pce-matches .match {
+.pce-match {
 	--search__bg-find: #545a8b;
 }
 
@@ -49,7 +45,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	--editor__line-number: #c5e4fd;
 }
 
-.guide-indents .active {
+.active-indent {
 	--bg-guide-indent: #b3cfe7b3;
 }
 
@@ -83,6 +79,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 
 [class*="language-"],
 .language-css .punctuation,
+.block > .punctuation,
 .language-markdown .code.keyword,
 .language-markdown .url .content {
 	color: #d6deeb;
@@ -117,17 +114,14 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 	color: #ff869a;
 }
 
-.token.unit,
-.token.color {
-	color: #ffeb95;
-}
-
 .token.atrule,
 .token.parameter {
 	color: #d7dbe0;
 }
 
+.token.color,
 .token.tag > .punctuation,
+.token.attr-name > .punctuation,
 .token.doctype > .punctuation,
 .selector .combinator,
 .selector .operator,
@@ -137,6 +131,11 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 .token.alternation,
 .token.url .markup-bracket {
 	color: #7fdbca;
+}
+
+.token.unit,
+.token.hexcode {
+	color: #ffeb95;
 }
 
 .language-regex,
@@ -166,6 +165,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 }
 
 .token.function,
+.token.constant,
 .token.keyword-undefined,
 .token.function .maybe-class-name,
 .token.entity,
@@ -247,7 +247,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 }
 
 .token.bracket-error {
-	color: #ff1212cc;
+	color: #ff1212;
 }
 
 .token.markup-bracket,
