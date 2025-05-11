@@ -27,7 +27,7 @@ const [show, hide] = addTooltip(editor, tooltip, false)
 
 // Showing the tooltip when the user tries to type
 // This event listener must use capture
-editor.textarea.addEventListener("beforeinput", () => show(), true);
+editor.textarea.addEventListener("beforeinput", () => show(), true)
 
 // Hiding the tooltip when a user moves the cursor or clicks on the textarea
 editor.on("selectionChange", hide)
