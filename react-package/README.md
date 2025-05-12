@@ -366,7 +366,7 @@ If you're just switching between two themes (light/dark), using CSS variables wo
 
 ### Registering themes
 
-If you want to use your own themes with `useTheme` or `loadTheme` or want to override existing themes, use `registerTheme`. The example below might look different if you're not using Vite as your bundler.
+If you want to use your own themes with `useEditorTheme` or `loadTheme` or want to override existing themes, use `registerTheme`. The example below might look different if you're not using Vite as your bundler.
 
 ```js
 import { registerTheme } from "prism-react-editor/themes"
