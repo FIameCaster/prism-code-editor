@@ -341,15 +341,15 @@ There are currently 14 different themes you can import, one of them being from `
 
 ### Theme switcher
 
-If you're making a theme switcher, you might want to use the `useTheme` hook. This hook is a simple wrapper around the `loadTheme` utility exported from the same entry point. If want something more sophisticated, use `loadTheme` directly instead.
+If you're making a theme switcher, you might want to use the `useEditorTheme` hook. This hook is a simple wrapper around the `loadTheme` utility exported from the same entry point. If want something more sophisticated, use `loadTheme` directly instead.
 
 ```jsx
 import { useState } from "react"
-import { useTheme } from "prism-react-editor/themes"
+import { useEditorTheme } from "prism-react-editor/themes"
 
 export function App() {
   const [theme, setTheme] = useState("github-dark")
-  const themeCss = useTheme(theme)
+  const themeCss = useEditorTheme(theme)
 
   return <>
     <style>{themeCss}</style>
