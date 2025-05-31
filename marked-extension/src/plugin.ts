@@ -40,33 +40,31 @@ export const markedPrismCodeEditor = ({
 				}
 				return customRenderer ? customRenderer(merged, renderFunc, !!isEditor) : renderFunc(merged)
 			},
-			codespan: inline
-				? (token) => {
-						let text = token.text
-						let langStart = text.lastIndexOf("{:")
+			codespan: token => {
+				let text = token.text
+				let langStart = text.lastIndexOf("{:")
 
-						if (langStart < 1 || text.slice(-1) != "}") return false
-						const lang = text.slice(langStart + 2, -1)
-						const code = text.slice(0, langStart)
-						const grammar = languages[lang]
+				if (!inline || langStart < 1 || text.slice(-1) != "}") return false
+				const lang = text.slice(langStart + 2, -1)
+				const code = text.slice(0, langStart)
+				const grammar = languages[lang]
 
-						if (!grammar) {
-							if (!silenceWarnings) {
-								console.warn(
-									`marked-prism-code-editor: Unregistered language '${lang}' found in inline code. Highlighting is skipped.`,
-								)
-							}
-							return false
-						}
+				if (!grammar) {
+					if (!silenceWarnings) {
+						console.warn(
+							`marked-prism-code-editor: Unregistered language '${lang}' found in inline code. Highlighting is skipped.`,
+						)
+					}
+					return false
+				}
 
-						const tokens = tokenizeText(code, grammar)
-						inline.tokenizeCallback?.(tokens, lang)
+				const tokens = tokenizeText(code, grammar)
+				inline.tokenizeCallback?.(tokens, lang)
 
-						return `<code class="language-${lang
-							.replace(/&/g, "&amp;")
-							.replace(/"/g, "&quot;")}">${highlightTokens(tokens)}</code>`
-				  }
-				: undefined,
+				return `<code class="language-${lang
+					.replace(/&/g, "&amp;")
+					.replace(/"/g, "&quot;")}">${highlightTokens(tokens)}</code>`
+			},
 		},
 	}
 }
