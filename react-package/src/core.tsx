@@ -216,7 +216,7 @@ const Editor = memo(
 				})}
 				style={{
 					...props.style,
-					tabSize: props.tabSize || 2,
+					tabSize: `${props.tabSize || 2}`,
 				}}
 			>
 				<div
