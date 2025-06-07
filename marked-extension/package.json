@@ -1,6 +1,6 @@
 {
   "name": "marked-prism-code-editor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "peerDependencies": {
     "marked": "^15.0.0",
-    "prism-code-editor": "4.0.0"
+    "prism-code-editor": "^4.0.0"
   },
   "devDependencies": {
     "marked": "^15.0.11",
