@@ -180,12 +180,12 @@ const useAutoComplete = (editor: PrismEditor, config: AutoCompleteConfig) => {
 			insertText(editor, insert, start, end, tabStops[0], tabStops[1])
 
 			if (l > 2) {
+				if (!stops) addOverlay(editor, tabStopsContainer)
 				stops = tabStops
 				activeStop = 0
 				prevLength = editor.value.length
 				updateStops()
 				currentSelection = getSelection()
-				if (!tabStopsContainer.parentNode) addOverlay(editor, tabStopsContainer)
 			}
 			cursor!.scrollIntoView()
 		}
@@ -193,7 +193,7 @@ const useAutoComplete = (editor: PrismEditor, config: AutoCompleteConfig) => {
 		const moveActiveStop = (offset: number) => {
 			activeStop += offset
 			setSelection(editor, stops![activeStop], stops![activeStop + 1])
-			cursor!.scrollIntoView()
+			tabStopsContainer.children[activeStop / 2].scrollIntoView({ block: "nearest" })
 		}
 
 		const clearStops = () => {

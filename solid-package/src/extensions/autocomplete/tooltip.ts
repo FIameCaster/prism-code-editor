@@ -190,7 +190,7 @@ const autoComplete =
 		const moveActiveStop = (offset: number) => {
 			activeStop += offset
 			setSelection(editor, stops![activeStop], stops![activeStop + 1])
-			cursor!.scrollIntoView()
+			tabStopsContainer.children[activeStop / 2].scrollIntoView({ block: "nearest" })
 		}
 
 		const clearStops = () => {
