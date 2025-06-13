@@ -1,6 +1,9 @@
 .pce-rtl.pce-rtl {
 	direction: rtl;
-	scroll-padding: 0 var(--padding-left) 0 0;
+}
+
+.pce-rtl.show-line-numbers {
+	scroll-padding: var(--_sp) calc(var(--padding-left) + var(--_sp)) var(--_sp) var(--_sp);
 }
 
 .pce-rtl.pce-rtl::before,

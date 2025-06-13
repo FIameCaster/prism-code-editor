@@ -1,18 +1,17 @@
 import { PrismEditor } from "../index.js"
-import { addListener, doc } from "../core.js"
+import { addListener } from "../core.js"
 import { isChrome } from "./index.js"
 import { PrismCodeBlock } from "../client/code-block.js"
 
 const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
-	const style1 = editor.container.style,
-		style2 = doc!.documentElement.style
+	const style = editor.container.style
 
-	style1.scrollPaddingBlock = style2.scrollPaddingBlock = `${paddingTop}px ${
+	style.scrollPaddingBlock = `calc(var(--_sp) + ${paddingTop}px) calc(var(--_sp) + ${
 		isChrome && !el.textContent ? el.offsetHeight : 0
-	}px`
+	}px)`
 
 	el.scrollIntoView({ block: "nearest" })
-	style1.scrollPaddingBlock = style2.scrollPaddingBlock = ""
+	style.scrollPaddingBlock = ""
 }
 
 const getLineStart = (text: string, position: number) =>

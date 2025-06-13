@@ -1,5 +1,5 @@
 import { PrismEditor } from "../types"
-import { addListener, doc } from "../core"
+import { addListener } from "../core"
 import { isChrome } from "."
 import { PrismCodeBlock } from "../code-block"
 
@@ -7,15 +7,14 @@ const voidlessLangs = new Set("xml,rss,atom,jsx,tsx,xquery,xeora,xeoracube,actio
 const voidTags = /^(?:area|base|w?br|col|embed|hr|img|input|link|meta|source|track)$/i
 
 const scrollToEl = (editor: PrismEditor, el: HTMLElement, paddingTop = 0) => {
-	const style1 = editor.container.style
-	const style2 = doc!.documentElement.style
+	const style = editor.container.style
 
-	style1.scrollPaddingBlock = style2.scrollPaddingBlock = `${paddingTop}px ${
+	style.scrollPaddingBlock = `calc(var(--_sp) + ${paddingTop}px) calc(var(--_sp) + ${
 		isChrome && !el.textContent ? el.offsetHeight : 0
-	}px`
+	}px)`
 
 	el.scrollIntoView({ block: "nearest" })
-	style1.scrollPaddingBlock = style2.scrollPaddingBlock = ""
+	style.scrollPaddingBlock = ""
 }
 
 const getLineStart = (text: string, position: number) =>
