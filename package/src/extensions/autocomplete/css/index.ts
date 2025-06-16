@@ -56,6 +56,8 @@ const cssCompletion = (
 	variables?: Iterable<string>,
 ): CompletionSource => {
 	return (context: CompletionContext, editor: PrismEditor) => {
+		if (getClosestToken(editor, ".comment,.string", 0, 0, context.pos)) return
+
 		let before = context.before
 		let pos = context.pos
 		let matcher = editor.extensions.matchBrackets
@@ -67,6 +69,7 @@ const cssCompletion = (
 
 		let colonIndex = currentStatement.lastIndexOf(":")
 		let inPropValue = colonIndex > -1
+		let inVar = /\bvar\s*\(\s*$/.test(before.slice(0, from))
 
 		let setPropCompletion = () => {
 			options = Array.from(
@@ -75,14 +78,12 @@ const cssCompletion = (
 					inPropValue
 						? {
 								label: name,
-								insert: inPropValue ? `var(${name})` : name,
+								insert: inVar ? name : `var(${name})`,
 						  }
 						: createPropCompletion(name),
 			)
-			options!.push(...(inPropValue ? cssValues : getCSSProperties()))
+			if (!(inPropValue && inVar)) options!.push(...(inPropValue ? cssValues : getCSSProperties()))
 		}
-
-		if (getClosestToken(editor, ".comment,.string", 0, 0, pos)) return
 
 		if (getClosestToken(editor, ".tag", 0, 0, pos)) {
 			inPropValue = inPropValue && !/style\s*=/.test(currentStatement.slice(colonIndex))
