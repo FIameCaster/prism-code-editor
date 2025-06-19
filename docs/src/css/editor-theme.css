@@ -209,7 +209,7 @@ div.code-block {
 
 .token.number,
 .regex .escape,
-.token.tag .class-name {
+.token.tag > .class-name {
 	color: var(--pce-number);
 }
 

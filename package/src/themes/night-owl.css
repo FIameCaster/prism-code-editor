@@ -96,7 +96,7 @@ Original: https://github.com/sdras/night-owl-vscode-theme */
 
 .token.number,
 .regex .escape,
-.token.tag .class-name {
+.token.tag > .class-name {
 	color: #f78c6c;
 }
 
