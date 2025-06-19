@@ -1,6 +1,7 @@
 /** @module autocomplete/javascript */
 
 import { PrismEditor } from "../../../index.js"
+import { TokenName } from "../../../prism/types.js"
 import { braces, space } from "../../../prism/utils/jsx-shared.js"
 import { re } from "../../../prism/utils/shared.js"
 import { getClosestToken } from "../../../utils/index.js"
@@ -207,9 +208,11 @@ const includedTypes = new Set([
 	"property-access",
 	"maybe-class-name",
 	"generic-function",
+	"expression",
 ])
 
-const identifierFilter = (type: string) => includedTypes.has(type)
+const identifierFilter = (value: string) => (type: TokenName, start: number) =>
+	includedTypes.has(type) || (type == "tag" && value[start] == "<")
 
 const identifierSearch = re(/<0>+/.source, identifierPattern, "g")
 
@@ -225,7 +228,13 @@ const completeIdentifiers = (identifiers?: Iterable<string>): CompletionSource<J
 			? {
 					from: getFrom(context),
 					options: Array.from(
-						findWords(context, editor, identifierFilter, identifierSearch, identifiers),
+						findWords(
+							context,
+							editor,
+							identifierFilter(editor.value),
+							identifierSearch,
+							identifiers,
+						),
 						label => ({
 							label,
 							icon: "text",
@@ -239,17 +248,14 @@ const completeIdentifiers = (identifiers?: Iterable<string>): CompletionSource<J
 /**
  * Completion source that wraps {@link completeIdentifiers} and {@link completeScope} and
  * removes duplicated options.
- * 
+ *
  * This means you can provide completions for both the `window` and words in the document
  * without duplicated options.
  * @param scope Scope object you want to provide completions for. For example `window`.
  * @param identifiers LList of identifiers that should be completed even if they're not
  * found in the document.
  */
-const jsCompletion = (
-	scope: any,
-	identifiers?: Iterable<string>,
-): CompletionSource<JSContext> => {
+const jsCompletion = (scope: any, identifiers?: Iterable<string>): CompletionSource<JSContext> => {
 	const cache = new WeakMap<any, [Completion[], Set<string>]>()
 	const scopeSource = _completeScope(cache, scope)
 
@@ -263,7 +269,13 @@ const jsCompletion = (
 				labels = scopeResult[1]
 			} else completions = []
 
-			findWords(context, editor, identifierFilter, identifierSearch, identifiers).forEach(word => {
+			findWords(
+				context,
+				editor,
+				identifierFilter(editor.value),
+				identifierSearch,
+				identifiers,
+			).forEach(word => {
 				if (!labels?.has(word))
 					completions.push({
 						label: word,

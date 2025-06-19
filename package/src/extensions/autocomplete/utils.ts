@@ -1,10 +1,10 @@
 import { PrismEditor } from "../../index.js"
 import { Token } from "../../prism/core.js"
-import { TokenStream } from "../../prism/types.js"
+import { TokenName, TokenStream } from "../../prism/types.js"
 import { updateNode } from "../../utils/local.js"
 import { matchTemplate } from "../search/search.js"
 import { map } from "./tooltip.js"
-import { Completion, CompletionContext, CompletionSource} from "./types.js"
+import { Completion, CompletionContext, CompletionSource } from "./types.js"
 
 const optionsFromKeys = (obj: object, icon?: string): Completion[] =>
 	Object.keys(obj).map(tag => ({ label: tag, icon }))
@@ -54,7 +54,7 @@ const completeFromList = (options: Completion[]): CompletionSource<{ path: strin
  * @param filter Function used to filter tokens you want to search in. Is called with the
  * type of the token and its starting position. If the filter returns true, the token
  * will be searched.
- * @param pattern Pattern used to search for words.
+ * @param pattern Pattern used to search for words. Must have the `g` flag.
  * @param init Words that should be completed even if they're not found in the document.
  * @param tokensOnly If `true` only the text of tokens whose `content` is a string will
  * be searched. If `false`, any string inside the {@link TokenStream} can be searched.
@@ -63,7 +63,7 @@ const completeFromList = (options: Completion[]): CompletionSource<{ path: strin
 const findWords = (
 	context: CompletionContext,
 	editor: PrismEditor,
-	filter: (type: string, start: number) => boolean,
+	filter: (type: TokenName, start: number) => boolean,
 	pattern: RegExp,
 	init?: Iterable<string>,
 	tokensOnly?: boolean,
@@ -74,37 +74,28 @@ const findWords = (
 	const search = (tokens: TokenStream, pos: number, isCorrectLang: boolean) => {
 		let i = 0
 		let token: string | Token
-		if (isCorrectLang) {
-			for (; (token = tokens[i++]); ) {
-				if (typeof token == "string") {
-					if (!tokensOnly) match(token, pos)
-				} else {
-					const type = token.type
-					const content = token.content
-					if ((token.alias || type).slice(0, 9) != "language-" && filter(type, pos)) {
-						if (Array.isArray(content)) {
-							search(content, pos, true)
-						} else match(content, pos)
-					}
-				}
-				pos += token.length
-			}
-		} else {
-			for (; (token = tokens[i++]); ) {
-				if (typeof token != "string") {
-					const type = token.type
-					const content = token.content
-					if (Array.isArray(content)) {
-						const aliasType = token.alias || type
+
+		for (; (token = tokens[i++]); ) {
+			if (typeof token == "string") {
+				if (!tokensOnly && isCorrectLang) match(token, pos)
+			} else {
+				const type = token.type
+				const content = token.content
+				const aliasType = token.alias || type
+
+				if (Array.isArray(content)) {
+					if (!isCorrectLang || filter(type, pos)) {
 						search(
 							content,
 							pos,
-							aliasType.slice(0, 9) == "language-" ? definition == map[aliasType.slice(9)] : false,
+							aliasType.slice(0, 9) == "language-"
+								? definition == map[aliasType.slice(9)]
+								: isCorrectLang,
 						)
 					}
-				}
-				pos += token.length
+				} else if (isCorrectLang && filter(type, pos)) match(content, pos)
 			}
+			pos += token.length
 		}
 	}
 	const match = (token: string, pos: number) => {
