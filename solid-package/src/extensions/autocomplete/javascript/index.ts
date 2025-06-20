@@ -2,6 +2,7 @@
 
 import { PrismEditor } from "../../../index.js"
 import { braces, space } from "../../../languages/shared/index.js"
+import { TokenName } from "../../../prism/index.js"
 import { getClosestToken } from "../../../utils/index.js"
 import { Bracket } from "../../match-brackets"
 import { Completion, CompletionContext, CompletionSource } from "../types.js"
@@ -206,9 +207,11 @@ const includedTypes = new Set([
 	"property-access",
 	"maybe-class-name",
 	"generic-function",
+	"expression",
 ])
 
-const identifierFilter = (type: string) => includedTypes.has(type)
+const identifierFilter = (value: string) => (type: TokenName, start: number) =>
+	includedTypes.has(type) || (type == "tag" && value[start] == "<")
 
 const identifierSearch = RegExp(`${identifierPattern}+`, "g")
 
@@ -224,7 +227,13 @@ const completeIdentifiers = (identifiers?: Iterable<string>): CompletionSource<J
 			? {
 					from: getFrom(context),
 					options: Array.from(
-						findWords(context, editor, identifierFilter, identifierSearch, identifiers),
+						findWords(
+							context,
+							editor,
+							identifierFilter(editor.value),
+							identifierSearch,
+							identifiers,
+						),
 						label => ({
 							label,
 							icon: "text",
@@ -259,7 +268,13 @@ const jsCompletion = (scope: any, identifiers?: Iterable<string>): CompletionSou
 				labels = scopeResult[1]
 			} else completions = []
 
-			findWords(context, editor, identifierFilter, identifierSearch, identifiers).forEach(word => {
+			findWords(
+				context,
+				editor,
+				identifierFilter(editor.value),
+				identifierSearch,
+				identifiers,
+			).forEach(word => {
 				if (!labels?.has(word))
 					completions.push({
 						label: word,
