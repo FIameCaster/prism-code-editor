@@ -37,7 +37,23 @@ registerTheme("my-theme", () => import("./my-theme.css?inline"))
 	The example might look different if you're not using Vite as your bundler
 </Aside>
 
-## Importing themes
+## Without setups
+
+If you're not using any of the setups, no styles will be injected into the page. Everything needs to be imported manually. This means that if you don't like some of the default styles, you can import your own stylesheets instead.
+
+### Importing styles
+
+- `prism-code-editor/layout.css`: Styles for the layout of the component.
+- `prism-code-editor/rtl-layout.css`: Additional styles needed for the `rtl` option to work.
+- `prism-code-editor/search.css`. Styles for [`searchWidget(){:js}`](/api-reference/search/f-searchwidget).
+- `prism-code-editor/copy-button.css`: Styles for [`copyButton(){:js}`](/api-reference/copy-button/f-copybutton).
+- `prism-code-editor/invisibles.css`: Styles for [`showInvisibles(){:js}`](/api-reference/search/f-showinvisibles).
+- `prism-code-editor/guides.css`: Styles for [`indentGuides(){:js}`](/api-reference/guides/f-indentguides).
+- `prism-code-editor/code-folding.css`: Styles for [`readOnlyCodeFolding(){:js}`](/api-reference/code-folding/f-readonlycodefolding).
+- `prism-code-editor/autocomplete.css`: Styles for [`autoComplete(){:js}`](/api-reference/autocomplete/f-autocomplete).
+- `prism-code-editor/autocomplete-icons.css`: Default icons for the autocompletion tooltip.
+
+### Importing themes
 
 Themes can be imported from `prism-code-editor/themes/*.css`. There are currently 14 themes you can import. The [`playground`](/playground) showcases all themes.
 
@@ -54,21 +70,6 @@ loadTheme(isLight ? "github-light" : "github-dark").then(theme => {
 })
 ```
 
-## Importing styles
-
-If you're not using any of the setups, no styles will be injected into the page. Everything needs to be imported manually. This means that if you don't like some of the default styles, you can import your own stylesheets instead.
-
-Here are some stylesheets you can import:
-
-- `prism-code-editor/layout.css`: Styles for the layout of the component.
-- `prism-code-editor/rtl-layout.css`: Additional styles needed for the `rtl` option to work.
-- `prism-code-editor/search.css`. Styles for [`searchWidget(){:js}`](/api-reference/search/f-searchwidget).
-- `prism-code-editor/copy-button.css`: Styles for [`copyButton(){:js}`](/api-reference/copy-button/f-copybutton).
-- `prism-code-editor/invisivles.css`: Styles for [`showInvisibles(){:js}`](/api-reference/search/f-showinvisibles).
-- `prism-code-editor/guides.css`: Styles for [`indentGuides(){:js}`](/api-reference/guides/f-indentguides).
-- `prism-code-editor/code-folding.css`: Styles for [`readOnlyCodeFolding(){:js}`](/api-reference/code-folding/f-readonlycodefolding).
-- `prism-code-editor/autocomplete.css`: Styles for [`autoComplete(){:js}`](/api-reference/autocomplete/f-autocomplete).
-- `prism-code-editor/autocomplete-icons.css`: Default icons for the autocompletion tooltip.
 
 ### Scrollbar styling
 
@@ -82,6 +83,42 @@ You can import a stylesheet that adds a custom scrollbar to desktop Chrome and S
 ```
 
 You can change the color of the scrollbar thumb using the custom property `--editor__bg-scrollbar{:css}`. Different alpha values will be set based on the state of the scrollbar thumb.
+
+## CSS variables
+
+The list below shows most of the CSS variables that can be used to customize the appearance of the editor. CSS variables that aren't set by themes can also be used with the setups.
+
+- `--padding-inline{:css}`: Horizontal padding for the editor. Defaults to `0.75em{:css}`.
+- `--number-spacing{:css}`: Spacing between line numbers and the code. Defaults to `0.75em{:css}`.
+- `--editor__bg{:css}`: Background for the editor. Set by all themes.
+- `--pce-selection{:css}`: Background color for selected text. Set by all themes.
+- `--pce-scroll-padding{:css}`: Scroll padding to ensure the cursor isn't too close to the edges while typing. Defaults to `2ch{:css}`.
+- `--editor__line-number{:css}`: Text color for the line numbers. Set by all themes.
+- `--editor__bg-highlight{:css}`: Background for the line with the cursor.
+- `--editor__border-highlight{:css}`: Border for the line with the cursor.
+- `--editor__bg-selection-match{:css}`: Background color of selection matches. Set by all themes.
+- `--editor__bg-scrollbar{:css}`: See [scrollbar styling](#scrollbar-styling). Set by all themes.
+- `--bg-guide-indent{:css}`: Indentation guide color. Set by all themes.
+- `--pce-invisibles{:css}`: Color used by the [`showInvisibles(){:js}`](/api-reference/search/f-showinvisibles) extension. Defaults to `#e3e4e229{:css}`.
+- `--pce-ac-match{:css}`: Color of matched characters in completion options. Defaults to `#52b1ff{:css}`.
+- `--pce-tabstop{:css}`: Color of tab stop indicators. Defaults to `#7c7c7c4d{:css}`.
+- `--editor__bg-fold{:css}`: Color of the chevrons used to fold code. Defaults to `#777{:css}`.
+- `--widget__bg{:css}`: Background for editor widgets. Set by all themes.
+- `--widget__color{:css}`: Text color for editor widgets. Set by all themes.
+- `--widget__border{:css}`: Border color for editor widgets. Set by all themes.
+- `--widget__bg-input{:css}`: Background for input elements. Set by all themes.
+- `--widget__bg-active{:css}`: Background for selected widget buttons. Set by all themes.
+- `--widget__bg-hover{:css}`: Background for hovered widget buttons. Set by all themes.
+- `--widget__color-active{:css}`: Text color for selected widget buttons. Set by all themes.
+- `--widget__focus-ring{:css}`: Focus ring color for widgets. Set by all themes.
+- `--widget__error-ring{:css}`: Border color for invalid input elements. Set by all themes.
+- `--widget__bg-error{:css}`: Background for the error message popup. Set by all themes.
+- `--widget__color-options{:css}`: Text color used by the bottom row in the search widget. Set by all themes.
+- `--search__bg-find{:css}`: Background for search matches. Set by all themes.
+
+<Aside type="note">
+	Most of the variable names will likely change in the next major release to ensure they're all prefixed with `pce`.
+</Aside>
 
 ## Advanced styling
 
@@ -106,14 +143,6 @@ The following document shows the DOM structure of an editor.
 </div>
 ```
 
-### Adding vertical scrolling
-
-By default, `.prism-code-editor{:selector}` has `overflow: auto{:css}`. This means the editor will scroll horizontally if needed, but since the editor doesn't have `height` or `max-height` defined, it will grow to fit the content. To allow vertical scrolling, you need to limit the height of `.prism-code-editor{:selector}`, by adding a `height` or `max-height`.
-
-### Changing the padding
-
-Default padding is `0.75em{:css}` left/right and `0.5em{:css}` top/bottom. If you want to change it, you can use the custom property `--padding-inline{:css}` for left/right. Padding top and bottom can changed by changing the margin on `.pce-wrapper{:selector}`.
-
 ### State classes
 
 There are many classes added to `.prism-code-editor{:selector}` you can use to style the editor depending on its state:
@@ -124,6 +153,28 @@ There are many classes added to `.prism-code-editor{:selector}` you can use to s
 - `pce-wrap` if word wrap is enabled, and `pce-nowrap` if not.
 - `pce-readonly` if the editor is read-only.
 - `pce-rtl` if the `rtl` option is `true`.
+
+### Adding vertical scrolling
+
+By default, `.prism-code-editor{:selector}` has `overflow: auto{:css}`. This means the editor will scroll horizontally if needed, but since the editor doesn't have `height` or `max-height` defined, it will grow to fit the content. To allow vertical scrolling, you need to limit the height of `.prism-code-editor{:selector}` by e.g. defining `height` or `max-height`.
+
+### Changing the padding
+
+Default padding is `0.75em{:css}` left/right and `0.5em{:css}` top/bottom. To change horizontal padding, use the custom property `--padding-inline{:css}`. Vertical padding can be changed by changing the margin on `.pce-wrapper{:selector}`.
+
+### Scroll padding
+
+The default scroll padding is intentionally small. This is because it's also used when dragging with the mouse to select text, and large scroll padding makes it harder to select text close to the edges. If you want to increase the scroll padding, it'd be suggested to add the following event listeners to remove or decrease the scroll padding when dragging to select text.
+
+```js editor
+editor.textarea.addEventListener("pointerdown", () => {
+	editor.container.style.setProperty("--pce-scroll-padding", "0")
+})
+
+editor.textarea.addEventListener("pointerup", () => {
+	editor.container.style.removeProperty("--pce-scroll-padding")
+})
+```
 
 ### Creating a theme
 
