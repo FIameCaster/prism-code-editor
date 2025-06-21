@@ -21,7 +21,7 @@ var interpolationPattern = templateString.inside.interpolation.pattern;
  * createTemplate('css', /\bcss/.source);
  */
 var createTemplate = (language, tag) => ({
-	pattern: RegExp('((?:' + tag + ')\\s*)' + templateLiteralPattern, 'g'),
+	pattern: RegExp('(\\b(?:' + tag + ')\\s*)' + templateLiteralPattern, 'g'),
 	lookbehind: true,
 	greedy: true,
 	inside: {
@@ -55,23 +55,23 @@ js['template-string'] = [
 	//   css`a { color: #25F; }`
 	// styled-components:
 	//   styled.h1`color: red;`
-	createTemplate('css', /\b(?:styled(?:\([^)]*\))?(?:\s*\.\s*\w+(?:\([^)]*\))*)*|css(?:\s*\.\s*(?:global|resolve))?|createGlobalStyle|keyframes)/.source),
+	createTemplate('css', /styled(?:\([^)]*\))?(?:\s*\.\s*\w+(?:\([^)]*\))*)*|css(?:\s*\.\s*(?:global|resolve))?|createGlobalStyle|keyframes/.source),
 
 	// html`<p></p>`
 	// div.innerHTML = `<p></p>`
-	createTemplate('html', /\bhtml|\.\s*(?:inner|outer)HTML\s*\+?=/.source),
+	createTemplate('html', /html|\.\s*(?:inner|outer)HTML\s*\+?=/.source),
 
 	// svg`<path fill="#fff" d="M55.37 ..."/>`
-	createTemplate('svg', /\bsvg/.source),
+	createTemplate('svg', /svg/.source),
 
 	// md`# h1`, markdown`## h2`
-	createTemplate('markdown', /\b(?:markdown|md)/.source),
+	createTemplate('markdown', /markdown|md/.source),
 
 	// gql`...`, graphql`...`, graphql.experimental`...`
-	createTemplate('graphql', /\b(?:gql|graphql(?:\s*\.\s*experimental)?)/.source),
+	createTemplate('graphql', /gql|graphql(?:\s*\.\s*experimental)?/.source),
 
 	// sql`...`
-	createTemplate('sql', /\bsql/.source),
+	createTemplate('sql', /sql/.source),
 
 	// vanilla template string
 	templateString

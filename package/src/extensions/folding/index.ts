@@ -37,7 +37,7 @@ export interface ReadOnlyCodeFolding extends Extension {
 	updateFolds(): void
 }
 
-const template = /* @__PURE__ */ createTemplate("<div class=pce-fold><div> ")
+const template = /* @__PURE__ */ createTemplate("<div><div> ")
 const template2 = /* @__PURE__ */ createTemplate(
 	"<div class=pce-unfold> <span title=Unfold>   </span> ",
 )
@@ -157,7 +157,7 @@ const readOnlyCodeFolding = (...providers: FoldingRangeProvider[]): ReadOnlyCode
 				}
 				if (parent != el.parentNode && parent != prev!) parent.prepend(el)
 				prev = parent
-				el.classList.toggle("closed-fold", isClosed)
+				el.className = `pce-fold${isClosed ? " closed-fold" : ""}`
 				el.title = `${isClosed ? "Unf" : "F"}old line`
 				el = foldPlaceholders[line]
 				if (isClosed) {
